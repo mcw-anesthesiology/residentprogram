@@ -386,7 +386,7 @@ class MainController extends Controller
 					$subjects = [$subjects];
 			}
 
-			if (($requestType == "resident" && $user->isType("faculty"))
+			if ((in_array($requestType, ['resident', 'app']) && $user->isType("faculty"))
 					|| ($requestType == "staff" && $user->isType("staff"))
 					|| ($requestType == "faculty" && $user->isType("resident"))) {
 				$evaluators = [$user->id];

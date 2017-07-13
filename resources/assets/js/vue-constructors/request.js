@@ -220,6 +220,14 @@ export function createRequest(el, propsData){
 						};
 					});
 			},
+			requestorIsNotEvaluator() {
+				return !(
+					(['resident', 'app'].includes(this.requestType) && this.user.type === 'faculty')
+					|| (this.requestType  === 'staff' && this.user.type === 'staff')
+					|| (this.requestType === 'faculty' && this.user.type === 'resident')
+					|| (this.requestType === 'app' && this.user.type === 'faculty')
+				);
+			},
 			pendingFacultyEvalsThead() {
 				return [[
 					'#',
