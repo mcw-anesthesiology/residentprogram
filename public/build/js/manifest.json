@@ -11,6 +11,8 @@
   "vue-alumni.css.map": "../css/vue-alumni.css.map",
   "vue-alumni.js": "vue-alumni.js",
   "vue-alumni.js.map": "vue-alumni.js.map",
+  "vue-case-log.css": "../css/vue-case-log.css",
+  "vue-case-log.css.map": "../css/vue-case-log.css.map",
   "vue-case-log.js": "vue-case-log.js",
   "vue-case-log.js.map": "vue-case-log.js.map",
   "vue-dashboard.css": "../css/vue-dashboard.css",
@@ -46,7 +48,5 @@
   "vue-request.css": "../css/vue-request.css",
   "vue-request.css.map": "../css/vue-request.css.map",
   "vue-request.js": "vue-request.js",
-  "vue-request.js.map": "vue-request.js.map",
-  "vue-case-log.css": "../css/vue-case-log.css",
-  "vue-case-log.css.map": "../css/vue-case-log.css.map"
+  "vue-request.js.map": "vue-request.js.map"
 }

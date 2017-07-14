@@ -3,6 +3,12 @@
 	page-break-inside: avoid;
 }
 
+@media print {
+button[data-v-38459c74] {
+		display: none;
+}
+}
+
 .refresh-button-container[data-v-4d4c1aff] {
 	text-align: right;
 }
