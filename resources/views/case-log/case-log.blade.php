@@ -1,6 +1,7 @@
 @extends('app')
 
 @push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir('css/vue-case-log.css') }}" />
 	<style>
 		#case-log-table tr {
 			cursor: pointer;
@@ -22,13 +23,28 @@
 	<component-list v-if="isAdmin"
 			:fields="caseLogFields"
 			:items="groupedCaseLogs">
-
+		<template scope="user">
+			<li>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<span class="panel-title">
+							@{{ user.full_name }}
+						</span>
+					</div>
+					<div class="panel-body">
+						<case-logs :case-logs="user.caseLogs"
+							:locations="locations">
+						</case-logs>
+					</div>
+				</div>
+			</li>
+		</template>
 	</component-list>
-	<data-table v-else
-		:header="caseLogTableHeader"
-		:config="caseLogTableConfig"
-		:data="caseLogs">
-	</data-table>
+	<div v-else>
+		<case-logs :case-logs="caseLogs"
+			:locations="locations">
+		</case-logs>
+	</div>
 
 	@if($canLog)
 	<button type="button" class="btn btn-primary center-block" id="add-case-log-button">
@@ -63,65 +79,14 @@
 	<script src="{{ elixir('js/vue-case-log.js') }}"></script>
 	<script>
 		var propsData = {
-			user: {!! $user->toJson() !!}
+			user: {!! $user->toJson() !!},
+			detailsSchema: {!! $detailsSchema->toJson() !!},
+			locations: {!! $locations->toJson() !!}
 		};
 
 		createCaseLog('main', propsData);
 
-		var charts = {};
-		var report = {};
-
-		// TODO: Only show when canLog
-		var detailsSchema = {!! $detailsSchema->toJson() !!};
-
-		var caseLogTable = $("#case-log-table").DataTable({
-			ajax: {
-				url: "/case_logs",
-				data: {
-					with: {
-						location: ["name"],
-						user: ["full_name"],
-						detailsSchema: true
-					}
-				},
-				dataSrc: ""
-			},
-			columns: [
-				{data: "id"},
-	@if(!$user->isType("resident"))
-				{data: "user.full_name"},
-	@endif
-				{data: "location.name"},
-				{data: "case_date", render: function(caseDate, type){
-					if(type === "sort" || type === "type")
-						return caseDate ? moment(caseDate).valueOf() : "";
-
-					return caseDate ? moment(caseDate).format("ll") : "";
-				}},
-				{data: "details_schema.details_type", render: function(detailsType){
-					if(detailsType)
-						return detailsType.toUpperCase();
-
-					return "";
-				}},
-				{data: null, orderable: false, searchable: false, render: function(caseLog, type){
-					var buttons = "";
-
-	@if($user->isType("admin"))
-					buttons += '<button type="button" class="btn btn-xs btn-danger delete-case-log-button" '
-						+ 'data-id="' + caseLog.id + '"><span class="glyphicon glyphicon-remove"></span> '
-						+ 'Delete</button>';
-	@endif
-					return buttons;
-				}}
-			],
-			order: [[0, "desc"]],
-			initComplete: function(settings, caseLogs){
-				runCaseLogsReport(caseLogs);
-			}
-		});
-
-		detailsSchema.schema.forEach(function(schema){
+		propsData.detailsSchema.schema.forEach(function(schema){
 			schema.subsections.forEach(function(subsection){
 				var option = document.createElement("option");
 				option.appendChild(document.createTextNode(subsection.name));
@@ -137,40 +102,12 @@
 			format: "M/D/Y"
 		});
 
-		renderCaseLogDetailsSchema(detailsSchema.schema, undefined, document.querySelector("#case-entry-form .case-details"));
+		renderCaseLogDetailsSchema(propsData.detailsSchema.schema, undefined, document.querySelector("#case-entry-form .case-details"));
 	@endif
-
-		function runCaseLogsReport(caseLogs){
-			var statsContainer = document.getElementById('case-log-stats-container');
-			var name = $("#case-log-details-report-name").val();
-			report = generateCaseLogDetailsReport(caseLogs);
-			charts = generateCaseLogDetailsReportCharts(report, name, statsContainer, charts);
-			generateCaseLogLocationReportTable(report, name, statsContainer);
-		}
-
-		$("#case-log-details-report-name").change(function(){
-			runCaseLogsReport(caseLogTable.ajax.json());
-		});
 
 		$("#add-case-log-button").click(function(){
 			var form = $("#case-entry-form");
 			form.parent().velocity("slideDown");
-		});
-
-		$("#case-log-table").on("click", "tr", function(){
-			var caseLog = caseLogTable.row(this).data();
-			var container = $("#view-case-log-entry-container");
-			container.find("select[name='location_id']").val(caseLog.location_id).change();
-			container.find("input[name='case_date']").val(moment(caseLog.case_date).format("ll")).change();
-			container.find("textarea[name='comment']").val(caseLog.comment);
-
-			var viewDetailsContainer = document.getElementById("view-case-log-details");
-			while(viewDetailsContainer.firstChild)
-				viewDetailsContainer.removeChild(viewDetailsContainer.firstChild);
-			renderCaseLogDetailsSchema(caseLog.details_schema.schema, caseLog.details, viewDetailsContainer);
-			container.find("input, select").prop("disabled", true);
-			container.find("textarea").prop("readonly", true);
-			container.velocity("fadeIn");
 		});
 
 		$("#case-entry-form").submit(function(event){
@@ -215,36 +152,5 @@
 				appendAlert(alertMessage + "If this continues please let me know at {{ config("app.admin_email") }}.", form.parent());
 			}
 		});
-
-	@if($user->isType("admin"))
-		$("#case-log-table").on("click", ".delete-case-log-button", confirmDeletion);
-
-		$("#case-log-table").on("click", ".confirm-delete.delete-case-log-button", function(event){
-			event.stopPropagation();
-			var caseLogId = $(this).data("id");
-			var data = {
-				_token: "{{ csrf_token() }}",
-				_method: "DELETE"
-			};
-			var button = $(this);
-
-			button.prop("disabled", true).addClass("disabled");
-			$.ajax({
-				url: "/case_logs/" + caseLogId,
-				method: "POST", // DELETE
-				data: data
-			}).done(function(response){
-				if(response === "success")
-					caseLogTable.ajax.reload();
-				else
-					appendAlert("There was a problem removing the case log");
-			}).fail(function(err){
-				appendAlert("There was a problem removing the case log");
-			}).always(function(){
-				if(button)
-					button.prop("disabled", false).removeClass("disabled");
-			});
-		});
-	@endif
 	</script>
 @endpush

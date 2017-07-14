@@ -3,10 +3,14 @@ import Vue from 'vue';
 import HasAlerts from 'vue-mixins/HasAlerts.js';
 
 import ComponentList from 'vue-components/ComponentList.vue';
-import DataTable from 'vue-components/DataTable.vue';
 
-import { renderDateCell, createDateCell } from 'modules/datatable-utils.js';
-import { getFetchHeaders, jsonOrThrow, userIsType } from 'modules/utils.js';
+import CaseLogs from 'vue-components/CaseLog/CaseLogs.vue';
+
+import {
+	getFetchHeaders,
+	jsonOrThrow,
+	userIsType
+} from 'modules/utils.js';
 
 export function createCaseLog(el, propsData) {
 	return new Vue({
@@ -18,12 +22,23 @@ export function createCaseLog(el, propsData) {
 			user: {
 				type: Object,
 				required: true
+			},
+			detailsSchema: {
+				type: Object,
+				required: true
+			},
+			locations: {
+				type: Array,
+				required: true
 			}
 		},
 		propsData,
 		data() {
 			return {
-				caseLogs: []
+				caseLogs: [],
+				show: {
+					charts: false
+				}
 			};
 		},
 
@@ -36,51 +51,23 @@ export function createCaseLog(el, propsData) {
 					'full_name'
 				];
 			},
-			caseLogTableHeader() {
-				return [[
-					'#',
-					'Trainee',
-					'Location',
-					'Date',
-					'Type',
-					''
-				]];
-			},
-			caseLogTableConfig() {
-				let columns = [
-					{data: 'id'},
-					{data: 'location.name'},
-					{data: 'case_date', render: renderDateCell, createdCell: createDateCell},
-					{data: 'details_schema.details_type', render(detailsType) {
-						if (detailsType)
-							return detailsType.toUpperCase();
+			groupedCaseLogs() {
+				if (!this.caseLogs || this.caseLogs.length < 1)
+					return [];
 
-						return '';
-					}},
-					{
-						data: null,
-						orderable: false,
-						searchable: false,
-						render(){
-							return `<button>{{ hm }}</button>`;
-						},
-						createdCell(el, caseLog){
-							new Vue({
-								el,
-								data() {
-									return {
-										hm: 'ok'
-									};
-								}
-							});
-						}
+				let groupedCaseLogs = new Map();
+
+				for (let caseLog of this.caseLogs) {
+					let user = groupedCaseLogs.get(caseLog.user.id);
+					if (!user) {
+						user = Object.assign(caseLog.user);
+						user.caseLogs = [];
 					}
-				];
+					user.caseLogs.push(caseLog);
+					groupedCaseLogs.set(user.id, user);
+				}
 
-				return {
-					columns,
-					order: [[0, 'desc']]
-				};
+				return Array.from(groupedCaseLogs.values());
 			}
 		},
 
@@ -110,12 +97,17 @@ export function createCaseLog(el, propsData) {
 						html: '<strong>Error:</strong> There was a problem fetching case logs'
 					});
 				});
+			},
+			removeCaseLog(id) {
+				this.caseLogs = this.caseLogs.filter(caseLog =>
+					caseLog.id !== id
+				);
 			}
 		},
 
 		components: {
 			ComponentList,
-			DataTable
+			CaseLogs
 		}
 	});
 }
