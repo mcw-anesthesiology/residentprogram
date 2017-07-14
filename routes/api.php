@@ -74,9 +74,12 @@ Route::resource('user_features', 'Rest\UserFeatureController', ['only' => [
 Route::resource('locations', 'Rest\LocationController', ['only' => [
 	'index', 'store', 'show', 'update', 'destroy'
 ]]);
+
+Route::get('case_logs/by-user', 'Rest\CaseLogController@byUser');
 Route::resource('case_logs', 'Rest\CaseLogController', ['only' => [
 	'index', 'store', 'show', 'update', 'destroy'
 ]]);
+
 Route::delete('case_log_details_schemas/{type}', 'Rest\CaseLogDetailsSchemaController@destroyByType')
 	->where('type', '[A-Za-z_]+');
 Route::resource('case_log_details_schemas', 'Rest\CaseLogDetailsSchemaController', ['only' => [

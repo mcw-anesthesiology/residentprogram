@@ -1,14 +1,15 @@
-@extends("app")
+@extends('app')
 
-@section("head")
+@push('stylesheets')
 	<style>
 		#case-log-table tr {
 			cursor: pointer;
 		}
 	</style>
-@stop
+@endpush
 
-@section("body")
+@section('blockless-body')
+<div class="container body-block">
 	<h1>Case Log</h1>
 	<div class="row">
 		<div class="col-md-4 col-md-offset-8">
@@ -17,22 +18,18 @@
 		</div>
 	</div>
 	<section id="case-log-stats-container"></section>
-	<div class="table-responsive">
-		<table class="table table-striped" id="case-log-table" width="100%">
-			<thead>
-				<tr>
-					<th>#</th>
-	@if(!$user->isType("resident"))
-					<th>Trainee</th>
-	@endif
-					<th>Location</th>
-					<th>Date</th>
-					<th>Type</th>
-					<th></th>
-				</tr>
-			</thead>
-		</table>
-	</div>
+
+	<component-list v-if="isAdmin"
+			:fields="caseLogFields"
+			:items="groupedCaseLogs">
+
+	</component-list>
+	<data-table v-else
+		:header="caseLogTableHeader"
+		:config="caseLogTableConfig"
+		:data="caseLogs">
+	</data-table>
+
 	@if($canLog)
 	<button type="button" class="btn btn-primary center-block" id="add-case-log-button">
 		<span class="glyphicon glyphicon-plus"></span>
@@ -58,9 +55,19 @@
 	</button>
 	@include("case-log.add-entry")
 	@endif
+</div>
 @stop
-@section("script")
+
+@push('scripts')
+	<script src="{{ elixir('js/vue-deps.js') }}"></script>
+	<script src="{{ elixir('js/vue-case-log.js') }}"></script>
 	<script>
+		var propsData = {
+			user: {!! $user->toJson() !!}
+		};
+
+		createCaseLog('main', propsData);
+
 		var charts = {};
 		var report = {};
 
@@ -240,4 +247,4 @@
 		});
 	@endif
 	</script>
-@stop
+@endpush
