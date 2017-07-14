@@ -355,6 +355,10 @@ export function errorToAlert(err) {
 	};
 }
 
+export function userIsType(user, type) {
+	return (user != null && 'type' in user && user.type === type);
+}
+
 export function isAdmin(user) {
-	return (user != null && 'type' in user && user.type === 'admin');
+	return userIsType(user, 'admin');
 }

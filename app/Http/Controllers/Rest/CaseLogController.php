@@ -53,4 +53,8 @@ class CaseLogController extends RestController
 		else
 			return back();
 	}
+
+	public function byUser() {
+		return User::with('caseLogs')->has('caseLogs')->all();
+	}
 }

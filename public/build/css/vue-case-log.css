@@ -1,0 +1,56 @@
+
+.alert[data-v-8d03363a] {
+	page-break-inside: avoid;
+}
+
+.refresh-button-container[data-v-4d4c1aff] {
+	text-align: right;
+}
+@media print {
+.refresh-button-container[data-v-4d4c1aff] {
+		display: none;
+}
+}
+
+.list-header-controls[data-v-6d54e2f6] {
+	text-align: right;
+}
+.list-header-controls input[type="search"][data-v-6d54e2f6] {
+	width: 300px;
+	max-width: 100%;
+}
+.list-header-controls.form-inline .input-group > .form-control[data-v-6d54e2f6] {
+	width: auto;
+}
+.list-container[data-v-6d54e2f6] {
+	margin: 3em 0;
+}
+.list[data-v-6d54e2f6] {
+	padding: 0;
+}
+.list li[data-v-6d54e2f6] {
+	list-style: none;
+}
+.containing-label[data-v-6d54e2f6] {
+	text-align: left;
+}
+.containing-label > *[data-v-6d54e2f6] {
+	display: block;
+}
+.no-items-text[data-v-6d54e2f6] {
+	padding: 0.5em 0;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-left: none;
+	border-right: none;
+	text-align: center;
+	font-size: 1.25em;
+}
+
+.paginator[data-v-05c830ce] {
+	text-align: center;
+}
+nav span[data-v-05c830ce] {
+	margin: 0 0.25em;
+}
+
+/*# sourceMappingURL=vue-case-log.css.map*/
