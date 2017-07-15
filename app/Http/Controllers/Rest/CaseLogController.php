@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Rest;
 use Illuminate\Http\Request;
 
 use Auth;
+use Log;
 
 use App\CaseLog;
 use App\CaseLogDetailsSchema;

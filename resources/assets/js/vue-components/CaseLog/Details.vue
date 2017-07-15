@@ -1,7 +1,7 @@
 <template>
 	<div ref="container" class="panel panel-default">
 		<div class="panel-heading">
-			<span class="panel-title">View details</span>
+			<span class="panel-title">Case log details</span>
 		</div>
 		<div class="panel-body">
 			<section class="case-info">
