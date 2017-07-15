@@ -7,7 +7,7 @@
 		var a = typeof exports === 'object' ? factory(require("moment")) : factory(root["moment"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_21__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_20__) {
 return webpackJsonp([9],{
 
 /***/ 1:
@@ -47,9 +47,9 @@ return webpackJsonp([9],{
 /* harmony export (immutable) */ __webpack_exports__["o"] = errorToAlert;
 /* harmony export (immutable) */ __webpack_exports__["a"] = userIsType;
 /* harmony export (immutable) */ __webpack_exports__["j"] = isAdmin;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_striptags__ = __webpack_require__(613);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_striptags__ = __webpack_require__(618);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_striptags___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_striptags__);
 
 
@@ -474,7 +474,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["monthForDate"] = monthForDate;
 /* harmony export (immutable) */ __webpack_exports__["quartersInAcademicYear"] = quartersInAcademicYear;
 /* harmony export (immutable) */ __webpack_exports__["monthsInAcademicYear"] = monthsInAcademicYear;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 
 
@@ -882,7 +882,7 @@ process.umask = function() { return 0; };
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(218)(function(){
+module.exports = !__webpack_require__(219)(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
 
@@ -894,7 +894,7 @@ module.exports = !__webpack_require__(218)(function(){
 "use strict";
 
 
-var uri = __webpack_require__(286);
+var uri = __webpack_require__(287);
 
 var ValidationError = exports.ValidationError = function ValidationError (message, instance, schema, propertyPath, name, argument) {
   if (propertyPath) {
@@ -1187,6 +1187,462 @@ exports.encodePath = function encodePointer(a){
 /***/ }),
 
 /***/ 199:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["e"] = caseLogDetailsSchemaIsValid;
+/* harmony export (immutable) */ __webpack_exports__["a"] = renderCaseLogDetailsSchema;
+/* harmony export (immutable) */ __webpack_exports__["b"] = generateCaseLogDetailsReport;
+/* harmony export (immutable) */ __webpack_exports__["c"] = generateCaseLogDetailsReportCharts;
+/* harmony export (immutable) */ __webpack_exports__["d"] = generateCaseLogLocationReportTable;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(308);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema__ = __webpack_require__(610);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jsonschema__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__ = __webpack_require__(719);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__);
+
+
+
+
+var v = new __WEBPACK_IMPORTED_MODULE_1_jsonschema__["Validator"]();
+
+function caseLogDetailsSchemaIsValid(detailsSchema) {
+	return v.validate(detailsSchema, __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json___default.a).valid;
+}
+
+function renderCaseLogDetailsSchema(schema, responses) {
+	var container = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document.createElement('section');
+
+	schema.forEach(function (section) {
+		var panel = document.createElement('section');
+		var panelBody = document.createElement('div');
+
+		panel.className = 'panel panel-default';
+
+		if (section.title) {
+			var panelHeading = document.createElement('div');
+			var panelTitle = document.createElement('h4');
+
+			panelHeading.className = 'panel-heading';
+			panelTitle.className = 'panel-title';
+			panelTitle.appendChild(document.createTextNode(section.title));
+			panelHeading.appendChild(panelTitle);
+			panel.appendChild(panelHeading);
+		}
+
+		panelBody.className = 'panel-body';
+		panel.appendChild(panelBody);
+
+		section.subsections.forEach(function (subsection) {
+			var subsectionContainer = document.createElement('section');
+			var row = document.createElement('div');
+			row.className = 'row';
+			if (subsection.title) {
+				var subsectionHeading = document.createElement('h5');
+				subsectionHeading.className = 'sub-header';
+				subsectionHeading.appendChild(document.createTextNode(subsection.title));
+				subsectionContainer.appendChild(subsectionHeading);
+			}
+
+			subsection.inputs.forEach(function (input) {
+				renderInput(input, subsection.name, row);
+			});
+
+			subsectionContainer.appendChild(row);
+			panelBody.appendChild(subsectionContainer);
+		});
+
+		container.appendChild(panel);
+	});
+
+	return container;
+
+	function renderInput(input, name, container) {
+		switch (input.type) {
+			case 'checkbox':
+				{
+					var checkboxContainer = document.createElement('div');
+					var label = document.createElement('label');
+					var checkbox = document.createElement('input');
+
+					checkboxContainer.className = 'col-md-4 checkbox';
+					checkbox.type = 'checkbox';
+					checkbox.name = 'details[' + name + '][]';
+					checkbox.value = input.value || input.label;
+					if (responses && responses[name] && responses[name].includes(checkbox.value)) checkbox.checked = true;
+					if (responses) checkbox.readonly = true;
+					label.appendChild(checkbox);
+					label.appendChild(document.createTextNode(input.label));
+					checkboxContainer.appendChild(label);
+
+					container.appendChild(checkboxContainer);
+					break;
+				}
+		}
+	}
+}
+
+function generateCaseLogDetailsReport(caseLogs) {
+	if (!caseLogs || caseLogs.length === 0) return;
+
+	var report = {};
+	caseLogs.forEach(function (caseLog) {
+		if (!report.hasOwnProperty(caseLog.details_schema.details_type)) report[caseLog.details_schema.details_type] = {
+			numCases: 0,
+			types: {}
+		};
+		var detailsReport = report[caseLog.details_schema.details_type];
+		detailsReport.numCases++;
+
+		var _loop = function _loop(typeName) {
+			if (!detailsReport.types.hasOwnProperty(typeName)) detailsReport.types[typeName] = {
+				count: 0,
+				responses: {},
+				locations: {}
+			};
+
+			detailsReport.types[typeName].count++;
+			caseLog.details[typeName].forEach(function (response) {
+				if (!detailsReport.types[typeName].responses.hasOwnProperty(response)) detailsReport.types[typeName].responses[response] = {
+					count: 0,
+					locations: {}
+				};
+				detailsReport.types[typeName].responses[response].count++;
+
+				if (!detailsReport.types[typeName].responses[response].locations.hasOwnProperty(caseLog.location.name)) detailsReport.types[typeName].responses[response].locations[caseLog.location.name] = {
+					count: 0,
+					caseLogs: []
+				};
+				detailsReport.types[typeName].responses[response].locations[caseLog.location.name].count++;
+				detailsReport.types[typeName].responses[response].locations[caseLog.location.name].caseLogs.push(caseLog);
+
+				if (!detailsReport.types[typeName].locations.hasOwnProperty(caseLog.location.name)) detailsReport.types[typeName].locations[caseLog.location.name] = {
+					count: 0,
+					caseLogs: []
+				};
+				detailsReport.types[typeName].locations[caseLog.location.name].count++;
+				detailsReport.types[typeName].locations[caseLog.location.name].caseLogs.push(caseLog);
+			});
+		};
+
+		for (var typeName in caseLog.details) {
+			_loop(typeName);
+		}
+	});
+	return report;
+}
+
+var chartColors = ['#FF6384', '#4BC0C0', '#FFCE56', '#E7E9ED', '#36A2EB', '#7eda35', '#462aa3', '#dd2727', '#f09113', '#1a7829'];
+
+function generateCaseLogDetailsReportCharts(report, name, container) {
+	var charts = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
+	if (!report || report.length === 0) return;
+
+	var reportGroupNames = Object.keys(report);
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
+
+	try {
+		for (var _iterator = container.querySelectorAll('row')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var section = _step.value;
+
+			if (!section.hasAttribute('data-report-group-name') || !reportGroupNames.includes(section.getAttribute('data-report-group-name'))) container.removeChild(section);
+		}
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
+	}
+
+	for (var chartName in charts) {
+		if (!reportGroupNames.includes(chartName)) {
+			charts[chartName].destroy();
+			delete charts[chartName];
+		}
+	}
+
+	var _iteratorNormalCompletion2 = true;
+	var _didIteratorError2 = false;
+	var _iteratorError2 = undefined;
+
+	try {
+		for (var _iterator2 = reportGroupNames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+			var reportGroupName = _step2.value;
+
+
+			var data = {
+				datasets: [{
+					label: name,
+					data: [],
+					backgroundColor: []
+				}],
+				labels: []
+			};
+
+			var canvas = void 0,
+			    numCasesTd = void 0,
+			    tbody = void 0;
+			var reportGroupSection = container.querySelector('section[data-report-group-name="' + reportGroupName + '"]');
+			if (reportGroupSection) {
+				numCasesTd = reportGroupSection.querySelector('table.num-cases-table td');
+				tbody = reportGroupSection.querySelector('table.stats-table tbody');
+			} else {
+				reportGroupSection = document.createElement('section');
+				var reportGroupTitle = document.createElement('h2');
+				var canvasContainer = document.createElement('div');
+				canvas = document.createElement('canvas');
+				reportGroupSection.className = 'row';
+				reportGroupSection.setAttribute('data-report-group-name', reportGroupName);
+				reportGroupSection.appendChild(reportGroupTitle);
+				reportGroupTitle.appendChild(document.createTextNode(reportGroupName.toUpperCase()));
+				canvasContainer.className = 'col-md-8 case-log-report-chart-container';
+				container.appendChild(reportGroupSection);
+				reportGroupSection.appendChild(canvasContainer);
+				canvasContainer.appendChild(canvas);
+
+				var statsContainer = document.createElement('div');
+				var numTable = document.createElement('table');
+				var statsTable = document.createElement('table');
+				var thead = document.createElement('thead');
+				tbody = document.createElement('tbody');
+				var tr = document.createElement('tr');
+				var th = document.createElement('th');
+				numCasesTd = document.createElement('td');
+				statsContainer.className = 'col-md-4 case-log-report-stats-container';
+				reportGroupSection.appendChild(statsContainer);
+				numTable.className = 'table num-cases-table';
+				statsContainer.appendChild(numTable);
+				numTable.appendChild(tr);
+				tr.appendChild(th);
+				th.appendChild(document.createTextNode('Number of cases'));
+				tr.appendChild(numCasesTd);
+
+				tr = document.createElement('tr');
+				th = document.createElement('th');
+				statsTable.className = 'table table-striped table-bordered stats-table';
+				statsContainer.appendChild(statsTable);
+				statsTable.appendChild(thead);
+				thead.appendChild(tr);
+				tr.appendChild(th);
+				statsTable.appendChild(tbody);
+				th.appendChild(document.createTextNode('Response'));
+				tr.appendChild(th);
+				th = document.createElement('th');
+				th.appendChild(document.createTextNode('Times selected'));
+				tr.appendChild(th);
+				th = document.createElement('th');
+				th.appendChild(document.createTextNode('Percentage'));
+				tr.appendChild(th);
+			}
+
+			while (tbody.firstChild) {
+				tbody.removeChild(tbody.firstChild);
+			}var numCases = report[reportGroupName].numCases;
+			while (numCasesTd.firstChild) {
+				numCasesTd.removeChild(numCasesTd.firstChild);
+			}numCasesTd.appendChild(document.createTextNode(numCases));
+			if (report[reportGroupName].types[name]) {
+				var responses = Object.keys(report[reportGroupName].types[name].responses).sort();
+				var _iteratorNormalCompletion3 = true;
+				var _didIteratorError3 = false;
+				var _iteratorError3 = undefined;
+
+				try {
+					for (var _iterator3 = responses[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+						var response = _step3.value;
+
+						var count = report[reportGroupName].types[name].responses[response].count;
+						var percentage = Math.round(count / numCases * 100);
+						data.datasets[0].data.push(count);
+						data.datasets[0].backgroundColor.push(chartColors[data.datasets[0].data.length - 1]);
+						data.labels.push(response);
+
+						var _tr = document.createElement('tr');
+						var _th = document.createElement('th');
+						var selectedTd = document.createElement('td');
+						var percentageTd = document.createElement('td');
+
+						_th.appendChild(document.createTextNode(response));
+						selectedTd.appendChild(document.createTextNode(count));
+						percentageTd.appendChild(document.createTextNode(percentage + '%'));
+
+						_tr.appendChild(_th);
+						_tr.appendChild(selectedTd);
+						_tr.appendChild(percentageTd);
+						tbody.appendChild(_tr);
+					}
+				} catch (err) {
+					_didIteratorError3 = true;
+					_iteratorError3 = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion3 && _iterator3.return) {
+							_iterator3.return();
+						}
+					} finally {
+						if (_didIteratorError3) {
+							throw _iteratorError3;
+						}
+					}
+				}
+			}
+
+			if (charts[reportGroupName]) {
+				charts[reportGroupName].data.datasets = data.datasets;
+				charts[reportGroupName].data.labels = data.labels;
+				charts[reportGroupName].update();
+			} else {
+				charts[reportGroupName] = new __WEBPACK_IMPORTED_MODULE_0_chart_js___default.a(canvas, {
+					data: data,
+					type: 'polarArea',
+					options: {
+						scale: {
+							ticks: {
+								stepSize: 1
+							}
+						}
+					}
+				});
+			}
+		}
+	} catch (err) {
+		_didIteratorError2 = true;
+		_iteratorError2 = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion2 && _iterator2.return) {
+				_iterator2.return();
+			}
+		} finally {
+			if (_didIteratorError2) {
+				throw _iteratorError2;
+			}
+		}
+	}
+
+	return charts;
+}
+
+function generateCaseLogLocationReportTable(report, name, container) {
+	if (!report || report.length === 0) return;
+
+	var reportGroupNames = Object.keys(report);
+	var _iteratorNormalCompletion4 = true;
+	var _didIteratorError4 = false;
+	var _iteratorError4 = undefined;
+
+	try {
+		for (var _iterator4 = reportGroupNames[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+			var reportGroupName = _step4.value;
+
+			var reportGroupSection = container.querySelector('section[data-report-group-name="' + reportGroupName + '"]');
+			var tbody = reportGroupSection.querySelector('table.location-table tbody');
+			if (!tbody) {
+				var statsContainer = reportGroupSection.querySelector('.case-log-report-stats-container');
+				var locationTable = document.createElement('table');
+				var thead = document.createElement('thead');
+				tbody = document.createElement('tbody');
+				var tr = document.createElement('tr');
+				var th = document.createElement('th');
+				locationTable.className = 'table table-striped table-bordered location-table';
+				statsContainer.appendChild(locationTable);
+				locationTable.appendChild(thead);
+				locationTable.appendChild(tbody);
+				thead.appendChild(tr);
+				tr.appendChild(th);
+				th.appendChild(document.createTextNode('Location'));
+				th = document.createElement('th');
+				tr.appendChild(th);
+				th.appendChild(document.createTextNode('Times selected'));
+				th = document.createElement('th');
+				tr.appendChild(th);
+				th.appendChild(document.createTextNode('Percentage'));
+			}
+
+			while (tbody.firstChild) {
+				tbody.removeChild(tbody.firstChild);
+			}var numCases = report[reportGroupName].numCases;
+			if (report[reportGroupName].types[name]) {
+				var locations = Object.keys(report[reportGroupName].types[name].locations).sort();
+				var _iteratorNormalCompletion5 = true;
+				var _didIteratorError5 = false;
+				var _iteratorError5 = undefined;
+
+				try {
+					for (var _iterator5 = locations[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+						var location = _step5.value;
+
+						var count = report[reportGroupName].types[name].locations[location].count;
+						var percentage = Math.round(count / numCases * 100);
+
+						var _tr2 = document.createElement('tr');
+						var _th2 = document.createElement('th');
+						var selectedTd = document.createElement('td');
+						var percentageTd = document.createElement('td');
+
+						_th2.appendChild(document.createTextNode(location));
+						selectedTd.appendChild(document.createTextNode(count));
+						percentageTd.appendChild(document.createTextNode(percentage + '%'));
+
+						_tr2.appendChild(_th2);
+						_tr2.appendChild(selectedTd);
+						_tr2.appendChild(percentageTd);
+						tbody.appendChild(_tr2);
+					}
+				} catch (err) {
+					_didIteratorError5 = true;
+					_iteratorError5 = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion5 && _iterator5.return) {
+							_iterator5.return();
+						}
+					} finally {
+						if (_didIteratorError5) {
+							throw _iteratorError5;
+						}
+					}
+				}
+			}
+		}
+	} catch (err) {
+		_didIteratorError4 = true;
+		_iteratorError4 = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion4 && _iterator4.return) {
+				_iterator4.return();
+			}
+		} finally {
+			if (_didIteratorError4) {
+				throw _iteratorError4;
+			}
+		}
+	}
+}
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_20__;
+
+/***/ }),
+
+/***/ 200:
 /***/ (function(module, exports) {
 
 var core = module.exports = {version: '2.4.0'};
@@ -1194,7 +1650,7 @@ if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ }),
 
-/***/ 20:
+/***/ 21:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1219,11 +1675,11 @@ if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 /* harmony export (immutable) */ __webpack_exports__["m"] = renderSubjectCell;
 /* harmony export (immutable) */ __webpack_exports__["t"] = createEditAndDeleteButtons;
 /* harmony export (immutable) */ __webpack_exports__["u"] = getDataAttributes;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(614);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(619);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_twix__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(13);
 
@@ -1410,14 +1866,7 @@ function getDataAttributes(thing) {
 
 /***/ }),
 
-/***/ 21:
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_21__;
-
-/***/ }),
-
-/***/ 215:
+/***/ 216:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -1573,7 +2022,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 218:
+/***/ 219:
 /***/ (function(module, exports) {
 
 module.exports = function(exec){
@@ -1582,15 +2031,6 @@ module.exports = function(exec){
   } catch(e){
     return true;
   }
-};
-
-/***/ }),
-
-/***/ 219:
-/***/ (function(module, exports) {
-
-module.exports = function(it){
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
 };
 
 /***/ }),
@@ -1623,7 +2063,16 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 283:
+/***/ 220:
+/***/ (function(module, exports) {
+
+module.exports = function(it){
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+/***/ }),
+
+/***/ 284:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -2163,7 +2612,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 286:
+/***/ 287:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2190,8 +2639,8 @@ module.exports = g;
 
 
 
-var punycode = __webpack_require__(283);
-var util = __webpack_require__(615);
+var punycode = __webpack_require__(284);
+var util = __webpack_require__(620);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -2266,7 +2715,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(610);
+    querystring = __webpack_require__(615);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -2903,65 +3352,65 @@ Url.prototype.parseHost = function() {
 
 /***/ }),
 
-/***/ 307:
+/***/ 308:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * @namespace Chart
  */
-var Chart = __webpack_require__(491)();
+var Chart = __webpack_require__(496)();
 
-__webpack_require__(489)(Chart);
-__webpack_require__(503)(Chart);
-__webpack_require__(485)(Chart);
-__webpack_require__(488)(Chart);
-__webpack_require__(493)(Chart);
-__webpack_require__(484)(Chart);
-__webpack_require__(486)(Chart);
-__webpack_require__(487)(Chart);
-__webpack_require__(492)(Chart);
-__webpack_require__(495)(Chart);
-__webpack_require__(496)(Chart);
 __webpack_require__(494)(Chart);
+__webpack_require__(508)(Chart);
 __webpack_require__(490)(Chart);
-__webpack_require__(497)(Chart);
-
+__webpack_require__(493)(Chart);
 __webpack_require__(498)(Chart);
-__webpack_require__(499)(Chart);
+__webpack_require__(489)(Chart);
+__webpack_require__(491)(Chart);
+__webpack_require__(492)(Chart);
+__webpack_require__(497)(Chart);
 __webpack_require__(500)(Chart);
 __webpack_require__(501)(Chart);
+__webpack_require__(499)(Chart);
+__webpack_require__(495)(Chart);
+__webpack_require__(502)(Chart);
 
-__webpack_require__(509)(Chart);
-__webpack_require__(507)(Chart);
-__webpack_require__(508)(Chart);
-__webpack_require__(510)(Chart);
-__webpack_require__(511)(Chart);
+__webpack_require__(503)(Chart);
+__webpack_require__(504)(Chart);
+__webpack_require__(505)(Chart);
+__webpack_require__(506)(Chart);
+
+__webpack_require__(514)(Chart);
 __webpack_require__(512)(Chart);
+__webpack_require__(513)(Chart);
+__webpack_require__(515)(Chart);
+__webpack_require__(516)(Chart);
+__webpack_require__(517)(Chart);
 
 // Controllers must be loaded after elements
 // See Chart.core.datasetController.dataElementType
+__webpack_require__(483)(Chart);
+__webpack_require__(484)(Chart);
+__webpack_require__(485)(Chart);
+__webpack_require__(486)(Chart);
+__webpack_require__(487)(Chart);
+__webpack_require__(488)(Chart);
+
+__webpack_require__(476)(Chart);
+__webpack_require__(477)(Chart);
 __webpack_require__(478)(Chart);
 __webpack_require__(479)(Chart);
 __webpack_require__(480)(Chart);
 __webpack_require__(481)(Chart);
 __webpack_require__(482)(Chart);
-__webpack_require__(483)(Chart);
-
-__webpack_require__(471)(Chart);
-__webpack_require__(472)(Chart);
-__webpack_require__(473)(Chart);
-__webpack_require__(474)(Chart);
-__webpack_require__(475)(Chart);
-__webpack_require__(476)(Chart);
-__webpack_require__(477)(Chart);
 
 // Loading built-it plugins
 var plugins = [];
 
 plugins.push(
-    __webpack_require__(504)(Chart),
-    __webpack_require__(505)(Chart),
-    __webpack_require__(506)(Chart)
+    __webpack_require__(509)(Chart),
+    __webpack_require__(510)(Chart),
+    __webpack_require__(511)(Chart)
 );
 
 Chart.plugins.register(plugins);
@@ -2974,12 +3423,12 @@ if (typeof window !== 'undefined') {
 
 /***/ }),
 
-/***/ 308:
+/***/ 309:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var convert = __webpack_require__(515);
-var string = __webpack_require__(513);
+var convert = __webpack_require__(520);
+var string = __webpack_require__(518);
 
 var Color = function (obj) {
 	if (obj instanceof Color) {
@@ -3466,13 +3915,13 @@ module.exports = Color;
 
 /***/ }),
 
-/***/ 311:
+/***/ 312:
 /***/ (function(module, exports, __webpack_require__) {
 
-var global    = __webpack_require__(312)
-  , core      = __webpack_require__(199)
-  , ctx       = __webpack_require__(533)
-  , hide      = __webpack_require__(537)
+var global    = __webpack_require__(313)
+  , core      = __webpack_require__(200)
+  , ctx       = __webpack_require__(538)
+  , hide      = __webpack_require__(542)
   , PROTOTYPE = 'prototype';
 
 var $export = function(type, name, source){
@@ -3533,7 +3982,7 @@ module.exports = $export;
 
 /***/ }),
 
-/***/ 312:
+/***/ 313:
 /***/ (function(module, exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -3543,21 +3992,21 @@ if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ }),
 
-/***/ 313:
+/***/ 314:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(163) && !__webpack_require__(218)(function(){
-  return Object.defineProperty(__webpack_require__(535)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+module.exports = !__webpack_require__(163) && !__webpack_require__(219)(function(){
+  return Object.defineProperty(__webpack_require__(540)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
 
 /***/ }),
 
-/***/ 314:
+/***/ 315:
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject       = __webpack_require__(531)
-  , IE8_DOM_DEFINE = __webpack_require__(313)
-  , toPrimitive    = __webpack_require__(317)
+var anObject       = __webpack_require__(536)
+  , IE8_DOM_DEFINE = __webpack_require__(314)
+  , toPrimitive    = __webpack_require__(318)
   , dP             = Object.defineProperty;
 
 exports.f = __webpack_require__(163) ? Object.defineProperty : function defineProperty(O, P, Attributes){
@@ -3574,7 +4023,7 @@ exports.f = __webpack_require__(163) ? Object.defineProperty : function definePr
 
 /***/ }),
 
-/***/ 315:
+/***/ 316:
 /***/ (function(module, exports) {
 
 module.exports = function(bitmap, value){
@@ -3588,23 +4037,23 @@ module.exports = function(bitmap, value){
 
 /***/ }),
 
-/***/ 316:
+/***/ 317:
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(538)
-  , defined = __webpack_require__(534);
+var IObject = __webpack_require__(543)
+  , defined = __webpack_require__(539);
 module.exports = function(it){
   return IObject(defined(it));
 };
 
 /***/ }),
 
-/***/ 317:
+/***/ 318:
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(219);
+var isObject = __webpack_require__(220);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function(it, S){
@@ -3618,26 +4067,26 @@ module.exports = function(it, S){
 
 /***/ }),
 
-/***/ 330:
+/***/ 331:
 /***/ (function(module, exports, __webpack_require__) {
 
-var req = __webpack_require__(544);
+var req = __webpack_require__(549);
 module.exports = (req['default'] || req).apply(req, [])
 
 /***/ }),
 
-/***/ 331:
+/***/ 332:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__ = __webpack_require__(452);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__ = __webpack_require__(199);
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "caseLogDetailsSchemaIsValid", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["e"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderCaseLogDetailsSchema", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["a"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "generateCaseLogDetailsReport", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["b"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "generateCaseLogDetailsReportCharts", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["c"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "generateCaseLogLocationReportTable", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["d"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__ = __webpack_require__(21);
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "unlimitTableEvals", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["o"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "unlimitRestTableEvals", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["p"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "createDateCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["b"]; });
@@ -3728,15 +4177,15 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 354:
+/***/ 355:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(611).polyfill()
+__webpack_require__(616).polyfill()
 
 
 /***/ }),
 
-/***/ 363:
+/***/ 365:
 /***/ (function(module, exports) {
 
 (function(self) {
@@ -4204,456 +4653,7 @@ __webpack_require__(611).polyfill()
 
 /***/ }),
 
-/***/ 452:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["e"] = caseLogDetailsSchemaIsValid;
-/* harmony export (immutable) */ __webpack_exports__["a"] = renderCaseLogDetailsSchema;
-/* harmony export (immutable) */ __webpack_exports__["b"] = generateCaseLogDetailsReport;
-/* harmony export (immutable) */ __webpack_exports__["c"] = generateCaseLogDetailsReportCharts;
-/* harmony export (immutable) */ __webpack_exports__["d"] = generateCaseLogLocationReportTable;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(307);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema__ = __webpack_require__(605);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jsonschema__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__ = __webpack_require__(707);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__);
-
-
-
-
-var v = new __WEBPACK_IMPORTED_MODULE_1_jsonschema__["Validator"]();
-
-function caseLogDetailsSchemaIsValid(detailsSchema) {
-	return v.validate(detailsSchema, __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json___default.a).valid;
-}
-
-function renderCaseLogDetailsSchema(schema, responses) {
-	var container = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document.createElement('section');
-
-	schema.forEach(function (section) {
-		var panel = document.createElement('section');
-		var panelBody = document.createElement('div');
-
-		panel.className = 'panel panel-default';
-
-		if (section.title) {
-			var panelHeading = document.createElement('div');
-			var panelTitle = document.createElement('h4');
-
-			panelHeading.className = 'panel-heading';
-			panelTitle.className = 'panel-title';
-			panelTitle.appendChild(document.createTextNode(section.title));
-			panelHeading.appendChild(panelTitle);
-			panel.appendChild(panelHeading);
-		}
-
-		panelBody.className = 'panel-body';
-		panel.appendChild(panelBody);
-
-		section.subsections.forEach(function (subsection) {
-			var subsectionContainer = document.createElement('section');
-			var row = document.createElement('div');
-			row.className = 'row';
-			if (subsection.title) {
-				var subsectionHeading = document.createElement('h5');
-				subsectionHeading.className = 'sub-header';
-				subsectionHeading.appendChild(document.createTextNode(subsection.title));
-				subsectionContainer.appendChild(subsectionHeading);
-			}
-
-			subsection.inputs.forEach(function (input) {
-				renderInput(input, subsection.name, row);
-			});
-
-			subsectionContainer.appendChild(row);
-			panelBody.appendChild(subsectionContainer);
-		});
-
-		container.appendChild(panel);
-	});
-
-	return container;
-
-	function renderInput(input, name, container) {
-		switch (input.type) {
-			case 'checkbox':
-				{
-					var checkboxContainer = document.createElement('div');
-					var label = document.createElement('label');
-					var checkbox = document.createElement('input');
-
-					checkboxContainer.className = 'col-md-4 checkbox';
-					checkbox.type = 'checkbox';
-					checkbox.name = 'details[' + name + '][]';
-					checkbox.value = input.value || input.label;
-					if (responses && responses[name] && responses[name].includes(checkbox.value)) checkbox.checked = true;
-					if (responses) checkbox.readonly = true;
-					label.appendChild(checkbox);
-					label.appendChild(document.createTextNode(input.label));
-					checkboxContainer.appendChild(label);
-
-					container.appendChild(checkboxContainer);
-					break;
-				}
-		}
-	}
-}
-
-function generateCaseLogDetailsReport(caseLogs) {
-	if (!caseLogs || caseLogs.length === 0) return;
-
-	var report = {};
-	caseLogs.forEach(function (caseLog) {
-		if (!report.hasOwnProperty(caseLog.details_schema.details_type)) report[caseLog.details_schema.details_type] = {
-			numCases: 0,
-			types: {}
-		};
-		var detailsReport = report[caseLog.details_schema.details_type];
-		detailsReport.numCases++;
-
-		var _loop = function _loop(typeName) {
-			if (!detailsReport.types.hasOwnProperty(typeName)) detailsReport.types[typeName] = {
-				count: 0,
-				responses: {},
-				locations: {}
-			};
-
-			detailsReport.types[typeName].count++;
-			caseLog.details[typeName].forEach(function (response) {
-				if (!detailsReport.types[typeName].responses.hasOwnProperty(response)) detailsReport.types[typeName].responses[response] = {
-					count: 0,
-					locations: {}
-				};
-				detailsReport.types[typeName].responses[response].count++;
-
-				if (!detailsReport.types[typeName].responses[response].locations.hasOwnProperty(caseLog.location.name)) detailsReport.types[typeName].responses[response].locations[caseLog.location.name] = {
-					count: 0,
-					caseLogs: []
-				};
-				detailsReport.types[typeName].responses[response].locations[caseLog.location.name].count++;
-				detailsReport.types[typeName].responses[response].locations[caseLog.location.name].caseLogs.push(caseLog);
-
-				if (!detailsReport.types[typeName].locations.hasOwnProperty(caseLog.location.name)) detailsReport.types[typeName].locations[caseLog.location.name] = {
-					count: 0,
-					caseLogs: []
-				};
-				detailsReport.types[typeName].locations[caseLog.location.name].count++;
-				detailsReport.types[typeName].locations[caseLog.location.name].caseLogs.push(caseLog);
-			});
-		};
-
-		for (var typeName in caseLog.details) {
-			_loop(typeName);
-		}
-	});
-	return report;
-}
-
-var chartColors = ['#FF6384', '#4BC0C0', '#FFCE56', '#E7E9ED', '#36A2EB', '#7eda35', '#462aa3', '#dd2727', '#f09113', '#1a7829'];
-
-function generateCaseLogDetailsReportCharts(report, name, container) {
-	var charts = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-
-	if (!report || report.length === 0) return;
-
-	var reportGroupNames = Object.keys(report);
-	var _iteratorNormalCompletion = true;
-	var _didIteratorError = false;
-	var _iteratorError = undefined;
-
-	try {
-		for (var _iterator = container.querySelectorAll('row')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-			var section = _step.value;
-
-			if (!section.hasAttribute('data-report-group-name') || !reportGroupNames.includes(section.getAttribute('data-report-group-name'))) container.removeChild(section);
-		}
-	} catch (err) {
-		_didIteratorError = true;
-		_iteratorError = err;
-	} finally {
-		try {
-			if (!_iteratorNormalCompletion && _iterator.return) {
-				_iterator.return();
-			}
-		} finally {
-			if (_didIteratorError) {
-				throw _iteratorError;
-			}
-		}
-	}
-
-	for (var chartName in charts) {
-		if (!reportGroupNames.includes(chartName)) {
-			charts[chartName].destroy();
-			delete charts[chartName];
-		}
-	}
-
-	var _iteratorNormalCompletion2 = true;
-	var _didIteratorError2 = false;
-	var _iteratorError2 = undefined;
-
-	try {
-		for (var _iterator2 = reportGroupNames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-			var reportGroupName = _step2.value;
-
-
-			var data = {
-				datasets: [{
-					label: name,
-					data: [],
-					backgroundColor: []
-				}],
-				labels: []
-			};
-
-			var canvas = void 0,
-			    numCasesTd = void 0,
-			    tbody = void 0;
-			var reportGroupSection = container.querySelector('section[data-report-group-name="' + reportGroupName + '"]');
-			if (reportGroupSection) {
-				numCasesTd = reportGroupSection.querySelector('table.num-cases-table td');
-				tbody = reportGroupSection.querySelector('table.stats-table tbody');
-			} else {
-				reportGroupSection = document.createElement('section');
-				var reportGroupTitle = document.createElement('h2');
-				var canvasContainer = document.createElement('div');
-				canvas = document.createElement('canvas');
-				reportGroupSection.className = 'row';
-				reportGroupSection.setAttribute('data-report-group-name', reportGroupName);
-				reportGroupSection.appendChild(reportGroupTitle);
-				reportGroupTitle.appendChild(document.createTextNode(reportGroupName.toUpperCase()));
-				canvasContainer.className = 'col-md-8 case-log-report-chart-container';
-				container.appendChild(reportGroupSection);
-				reportGroupSection.appendChild(canvasContainer);
-				canvasContainer.appendChild(canvas);
-
-				var statsContainer = document.createElement('div');
-				var numTable = document.createElement('table');
-				var statsTable = document.createElement('table');
-				var thead = document.createElement('thead');
-				tbody = document.createElement('tbody');
-				var tr = document.createElement('tr');
-				var th = document.createElement('th');
-				numCasesTd = document.createElement('td');
-				statsContainer.className = 'col-md-4 case-log-report-stats-container';
-				reportGroupSection.appendChild(statsContainer);
-				numTable.className = 'table num-cases-table';
-				statsContainer.appendChild(numTable);
-				numTable.appendChild(tr);
-				tr.appendChild(th);
-				th.appendChild(document.createTextNode('Number of cases'));
-				tr.appendChild(numCasesTd);
-
-				tr = document.createElement('tr');
-				th = document.createElement('th');
-				statsTable.className = 'table table-striped table-bordered stats-table';
-				statsContainer.appendChild(statsTable);
-				statsTable.appendChild(thead);
-				thead.appendChild(tr);
-				tr.appendChild(th);
-				statsTable.appendChild(tbody);
-				th.appendChild(document.createTextNode('Response'));
-				tr.appendChild(th);
-				th = document.createElement('th');
-				th.appendChild(document.createTextNode('Times selected'));
-				tr.appendChild(th);
-				th = document.createElement('th');
-				th.appendChild(document.createTextNode('Percentage'));
-				tr.appendChild(th);
-			}
-
-			while (tbody.firstChild) {
-				tbody.removeChild(tbody.firstChild);
-			}var numCases = report[reportGroupName].numCases;
-			while (numCasesTd.firstChild) {
-				numCasesTd.removeChild(numCasesTd.firstChild);
-			}numCasesTd.appendChild(document.createTextNode(numCases));
-			if (report[reportGroupName].types[name]) {
-				var responses = Object.keys(report[reportGroupName].types[name].responses).sort();
-				var _iteratorNormalCompletion3 = true;
-				var _didIteratorError3 = false;
-				var _iteratorError3 = undefined;
-
-				try {
-					for (var _iterator3 = responses[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-						var response = _step3.value;
-
-						var count = report[reportGroupName].types[name].responses[response].count;
-						var percentage = Math.round(count / numCases * 100);
-						data.datasets[0].data.push(count);
-						data.datasets[0].backgroundColor.push(chartColors[data.datasets[0].data.length - 1]);
-						data.labels.push(response);
-
-						var _tr = document.createElement('tr');
-						var _th = document.createElement('th');
-						var selectedTd = document.createElement('td');
-						var percentageTd = document.createElement('td');
-
-						_th.appendChild(document.createTextNode(response));
-						selectedTd.appendChild(document.createTextNode(count));
-						percentageTd.appendChild(document.createTextNode(percentage + '%'));
-
-						_tr.appendChild(_th);
-						_tr.appendChild(selectedTd);
-						_tr.appendChild(percentageTd);
-						tbody.appendChild(_tr);
-					}
-				} catch (err) {
-					_didIteratorError3 = true;
-					_iteratorError3 = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion3 && _iterator3.return) {
-							_iterator3.return();
-						}
-					} finally {
-						if (_didIteratorError3) {
-							throw _iteratorError3;
-						}
-					}
-				}
-			}
-
-			if (charts[reportGroupName]) {
-				charts[reportGroupName].data.datasets = data.datasets;
-				charts[reportGroupName].data.labels = data.labels;
-				charts[reportGroupName].update();
-			} else {
-				charts[reportGroupName] = new __WEBPACK_IMPORTED_MODULE_0_chart_js___default.a(canvas, {
-					data: data,
-					type: 'polarArea',
-					options: {
-						scale: {
-							ticks: {
-								stepSize: 1
-							}
-						}
-					}
-				});
-			}
-		}
-	} catch (err) {
-		_didIteratorError2 = true;
-		_iteratorError2 = err;
-	} finally {
-		try {
-			if (!_iteratorNormalCompletion2 && _iterator2.return) {
-				_iterator2.return();
-			}
-		} finally {
-			if (_didIteratorError2) {
-				throw _iteratorError2;
-			}
-		}
-	}
-
-	return charts;
-}
-
-function generateCaseLogLocationReportTable(report, name, container) {
-	if (!report || report.length === 0) return;
-
-	var reportGroupNames = Object.keys(report);
-	var _iteratorNormalCompletion4 = true;
-	var _didIteratorError4 = false;
-	var _iteratorError4 = undefined;
-
-	try {
-		for (var _iterator4 = reportGroupNames[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-			var reportGroupName = _step4.value;
-
-			var reportGroupSection = container.querySelector('section[data-report-group-name="' + reportGroupName + '"]');
-			var tbody = reportGroupSection.querySelector('table.location-table tbody');
-			if (!tbody) {
-				var statsContainer = reportGroupSection.querySelector('.case-log-report-stats-container');
-				var locationTable = document.createElement('table');
-				var thead = document.createElement('thead');
-				tbody = document.createElement('tbody');
-				var tr = document.createElement('tr');
-				var th = document.createElement('th');
-				locationTable.className = 'table table-striped table-bordered location-table';
-				statsContainer.appendChild(locationTable);
-				locationTable.appendChild(thead);
-				locationTable.appendChild(tbody);
-				thead.appendChild(tr);
-				tr.appendChild(th);
-				th.appendChild(document.createTextNode('Location'));
-				th = document.createElement('th');
-				tr.appendChild(th);
-				th.appendChild(document.createTextNode('Times selected'));
-				th = document.createElement('th');
-				tr.appendChild(th);
-				th.appendChild(document.createTextNode('Percentage'));
-			}
-
-			while (tbody.firstChild) {
-				tbody.removeChild(tbody.firstChild);
-			}var numCases = report[reportGroupName].numCases;
-			if (report[reportGroupName].types[name]) {
-				var locations = Object.keys(report[reportGroupName].types[name].locations).sort();
-				var _iteratorNormalCompletion5 = true;
-				var _didIteratorError5 = false;
-				var _iteratorError5 = undefined;
-
-				try {
-					for (var _iterator5 = locations[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-						var location = _step5.value;
-
-						var count = report[reportGroupName].types[name].locations[location].count;
-						var percentage = Math.round(count / numCases * 100);
-
-						var _tr2 = document.createElement('tr');
-						var _th2 = document.createElement('th');
-						var selectedTd = document.createElement('td');
-						var percentageTd = document.createElement('td');
-
-						_th2.appendChild(document.createTextNode(location));
-						selectedTd.appendChild(document.createTextNode(count));
-						percentageTd.appendChild(document.createTextNode(percentage + '%'));
-
-						_tr2.appendChild(_th2);
-						_tr2.appendChild(selectedTd);
-						_tr2.appendChild(percentageTd);
-						tbody.appendChild(_tr2);
-					}
-				} catch (err) {
-					_didIteratorError5 = true;
-					_iteratorError5 = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion5 && _iterator5.return) {
-							_iterator5.return();
-						}
-					} finally {
-						if (_didIteratorError5) {
-							throw _iteratorError5;
-						}
-					}
-				}
-			}
-		}
-	} catch (err) {
-		_didIteratorError4 = true;
-		_iteratorError4 = err;
-	} finally {
-		try {
-			if (!_iteratorNormalCompletion4 && _iterator4.return) {
-				_iterator4.return();
-			}
-		} finally {
-			if (_didIteratorError4) {
-				throw _iteratorError4;
-			}
-		}
-	}
-}
-
-/***/ }),
-
-/***/ 46:
+/***/ 47:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4695,21 +4695,21 @@ var CHART_COLORS = {
 
 /***/ }),
 
-/***/ 465:
+/***/ 470:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(528), __esModule: true };
-
-/***/ }),
-
-/***/ 466:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(529), __esModule: true };
+module.exports = { "default": __webpack_require__(533), __esModule: true };
 
 /***/ }),
 
 /***/ 471:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(534), __esModule: true };
+
+/***/ }),
+
+/***/ 476:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4728,7 +4728,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 472:
+/***/ 477:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4746,7 +4746,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 473:
+/***/ 478:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4765,7 +4765,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 474:
+/***/ 479:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4784,7 +4784,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 475:
+/***/ 480:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4803,7 +4803,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 476:
+/***/ 481:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4822,7 +4822,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 477:
+/***/ 482:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4877,7 +4877,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 478:
+/***/ 483:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5268,7 +5268,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 479:
+/***/ 484:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5398,7 +5398,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 480:
+/***/ 485:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5709,7 +5709,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 481:
+/***/ 486:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6050,7 +6050,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 482:
+/***/ 487:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6281,7 +6281,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 483:
+/***/ 488:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6456,7 +6456,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 484:
+/***/ 489:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6632,7 +6632,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 485:
+/***/ 490:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6790,7 +6790,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 486:
+/***/ 491:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7649,7 +7649,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 487:
+/***/ 492:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7987,13 +7987,13 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 488:
+/***/ 493:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var color = __webpack_require__(308);
+var color = __webpack_require__(309);
 
 module.exports = function(Chart) {
 
@@ -8114,7 +8114,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 489:
+/***/ 494:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8122,7 +8122,7 @@ module.exports = function(Chart) {
 /* global document: false */
 
 
-var color = __webpack_require__(308);
+var color = __webpack_require__(309);
 
 module.exports = function(Chart) {
 	// Global Chart helpers object for utility methods and classes
@@ -9106,7 +9106,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 490:
+/***/ 495:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9430,7 +9430,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 491:
+/***/ 496:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9494,7 +9494,7 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 492:
+/***/ 497:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9938,7 +9938,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 493:
+/***/ 498:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10317,7 +10317,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 494:
+/***/ 499:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11082,7 +11082,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 495:
+/***/ 500:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11134,7 +11134,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 496:
+/***/ 501:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11350,7 +11350,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 497:
+/***/ 502:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12296,7 +12296,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 498:
+/***/ 503:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12408,7 +12408,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 499:
+/***/ 504:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12503,7 +12503,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 500:
+/***/ 505:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12611,7 +12611,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 501:
+/***/ 506:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12827,7 +12827,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 502:
+/***/ 507:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13118,7 +13118,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 503:
+/***/ 508:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13126,7 +13126,7 @@ module.exports = function(Chart) {
 
 // By default, select the browser (DOM) platform.
 // @TODO Make possible to select another platform at build time.
-var implementation = __webpack_require__(502);
+var implementation = __webpack_require__(507);
 
 module.exports = function(Chart) {
 	/**
@@ -13195,7 +13195,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 504:
+/***/ 509:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13512,7 +13512,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 505:
+/***/ 510:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14064,7 +14064,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 506:
+/***/ 511:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14298,7 +14298,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 507:
+/***/ 512:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14438,7 +14438,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 508:
+/***/ 513:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14636,7 +14636,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 509:
+/***/ 514:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14750,7 +14750,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 510:
+/***/ 515:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15004,7 +15004,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 511:
+/***/ 516:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15535,14 +15535,14 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 512:
+/***/ 517:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* global window: false */
 
 
-var moment = __webpack_require__(21);
+var moment = __webpack_require__(20);
 moment = typeof(moment) === 'function' ? moment : window.moment;
 
 module.exports = function(Chart) {
@@ -15985,11 +15985,11 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 513:
+/***/ 518:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var colorNames = __webpack_require__(215);
+var colorNames = __webpack_require__(216);
 
 module.exports = {
    getRgba: getRgba,
@@ -16213,7 +16213,7 @@ for (var name in colorNames) {
 
 /***/ }),
 
-/***/ 514:
+/***/ 519:
 /***/ (function(module, exports) {
 
 /* MIT license */
@@ -16918,10 +16918,10 @@ for (var key in cssKeywords) {
 
 /***/ }),
 
-/***/ 515:
+/***/ 520:
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(514);
+var conversions = __webpack_require__(519);
 
 var convert = function() {
    return new Converter();
@@ -17016,29 +17016,29 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 528:
+/***/ 533:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(542);
-var $Object = __webpack_require__(199).Object;
+__webpack_require__(547);
+var $Object = __webpack_require__(200).Object;
 module.exports = function defineProperty(it, key, desc){
   return $Object.defineProperty(it, key, desc);
 };
 
 /***/ }),
 
-/***/ 529:
+/***/ 534:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(543);
-var $Object = __webpack_require__(199).Object;
+__webpack_require__(548);
+var $Object = __webpack_require__(200).Object;
 module.exports = function getOwnPropertyDescriptor(it, key){
   return $Object.getOwnPropertyDescriptor(it, key);
 };
 
 /***/ }),
 
-/***/ 530:
+/***/ 535:
 /***/ (function(module, exports) {
 
 module.exports = function(it){
@@ -17048,10 +17048,10 @@ module.exports = function(it){
 
 /***/ }),
 
-/***/ 531:
+/***/ 536:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(219);
+var isObject = __webpack_require__(220);
 module.exports = function(it){
   if(!isObject(it))throw TypeError(it + ' is not an object!');
   return it;
@@ -17059,7 +17059,7 @@ module.exports = function(it){
 
 /***/ }),
 
-/***/ 532:
+/***/ 537:
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -17070,11 +17070,11 @@ module.exports = function(it){
 
 /***/ }),
 
-/***/ 533:
+/***/ 538:
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(530);
+var aFunction = __webpack_require__(535);
 module.exports = function(fn, that, length){
   aFunction(fn);
   if(that === undefined)return fn;
@@ -17096,7 +17096,7 @@ module.exports = function(fn, that, length){
 
 /***/ }),
 
-/***/ 534:
+/***/ 539:
 /***/ (function(module, exports) {
 
 // 7.2.1 RequireObjectCoercible(argument)
@@ -17107,11 +17107,11 @@ module.exports = function(it){
 
 /***/ }),
 
-/***/ 535:
+/***/ 540:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(219)
-  , document = __webpack_require__(312).document
+var isObject = __webpack_require__(220)
+  , document = __webpack_require__(313).document
   // in old IE typeof document.createElement is 'object'
   , is = isObject(document) && isObject(document.createElement);
 module.exports = function(it){
@@ -17120,7 +17120,7 @@ module.exports = function(it){
 
 /***/ }),
 
-/***/ 536:
+/***/ 541:
 /***/ (function(module, exports) {
 
 var hasOwnProperty = {}.hasOwnProperty;
@@ -17130,11 +17130,11 @@ module.exports = function(it, key){
 
 /***/ }),
 
-/***/ 537:
+/***/ 542:
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP         = __webpack_require__(314)
-  , createDesc = __webpack_require__(315);
+var dP         = __webpack_require__(315)
+  , createDesc = __webpack_require__(316);
 module.exports = __webpack_require__(163) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
 } : function(object, key, value){
@@ -17144,26 +17144,26 @@ module.exports = __webpack_require__(163) ? function(object, key, value){
 
 /***/ }),
 
-/***/ 538:
+/***/ 543:
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(532);
+var cof = __webpack_require__(537);
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
 
 /***/ }),
 
-/***/ 539:
+/***/ 544:
 /***/ (function(module, exports, __webpack_require__) {
 
-var pIE            = __webpack_require__(540)
-  , createDesc     = __webpack_require__(315)
-  , toIObject      = __webpack_require__(316)
-  , toPrimitive    = __webpack_require__(317)
-  , has            = __webpack_require__(536)
-  , IE8_DOM_DEFINE = __webpack_require__(313)
+var pIE            = __webpack_require__(545)
+  , createDesc     = __webpack_require__(316)
+  , toIObject      = __webpack_require__(317)
+  , toPrimitive    = __webpack_require__(318)
+  , has            = __webpack_require__(541)
+  , IE8_DOM_DEFINE = __webpack_require__(314)
   , gOPD           = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(163) ? gOPD : function getOwnPropertyDescriptor(O, P){
@@ -17177,20 +17177,20 @@ exports.f = __webpack_require__(163) ? gOPD : function getOwnPropertyDescriptor(
 
 /***/ }),
 
-/***/ 540:
+/***/ 545:
 /***/ (function(module, exports) {
 
 exports.f = {}.propertyIsEnumerable;
 
 /***/ }),
 
-/***/ 541:
+/***/ 546:
 /***/ (function(module, exports, __webpack_require__) {
 
 // most Object methods by ES6 should accept primitives
-var $export = __webpack_require__(311)
-  , core    = __webpack_require__(199)
-  , fails   = __webpack_require__(218);
+var $export = __webpack_require__(312)
+  , core    = __webpack_require__(200)
+  , fails   = __webpack_require__(219);
 module.exports = function(KEY, exec){
   var fn  = (core.Object || {})[KEY] || Object[KEY]
     , exp = {};
@@ -17200,23 +17200,23 @@ module.exports = function(KEY, exec){
 
 /***/ }),
 
-/***/ 542:
+/***/ 547:
 /***/ (function(module, exports, __webpack_require__) {
 
-var $export = __webpack_require__(311);
+var $export = __webpack_require__(312);
 // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(163), 'Object', {defineProperty: __webpack_require__(314).f});
+$export($export.S + $export.F * !__webpack_require__(163), 'Object', {defineProperty: __webpack_require__(315).f});
 
 /***/ }),
 
-/***/ 543:
+/***/ 548:
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
-var toIObject                 = __webpack_require__(316)
-  , $getOwnPropertyDescriptor = __webpack_require__(539).f;
+var toIObject                 = __webpack_require__(317)
+  , $getOwnPropertyDescriptor = __webpack_require__(544).f;
 
-__webpack_require__(541)('getOwnPropertyDescriptor', function(){
+__webpack_require__(546)('getOwnPropertyDescriptor', function(){
   return function getOwnPropertyDescriptor(it, key){
     return $getOwnPropertyDescriptor(toIObject(it), key);
   };
@@ -17224,14 +17224,14 @@ __webpack_require__(541)('getOwnPropertyDescriptor', function(){
 
 /***/ }),
 
-/***/ 544:
+/***/ 549:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__ = __webpack_require__(465);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__ = __webpack_require__(470);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__ = __webpack_require__(466);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__ = __webpack_require__(471);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__);
 
 //
@@ -17308,7 +17308,7 @@ function elementDatasetPolyfill() {
 
 /***/ }),
 
-/***/ 604:
+/***/ 609:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18119,13 +18119,13 @@ module.exports = attribute;
 
 /***/ }),
 
-/***/ 605:
+/***/ 610:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Validator = module.exports.Validator = __webpack_require__(606);
+var Validator = module.exports.Validator = __webpack_require__(611);
 
 module.exports.ValidatorResult = __webpack_require__(168).ValidatorResult;
 module.exports.ValidationError = __webpack_require__(168).ValidationError;
@@ -18139,15 +18139,15 @@ module.exports.validate = function (instance, schema, options) {
 
 /***/ }),
 
-/***/ 606:
+/***/ 611:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var urilib = __webpack_require__(286);
+var urilib = __webpack_require__(287);
 
-var attribute = __webpack_require__(604);
+var attribute = __webpack_require__(609);
 var helpers = __webpack_require__(168);
 var ValidatorResult = helpers.ValidatorResult;
 var SchemaError = helpers.SchemaError;
@@ -18481,7 +18481,7 @@ module.exports = Validator;
 
 /***/ }),
 
-/***/ 607:
+/***/ 612:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {// Generated by CoffeeScript 1.12.2
@@ -18525,7 +18525,7 @@ module.exports = Validator;
 
 /***/ }),
 
-/***/ 608:
+/***/ 613:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18617,7 +18617,7 @@ var isArray = Array.isArray || function (xs) {
 
 /***/ }),
 
-/***/ 609:
+/***/ 614:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18710,22 +18710,22 @@ var objectKeys = Object.keys || function (obj) {
 
 /***/ }),
 
-/***/ 610:
+/***/ 615:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(608);
-exports.encode = exports.stringify = __webpack_require__(609);
+exports.decode = exports.parse = __webpack_require__(613);
+exports.encode = exports.stringify = __webpack_require__(614);
 
 
 /***/ }),
 
-/***/ 611:
+/***/ 616:
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {var now = __webpack_require__(607)
+/* WEBPACK VAR INJECTION */(function(global) {var now = __webpack_require__(612)
   , root = typeof window === 'undefined' ? global : window
   , vendors = ['moz', 'webkit']
   , suffix = 'AnimationFrame'
@@ -18802,7 +18802,7 @@ module.exports.polyfill = function() {
 
 /***/ }),
 
-/***/ 613:
+/***/ 618:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19071,7 +19071,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 614:
+/***/ 619:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Generated by CoffeeScript 1.10.0
@@ -19736,11 +19736,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   };
 
   if (hasModule) {
-    return module.exports = makeTwix(__webpack_require__(21));
+    return module.exports = makeTwix(__webpack_require__(20));
   }
 
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(21)], __WEBPACK_AMD_DEFINE_RESULT__ = function(moment) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(20)], __WEBPACK_AMD_DEFINE_RESULT__ = function(moment) {
       return makeTwix(moment);
     }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -19758,7 +19758,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 615:
+/***/ 620:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19782,7 +19782,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 707:
+/***/ 719:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -19920,17 +19920,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ 708:
+/***/ 720:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(363);
-__webpack_require__(330);
-__webpack_require__(354);
-module.exports = __webpack_require__(331);
+__webpack_require__(365);
+__webpack_require__(331);
+__webpack_require__(355);
+module.exports = __webpack_require__(332);
 
 
 /***/ })
 
-},[708]);
+},[720]);
 });
 //# sourceMappingURL=bundle.js.map

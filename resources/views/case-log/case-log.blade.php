@@ -15,7 +15,11 @@
 	<div class="row">
 		<div class="col-md-4 col-md-offset-8">
 			<label for="case-log-details-report-name">Report on</label>
-			<select class="form-control" id="case-log-details-report-name"></select>
+			<select class="form-control" id="case-log-details-report-name">
+				<option v-for="subsection of subsections">
+					@{{ subsection.name }}
+				</option>
+			</select>
 		</div>
 	</div>
 	<section id="case-log-stats-container"></section>
@@ -47,31 +51,82 @@
 	</div>
 
 	@if($canLog)
-	<button type="button" class="btn btn-primary center-block" id="add-case-log-button">
-		<span class="glyphicon glyphicon-plus"></span>
-		Add entry
-	</button>
+	<show-hide-button class="btn btn-primary center-block"
+			v-model="show.addCaseLog">
+		entry
+		<template slot="true">
+			Cancel add
+		</template>
+		<template slot="false">
+			Add
+		</template>
+		<template slot="glyph"></template>
+	</show-hide-button>
 	@endif
 </div>
-
-<div class="container body-block collapse" id="view-case-log-entry-container">
-	<button type="button" class="close close-body-block-button" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	</button>
-	<h2>View entry</h2>
-	@include("case-log.pieces.base")
-
-	<section id="view-case-log-details"></section>
 
 	@if($canLog)
+<div class="container body-block" v-show="show.addCaseLog">
+
+	<h2>Add entry</h2>
+
+	<form ref="addLogForm" role="form" method="post" action="/case_logs"
+			@submit="addCaseLog">
+
+		<h3>{{ $title }}</h3>
+
+		<section class="case-info">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label class="containing-label">
+							Location
+							<select class="form-control" name="location_id">
+								<option v-for="location of locations"
+										:value="location.id">
+									@{{ location.name }}
+								</option>
+							</select>
+						</label>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label class="containing-label">
+							Case Date
+							<vue-flatpickr class="form-control appear-not-readonly"
+								name="case_date">
+							</vue-flatpickr>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label class="containing-label">
+							Comments
+							<textarea class="form-control" name="comment">
+							</textarea>
+						</label>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+		<input type="hidden" name="details_schema_id" value="{{ $detailsSchema->id }}" />
+		<section class="case-details"></section>
+
+		<button type="submit" class="btn btn-primary center-block">
+			<span class="glyphicon glyphicon-plus"></span>
+			Add entry
+		</button>
+	</form>
+
 </div>
-<div class="container body-block collapse" id="add-case-log-entry-container">
-	<button type="button" class="close hide-body-block-button" aria-label="Close">
-		<span aria-hidden="true">&minus;</span>
-	</button>
-	@include("case-log.add-entry")
 	@endif
-</div>
+
 @stop
 
 @push('scripts')
@@ -86,71 +141,9 @@
 
 		createCaseLog('main', propsData);
 
-		propsData.detailsSchema.schema.forEach(function(schema){
-			schema.subsections.forEach(function(subsection){
-				var option = document.createElement("option");
-				option.appendChild(document.createTextNode(subsection.name));
-				document.querySelector("#case-log-details-report-name")
-					.appendChild(option);
-			});
-		});
-
 	@if($canLog)
-		$("#add-case-log-entry-container .datetimepicker").datetimepicker({
-			defaultDate: moment(),
-			stepping: 1440,
-			format: "M/D/Y"
-		});
-
-		renderCaseLogDetailsSchema(propsData.detailsSchema.schema, undefined, document.querySelector("#case-entry-form .case-details"));
+		renderCaseLogDetailsSchema(propsData.detailsSchema.schema, undefined, document.querySelector(".case-details"));
 	@endif
 
-		$("#add-case-log-button").click(function(){
-			var form = $("#case-entry-form");
-			form.parent().velocity("slideDown");
-		});
-
-		$("#case-entry-form").submit(function(event){
-			event.preventDefault();
-			try {
-				var form = $(this);
-				var button = $(this).find("button[type='submit']");
-				button.prop("disabled", true).addClass("disabled");
-				var caseDate = $("#add-case-log-entry-container .datetimepicker")
-					.data("DateTimePicker").date();
-				if(!caseDate)
-					throw new Error("Invalid date");
-				$(this).find("input[name='case_date']")
-					.val(caseDate.format("Y-MM-DD"));
-
-				var data = $(this).serializeArray();
-				var action = $(this).attr("action");
-				var method = $(this).attr("method");
-				$.ajax({
-					url: action,
-					method: method,
-					data: data
-				}).done(function(response){
-					if(response === "success"){
-						caseLogTable.ajax.reload(runCaseLogsReport);
-						form[0].reset();
-						form.parent().velocity("slideUp");
-					} else {
-						appendAlert("There was a problem saving the entry, please reload the page and try again. "
-							+ "If this continues please let me know at {{ config("app.admin_email") }}.", form.parent());
-					}
-				}).fail(function(err){
-					appendAlert("There was a problem saving the entry, please reload the page and try again. "
-						+ "If this continues please let me know at {{ config("app.admin_email") }}.", form.parent());
-				}).always(function(){
-					button.prop("disabled", false).removeClass("disabled");
-				});
-			} catch(e){
-				var alertMessage = "There was a problem submitting the entry, please check your selections. ";
-				if(e.message === "Invalid date")
-					alertMessage = "Invalid date, please use the picker or make sure it's formatted as (MM/DD/YYYY). ";
-				appendAlert(alertMessage + "If this continues please let me know at {{ config("app.admin_email") }}.", form.parent());
-			}
-		});
 	</script>
 @endpush

@@ -1,13 +1,17 @@
 import Vue from 'vue';
+import VueFlatpickr from '@jacobmischka/vue-flatpickr';
+import '@jacobmischka/vue-flatpickr/theme/flatpickr.min.css';
 
 import HasAlerts from 'vue-mixins/HasAlerts.js';
 
 import ComponentList from 'vue-components/ComponentList.vue';
+import ShowHideButton from 'vue-components/ShowHideButton.vue';
 
 import CaseLogs from 'vue-components/CaseLog/CaseLogs.vue';
 
 import {
 	getFetchHeaders,
+	okOrThrow,
 	jsonOrThrow,
 	userIsType
 } from 'modules/utils.js';
@@ -37,12 +41,23 @@ export function createCaseLog(el, propsData) {
 			return {
 				caseLogs: [],
 				show: {
-					charts: false
+					charts: false,
+					addCaseLog: false
 				}
 			};
 		},
 
 		computed: {
+			subsections() {
+				let subsections = [];
+				for (let schema of this.detailsSchema.schema) {
+					for (let subsection of schema.subsections) {
+						subsections.push(subsection);
+					}
+				}
+
+				return subsections;
+			},
 			isAdmin() {
 				return userIsType(this.user, 'admin');
 			},
@@ -102,12 +117,33 @@ export function createCaseLog(el, propsData) {
 				this.caseLogs = this.caseLogs.filter(caseLog =>
 					caseLog.id !== id
 				);
+			},
+			addCaseLog(event) {
+				event.preventDefault();
+
+				let body = new FormData(this.$refs.addLogForm);
+				fetch('/case_logs', {
+					method: 'POST',
+					headers: getFetchHeaders(),
+					credentials: 'same-origin',
+					body
+				}).then(okOrThrow).then(() => {
+					this.fetchCaseLogs();
+				}).catch(err => {
+					console.error(err);
+					this.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem adding the case log entry'
+					});
+				});
 			}
 		},
 
 		components: {
 			ComponentList,
-			CaseLogs
+			ShowHideButton,
+			CaseLogs,
+			VueFlatpickr
 		}
 	});
 }
