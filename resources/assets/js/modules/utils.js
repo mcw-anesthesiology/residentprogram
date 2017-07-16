@@ -67,17 +67,28 @@ export function escapeCsv(text) {
 	return `"${striptags(text)}"`;
 }
 
-export function getFetchHeaders() {
-	const csrfToken = document.querySelector('meta[name="csrf-token"]')
-		.getAttribute('content');
+export function getFetchHeaders(options = {}) {
+	const csrfToken = getCsrfToken();
+
+	let contentType = ('contentType' in options)
+		? options.contentType
+		: 'application/json';
 
 	let headers = new Headers();
 	headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-	headers.append('Content-Type', 'application/json');
+
+	if (contentType)
+		headers.append('Content-Type', contentType);
+
 	headers.append('X-Requested-With', 'XMLHttpRequest');
 	headers.append('X-CSRF-TOKEN', csrfToken);
 
 	return headers;
+}
+
+export function getCsrfToken() {
+	return document.querySelector('meta[name="csrf-token"]')
+		.getAttribute('content');
 }
 
 export function okOrThrow(response) {

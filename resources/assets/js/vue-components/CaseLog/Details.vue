@@ -75,6 +75,12 @@ export default {
 		this.renderDetails();
 	},
 
+	watch: {
+		caseLog() {
+			this.renderDetails();
+		}
+	},
+
 	methods: {
 		renderDetails() {
 			$(this.$refs.container).find("select[name='location_id']").val(this.caseLog.location_id).change();
