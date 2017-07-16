@@ -4,6 +4,13 @@
 				:case-logs="caseLogs">
 		</case-log-details-report>
 
+		<div class="text-center">
+			<show-hide-button class="btn btn-info" v-model="show.charts">
+				charts
+				<template slot="glyph"></template>
+			</show-hide-button>
+		</div>
+
 		<data-table
 			:thead="thead"
 			:config="tconfig"
@@ -15,12 +22,6 @@
 			:locations="locations"
 			@close="closeCaseLog">
 		</case-log-details>
-
-		<div class="text-center">
-			<show-hide-button v-model="show.charts">
-				charts
-			</show-hide-button>
-		</div>
 	</div>
 </template>
 
@@ -47,6 +48,10 @@ export default {
 		locations: {
 			type: Array,
 			required: true
+		},
+		removable: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
@@ -73,6 +78,7 @@ export default {
 			let removeCaseLog = this.removeCaseLog;
 			let renderCaseLog = this.renderCaseLog;
 			let alerts = this.alerts;
+			let removable = this.removable;
 
 			let columns = [
 				{data: 'id'},
@@ -89,24 +95,33 @@ export default {
 					orderable: false,
 					searchable: false,
 					render(){
-						return `
-						<span>
-							<button class="btn btn-sm btn-info"
+						let parts = [];
+						parts.push('<span>');
+						parts.push(
+							`<button class="btn btn-sm btn-info"
 									@click="viewCaseLog">
 								<span class="glyphicon glyphicon-list-alt"></span>
 								View
-							</button>
-							<confirmation-button class="btn btn-sm"
-									unpressed-class="btn-danger"
-									pressed-class="btn-warning"
-									@click="deleteCaseLog">
-								<span class="glyphicon glyphicon-remove"></span>
-								Delete
-							</confirmation-button>
-						</span>
-						`;
+							</button>`
+						);
+
+						if (removable)
+							parts.push(
+								`<confirmation-button class="btn btn-sm"
+										unpressed-class="btn-danger"
+										pressed-class="btn-warning"
+										@click="deleteCaseLog">
+									<span class="glyphicon glyphicon-remove"></span>
+									Delete
+								</confirmation-button>`
+							);
+
+						parts.push('</span>');
+						return parts.join(' ');
 					},
 					createdCell(el, caseLog){
+						el.className = 'text-right';
+
 						new Vue({
 							el,
 							methods: {
@@ -143,9 +158,6 @@ export default {
 				}
 			];
 
-			let viewDetailsContainer = this.$refs.detailsContainer;
-			console.log(viewDetailsContainer);
-
 			return {
 				columns,
 				order: [[0, 'desc']]
@@ -156,6 +168,9 @@ export default {
 	methods: {
 		renderCaseLog(caseLog) {
 			this.detailsCaseLog = caseLog;
+		},
+		removeCaseLog(caseLogId) {
+			this.$emit('delete', caseLogId);
 		},
 		closeCaseLog() {
 			this.detailsCaseLog = null;

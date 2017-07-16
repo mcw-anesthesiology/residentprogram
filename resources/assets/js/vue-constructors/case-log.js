@@ -113,6 +113,24 @@ export function createCaseLog(el, propsData) {
 					});
 				});
 			},
+			deleteCaseLog(caseLogId) {
+				fetch(`/case_logs/${caseLogId}`, {
+					method: 'POST', // DELETE
+					headers: getFetchHeaders(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'DELETE'
+					})
+				}).then(okOrThrow).then(() => {
+					this.removeCaseLog(caseLogId);
+				}).catch(err => {
+					console.error(err);
+					this.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> there was a problem deleting the case log entry'
+					});
+				});
+			},
 			removeCaseLog(id) {
 				this.caseLogs = this.caseLogs.filter(caseLog =>
 					caseLog.id !== id
@@ -124,10 +142,12 @@ export function createCaseLog(el, propsData) {
 				let body = new FormData(this.$refs.addLogForm);
 				fetch('/case_logs', {
 					method: 'POST',
-					headers: getFetchHeaders(),
+					headers: getFetchHeaders({contentType: null}),
 					credentials: 'same-origin',
 					body
 				}).then(okOrThrow).then(() => {
+					this.$refs.addLogForm.reset();
+					this.show.addCaseLog = false;
 					this.fetchCaseLogs();
 				}).catch(err => {
 					console.error(err);

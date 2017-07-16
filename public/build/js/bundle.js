@@ -23,23 +23,24 @@ return webpackJsonp([9],{
 /* harmony export (immutable) */ __webpack_exports__["C"] = nl2br;
 /* harmony export (immutable) */ __webpack_exports__["e"] = escapeCsv;
 /* harmony export (immutable) */ __webpack_exports__["b"] = getFetchHeaders;
+/* harmony export (immutable) */ __webpack_exports__["D"] = getCsrfToken;
 /* harmony export (immutable) */ __webpack_exports__["d"] = okOrThrow;
 /* harmony export (immutable) */ __webpack_exports__["c"] = jsonOrThrow;
 /* harmony export (immutable) */ __webpack_exports__["z"] = fetchCompetencies;
 /* harmony export (immutable) */ __webpack_exports__["l"] = fetchMilestoneGroups;
 /* harmony export (immutable) */ __webpack_exports__["y"] = fetchMilestones;
 /* harmony export (immutable) */ __webpack_exports__["A"] = groupMilestones;
-/* harmony export (immutable) */ __webpack_exports__["D"] = fetchUserGroups;
+/* harmony export (immutable) */ __webpack_exports__["E"] = fetchUserGroups;
 /* harmony export (immutable) */ __webpack_exports__["w"] = fetchUsers;
 /* harmony export (immutable) */ __webpack_exports__["r"] = groupUsers;
-/* harmony export (immutable) */ __webpack_exports__["E"] = fetchForms;
+/* harmony export (immutable) */ __webpack_exports__["F"] = fetchForms;
 /* harmony export (immutable) */ __webpack_exports__["x"] = fetchFormGroups;
 /* harmony export (immutable) */ __webpack_exports__["v"] = groupForms;
 /* harmony export (immutable) */ __webpack_exports__["m"] = sortSelect2Objects;
-/* harmony export (immutable) */ __webpack_exports__["F"] = sortEmptyLast;
+/* harmony export (immutable) */ __webpack_exports__["G"] = sortEmptyLast;
 /* harmony export (immutable) */ __webpack_exports__["i"] = sortNumbers;
 /* harmony export (immutable) */ __webpack_exports__["t"] = sortPropNumbers;
-/* harmony export (immutable) */ __webpack_exports__["G"] = sortDates;
+/* harmony export (immutable) */ __webpack_exports__["H"] = sortDates;
 /* harmony export (immutable) */ __webpack_exports__["p"] = sortPropDates;
 /* harmony export (immutable) */ __webpack_exports__["f"] = sortIgnoreCase;
 /* harmony export (immutable) */ __webpack_exports__["n"] = sortPropIgnoreCase;
@@ -145,15 +146,25 @@ function escapeCsv(text) {
 }
 
 function getFetchHeaders() {
-	var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+	var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+	var csrfToken = getCsrfToken();
+
+	var contentType = 'contentType' in options ? options.contentType : 'application/json';
 
 	var headers = new Headers();
 	headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-	headers.append('Content-Type', 'application/json');
+
+	if (contentType) headers.append('Content-Type', contentType);
+
 	headers.append('X-Requested-With', 'XMLHttpRequest');
 	headers.append('X-CSRF-TOKEN', csrfToken);
 
 	return headers;
+}
+
+function getCsrfToken() {
+	return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 }
 
 function okOrThrow(response) {
@@ -2608,7 +2619,7 @@ module.exports = function(it){
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)(module), __webpack_require__(22)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36)(module), __webpack_require__(22)))
 
 /***/ }),
 
@@ -4118,23 +4129,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "nl2br", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["C"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "escapeCsv", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["e"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getFetchHeaders", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["b"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getCsrfToken", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["D"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "okOrThrow", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["d"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "jsonOrThrow", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["c"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["z"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchMilestoneGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["l"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchMilestones", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["y"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupMilestones", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["A"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUserGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["D"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUserGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["E"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["w"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupUsers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["r"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["E"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["F"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchFormGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["x"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["v"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortSelect2Objects", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["m"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortEmptyLast", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["F"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortEmptyLast", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["G"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortNumbers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["i"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortPropNumbers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["t"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortDates", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["G"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortDates", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["H"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortPropDates", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["p"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["f"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortPropIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["n"]; });
@@ -4148,7 +4160,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 35:
+/***/ 355:
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(616).polyfill()
+
+
+/***/ }),
+
+/***/ 36:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -4173,14 +4193,6 @@ module.exports = function(module) {
 	}
 	return module;
 };
-
-
-/***/ }),
-
-/***/ 355:
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(616).polyfill()
 
 
 /***/ }),
@@ -19754,7 +19766,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36)(module)))
 
 /***/ }),
 

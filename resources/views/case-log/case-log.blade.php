@@ -14,19 +14,22 @@
 	<h1>Case Log</h1>
 	<div class="row">
 		<div class="col-md-4 col-md-offset-8">
-			<label for="case-log-details-report-name">Report on</label>
-			<select class="form-control" id="case-log-details-report-name">
-				<option v-for="subsection of subsections">
-					@{{ subsection.name }}
-				</option>
-			</select>
+			<label class="containing-label" v-cloak>
+				Report on
+				<select class="form-control">
+					<option v-for="subsection of subsections">
+						@{{ subsection.name }}
+					</option>
+				</select>
+			</label>
 		</div>
 	</div>
 	<section id="case-log-stats-container"></section>
 
 	<component-list v-if="isAdmin"
 			:fields="caseLogFields"
-			:items="groupedCaseLogs">
+			:items="groupedCaseLogs"
+			v-cloak>
 		<template scope="user">
 			<li>
 				<div class="panel panel-default">
@@ -37,14 +40,16 @@
 					</div>
 					<div class="panel-body">
 						<case-logs :case-logs="user.caseLogs"
-							:locations="locations">
+							:locations="locations"
+							removable
+							@delete="deleteCaseLog">
 						</case-logs>
 					</div>
 				</div>
 			</li>
 		</template>
 	</component-list>
-	<div v-else>
+	<div v-else v-cloak>
 		<case-logs :case-logs="caseLogs"
 			:locations="locations">
 		</case-logs>
@@ -52,7 +57,7 @@
 
 	@if($canLog)
 	<show-hide-button class="btn btn-primary center-block"
-			v-model="show.addCaseLog">
+			v-model="show.addCaseLog" v-cloak>
 		entry
 		<template slot="true">
 			Cancel add
@@ -66,7 +71,7 @@
 </div>
 
 	@if($canLog)
-<div class="container body-block" v-show="show.addCaseLog">
+<div class="container body-block" v-show="show.addCaseLog" v-cloak>
 
 	<h2>Add entry</h2>
 
