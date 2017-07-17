@@ -25,10 +25,13 @@ class FormReader{
 			$questionType = $attrs["type"];
 			$questionName = $attrs["name"];
 			$questionWeight = $attrs["weight"];
-			if(isset($attrs["required"]))
+			if(isset($attrs["required"])) {
+				$required = "required";
 				$panelType = "panel-primary";
-			else
+			} else {
+				$required = "";
 				$panelType = "panel-default";
+			}
 			$result .= "<div class='question panel {$panelType}' id='{$questionName}'>";
 			$questionHasDescriptions = false;
 			$result .= "<input type='hidden' name='{$questionName}:weight' value='{$questionWeight}' />";
