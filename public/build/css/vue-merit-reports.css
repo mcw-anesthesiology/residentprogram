@@ -382,6 +382,10 @@ confirmation-button[data-v-8aa3b4f0] {
 .print-view-checklist-section tbody td[data-v-b9654d2c] {
 	padding: 0.5em 0 0.5em 1em;
 }
+.print-view-checklist-section[data-v-b9654d2c] {
+	margin: 2em 0.5em;
+	width: 100%;
+}
 
 div > .print-view-checklist-section {
 	margin-top: 1.5em;
@@ -402,6 +406,12 @@ div > .print-view-checklist-section {
 }
 .print-view-checklist-section .print-view-checklist-section .print-view-checklist-section > thead > tr > th {
 	font-size: 1.5em;
+}
+.print-view-checklist-item-row {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.print-view-checklist-item-row:nth-child(even) {
+	background-color: rgba(0, 0, 0, 0.05);
 }
 
 table[data-v-0969ae44] {

@@ -13,16 +13,29 @@
 	<div class="container body-block root-checklist">
 		<div class="form-summary panel panel-default">
 			<div class="panel-body">
-				<div class="row">
-					<div class="col-sm-6">
-						<small>Report period</small>
-						<rich-date-range :dates="dates" />
-					</div>
-					<div class="col-sm-6">
-						<small>Checked items</small>
-						@{{ checkedItems }}
-					</div>
-				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Report period</th>
+							<th>Checked items</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								@{{ user.full_name }}
+							</td>
+							<td>
+								<rich-date-range :dates="dates" />
+							</td>
+							<td>
+								@{{ checkedItems }}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
 			</div>
 		</div>
 

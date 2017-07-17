@@ -163,9 +163,16 @@ export function listItemIsValid(listItem) {
 	return true;
 }
 
-export function sectionHasAnItem(section) {
+export function itemIsChecked(item) {
 	// TODO
-	// for (let item of section.items) {
-	// 	if
-	// }
+	switch (item.type) {
+		case 'section':
+			return item.items.some(item => itemIsChecked(item));
+		case 'item':
+			if (item.checked)
+				return true;
+			break;
+	}
+
+	return false;
 }
