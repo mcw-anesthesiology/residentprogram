@@ -9,7 +9,7 @@
 		@include('merit-report.faculty')
 	@endif
 
-	@if($user->isType('admin') || $user->usesFeature('FACULTY_EVALS'))
+	@if($user->isType('admin') || $user->usesFeature('FACULTY_MERIT'))
 		@include("merit-report.admin-supervisor")
 	@endif
 @stop
