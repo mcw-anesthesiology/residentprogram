@@ -16,7 +16,7 @@
 		<div class="col-md-4 col-md-offset-8">
 			<label class="containing-label" v-cloak>
 				Report on
-				<select class="form-control">
+				<select class="form-control" id="case-log-details-report-name">
 					<option v-for="subsection of subsections">
 						@{{ subsection.name }}
 					</option>
