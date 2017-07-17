@@ -117,9 +117,7 @@ export default function createFacultyMeritReports(el, propsData) {
 			fetchPastMeritReports() {
 
 				let query = $.param({
-					where: {
-						user_id: this.user.id
-					},
+					user_id: this.user.id,
 					with: {
 						form: true
 					}
