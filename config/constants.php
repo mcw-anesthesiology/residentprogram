@@ -1,7 +1,7 @@
 <?php
 
 return [
-	
+
 	'FLAGGED_ACTIONS' => [
 		'date' => 'Change date',
 		'form' => 'Change form',
@@ -13,13 +13,15 @@ return [
 	'FEATURES' => [
 		'CASE_LOG' => 'CASE_LOG',
 		'RESIDENT_EVALS' => 'RESIDENT_EVALS',
-		'FACULTY_EVALS' => 'FACULTY_EVALS'
+		'FACULTY_EVALS' => 'FACULTY_EVALS',
+		'FACULTY_MERIT' => 'FACULTY_MERIT'
 	],
 
 	'FEATURE_NAMES' => [
 		'CASE_LOG' => 'Case Log',
 		'RESIDENT_EVALS' => 'View ALL resident evaluations',
-		'FACULTY_EVALS' => 'Anonymized faculty evaluations'
+		'FACULTY_EVALS' => 'Anonymized faculty evaluations',
+		'FACULTY_MERIT' => 'View faculty merit reports'
 	],
 
 	'MULTIPLE_CHOICE_QUESTION_TYPES' => [
@@ -27,13 +29,13 @@ return [
 		'radiononnumeric',
 		'checkbox'
 	],
-	
+
 	'EVALUATION_DATE_PERIODS' => [
 		'month',
 		'quarter',
 		'year'
 	],
-	
+
 	'MERIT_REPORT_TYPES' => [
 		'faculty_yearly' => 'Yearly faculty merit report'
 	]

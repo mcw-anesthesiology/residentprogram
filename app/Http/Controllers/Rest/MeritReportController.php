@@ -35,10 +35,10 @@ class MeritReportController extends RestController
 		$this->middleware('auth');
 		$this->middleware('type:admin')->only('destroy');
 
-		// Only allow admins and FACULTY_EVALS users to show all by user
+		// Only allow admins and FACULTY_MERIT users to show all by user
 		$this->middleware(function ($request, $next) {
 			$user = Auth::user();
-			if ($user->isType('admin') || $user->usesFeature('FACULTY_EVALS'))
+			if ($user->isType('admin') || $user->usesFeature('FACULTY_MERIT'))
 				return $next($request);
 
 			return response('Not allowed.', 403);

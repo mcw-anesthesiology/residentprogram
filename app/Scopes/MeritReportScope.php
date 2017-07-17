@@ -12,7 +12,7 @@ class MeritReportScope implements Scope {
 	public function apply(Builder $builder, Model $model){
 		$user = Auth::user();
 
-		if(!empty($user) && !$user->isType('admin') && !$user->usesFeature('FACULTY_EVALS'))
+		if(!empty($user) && !$user->isType('admin') && !$user->usesFeature('FACULTY_MERIT'))
 			return $builder->where('user_id', $user->id);
 
 		return $builder;
