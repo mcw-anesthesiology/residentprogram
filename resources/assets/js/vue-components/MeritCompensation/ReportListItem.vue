@@ -29,6 +29,12 @@
 					{{ viewEditText }}
 				</button>
 
+				<button type="button" class="btn btn-info btn-xs"
+						@click="$emit('summary', id)">
+					<span class="glyphicon glyphicon-list-alt"></span>
+					View summary
+				</button>
+
 				<template v-if="userIsAdmin">
 					<confirmation-button v-if="status === 'complete'"
 							class="btn btn-xs btn-primary"

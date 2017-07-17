@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed);@import url(https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed);
+@import url(https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed);@import url(https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed);@import url(https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed);
 .alert[data-v-8d03363a] {
 	page-break-inside: avoid;
 }
@@ -376,6 +376,59 @@ confirmation-button[data-v-8aa3b4f0] {
 }
 .bullet.filled[data-v-7b09133f] {
 	background-color: rgba(0, 0, 0, 0.75);
+}
+
+small[data-v-02d100b1] {
+	font-size: 0.75em;
+	color: rgba(0, 0, 0, 0.55);
+	display: block;
+}
+.notes-container[data-v-02d100b1] {
+	margin-top: 2em;
+}
+
+section[data-v-5844d29e] {
+	font-size: 0.95em;
+	padding: 0 1.5em;
+	margin: 1.5em 0;
+	border-left: 2px solid rgba(0, 0, 0, 0.15);
+}
+section.page[data-v-5844d29e] {
+	margin: 0;
+	border: none;
+}
+section h1[data-v-5844d29e] {
+	font-size: 1.75em;
+	font-family: 'Roboto', sans-serif;
+	margin: 0 0 1em;
+}
+section.page > h1[data-v-5844d29e] {
+	font-size: 2.5em;
+	font-family: 'Roboto Condensed', sans-serif;
+}
+@media (min-width: 768px) {
+section[data-v-5844d29e] {
+		padding: 0 2.5em;
+		margin: 2.5em 0;
+}
+section h1[data-v-5844d29e] {
+		font-size: 2em;
+}
+section.page > h1[data-v-5844d29e] {
+		font-size: 3em;
+}
+}
+@media (min-width: 1200px) {
+section[data-v-5844d29e] {
+		padding: 0 4em;
+		margin: 4em 0;
+}
+section h1[data-v-5844d29e] {
+		font-size: 2.25em;
+}
+section.page > h1[data-v-5844d29e] {
+		font-size: 4em;
+}
 }
 
 .print-view-checklist-section thead th[data-v-b9654d2c],
