@@ -15,6 +15,7 @@
 								<merit-report-list-item v-bind="item"
 									:user="user"
 									@click="handleReportClick"
+									@summary="handleViewSummary"
 									@change="$emit('change')" />
 							</template>
 						</component-list>
@@ -30,6 +31,12 @@
 						@save="handleReportSave"
 						@submit="handleReportSubmit" />
 				</div>
+				<div v-if="viewedReportSummary" class="row">
+					<merit-report-summary v-bind="viewedReportSummary"
+						:title="viewedReportSummary.form.name"
+						:subject-name="full_name"
+						@close="handleCloseSummary" />
+				</div>
 
 				<alert-list v-model="alerts" />
 			</div>
@@ -43,6 +50,7 @@ import HasAlerts from 'vue-mixins/HasAlerts.js';
 import ComponentList from 'vue-components/ComponentList.vue';
 import MeritReportListItem from './ReportListItem.vue';
 import MeritReport from './Report.vue';
+import MeritReportSummary from './Summary.vue';
 
 import { getFetchHeaders, okOrThrow } from 'modules/utils.js';
 
@@ -67,6 +75,7 @@ export default {
 	data() {
 		return {
 			viewedReport: null,
+			viewedReportSummary: null,
 			saving: false,
 			savingSuccessful: false
 		};
@@ -91,6 +100,11 @@ export default {
 			if (this.viewedReport)
 				this.viewedReport = meritReports.find(meritReport =>
 					meritReport.id === this.viewedReport.id);
+
+			if (this.viewedReportSummary)
+				this.viewedReportSummary = meritReports.find(meritReport =>
+					meritReport.id === this.viewedReportSummary.id
+				);
 		}
 	},
 
@@ -101,6 +115,14 @@ export default {
 		},
 		handleReportClose() {
 			this.viewedReport = null;
+		},
+		handleViewSummary(reportId) {
+			this.viewedReportSummary = this.merit_reports.find(meritReport =>
+				meritReport.id === reportId
+			);
+		},
+		handleCloseSummary() {
+			this.viewedReportSummary = null;
 		},
 		handleReportSave(changes, closeAfterward = true) {
 			this.updateReport(changes).then(() => {
@@ -144,7 +166,8 @@ export default {
 	components: {
 		ComponentList,
 		MeritReportListItem,
-		MeritReport
+		MeritReport,
+		MeritReportSummary
 	}
 };
 </script>
