@@ -62,9 +62,32 @@
 					</label>
 				</div>
 			</div>
+
+			<div v-if="canScoreQuestion && scoreQuestion && valuesForAllOptions && (totalAverageScore || subjectAverageScore)"
+					class="scores-container">
+				<div v-if="totalAverageScore" class="score-container">
+					<small>Total average</small>
+					<span class="score">
+						{{ round(totalAverageScore, 2) }}
+					</span>
+				</div>
+				<div v-if="subjectAverageScore" class="score-container">
+					<small>Subject average</small>
+					<span class="score">
+						{{ round(subjectAverageScore, 2) }}
+					</span>
+				</div>
+				<div v-if="subjectAverageScore && totalScores" class="score-container">
+					<small>Subject number of standard deviations</small>
+					<span class="score">
+						<rich-number-std-dev :value="subjectAverageScore"
+							:values="totalScores" />
+					</span>
+				</div>
+			</div>
 		</div>
 
-		<div v-if="hasDescriptions || options" class="question-footer panel-footer">
+		<div class="question-footer panel-footer">
 			<div class="question-description-toggle">
 				<show-hide-button class="btn btn-info" :value="hide"
 						@input="$emit('hide', arguments[0])">
@@ -104,6 +127,49 @@
 
 					<template slot="glyph"></template>
 				</show-hide-button>
+
+				<show-hide-button v-if="canScoreQuestion" class="btn btn-info"
+						v-model="showScoreOptions">
+					score options
+				</show-hide-button>
+			</div>
+			<div v-if="canScoreQuestion && showScoreOptions" class="row score-options-row">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<label>
+								<input type="checkbox" v-model="scoreQuestion" />
+								Compute average
+							</label>
+						</div>
+					</div>
+					<div class="panel-body" v-if="scoreQuestion">
+						<div v-if="questionType === 'radiononnumeric'" class="row">
+							Question values
+							<div v-for="option of options" class="form-horizontal">
+								<span class="option-text">
+									{{ option.text }}
+								</span>
+								<div class="col-sm-4">
+									<label>
+										<input type="checkbox" :checked="disregardOption[option.value]"
+											@change="handleDisregardOptionChange(option, $event)" />
+										Disregard responses
+									</label>
+								</div>
+								<div class="col-sm-8">
+									<label class="containing-label">
+										Value
+										<input type="number" class="form-control"
+											:disabled="disregardOption[option.value]"
+											:value="customOptionValues[option.value]"
+											@input="handleCustomOptionValueChange(option, $event)" />
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -114,10 +180,13 @@ import FormReaderQuestionOption from 'vue-components/FormReader/FormReaderQuesti
 import FormReportQuestionOptionStats from './FormReportQuestionOptionStats.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import ShowHideButton from '../ShowHideButton.vue';
+import RichNumberStdDev from '../RichNumberStdDev.vue';
 
+import round from 'lodash/round';
 import snarkdown from 'snarkdown';
 
 import { CHART_COLORS } from 'modules/constants.js';
+import { average } from 'modules/math-utils.js';
 import { camelCaseToWords, ucfirst } from 'modules/utils.js';
 
 export default {
@@ -155,10 +224,78 @@ export default {
 		return {
 			showDescriptions: false,
 			showChart: false,
-			chartType: 'pie'
+			chartType: 'pie',
+
+			showScoreOptions: false,
+			scoreQuestion: false,
+			customOptionValues: {
+				'strongly-disagree': 0,
+				'disagree': 1,
+				'undecided': 2,
+				'agree': 3,
+				'strongly-agree': 4
+			},
+			disregardOption: {
+				'n-a': true
+			}
 		};
 	},
 	computed: {
+		canScoreQuestion() {
+			return [
+				'radio',
+				'number',
+				'radiononnumeric'
+			].includes(this.questionType);
+		},
+		valuesForAllOptions() {
+			for (let option of this.options) {
+				if (this.getOptionValue(option) == null && !this.shouldDisregardOption(option))
+					return false;
+			}
+
+			return true;
+		},
+		totalScores() {
+			if (!this.valuesForAllOptions)
+				return;
+
+			let scores = [];
+
+			for (let response of Object.keys(this.averageResponses)) {
+				if (!this.disregardOption[response]) {
+					let optionArr = Array(Number(this.averageResponses[response]))
+						.fill(this.getValueValue(response));
+					scores = scores.concat(optionArr);
+				}
+			}
+
+			return scores;
+		},
+		totalAverageScore() {
+			if (!this.valuesForAllOptions)
+				return;
+
+			return average(this.totalScores);
+		},
+		subjectAverageScore() {
+			if (!this.valuesForAllOptions)
+				return;
+
+			let subjectResponses = 0;
+			let sum = this.options.reduce((acc, option) => {
+				if (this.shouldDisregardOption(option))
+					return acc;
+
+				let responses = (this.subjectResponses && option.value in this.subjectResponses)
+					? this.subjectResponses[option.value]
+					: 0;
+				subjectResponses += responses;
+				return acc + (responses * this.getOptionValue(option));
+			}, 0);
+
+			return (sum / subjectResponses);
+		},
 		hasDescriptions() {
 			if (!this.options)
 				return false;
@@ -212,13 +349,79 @@ export default {
 	methods: {
 		camelCaseToWords,
 		snarkdown,
-		ucfirst
+		ucfirst,
+		round,
+		shouldDisregardValue(value) {
+			return this.disregardOption[value];
+		},
+		shouldDisregardOption(option) {
+			return this.shouldDisregardValue(option.value);
+		},
+		getValueValue(value) {
+			if (!this.canScoreQuestion)
+				return;
+
+			if (
+				value in this.customOptionValues
+				&& !Number.isNaN(this.customOptionValues[value])
+			)
+				return Number(this.customOptionValues[value]);
+
+			if (!Number.isNaN(value))
+				return Number(value);
+		},
+		getOptionValue(option) {
+			return this.getValueValue(option.value);
+		},
+		handleDisregardOptionChange(option, event) {
+			this.disregardOption = Object.assign({}, this.disregardOption, {[option.value]: event.target.checked});
+		},
+		handleCustomOptionValueChange(option, event) {
+			this.customOptionValues = Object.assign({}, this.customOptionValues, {[option.value]: Number(event.target.value)});
+		}
 	},
 	components: {
 		FormReaderQuestionOption,
 		FormReportQuestionOptionStats,
 		ChartjsChart,
-		ShowHideButton
+		ShowHideButton,
+		RichNumberStdDev
 	}
 };
 </script>
+
+<style scoped>
+	.option-text {
+		font-weight: bold;
+		font-size: 1.25em;
+	}
+
+	.score-options-row {
+		text-align: left;
+	}
+
+	.scores-container {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+	}
+
+	.score-container {
+		display: block;
+		border: 1px solid rgba(0, 0, 0, 0.15);
+		padding: 2em;
+		font-size: 1.25em;
+		border-radius: 1px;
+	}
+
+	.score-container small {
+		display: block;
+		color: rgba(0, 0, 0, 0.35);
+	}
+
+	.score-container .score {
+		display: block;
+		text-align: center;
+		font-size: 1.25em;
+	}
+</style>
