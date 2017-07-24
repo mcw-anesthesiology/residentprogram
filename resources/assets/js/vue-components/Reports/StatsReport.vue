@@ -33,11 +33,11 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<slot></slot>
-		
+
 		<alert-list v-model="alerts" />
-		
+
 		<button type="button" class="export-button btn btn-primary center-block"
 				@click="exportPdf">
 			Export PDF
@@ -127,7 +127,7 @@ export default {
 			},
 			tableHeight: '500px',
 			chartHeight: '625px',
-			
+
 			alerts: []
 		};
 	},
@@ -140,10 +140,10 @@ export default {
 				'noneCompleted',
 				'lastCompleted',
 			];
-			
+
 			if(this.report.statsType === 'evaluator')
 				fields.push('averageCompletionTimes');
-				
+
 			return fields;
 		},
 		listTableConfig(){
@@ -198,7 +198,7 @@ export default {
 		ratiosData(){
 			if(!this.report.userStats || this.report.userStats.length === 0)
 				return [];
-			
+
 			return this.report.userStats.map(stat => [
 				stat.name,
 				stat.requested,
@@ -211,19 +211,19 @@ export default {
 		},
 		ratiosGraphData(){
 			let color = Color(CHART_COLORS.OTHER[0]);
-			let backgroundColor = color.clone().alpha(0.2);
+			let backgroundColor = color.alpha(0.2);
 			return {
 				labels: this.report.userStats.map(userStat => userStat.name),
 				datasets: [
 					{
 						label: 'Completed / Requested %',
-						backgroundColor: backgroundColor.rgbString(),
-						borderColor: color.rgbString(),
+						backgroundColor: backgroundColor.rgb().string(),
+						borderColor: color.rgb().string(),
 						borderWidth: 1,
-						pointBackgroundColor: color.rgbString(),
+						pointBackgroundColor: color.rgb().string(),
 						pointBorderColor: '#fff',
 						pointHoverBackgroundColor: '#fff',
-						pointHoverBorderColor: color.rgbString(),
+						pointHoverBorderColor: color.rgb().string(),
 						data: this.report.userStats.map(userStat => userStat.ratio)
 					}
 				]
@@ -340,9 +340,9 @@ export default {
 				import('../../vfs_fonts.json')
 			]).then(([pdfmake, vfs]) => {
 				pdfmake.vfs = vfs;
-				
+
 				const filename = `${this.title} - ${new Date().toLocaleString()}`;
-				
+
 				let reportParamHeader = ['Start date', 'End date'];
 				let reportParamBody = [
 					this.report.startDate.date
@@ -352,12 +352,12 @@ export default {
 						? this.report.endDate.date.split(' ')[0]
 						: this.report.endDate,
 				];
-				
+
 				if(this.report.trainingLevel){
 					reportParamHeader.push('Training level');
 					reportParamBody.push(renderTrainingLevel(this.report.trainingLevel));
 				}
-				
+
 				let content = [
 					{ text: this.title, style: 'title' },
 					{
@@ -371,7 +371,7 @@ export default {
 						style: 'table'
 					}
 				];
-				
+
 				if(this.ratiosData.length > 0)
 					content.push({
 						text: 'Ratios',
@@ -387,7 +387,7 @@ export default {
 						},
 						style: 'table'
 					});
-					
+
 				if(this.noRequestsData.length > 0)
 					content.push({
 						text: 'No requests',
@@ -404,7 +404,7 @@ export default {
 						},
 						style: 'table'
 					});
-					
+
 				if(this.noneCompletedData.length > 0)
 					content.push({
 						text: 'None completed',
@@ -421,7 +421,7 @@ export default {
 						},
 						style: 'table'
 					});
-					
+
 				if(this.lastCompletedData.length > 0)
 					content.push({
 						text: 'Last completed evaluation',
@@ -438,7 +438,7 @@ export default {
 						},
 						style: 'table'
 					});
-					
+
 				if(this.report.statsType === 'evaluator'
 						&& this.averageCompletionTimesData.length > 0)
 					content.push({
@@ -459,9 +459,9 @@ export default {
 						},
 						style: 'table'
 					});
-					
+
 				// TODO: Chart, improved styling
-				
+
 				const docDefinition = {
 					pageSize: 'LETTER',
 					content,
@@ -485,7 +485,7 @@ export default {
 						}
 					}
 				};
-				
+
 				pdfmake.createPdf(docDefinition).download(filename);
 			}).catch(err => {
 				console.error(err);
@@ -510,11 +510,11 @@ export default {
 		display: flex;
 		flex-wrap: wrap;
 	}
-	
+
 	.show-container div label {
 		margin: 0.5em 1em;
 	}
-	
+
 	.controls {
 		margin-bottom: 2em;
 	}
@@ -537,7 +537,7 @@ export default {
 	.list-chart-container-container {
 		overflow: auto;
 	}
-	
+
 	.export-button {
 		margin-top: 2em;
 	}
@@ -552,7 +552,7 @@ export default {
 		width: 5em;
 		margin-right: 0;
 	}
-	
+
 	.time-period-cell span {
 		margin-right: 1em;
 	}

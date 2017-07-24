@@ -121,7 +121,7 @@
 						Save chart images
 					</button>
 				</div>
-				
+
 			</section>
 
 		</template>
@@ -189,7 +189,7 @@ export default {
 			},
 			chartType: 'radar',
 			chartOrientation: 'vertical',
-			
+
 			alerts: []
 		};
 	},
@@ -200,14 +200,14 @@ export default {
 		trainingLevelDisplay(){
 			if(this.report.trainingLevel === 'all')
 				return;
-				
+
 			return renderTrainingLevel(this.report.trainingLevel);
 		},
 		valueMap(){
 			if(this.report.trainingLevel === 'fellow')
 				return FELLOWSHIP_VALUE_MAPS.get(this.subject.secondary_training_level)
 					|| FELLOWSHIP_VALUE_MAPS.get(null);
-				
+
 			return RESIDENT_VALUE_MAP;
 		},
 		milestoneCompetencyWidth(){
@@ -387,32 +387,32 @@ export default {
 		},
 		competencyChartData(){
 			let averageColor = Color(CHART_COLORS.AVERAGE);
-			let averageBackgroundColor = averageColor.clone().alpha(0.2);
+			let averageBackgroundColor = averageColor.alpha(0.2);
 
 			let subjectColor = Color(CHART_COLORS.SUBJECT);
-			let subjectBackgroundColor = subjectColor.clone().alpha(0.2);
+			let subjectBackgroundColor = subjectColor.alpha(0.2);
 			try {
 				return {
 					labels: Object.values(this.report.competencies),
 					datasets: [
 						{
 							label: 'Average Competency',
-							backgroundColor: averageBackgroundColor.rgbString(),
-							borderColor: averageColor.rgbString(),
-							pointBackgroundColor: averageColor.rgbString(),
+							backgroundColor: averageBackgroundColor.rgb().string(),
+							borderColor: averageColor.rgb().string(),
+							pointBackgroundColor: averageColor.rgb().string(),
 							pointBorderColor: '#fff',
 							pointHoverBackgroundColor: '#fff',
-							pointHoverBorderColor: averageColor.rgbString(),
+							pointHoverBorderColor: averageColor.rgb().string(),
 							data: Object.values(this.report.averageCompetency)
 						},
 						{
 							label: 'Subject Competency',
-							backgroundColor: subjectBackgroundColor.rgbString(),
-							borderColor: subjectColor.rgbString(),
-							pointBackgroundColor: subjectColor.rgbString(),
+							backgroundColor: subjectBackgroundColor.rgb().string(),
+							borderColor: subjectColor.rgb().string(),
+							pointBackgroundColor: subjectColor.rgb().string(),
 							pointBorderColor: '#fff',
 							pointHoverBackgroundColor: '#fff',
-							pointHoverBorderColor: subjectColor.rgbString(),
+							pointHoverBorderColor: subjectColor.rgb().string(),
 							data: Object.values(this.report.subjectCompetency[this.subjectId])
 						}
 					]
@@ -423,32 +423,32 @@ export default {
 		},
 		milestoneChartData(){
 			let averageColor = Color(CHART_COLORS.AVERAGE);
-			let averageBackgroundColor = averageColor.clone().alpha(0.2);
+			let averageBackgroundColor = averageColor.alpha(0.2);
 
 			let subjectColor = Color(CHART_COLORS.SUBJECT);
-			let subjectBackgroundColor = subjectColor.clone().alpha(0.2);
+			let subjectBackgroundColor = subjectColor.alpha(0.2);
 			try {
 				return {
 					labels: Object.values(this.report.milestones),
 					datasets: [
 						{
 							label: 'Average Milestone',
-							backgroundColor: averageBackgroundColor.rgbString(),
-							borderColor: averageColor.rgbString(),
-							pointBackgroundColor: averageColor.rgbString(),
+							backgroundColor: averageBackgroundColor.rgb().string(),
+							borderColor: averageColor.rgb().string(),
+							pointBackgroundColor: averageColor.rgb().string(),
 							pointBorderColor: '#fff',
 							pointHoverBackgroundColor: '#fff',
-							pointHoverBorderColor: averageColor.rgbString(),
+							pointHoverBorderColor: averageColor.rgb().string(),
 							data: Object.values(this.report.averageMilestone)
 						},
 						{
 							label: 'Subject Milestone',
-							backgroundColor: subjectBackgroundColor.rgbString(),
-							borderColor: subjectColor.rgbString(),
-							pointBackgroundColor: subjectColor.rgbString(),
+							backgroundColor: subjectBackgroundColor.rgb().string(),
+							borderColor: subjectColor.rgb().string(),
+							pointBackgroundColor: subjectColor.rgb().string(),
 							pointBorderColor: '#fff',
 							pointHoverBackgroundColor: '#fff',
-							pointHoverBorderColor: subjectColor.rgbString(),
+							pointHoverBorderColor: subjectColor.rgb().string(),
 							data: Object.values(this.report.subjectMilestone[this.subjectId])
 						}
 					]

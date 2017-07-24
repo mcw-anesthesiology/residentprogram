@@ -14,7 +14,7 @@
 		<data-table id="aggregate-table" :bordered="true" :thead="tableThead"
 			:data="tableData" :config="tableConfig" :exportable="true"
 			:exportFilename="tableExportFilename" />
-			
+
 		<div class="graphs-container" v-if="show.charts">
 			<div class="row">
 				<div v-if="show.competencies" :class="chartWidth">
@@ -117,7 +117,7 @@ export default {
 		orderedMilestones(){
 			if(!this.report.milestones)
 				return [];
-				
+
 			return this.milestones.filter(milestone =>
 				milestone.id in this.report.milestones
 			);
@@ -125,7 +125,7 @@ export default {
 		orderedCompetencies(){
 			if(!this.report.competencies)
 				return [];
-				
+
 			return this.competencies.filter(competency =>
 				competency.id in this.report.competencies
 			);
@@ -144,7 +144,7 @@ export default {
 				rowspan++;
 			if(this.showSomething && this.colsPerItem > 1)
 				rowspan++;
-				
+
 			return rowspan;
 		},
 		showSomething(){
@@ -181,7 +181,7 @@ export default {
 				row = [];
 				if(this.nameRowspan === 2)
 					row.push({rowspan: this.nameRowspan, text: 'Name'});
-				
+
 				if(this.show.milestones){
 					this.orderedMilestones.map(milestone => {
 						row.push({
@@ -204,7 +204,7 @@ export default {
 				if(row.length > 0)
 					thead.push(row);
 			}
-			
+
 
 			row = [];
 			if(this.nameRowspan === 1)
@@ -287,7 +287,7 @@ export default {
 									? parseFloat(this.report.subjectMilestone[subjectId][milestone.id]).toFixed(2)
 									: ''
 							);
-							
+
 						if(this.show.averageLevels)
 							row.push(getAverageLevel(
 								this.report.subjectMilestone
@@ -305,7 +305,7 @@ export default {
 									? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestone.id]).toFixed(2)
 									: ''
 							);
-							
+
 						if(this.show.evaluationCounts)
 							row.push(
 								this.report.subjectMilestoneEvals
@@ -314,7 +314,7 @@ export default {
 									? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestone.id]).toFixed()
 									: 0
 							);
-							
+
 						if(this.colsPerItem === 0)
 							row.push('');
 					});
@@ -330,7 +330,7 @@ export default {
 									? parseFloat(this.report.subjectCompetency[subjectId][competency.id]).toFixed(2)
 									: ''
 							);
-							
+
 						if(this.show.averageLevels)
 							row.push(getAverageLevel(
 								this.report.subjectCompetency
@@ -357,7 +357,7 @@ export default {
 									? parseFloat(this.report.subjectCompetencyEvals[subjectId][competency.id]).toFixed()
 									: 0
 							);
-							
+
 						if(this.colsPerItem === 0)
 							row.push('');
 					});
@@ -429,18 +429,18 @@ export default {
 		},
 		competencyChartData(){
 			let color = Color(CHART_COLORS.AVERAGE);
-			let backgroundColor = color.clone().alpha(0.2);
+			let backgroundColor = color.alpha(0.2);
 			return {
 				labels: Object.values(this.report.competencies),
 				datasets: [
 					{
 						label: 'Average Competencies',
-						backgroundColor: backgroundColor.rgbString(),
-						borderColor: color.rgbString(),
-						pointBackgroundColor: color.rgbString(),
+						backgroundColor: backgroundColor.rgb().string(),
+						borderColor: color.rgb().string(),
+						pointBackgroundColor: color.rgb().string(),
 						pointBorderColor: '#fff',
 						pointHoverBackgroundColor: '#fff',
-						pointHoverBorderColor: color.rgbString(),
+						pointHoverBorderColor: color.rgb().string(),
 						data: Object.values(this.report.averageCompetency)
 					}
 				]
@@ -448,18 +448,18 @@ export default {
 		},
 		milestoneChartData(){
 			let color = Color(CHART_COLORS.AVERAGE);
-			let backgroundColor = color.clone().alpha(0.2);
+			let backgroundColor = color.alpha(0.2);
 			return {
 				labels: Object.values(this.report.milestones),
 				datasets: [
 					{
 						label: 'Average Milestones',
-						backgroundColor: backgroundColor.rgbString(),
-						borderColor: color.rgbString(),
-						pointBackgroundColor: color.rgbString(),
+						backgroundColor: backgroundColor.rgb().string(),
+						borderColor: color.rgb().string(),
+						pointBackgroundColor: color.rgb().string(),
 						pointBorderColor: '#fff',
 						pointHoverBackgroundColor: '#fff',
-						pointHoverBorderColor: color.rgbString(),
+						pointHoverBorderColor: color.rgb().string(),
 						data: Object.values(this.report.averageMilestone)
 					}
 				]
