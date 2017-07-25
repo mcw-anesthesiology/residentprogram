@@ -102,7 +102,7 @@
 			<div class="text-center">
 				<button type="button" class="btn btn-default"
 						@click="runAllCsvReports">
-					Export all to CSVs
+					Export all to CSV
 				</button>
 			</div>
 
