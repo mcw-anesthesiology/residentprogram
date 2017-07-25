@@ -122,16 +122,39 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["f"] = createRadarScaleCallback;
-/* harmony export (immutable) */ __webpack_exports__["g"] = createResponseLegend;
-/* harmony export (immutable) */ __webpack_exports__["d"] = pdfmakeStyle;
-/* harmony export (immutable) */ __webpack_exports__["c"] = tableHeader;
-/* harmony export (immutable) */ __webpack_exports__["b"] = fullWidthTable;
-/* harmony export (immutable) */ __webpack_exports__["e"] = borderedStripedTable;
-/* harmony export (immutable) */ __webpack_exports__["h"] = getAverageLevel;
+/* unused harmony export quoteValue */
+/* harmony export (immutable) */ __webpack_exports__["d"] = downloadCsv;
+/* harmony export (immutable) */ __webpack_exports__["i"] = createRadarScaleCallback;
+/* harmony export (immutable) */ __webpack_exports__["j"] = createResponseLegend;
+/* harmony export (immutable) */ __webpack_exports__["g"] = pdfmakeStyle;
+/* harmony export (immutable) */ __webpack_exports__["f"] = tableHeader;
+/* harmony export (immutable) */ __webpack_exports__["e"] = fullWidthTable;
+/* harmony export (immutable) */ __webpack_exports__["h"] = borderedStripedTable;
+/* harmony export (immutable) */ __webpack_exports__["k"] = getAverageLevel;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return sortFunctions; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(1);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CUSTOM_OPTION_VALUES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return DISREGARD_OPTION; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_downloadjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_js__ = __webpack_require__(1);
 
+
+
+
+function quoteValue(value) {
+	return '"' + value + '"';
+}
+
+function downloadCsv(csv, subjectName, dates) {
+
+	var filename = subjectName + ' - ' + dates.startDate + '-' + dates.endDate + '.csv';
+
+	var file = csv.map(function (row) {
+		return row.map(quoteValue).join(',');
+	}).join("\n");
+
+	__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(file, filename, 'text/csv');
+}
 
 function createRadarScaleCallback(valueMap) {
 	return function (value) {
@@ -143,7 +166,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["i" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["i" /* sortNumbers */]);
 
 	keys.map(function (key) {
 		labels.push(valueMap.get(key));
@@ -210,6 +233,18 @@ var sortFunctions = new Map([['training_level', function (a, b) {
 	var bLevel = b.training_level.toLowerCase();
 
 	return sortOrder.indexOf(aLevel) - sortOrder.indexOf(bLevel);
+}]]);
+
+var CUSTOM_OPTION_VALUES = new Map([['faculty', {
+	'strongly-disagree': 1,
+	'disagree': 2,
+	'undecided': 3,
+	'agree': 4,
+	'strongly-agree': 5
+}]]);
+
+var DISREGARD_OPTION = new Map([['faculty', {
+	'n-a': true
 }]]);
 
 /***/ }),

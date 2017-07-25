@@ -143,7 +143,8 @@
 					<div class="panel-heading">
 						<div class="row">
 							<label>
-								<input type="checkbox" v-model="scoreQuestion" />
+								<input type="checkbox" :checked="scoreQuestion"
+									@change="$emit('score-question', $event.target.checked)" />
 								Compute scores
 							</label>
 						</div>
@@ -220,6 +221,18 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		scoreQuestion: {
+			type: Boolean,
+			default: true
+		},
+		customOptionValues: {
+			type: Object,
+			default: {}
+		},
+		disregardOption: {
+			type: Object,
+			default: {}
+		},
 
 		subjectResponses: Object,
 		averageResponses: Object,
@@ -231,18 +244,7 @@ export default {
 			showChart: false,
 			chartType: 'pie',
 
-			showScoreOptions: false,
-			scoreQuestion: true,
-			customOptionValues: {
-				'strongly-disagree': 1,
-				'disagree': 2,
-				'undecided': 3,
-				'agree': 4,
-				'strongly-agree': 5
-			},
-			disregardOption: {
-				'n-a': true
-			}
+			showScoreOptions: false
 		};
 	},
 	computed: {
@@ -388,11 +390,11 @@ export default {
 		getOptionValue(option) {
 			return this.getValueValue(option.value);
 		},
-		handleDisregardOptionChange(option, event) {
-			this.disregardOption = Object.assign({}, this.disregardOption, {[option.value]: event.target.checked});
-		},
 		handleCustomOptionValueChange(option, event) {
-			this.customOptionValues = Object.assign({}, this.customOptionValues, {[option.value]: Number(event.target.value)});
+			this.$emit('custom-option', Object.assign({}, this.customOptionValues, {[option.value]: Number(event.target.value)}));
+		},
+		handleDisregardOptionChange(option, event) {
+			this.$emit('disregard-option', Object.assign({}, this.disregardOption, {[option.value]: event.target.checked}));
 		}
 	},
 	components: {
