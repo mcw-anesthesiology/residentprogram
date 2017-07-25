@@ -8,8 +8,9 @@ export function generateScoresReportCsv(report, subjects, hideQuestions, scoreQu
 	];
 
 	for (let subject of subjects) {
-		header.push(`${subject.full_name} average`);
-		header.push(`${subject.full_name} standard dev`);
+		header.push(`${subject.full_name} - # responses`);
+		header.push(`${subject.full_name} - average`);
+		header.push(`${subject.full_name} - standard dev`);
 	}
 
 	header.push(
@@ -49,6 +50,7 @@ export function generateScoresReportCsv(report, subjects, hideQuestions, scoreQu
 
 				let subjectAverage = average(subjectResponses);
 				let subjectStdDev = standardDeviation(subjectResponses);
+				row.push(subjectResponses.length);
 				row.push(!Number.isNaN(subjectAverage) ? subjectAverage : '');
 				row.push(!Number.isNaN(subjectStdDev) ? subjectStdDev : '');
 			}
