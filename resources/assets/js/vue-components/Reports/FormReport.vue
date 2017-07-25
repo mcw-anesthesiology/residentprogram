@@ -99,6 +99,13 @@
 				</section>
 			</div>
 
+			<div class="text-center">
+				<button type="button" class="btn btn-default"
+						@click="runAllCsvReports">
+					Export all to CSVs
+				</button>
+			</div>
+
 			<div v-if="this.reportContents && this.subjectId && this.reportContents.items.length > 0"
 					class="panel panel-default">
 				<div class="panel-body">
@@ -119,11 +126,19 @@
 						</label>
 					</fieldset>
 
-					<button type="button" class="btn btn-default center-block"
-							@click="exportPdf">
-						Export PDF
-						<svg-icon src="/img/icons/pdf.svg" />
-					</button>
+					<div class="text-center">
+						<button type="button" class="btn btn-default"
+								@click="exportPdf">
+							Export PDF
+							<svg-icon src="/img/icons/pdf.svg" />
+						</button>
+
+
+						<button type="button" class="btn btn-default"
+								@click="runCsvReport">
+							Export CSV
+						</button>
+					</div>
 				</div>
 			</div>
 
@@ -133,7 +148,13 @@
 			<form-report-question v-for="(question, index) of reportQuestions"
 				v-bind="question"
 				:hide="hideQuestions[index]"
-				@hide="hideQuestion(index, arguments[0])" />
+				:score-question="scoreQuestions[index]"
+				:custom-option-values="customOptionValues[index]"
+				:disregard-option="disregardOption[index]"
+				@hide="hideQuestion(index, arguments[0])"
+				@score-question="scoreQuestion(index, arguments[0])"
+				@custom-option="handleCustomOption(index, arguments[0])"
+				@disregard-option="handleDisregardOption(index, arguments[0])" />
 			<hr />
 		</div>
 	</div>
@@ -151,6 +172,8 @@ import AlertList from '../AlertList.vue';
 import ShowHideButton from '../ShowHideButton.vue';
 import SvgIcon from '../SvgIcon.vue';
 
+import { generateScoresReportCsv } from 'modules/reports/form-report.js';
+
 import {
 	getFetchHeaders,
 	jsonOrThrow,
@@ -162,10 +185,13 @@ import {
 	renderDateRange
 } from 'modules/date-utils.js';
 import {
+	downloadCsv,
 	tableHeader,
 	pdfmakeStyle,
 	fullWidthTable,
-	borderedStripedTable
+	borderedStripedTable,
+	CUSTOM_OPTION_VALUES,
+	DISREGARD_OPTION
 } from 'modules/report-utils.js';
 import {
 	renderDateCell,
@@ -186,7 +212,7 @@ export default {
 			type: Array
 		}
 	},
-	data(){
+	data() {
 		return {
 			dates: isoDateStringObject(currentQuarter()),
 			formId: null,
@@ -197,6 +223,9 @@ export default {
 			subjectEvals: [],
 
 			hideQuestions: [],
+			scoreQuestions: [],
+			customOptionValues: [],
+			disregardOption: [],
 
 			show: {
 				allEvals: false,
@@ -213,11 +242,11 @@ export default {
 	},
 
 	computed: {
-		subject(){
+		subject() {
 			if(this.subjectId)
 				return this.users.find(user => user.id === Number(this.subjectId));
 		},
-		reportContents(){
+		reportContents() {
 			let reportContents = this.report.formContents;
 
 			reportContents.items.map(item => {
@@ -271,7 +300,7 @@ export default {
 			return questions;
 		},
 
-		evalsThead(){
+		evalsThead() {
 			return [[
 				'#',
 				'Subject',
@@ -284,7 +313,7 @@ export default {
 				'Status'
 			]];
 		},
-		allEvalsConfig(){
+		allEvalsConfig() {
 			return {
 				ajax: {
 					url: '/evaluations',
@@ -325,7 +354,7 @@ export default {
 				order: [[0, 'desc']]
 			};
 		},
-		subjectEvalsConfig(){
+		subjectEvalsConfig() {
 			return {
 				columns: [
 					{data: 'url'},
@@ -350,12 +379,20 @@ export default {
 		subjectId() {
 			this.fetchSubjectEvals();
 		},
-		report() {
+		report(report) {
 			this.fetchSubjectEvals();
+			this.hideQuestions = Array(report.formContents.items.length)
+				.fill(false);
+			this.scoreQuestions = Array(report.formContents.items.length)
+				.fill(true);
+			this.customOptionValues = Array(report.formContents.items.length)
+				.fill(CUSTOM_OPTION_VALUES.get('faculty'));
+			this.disregardOption = Array(report.formContents.items.length)
+				.fill(DISREGARD_OPTION.get('faculty'));
 		}
 	},
 
-	created(){
+	created() {
 		fetchFormGroups().then(groupedForms => {
 			this.groupedForms = groupedForms;
 		}).catch(err => {
@@ -368,7 +405,47 @@ export default {
 	},
 
 	methods: {
-		runReport(){
+		runCsvReport() {
+			let csv = generateScoresReportCsv(
+				this.report,
+				[this.subject],
+				this.hideQuestions,
+				this.scoreQuestions,
+				this.customOptionValues,
+				this.disregardOption
+			);
+
+			downloadCsv(
+				csv,
+				`${this.report.formContents.title} - ${this.subject.full_name}`,
+				this.dates
+			);
+		},
+		runAllCsvReports() {
+			let subjects = Object.keys(this.report.subjectResponses).map(subjectId => {
+				let subject = this.users.find(user => user.id === Number(subjectId));
+				let full_name = subject
+					? subject.full_name
+					: `User # ${subjectId}`;
+				return {
+					id: subjectId,
+					full_name
+				};
+			});
+
+			let csv = generateScoresReportCsv(
+				this.report,
+				subjects,
+				this.hideQuestions,
+				this.scoreQuestions,
+				this.customOptionValues,
+				this.disregardOption
+			);
+
+			downloadCsv(csv, `${this.report.formContents.title} - Aggregate`, this.dates);
+
+		},
+		runReport() {
 			fetch('/report/form', {
 				method: 'POST',
 				headers: getFetchHeaders(),
@@ -393,7 +470,7 @@ export default {
 				console.error(err);
 			});
 		},
-		fetchSubjectEvals(){
+		fetchSubjectEvals() {
 			if(!this.subjectId || !this.report || !this.report.subjectEvals || !this.report.subjectEvals[this.subjectId]){
 				this.subjectEvals = [];
 				return;
@@ -433,7 +510,25 @@ export default {
 
 			this.hideQuestions = hideQuestions;
 		},
-		exportPdf(){
+		scoreQuestion(questionIndex, score) {
+			let scoreQuestions = this.scoreQuestions.slice();
+			scoreQuestions.splice(questionIndex, 1, score);
+
+			this.scoreQuestions = scoreQuestions;
+		},
+		handleCustomOption(questionIndex, questionCustomOptionValues) {
+			let customOptionValues = this.customOptionValues.slice();
+			customOptionValues.splice(questionIndex, 1, questionCustomOptionValues);
+
+			this.customOptionValues = customOptionValues;
+		},
+		handleDisregardOption(questionIndex, questionDisregardOption) {
+			let disregardOption = this.disregardOption.slice();
+			disregardOption.splice(questionIndex, 1, questionDisregardOption);
+
+			this.disregardOption = disregardOption;
+		},
+		exportPdf() {
 			if(!this.reportContents || this.reportContents.items.length < 1)
 				return;
 

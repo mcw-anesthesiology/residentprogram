@@ -1,4 +1,21 @@
+import download from 'downloadjs';
+
 import { sortNumbers } from './utils.js';
+
+export function quoteValue(value) {
+	return `"${value}"`;
+}
+
+export function downloadCsv(csv, subjectName, dates) {
+
+	let filename = `${subjectName} - ${dates.startDate}-${dates.endDate}.csv`;
+
+	let file = csv.map(row =>
+		row.map(quoteValue).join(',')
+	).join("\n");
+
+	download(file, filename, 'text/csv');
+}
 
 export function createRadarScaleCallback(valueMap) {
 	return value => (valueMap.get(value) || '');
@@ -83,5 +100,21 @@ export const sortFunctions = new Map([
 		let bLevel = b.training_level.toLowerCase();
 
 		return sortOrder.indexOf(aLevel) - sortOrder.indexOf(bLevel);
+	}]
+]);
+
+export const CUSTOM_OPTION_VALUES = new Map([
+	['faculty', {
+		'strongly-disagree': 1,
+		'disagree': 2,
+		'undecided': 3,
+		'agree': 4,
+		'strongly-agree': 5
+	}]
+]);
+
+export const DISREGARD_OPTION = new Map([
+	['faculty', {
+		'n-a': true
 	}]
 ]);

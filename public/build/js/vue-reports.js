@@ -4027,16 +4027,39 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["f"] = createRadarScaleCallback;
-/* harmony export (immutable) */ __webpack_exports__["g"] = createResponseLegend;
-/* harmony export (immutable) */ __webpack_exports__["d"] = pdfmakeStyle;
-/* harmony export (immutable) */ __webpack_exports__["c"] = tableHeader;
-/* harmony export (immutable) */ __webpack_exports__["b"] = fullWidthTable;
-/* harmony export (immutable) */ __webpack_exports__["e"] = borderedStripedTable;
-/* harmony export (immutable) */ __webpack_exports__["h"] = getAverageLevel;
+/* unused harmony export quoteValue */
+/* harmony export (immutable) */ __webpack_exports__["d"] = downloadCsv;
+/* harmony export (immutable) */ __webpack_exports__["i"] = createRadarScaleCallback;
+/* harmony export (immutable) */ __webpack_exports__["j"] = createResponseLegend;
+/* harmony export (immutable) */ __webpack_exports__["g"] = pdfmakeStyle;
+/* harmony export (immutable) */ __webpack_exports__["f"] = tableHeader;
+/* harmony export (immutable) */ __webpack_exports__["e"] = fullWidthTable;
+/* harmony export (immutable) */ __webpack_exports__["h"] = borderedStripedTable;
+/* harmony export (immutable) */ __webpack_exports__["k"] = getAverageLevel;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return sortFunctions; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(1);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CUSTOM_OPTION_VALUES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return DISREGARD_OPTION; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_downloadjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_js__ = __webpack_require__(1);
 
+
+
+
+function quoteValue(value) {
+	return '"' + value + '"';
+}
+
+function downloadCsv(csv, subjectName, dates) {
+
+	var filename = subjectName + ' - ' + dates.startDate + '-' + dates.endDate + '.csv';
+
+	var file = csv.map(function (row) {
+		return row.map(quoteValue).join(',');
+	}).join("\n");
+
+	__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(file, filename, 'text/csv');
+}
 
 function createRadarScaleCallback(valueMap) {
 	return function (value) {
@@ -4048,7 +4071,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["i" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["i" /* sortNumbers */]);
 
 	keys.map(function (key) {
 		labels.push(valueMap.get(key));
@@ -4115,6 +4138,18 @@ var sortFunctions = new Map([['training_level', function (a, b) {
 	var bLevel = b.training_level.toLowerCase();
 
 	return sortOrder.indexOf(aLevel) - sortOrder.indexOf(bLevel);
+}]]);
+
+var CUSTOM_OPTION_VALUES = new Map([['faculty', {
+	'strongly-disagree': 1,
+	'disagree': 2,
+	'undecided': 3,
+	'agree': 4,
+	'strongly-agree': 5
+}]]);
+
+var DISREGARD_OPTION = new Map([['faculty', {
+	'n-a': true
 }]]);
 
 /***/ }),
@@ -35604,7 +35639,7 @@ var erd = __WEBPACK_IMPORTED_MODULE_1_element_resize_detector___default()({
 					_this4.orderedMilestones.map(function (milestone) {
 						if (_this4.show.averages) row.push(_this4.report.subjectMilestone && _this4.report.subjectMilestone[subjectId] && _this4.report.subjectMilestone[subjectId][milestone.id] ? parseFloat(_this4.report.subjectMilestone[subjectId][milestone.id]).toFixed(2) : '');
 
-						if (_this4.show.averageLevels) row.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_report_utils_js__["h" /* getAverageLevel */])(_this4.report.subjectMilestone && _this4.report.subjectMilestone[subjectId] && _this4.report.subjectMilestone[subjectId][milestone.id] ? parseFloat(_this4.report.subjectMilestone[subjectId][milestone.id]).toFixed(2) : 0));
+						if (_this4.show.averageLevels) row.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_report_utils_js__["k" /* getAverageLevel */])(_this4.report.subjectMilestone && _this4.report.subjectMilestone[subjectId] && _this4.report.subjectMilestone[subjectId][milestone.id] ? parseFloat(_this4.report.subjectMilestone[subjectId][milestone.id]).toFixed(2) : 0));
 
 						if (_this4.show.standardDeviations) row.push(_this4.report.subjectMilestoneDeviations && _this4.report.subjectMilestoneDeviations[subjectId] && _this4.report.subjectMilestoneDeviations[subjectId][milestone.id] ? parseFloat(_this4.report.subjectMilestoneDeviations[subjectId][milestone.id]).toFixed(2) : '');
 
@@ -35618,7 +35653,7 @@ var erd = __WEBPACK_IMPORTED_MODULE_1_element_resize_detector___default()({
 					_this4.orderedCompetencies.map(function (competency) {
 						if (_this4.show.averages) row.push(_this4.report.subjectCompetency && _this4.report.subjectCompetency[subjectId] && _this4.report.subjectCompetency[subjectId][competency.id] ? parseFloat(_this4.report.subjectCompetency[subjectId][competency.id]).toFixed(2) : '');
 
-						if (_this4.show.averageLevels) row.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_report_utils_js__["h" /* getAverageLevel */])(_this4.report.subjectCompetency && _this4.report.subjectCompetency[subjectId] && _this4.report.subjectCompetency[subjectId][competency.id] ? parseFloat(_this4.report.subjectCompetency[subjectId][competency.id]).toFixed(2) : 0));
+						if (_this4.show.averageLevels) row.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_report_utils_js__["k" /* getAverageLevel */])(_this4.report.subjectCompetency && _this4.report.subjectCompetency[subjectId] && _this4.report.subjectCompetency[subjectId][competency.id] ? parseFloat(_this4.report.subjectCompetency[subjectId][competency.id]).toFixed(2) : 0));
 
 						if (_this4.show.standardDeviations) row.push(_this4.report.subjectCompetencyDeviations && _this4.report.subjectCompetencyDeviations[subjectId] && _this4.report.subjectCompetencyDeviations[subjectId][competency.id] ? parseFloat(_this4.report.subjectCompetencyDeviations[subjectId][competency.id]).toFixed(2) : '');
 
@@ -35835,10 +35870,11 @@ var erd = __WEBPACK_IMPORTED_MODULE_1_element_resize_detector___default()({
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ShowHideButton_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__ = __webpack_require__(129);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__ = __webpack_require__(121);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_reports_form_report_js__ = __webpack_require__(776);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__modules_date_utils_js__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__ = __webpack_require__(21);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -35984,6 +36020,29 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -36012,7 +36071,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 	},
 	data: function data() {
 		return {
-			dates: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__["isoDateStringObject"])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__["currentQuarter"])()),
+			dates: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_date_utils_js__["isoDateStringObject"])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_date_utils_js__["currentQuarter"])()),
 			formId: null,
 			subjectId: null,
 			report: null,
@@ -36021,6 +36080,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			subjectEvals: [],
 
 			hideQuestions: [],
+			scoreQuestions: [],
+			customOptionValues: [],
+			disregardOption: [],
 
 			show: {
 				allEvals: false,
@@ -36108,9 +36170,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				},
 				columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
 					data: null,
-					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["f" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["g" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-				}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["a" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["b" /* createDateCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["h" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["i" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["l" /* renderEvaluationStatus */] }],
+					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["f" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["g" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+				}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["a" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["b" /* createDateCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["h" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["i" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["l" /* renderEvaluationStatus */] }],
 				order: [[0, 'desc']]
 			};
 		},
@@ -36118,9 +36180,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			return {
 				columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
 					data: null,
-					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["f" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["g" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-				}, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["a" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["b" /* createDateCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["h" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["i" /* createDateTimeCell */] }, { data: "status", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["l" /* renderEvaluationStatus */] }],
+					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["f" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["g" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+				}, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["a" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["b" /* createDateCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["h" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["i" /* createDateTimeCell */] }, { data: "status", render: __WEBPACK_IMPORTED_MODULE_13__modules_datatable_utils_js__["l" /* renderEvaluationStatus */] }],
 				order: [[0, 'desc']]
 			};
 		}
@@ -36129,15 +36191,19 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		subjectId: function subjectId() {
 			this.fetchSubjectEvals();
 		},
-		report: function report() {
+		report: function report(_report) {
 			this.fetchSubjectEvals();
+			this.hideQuestions = Array(_report.formContents.items.length).fill(false);
+			this.scoreQuestions = Array(_report.formContents.items.length).fill(true);
+			this.customOptionValues = Array(_report.formContents.items.length).fill(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["b" /* CUSTOM_OPTION_VALUES */].get('faculty'));
+			this.disregardOption = Array(_report.formContents.items.length).fill(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["c" /* DISREGARD_OPTION */].get('faculty'));
 		}
 	},
 
 	created: function created() {
 		var _this3 = this;
 
-		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["x" /* fetchFormGroups */])().then(function (groupedForms) {
+		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["x" /* fetchFormGroups */])().then(function (groupedForms) {
 			_this3.groupedForms = groupedForms;
 		}).catch(function (err) {
 			_this3.alerts.push({
@@ -36150,12 +36216,35 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 	methods: {
-		runReport: function runReport() {
+		runCsvReport: function runCsvReport() {
+			var csv = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_reports_form_report_js__["a" /* generateScoresReportCsv */])(this.report, [this.subject], this.hideQuestions, this.scoreQuestions, this.customOptionValues, this.disregardOption);
+
+			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["d" /* downloadCsv */])(csv, this.report.formContents.title + ' - ' + this.subject.full_name, this.dates);
+		},
+		runAllCsvReports: function runAllCsvReports() {
 			var _this4 = this;
+
+			var subjects = Object.keys(this.report.subjectResponses).map(function (subjectId) {
+				var subject = _this4.users.find(function (user) {
+					return user.id === Number(subjectId);
+				});
+				var full_name = subject ? subject.full_name : 'User # ' + subjectId;
+				return {
+					id: subjectId,
+					full_name: full_name
+				};
+			});
+
+			var csv = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_reports_form_report_js__["a" /* generateScoresReportCsv */])(this.report, subjects, this.hideQuestions, this.scoreQuestions, this.customOptionValues, this.disregardOption);
+
+			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["d" /* downloadCsv */])(csv, this.report.formContents.title + ' - Aggregate', this.dates);
+		},
+		runReport: function runReport() {
+			var _this5 = this;
 
 			fetch('/report/form', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -36165,9 +36254,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			}).then(function (response) {
 				if (response.ok) return response.json();else throw new Error(response.statusText);
 			}).then(function (report) {
-				_this4.report = Object.assign({}, _this4.report, report);
+				_this5.report = Object.assign({}, _this5.report, report);
 			}).catch(function (err) {
-				_this4.alerts.push({
+				_this5.alerts.push({
 					type: 'error',
 					html: '<strong>Error: </strong> There was a problem running the report'
 				});
@@ -36175,7 +36264,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			});
 		},
 		fetchSubjectEvals: function fetchSubjectEvals() {
-			var _this5 = this;
+			var _this6 = this;
 
 			if (!this.subjectId || !this.report || !this.report.subjectEvals || !this.report.subjectEvals[this.subjectId]) {
 				this.subjectEvals = [];
@@ -36194,10 +36283,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			fetch('/evaluations?' + query, {
 				method: 'GET',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["c" /* jsonOrThrow */]).then(function (subjectEvals) {
-				_this5.subjectEvals = subjectEvals;
+			}).then(__WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["c" /* jsonOrThrow */]).then(function (subjectEvals) {
+				_this6.subjectEvals = subjectEvals;
 			}).catch(function (err) {
 				console.error(err);
 			});
@@ -36208,8 +36297,26 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			this.hideQuestions = hideQuestions;
 		},
+		scoreQuestion: function scoreQuestion(questionIndex, score) {
+			var scoreQuestions = this.scoreQuestions.slice();
+			scoreQuestions.splice(questionIndex, 1, score);
+
+			this.scoreQuestions = scoreQuestions;
+		},
+		handleCustomOption: function handleCustomOption(questionIndex, questionCustomOptionValues) {
+			var customOptionValues = this.customOptionValues.slice();
+			customOptionValues.splice(questionIndex, 1, questionCustomOptionValues);
+
+			this.customOptionValues = customOptionValues;
+		},
+		handleDisregardOption: function handleDisregardOption(questionIndex, questionDisregardOption) {
+			var disregardOption = this.disregardOption.slice();
+			disregardOption.splice(questionIndex, 1, questionDisregardOption);
+
+			this.disregardOption = disregardOption;
+		},
 		exportPdf: function exportPdf() {
-			var _this6 = this;
+			var _this7 = this;
 
 			if (!this.reportContents || this.reportContents.items.length < 1) return;
 
@@ -36222,20 +36329,20 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 				pdfmake.vfs = vfs;
 
-				var filename = hasSubject ? _this6.subject.full_name + ' - ' + _this6.reportContents.title + ' - ' + _this6.dates.startDate + ' -- ' + _this6.dates.endDate + '.pdf' : _this6.reportContents.title + ' - ' + _this6.dates.startDate + ' -- ' + _this6.dates.endDate + '.pdf';
+				var filename = hasSubject ? _this7.subject.full_name + ' - ' + _this7.reportContents.title + ' - ' + _this7.dates.startDate + ' -- ' + _this7.dates.endDate + '.pdf' : _this7.reportContents.title + ' - ' + _this7.dates.startDate + ' -- ' + _this7.dates.endDate + '.pdf';
 
 				var evalCounts = {
 					subjectRequested: 0,
 					otherRequested: 0,
 					total: 0
 				};
-				if (_this6.pdfOptions.evaluationListStyle === 'summary') {
+				if (_this7.pdfOptions.evaluationListStyle === 'summary') {
 					var _iteratorNormalCompletion = true;
 					var _didIteratorError = false;
 					var _iteratorError = undefined;
 
 					try {
-						for (var _iterator = _this6.subjectEvals[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						for (var _iterator = _this7.subjectEvals[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 							var evaluation = _step.value;
 
 							if (evaluation.requested_by_id === evaluation.subject_id) evalCounts.subjectRequested++;else evalCounts.otherRequested++;
@@ -36259,32 +36366,32 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}
 
 				var content = [{
-					text: hasSubject ? _this6.reportContents.title + ' - Summary of evaluations for ' + _this6.subject.full_name : _this6.reportContents.title + ' - Summary of evaluations',
+					text: hasSubject ? _this7.reportContents.title + ' - Summary of evaluations for ' + _this7.subject.full_name : _this7.reportContents.title + ' - Summary of evaluations',
 					style: 'h1'
 				}, {
-					table: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["b" /* fullWidthTable */])({
+					table: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["e" /* fullWidthTable */])({
 						headerRows: 1,
-						body: [(hasSubject ? ['Subject'] : []).concat(['Form', 'Start date', 'End date']).map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["c" /* tableHeader */]), (hasSubject ? [_this6.subject.full_name] : []).concat([_this6.reportContents.title, _this6.dates.startDate, _this6.dates.endDate]).map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["d" /* pdfmakeStyle */])('tableBody'))]
+						body: [(hasSubject ? ['Subject'] : []).concat(['Form', 'Start date', 'End date']).map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["f" /* tableHeader */]), (hasSubject ? [_this7.subject.full_name] : []).concat([_this7.reportContents.title, _this7.dates.startDate, _this7.dates.endDate]).map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["g" /* pdfmakeStyle */])('tableBody'))]
 					})
-				}, { text: 'Evaluations included in report', style: 'h2' }, _this6.pdfOptions.evaluationListStyle === 'summary' ? {
-					ul: [evalCounts.subjectRequested + ' requested by ' + (hasSubject ? _this6.subject.full_name : 'subject'), evalCounts.otherRequested + ' requested by others', evalCounts.total + ' total']
-				} : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["e" /* borderedStripedTable */])({
+				}, { text: 'Evaluations included in report', style: 'h2' }, _this7.pdfOptions.evaluationListStyle === 'summary' ? {
+					ul: [evalCounts.subjectRequested + ' requested by ' + (hasSubject ? _this7.subject.full_name : 'subject'), evalCounts.otherRequested + ' requested by others', evalCounts.total + ' total']
+				} : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["h" /* borderedStripedTable */])({
 					table: {
 						headerRows: 1,
 						widths: ['auto', 'auto', 'auto', '*', 'auto', 'auto'],
-						body: [['#', 'Evaluator', 'Requested by', 'Form', 'Evaluation date', 'Completed'].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["c" /* tableHeader */])].concat(_toConsumableArray(_this6.subjectEvals.map(function (subjectEval) {
-							return [subjectEval.id, subjectEval.evaluator.full_name, subjectEval.requestor.full_name, subjectEval.form.title, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__["renderDateRange"])(subjectEval.evaluation_date_start, subjectEval.evaluation_date_end), __WEBPACK_IMPORTED_MODULE_0_moment___default()(subjectEval.complete_date).calendar()];
+						body: [['#', 'Evaluator', 'Requested by', 'Form', 'Evaluation date', 'Completed'].map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["f" /* tableHeader */])].concat(_toConsumableArray(_this7.subjectEvals.map(function (subjectEval) {
+							return [subjectEval.id, subjectEval.evaluator.full_name, subjectEval.requestor.full_name, subjectEval.form.title, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_date_utils_js__["renderDateRange"])(subjectEval.evaluation_date_start, subjectEval.evaluation_date_end), __WEBPACK_IMPORTED_MODULE_0_moment___default()(subjectEval.complete_date).calendar()];
 						}).map(function (row) {
-							return row.map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["d" /* pdfmakeStyle */])('tableBody'));
+							return row.map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["g" /* pdfmakeStyle */])('tableBody'));
 						})))
 					}
-				}), { text: _this6.reportContents.title, style: 'h2' }, {
+				}), { text: _this7.reportContents.title, style: 'h2' }, {
 					margin: 0,
 					type: 'none',
-					ol: _this6.reportQuestions.filter(function (question, index) {
-						return !_this6.hideQuestions[index];
+					ol: _this7.reportQuestions.filter(function (question, index) {
+						return !_this7.hideQuestions[index];
 					}).map(function (item) {
-						var questionHeading = _this6.hideQuestions.some(function (hide) {
+						var questionHeading = _this7.hideQuestions.some(function (hide) {
 							return hide;
 						}) ? {
 							margin: [0, 20, 0, 5],
@@ -36310,7 +36417,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 							case 'checkbox':
 							case 'radio':
 							case 'radiononnumeric':
-								questionBody = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["e" /* borderedStripedTable */])({
+								questionBody = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["h" /* borderedStripedTable */])({
 									table: {
 										headerRows: 2,
 										widths: ['auto', 'auto', '*'].concat(hasSubject ? ['*', '*'] : []),
@@ -36326,23 +36433,23 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 											text: 'Responses',
 											colSpan: hasSubject ? 3 : null,
 											style: 'tableHeader'
-										}].concat(hasSubject ? [{}, {}] : []), ['', ''].concat(hasSubject ? ['Subject #', 'Subject %'] : []).concat(['Overall %']).map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["c" /* tableHeader */])].concat(item.options.map(function (option) {
+										}].concat(hasSubject ? [{}, {}] : []), ['', ''].concat(hasSubject ? ['Subject #', 'Subject %'] : []).concat(['Overall %']).map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["f" /* tableHeader */])].concat(item.options.map(function (option) {
 											return [option.text, option.value].concat(hasSubject ? [option.responses || '', option.percentage ? option.percentage + '%' : ''] : []).concat([option.averagePercentage ? option.averagePercentage + '%' : '']);
 										}).map(function (row) {
-											return row.map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["d" /* pdfmakeStyle */])('tableBody'));
+											return row.map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["g" /* pdfmakeStyle */])('tableBody'));
 										}))
 									}
 								});
 								break;
 							case 'text':
-								if (hasSubject && item.subjectResponseValues) questionBody = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["e" /* borderedStripedTable */])({
+								if (hasSubject && item.subjectResponseValues) questionBody = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["h" /* borderedStripedTable */])({
 									table: {
 										headerRows: 1,
 										widths: ['auto', 'auto', 'auto', '*'],
-										body: [['#', 'Evaluator', 'Date', 'Response'].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["c" /* tableHeader */])].concat(Object.keys(item.subjectResponseValues).map(function (evaluationId) {
-											return [evaluationId, _this6.report.evaluators[evaluationId].full_name, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__["renderDateRange"])(_this6.report.evaluations[evaluationId].evaluation_date_start, _this6.report.evaluations[evaluationId].evaluation_date_end), item.subjectResponseValues[evaluationId]];
+										body: [['#', 'Evaluator', 'Date', 'Response'].map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["f" /* tableHeader */])].concat(Object.keys(item.subjectResponseValues).map(function (evaluationId) {
+											return [evaluationId, _this7.report.evaluators[evaluationId].full_name, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_date_utils_js__["renderDateRange"])(_this7.report.evaluations[evaluationId].evaluation_date_start, _this7.report.evaluations[evaluationId].evaluation_date_end), item.subjectResponseValues[evaluationId]];
 										}).map(function (row) {
-											return row.map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["d" /* pdfmakeStyle */])('tableBody'));
+											return row.map(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["g" /* pdfmakeStyle */])('tableBody'));
 										}))
 									}
 								});
@@ -36350,7 +36457,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 						}
 
 						return {
-							pageBreak: _this6.pdfOptions.questionPageBreak,
+							pageBreak: _this7.pdfOptions.questionPageBreak,
 							stack: [questionHeading, questionBody]
 						};
 					})
@@ -36386,9 +36493,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				pdfmake.createPdf(docDefinition).download(filename);
 			}).catch(function (err) {
 				console.error(err);
-				_this6.alerts.push({
+				_this7.alerts.push({
 					type: 'error',
-					html: '<strong>Error:</strong> There was a problem exporting the report for ' + _this6.reportContents.title
+					html: '<strong>Error:</strong> There was a problem exporting the report for ' + _this7.reportContents.title
 				});
 			});
 		}
@@ -36424,6 +36531,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__ = __webpack_require__(1);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -36646,6 +36754,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			type: Boolean,
 			default: false
 		},
+		scoreQuestion: {
+			type: Boolean,
+			default: true
+		},
+		customOptionValues: {
+			type: Object,
+			default: {}
+		},
+		disregardOption: {
+			type: Object,
+			default: {}
+		},
 
 		subjectResponses: Object,
 		averageResponses: Object,
@@ -36657,18 +36777,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			showChart: false,
 			chartType: 'pie',
 
-			showScoreOptions: false,
-			scoreQuestion: true,
-			customOptionValues: {
-				'strongly-disagree': 1,
-				'disagree': 2,
-				'undecided': 3,
-				'agree': 4,
-				'strongly-agree': 5
-			},
-			disregardOption: {
-				'n-a': true
-			}
+			showScoreOptions: false
 		};
 	},
 
@@ -36855,11 +36964,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		getOptionValue: function getOptionValue(option) {
 			return this.getValueValue(option.value);
 		},
-		handleDisregardOptionChange: function handleDisregardOptionChange(option, event) {
-			this.disregardOption = Object.assign({}, this.disregardOption, _defineProperty({}, option.value, event.target.checked));
-		},
 		handleCustomOptionValueChange: function handleCustomOptionValueChange(option, event) {
-			this.customOptionValues = Object.assign({}, this.customOptionValues, _defineProperty({}, option.value, Number(event.target.value)));
+			this.$emit('custom-option', Object.assign({}, this.customOptionValues, _defineProperty({}, option.value, Number(event.target.value))));
+		},
+		handleDisregardOptionChange: function handleDisregardOptionChange(option, event) {
+			this.$emit('disregard-option', Object.assign({}, this.disregardOption, _defineProperty({}, option.value, event.target.checked)));
 		}
 	},
 	components: {
@@ -37243,7 +37352,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				scale: {
 					ticks: {
 						beginAtZero: true,
-						userCallback: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["f" /* createRadarScaleCallback */])(this.valueMap)
+						userCallback: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["i" /* createRadarScaleCallback */])(this.valueMap)
 					}
 				}
 			};
@@ -37337,34 +37446,34 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 				var filename = _this.report.subjects[_this.subjectId] + ' - ' + new Date().toLocaleString(); // FIXME
 
-				var content = [{ text: 'Report parameters', style: 'heading' }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["e" /* borderedStripedTable */])({
-					table: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["b" /* fullWidthTable */])({
+				var content = [{ text: 'Report parameters', style: 'heading' }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["h" /* borderedStripedTable */])({
+					table: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["e" /* fullWidthTable */])({
 						headerRows: 1,
-						body: [['Name', 'Training level', 'Start date', 'End date'].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["c" /* tableHeader */]), [_this.report.subjects[_this.subjectId], _this.report.trainingLevel, _this.report.startDate.date ? _this.report.startDate.date.split(' ')[0] : _this.report.startDate, _this.report.endDate.date ? _this.report.endDate.date.split(' ')[0] : _this.report.endDate]]
+						body: [['Name', 'Training level', 'Start date', 'End date'].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["f" /* tableHeader */]), [_this.report.subjects[_this.subjectId], _this.report.trainingLevel, _this.report.startDate.date ? _this.report.startDate.date.split(' ')[0] : _this.report.startDate, _this.report.endDate.date ? _this.report.endDate.date.split(' ')[0] : _this.report.endDate]]
 					})
-				}), { text: 'Evaluations included in report', style: 'heading' }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["e" /* borderedStripedTable */])({
+				}), { text: 'Evaluations included in report', style: 'heading' }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["h" /* borderedStripedTable */])({
 					table: {
 						headerRows: 1,
 						widths: ['auto', 'auto', 'auto', '*'],
-						body: JSON.parse(JSON.stringify([_this.evaluationsThead[0].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["c" /* tableHeader */])].concat(_toConsumableArray(_this.evaluationsData))))
+						body: JSON.parse(JSON.stringify([_this.evaluationsThead[0].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["f" /* tableHeader */])].concat(_toConsumableArray(_this.evaluationsData))))
 					}
 				})];
 
-				if (_this.show.competencies || _this.show.milestones) content.push({ text: 'Score mapping', style: 'heading' }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["g" /* createResponseLegend */])(_this.valueMap));
+				if (_this.show.competencies || _this.show.milestones) content.push({ text: 'Score mapping', style: 'heading' }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["j" /* createResponseLegend */])(_this.valueMap));
 
-				if (_this.show.competencies) content.push({ text: 'Competencies', style: 'heading' }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["e" /* borderedStripedTable */])({
+				if (_this.show.competencies) content.push({ text: 'Competencies', style: 'heading' }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["h" /* borderedStripedTable */])({
 					table: {
 						headerRows: 1,
 						widths: ['*', 'auto', 'auto'],
-						body: JSON.parse(JSON.stringify([_this.competenciesThead[0].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["c" /* tableHeader */])].concat(_toConsumableArray(_this.competenciesData))))
+						body: JSON.parse(JSON.stringify([_this.competenciesThead[0].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["f" /* tableHeader */])].concat(_toConsumableArray(_this.competenciesData))))
 					}
 				}));
 
-				if (_this.show.milestones) content.push({ text: 'Milestones', style: 'heading' }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["e" /* borderedStripedTable */])({
+				if (_this.show.milestones) content.push({ text: 'Milestones', style: 'heading' }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["h" /* borderedStripedTable */])({
 					table: {
 						headerRows: 1,
 						widths: ['*', 'auto', 'auto'],
-						body: JSON.parse(JSON.stringify([_this.milestonesThead[0].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["c" /* tableHeader */])].concat(_toConsumableArray(_this.milestonesData))))
+						body: JSON.parse(JSON.stringify([_this.milestonesThead[0].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["f" /* tableHeader */])].concat(_toConsumableArray(_this.milestonesData))))
 					}
 				}));
 
@@ -37404,11 +37513,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 					content.push.apply(content, _toConsumableArray(charts));
 				}
 
-				content.push({ text: 'Comments', style: 'heading' }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["e" /* borderedStripedTable */])({
+				content.push({ text: 'Comments', style: 'heading' }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["h" /* borderedStripedTable */])({
 					table: {
 						headerRows: 1,
 						widths: ['auto', 'auto', 'auto', 'auto', '*'],
-						body: JSON.parse(JSON.stringify([_this.commentsThead[0].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["c" /* tableHeader */])].concat(_toConsumableArray(_this.commentsData))))
+						body: JSON.parse(JSON.stringify([_this.commentsThead[0].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["f" /* tableHeader */])].concat(_toConsumableArray(_this.commentsData))))
 					}
 				}));
 
@@ -38520,7 +38629,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				var content = [{ text: _this.title, style: 'title' }, {
 					table: {
 						headerRows: 1,
-						body: [reportParamHeader.map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["c" /* tableHeader */]), reportParamBody]
+						body: [reportParamHeader.map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["f" /* tableHeader */]), reportParamBody]
 					},
 					style: 'table'
 				}];
@@ -38531,7 +38640,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.ratiosThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["c" /* tableHeader */])].concat(_toConsumableArray(_this.ratiosData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.ratiosThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["f" /* tableHeader */])].concat(_toConsumableArray(_this.ratiosData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -38543,7 +38652,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.noRequestsThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["c" /* tableHeader */])].concat(_toConsumableArray(_this.noRequestsData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.noRequestsThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["f" /* tableHeader */])].concat(_toConsumableArray(_this.noRequestsData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -38555,7 +38664,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.noneCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["c" /* tableHeader */])].concat(_toConsumableArray(_this.noneCompletedData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.noneCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["f" /* tableHeader */])].concat(_toConsumableArray(_this.noneCompletedData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -38567,7 +38676,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.lastCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["c" /* tableHeader */])].concat(_toConsumableArray(_this.lastCompletedData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.lastCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["f" /* tableHeader */])].concat(_toConsumableArray(_this.lastCompletedData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -38579,7 +38688,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.averageCompletionTimesThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["c" /* tableHeader */])].concat(_toConsumableArray(_this.averageCompletionTimesData.map(function (obj) {
+						body: JSON.parse(JSON.stringify([_this.averageCompletionTimesThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["f" /* tableHeader */])].concat(_toConsumableArray(_this.averageCompletionTimesData.map(function (obj) {
 							return [obj.name, obj.time];
 						}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
 					},
@@ -43894,7 +44003,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "warning",
       "text": ("No evaluations found for " + (_vm.subject.full_name) + " in report parameters.")
     }
-  })], 1) : _vm._e()])], 1), _vm._v(" "), (this.reportContents && this.subjectId && this.reportContents.items.length > 0) ? _c('div', {
+  })], 1) : _vm._e()])], 1), _vm._v(" "), _c('div', {
+    staticClass: "text-center"
+  }, [_c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.runAllCsvReports
+    }
+  }, [_vm._v("\n\t\t\t\tExport all to CSVs\n\t\t\t")])]), _vm._v(" "), (this.reportContents && this.subjectId && this.reportContents.items.length > 0) ? _c('div', {
     staticClass: "panel panel-default"
   }, [_c('div', {
     staticClass: "panel-body"
@@ -43936,28 +44055,50 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.pdfOptions.evaluationListStyle = "summary"
       }
     }
-  }), _vm._v("\n\t\t\t\t\t\tSummary\n\t\t\t\t\t")])]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-default center-block",
+  }), _vm._v("\n\t\t\t\t\t\tSummary\n\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
+    staticClass: "text-center"
+  }, [_c('button', {
+    staticClass: "btn btn-default",
     attrs: {
       "type": "button"
     },
     on: {
       "click": _vm.exportPdf
     }
-  }, [_vm._v("\n\t\t\t\t\tExport PDF\n\t\t\t\t\t"), _c('svg-icon', {
+  }, [_vm._v("\n\t\t\t\t\t\tExport PDF\n\t\t\t\t\t\t"), _c('svg-icon', {
     attrs: {
       "src": "/img/icons/pdf.svg"
     }
-  })], 1)])]) : _vm._e(), _vm._v(" "), (_vm.reportContents.title) ? _c('h2', {
+  })], 1), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.runCsvReport
+    }
+  }, [_vm._v("\n\t\t\t\t\t\tExport CSV\n\t\t\t\t\t")])])])]) : _vm._e(), _vm._v(" "), (_vm.reportContents.title) ? _c('h2', {
     staticClass: "form-title"
   }, [_vm._v("\n\t\t\t" + _vm._s(_vm.reportContents.title) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.reportQuestions), function(question, index) {
     return _c('form-report-question', _vm._b({
       attrs: {
-        "hide": _vm.hideQuestions[index]
+        "hide": _vm.hideQuestions[index],
+        "score-question": _vm.scoreQuestions[index],
+        "custom-option-values": _vm.customOptionValues[index],
+        "disregard-option": _vm.disregardOption[index]
       },
       on: {
         "hide": function($event) {
           _vm.hideQuestion(index, arguments[0])
+        },
+        "score-question": function($event) {
+          _vm.scoreQuestion(index, arguments[0])
+        },
+        "custom-option": function($event) {
+          _vm.handleCustomOption(index, arguments[0])
+        },
+        "disregard-option": function($event) {
+          _vm.handleDisregardOption(index, arguments[0])
         }
       }
     }, 'form-report-question', question, false))
@@ -44399,34 +44540,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "row"
   }, [_c('label', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.scoreQuestion),
-      expression: "scoreQuestion"
-    }],
     attrs: {
       "type": "checkbox"
     },
     domProps: {
-      "checked": Array.isArray(_vm.scoreQuestion) ? _vm._i(_vm.scoreQuestion, null) > -1 : (_vm.scoreQuestion)
+      "checked": _vm.scoreQuestion
     },
     on: {
-      "__c": function($event) {
-        var $$a = _vm.scoreQuestion,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.scoreQuestion = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.scoreQuestion = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.scoreQuestion = $$c
-        }
+      "change": function($event) {
+        _vm.$emit('score-question', $event.target.checked)
       }
     }
   }), _vm._v("\n\t\t\t\t\t\t\tCompute scores\n\t\t\t\t\t\t")])])]), _vm._v(" "), (_vm.scoreQuestion) ? _c('div', {
@@ -44593,6 +44715,217 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-fe5e41f8", esExports)
   }
 }
+
+/***/ }),
+/* 772 */,
+/* 773 */,
+/* 774 */,
+/* 775 */,
+/* 776 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = generateScoresReportCsv;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__math_utils_js__ = __webpack_require__(309);
+
+
+function generateScoresReportCsv(report, subjects, hideQuestions, scoreQuestions, customOptionValues, disregardOption) {
+	var csv = [];
+	var header = ['#', 'Question text'];
+
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
+
+	try {
+		for (var _iterator = subjects[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var subject = _step.value;
+
+			header.push(subject.full_name + ' average');
+			header.push(subject.full_name + ' standard dev');
+		}
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
+	}
+
+	header.push('Total average');
+
+	csv.push(header);
+
+	for (var i = 0; i < report.formContents.items.length; i++) {
+		if (hideQuestions[i]) continue;
+
+		var item = report.formContents.items[i];
+		var questionCustomOptionValues = customOptionValues[i];
+		var questionDisregardOption = disregardOption[i];
+
+		var row = [];
+		row.push(item.id);
+		row.push(item.text);
+
+		if (scoreQuestions[i] && canScoreQuestion(item) && valuesForAllOptions(item, questionCustomOptionValues, questionDisregardOption)) {
+			var _iteratorNormalCompletion2 = true;
+			var _didIteratorError2 = false;
+			var _iteratorError2 = undefined;
+
+			try {
+				for (var _iterator2 = subjects[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+					var _subject = _step2.value;
+
+					var subjectResponses = getResponseValues(report.subjectResponses[_subject.id], item.id, questionCustomOptionValues, questionDisregardOption);
+
+					var subjectAverage = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__math_utils_js__["a" /* average */])(subjectResponses);
+					var subjectStdDev = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__math_utils_js__["b" /* standardDeviation */])(subjectResponses);
+					row.push(!Number.isNaN(subjectAverage) ? subjectAverage : '');
+					row.push(!Number.isNaN(subjectStdDev) ? subjectStdDev : '');
+				}
+			} catch (err) {
+				_didIteratorError2 = true;
+				_iteratorError2 = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion2 && _iterator2.return) {
+						_iterator2.return();
+					}
+				} finally {
+					if (_didIteratorError2) {
+						throw _iteratorError2;
+					}
+				}
+			}
+
+			row.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__math_utils_js__["a" /* average */])(getResponseValues(report.averageResponses, item.id, questionCustomOptionValues, questionDisregardOption)));
+		} else {
+			row.push('', '', '');
+		}
+
+		csv.push(row);
+	}
+
+	return csv;
+}
+
+function canScoreQuestion(question) {
+	return ['radio', 'number', 'radiononnumeric'].includes(question.questionType);
+}
+
+function valuesForAllOptions(question, customOptionValues, disregardOption) {
+	var _iteratorNormalCompletion3 = true;
+	var _didIteratorError3 = false;
+	var _iteratorError3 = undefined;
+
+	try {
+		for (var _iterator3 = question.options[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+			var option = _step3.value;
+
+			if (getResponseValue(option.value, customOptionValues) == null && !shouldDisregardOption(option.value, disregardOption)) return false;
+		}
+	} catch (err) {
+		_didIteratorError3 = true;
+		_iteratorError3 = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion3 && _iterator3.return) {
+				_iterator3.return();
+			}
+		} finally {
+			if (_didIteratorError3) {
+				throw _iteratorError3;
+			}
+		}
+	}
+
+	return true;
+}
+
+function getResponseValues(subjectResponses, questionId, customOptionValues, disregardOption) {
+	var responses = subjectResponses[questionId];
+	if (!responses) return;
+
+	var scores = [];
+
+	var _iteratorNormalCompletion4 = true;
+	var _didIteratorError4 = false;
+	var _iteratorError4 = undefined;
+
+	try {
+		for (var _iterator4 = Object.keys(responses)[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+			var response = _step4.value;
+
+			if (!disregardOption[response]) {
+				var value = getResponseValue(response, customOptionValues);
+				var optionArr = Array(Number(responses[response])).fill(value);
+				scores = scores.concat(optionArr);
+			}
+		}
+	} catch (err) {
+		_didIteratorError4 = true;
+		_iteratorError4 = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion4 && _iterator4.return) {
+				_iterator4.return();
+			}
+		} finally {
+			if (_didIteratorError4) {
+				throw _iteratorError4;
+			}
+		}
+	}
+
+	return scores;
+}
+
+function getResponseValue(optionValue, customOptionValues) {
+	return customOptionValues && customOptionValues[optionValue] && !Number.isNaN(Number(customOptionValues[optionValue])) ? Number(customOptionValues[optionValue]) : !Number.isNaN(Number(optionValue)) ? Number(optionValue) : null;
+}
+
+function shouldDisregardOption(optionValue, disregardOption) {
+	return disregardOption[optionValue];
+}
+
+// export function generateScoresReportDocDefinition(formContents, report, subject) {
+// 	let content = [];
+//
+//
+// 	return {
+// 		pageSize: 'LETTER',
+// 		content,
+// 		styles: {
+// 			h1: {
+// 				bold: true,
+// 				fontSize: 20,
+// 				margin: [0, 20],
+// 			},
+// 			h2: {
+// 				bold: true,
+// 				fontSize: 16,
+// 				margin: [0, 10]
+// 			},
+// 			questionText: {
+// 				fontSize: 11
+// 			},
+// 			tableHeader: {
+// 				bold: true,
+// 				fontSize: 10
+// 			},
+// 			tableBody: {
+// 				fontSize: 8
+// 			}
+// 		}
+// 	};
+// }
 
 /***/ })
 ],[487]);
