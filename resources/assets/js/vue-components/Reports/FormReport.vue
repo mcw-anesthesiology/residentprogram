@@ -162,6 +162,7 @@
 
 <script>
 import moment from 'moment';
+import round from 'lodash/round';
 
 import StartEndDate from '../StartEndDate.vue';
 import SelectTwo from '../SelectTwo.vue';
@@ -172,8 +173,18 @@ import AlertList from '../AlertList.vue';
 import ShowHideButton from '../ShowHideButton.vue';
 import SvgIcon from '../SvgIcon.vue';
 
-import { generateScoresReportCsv } from 'modules/reports/form-report.js';
+import {
+	canScoreQuestion,
+	valuesForAllOptions,
+	getResponseValue,
+	getResponseValues,
+	generateScoresReportCsv
+} from 'modules/reports/form-report.js';
 
+import {
+	average,
+	standardDeviation
+} from 'modules/math-utils.js';
 import {
 	getFetchHeaders,
 	jsonOrThrow,
@@ -636,7 +647,9 @@ export default {
 					{
 						margin: 0,
 						type: 'none',
-						ol: this.reportQuestions.filter((question, index) =>
+						ol: this.reportQuestions.map((question, index) =>
+								Object.assign({}, question, {originalIndex: index})
+							).filter((question, index) =>
 								!this.hideQuestions[index]).map(item => {
 							let questionHeading = this.hideQuestions.some(hide => hide)
 								? {
@@ -716,7 +729,7 @@ export default {
 											].concat(
 												item.options.map(option => [
 													option.text,
-													option.value
+													getResponseValue(option.value, this.customOptionValues[item.originalIndex])
 												].concat(hasSubject
 													? [
 														option.responses || '',
@@ -768,7 +781,57 @@ export default {
 								stack: [
 									questionHeading,
 									questionBody
-								]
+								].concat((
+									this.scoreQuestions[item.originalIndex]
+									&& canScoreQuestion(item.questionType)
+									&& valuesForAllOptions(item, this.customOptionValues[item.originalIndex], this.disregardOption[item.originalIndex])
+								)
+									? [{
+										columns: [
+											{
+												table: {
+													body: [
+														['Total average'],
+														[round(average(getResponseValues(
+															this.report.averageResponses[item.id],
+															this.customOptionValues[item.originalIndex],
+															this.disregardOption[item.originalIndex]
+														)), 2)]
+													]
+												}
+											}
+										].concat(hasSubject
+											? [
+												{
+													table: {
+														body: [
+															['Subject average'],
+															[round(average(getResponseValues(
+																this.report.subjectResponses[this.subjectId][item.id],
+																this.customOptionValues[item.originalIndex],
+																this.disregardOption[item.originalIndex]
+															)), 2)]
+														]
+													}
+												},
+												{
+													table: {
+														body: [
+															['Subject standard deviation'],
+															[round(standardDeviation(getResponseValues(
+																this.report.subjectResponses[this.subjectId][item.id],
+																this.customOptionValues[item.originalIndex],
+																this.disregardOption[item.originalIndex]
+															)), 2)]
+														]
+													}
+												}
+											]
+											: []
+										)
+									}]
+									: []
+								)
 							};
 						})
 					}

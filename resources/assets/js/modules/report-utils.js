@@ -109,7 +109,16 @@ export const CUSTOM_OPTION_VALUES = new Map([
 		'disagree': 2,
 		'undecided': 3,
 		'agree': 4,
-		'strongly-agree': 5
+		'strongly-agree': 5,
+
+		'yes': 1,
+		'no': 0,
+
+		'unacceptable': 1,
+		'needs-improvement': 2,
+		'meets-expectations': 3,
+		'exceeds-expectations': 4,
+		'outstanding': 5
 	}]
 ]);
 

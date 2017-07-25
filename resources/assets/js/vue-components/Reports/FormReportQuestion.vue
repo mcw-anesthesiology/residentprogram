@@ -191,6 +191,14 @@ import RichNumberStdDev from '../RichNumberStdDev.vue';
 import round from 'lodash/round';
 import snarkdown from 'snarkdown';
 
+import {
+	canScoreQuestion,
+	valuesForAllOptions,
+	getResponseValues,
+	getResponseValue,
+	shouldDisregardOption
+} from 'modules/reports/form-report.js';
+
 import { CHART_COLORS } from 'modules/constants.js';
 import { average, standardDeviation } from 'modules/math-utils.js';
 import { camelCaseToWords, ucfirst } from 'modules/utils.js';
@@ -249,35 +257,20 @@ export default {
 	},
 	computed: {
 		canScoreQuestion() {
-			return [
-				'radio',
-				'number',
-				'radiononnumeric'
-			].includes(this.questionType);
+			return canScoreQuestion(this.questionType);
 		},
 		valuesForAllOptions() {
-			for (let option of this.options) {
-				if (this.getOptionValue(option) == null && !this.shouldDisregardOption(option))
-					return false;
-			}
-
-			return true;
+			return valuesForAllOptions(this, this.customOptionValues, this.disregardOption);
 		},
 		totalScores() {
 			if (!this.valuesForAllOptions || !this.averageResponses)
 				return;
 
-			let scores = [];
-
-			for (let response of Object.keys(this.averageResponses)) {
-				if (!this.disregardOption[response]) {
-					let optionArr = Array(Number(this.averageResponses[response]))
-						.fill(this.getValueValue(response));
-					scores = scores.concat(optionArr);
-				}
-			}
-
-			return scores;
+			return getResponseValues(
+				this.averageResponses,
+				this.customOptionValues,
+				this.disregardOption
+			);
 		},
 		totalAverageScore() {
 			if (!this.valuesForAllOptions || !this.totalScores)
@@ -289,17 +282,11 @@ export default {
 			if (!this.valuesForAllOptions || !this.subjectResponses)
 				return;
 
-			let scores = [];
-
-			for (let response of Object.keys(this.subjectResponses)) {
-				if (!this.disregardOption[response]) {
-					let optionArr = Array(Number(this.subjectResponses[response]))
-						.fill(this.getValueValue(response));
-					scores = scores.concat(optionArr);
-				}
-			}
-
-			return scores;
+			return getResponseValues(
+				this.subjectResponses,
+				this.customOptionValues,
+				this.disregardOption
+			);
 		},
 		subjectAverageScore() {
 			if (!this.valuesForAllOptions || !this.subjectScores)
@@ -369,7 +356,7 @@ export default {
 		ucfirst,
 		round,
 		shouldDisregardValue(value) {
-			return this.disregardOption[value];
+			return shouldDisregardOption(value, this.disregardOption);
 		},
 		shouldDisregardOption(option) {
 			return this.shouldDisregardValue(option.value);
@@ -378,14 +365,7 @@ export default {
 			if (!this.canScoreQuestion)
 				return;
 
-			if (
-				value in this.customOptionValues
-				&& !Number.isNaN(this.customOptionValues[value])
-			)
-				return Number(this.customOptionValues[value]);
-
-			if (!Number.isNaN(value))
-				return Number(value);
+			return getResponseValue(value, this.customOptionValues);
 		},
 		getOptionValue(option) {
 			return this.getValueValue(option.value);
