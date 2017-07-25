@@ -114,7 +114,7 @@ function getResponseValues(subjectResponses, questionId, customOptionValues, dis
 function getResponseValue(optionValue, customOptionValues) {
 	return (
 		customOptionValues
-		&& customOptionValues[optionValue]
+		&& optionValue in customOptionValues
 		&& !Number.isNaN(Number(customOptionValues[optionValue]))
 	)
 		? Number(customOptionValues[optionValue])
