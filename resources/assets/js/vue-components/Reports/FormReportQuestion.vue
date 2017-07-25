@@ -14,6 +14,12 @@
 						v-for="option of options" v-bind="option" :questionType="questionType"
 						:questionId="id" :required="required" :showDescription="showDescriptions"
 						readonly>
+					<div class="text-center"
+							v-if="canScoreQuestion && scoreQuestion && valuesForAllOptions && !shouldDisregardOption(option) && (getOptionValue(option) || getOptionValue(option) === 0)">
+						<span class="option-value-display">
+							Value: {{ getOptionValue(option) }}
+						</span>
+					</div>
 					<form-report-question-option-stats v-bind="option" />
 				</form-reader-question-option>
 
@@ -77,11 +83,10 @@
 						{{ round(subjectAverageScore, 2) }}
 					</span>
 				</div>
-				<div v-if="subjectAverageScore && totalScores" class="score-container">
-					<small>Subject number of standard deviations</small>
+				<div v-if="subjectStandardDev" class="score-container">
+					<small>Subject standard deviation</small>
 					<span class="score">
-						<rich-number-std-dev :value="subjectAverageScore"
-							:values="totalScores" />
+						{{ round(subjectStandardDev, 2) }}
 					</span>
 				</div>
 			</div>
@@ -139,7 +144,7 @@
 						<div class="row">
 							<label>
 								<input type="checkbox" v-model="scoreQuestion" />
-								Compute average
+								Compute scores
 							</label>
 						</div>
 					</div>
@@ -186,7 +191,7 @@ import round from 'lodash/round';
 import snarkdown from 'snarkdown';
 
 import { CHART_COLORS } from 'modules/constants.js';
-import { average } from 'modules/math-utils.js';
+import { average, standardDeviation } from 'modules/math-utils.js';
 import { camelCaseToWords, ucfirst } from 'modules/utils.js';
 
 export default {
@@ -227,13 +232,13 @@ export default {
 			chartType: 'pie',
 
 			showScoreOptions: false,
-			scoreQuestion: false,
+			scoreQuestion: true,
 			customOptionValues: {
-				'strongly-disagree': 0,
-				'disagree': 1,
-				'undecided': 2,
-				'agree': 3,
-				'strongly-agree': 4
+				'strongly-disagree': 1,
+				'disagree': 2,
+				'undecided': 3,
+				'agree': 4,
+				'strongly-agree': 5
 			},
 			disregardOption: {
 				'n-a': true
@@ -257,7 +262,7 @@ export default {
 			return true;
 		},
 		totalScores() {
-			if (!this.valuesForAllOptions)
+			if (!this.valuesForAllOptions || !this.averageResponses)
 				return;
 
 			let scores = [];
@@ -273,28 +278,38 @@ export default {
 			return scores;
 		},
 		totalAverageScore() {
-			if (!this.valuesForAllOptions)
+			if (!this.valuesForAllOptions || !this.totalScores)
 				return;
 
 			return average(this.totalScores);
 		},
-		subjectAverageScore() {
-			if (!this.valuesForAllOptions)
+		subjectScores() {
+			if (!this.valuesForAllOptions || !this.subjectResponses)
 				return;
 
-			let subjectResponses = 0;
-			let sum = this.options.reduce((acc, option) => {
-				if (this.shouldDisregardOption(option))
-					return acc;
+			let scores = [];
 
-				let responses = (this.subjectResponses && option.value in this.subjectResponses)
-					? this.subjectResponses[option.value]
-					: 0;
-				subjectResponses += responses;
-				return acc + (responses * this.getOptionValue(option));
-			}, 0);
+			for (let response of Object.keys(this.subjectResponses)) {
+				if (!this.disregardOption[response]) {
+					let optionArr = Array(Number(this.subjectResponses[response]))
+						.fill(this.getValueValue(response));
+					scores = scores.concat(optionArr);
+				}
+			}
 
-			return (sum / subjectResponses);
+			return scores;
+		},
+		subjectAverageScore() {
+			if (!this.valuesForAllOptions || !this.subjectScores)
+				return;
+
+			return average(this.subjectScores);
+		},
+		subjectStandardDev() {
+			if (!this.valuesForAllOptions || !this.subjectScores)
+				return;
+
+			return standardDeviation(this.subjectScores);
 		},
 		hasDescriptions() {
 			if (!this.options)
@@ -422,6 +437,10 @@ export default {
 	.score-container .score {
 		display: block;
 		text-align: center;
+		font-size: 1.25em;
+	}
+
+	.option-value-display {
 		font-size: 1.25em;
 	}
 </style>
