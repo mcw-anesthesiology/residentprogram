@@ -33517,9 +33517,9 @@ if (false) {
 /* unused harmony export sum */
 /* unused harmony export mean */
 /* harmony export (immutable) */ __webpack_exports__["a"] = average;
-/* harmony export (immutable) */ __webpack_exports__["c"] = variance;
-/* harmony export (immutable) */ __webpack_exports__["d"] = standardDeviation;
-/* harmony export (immutable) */ __webpack_exports__["b"] = numberOfStandardDeviations;
+/* unused harmony export variance */
+/* harmony export (immutable) */ __webpack_exports__["b"] = standardDeviation;
+/* harmony export (immutable) */ __webpack_exports__["c"] = numberOfStandardDeviations;
 function sum(values) {
 	return values.reduce(function (acc, value) {
 		return acc + value;
@@ -36601,6 +36601,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -36653,13 +36658,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			chartType: 'pie',
 
 			showScoreOptions: false,
-			scoreQuestion: false,
+			scoreQuestion: true,
 			customOptionValues: {
-				'strongly-disagree': 0,
-				'disagree': 1,
-				'undecided': 2,
-				'agree': 3,
-				'strongly-agree': 4
+				'strongly-disagree': 1,
+				'disagree': 2,
+				'undecided': 3,
+				'agree': 4,
+				'strongly-agree': 5
 			},
 			disregardOption: {
 				'n-a': true
@@ -36700,7 +36705,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			return true;
 		},
 		totalScores: function totalScores() {
-			if (!this.valuesForAllOptions) return;
+			if (!this.valuesForAllOptions || !this.averageResponses) return;
 
 			var scores = [];
 
@@ -36735,25 +36740,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			return scores;
 		},
 		totalAverageScore: function totalAverageScore() {
-			if (!this.valuesForAllOptions) return;
+			if (!this.valuesForAllOptions || !this.totalScores) return;
 
 			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_math_utils_js__["a" /* average */])(this.totalScores);
 		},
+		subjectScores: function subjectScores() {
+			if (!this.valuesForAllOptions || !this.subjectResponses) return;
+
+			var scores = [];
+
+			var _iteratorNormalCompletion3 = true;
+			var _didIteratorError3 = false;
+			var _iteratorError3 = undefined;
+
+			try {
+				for (var _iterator3 = Object.keys(this.subjectResponses)[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+					var response = _step3.value;
+
+					if (!this.disregardOption[response]) {
+						var optionArr = Array(Number(this.subjectResponses[response])).fill(this.getValueValue(response));
+						scores = scores.concat(optionArr);
+					}
+				}
+			} catch (err) {
+				_didIteratorError3 = true;
+				_iteratorError3 = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion3 && _iterator3.return) {
+						_iterator3.return();
+					}
+				} finally {
+					if (_didIteratorError3) {
+						throw _iteratorError3;
+					}
+				}
+			}
+
+			return scores;
+		},
 		subjectAverageScore: function subjectAverageScore() {
-			var _this = this;
+			if (!this.valuesForAllOptions || !this.subjectScores) return;
 
-			if (!this.valuesForAllOptions) return;
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_math_utils_js__["a" /* average */])(this.subjectScores);
+		},
+		subjectStandardDev: function subjectStandardDev() {
+			if (!this.valuesForAllOptions || !this.subjectScores) return;
 
-			var subjectResponses = 0;
-			var sum = this.options.reduce(function (acc, option) {
-				if (_this.shouldDisregardOption(option)) return acc;
-
-				var responses = _this.subjectResponses && option.value in _this.subjectResponses ? _this.subjectResponses[option.value] : 0;
-				subjectResponses += responses;
-				return acc + responses * _this.getOptionValue(option);
-			}, 0);
-
-			return sum / subjectResponses;
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_math_utils_js__["b" /* standardDeviation */])(this.subjectScores);
 		},
 		hasDescriptions: function hasDescriptions() {
 			if (!this.options) return false;
@@ -39107,13 +39141,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 	computed: {
 		stdDevs: function stdDevs() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_math_utils_js__["b" /* numberOfStandardDeviations */])(this.value, this.values);
-		},
-		variance: function variance() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_math_utils_js__["c" /* variance */])(this.values);
-		},
-		standardDeviation: function standardDeviation() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_math_utils_js__["d" /* standardDeviation */])(this.values);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_math_utils_js__["c" /* numberOfStandardDeviations */])(this.value, this.values);
 		}
 	},
 
@@ -44222,7 +44250,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "showDescription": _vm.showDescriptions,
         "readonly": ""
       }
-    }, 'form-reader-question-option', option, false), [_c('form-report-question-option-stats', _vm._b({}, 'form-report-question-option-stats', option, false))], 1) : _vm._e()
+    }, 'form-reader-question-option', option, false), [(_vm.canScoreQuestion && _vm.scoreQuestion && _vm.valuesForAllOptions && !_vm.shouldDisregardOption(option) && (_vm.getOptionValue(option) || _vm.getOptionValue(option) === 0)) ? _c('div', {
+      staticClass: "text-center"
+    }, [_c('span', {
+      staticClass: "option-value-display"
+    }, [_vm._v("\n\t\t\t\t\t\tValue: " + _vm._s(_vm.getOptionValue(option)) + "\n\t\t\t\t\t")])]) : _vm._e(), _vm._v(" "), _c('form-report-question-option-stats', _vm._b({}, 'form-report-question-option-stats', option, false))], 1) : _vm._e()
   }), _vm._v(" "), (_vm.subjectResponseValues && ['text', 'number'].includes(_vm.questionType)) ? _c('div', {
     staticClass: "question-option"
   }, [_c('table', {
@@ -44292,16 +44324,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "score-container"
   }, [_c('small', [_vm._v("Subject average")]), _vm._v(" "), _c('span', {
     staticClass: "score"
-  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.round(_vm.subjectAverageScore, 2)) + "\n\t\t\t\t")])]) : _vm._e(), _vm._v(" "), (_vm.subjectAverageScore && _vm.totalScores) ? _c('div', {
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.round(_vm.subjectAverageScore, 2)) + "\n\t\t\t\t")])]) : _vm._e(), _vm._v(" "), (_vm.subjectStandardDev) ? _c('div', {
     staticClass: "score-container"
-  }, [_c('small', [_vm._v("Subject number of standard deviations")]), _vm._v(" "), _c('span', {
+  }, [_c('small', [_vm._v("Subject standard deviation")]), _vm._v(" "), _c('span', {
     staticClass: "score"
-  }, [_c('rich-number-std-dev', {
-    attrs: {
-      "value": _vm.subjectAverageScore,
-      "values": _vm.totalScores
-    }
-  })], 1)]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.round(_vm.subjectStandardDev, 2)) + "\n\t\t\t\t")])]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "question-footer panel-footer"
   }, [_c('div', {
     staticClass: "question-description-toggle"
@@ -44402,7 +44429,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }
       }
     }
-  }), _vm._v("\n\t\t\t\t\t\t\tCompute average\n\t\t\t\t\t\t")])])]), _vm._v(" "), (_vm.scoreQuestion) ? _c('div', {
+  }), _vm._v("\n\t\t\t\t\t\t\tCompute scores\n\t\t\t\t\t\t")])])]), _vm._v(" "), (_vm.scoreQuestion) ? _c('div', {
     staticClass: "panel-body"
   }, [(_vm.questionType === 'radiononnumeric') ? _c('div', {
     staticClass: "row"
