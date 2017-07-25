@@ -33,7 +33,7 @@ export function generateScoresReportCsv(report, subjects, hideQuestions, scoreQu
 
 		if (
 			scoreQuestions[i]
-			&& canScoreQuestion(item)
+			&& canScoreQuestion(item.questionType)
 			&& valuesForAllOptions(
 				item,
 				questionCustomOptionValues,
@@ -42,8 +42,7 @@ export function generateScoresReportCsv(report, subjects, hideQuestions, scoreQu
 		) {
 			for (let subject of subjects) {
 				let subjectResponses = getResponseValues(
-					report.subjectResponses[subject.id],
-					item.id,
+					report.subjectResponses[subject.id][item.id],
 					questionCustomOptionValues,
 					questionDisregardOption
 				);
@@ -56,8 +55,7 @@ export function generateScoresReportCsv(report, subjects, hideQuestions, scoreQu
 			}
 
 			row.push(average(getResponseValues(
-				report.averageResponses,
-				item.id,
+				report.averageResponses[item.id],
 				questionCustomOptionValues,
 				questionDisregardOption
 			)));
@@ -72,15 +70,15 @@ export function generateScoresReportCsv(report, subjects, hideQuestions, scoreQu
 	return csv;
 }
 
-function canScoreQuestion(question) {
+export function canScoreQuestion(questionType) {
 	return [
 		'radio',
 		'number',
 		'radiononnumeric'
-	].includes(question.questionType);
+	].includes(questionType);
 }
 
-function valuesForAllOptions(question, customOptionValues, disregardOption) {
+export function valuesForAllOptions(question, customOptionValues, disregardOption) {
 	for (let option of question.options) {
 		if (
 			getResponseValue(option.value, customOptionValues) == null
@@ -92,8 +90,7 @@ function valuesForAllOptions(question, customOptionValues, disregardOption) {
 	return true;
 }
 
-function getResponseValues(subjectResponses, questionId, customOptionValues, disregardOption) {
-	let responses = subjectResponses[questionId];
+export function getResponseValues(responses, customOptionValues, disregardOption) {
 	if (!responses)
 		return;
 
@@ -111,50 +108,18 @@ function getResponseValues(subjectResponses, questionId, customOptionValues, dis
 	return scores;
 }
 
-function getResponseValue(optionValue, customOptionValues) {
+export function getResponseValue(optionValue, customOptionValues) {
 	return (
 		customOptionValues
 		&& optionValue in customOptionValues
 		&& !Number.isNaN(Number(customOptionValues[optionValue]))
 	)
 		? Number(customOptionValues[optionValue])
-		: (!Number.isNaN(Number(optionValue))
+		: !Number.isNaN(Number(optionValue))
 			? Number(optionValue)
-			: null);
+			: null;
 }
 
-function shouldDisregardOption(optionValue, disregardOption) {
+export function shouldDisregardOption(optionValue, disregardOption) {
 	return disregardOption[optionValue];
 }
-
-// export function generateScoresReportDocDefinition(formContents, report, subject) {
-// 	let content = [];
-//
-//
-// 	return {
-// 		pageSize: 'LETTER',
-// 		content,
-// 		styles: {
-// 			h1: {
-// 				bold: true,
-// 				fontSize: 20,
-// 				margin: [0, 20],
-// 			},
-// 			h2: {
-// 				bold: true,
-// 				fontSize: 16,
-// 				margin: [0, 10]
-// 			},
-// 			questionText: {
-// 				fontSize: 11
-// 			},
-// 			tableHeader: {
-// 				bold: true,
-// 				fontSize: 10
-// 			},
-// 			tableBody: {
-// 				fontSize: 8
-// 			}
-// 		}
-// 	};
-// }

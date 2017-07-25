@@ -5,6 +5,11 @@ export function sum(values) {
 }
 
 export function mean(values, population = true) {
+	if (!values)
+		return null;
+	if (values.length === 0)
+		return 0;
+
 	let denominator = population ? values.length : values.length - 1;
 	return sum(values) / denominator;
 }
