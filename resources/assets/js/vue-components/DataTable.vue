@@ -6,7 +6,7 @@
 				<span class="glyphicon glyphicon-refresh"></span>
 			</button>
 		</div>
-		
+
 		<table :id="id" class="table" :class="tableClass" width="100%" ref="table">
 			<slot>
 				<thead>
@@ -32,6 +32,7 @@
 <script>
 import download from 'downloadjs';
 
+import { csvHeader } from 'modules/report-utils.js';
 import { escapeCsv, sortIgnoreCase } from 'modules/utils.js';
 
 export default {
@@ -48,7 +49,7 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		
+
 		thead: {
 			type: Array,
 			required: false
@@ -61,7 +62,7 @@ export default {
 			type: Array,
 			required: false
 		},
-		
+
 		reloader: {
 			type: Function,
 			required: false
@@ -93,7 +94,7 @@ export default {
 			};
 		},
 		reloadable(){
-			return (this.config && 'ajax' in this.config) || this.reloader; 				
+			return (this.config && 'ajax' in this.config) || this.reloader;
 		}
 	},
 	watch: {
@@ -124,40 +125,7 @@ export default {
 				}).ajax.reload(null, false);
 		},
 		exportCsv(){
-			let header = [];
-			header.fill([], this.thead.length);
-			this.thead.map((row, rowIndex) => {
-				if(!header[rowIndex])
-					header[rowIndex] = [];
-
-				row.map((cell, cellIndex) => {
-					while(header[rowIndex][cellIndex])
-						cellIndex++;
-
-					if(cell.rowspan){
-						for(let i = 0; i < cell.rowspan; i++){
-							if(!header[rowIndex + i])
-								header[rowIndex + i] = [];
-							
-							header[rowIndex + i][cellIndex] = cell.text;
-							if(cell.colspan){
-								for(let j = 0; j < cell.colspan; j++){
-									header[rowIndex][cellIndex + j] = cell.text;
-								}
-							}
-						}
-					}
-					else if(cell.colspan){
-						for(let j = 0; j < cell.colspan; j++){
-							header[rowIndex][cellIndex + j] = cell.text;
-						}
-					}
-					else {
-						header[rowIndex][cellIndex] = cell.text;
-					}
-				});
-			});
-			
+			let header = csvHeader(this.thead);
 			let rows = this.data.map(row =>
 				row.map(cell =>
 					escapeCsv(cell.toString())
@@ -188,7 +156,7 @@ export default {
 	.refresh-button-container {
 		text-align: right;
 	}
-	
+
 	@media print {
 		.refresh-button-container {
 			display: none;

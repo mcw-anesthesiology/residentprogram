@@ -1,9 +1,9 @@
 import download from 'downloadjs';
 
-import { sortNumbers } from './utils.js';
+import { escapeCsv, sortNumbers } from './utils.js';
 
 export function quoteValue(value) {
-	return `"${value}"`;
+	return escapeCsv(value);
 }
 
 export function downloadCsv(csv, subjectName, dates) {
@@ -15,6 +15,48 @@ export function downloadCsv(csv, subjectName, dates) {
 	).join("\n");
 
 	download(file, filename, 'text/csv');
+}
+
+export function csvHeader(thead) {
+	let header = [];
+	header.fill([], thead.length);
+	thead.map((row, rowIndex) => {
+		if (!header[rowIndex])
+			header[rowIndex] = [];
+
+		row.map((cell, cellIndex) => {
+			while (header[rowIndex][cellIndex])
+				cellIndex++;
+
+			if (cell.rowspan) {
+				for (let i = 0; i < cell.rowspan; i++) {
+					if (!header[rowIndex + i])
+						header[rowIndex + i] = [];
+
+					header[rowIndex + i][cellIndex] = getHeaderCellText(cell);
+					if (cell.colspan) {
+						for (let j = 0; j < cell.colspan; j++) {
+							header[rowIndex][cellIndex + j] = getHeaderCellText(cell);
+						}
+					}
+				}
+			} else if (cell.colspan) {
+				for (let j = 0; j < cell.colspan; j++) {
+					header[rowIndex][cellIndex + j] = getHeaderCellText(cell);
+				}
+			} else {
+				header[rowIndex][cellIndex] = getHeaderCellText(cell);
+			}
+		});
+	});
+
+	return header;
+}
+
+export function getHeaderCellText(cell) {
+	return cell.text
+		? cell.text
+		: cell;
 }
 
 export function createRadarScaleCallback(valueMap) {
