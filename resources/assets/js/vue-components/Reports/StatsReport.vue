@@ -47,7 +47,7 @@
 		<div class="stats-report-container">
 			<div v-if="show.ratios">
 				<h3>Ratios</h3>
-				<data-table :bordered="true" :thead="ratiosThead"
+				<data-table bordered exportable :thead="ratiosThead"
 					:config="listTableConfig" :data="ratiosData" />
 			</div>
 			<div v-if="show.ratios && show.graphs">
@@ -62,24 +62,24 @@
 			</div>
 			<div v-if="show.noRequests">
 				<h3>No requests</h3>
-				<data-table :bordered="true" :thead="noRequestsThead"
+				<data-table bordered exportable :thead="noRequestsThead"
 					:config="listTableConfig" :data="noRequestsData" />
 			</div>
 			<div v-if="show.noneCompleted">
 				<h3>None completed</h3>
-				<data-table :bordered="true" :thead="noneCompletedThead"
+				<data-table bordered exportable :thead="noneCompletedThead"
 					:config="listTableConfig" :data="noneCompletedData" />
 			</div>
 			<div v-if="show.averageCompletionTimes">
 				<h3>Average completion times</h3>
-				<data-table :bordered="true"
+				<data-table bordered exportable
 					:thead="averageCompletionTimesThead"
 					:config="averageCompletionTimesConfig"
 					:data="averageCompletionTimesData" />
 			</div>
 			<div v-if="show.lastCompleted">
 				<h3>Last completed evaluations</h3>
-				<data-table :bordered="true" :thead="lastCompletedThead"
+				<data-table bordered exportable :thead="lastCompletedThead"
 					:config="lastCompletedConfig" :data="lastCompletedData" />
 			</div>
 		</div>
