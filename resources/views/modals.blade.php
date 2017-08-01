@@ -14,11 +14,15 @@
 			<div class="form-group">
 		@if($user->isType("resident"))
 				<input type="hidden" name="resident" value="{{ $user->id }}" />
-        @elseif($reportableUsers)
+        @elseif($reportableUserGroups)
                 <label for="resident">Trainee</label>
                 <select class="form-control select2" name="resident" style="width: 100%" required>
-            @foreach($reportableUsers as $trainee)
-                    <option value="{{ $trainee->id }}">{{ $trainee->full_name }}</option>
+            @foreach($reportableUserGroups as $group => $reportableUsers)
+                    <optgroup label="{{ $group }}">
+                @foreach($reportableUsers as $trainee)
+                        <option value="{{ $trainee->id }}">{{ $trainee->full_name }}</option>
+                @endforeach
+                    </optgroup>
             @endforeach
                 </select>
 		@endif

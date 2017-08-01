@@ -36,19 +36,41 @@ class SharedVariables
 
 			$user = Auth::user();
 			if (!$user->isType('resident')) {
-				$reportableUsers = [];
+				$reportableUserGroups = [];
+
 				if ($user->usesFeature('RESIDENT_REPORTS')) {
-					$reportableUsers = User::where('type', 'resident')
+					$residents = User::where('type', 'resident')
 						->whereIn('training_level', [
 							'intern',
 							'ca-1',
 							'ca-2',
 							'ca-3'
-						])->get();
-				} elseif (!empty($user->mentees)) {
-					$reportableUsers = $user->mentees;
+						])->where('status', 'active')
+						->orderBy('last_name')->get();
+
+						$residentGroupNames = [
+			                "intern" => "Intern",
+			                "ca-1" => "CA-1",
+			                "ca-2" => "CA-2",
+			                "ca-3" => "CA-3"
+			            ];
+			            $reportableUserGroups = [
+			                "Intern" => [],
+			                "CA-1" => [],
+			                "CA-2" => [],
+			                "CA-3" => []
+			            ];
+
+					foreach($residents as $resident){
+		                $reportableUserGroups[$residentGroupNames[$resident->training_level]][] = $resident;
+		            }
 				}
-				View::share('reportableUsers', $reportableUsers);
+
+				if (!empty($user->mentees)) {
+					$reportableUserGroups['Mentee'] = $user->mentees;
+				}
+
+				View::share('reportableUserGroups', $reportableUserGroups);
 			}
 		}
 

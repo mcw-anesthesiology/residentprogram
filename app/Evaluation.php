@@ -131,13 +131,6 @@ class Evaluation extends Model
 	public function getEvaluatorIdAttribute($evaluatorId) {
 		if(Auth::check() && !Auth::user()->isType('admin')
 				&& $this->visibility == 'anonymous'
-				&& !(Auth::user()->usesFeature('RESIDENT_EVALS')
-					&& in_array($this->training_level, [
-						'intern',
-						'ca-1',
-						'ca-2',
-						'ca-3'
-					]))
 				&& Auth::user()->id != $evaluatorId
 				&& !$this->showAll)
 			return null;
@@ -148,13 +141,6 @@ class Evaluation extends Model
 	public function getRequestedByIdAttribute($requestedById) {
 		if(Auth::check() && !Auth::user()->isType('admin')
 				&& $this->visibility == 'anonymous'
-				&& !(Auth::user()->usesFeature('RESIDENT_EVALS')
-					&& in_array($this->training_level, [
-						'intern',
-						'ca-1',
-						'ca-2',
-						'ca-3'
-					]))
 				&& Auth::user()->id != $requestedById
 				&& $this->showAll)
 			return null;
