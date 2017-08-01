@@ -33,6 +33,23 @@ class SharedVariables
 			}
 
 			View::share("milestoneGroups", $milestoneGroups);
+
+			$user = Auth::user();
+			if (!$user->isType('resident')) {
+				$reportableUsers = [];
+				if ($user->usesFeature('RESIDENT_REPORTS')) {
+					$reportableUsers = User::where('type', 'resident')
+						->whereIn('training_level', [
+							'intern',
+							'ca-1',
+							'ca-2',
+							'ca-3'
+						])->get();
+				} elseif (!empty($user->mentees)) {
+					$reportableUsers = $user->mentees;
+				}
+				View::share('reportableUsers', $reportableUsers);
+			}
 		}
 
         return $next($request);

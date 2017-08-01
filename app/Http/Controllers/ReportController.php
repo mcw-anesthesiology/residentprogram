@@ -35,6 +35,23 @@ class ReportController extends Controller
 			"specific",
 			"getPDF"
 		]]);
+
+        $this->middleware(function ($request, $next) {
+			$user = Auth::user();
+	        $resident = User::find($request->input("resident"));
+	        if (
+				$resident == $user
+				|| $user->isType("admin")
+				|| $user->mentees->contains($resident)
+				|| (
+					$resident->isType('RESIDENT')
+					&& $user->usesFeature('RESIDENT_REPORTS')
+				)
+			)
+            	return $next($request);
+
+			return redirect('/dashboard')->with("error", "Requested report not authorized");
+		})->only('specific');
     }
 
 	public function reports() {
@@ -633,11 +650,6 @@ class ReportController extends Controller
     }
 
     public function specific(Request $request) {
-		$user = Auth::user();
-        $resident = User::find($request->input("resident"));
-        if (!($resident == $user || $user->isType("admin") || $user->mentees->contains($resident)))
-            return back()->with("error", "Requested report not authorized");
-
         $data = [];
 
         $input = $request->all();

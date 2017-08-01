@@ -592,7 +592,7 @@ class MainController extends Controller
 				throw new \Exception("Insufficient permissions to view the requested evaluation");
 		} catch(\Exception $e) {
 			Debugbar::info($e);
-			return back()->with("error", "Insufficient permissions to view the requested evaluation");
+			return redirect('/dashboard')->with("error", "Insufficient permissions to view the requested evaluation");
 		}
     }
 

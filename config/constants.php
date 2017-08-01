@@ -14,14 +14,16 @@ return [
 		'CASE_LOG' => 'CASE_LOG',
 		'RESIDENT_EVALS' => 'RESIDENT_EVALS',
 		'FACULTY_EVALS' => 'FACULTY_EVALS',
-		'FACULTY_MERIT' => 'FACULTY_MERIT'
+		'FACULTY_MERIT' => 'FACULTY_MERIT',
+		'RESIDENT_REPORTS' => 'RESIDENT_REPORTS'
 	],
 
 	'FEATURE_NAMES' => [
 		'CASE_LOG' => 'Case Log',
 		'RESIDENT_EVALS' => 'View ALL resident evaluations',
 		'FACULTY_EVALS' => 'Anonymized faculty evaluations',
-		'FACULTY_MERIT' => 'View faculty merit reports'
+		'FACULTY_MERIT' => 'View faculty merit reports',
+		'RESIDENT_REPORTS' => 'Run individual reports for all residents'
 	],
 
 	'MULTIPLE_CHOICE_QUESTION_TYPES' => [
