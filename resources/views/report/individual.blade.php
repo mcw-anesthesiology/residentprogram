@@ -54,7 +54,6 @@
 			<tr>
 				<th>#</th>
 				<th>Evaluation date</th>
-				<th>Faculty</th>
 				<th>Evaluation form</th>
 			</tr>
 		</thead>
@@ -67,7 +66,6 @@
 					—
 					{{ Carbon\Carbon::parse($reportEvaluation->evaluation_date_end)->format("F Y") }}
 				</td>
-				<td>{{ $reportEvaluation->last_name }}, {{ $reportEvaluation->first_name }}</td>
 				<td>{{ $reportEvaluation->form_title }}</td>
 			</tr>
 			@endforeach
@@ -177,7 +175,6 @@
 			<thead>
 				<tr>
 					<th>Evaluation Date</th>
-					<th>Faculty</th>
 					<th>Evaluation Form</th>
 					<th>Comment</th>
 				</tr>
@@ -190,7 +187,6 @@
 						—
 						{{ Carbon\Carbon::parse($response->evaluation_date_end)->format("F Y") }}
 					</td>
-					<td>{{ $response->last_name }}, {{ $response->first_name }}</td>
 					<td>{{ $response->form_title }}</td>
 					<td>{{ stripslashes(str_replace(['\r', '\n'], ' ',$response->response)) }}</td>
 				</tr>

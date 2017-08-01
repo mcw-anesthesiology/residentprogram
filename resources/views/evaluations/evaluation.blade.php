@@ -91,7 +91,7 @@
 	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
 						<th>{{ ucfirst($evaluation->subject->type) }}</th>
 	@endif
-	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->evaluator && $evaluation->visibility == "visible"))
+	@if($user->isType("admin"))
 						<th>{{ ucfirst($evaluation->evaluator->type) }}</th>
 	@endif
 	@if($evaluation->status == "complete")
@@ -121,7 +121,7 @@
 	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
 						<td>{!! $subjectString !!}</td>
 	@endif
-	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
+	@if($user->isType("admin"))
 						<td>{!! $evaluatorString !!}</td>
 	@endif
 	@if($evaluation->status == "complete")

@@ -14,7 +14,7 @@ import {
 } from 'modules/datatable-utils.js';
 
 export default function createFacultyDashboard(el, propsData){
-	
+
 	return new Vue({
 		el,
 		props: {
@@ -32,13 +32,13 @@ export default function createFacultyDashboard(el, propsData){
 			}
 		},
 		propsData,
-		
+
 		data(){
 			return {
 				alerts: []
 			};
 		},
-		
+
 		computed: {
 			pendingThead(){
 				return [[
@@ -140,7 +140,6 @@ export default function createFacultyDashboard(el, propsData){
 			menteeThead(){
 				return [[
 					'#',
-					'Evaluator',
 					'Evaluation Form',
 					'Evaluation Date',
 					'Requested',
@@ -153,9 +152,6 @@ export default function createFacultyDashboard(el, propsData){
 						url: '/evaluations',
 						data: {
 							with: {
-								evaluator: [
-									'full_name'
-								],
 								form: [
 									'title'
 								]
@@ -167,11 +163,6 @@ export default function createFacultyDashboard(el, propsData){
 					},
 					columns: [
 						{data: 'url'},
-						{data: 'evaluator.full_name', render(name){
-							if(!name)
-								return '<i>Anonymous</i>';
-							return name;
-						}},
 						{data: 'form.title'},
 						{
 							data: null,
@@ -237,7 +228,6 @@ export default function createFacultyDashboard(el, propsData){
 				return [[
 					'#',
 					'Resident',
-					'Evaluator',
 					'Evaluation Form',
 					'Evaluation Date',
 					'Requested',
@@ -251,7 +241,6 @@ export default function createFacultyDashboard(el, propsData){
 						data: {
 							with: {
 								subject: ['full_name'],
-								evaluator: ['full_name'],
 								form: ['title'],
 							},
 							whereHas: {
@@ -267,7 +256,6 @@ export default function createFacultyDashboard(el, propsData){
 					columns: [
 						{data: 'url'},
 						{data: 'subject.full_name', render: renderSubjectCell},
-						{data: 'evaluator.full_name'},
 						{data: 'form.title'},
 						{
 							data: null,
