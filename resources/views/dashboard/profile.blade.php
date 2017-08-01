@@ -81,7 +81,6 @@
 		<thead>
 			<tr>
 				<th>#</th>
-				<th>Evaluator</th>
 				<th>Form</th>
 				<th>Evaluation Date</th>
 				<th>Requested</th>
@@ -103,7 +102,6 @@
 				url: "/evaluations",
 				data: {
 					with: {
-						evaluator: ["full_name"],
 						form: ["title"]
 					},
 	@if($profileUser->isType("resident"))
@@ -116,7 +114,6 @@
 			},
 			columns: [
 				{data: "url"},
-				{data: "evaluator.full_name"},
 				{data: "form.title"},
 				{
 					data: null,
