@@ -7,6 +7,7 @@ import FacultyReport from 'vue-components/Reports/FacultyReport.vue';
 import FormReport from 'vue-components/Reports/FormReport.vue';
 import NeedsReport from 'vue-components/Reports/Needs/Report.vue';
 import PendingEvalsReport from 'vue-components/Reports/PendingEvalsReport.vue';
+import FacultyPublicationsReport from 'vue-components/Reports/FacultyPublicationsReport.vue';
 
 
 Vue.use(VueRouter);
@@ -35,6 +36,10 @@ export function createReports(el){
 				{
 					path: '/pending-requests',
 					component: PendingEvalsReport
+				},
+				{
+					path: '/faculty-publications',
+					component: FacultyPublicationsReport
 				}
 			]
 		}),

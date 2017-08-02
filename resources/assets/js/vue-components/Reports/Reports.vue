@@ -40,7 +40,8 @@ export default {
 				'faculty',
 				'form',
 				'needs-evaluations',
-				'pending-requests'
+				'pending-requests',
+				'faculty-publications'
 			];
 		},
 		groupedUsers(){
@@ -66,7 +67,7 @@ export default {
 	.report-type-option {
 		margin: 0 1em;
 	}
-	
+
 	@media print {
 		.reports-selector {
 			display: none;
