@@ -7,7 +7,7 @@
 		var a = typeof exports === 'object' ? factory(require("moment")) : factory(root["moment"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_20__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_19__) {
 return webpackJsonp([9],[
 /* 0 */,
 /* 1 */
@@ -48,7 +48,7 @@ return webpackJsonp([9],[
 /* harmony export (immutable) */ __webpack_exports__["c"] = errorToAlert;
 /* harmony export (immutable) */ __webpack_exports__["H"] = userIsType;
 /* harmony export (immutable) */ __webpack_exports__["r"] = isAdmin;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_striptags__ = __webpack_require__(416);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_striptags___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_striptags__);
@@ -495,7 +495,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["monthForDate"] = monthForDate;
 /* harmony export (immutable) */ __webpack_exports__["quartersInAcademicYear"] = quartersInAcademicYear;
 /* harmony export (immutable) */ __webpack_exports__["monthsInAcademicYear"] = monthsInAcademicYear;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 
 
@@ -712,13 +712,13 @@ function monthsInAcademicYear() {
 /* 16 */,
 /* 17 */,
 /* 18 */,
-/* 19 */,
-/* 20 */
+/* 19 */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_20__;
+module.exports = __WEBPACK_EXTERNAL_MODULE_19__;
 
 /***/ }),
+/* 20 */,
 /* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -744,11 +744,11 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_20__;
 /* harmony export (immutable) */ __webpack_exports__["q"] = renderSubjectCell;
 /* harmony export (immutable) */ __webpack_exports__["d"] = createEditAndDeleteButtons;
 /* harmony export (immutable) */ __webpack_exports__["e"] = getDataAttributes;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(415);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_twix__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(13);
 
@@ -1011,7 +1011,8 @@ module.exports = function(module) {
 /* 43 */,
 /* 44 */,
 /* 45 */,
-/* 46 */
+/* 46 */,
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1052,7 +1053,6 @@ var CHART_COLORS = {
 };
 
 /***/ }),
-/* 47 */,
 /* 48 */,
 /* 49 */,
 /* 50 */,
@@ -14395,7 +14395,7 @@ module.exports = function(Chart) {
 /* global window: false */
 
 
-var moment = __webpack_require__(20);
+var moment = __webpack_require__(19);
 moment = typeof(moment) === 'function' ? moment : window.moment;
 
 module.exports = function(Chart) {
@@ -19729,11 +19729,11 @@ module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"C
   };
 
   if (hasModule) {
-    return module.exports = makeTwix(__webpack_require__(20));
+    return module.exports = makeTwix(__webpack_require__(19));
   }
 
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(20)], __WEBPACK_AMD_DEFINE_RESULT__ = function(moment) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_RESULT__ = function(moment) {
       return makeTwix(moment);
     }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
