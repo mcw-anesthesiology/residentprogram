@@ -111,9 +111,19 @@ class MeritReportController extends RestController
 		})->only('printView');
 	}
 
-	public function byUser() {
-		return User::whereHas('meritReports')
-			->with('meritReports', 'meritReports.form')->get();
+	public function byUser(Request $request) {
+		$datedMerits = function($query) use ($request) {
+			if ($request->has('startDate'))
+				$query = $query->where('period_end', '>=', $request->input('startDate'));
+			if ($request->has('endDate'))
+				$query = $query->where('period_start', '<=', $request->input('endDate'));
+
+			return $query;
+		};
+
+		return User::whereHas('meritReports', $datedMerits)
+			->with(['meritReports' => $datedMerits, 'meritReports.form'])
+			->orderBy('last_name', 'asc')->get();
 	}
 
 	public function update(Request $request, $id) {

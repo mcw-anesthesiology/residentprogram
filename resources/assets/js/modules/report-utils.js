@@ -1,14 +1,17 @@
 import download from 'downloadjs';
 
-import { escapeCsv, sortNumbers } from './utils.js';
+import { sortNumbers } from './utils.js';
 
 export function quoteValue(value) {
-	return escapeCsv(value);
+	return `"${value}"`;
 }
 
-export function downloadCsv(csv, subjectName, dates) {
+export function downloadCsv(csv, name, dates) {
 
-	let filename = `${subjectName} - ${dates.startDate}-${dates.endDate}.csv`;
+	let filename = `${name}`;
+	if (dates)
+		filename += ` - ${dates.startDate}-${dates.endDate}`;
+	filename += '.csv';
 
 	let file = csv.map(row =>
 		row.map(quoteValue).join(',')

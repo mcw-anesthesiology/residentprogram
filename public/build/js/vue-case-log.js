@@ -212,7 +212,7 @@ if (false) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_downloadjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
 //
 //
@@ -449,7 +449,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr__ = __webpack_require__(144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lunr__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__ = __webpack_require__(33);
 //
 //
 //
@@ -3408,7 +3408,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 34:
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3434,12 +3434,14 @@ if (false) {(function () {
 
 
 function quoteValue(value) {
-	return Object(__WEBPACK_IMPORTED_MODULE_1__utils_js__["d" /* escapeCsv */])(value);
+	return '"' + value + '"';
 }
 
-function downloadCsv(csv, subjectName, dates) {
+function downloadCsv(csv, name, dates) {
 
-	var filename = subjectName + ' - ' + dates.startDate + '-' + dates.endDate + '.csv';
+	var filename = '' + name;
+	if (dates) filename += ' - ' + dates.startDate + '-' + dates.endDate;
+	filename += '.csv';
 
 	var file = csv.map(function (row) {
 		return row.map(quoteValue).join(',');
