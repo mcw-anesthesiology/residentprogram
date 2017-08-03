@@ -898,7 +898,8 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 33 */
+/* 33 */,
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -947,7 +948,6 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 34 */,
 /* 35 */,
 /* 36 */,
 /* 37 */,
@@ -4414,7 +4414,7 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue__ = __webpack_require__(167);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ConfirmationButton_vue__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectTwo_vue__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectTwo_vue__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(1);
 //
@@ -5765,7 +5765,8 @@ if (false) {
 /* 415 */,
 /* 416 */,
 /* 417 */,
-/* 418 */
+/* 418 */,
+/* 419 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5831,6 +5832,6 @@ function createFormBuilder(el, propsData) {
 }
 
 /***/ })
-],[418]);
+],[419]);
 });
 //# sourceMappingURL=vue-form-builder.js.map

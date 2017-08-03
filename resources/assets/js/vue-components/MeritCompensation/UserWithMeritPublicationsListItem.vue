@@ -44,8 +44,6 @@
 </template>
 
 <script>
-import moment from 'moment';
-
 import { getFacultyPublicationsByType } from 'modules/merits/faculty-merit.js';
 
 export default {
@@ -54,8 +52,8 @@ export default {
 			type: String,
 			required: true
 		},
-		merit_reports: {
-			type: Array,
+		report: {
+			type: Object,
 			required: true
 		}
 	},
@@ -66,33 +64,25 @@ export default {
 	},
 
 	computed: {
-		mostRecentCompleteReport() {
-			if (!this.merit_reports || this.merit_reports.length < 1)
-				return;
-
-			let mostRecent = null;
-
-			for (let meritReport of this.merit_reports) {
-				if (
-					meritReport.status === 'complete'
-					&& (
-						mostRecent == null
-						|| moment(meritReport.period_end) >= moment(mostRecent.period_end)
-					)
-				)
-					mostRecent = meritReport;
-			}
-
-			return mostRecent;
-		},
 		facultyPublicationsByType() {
-			return Array.from(getFacultyPublicationsByType(this.mostRecentCompleteReport).entries());
+			return Array.from(getFacultyPublicationsByType(this.report).entries());
 		},
 		totalFacultyPublications() {
 			// eslint-disable-next-line no-unused-vars
-			return this.facultyPublicationsByType.reduce((acc, [pubType, publications]) =>
+			return this.facultyPublicationsByType.reduce((acc, [_, publications]) =>
 				acc + publications.length
 			, 0);
+		}
+	},
+
+	methods: {
+		getCsvRow() {
+			return [this.full_name].concat(
+				// eslint-disable-next-line no-unused-vars
+				this.facultyPublicationsByType.map(([_, publications]) =>
+					publications.length
+				)
+			).concat([this.totalFacultyPublications]);
 		}
 	}
 };

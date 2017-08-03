@@ -609,6 +609,13 @@ aside[data-v-0409124b] {
 	font-size: 0.8em;
 }
 
+.controls-row[data-v-70cfab2a] {
+	margin-bottom: 3em;
+}
+.containing-label[data-v-70cfab2a] {
+	width: 100%;
+}
+
 .report-summary[data-v-440a77f7] {
 	display: flex;
 	justify-content: space-around;
