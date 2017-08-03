@@ -131,3 +131,7 @@ export const CHART_COLORS = {
 		'#b10dc9'
 	]
 };
+
+export const FEATURE_RELEASE_DATES = {
+	FACULTY_MERIT: '2016-07-01'
+};

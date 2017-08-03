@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { getFacultyPublicationsByType } from 'modules/merits/faculty-merit.js';
+import { getFacultyPublicationsByType } from 'modules/merits/faculty-merit/index.js';
 
 export default {
 	props: {

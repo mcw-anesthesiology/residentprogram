@@ -609,10 +609,19 @@ aside[data-v-0409124b] {
 	font-size: 0.8em;
 }
 
-.controls-row[data-v-70cfab2a] {
+.report-type-option[data-v-a9e1fc4c] {
+	margin: 0 1em;
+}
+@media print {
+.reports-selector[data-v-a9e1fc4c] {
+		display: none;
+}
+}
+
+.controls-row[data-v-a7635df8] {
 	margin-bottom: 3em;
 }
-.containing-label[data-v-70cfab2a] {
+.containing-label[data-v-a7635df8] {
 	width: 100%;
 }
 
