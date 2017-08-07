@@ -35,15 +35,35 @@
 import UsersWithMeritReport from './UsersWithMeritReport.vue';
 import UserWithScholarlyActivityListItem from 'vue-components/MeritCompensation/UserWithScholarlyActivityListItem.vue';
 
-
+import { getScholarlyActivity } from 'modules/merits/faculty-merit/index.js';
+import { downloadCsv } from 'modules/report-utils.js';
 
 export default {
 	extends: UsersWithMeritReport,
 
 	methods: {
 		getCsv() {
-			// TODO
-			alert('TODO');
+			let csv = [
+				[
+					'Faculty Member',
+					'PMID 1',
+					'PMID 2',
+					'PMID 3',
+					'PMID 4',
+					'Conference Presentations (#)',
+					'Other Presentations (#)',
+					'Chapters / Texbooks (#)',
+					'Grant Leadership (#)',
+					'Leadership or Peer-Review Role (Y/N)',
+					'Teaching Formal Courses (Y/N)'
+				]
+			];
+
+			for (let user of this.usersWithMerit) {
+				csv.push(getScholarlyActivity(user.report, user.full_name));
+			}
+
+			downloadCsv(csv, 'Scholarly Activity', this.dates);
 		}
 	},
 
