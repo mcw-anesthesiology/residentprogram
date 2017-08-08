@@ -67,7 +67,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	];
 
 	protected $appends = ["full_name", "specific_type", "profile_link"];
-	
+
 	protected $deepFeatures = null;
 
 	public function getFullNameAttribute(){
@@ -86,7 +86,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			// In the future, plan to change resident -> trainee
 			if($type == "trainee")
 				$type = "resident";
-				
+
 			// Specifically not a fellow
 			if($type == 'RESIDENT' && $this->type == 'resident' && in_array($this->training_level, [
 				'intern',
@@ -126,11 +126,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	}
 
 	public function mentors(){
-		return $this->belongsToMany("App\User", "mentorships", "mentee_id", "mentor_id")->where("mentorships.status", "active");
+		return $this->belongsToMany("App\User", "mentorships", "mentee_id", "mentor_id")
+			->where("mentorships.status", "active");
 	}
 
 	public function mentees(){
-		return $this->belongsToMany("App\User", "mentorships", "mentor_id", "mentee_id")->where("mentorships.status", "active");
+		return $this->belongsToMany("App\User", "mentorships", "mentor_id", "mentee_id")
+			->where("mentorships.status", "active");
 	}
 
 	public function watchedForms(){
@@ -188,17 +190,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 					->merge($this->typeFeatures())
 					->merge($this->trainingLevelFeatures())
 					->merge($this->secondaryTrainingLevelFeatures());
-					
+
 			return $this->deepFeatures->contains($feature);
 		}
-		
+
 		return $this->userFeatures->pluck('feature')->contains($feature);
 	}
 
 	public function caseLogs(){
 		return $this->hasMany("App\CaseLog");
 	}
-	
+
 	public function meritReports() {
 		return $this->hasMany('App\MeritReport');
 	}
@@ -215,14 +217,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		});
 
 	}
-	
+
 	public function scopeOfType($query, $type) {
 		if (is_array($type))
 			return $query->whereIn('type', $type);
 		else
 			return $query->where('type', $type);
 	}
-	
+
 	public function scopeActive($query) {
 		return $query->where('status', 'active');
 	}
@@ -276,10 +278,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 	public function hideFields(){
 		$this->addHidden($this->userHidden);
-		
+
 		if (Auth::check() && Auth::id() != $this->id)
 			$this->addHidden('created_at');
-		
+
 		return $this;
 	}
 }
