@@ -11,12 +11,14 @@
 	"env": {
 		"browser": true,
 		"es6": true,
-		"jquery": true
+		"jquery": true,
+		"jest/globals": true
 	},
 	"plugins": [
 		"vue",
 		"compat",
-		"import"
+		"import",
+		"jest"
 	],
 	"extends": [
 		"eslint:recommended",

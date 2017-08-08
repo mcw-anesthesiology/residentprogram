@@ -1,6 +1,6 @@
 <template>
 	<div class="table-responsive">
-		<div class="refresh-button-container" v-if="reloadable">
+		<div class="refresh-button-container" v-if="canReload">
 			<button type="button" class="btn btn-default" title="Reload table"
 					@click="reloadTable">
 				<span class="glyphicon glyphicon-refresh"></span>
@@ -20,7 +20,7 @@
 				</thead>
 			</slot>
 		</table>
-		<div v-if="exportable && data" class="text-center">
+		<div v-if="exportable && data && data.length > 0" class="text-center">
 			<button type="button" class="btn btn-default"
 					@click="exportCsv">
 				Export CSV
@@ -63,9 +63,9 @@ export default {
 			required: false
 		},
 
-		reloader: {
-			type: Function,
-			required: false
+		reloadable: {
+			type: Boolean,
+			default: false
 		},
 		exportable: {
 			type: Boolean,
@@ -93,8 +93,8 @@ export default {
 				'table-bordered': this.bordered
 			};
 		},
-		reloadable(){
-			return (this.config && 'ajax' in this.config) || this.reloader;
+		canReload(){
+			return (this.config && 'ajax' in this.config) || this.reloadable;
 		}
 	},
 	watch: {
@@ -117,14 +117,20 @@ export default {
 	},
 	methods: {
 		reloadTable(){
-			if(this.reloader)
-				this.reloader();
-			else
+			if (!this.canReload)
+				return;
+
+			if (this.config && 'ajax' in this.config)
 				$(this.$refs.table).DataTable({
 					retrieve: true
 				}).ajax.reload(null, false);
+			else
+				this.$emit('reload');
 		},
 		exportCsv(){
+			if (!this.exportable)
+				return;
+
 			let header = csvHeader(this.thead);
 			let rows = this.data.map(row =>
 				row.map(cell =>
