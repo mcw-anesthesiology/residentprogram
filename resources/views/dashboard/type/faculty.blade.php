@@ -65,7 +65,7 @@
 		var propsData = {
 			user: {!! $user->toJson() !!},
 			watchedForms: {!! $user->watchedForms()->with('form')->get()->toJson() !!},
-			mentees: {!! $user->mentees !!}
+			mentees: {!! $user->mentees->where('status', 'active')->values()->toJson() !!}
 		};
 
 		createFacultyDashboard('main', propsData);
