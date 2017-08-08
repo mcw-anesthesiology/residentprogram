@@ -52,7 +52,7 @@ export function getAllPublications(meritReport) {
 	return publications;
 }
 
-function getPublicationSection(meritReport) {
+export function getPublicationSection(meritReport) {
 	return meritReport.report.pages[2].items[0];
 }
 
@@ -77,7 +77,7 @@ export function getScholarlyActivity(meritReport, fullName) {
 	];
 }
 
-function getPubMedIds(meritReport) {
+export function getPubMedIds(meritReport) {
 	// FIXME: Translate links to PMIDs
 	/*
 	 * Pub Med Ids (assigned by PubMed) for articles published in the previous
@@ -107,11 +107,11 @@ function getPubMedIds(meritReport) {
 	return pubMedIds;
 }
 
-function getPubMedIdFromLink(link) {
+export function getPubMedIdFromLink(link) {
 	// FIXME: This isn't very good.
 
 	const pubMedUrl = 'www.ncbi.nlm.nih.gov/pubmed/';
-	if (link.includes(pubMedUrl)) {
+	if (link && link.includes(pubMedUrl)) {
 		let pubMedId = parseInt(
 			link.substring(link.indexOf(pubMedUrl) + pubMedUrl.length),
 			10
@@ -122,7 +122,7 @@ function getPubMedIdFromLink(link) {
 	}
 }
 
-function getConferencePresentations(meritReport) {
+export function getConferencePresentations(meritReport) {
 	/*
 	 * Number of abstracts, posters, and presentations given at international,
 	 * national, or regional meetings in the previous academic year
@@ -153,7 +153,7 @@ function getConferencePresentations(meritReport) {
 	return conferencePresentations;
 }
 
-function getOtherPresentations(meritReport) {
+export function getOtherPresentations(meritReport) {
 	/*
 	 * Number of other presentations given (grand rounds, invited professorships),
 	 * materials developed (such as computer-based modules), or work presented
@@ -199,7 +199,7 @@ function getOtherPresentations(meritReport) {
 	return otherPresentations;
 }
 
-function getChaptersTextbooks(meritReport) {
+export function getChaptersTextbooks(meritReport) {
 	/*
 	 * Number of chapters or textbooks published in the previous academic year
 	 */
@@ -226,7 +226,7 @@ function getChaptersTextbooks(meritReport) {
 	return chaptersTextbooks;
 }
 
-function getGrants(meritReport) {
+export function getGrants(meritReport) {
 	/*
 	 * Number of grants for which faculty member had a leadership role
 	 * (PI, Co-PI, or site director) in the previous academic year
@@ -247,7 +247,7 @@ function getGrants(meritReport) {
 	return grants;
 }
 
-function getLeadershipPeerReviewRoles(meritReport) {
+export function getLeadershipPeerReviewRoles(meritReport) {
 	/*
 	 * Had an active leadership role (such as serving on committees or
 	 * governing boards) in national medical organizations or served as
@@ -329,7 +329,7 @@ function getLeadershipPeerReviewRoles(meritReport) {
 		: 'N';
 }
 
-function getTeachingFormalCourses(meritReport) {
+export function getTeachingFormalCourses(meritReport) {
 	/*
 	 *  In the previous academic year, held responsibility for seminars,
 	 *  conference series, or course coordination (such as arrangement of
