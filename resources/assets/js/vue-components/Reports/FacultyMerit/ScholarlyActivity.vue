@@ -12,6 +12,7 @@
 
 		<div v-if="usersWithMerit">
 			<data-table :thead="thead" :data="userScholarlyActivities"
+				:export-filename="exportFilename"
 				reloadable
 				exportable
 				@reload="fetchUsersWithMerits" />
