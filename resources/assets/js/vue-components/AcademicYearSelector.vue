@@ -1,5 +1,5 @@
 <template>
-	<select-two v-model.number="yearIndex" :readonly="readonly">
+	<select-two v-model.number="yearIndex" :readonly="readonly" class="form-control">
 		<option v-for="(year, index) of academicYears" :value="index">
 			{{ renderDateRange(year.startDate, year.endDate) }}
 		</option>
@@ -51,43 +51,43 @@ export default {
 			default: false
 		}
 	},
-	
+
 	data() {
 		return {
 			yearIndex: 0
 		};
 	},
-	
+
 	computed: {
 		academicYears() {
 			let maxDate = moment(this.maxDate);
 			let d = moment(this.minDate);
-			
+
 			let years = [];
-			
+
 			do {
 				years.push(academicYearForDate(d.clone()));
-				
+
 				d.add(1, 'year');
 			} while (d < maxDate);
-			
+
 			if (this.descending)
 				years.reverse();
-			
+
 			if (this.allTime)
 				years.push({
 					startDate: null,
 					endDate: null
 				});
-			
+
 			return years;
 		}
 	},
-	
+
 	mounted() {
 		this.matchIndexWithValue(this.value);
 	},
-	
+
 	watch: {
 		value(value) {
 			this.matchIndexWithValue(value);
@@ -99,19 +99,19 @@ export default {
 				this.$emit('input', isoDateStringObject(this.academicYears[index]));
 		}
 	},
-	
+
 	methods: {
 		matchIndexWithValue(value) {
 			let newIndex = this.academicYears.findIndex(year =>
 				datesEqual(year, value)
 			);
-			
+
 			if (newIndex !== -1)
 				this.yearIndex = newIndex;
 		},
 		renderDateRange
 	},
-	
+
 	components: {
 		SelectTwo
 	}
