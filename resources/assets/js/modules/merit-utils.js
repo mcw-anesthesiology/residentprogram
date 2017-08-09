@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export function getCheckedItemCount(report) {
 	if ('type' in report && report.type === 'item')
 		return report.checked ? 1 : 0;
@@ -15,6 +17,23 @@ export function getCheckedItemCount(report) {
 	}
 
 	return count;
+}
+
+export function getUsersWithCompleteMerit(usersWithMerits) {
+	if (!usersWithMerits)
+		return;
+
+	let usersWithMerit = [];
+
+	for (let user of usersWithMerits) {
+		let report = getMostRecentCompleteReport(user.merit_reports);
+
+		if (report) {
+			usersWithMerit.push(Object.assign({}, user, {report}));
+		}
+	}
+
+	return usersWithMerit;
 }
 
 export function sectionIsValid(section) {
@@ -175,4 +194,24 @@ export function itemIsChecked(item) {
 	}
 
 	return false;
+}
+
+export function getMostRecentCompleteReport(meritReports) {
+	if (!meritReports || meritReports.length < 1)
+		return;
+
+	let mostRecent = null;
+
+	for (let meritReport of meritReports) {
+		if (
+			meritReport.status === 'complete'
+			&& (
+				mostRecent == null
+				|| moment(meritReport.period_end) >= moment(mostRecent.period_end)
+			)
+		)
+			mostRecent = meritReport;
+	}
+
+	return mostRecent;
 }

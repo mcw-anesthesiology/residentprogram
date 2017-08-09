@@ -4,13 +4,11 @@
 			<fieldset>
 				<legend>Report type</legend>
 				<div class="form-inline">
-					<label >
-						<router-link v-for="type of reportTypes" :to="type"
-								class="report-type-option btn btn-default"
-								active-class="disabled">
-							{{ kebabCaseToWords(type) }}
-						</router-link>
-					</label>
+					<router-link v-for="type of reportTypes" :to="`/${type}`"
+							class="report-type-option btn btn-default"
+							active-class="disabled">
+						{{ kebabCaseToWords(type) }}
+					</router-link>
 				</div>
 			</fieldset>
 		</div>
@@ -40,7 +38,8 @@ export default {
 				'faculty',
 				'form',
 				'needs-evaluations',
-				'pending-requests'
+				'pending-requests',
+				'faculty-merit'
 			];
 		},
 		groupedUsers(){
@@ -66,7 +65,7 @@ export default {
 	.report-type-option {
 		margin: 0 1em;
 	}
-	
+
 	@media print {
 		.reports-selector {
 			display: none;

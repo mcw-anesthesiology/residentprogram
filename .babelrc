@@ -9,10 +9,28 @@
 				]
 			},
 			"useBuiltIns": true,
-			"debug": true,
+			"debug": false,
 			"modules": false
 		}]
 	],
+	"env": {
+		"test": {
+			"presets": [
+				["env", {
+					"targets": {
+						"node": "current"
+					},
+					"useBuiltIns": true,
+					"debug": false,
+					"modules": false
+				}]
+			],
+			"plugins": [
+				"transform-es2015-modules-commonjs",
+				"dynamic-import-node"
+			]
+		}
+	},
 	"plugins": [
 		"syntax-dynamic-import",
 		["module-resolver", {

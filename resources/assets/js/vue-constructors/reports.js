@@ -7,7 +7,10 @@ import FacultyReport from 'vue-components/Reports/FacultyReport.vue';
 import FormReport from 'vue-components/Reports/FormReport.vue';
 import NeedsReport from 'vue-components/Reports/Needs/Report.vue';
 import PendingEvalsReport from 'vue-components/Reports/PendingEvalsReport.vue';
+import FacultyMeritReport from 'vue-components/Reports/FacultyMeritReport.vue';
 
+import FacultyPublicationsReport from 'vue-components/Reports/FacultyMerit/Publications.vue';
+import FacultyScholarlyActivityReport from 'vue-components/Reports/FacultyMerit/ScholarlyActivity.vue';
 
 Vue.use(VueRouter);
 
@@ -35,6 +38,26 @@ export function createReports(el){
 				{
 					path: '/pending-requests',
 					component: PendingEvalsReport
+				},
+				{
+					path: '/faculty-merit',
+					component: FacultyMeritReport,
+					props: {
+						reportTypes: [
+							'publications',
+							'scholarly-activity'
+						]
+					},
+					children: [
+						{
+							path: 'publications',
+							component: FacultyPublicationsReport
+						},
+						{
+							path: 'scholarly-activity',
+							component: FacultyScholarlyActivityReport
+						}
+					]
 				}
 			]
 		}),
