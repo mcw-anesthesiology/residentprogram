@@ -97,7 +97,7 @@ export function getPubMedIds(meritReport) {
 		// Up to 4 PMIDs (PubMed IDs)
 		for (let i = 0; i < pubMedIds.length; i++) {
 			if (publicationsWithLinks.length > i && publicationsWithLinks[i]) {
-				pubMedIds[i] = publicationsWithLinks[i].link;
+				pubMedIds[i] = getPubMedIdFromLink(publicationsWithLinks[i].link);
 			}
 		}
 	} catch (e) {
