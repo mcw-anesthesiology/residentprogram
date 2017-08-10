@@ -109,16 +109,28 @@ export function getPubMedIds(meritReport) {
 
 export function getPubMedIdFromLink(link) {
 	// FIXME: This isn't very good.
+	if (!link)
+		return;
 
-	const pubMedUrl = 'www.ncbi.nlm.nih.gov/pubmed/';
-	if (link && link.includes(pubMedUrl)) {
-		let pubMedId = parseInt(
-			link.substring(link.indexOf(pubMedUrl) + pubMedUrl.length),
-			10
-		);
+	link = link.toLowerCase();
 
-		if (!Number.isNaN(pubMedId))
-			return pubMedId;
+	const prefixes = [
+		'www.ncbi.nlm.nih.gov/pubmed/',
+		'pmid:',
+		'pmid',
+		'pubmed:',
+		'pubmed'
+	];
+	for (let prefix of prefixes) {
+		if (link.includes(prefix)) {
+			let pubMedId = parseInt(
+				link.substring(link.indexOf(prefix) + prefix.length),
+				10
+			);
+
+			if (!Number.isNaN(pubMedId))
+				return pubMedId;
+		}
 	}
 }
 
