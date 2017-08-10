@@ -57,6 +57,30 @@ describe('faculty merit v1 utils', () => {
 			).toBe(28284926);
 		});
 
+		test('gets PubMed ID from "PMID:" tag', () => {
+			expect(
+				getPubMedIdFromLink('Some junk PMID: 9999 some more junk')
+			).toBe(9999);
+		});
+
+		test('gets ID from "pmid" tag', () => {
+			expect(
+				getPubMedIdFromLink('00000 pmid 3213')
+			).toBe(3213);
+		});
+
+		test('gets ID from "pubmed:" tag', () => {
+			expect(
+				getPubMedIdFromLink('pubmed: 234')
+			).toBe(234);
+		});
+
+		test('gets ID from "pubmed" tag', () => {
+			expect(
+				getPubMedIdFromLink('asldkfj pubmed 543')
+			).toBe(543);
+		});
+
 		test("doesn't get ID from a text citation", () => {
 			expect(
 				getPubMedIdFromLink('Some random citation')
