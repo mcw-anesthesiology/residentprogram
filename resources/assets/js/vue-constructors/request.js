@@ -26,7 +26,7 @@ import {
 	renderDateTimeCell
 } from 'modules/datatable-utils.js';
 
-export function createRequest(el, propsData){
+export function createRequest(el, propsData) {
 
 	return new Vue({
 		el: el,
@@ -45,6 +45,9 @@ export function createRequest(el, propsData){
 				evaluatorId: null,
 				formId: null,
 				evaluationDateJson: null,
+				useCustomEvaluationDate: false,
+				customEvaluationDate: null,
+
 				requestNote: null,
 
 				sendHash: requestType === 'staff',
@@ -80,6 +83,13 @@ export function createRequest(el, propsData){
 					minuteIncrement: 60,
 					minDate: academicYear.startDate,
 					maxDate: academicYear.endDate
+				};
+			},
+			customEvalFlatpickrOptions() {
+				return {
+					altInput: true,
+					altInputClass: 'form-control appear-not-readonly',
+					mode: 'range'
 				};
 			},
 			required() {
@@ -136,7 +146,7 @@ export function createRequest(el, propsData){
 			},
 			subjectForms() {
 				let forms = this.forms;
-				if(this.subjectId && this.subject && this.subject.type === 'resident'){
+				if (this.subjectId && this.subject && this.subject.type === 'resident') {
 					forms = this.subject.training_level === 'fellow'
 						? forms.filter(form => form.type === 'fellow')
 						: forms.filter(form => form.type === 'resident');
@@ -148,7 +158,21 @@ export function createRequest(el, propsData){
 				return groupForms(this.subjectForms);
 			},
 			evaluationDate() {
-				if(this.evaluationDateJson)
+				if (this.useCustomEvaluationDate && this.customEvaluationDate) {
+					try {
+						let [ startDate, endDate ] = this.customEvaluationDate
+							.split('to').map(s => s.trim());
+
+						return {
+							startDate,
+							endDate
+						};
+					} catch (e) {
+						console.error('Error with custom eval date, using non-custom', e);
+					}
+				}
+
+				if (this.evaluationDateJson)
 					return Array.isArray(this.evaluationDateJson)
 						? this.evaluationDateJson.map(JSON.parse)
 						: JSON.parse(this.evaluationDateJson);
@@ -156,7 +180,7 @@ export function createRequest(el, propsData){
 			evaluationDates() {
 				let form = this.forms.find(form => form.id === Number(this.formId));
 
-				if(!form)
+				if (!form)
 					return;
 
 				let dates = [];
@@ -212,7 +236,7 @@ export function createRequest(el, propsData){
 				return dates;
 			},
 			evaluationDateOptions() {
-				if(this.evaluationDates)
+				if (this.evaluationDates)
 					return this.evaluationDates.map(date => {
 						return {
 							id: JSON.stringify(isoDateStringObject(date)),
@@ -239,7 +263,7 @@ export function createRequest(el, propsData){
 				]];
 			},
 			pendingFacultyEvalsConfig() {
-				if(this.user.type !== 'resident' || this.requestType !== 'faculty')
+				if (this.user.type !== 'resident' || this.requestType !== 'faculty')
 					return;
 
 				return {
@@ -271,7 +295,7 @@ export function createRequest(el, propsData){
 						},
 						{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
 						{data: null, render: evaluation => {
-							if(evaluation.requested_by_id === this.user.id)
+							if (evaluation.requested_by_id === this.user.id)
 								return '<button class="btn btn-danger btn-xs cancel-eval-button" '
 									+ 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> '
 									+ 'Cancel</button>';
@@ -280,7 +304,7 @@ export function createRequest(el, propsData){
 						}}
 					],
 					order: [[0, 'desc']],
-					createdRow(row){
+					createdRow(row) {
 						$(row).addClass('view-evaluation');
 					}
 				};
@@ -327,18 +351,18 @@ export function createRequest(el, propsData){
 						{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
 					],
 					order: [[0, 'desc']],
-					createdRow(row){
+					createdRow(row) {
 						$(row).addClass('view-evaluation');
 					}
 				};
 			}
 		},
 		watch: {
-			allowMultiple(allowMultiple){
+			allowMultiple(allowMultiple) {
 				Object.keys(allowMultiple).map(field => {
-					if(allowMultiple[field] && !Array.isArray(this[field]))
+					if (allowMultiple[field] && !Array.isArray(this[field]))
 						this[field] = [this[field]];
-					else if(!allowMultiple[field] && Array.isArray(this[field]))
+					else if (!allowMultiple[field] && Array.isArray(this[field]))
 						this[field] = this[field][0];
 				});
 			},
@@ -354,29 +378,29 @@ export function createRequest(el, propsData){
 			evaluationDate() {
 				this.checkField('evaluationDate', 'evaluation date');
 			},
-			evaluationDateOptions(options){
-				if(!options && this.evaluationDateJson)
+			evaluationDateOptions(options) {
+				if (!options && this.evaluationDateJson)
 					this.evaluationDateJson = null;
 
-				if(!options || !this.evaluationDateJson)
+				if (!options || !this.evaluationDateJson)
 					return;
 
-				if(Array.isArray(this.evaluationDateJson)){
+				if (Array.isArray(this.evaluationDateJson)) {
 					let newJson = options.filter(({id}) =>
 						this.evaluationDateJson.includes(id)
 					).map(({id}) => id);
 
-					if(newJson.length !== this.evaluationDateJson.length)
+					if (newJson.length !== this.evaluationDateJson.length)
 						this.evaluationDateJson = newJson;
 				}
 				else {
-					if(!options.some(({id}) => id === this.evaluationDateJson))
+					if (!options.some(({id}) => id === this.evaluationDateJson))
 						this.evaluationDateJson = null;
 				}
 			},
 			formOptions() {
 				let formId = Number(this.formId);
-				if(formId && !this.subjectForms.find(form => form.id === formId))
+				if (formId && !this.subjectForms.find(form => form.id === formId))
 					this.formId = null;
 			}
 		},
@@ -384,7 +408,7 @@ export function createRequest(el, propsData){
 			clearDay() {
 				this.$refs.evaluationDayFlatpickr.fp.clear();
 			},
-			checkField(field, noun){
+			checkField(field, noun) {
 				this.error[field] = (this.required[field] &&
 						(!this[field] || this[field].length === 0))
 					? `Please select ${indefinite(noun)}`
@@ -392,12 +416,12 @@ export function createRequest(el, propsData){
 
 				return this.error[field];
 			},
-			checkSubmit(event){
+			checkSubmit(event) {
 				Object.keys(this.required).map(field => {
 					this.checkField(field, this.fieldNouns[field]);
 				});
 
-				if(!this.requirementsAreMet)
+				if (!this.requirementsAreMet)
 					event.preventDefault();
 			}
 		},
@@ -414,7 +438,7 @@ function getRequestType() {
 	paths = paths.filter(path => path.length > 0);
 	let type = paths[paths.length - 1];
 
-	if(
+	if (
 		[
 			'faculty',
 			'app',

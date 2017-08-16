@@ -167,7 +167,8 @@
 						<select-two class="form-control" id="evaluation-date"
 								placeholder="Select a month" required
 								:options="evaluationDateOptions" v-model="evaluationDateJson"
-								:multiple="allowMultiple.evaluationDate">
+								:multiple="allowMultiple.evaluationDate"
+								:disabled="useCustomEvaluationDate && customEvaluationDate">
 							<option value="" v-if="!allowMultiple.evaluationDate">
 								Select an evaluation period
 							</option>
@@ -176,7 +177,8 @@
 	@if($user->isType('admin'))
 						<span class="input-group-addon">
 							<label title="Allows you to make requests for multiple months at once">
-								<input type="checkbox" v-model="allowMultiple.evaluationDate" />
+								<input type="checkbox" v-model="allowMultiple.evaluationDate"
+									:disabled="useCustomEvaluationDate && customEvaluationDate" />
 								Multiple
 							</label>
 						</span>
@@ -201,7 +203,7 @@
 		</div>
 
 		<div class="form-group" v-if="requestorIsNotEvaluator"
-				v-visible.once="evaluationDateJson">
+				v-visible.once="evaluationDateJson || customEvaluationDate">
 			<div class="col-md-offset-2 col-md-8">
 				<label class="containing-label">
 					Request note (optional)
@@ -269,6 +271,21 @@
 										name="request_date"
 										:options="flatpickrOptions"
 										v-model="requestDate"></vue-flatpickr>
+								</label>
+							</div>
+						</div>
+						<div class="admin-panel-group form-horizontal row">
+							<div class="col-md-6">
+								<label>
+									<input type="checkbox"
+										v-model="useCustomEvaluationDate" />
+									Custom evaluation date
+								</label>
+								<label v-show="useCustomEvaluationDate" v-cloak
+										class="containing-label">
+									<vue-flatpickr class="form-control"
+										:options="customEvalFlatpickrOptions"
+										v-model="customEvaluationDate"></vue-flatpickr>
 								</label>
 							</div>
 						</div>
