@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\User;
 
 use Mail;
+use App\Console\Commands\ExportActiveUsersToCsv;
 use App\Console\Commands\ProcessScheduledRequests;
 use App\Console\Commands\ChangeFacultyEvalDatesToAcademicYear;
 
@@ -23,6 +24,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
 		\App\Console\Commands\ChangeFacultyEvalDatesToAcademicYear::class,
 		\App\Console\Commands\ExportAlumniToCsv::class,
+		\App\Console\Commands\ExportActiveUsersToCsv::class,
         \App\Console\Commands\FacultyReminders::class,
 		\App\Console\Commands\ProcessScheduledRequests::class,
 		\App\Console\Commands\ResidentReminders::class,
