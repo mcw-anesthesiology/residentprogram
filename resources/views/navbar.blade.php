@@ -69,8 +69,8 @@
 		<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Report</a></li>
 	  @endif
 		<li><a href="/contact">Contact</a></li>
-        <li><a href="/directory">Pager Directory</a></li>
 		<li><a href="/calendar">Calendar</a></li>
+		<li><a href="https://intranet.mcwanesthesiology.org/administration/department-directory/">Directory</a></li>
         <li><a href="https://www.dayoff.site">Day Off</a></li>
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
