@@ -384,8 +384,8 @@
 					var newBody;
 					switch(data.action){
 						case "new":
-							$.getJSON("/evaluations/" + evaluationId, function(eval){
-								$("#evaluation-hash-body-text").html("A link has been sent, it expires <b>" + eval.hash_expires + "</b>. Are you sure you want to resend the completion link?");
+							$.getJSON("/evaluations/" + evaluationId, function(evaluation){
+								$("#evaluation-hash-body-text").html("A link has been sent, it expires <b>" + evaluation.hash_expires + "</b>. Are you sure you want to resend the completion link?");
 							}).fail(function(){
 								appendAlert("There was a problem retrieving the evaluation info, please let me know if this continues.");
 							});
@@ -406,6 +406,35 @@
 				appendAlert("There was a problem modifying or sending the link", "#evaluation-hash-modal .modal-body");
 			});
 		});
+
+		@if ($evaluation->status == 'pending' && $user->id == $evaluation->evaluator_id)
+			$('.question').each(function() {
+				var question = this;
+				var questionId = $(question).attr('id');
+				if (!($(question).data('required'))) {
+
+					var container = $(question).find('.question-description-toggle');
+
+					if (!container || container.length === 0) {
+						$(question).append('<div class="question-footer panel-footer"><div class="question-description-toggle"></div></div>');
+						container = $(question).find('.question-description-toggle');
+					}
+
+					container.append(
+						'<button type="button" class="reset-question btn btn-warning" data-id="' + questionId + '">'
+							+ '<span class="glyphicon glyphicon-erase"></span>'
+							+ ' Clear question'
+						+ '</button>'
+					);
+				}
+			});
+
+			$('.reset-question').click(function() {
+				var questionId = $(this).data('id');
+				$('input[name="' + questionId + '"]').prop('checked', false);
+			});
+		@endif
+
 
 		$(document).ready(function(){
 			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id || $user->isType("admin"))
