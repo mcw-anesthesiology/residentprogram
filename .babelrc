@@ -1,5 +1,6 @@
 {
 	"presets": [
+		"flow",
 		["env", {
 			"targets": {
 				"browsers": [
@@ -32,7 +33,6 @@
 		}
 	},
 	"plugins": [
-		"syntax-dynamic-import",
 		["module-resolver", {
 			"root": [
 				"./resources/assets/js"
@@ -41,6 +41,7 @@
 				"vue-flatpickr": "@jacobmischka/vue-flatpickr"
 			}
 		}],
+		"syntax-dynamic-import",
 		["transform-object-rest-spread", {
 			"useBuiltIns": true
 		}],

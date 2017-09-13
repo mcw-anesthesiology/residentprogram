@@ -1,3 +1,10 @@
+/* @flow */
+
 export function getHeaderHeight() {
-	return document.querySelector('#main-navbar').clientHeight;
+	let navbar = document.querySelector('#main-navbar');
+
+	if (!navbar)
+		return null;
+
+	return navbar.clientHeight;
 }
