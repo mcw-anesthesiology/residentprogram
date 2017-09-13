@@ -1,10 +1,18 @@
+/* @flow */
+
+import type moment$Moment from 'moment';
+
+export type DateLike = string | Date | moment$Moment;
+
+type DateLikeObject = { [string]: DateLike };
+
 import moment from 'moment';
 
-export function isoDateString(date){
+export function isoDateString(date: DateLike){
 	return moment(date).format('Y-MM-DD');
 }
 
-export function isoDateStringObject(dates){
+export function isoDateStringObject(dates: DateLikeObject){
 	dates = Object.assign({}, dates);
 	Object.keys(dates).map(key => {
 		let date = dates[key];
@@ -15,7 +23,7 @@ export function isoDateStringObject(dates){
 	return dates;
 }
 
-export function datesEqual(dates1, dates2){
+export function datesEqual(dates1: DateLikeObject, dates2: DateLikeObject){
 	dates1 = isoDateStringObject(dates1);
 	dates2 = isoDateStringObject(dates2);
 
@@ -23,15 +31,19 @@ export function datesEqual(dates1, dates2){
 		&& dates1.endDate === dates2.endDate;
 }
 
-export function renderDate(date) {
+export function renderDate(date: DateLike) {
 	return date ? moment(date).format('MMMM Y') : '';
 }
 
-export function renderDateTime(date) {
+export function renderDateTime(date: DateLike) {
 	return date ? moment(date).calendar() : '';
 }
 
-export function renderDateRange(startDate, endDate, explicit = false){
+export function renderDateRange(
+	startDate: DateLike,
+	endDate: DateLike,
+	explicit: boolean = false
+): string {
 	if (startDate === null && endDate === null)
 		return 'All time';
 
@@ -46,7 +58,7 @@ export function renderDateRange(startDate, endDate, explicit = false){
 		});
 }
 
-export function renderDateRangeExplicit(startDate, endDate){
+export function renderDateRangeExplicit(startDate: DateLike, endDate: DateLike): string {
 	return renderDateRange(startDate, endDate, true);
 }
 
@@ -143,7 +155,7 @@ export function allTime() {
 	};
 }
 
-export function academicYearForDate(date) {
+export function academicYearForDate(date: DateLike) {
 	date = moment(date);
 
 
@@ -164,7 +176,7 @@ export function academicYearForDate(date) {
 	};
 }
 
-export function quarterForDate(date) {
+export function quarterForDate(date: DateLike) {
 	let startDate = moment(date).startOf('month');
 	while (startDate.month() % 3 !== 0)
 		startDate.subtract(1, 'month');
@@ -177,7 +189,7 @@ export function quarterForDate(date) {
 	};
 }
 
-export function monthForDate(date) {
+export function monthForDate(date: DateLike) {
 	let startDate = moment(date).startOf('month');
 	let endDate = moment(startDate).endOf('month');
 
