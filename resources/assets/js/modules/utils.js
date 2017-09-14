@@ -77,7 +77,11 @@ export type Evaluation = {
 	form: Form,
 	responses: Array<ResidentProgramResponse>,
 	textResponses: Array<ResidentProgramTextResponse>,
-	flag: FlaggedEvaluation
+	flag: FlaggedEvaluation,
+
+	contents?: {
+		items: Object // FIXME
+	}
 };
 
 // FIXME

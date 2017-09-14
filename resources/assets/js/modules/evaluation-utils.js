@@ -1,4 +1,8 @@
-export function processQuestionTemplates(evaluation, templates) {
+/* @flow */
+
+import type { Evaluation } from './utils.js';
+
+export function processQuestionTemplates(evaluation: Evaluation, templates: Array<[string, Function]>) {
 	if (!evaluation || !evaluation.contents || !evaluation.contents.items)
 		return;
 

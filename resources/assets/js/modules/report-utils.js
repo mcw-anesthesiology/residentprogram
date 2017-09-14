@@ -1,16 +1,26 @@
+/* @flow */
+
 import download from 'downloadjs';
 
 import { sortNumbers } from './utils.js';
 
-export function quoteValue(value) {
+import type { pdfmake$Table } from 'pdfmake';
+import type { DateLike } from './date-utils.js';
+import type { User } from './utils.js';
+
+export function quoteValue(value: string | number): string {
 	return `"${value}"`;
 }
 
-export function downloadCsv(csv, name, dates) {
+export function downloadCsv(
+	csv: Array<Array<string | number>>,
+	name: string,
+	dates: {startDate: DateLike, endDate: DateLike}
+): void {
 
 	let filename = `${name}`;
 	if (dates)
-		filename += ` - ${dates.startDate}-${dates.endDate}`;
+		filename += ` - ${dates.startDate.toString()}-${dates.endDate.toString()}`;
 	filename += '.csv';
 
 	let file = csv.map(row =>
@@ -20,7 +30,9 @@ export function downloadCsv(csv, name, dates) {
 	download(file, filename, 'text/csv');
 }
 
-export function csvHeader(thead) {
+export function csvHeader(
+	thead: Array<Array<string | number | {rowspan?: number, colspan?: number, text: string | number}>>
+): Array<Array<string>> {
 	let header = [];
 	header.fill([], thead.length);
 	thead.map((row, rowIndex) => {
@@ -31,19 +43,19 @@ export function csvHeader(thead) {
 			while (header[rowIndex][cellIndex])
 				cellIndex++;
 
-			if (cell.rowspan) {
+			if (cell.rowspan && typeof cell.rowspan === 'number') {
 				for (let i = 0; i < cell.rowspan; i++) {
 					if (!header[rowIndex + i])
 						header[rowIndex + i] = [];
 
 					header[rowIndex + i][cellIndex] = getHeaderCellText(cell);
-					if (cell.colspan) {
+					if (cell.colspan  && typeof cell.colspan === 'number') {
 						for (let j = 0; j < cell.colspan; j++) {
 							header[rowIndex][cellIndex + j] = getHeaderCellText(cell);
 						}
 					}
 				}
-			} else if (cell.colspan) {
+			} else if (cell.colspan && typeof cell.colspan === 'number') {
 				for (let j = 0; j < cell.colspan; j++) {
 					header[rowIndex][cellIndex + j] = getHeaderCellText(cell);
 				}
@@ -56,26 +68,32 @@ export function csvHeader(thead) {
 	return header;
 }
 
-export function getHeaderCellText(cell) {
-	return cell.text
-		? cell.text
-		: cell;
+export function getHeaderCellText(cell: string | number | {text: string | number}): string {
+	if (cell.text && (typeof cell.text === 'string' || typeof cell.text === 'number'))
+		return `${cell.text}`;
+	else if (typeof cell === 'string' || typeof cell === 'number')
+		return `${cell}`;
+
+	return '';
 }
 
-export function createRadarScaleCallback(valueMap) {
+export function createRadarScaleCallback(valueMap: Map<number, string>): number => string {
 	return value => (valueMap.get(value) || '');
 }
 
-export function createResponseLegend(valueMap) {
+export function createResponseLegend(valueMap: Map<number, string>): pdfmake$Table {
 	let labels = [];
 	let values = [];
 
 	let keys = Array.from(valueMap.keys()).sort(sortNumbers);
 
-	keys.map(key => {
-		labels.push(valueMap.get(key));
-		values.push(key.toString());
-	});
+	for (let key of keys) {
+		let label = valueMap.get(key);
+		if (label) {
+			labels.push(label);
+			values.push(key.toString());
+		}
+	}
 
 	return {
 		table: {
@@ -88,23 +106,29 @@ export function createResponseLegend(valueMap) {
 	};
 }
 
-export function pdfmakeStyle(style) {
+export function pdfmakeStyle(style: string): string => {
+	text: string,
+	style: string
+} {
 	return text => ({
 		text,
 		style
 	});
 }
 
-export function tableHeader(text) {
+export function tableHeader(text: string): {
+	text: string,
+	style: string
+} {
 	return pdfmakeStyle('tableHeader')(text);
 }
 
-export function fullWidthTable(table) {
+export function fullWidthTable(table: pdfmake$Table): pdfmake$Table {
 	table.widths = Array(table.body[0].length).fill('*');
 	return table;
 }
 
-export function borderedStripedTable(element) {
+export function borderedStripedTable(element: pdfmake$Table): pdfmake$Table {
 	element.layout = {
 		hLineWidth: (i, node) =>
 			i === node.table.headerRows
@@ -124,14 +148,14 @@ export function borderedStripedTable(element) {
 	return element;
 }
 
-export function getAverageLevel(average) {
+export function getAverageLevel(average: number): string {
 	let level = Math.floor(average) / 2;
 	return level >= 1
 		? `Level ${level}`
 		: 'Not Level 1';
 }
 
-export const sortFunctions = new Map([
+export const sortFunctions: Map<string, (User, User) => number> = new Map([
 	['training_level', (a, b) => {
 		const sortOrder = [
 			'intern',
@@ -148,7 +172,7 @@ export const sortFunctions = new Map([
 	}]
 ]);
 
-export const CUSTOM_OPTION_VALUES = new Map([
+export const CUSTOM_OPTION_VALUES: Map<string, {[string]: number}> = new Map([
 	['faculty', {
 		'strongly-disagree': 1,
 		'disagree': 2,
@@ -167,7 +191,7 @@ export const CUSTOM_OPTION_VALUES = new Map([
 	}]
 ]);
 
-export const DISREGARD_OPTION = new Map([
+export const DISREGARD_OPTION: Map<string, {[string]: boolean}> = new Map([
 	['faculty', {
 		'n-a': true
 	}]

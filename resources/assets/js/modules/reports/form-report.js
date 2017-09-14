@@ -1,6 +1,25 @@
-import { average, standardDeviation } from 'modules/math-utils.js';
+/* @flow */
 
-export function generateScoresReportCsv(report, subjects, hideQuestions, scoreQuestions, customOptionValues, disregardOption) {
+import { average, standardDeviation } from '../math-utils.js';
+
+import type { User } from '../utils.js';
+
+export function generateScoresReportCsv(
+	report: {
+		evals: Array<number>,
+		subjectEvals: Array<number>,
+		subjectResponses: {[string]: {[string]: {[string]: number}}},
+		averageResponses: {[string]: {[string]: number}},
+		formContents: { // FIXME
+			items: Array<Object>
+		}
+	},
+	subjects: Array<User>,
+	hideQuestions: Array<boolean>,
+	scoreQuestions: Array<boolean>,
+	customOptionValues: Array<{[string]: number}>,
+	disregardOption: Array<{[string]: boolean}>
+): Array<Array<string | number>> {
 	let csv = [];
 	let header = [
 		'#',
@@ -42,7 +61,7 @@ export function generateScoresReportCsv(report, subjects, hideQuestions, scoreQu
 		) {
 			for (let subject of subjects) {
 				let subjectResponses = getResponseValues(
-					report.subjectResponses[subject.id][item.id],
+					report.subjectResponses[`${subject.id}`][`${item.id}`],
 					questionCustomOptionValues,
 					questionDisregardOption
 				);
@@ -70,7 +89,7 @@ export function generateScoresReportCsv(report, subjects, hideQuestions, scoreQu
 	return csv;
 }
 
-export function canScoreQuestion(questionType) {
+export function canScoreQuestion(questionType: string): boolean {
 	return [
 		'radio',
 		'number',
@@ -78,7 +97,11 @@ export function canScoreQuestion(questionType) {
 	].includes(questionType);
 }
 
-export function valuesForAllOptions(question, customOptionValues, disregardOption) {
+export function valuesForAllOptions(
+	question: {options: Array<{value: number}>},
+	customOptionValues: {[string]: number},
+	disregardOption: {[string]: boolean}
+) {
 	for (let option of question.options) {
 		if (
 			getResponseValue(option.value, customOptionValues) == null
@@ -90,9 +113,13 @@ export function valuesForAllOptions(question, customOptionValues, disregardOptio
 	return true;
 }
 
-export function getResponseValues(responses, customOptionValues, disregardOption) {
+export function getResponseValues(
+	responses: {[string]: number},
+	customOptionValues: {[string]: number},
+	disregardOption: {[string]: boolean}
+): Array<number> {
 	if (!responses)
-		return;
+		return [];
 
 	let scores = [];
 
@@ -108,18 +135,24 @@ export function getResponseValues(responses, customOptionValues, disregardOption
 	return scores;
 }
 
-export function getResponseValue(optionValue, customOptionValues) {
+export function getResponseValue(
+	optionValue: number | string,
+	customOptionValues: {[string]: number}
+): ?number {
 	return (
 		customOptionValues
 		&& optionValue in customOptionValues
-		&& !Number.isNaN(Number(customOptionValues[optionValue]))
+		&& !Number.isNaN(Number(customOptionValues[`${optionValue}`]))
 	)
-		? Number(customOptionValues[optionValue])
+		? Number(customOptionValues[`${optionValue}`])
 		: !Number.isNaN(Number(optionValue))
 			? Number(optionValue)
 			: null;
 }
 
-export function shouldDisregardOption(optionValue, disregardOption) {
-	return disregardOption[optionValue];
+export function shouldDisregardOption(
+	optionValue: number,
+	disregardOption: {[string]: boolean}
+): boolean {
+	return disregardOption[`${optionValue}`];
 }

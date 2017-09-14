@@ -1,3 +1,5 @@
+/* @flow */
+
 export const ADMIN_EMAIL = 'jmischka@mcw.edu';
 
 export const NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
@@ -44,7 +46,7 @@ export const STANDARD_OPTIONS = {
 	]
 };
 
-export const RESIDENT_VALUE_MAP = new Map([
+export const RESIDENT_VALUE_MAP: Map<number, string> = new Map([
 	[2, 'CBY'],
 	[4, 'CA-1'],
 	[6, 'CA-2'],
@@ -52,7 +54,7 @@ export const RESIDENT_VALUE_MAP = new Map([
 	[10, 'Attending']
 ]);
 
-export const FELLOWSHIP_VALUE_MAPS = new Map([
+export const FELLOWSHIP_VALUE_MAPS: Map<?string, Map<number, string>> = new Map([
 	[null, new Map([
 		[0, 'Not yet at Resident Level'],
 		[1, 'Resident Level'],
