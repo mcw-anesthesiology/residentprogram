@@ -5,6 +5,9 @@ import striptags from 'striptags';
 
 import type { DateLike } from './date-utils.js';
 
+// All the $FlowFixMes in this file are due to
+// https://github.com/facebook/flow/issues/2221
+
 type DateString = string;
 
 // FIXME
@@ -242,15 +245,15 @@ export function groupMilestones(milestones: Array<Milestone>): Array<Select2OptG
 			groupTitle += ` — ${milestone.training_level}`;
 
 		if (!milestoneGroups[groupTitle])
-			milestoneGroups[groupTitle] = ({
+			milestoneGroups[groupTitle] = {
 				text: groupTitle,
 				children: []
-			}: Select2OptGroup);
+			};
 
-		milestoneGroups[groupTitle].children.push(({
+		milestoneGroups[groupTitle].children.push({
 			id: milestone.id.toString(),
 			text: milestone.title
-		}: Select2Option));
+		});
 	}
 	for(let groupTitle in milestoneGroups) {
 		let milestoneGroup = milestoneGroups[groupTitle];
@@ -264,10 +267,11 @@ export function groupMilestones(milestones: Array<Milestone>): Array<Select2OptG
 		});
 	}
 
-	return Object.values(milestoneGroups);
+	// $FlowFixMe
+	return (Object.values(milestoneGroups): Array<Select2OptGroup>);
 }
 
-export function fetchUserGroups(): Promise<Array<User>> {
+export function fetchUserGroups(): Promise<Array<Select2OptGroup>> {
 	return fetchUsers().then(groupUsers);
 }
 
@@ -342,6 +346,7 @@ export function groupUsers(users: Array<User>): Array<Select2OptGroup> {
 		}
 	});
 
+	// $FlowFixMe
 	let groupedUsers: Array<Select2OptGroup> = Object.values(groups);
 	for (let group: Select2OptGroup of groupedUsers) {
 		group.children.sort(sortSelect2Objects);
@@ -358,7 +363,7 @@ export function fetchForms(): Promise<Array<Form>> {
 	}).then(response => response.json());
 }
 
-export function fetchFormGroups(): Promise<Array<Select2Option>> {
+export function fetchFormGroups(): Promise<Array<Select2OptGroup>> {
 	return fetchForms().then(groupForms);
 }
 
@@ -381,6 +386,7 @@ export function groupForms(forms: Array<Form>): Array<Select2OptGroup> {
 		}
 	});
 
+	// $FlowFixMe
 	let groupedForms: Array<Select2OptGroup> = Object.values(groups);
 	for (let group: Select2OptGroup of groupedForms) {
 		group.children.sort(sortSelect2Objects);
