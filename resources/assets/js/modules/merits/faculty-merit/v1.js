@@ -341,7 +341,7 @@ export function getLeadershipPeerReviewRoles(meritReport) {
 		: 'N';
 }
 
-export function getTeachingFormalCourses(meritReport) {
+export function getTeachingFormalCourses() {
 	/*
 	 *  In the previous academic year, held responsibility for seminars,
 	 *  conference series, or course coordination (such as arrangement of

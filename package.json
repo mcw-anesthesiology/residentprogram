@@ -25,6 +25,7 @@
     "make:gulp": "gulp",
     "remake": "run-s clean make",
     "bundle": "webpack-bundle-analyzer ./public/build/js/stats.json",
+    "lint": "eslint resources/assets/js/modules && flow",
     "test": "run-s test:*",
     "test:backend": "./vendor/bin/phpunit",
     "test:frontend": "jest"
