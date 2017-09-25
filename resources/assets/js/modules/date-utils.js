@@ -12,7 +12,7 @@ export function isoDateString(date: DateLike){
 	return moment(date).format('Y-MM-DD');
 }
 
-export function isoDateStringObject(dates: DateLikeObject){
+export function isoDateStringObject(dates: DateLikeObject): { [string]: string } {
 	dates = Object.assign({}, dates);
 	Object.keys(dates).map(key => {
 		let date = dates[key];
@@ -23,7 +23,7 @@ export function isoDateStringObject(dates: DateLikeObject){
 	return dates;
 }
 
-export function datesEqual(dates1: DateLikeObject, dates2: DateLikeObject){
+export function datesEqual(dates1: DateLikeObject, dates2: DateLikeObject): boolean {
 	dates1 = isoDateStringObject(dates1);
 	dates2 = isoDateStringObject(dates2);
 

@@ -29,7 +29,7 @@
 			@input="handleChecklistInput"
 			@save="handleSave"
 			@close="handleClose"
-			@submit="handleSubmit" />
+			@submit="handleComplete" />
 
 		<div v-if="!show.notes && (notes || userIsAdmin)"
 				class="panel panel-default notes-container">
@@ -87,7 +87,7 @@ import RichDateRange from 'vue-components/RichDateRange.vue';
 
 import { isoDateString } from 'modules/date-utils.js';
 import { getCheckedItemCount } from 'modules/merit-utils.js';
-import { isAdmin } from 'modules/utils.js';
+import { isAdmin, getFetchHeaders, okOrThrow } from 'modules/utils.js';
 
 export default {
 	props: {
@@ -121,15 +121,11 @@ export default {
 		},
 		user: {
 			type: Object,
-			required: false
+			required: true
 		},
-		saving: {
-			type: Boolean,
-			defaut: false
-		},
-		savingSuccessful: {
-			type: Boolean,
-			default: false
+		formId: {
+			type: [ String, Number ],
+			required: true
 		}
 	},
 	data() {
@@ -141,6 +137,9 @@ export default {
 			checklist: this.report,
 			inputNotes: this.notes || '',
 			savingNotes: '',
+
+			saving: false,
+			savingSuccessful: false,
 
 			show: {
 				notes: false
@@ -186,21 +185,71 @@ export default {
 			}, false);
 		},
 		handleSave() {
-			this.$emit('save', {
-				id: this.id,
-				period_start: this.dates.startDate,
-				period_end: this.dates.endDate,
-				report: this.checklist,
-				status: this.status
+			this.handleSubmit(false).then(() => {
+				this.handleClose(); // FIXME: Probably shouldn't close here
 			});
 		},
-		handleSubmit() {
-			this.$emit('submit', {
-				id: this.id,
+		handleComplete() {
+			this.handleSubmit(true).then(() => {
+				this.handleClose();
+			});
+		},
+		handleSubmit(isComplete) {
+			if (this.readonly || !this.user)
+				return;
+
+			const formId = Number(this.formId);
+
+			if (Number.isNaN(formId))
+				return;
+
+			const changes = {
 				period_start: this.dates.startDate,
 				period_end: this.dates.endDate,
-				report: this.checklist,
-				status: 'complete'
+				report: this.checklist
+			};
+
+			if (isComplete)
+				changes.status = 'complete';
+
+			let meritReport = Object.assign(
+				{},
+				this.meritReport,
+				changes
+			);
+
+			this.saving = true;
+
+			const url = meritReport.id
+				? `/merits/${meritReport.id}`
+				: '/merits';
+
+			let method = 'POST';
+			if (meritReport.id) {
+				// method = 'PATCH';
+				meritReport._method = 'PATCH';
+			}
+
+			meritReport.user_id = this.user.id;
+			meritReport.form_id = formId;
+
+			return fetch(url, {
+				method,
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify(meritReport)
+			}).then(okOrThrow).then(() => {
+				this.savingSuccessful = true;
+				this.saving = false;
+				this.$emit('reload');
+			}).catch(err => {
+				this.savingSuccessful = false;
+				this.saving = false;
+				console.error(err);
+				this.$emit('alert', {
+					type: 'error',
+					html: '<strong>Error:</strong> There was a problem saving the report'
+				});
 			});
 		},
 		handleClose() {

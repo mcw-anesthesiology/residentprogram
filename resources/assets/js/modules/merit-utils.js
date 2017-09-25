@@ -1,6 +1,7 @@
 /* @flow */
 
 import moment from 'moment';
+import { isoDateStringObject, academicYearForDate } from './date-utils.js';
 
 import type { DateLike } from './date-utils.js';
 
@@ -8,6 +9,13 @@ export type MeritReport = {
 	period_start: DateLike,
 	period_end: DateLike,
 	report: MeritReportChecklist
+};
+
+export type MeritReportForm = {
+	id: number,
+	name: string,
+	version: number,
+	form: MeritReportChecklist
 };
 
 export type MeritReportChecklist = {
@@ -405,6 +413,25 @@ export function itemIsChecked(item: MeritReportSectionChild): boolean {
 	return false;
 }
 
+export function getYearlyFacultyMeritForm(
+	meritForms: Array<MeritReportForm>,
+	meritReportTypes: {[string]: string},
+	meritReportTypeForms: {[string]: string}
+): ?MeritReportForm {
+	if (
+		meritReportTypes.faculty_yearly
+		&& meritReportTypeForms.faculty_yearly
+		&& meritForms
+	) {
+		let forms = meritForms.slice();
+		forms.sort((a, b) => Number(b.version) - Number(a.version));
+
+		return forms.find(form =>
+			form.name === meritReportTypeForms.faculty_yearly
+		);
+	}
+}
+
 export function getMostRecentCompleteReport(meritReports: Array<MeritReport>) {
 	if (!meritReports || meritReports.length < 1)
 		return;
@@ -423,4 +450,9 @@ export function getMostRecentCompleteReport(meritReports: Array<MeritReport>) {
 	}
 
 	return mostRecent;
+}
+
+export function getCurrentYearlyMeritDateRange(): {[string]: string} {
+	// FIXME: This is naive and not good
+	return isoDateStringObject(academicYearForDate(new Date()));
 }
