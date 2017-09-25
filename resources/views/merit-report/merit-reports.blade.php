@@ -5,6 +5,16 @@
 @endpush
 
 @section('blockless-body')
+	<router-view :user="user"
+		title="hm"
+		:user="user"
+		:merit-forms="meritForms"
+		:merit-report-types="meritReportTypes"
+		:merit-report-type-forms="meritReportTypeForms"
+		@alert="alerts.push(arguments[0])"
+		@reload="handleReload">
+	</router-view>
+
 	@if($user->isType('faculty'))
 		@include('merit-report.faculty')
 	@endif
@@ -23,5 +33,7 @@
 			meritReportTypes: {!! json_encode($meritReportTypes) !!},
 			meritReportTypeForms: {!! json_encode($meritReportTypeForms) !!}
 		};
+
+		createMeritReportsHub('main', propsData);
 	</script>
 @endpush

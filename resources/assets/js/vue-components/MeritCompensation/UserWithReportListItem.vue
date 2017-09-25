@@ -110,8 +110,11 @@ export default {
 
 	methods: {
 		handleReportClick(reportId) {
-			this.viewedReport = this.merit_reports.find(meritReport =>
+			const report = this.merit_reports.find(meritReport =>
 				meritReport.id === reportId);
+
+			this.viewedReport = report;
+			this.$emit('view-report', report);
 		},
 		handleReportClose() {
 			this.viewedReport = null;

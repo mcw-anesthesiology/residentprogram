@@ -9,7 +9,8 @@
 					@reload="fetchUsersWithReports">
 				<template scope="reportUser">
 					<user-with-merit-report-list-item v-bind="reportUser"
-						:user="user" @change="fetchUsersWithReports">
+						:user="user" @change="fetchUsersWithReports"
+						@view-report="$emit('view-report', ...arguments)">
 					</user-with-merit-report-list-item>
 				</template>
 			</component-list>
@@ -19,12 +20,3 @@
 	</div>
 
 </div>
-
-@push('scripts')
-	<script>
-		createAdminSupervisorMeritReports(
-			'#admin-supervisor-merit-reports-container',
-			propsData
-		);
-	</script>
-@endpush
