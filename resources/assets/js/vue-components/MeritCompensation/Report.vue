@@ -213,8 +213,13 @@ export default {
 				changes.status = 'complete';
 
 			let meritReport = Object.assign(
-				{},
-				this.meritReport,
+				{
+					id: this.id,
+					period_start: this.period_start,
+					period_end: this.period_end,
+					status: this.status,
+					notes: this.notes
+				},
 				changes
 			);
 
@@ -224,7 +229,7 @@ export default {
 				? `/merits/${meritReport.id}`
 				: '/merits';
 
-			let method = 'POST';
+			const method = 'POST';
 			if (meritReport.id) {
 				// method = 'PATCH';
 				meritReport._method = 'PATCH';
