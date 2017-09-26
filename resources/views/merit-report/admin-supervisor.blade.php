@@ -6,11 +6,14 @@
 					:items="usersWithReports"
 					:paginate="false"
 					reloadable
-					@reload="fetchUsersWithReports">
+					@reload="handleReload">
 				<template scope="reportUser">
 					<user-with-merit-report-list-item v-bind="reportUser"
-						:user="user" @change="fetchUsersWithReports"
-						@view-report="$emit('view-report', ...arguments)">
+						:user="user"
+						@change="handleReload"
+						@close="handleClose"
+						@view-report="viewReport(...arguments)"
+						@view-summary="viewReportSummary(...arguments)">
 					</user-with-merit-report-list-item>
 				</template>
 			</component-list>

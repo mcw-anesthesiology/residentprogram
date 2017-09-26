@@ -7,12 +7,14 @@
 @section('blockless-body')
 	<router-view :user="user"
 		title="hm"
-		:user="user"
+		:current-user="user"
+		:merit-reports="meritReports"
 		:merit-forms="meritForms"
 		:merit-report-types="meritReportTypes"
 		:merit-report-type-forms="meritReportTypeForms"
-		@alert="alerts.push(arguments[0])"
-		@reload="handleReload">
+		@close="handleClose"
+		@reload="handleReload"
+		@alert="alerts.push(arguments[0])">
 	</router-view>
 
 	@if($user->isType('faculty'))

@@ -2,13 +2,17 @@
 
 import moment from 'moment';
 import { isoDateStringObject, academicYearForDate } from './date-utils.js';
+import { getFetchHeaders, jsonOrThrow } from './utils.js';
 
+import type { User } from './utils.js';
 import type { DateLike } from './date-utils.js';
 
 export type MeritReport = {
 	period_start: DateLike,
 	period_end: DateLike,
-	report: MeritReportChecklist
+	report: MeritReportChecklist,
+	user?: User,
+	form?: MeritReportForm
 };
 
 export type MeritReportForm = {
@@ -455,4 +459,21 @@ export function getMostRecentCompleteReport(meritReports: Array<MeritReport>) {
 export function getCurrentYearlyMeritDateRange(): {[string]: string} {
 	// FIXME: This is naive and not good
 	return isoDateStringObject(academicYearForDate(new Date()));
+}
+
+export function fetchAllMeritReports(): Promise<Array<MeritReport>> {
+	let query = $.param({
+		with: {
+			form: true,
+			user: [
+				'full_name'
+			]
+		}
+	});
+
+	return fetch(`/merits?${query}`, {
+		method: 'GET',
+		headers: getFetchHeaders(),
+		credentials: 'same-origin'
+	}).then(jsonOrThrow);
 }

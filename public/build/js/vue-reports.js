@@ -4424,23 +4424,26 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = getCheckedItemCount;
+/* harmony export (immutable) */ __webpack_exports__["b"] = getCheckedItemCount;
 /* unused harmony export getSectionCheckedItemCount */
 /* unused harmony export getItemCheckedItemCount */
-/* harmony export (immutable) */ __webpack_exports__["c"] = getUsersWithCompleteMerit;
-/* harmony export (immutable) */ __webpack_exports__["f"] = sectionIsValid;
+/* harmony export (immutable) */ __webpack_exports__["d"] = getUsersWithCompleteMerit;
+/* harmony export (immutable) */ __webpack_exports__["g"] = sectionIsValid;
 /* unused harmony export itemIsValid */
 /* unused harmony export questionIsValid */
 /* unused harmony export listQuestionIsValid */
 /* unused harmony export listItemIsValid */
-/* harmony export (immutable) */ __webpack_exports__["e"] = itemIsChecked;
-/* harmony export (immutable) */ __webpack_exports__["d"] = getYearlyFacultyMeritForm;
+/* harmony export (immutable) */ __webpack_exports__["f"] = itemIsChecked;
+/* harmony export (immutable) */ __webpack_exports__["e"] = getYearlyFacultyMeritForm;
 /* unused harmony export getMostRecentCompleteReport */
-/* harmony export (immutable) */ __webpack_exports__["b"] = getCurrentYearlyMeritDateRange;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getCurrentYearlyMeritDateRange;
+/* harmony export (immutable) */ __webpack_exports__["a"] = fetchAllMeritReports;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__date_utils_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(1);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 
 
 
@@ -4534,12 +4537,12 @@ function getUsersWithCompleteMerit(usersWithMerits) {
 
 	try {
 		for (var _iterator3 = usersWithMerits[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-			var user = _step3.value;
+			var _user = _step3.value;
 
-			var _report = getMostRecentCompleteReport(user.merit_reports);
+			var _report = getMostRecentCompleteReport(_user.merit_reports);
 
 			if (_report) {
-				usersWithMerit.push(Object.assign({}, user, { report: _report }));
+				usersWithMerit.push(Object.assign({}, _user, { report: _report }));
 			}
 		}
 	} catch (err) {
@@ -4847,6 +4850,21 @@ function getMostRecentCompleteReport(meritReports) {
 function getCurrentYearlyMeritDateRange() {
 	// FIXME: This is naive and not good
 	return Object(__WEBPACK_IMPORTED_MODULE_1__date_utils_js__["isoDateStringObject"])(Object(__WEBPACK_IMPORTED_MODULE_1__date_utils_js__["academicYearForDate"])(new Date()));
+}
+
+function fetchAllMeritReports() {
+	var query = $.param({
+		with: {
+			form: true,
+			user: ['full_name']
+		}
+	});
+
+	return fetch('/merits?' + query, {
+		method: 'GET',
+		headers: Object(__WEBPACK_IMPORTED_MODULE_2__utils_js__["m" /* getFetchHeaders */])(),
+		credentials: 'same-origin'
+	}).then(__WEBPACK_IMPORTED_MODULE_2__utils_js__["s" /* jsonOrThrow */]);
 }
 
 /***/ }),
@@ -43689,7 +43707,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			return __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["d" /* FEATURE_RELEASE_DATES */].FACULTY_MERIT;
 		},
 		usersWithMerit: function usersWithMerit() {
-			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__["c" /* getUsersWithCompleteMerit */])(this.usersWithMerits);
+			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__["d" /* getUsersWithCompleteMerit */])(this.usersWithMerits);
 		}
 	},
 

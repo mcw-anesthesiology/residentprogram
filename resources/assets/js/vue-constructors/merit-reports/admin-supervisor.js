@@ -2,10 +2,7 @@ import AlertList from 'vue-components/AlertList.vue';
 import ComponentList from 'vue-components/ComponentList.vue';
 import UserWithMeritReportListItem from 'vue-components/MeritCompensation/UserWithReportListItem.vue';
 
-import { getFetchHeaders, jsonOrThrow } from 'modules/utils.js';
-
-// FIXME: Only do this stuff if user is admin/supervisor
-// FIXME: This file hasn't been fixed yet for new router-based architecture
+import { getFetchHeaders, jsonOrThrow, isAdmin } from 'modules/utils.js';
 
 export default {
 	props: {
@@ -24,22 +21,21 @@ export default {
 	},
 	data() {
 		return {
-			usersWithReports: null,
-
-			alerts: []
+			usersWithReports: null
 		};
 	},
 
-	mounted() {
-		this.fetchUsersWithReports();
-	},
-
 	computed: {
-
+		currentUserIsAdmin() {
+			return isAdmin(this.user);
+		}
 	},
 
 	methods: {
 		fetchUsersWithReports() {
+			if (!this.currentUserIsAdmin)
+				return;
+
 			fetch('/merits/by-user', {
 				method: 'GET',
 				headers: getFetchHeaders(),

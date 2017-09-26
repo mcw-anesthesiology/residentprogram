@@ -113,6 +113,15 @@ export default {
 	},
 
 	watch: {
+		period_start(period_start) {
+			this.dates = Object.assign({}, this.dates, {startDate: period_start});
+		},
+		period_end(period_end) {
+			this.dates = Object.assign({}, this.dates, {endDate: period_end});
+		},
+		report(report) {
+			this.checklist = report;
+		},
 		notes(notes) {
 			this.inputNotes = notes;
 		}

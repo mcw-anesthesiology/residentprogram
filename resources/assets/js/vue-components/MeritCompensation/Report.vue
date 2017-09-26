@@ -25,7 +25,7 @@
 
 		<merit-compensation-checklist v-bind="checklist"
 			:title="title" :readonly="readonly"
-			:user="user"
+			:user="currentUser"
 			@input="handleChecklistInput"
 			@save="handleSave"
 			@close="handleClose"
@@ -119,12 +119,16 @@ export default {
 			type: String,
 			required: true
 		},
-		user: {
-			type: Object,
+		user_id: {
+			type: [ String, Number ],
 			required: true
 		},
-		formId: {
+		form_id: {
 			type: [ String, Number ],
+			required: true
+		},
+		currentUser: {
+			type: Object,
 			required: true
 		}
 	},
@@ -149,7 +153,7 @@ export default {
 
 	computed: {
 		userIsAdmin() {
-			return isAdmin(this.user);
+			return isAdmin(this.currentUser);
 		},
 		readonly() {
 			return ![
@@ -166,6 +170,15 @@ export default {
 	},
 
 	watch: {
+		period_start(period_start) {
+			this.dates = Object.assign({}, this.dates, {startDate: period_start});
+		},
+		period_end(period_end) {
+			this.dates = Object.assign({}, this.dates, {endDate: period_end});
+		},
+		report(report) {
+			this.checklist = report;
+		},
 		notes(notes) {
 			this.inputNotes = notes;
 		}
@@ -173,10 +186,16 @@ export default {
 
 	methods: {
 		handleChecklistInput(checklist) {
+			if (this.readonly)
+				return;
+
 			this.checklist = Object.assign({}, this.checklist, checklist);
+			if (this.currentUser.id === this.user_id) {
+				this.handleSubmit(false);
+			}
 		},
 		handleSaveNotes() {
-			if (!isAdmin(this.user))
+			if (!this.userIsAdmin)
 				return;
 
 			this.$emit('save', {
@@ -186,27 +205,33 @@ export default {
 		},
 		handleSave() {
 			this.handleSubmit(false).then(() => {
+				this.$emit('reload');
 				this.handleClose(); // FIXME: Probably shouldn't close here
 			});
 		},
 		handleComplete() {
 			this.handleSubmit(true).then(() => {
+				this.$emit('reload');
 				this.handleClose();
 			});
 		},
 		handleSubmit(isComplete) {
-			if (this.readonly || !this.user)
+			if (this.readonly || !this.currentUser || !this.user_id)
 				return;
 
-			const formId = Number(this.formId);
+			const form_id = Number(this.form_id);
+			const user_id = Number(this.user_id);
 
-			if (Number.isNaN(formId))
+			if (Number.isNaN(form_id) || Number.isNaN(user_id))
 				return;
 
 			const changes = {
+				_method: 'PATCH',
 				period_start: this.dates.startDate,
 				period_end: this.dates.endDate,
-				report: this.checklist
+				report: this.checklist,
+				user_id,
+				form_id
 			};
 
 			if (isComplete)
@@ -225,28 +250,14 @@ export default {
 
 			this.saving = true;
 
-			const url = meritReport.id
-				? `/merits/${meritReport.id}`
-				: '/merits';
-
-			const method = 'POST';
-			if (meritReport.id) {
-				// method = 'PATCH';
-				meritReport._method = 'PATCH';
-			}
-
-			meritReport.user_id = this.user.id;
-			meritReport.form_id = formId;
-
-			return fetch(url, {
-				method,
+			return fetch(`/merits/${meritReport.id}`, {
+				method: 'POST', // PATCH
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
 				body: JSON.stringify(meritReport)
 			}).then(okOrThrow).then(() => {
 				this.savingSuccessful = true;
 				this.saving = false;
-				this.$emit('reload');
 			}).catch(err => {
 				this.savingSuccessful = false;
 				this.saving = false;
