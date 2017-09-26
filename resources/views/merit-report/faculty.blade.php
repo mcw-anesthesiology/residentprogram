@@ -16,7 +16,8 @@
 @endpush
 
 <div id="faculty-merit-reports-container">
-	<div class="container body-block">
+	<div class="container body-block"
+			v-show="meritReports && meritReports.length > 0" v-cloak>
 		<template v-if="inProgressReport">
 			<p class="lead">
 				You have a merit report in progress:
