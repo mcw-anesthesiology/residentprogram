@@ -1,11 +1,13 @@
 <template>
-	<div class="container body-block" v-if="meritReport">
-		<merit-report-summary
-			v-bind="meritReport"
-			:title="title"
-			:subject-name="meritReport.user.full_name"
-			@close="$emit('close')"
-			@alert="$emit('alert', arguments[0])" />
+	<div>
+		<div class="container body-block" v-if="meritReport">
+			<merit-report-summary
+				v-bind="meritReport"
+				:title="title"
+				:subject-name="meritReport.user.full_name"
+				@close="$emit('close')"
+				@alert="$emit('alert', arguments[0])" />
+		</div>
 	</div>
 </template>
 
@@ -82,3 +84,18 @@ export default {
 	}
 };
 </script>
+
+<style>
+	main {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		overflow-x: hidden;
+	}
+
+	main > * {
+		width: 100%;
+		flex-grow: 0;
+		flex-shrink: 0;
+	}
+</style>

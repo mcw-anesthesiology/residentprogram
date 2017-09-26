@@ -1,13 +1,15 @@
 <template>
-	<div class="container body-block" v-if="meritReport">
-		<merit-report
-			v-bind="meritReport"
-			:title="title"
-			:current-user="currentUser"
-			:form_id="meritReport.form.id"
-			@close="$emit('close')"
-			@reload="$emit('reload')"
-			@alert="$emit('alert', arguments[0])" />
+	<div class="report-by-id">
+		<div class="container body-block" v-if="meritReport">
+			<merit-report
+				v-bind="meritReport"
+				:title="title"
+				:current-user="currentUser"
+				:form_id="meritReport.form.id"
+				@close="$emit('close')"
+				@reload="$emit('reload')"
+				@alert="$emit('alert', arguments[0])" />
+		</div>
 	</div>
 </template>
 
@@ -84,3 +86,18 @@ export default {
 	}
 };
 </script>
+
+<style>
+	main {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		overflow-x: hidden;
+	}
+
+	main > * {
+		width: 100%;
+		flex-grow: 0;
+		flex-shrink: 0;
+	}
+</style>

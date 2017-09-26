@@ -5,26 +5,51 @@
 @endpush
 
 @section('blockless-body')
-	<router-view :user="user"
-		title="hm"
-		:current-user="user"
-		:merit-reports="meritReports"
-		:merit-forms="meritForms"
-		:merit-report-types="meritReportTypes"
-		:merit-report-type-forms="meritReportTypeForms"
-		@close="handleClose"
-		@reload="handleReload"
-		@alert="alerts.push(arguments[0])">
-	</router-view>
+	<div class="merit-reports-container">
+		@if($user->isType('faculty'))
+			@include('merit-report.faculty')
+		@endif
 
-	@if($user->isType('faculty'))
-		@include('merit-report.faculty')
-	@endif
+		@if($user->isType('admin') || $user->usesFeature('FACULTY_MERIT'))
+			@include("merit-report.admin-supervisor")
+		@endif
+	</div>
 
-	@if($user->isType('admin') || $user->usesFeature('FACULTY_MERIT'))
-		@include("merit-report.admin-supervisor")
-	@endif
+	<transition name="merit-view">
+		<router-view :user="user"
+			title="hm"
+			:current-user="user"
+			:merit-reports="meritReports"
+			:merit-forms="meritForms"
+			:merit-report-types="meritReportTypes"
+			:merit-report-type-forms="meritReportTypeForms"
+			@close="handleClose"
+			@reload="handleReload"
+			@alert="alerts.push(arguments[0])">
+		</router-view>
+	</transition>
 @stop
+
+@push('stylesheets')
+	<style>
+		.merit-view-enter-active,
+		.merit-view-leave-active {
+			transition: transform 0.2s ease, opacity 0.2s ease;
+		}
+
+		.merit-view-enter-to,
+		.merit-view-leave {
+			transform: none;
+			opacity: 1;
+		}
+
+		.merit-view-enter,
+		.merit-view-leave-to {
+			transform: translateX(100vw);
+			opacity: 0.35;
+		}
+	</style>
+@endpush
 
 @push('scripts')
 	<script src="{{ elixir('js/vue-deps.js') }}"></script>
