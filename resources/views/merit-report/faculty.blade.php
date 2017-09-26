@@ -17,7 +17,7 @@
 
 <div id="faculty-merit-reports-container">
 	<div class="container body-block"
-			v-show="meritReports && meritReports.length > 0" v-cloak>
+			v-show="userMeritReports && userMeritReports.length > 0" v-cloak>
 		<template v-if="inProgressReport">
 			<p class="lead">
 				You have a merit report in progress:
@@ -65,14 +65,16 @@
 
 	<div class="container body-block">
 		<h2>Your merit reports</h2>
-		<component-list v-if="meritReports && meritReports.length > 0" :items="meritReports"
+		<component-list v-if="userMeritReports && userMeritReports.length > 0"
+				:items="userMeritReports"
 				:fields="meritReportFields"
 				:field-accessors="meritReportFieldAccessors"
 				default-sort-order="desc">
 			<template scope="item">
 				<merit-report-list-item v-bind="item"
 					@click="viewReport"
-					@change="fetchPastMeritReports"
+					@summary="viewReportSummary"
+					@change="handleReload"
 					@alert="alerts.push(arguments[0])">
 				</merit-report-list-item>
 			</template>

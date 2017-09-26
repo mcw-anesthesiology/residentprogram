@@ -1,18 +1,16 @@
 <template>
 	<div class="container body-block" v-if="meritReport">
-		<merit-report
+		<merit-report-summary
 			v-bind="meritReport"
 			:title="title"
-			:current-user="currentUser"
-			:form_id="meritReport.form.id"
+			:subject-name="meritReport.user.full_name"
 			@close="$emit('close')"
-			@reload="$emit('reload')"
 			@alert="$emit('alert', arguments[0])" />
 	</div>
 </template>
 
 <script>
-import MeritReport from './Report.vue';
+import MeritReportSummary from './Summary.vue';
 
 import { fetchAllMeritReports } from 'modules/merit-utils.js';
 
@@ -80,7 +78,7 @@ export default {
 	},
 
 	components: {
-		MeritReport
+		MeritReportSummary
 	}
 };
 </script>

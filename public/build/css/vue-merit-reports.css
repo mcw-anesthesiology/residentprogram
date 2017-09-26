@@ -358,26 +358,6 @@ confirmation-button[data-v-8aa3b4f0] {
 	background-color: rgba(0, 0, 0, 0.75);
 }
 
-.merit-report-list-item[data-v-6c389d6a] {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-	padding: 5px 0;
-}
-.merit-report-list-item[data-v-6c389d6a]:nth-child(even) {
-	background-color: rgba(0, 0, 0, 0.05);
-}
-small[data-v-6c389d6a] {
-	font-size: 0.75em;
-	color: rgba(0, 0, 0, 0.55);
-	display: block;
-}
-.checked-items-cell[data-v-6c389d6a],
-.controls-cell[data-v-6c389d6a] {
-	text-align: right;
-}
-.controls-cell button[data-v-6c389d6a] {
-	margin: 0.1em;
-}
-
 small[data-v-02d100b1] {
 	font-size: 0.75em;
 	color: rgba(0, 0, 0, 0.55);
@@ -429,6 +409,26 @@ section h1[data-v-5844d29e] {
 section.page > h1[data-v-5844d29e] {
 		font-size: 4em;
 }
+}
+
+.merit-report-list-item[data-v-6c389d6a] {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+	padding: 5px 0;
+}
+.merit-report-list-item[data-v-6c389d6a]:nth-child(even) {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+small[data-v-6c389d6a] {
+	font-size: 0.75em;
+	color: rgba(0, 0, 0, 0.55);
+	display: block;
+}
+.checked-items-cell[data-v-6c389d6a],
+.controls-cell[data-v-6c389d6a] {
+	text-align: right;
+}
+.controls-cell button[data-v-6c389d6a] {
+	margin: 0.1em;
 }
 
 .print-view-checklist-section thead th[data-v-b9654d2c],

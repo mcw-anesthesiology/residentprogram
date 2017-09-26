@@ -4139,23 +4139,26 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = getCheckedItemCount;
+/* harmony export (immutable) */ __webpack_exports__["b"] = getCheckedItemCount;
 /* unused harmony export getSectionCheckedItemCount */
 /* unused harmony export getItemCheckedItemCount */
-/* harmony export (immutable) */ __webpack_exports__["c"] = getUsersWithCompleteMerit;
-/* harmony export (immutable) */ __webpack_exports__["f"] = sectionIsValid;
+/* harmony export (immutable) */ __webpack_exports__["d"] = getUsersWithCompleteMerit;
+/* harmony export (immutable) */ __webpack_exports__["g"] = sectionIsValid;
 /* unused harmony export itemIsValid */
 /* unused harmony export questionIsValid */
 /* unused harmony export listQuestionIsValid */
 /* unused harmony export listItemIsValid */
-/* harmony export (immutable) */ __webpack_exports__["e"] = itemIsChecked;
-/* harmony export (immutable) */ __webpack_exports__["d"] = getYearlyFacultyMeritForm;
+/* harmony export (immutable) */ __webpack_exports__["f"] = itemIsChecked;
+/* harmony export (immutable) */ __webpack_exports__["e"] = getYearlyFacultyMeritForm;
 /* unused harmony export getMostRecentCompleteReport */
-/* harmony export (immutable) */ __webpack_exports__["b"] = getCurrentYearlyMeritDateRange;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getCurrentYearlyMeritDateRange;
+/* harmony export (immutable) */ __webpack_exports__["a"] = fetchAllMeritReports;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__date_utils_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(1);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 
 
 
@@ -4249,12 +4252,12 @@ function getUsersWithCompleteMerit(usersWithMerits) {
 
 	try {
 		for (var _iterator3 = usersWithMerits[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-			var user = _step3.value;
+			var _user = _step3.value;
 
-			var _report = getMostRecentCompleteReport(user.merit_reports);
+			var _report = getMostRecentCompleteReport(_user.merit_reports);
 
 			if (_report) {
-				usersWithMerit.push(Object.assign({}, user, { report: _report }));
+				usersWithMerit.push(Object.assign({}, _user, { report: _report }));
 			}
 		}
 	} catch (err) {
@@ -4562,6 +4565,21 @@ function getMostRecentCompleteReport(meritReports) {
 function getCurrentYearlyMeritDateRange() {
 	// FIXME: This is naive and not good
 	return Object(__WEBPACK_IMPORTED_MODULE_1__date_utils_js__["isoDateStringObject"])(Object(__WEBPACK_IMPORTED_MODULE_1__date_utils_js__["academicYearForDate"])(new Date()));
+}
+
+function fetchAllMeritReports() {
+	var query = $.param({
+		with: {
+			form: true,
+			user: ['full_name']
+		}
+	});
+
+	return fetch('/merits?' + query, {
+		method: 'GET',
+		headers: Object(__WEBPACK_IMPORTED_MODULE_2__utils_js__["m" /* getFetchHeaders */])(),
+		credentials: 'same-origin'
+	}).then(__WEBPACK_IMPORTED_MODULE_2__utils_js__["s" /* jsonOrThrow */]);
 }
 
 /***/ }),
@@ -15570,13 +15588,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(180);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_MeritCompensation_ReportById_vue__ = __webpack_require__(635);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_ReportNew_vue__ = __webpack_require__(743);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__admin_supervisor_js__ = __webpack_require__(746);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__faculty_js__ = __webpack_require__(766);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__print_view_js__ = __webpack_require__(767);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createMeritReportPrintView", function() { return __WEBPACK_IMPORTED_MODULE_6__print_view_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_mixins_HasAlerts_js__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_ReportById_vue__ = __webpack_require__(635);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_MeritCompensation_SummaryById_vue__ = __webpack_require__(813);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__admin_supervisor_js__ = __webpack_require__(746);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__faculty_js__ = __webpack_require__(766);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__print_view_js__ = __webpack_require__(767);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createMeritReportPrintView", function() { return __WEBPACK_IMPORTED_MODULE_7__print_view_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_merit_utils_js__ = __webpack_require__(123);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__ = __webpack_require__(1);
+
+
+
 
 
 
@@ -15595,7 +15618,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 function createMeritReportsHub(el, propsData) {
 	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 		el: el,
-		mixins: [__WEBPACK_IMPORTED_MODULE_5__faculty_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__admin_supervisor_js__["a" /* default */]],
+		mixins: [__WEBPACK_IMPORTED_MODULE_2__vue_mixins_HasAlerts_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__faculty_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__admin_supervisor_js__["a" /* default */]],
 		props: {
 			user: {
 				type: Object,
@@ -15620,44 +15643,99 @@ function createMeritReportsHub(el, propsData) {
 		propsData: propsData,
 
 		mounted: function mounted() {
+			this.fetchReports();
 			this.fetchMeritForms();
 		},
 
 
 		router: new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 			routes: [{
-				path: '/checklist/new',
-				component: __WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_ReportNew_vue__["a" /* default */]
-			}, {
 				path: '/checklist/:id',
-				component: __WEBPACK_IMPORTED_MODULE_2__vue_components_MeritCompensation_ReportById_vue__["a" /* default */],
+				component: __WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_ReportById_vue__["a" /* default */],
+				props: true
+			}, {
+				path: '/summary/:id',
+				component: __WEBPACK_IMPORTED_MODULE_4__vue_components_MeritCompensation_SummaryById_vue__["a" /* default */],
 				props: true
 			}]
 		}),
 
 		methods: {
-			fetchMeritForms: function fetchMeritForms() {
+			fetchReports: function fetchReports() {
+				this.fetchAllMeritReports();
+				this.fetchUsersWithReports();
+			},
+			fetchAllMeritReports: function fetchAllMeritReports() {
 				var _this = this;
 
-				fetch('/merit-forms', {
-					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["s" /* jsonOrThrow */]).then(function (meritForms) {
-					_this.meritForms = meritForms;
+				return Object(__WEBPACK_IMPORTED_MODULE_8__modules_merit_utils_js__["a" /* fetchAllMeritReports */])().then(function (merits) {
+					_this.meritReports = merits;
 				}).catch(function (err) {
 					console.error(err);
 					_this.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem fetching past merit reports'
+					});
+				});
+			},
+			fetchMeritForms: function fetchMeritForms() {
+				var _this2 = this;
+
+				return fetch('/merit-forms', {
+					method: 'GET',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["m" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["s" /* jsonOrThrow */]).then(function (meritForms) {
+					_this2.meritForms = meritForms;
+				}).catch(function (err) {
+					console.error(err);
+					_this2.alerts.push({
 						type: 'error',
 						html: '<strong>Error:</strong> There was a problem fetching merit forms'
 					});
 				});
 			},
 			addMeritReport: function addMeritReport() {
-				this.$router.push({ path: '/checklist/new' });
+				var _this3 = this;
+
+				var form = Object(__WEBPACK_IMPORTED_MODULE_8__modules_merit_utils_js__["e" /* getYearlyFacultyMeritForm */])(this.meritForms, this.meritReportTypes, this.meritReportTypeForms);
+				var dates = Object(__WEBPACK_IMPORTED_MODULE_8__modules_merit_utils_js__["c" /* getCurrentYearlyMeritDateRange */])();
+
+				fetch('/merits', {
+					method: 'POST',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["m" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						user_id: this.user.id,
+						form_id: form.id,
+						period_start: dates.startDate,
+						period_end: dates.endDate,
+						report: JSON.parse(form.form),
+						status: 'pending'
+					})
+				}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["s" /* jsonOrThrow */]).then(function (merit) {
+					_this3.fetchAllMeritReports();
+					_this3.viewReport(merit.id);
+				}).catch(function (err) {
+					console.error(err);
+					_this3.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem creating a new merit report'
+					});
+				});
 			},
 			viewReport: function viewReport(id) {
 				this.$router.push({ path: '/checklist/' + id });
+			},
+			viewReportSummary: function viewReportSummary(id) {
+				this.$router.push({ path: '/summary/' + id });
+			},
+			handleReload: function handleReload() {
+				return this.fetchReports();
+			},
+			handleClose: function handleClose() {
+				this.handleReload();
+				this.$router.push({ path: '/' });
 			}
 		}
 	});
@@ -15718,7 +15796,7 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Report_vue__ = __webpack_require__(216);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__ = __webpack_require__(123);
 //
 //
 //
@@ -15751,7 +15829,7 @@ if (false) {(function () {
 			type: String,
 			required: true
 		},
-		user: {
+		currentUser: {
 			type: Object,
 			required: false
 		}
@@ -15789,17 +15867,7 @@ if (false) {(function () {
 		fetchReports: function fetchReports() {
 			var _this = this;
 
-			var query = $.param({
-				with: {
-					form: true
-				}
-			});
-
-			fetch('/merits?' + query, {
-				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["m" /* getFetchHeaders */])(),
-				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["s" /* jsonOrThrow */]).then(function (merits) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["a" /* fetchAllMeritReports */])().then(function (merits) {
 				_this.fetchedReports = merits;
 			}).catch(function (err) {
 				console.error(err);
@@ -15808,9 +15876,6 @@ if (false) {(function () {
 					html: '<strong>Error:</strong> There was a problem fetching past merit reports'
 				});
 			});
-		},
-		handleClose: function handleClose() {
-			this.$router.push({ path: '/' });
 		}
 	},
 
@@ -15960,12 +16025,16 @@ if (false) {(function () {
 			type: String,
 			required: true
 		},
-		user: {
-			type: Object,
+		user_id: {
+			type: [String, Number],
 			required: true
 		},
-		formId: {
+		form_id: {
 			type: [String, Number],
+			required: true
+		},
+		currentUser: {
+			type: Object,
 			required: true
 		}
 	},
@@ -15991,13 +16060,13 @@ if (false) {(function () {
 
 	computed: {
 		userIsAdmin: function userIsAdmin() {
-			return Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["r" /* isAdmin */])(this.user);
+			return Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["r" /* isAdmin */])(this.currentUser);
 		},
 		readonly: function readonly() {
 			return !['pending', 'open for editing'].includes(this.status);
 		},
 		checkedItems: function checkedItems() {
-			return Object(__WEBPACK_IMPORTED_MODULE_6__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.report);
+			return Object(__WEBPACK_IMPORTED_MODULE_6__modules_merit_utils_js__["b" /* getCheckedItemCount */])(this.report);
 		},
 		lastMonth: function lastMonth() {
 			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_date_utils_js__["isoDateString"])(__WEBPACK_IMPORTED_MODULE_0_moment___default()().subtract(1, 'month'));
@@ -16005,6 +16074,15 @@ if (false) {(function () {
 	},
 
 	watch: {
+		period_start: function period_start(_period_start) {
+			this.dates = Object.assign({}, this.dates, { startDate: _period_start });
+		},
+		period_end: function period_end(_period_end) {
+			this.dates = Object.assign({}, this.dates, { endDate: _period_end });
+		},
+		report: function report(_report) {
+			this.checklist = _report;
+		},
 		notes: function notes(_notes) {
 			this.inputNotes = _notes;
 		}
@@ -16012,10 +16090,15 @@ if (false) {(function () {
 
 	methods: {
 		handleChecklistInput: function handleChecklistInput(checklist) {
+			if (this.readonly) return;
+
 			this.checklist = Object.assign({}, this.checklist, checklist);
+			if (this.currentUser.id === this.user_id) {
+				this.handleSubmit(false);
+			}
 		},
 		handleSaveNotes: function handleSaveNotes() {
-			if (!Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["r" /* isAdmin */])(this.user)) return;
+			if (!this.userIsAdmin) return;
 
 			this.$emit('save', {
 				id: this.id,
@@ -16026,6 +16109,7 @@ if (false) {(function () {
 			var _this = this;
 
 			this.handleSubmit(false).then(function () {
+				_this.$emit('reload');
 				_this.handleClose(); // FIXME: Probably shouldn't close here
 			});
 		},
@@ -16033,22 +16117,27 @@ if (false) {(function () {
 			var _this2 = this;
 
 			this.handleSubmit(true).then(function () {
+				_this2.$emit('reload');
 				_this2.handleClose();
 			});
 		},
 		handleSubmit: function handleSubmit(isComplete) {
 			var _this3 = this;
 
-			if (this.readonly || !this.user) return;
+			if (this.readonly || !this.currentUser || !this.user_id) return;
 
-			var formId = Number(this.formId);
+			var form_id = Number(this.form_id);
+			var user_id = Number(this.user_id);
 
-			if (Number.isNaN(formId)) return;
+			if (Number.isNaN(form_id) || Number.isNaN(user_id)) return;
 
 			var changes = {
+				_method: 'PATCH',
 				period_start: this.dates.startDate,
 				period_end: this.dates.endDate,
-				report: this.checklist
+				report: this.checklist,
+				user_id: user_id,
+				form_id: form_id
 			};
 
 			if (isComplete) changes.status = 'complete';
@@ -16063,26 +16152,14 @@ if (false) {(function () {
 
 			this.saving = true;
 
-			var url = meritReport.id ? '/merits/' + meritReport.id : '/merits';
-
-			var method = 'POST';
-			if (meritReport.id) {
-				// method = 'PATCH';
-				meritReport._method = 'PATCH';
-			}
-
-			meritReport.user_id = this.user.id;
-			meritReport.form_id = formId;
-
-			return fetch(url, {
-				method: method,
+			return fetch('/merits/' + meritReport.id, {
+				method: 'POST', // PATCH
 				headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["m" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(meritReport)
 			}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["v" /* okOrThrow */]).then(function () {
 				_this3.savingSuccessful = true;
 				_this3.saving = false;
-				_this3.$emit('reload');
 			}).catch(function (err) {
 				_this3.savingSuccessful = false;
 				_this3.saving = false;
@@ -16238,7 +16315,7 @@ if (false) {(function () {
 
 	methods: {
 		validatePage: function validatePage(page) {
-			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["f" /* sectionIsValid */])(page);
+			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["g" /* sectionIsValid */])(page);
 		},
 		handleInput: function handleInput(pageNum, page) {
 			var pages = this.pages.slice();
@@ -24239,7 +24316,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "title": _vm.title,
       "readonly": _vm.readonly,
-      "user": _vm.user
+      "user": _vm.currentUser
     },
     on: {
       "input": _vm.handleChecklistInput,
@@ -24347,11 +24424,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('merit-report', _vm._b({
     attrs: {
       "title": _vm.title,
-      "user": _vm.user,
-      "form-id": _vm.meritReport.form.id
+      "current-user": _vm.currentUser,
+      "form_id": _vm.meritReport.form.id
     },
     on: {
-      "close": _vm.handleClose,
+      "close": function($event) {
+        _vm.$emit('close')
+      },
       "reload": function($event) {
         _vm.$emit('reload')
       },
@@ -24373,169 +24452,9 @@ if (false) {
 }
 
 /***/ }),
-/* 743 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ReportNew_vue__ = __webpack_require__(744);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_18bcb5d2_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_ReportNew_vue__ = __webpack_require__(745);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ReportNew_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_18bcb5d2_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_ReportNew_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/vue-components/MeritCompensation/ReportNew.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ReportNew.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-18bcb5d2", Component.options)
-  } else {
-    hotAPI.reload("data-v-18bcb5d2", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 744 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Report_vue__ = __webpack_require__(216);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__ = __webpack_require__(123);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	props: {
-		title: {
-			type: String,
-			required: true
-		},
-		user: {
-			type: Object,
-			required: false
-		},
-		meritForms: {
-			type: Array,
-			required: false
-		},
-		meritReportTypes: {
-			type: Object,
-			required: true
-		},
-		meritReportTypeForms: {
-			type: Object,
-			required: true
-		}
-	},
-
-	computed: {
-		yearlyFacultyMeritForm: function yearlyFacultyMeritForm() {
-			return Object(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["d" /* getYearlyFacultyMeritForm */])(this.meritForms, this.meritReportTypes, this.meritReportTypeForms);
-		},
-		meritReport: function meritReport() {
-			if (!this.yearlyFacultyMeritForm) return;
-
-			var dates = Object(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["b" /* getCurrentYearlyMeritDateRange */])();
-
-			return {
-				period_start: dates.startDate,
-				period_end: dates.endDate,
-				report: JSON.parse(this.yearlyFacultyMeritForm.form),
-				status: 'pending'
-			};
-		}
-	},
-
-	methods: {
-		handleClose: function handleClose() {
-			this.$router.push({ path: '/' });
-		}
-	},
-
-	components: {
-		MeritReport: __WEBPACK_IMPORTED_MODULE_0__Report_vue__["a" /* default */]
-	}
-});
-
-/***/ }),
-/* 745 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.meritReport) ? _c('div', {
-    staticClass: "container body-block"
-  }, [_c('merit-report', _vm._b({
-    attrs: {
-      "title": _vm.title,
-      "user": _vm.user,
-      "form-id": _vm.yearlyFacultyMeritForm.id
-    },
-    on: {
-      "close": _vm.handleClose,
-      "reload": function($event) {
-        _vm.$emit('reload')
-      },
-      "alert": function($event) {
-        _vm.$emit('alert', arguments[0])
-      }
-    }
-  }, 'merit-report', _vm.meritReport, false))], 1) : _vm._e()
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-18bcb5d2", esExports)
-  }
-}
-
-/***/ }),
+/* 743 */,
+/* 744 */,
+/* 745 */,
 /* 746 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -24549,9 +24468,6 @@ if (false) {
 
 
 
-
-// FIXME: Only do this stuff if user is admin/supervisor
-// FIXME: This file hasn't been fixed yet for new router-based architecture
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	props: {
@@ -24570,21 +24486,22 @@ if (false) {
 	},
 	data: function data() {
 		return {
-			usersWithReports: null,
-
-			alerts: []
+			usersWithReports: null
 		};
 	},
-	mounted: function mounted() {
-		this.fetchUsersWithReports();
+
+
+	computed: {
+		currentUserIsAdmin: function currentUserIsAdmin() {
+			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["r" /* isAdmin */])(this.user);
+		}
 	},
-
-
-	computed: {},
 
 	methods: {
 		fetchUsersWithReports: function fetchUsersWithReports() {
 			var _this = this;
+
+			if (!this.currentUserIsAdmin) return;
 
 			fetch('/merits/by-user', {
 				method: 'GET',
@@ -24666,9 +24583,6 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_mixins_HasAlerts_js__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ComponentList_vue__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ReportListItem_vue__ = __webpack_require__(345);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Report_vue__ = __webpack_require__(216);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Summary_vue__ = __webpack_require__(755);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(1);
 //
 //
 //
@@ -24699,26 +24613,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
 
 
 
@@ -24780,76 +24674,16 @@ if (false) {(function () {
 
 	methods: {
 		handleReportClick: function handleReportClick(reportId) {
-			var report = this.merit_reports.find(function (meritReport) {
-				return meritReport.id === reportId;
-			});
-
-			this.viewedReport = report;
-			this.$emit('view-report', report);
-		},
-		handleReportClose: function handleReportClose() {
-			this.viewedReport = null;
+			this.$emit('view-report', reportId);
 		},
 		handleViewSummary: function handleViewSummary(reportId) {
-			this.viewedReportSummary = this.merit_reports.find(function (meritReport) {
-				return meritReport.id === reportId;
-			});
-		},
-		handleCloseSummary: function handleCloseSummary() {
-			this.viewedReportSummary = null;
-		},
-		handleReportSave: function handleReportSave(changes) {
-			var _this2 = this;
-
-			var closeAfterward = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-			this.updateReport(changes).then(function () {
-				if (closeAfterward) _this2.viewedReport = null;
-			});
-		},
-		handleReportSubmit: function handleReportSubmit(changes) {
-			var _this3 = this;
-
-			var closeAfterward = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-			this.updateReport(Object.assign(changes, {
-				status: 'complete'
-			})).then(function () {
-				if (closeAfterward) _this3.viewedReport = null;
-			});
-		},
-		updateReport: function updateReport(changes) {
-			var _this4 = this;
-
-			this.saving = true;
-			return fetch('/merits/' + changes.id, {
-				method: 'POST', // PATCH
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* getFetchHeaders */])(),
-				credentials: 'same-origin',
-				body: JSON.stringify(Object.assign(changes, {
-					_method: 'PATCH'
-				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["v" /* okOrThrow */]).then(function () {
-				_this4.savingSuccessful = true;
-				_this4.saving = false;
-				_this4.$emit('change');
-			}).catch(function (err) {
-				_this4.savingSuccessful = false;
-				_this4.saving = false;
-				console.error(err);
-				_this4.alerts.push({
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem updating the merit report'
-				});
-			});
+			this.$emit('view-summary', reportId);
 		}
 	},
 
 	components: {
 		ComponentList: __WEBPACK_IMPORTED_MODULE_1__ComponentList_vue__["a" /* default */],
-		MeritReportListItem: __WEBPACK_IMPORTED_MODULE_2__ReportListItem_vue__["a" /* default */],
-		MeritReport: __WEBPACK_IMPORTED_MODULE_3__Report_vue__["a" /* default */],
-		MeritReportSummary: __WEBPACK_IMPORTED_MODULE_4__Summary_vue__["a" /* default */]
+		MeritReportListItem: __WEBPACK_IMPORTED_MODULE_2__ReportListItem_vue__["a" /* default */]
 	}
 });
 
@@ -25009,7 +24843,7 @@ if (false) {(function () {
 			return Object(__WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__["f" /* getEvaluationStatusLabel */])(this.status);
 		},
 		checkedItems: function checkedItems() {
-			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.report);
+			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__["b" /* getCheckedItemCount */])(this.report);
 		}
 	},
 
@@ -25526,7 +25360,7 @@ if (false) {(function () {
 
 	computed: {
 		checkedItems: function checkedItems() {
-			return Object(__WEBPACK_IMPORTED_MODULE_6__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.report);
+			return Object(__WEBPACK_IMPORTED_MODULE_6__modules_merit_utils_js__["b" /* getCheckedItemCount */])(this.report);
 		},
 		lastMonth: function lastMonth() {
 			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_date_utils_js__["isoDateString"])(__WEBPACK_IMPORTED_MODULE_0_moment___default()().subtract(1, 'month'));
@@ -25534,6 +25368,15 @@ if (false) {(function () {
 	},
 
 	watch: {
+		period_start: function period_start(_period_start) {
+			this.dates = Object.assign({}, this.dates, { startDate: _period_start });
+		},
+		period_end: function period_end(_period_end) {
+			this.dates = Object.assign({}, this.dates, { endDate: _period_end });
+		},
+		report: function report(_report) {
+			this.checklist = _report;
+		},
 		notes: function notes(_notes) {
 			this.inputNotes = _notes;
 		}
@@ -25641,7 +25484,7 @@ if (false) {(function () {
 	computed: {
 		filteredSections: function filteredSections() {
 			return this.pages.filter(function (page) {
-				return Object(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["e" /* itemIsChecked */])(page);
+				return Object(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["f" /* itemIsChecked */])(page);
 			});
 		}
 	},
@@ -25739,7 +25582,7 @@ if (false) {(function () {
 		var _this = this;
 
 		var items = this.items.filter(function (item) {
-			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["e" /* itemIsChecked */])(item);
+			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["f" /* itemIsChecked */])(item);
 		}).map(function (item, index) {
 			var componentName = void 0;
 			switch (item.type) {
@@ -25924,31 +25767,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         }, 'merit-report-list-item', item, false))]
       }
     }])
-  })], 1)]), _vm._v(" "), (_vm.viewedReport) ? _c('div', {
-    staticClass: "row"
-  }, [_c('merit-report', _vm._b({
-    attrs: {
-      "title": _vm.viewedReport.form.name,
-      "user": _vm.user,
-      "saving": _vm.saving,
-      "saving-successful": _vm.savingSuccessful
-    },
-    on: {
-      "close": _vm.handleReportClose,
-      "save": _vm.handleReportSave,
-      "submit": _vm.handleReportSubmit
-    }
-  }, 'merit-report', _vm.viewedReport, false))], 1) : _vm._e(), _vm._v(" "), (_vm.viewedReportSummary) ? _c('div', {
-    staticClass: "row"
-  }, [_c('merit-report-summary', _vm._b({
-    attrs: {
-      "title": _vm.viewedReportSummary.form.name,
-      "subject-name": _vm.full_name
-    },
-    on: {
-      "close": _vm.handleCloseSummary
-    }
-  }, 'merit-report-summary', _vm.viewedReportSummary, false))], 1) : _vm._e(), _vm._v(" "), _c('alert-list', {
+  })], 1)]), _vm._v(" "), _c('alert-list', {
     model: {
       value: (_vm.alerts),
       callback: function($$v) {
@@ -25974,14 +25793,12 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_mixins_HasAlerts_js__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_ComponentList_vue__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_MeritCompensation_Report_vue__ = __webpack_require__(216);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_ReportListItem_vue__ = __webpack_require__(345);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_RichDateRange_vue__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_merit_utils_js__ = __webpack_require__(123);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_components_ComponentList_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_MeritCompensation_Report_vue__ = __webpack_require__(216);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_MeritCompensation_ReportListItem_vue__ = __webpack_require__(345);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_RichDateRange_vue__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__ = __webpack_require__(123);
 
 
 
@@ -25989,14 +25806,8 @@ if (false) {
 
 
 
-
-
-
-
-// FIXME: Only do this stuff if user is faculty
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-	mixins: [__WEBPACK_IMPORTED_MODULE_0__vue_mixins_HasAlerts_js__["a" /* default */]],
 	props: {
 		user: {
 			type: Object,
@@ -26005,19 +25816,14 @@ if (false) {
 	},
 	data: function data() {
 		return {
-			meritForms: null,
-
-			alerts: []
+			meritForms: null
 		};
-	},
-	mounted: function mounted() {
-		this.fetchPastMeritReports();
 	},
 
 
 	computed: {
 		currentYearlyMeritDateRange: function currentYearlyMeritDateRange() {
-			return Object(__WEBPACK_IMPORTED_MODULE_7__modules_merit_utils_js__["b" /* getCurrentYearlyMeritDateRange */])();
+			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__["c" /* getCurrentYearlyMeritDateRange */])();
 		},
 		meritReportFields: function meritReportFields() {
 			return ['id', 'form_name'];
@@ -26029,74 +25835,56 @@ if (false) {
 				}
 			};
 		},
-		needsToStartReport: function needsToStartReport() {
+		userMeritReports: function userMeritReports() {
 			var _this = this;
 
-			if (!this.meritReports || this.meritReports.length === 0) return true;
+			if (!this.meritReports) return [];
 
-			return !this.meritReports.some(function (report) {
+			return this.meritReports.filter(function (report) {
+				return Number(report.user_id) === _this.user.id;
+			});
+		},
+		needsToStartReport: function needsToStartReport() {
+			var _this2 = this;
+
+			if (!this.userMeritReports || this.userMeritReports.length === 0) return true;
+
+			return !this.userMeritReports.some(function (report) {
 				var periodDates = {
 					startDate: report.period_start,
 					endDate: report.period_end
 				};
 
-				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["datesEqual"])(periodDates, _this.currentYearlyMeritDateRange) && report.status === 'complete';
+				return Object(__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["datesEqual"])(periodDates, _this2.currentYearlyMeritDateRange) && report.status === 'complete';
 			});
 		},
 		inProgressReport: function inProgressReport() {
-			if (!this.meritReports || this.meritReports.length === 0) return false;
+			if (!this.userMeritReports || this.userMeritReports.length === 0) return false;
 
-			return this.meritReports.find(function (report) {
+			return this.userMeritReports.find(function (report) {
 				return ['pending', 'open for editing'].includes(report.status);
 			});
 		}
 	},
 
 	methods: {
-		fetchPastMeritReports: function fetchPastMeritReports() {
-			var _this2 = this;
-
-			var query = $.param({
-				user_id: this.user.id,
-				with: {
-					form: true
-				}
-			});
-
-			fetch('/merits?' + query, {
-				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* getFetchHeaders */])(),
-				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* jsonOrThrow */]).then(function (merits) {
-				_this2.meritReports = merits;
-			}).catch(function (err) {
-				console.error(err);
-				_this2.alerts.push({
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem fetching past merit reports'
-				});
-			});
-		},
 		finishMeritReport: function finishMeritReport() {
 			if (!this.inProgressReport) return;
 
 			this.viewReport(this.inProgressReport.id);
 		},
 		viewMostRecentSubmission: function viewMostRecentSubmission() {
-			if (!this.meritReports || !Array.isArray(this.meritReports) || this.meritReports.length === 0) return;
+			if (!this.userMeritReports || !Array.isArray(this.userMeritReports) || this.userMeritReports.length === 0) return;
 
-			this.viewReport(this.meritReports[0].id);
-		},
-		handleReload: function handleReload() {
-			this.fetchPastMeritReports();
+			this.viewReport(this.userMeritReports[0].id);
 		}
 	},
 
 	components: {
-		ComponentList: __WEBPACK_IMPORTED_MODULE_1__vue_components_ComponentList_vue__["a" /* default */],
-		MeritCompensationReport: __WEBPACK_IMPORTED_MODULE_2__vue_components_MeritCompensation_Report_vue__["a" /* default */],
-		MeritReportListItem: __WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_ReportListItem_vue__["a" /* default */],
-		RichDateRange: __WEBPACK_IMPORTED_MODULE_4__vue_components_RichDateRange_vue__["a" /* default */]
+		ComponentList: __WEBPACK_IMPORTED_MODULE_0__vue_components_ComponentList_vue__["a" /* default */],
+		MeritCompensationReport: __WEBPACK_IMPORTED_MODULE_1__vue_components_MeritCompensation_Report_vue__["a" /* default */],
+		MeritReportListItem: __WEBPACK_IMPORTED_MODULE_2__vue_components_MeritCompensation_ReportListItem_vue__["a" /* default */],
+		RichDateRange: __WEBPACK_IMPORTED_MODULE_3__vue_components_RichDateRange_vue__["a" /* default */]
 	}
 });
 
@@ -26142,7 +25930,7 @@ function createMeritReportPrintView(el, propsData) {
 				};
 			},
 			checkedItems: function checkedItems() {
-				return Object(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.meritReport.report);
+				return Object(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["b" /* getCheckedItemCount */])(this.meritReport.report);
 			}
 		},
 
@@ -26231,7 +26019,7 @@ if (false) {(function () {
 
 	computed: {
 		filteredPages: function filteredPages() {
-			return this.report.pages.filter(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["e" /* itemIsChecked */]);
+			return this.report.pages.filter(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["f" /* itemIsChecked */]);
 		}
 	},
 
@@ -26326,7 +26114,7 @@ if (false) {(function () {
 		var h = arguments[0];
 
 		var items = this.items.filter(function (item) {
-			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_merit_utils_js__["e" /* itemIsChecked */])(item);
+			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_merit_utils_js__["f" /* itemIsChecked */])(item);
 		}).map(function (item) {
 			var component = void 0;
 
@@ -27096,6 +26884,200 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-f9db072a", esExports)
+  }
+}
+
+/***/ }),
+/* 794 */,
+/* 795 */,
+/* 796 */,
+/* 797 */,
+/* 798 */,
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */,
+/* 804 */,
+/* 805 */,
+/* 806 */,
+/* 807 */,
+/* 808 */,
+/* 809 */,
+/* 810 */,
+/* 811 */,
+/* 812 */,
+/* 813 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SummaryById_vue__ = __webpack_require__(814);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a56659ba_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_SummaryById_vue__ = __webpack_require__(815);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SummaryById_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a56659ba_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_SummaryById_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/MeritCompensation/SummaryById.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] SummaryById.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-a56659ba", Component.options)
+  } else {
+    hotAPI.reload("data-v-a56659ba", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 814 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Summary_vue__ = __webpack_require__(755);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__ = __webpack_require__(123);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		id: {
+			type: [Number, String],
+			required: true
+		},
+		meritReports: {
+			type: Array,
+			required: false
+		},
+		title: {
+			type: String,
+			required: true
+		},
+		currentUser: {
+			type: Object,
+			required: false
+		}
+	},
+
+	data: function data() {
+		return {
+			fetchedReports: null
+		};
+	},
+
+
+	computed: {
+		reports: function reports() {
+			return this.meritReports || this.fetchedReports;
+		},
+		meritReport: function meritReport() {
+			var id = Number(this.id);
+			if (Number.isNaN(id) || !this.reports) return;
+
+			return this.reports.find(function (report) {
+				return report.id === id;
+			});
+		}
+	},
+
+	mounted: function mounted() {
+		if (!this.meritReports || !Array.isArray(this.meritReports) || this.meritReports.length === 0) {
+			this.fetchReports();
+		}
+	},
+
+
+	methods: {
+		fetchReports: function fetchReports() {
+			var _this = this;
+
+			Object(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["a" /* fetchAllMeritReports */])().then(function (merits) {
+				_this.fetchedReports = merits;
+			}).catch(function (err) {
+				console.error(err);
+				_this.alerts.push({
+					type: 'error',
+					html: '<strong>Error:</strong> There was a problem fetching past merit reports'
+				});
+			});
+		}
+	},
+
+	components: {
+		MeritReportSummary: __WEBPACK_IMPORTED_MODULE_0__Summary_vue__["a" /* default */]
+	}
+});
+
+/***/ }),
+/* 815 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.meritReport) ? _c('div', {
+    staticClass: "container body-block"
+  }, [_c('merit-report-summary', _vm._b({
+    attrs: {
+      "title": _vm.title,
+      "subject-name": _vm.meritReport.user.full_name
+    },
+    on: {
+      "close": function($event) {
+        _vm.$emit('close')
+      },
+      "alert": function($event) {
+        _vm.$emit('alert', arguments[0])
+      }
+    }
+  }, 'merit-report-summary', _vm.meritReport, false))], 1) : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-a56659ba", esExports)
   }
 }
 

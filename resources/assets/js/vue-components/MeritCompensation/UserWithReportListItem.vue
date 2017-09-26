@@ -21,22 +21,6 @@
 						</component-list>
 					</div>
 				</div>
-				<div v-if="viewedReport" class="row">
-					<merit-report v-bind="viewedReport"
-						:title="viewedReport.form.name"
-						:user="user"
-						:saving="saving"
-						:saving-successful="savingSuccessful"
-						@close="handleReportClose"
-						@save="handleReportSave"
-						@submit="handleReportSubmit" />
-				</div>
-				<div v-if="viewedReportSummary" class="row">
-					<merit-report-summary v-bind="viewedReportSummary"
-						:title="viewedReportSummary.form.name"
-						:subject-name="full_name"
-						@close="handleCloseSummary" />
-				</div>
 
 				<alert-list v-model="alerts" />
 			</div>
@@ -49,10 +33,6 @@ import HasAlerts from 'vue-mixins/HasAlerts.js';
 
 import ComponentList from 'vue-components/ComponentList.vue';
 import MeritReportListItem from './ReportListItem.vue';
-import MeritReport from './Report.vue';
-import MeritReportSummary from './Summary.vue';
-
-import { getFetchHeaders, okOrThrow } from 'modules/utils.js';
 
 export default {
 	mixins: [
@@ -110,67 +90,16 @@ export default {
 
 	methods: {
 		handleReportClick(reportId) {
-			const report = this.merit_reports.find(meritReport =>
-				meritReport.id === reportId);
-
-			this.viewedReport = report;
-			this.$emit('view-report', report);
-		},
-		handleReportClose() {
-			this.viewedReport = null;
+			this.$emit('view-report', reportId);
 		},
 		handleViewSummary(reportId) {
-			this.viewedReportSummary = this.merit_reports.find(meritReport =>
-				meritReport.id === reportId
-			);
-		},
-		handleCloseSummary() {
-			this.viewedReportSummary = null;
-		},
-		handleReportSave(changes, closeAfterward = true) {
-			this.updateReport(changes).then(() => {
-				if (closeAfterward)
-					this.viewedReport = null;
-			});
-		},
-		handleReportSubmit(changes, closeAfterward = true) {
-			this.updateReport(Object.assign(changes, {
-				status: 'complete'
-			})).then(() => {
-				if (closeAfterward)
-					this.viewedReport = null;
-			});
-		},
-		updateReport(changes) {
-			this.saving = true;
-			return fetch(`/merits/${changes.id}`, {
-				method: 'POST', // PATCH
-				headers: getFetchHeaders(),
-				credentials: 'same-origin',
-				body: JSON.stringify(Object.assign(changes, {
-					_method: 'PATCH'
-				}))
-			}).then(okOrThrow).then(() => {
-				this.savingSuccessful = true;
-				this.saving = false;
-				this.$emit('change');
-			}).catch(err => {
-				this.savingSuccessful = false;
-				this.saving = false;
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem updating the merit report'
-				});
-			});
+			this.$emit('view-summary', reportId);
 		}
 	},
 
 	components: {
 		ComponentList,
-		MeritReportListItem,
-		MeritReport,
-		MeritReportSummary
+		MeritReportListItem
 	}
 };
 </script>
