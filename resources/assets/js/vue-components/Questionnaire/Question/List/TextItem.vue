@@ -1,33 +1,23 @@
 <template>
-	<li class="text-list-item">
-		<div class="item-controls">
-			<confirmation-button v-if="!readonly" class="btn btn-sm"
-					unpressed-class="btn-danger"
-					pressed-class="btn-warning"
-					@click="$emit('remove')">
-				<span class="glyphicon glyphicon-remove"></span>
-				Remove item
-			</confirmation-button>
-		</div>
-		<div class="item-contents">
-			<div :class="{'has-warning': !text}">
-				<textarea class="form-control"
-					:value="text" :readonly="readonly"
-					@input="$emit('input', {text: $event.target.value})">
-				</textarea>
+	<list-item :readonly="readonly" @remove="$emit('remove')">
+		<div :class="{'has-warning': !text}">
+			<textarea class="form-control"
+				:value="text" :readonly="readonly"
+				@input="$emit('input', {text: $event.target.value})">
+			</textarea>
 
-				<span v-if="!text" class="help-block">
-					Please complete or remove this list item
-				</span>
-			</div>
+			<span v-if="!text" class="help-block">
+				Please complete or remove this list item
+			</span>
 		</div>
-	</li>
+	</list-item>
 </template>
 
 <script>
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
+import ListItem from './Item.vue';
 
 export default {
+	extends: ListItem,
 	model: {
 		prop: 'text'
 	},
@@ -50,28 +40,7 @@ export default {
 	},
 
 	components: {
-		ConfirmationButton
+		ListItem
 	}
 };
 </script>
-
-<style scoped>
-	li {
-		display: flex;
-	}
-
-	.item-controls {
-		flex-shrink: 0;
-		padding: 1em 1em 1em 0;
-	}
-
-	.item-contents {
-		flex-grow: 1;
-	}
-</style>
-
-<style>
-	.text-list-item {
-		margin-bottom: 1em;
-	}
-</style>

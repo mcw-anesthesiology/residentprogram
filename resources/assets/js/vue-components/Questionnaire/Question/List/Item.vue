@@ -35,6 +35,7 @@ export default {
 <style scoped>
 	li {
 		display: flex;
+		flex-wrap: wrap;
 	}
 
 	.item-controls {

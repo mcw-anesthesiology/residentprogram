@@ -99,3 +99,9 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	ul, ol {
+		padding-left: 1em;
+	}
+</style>
