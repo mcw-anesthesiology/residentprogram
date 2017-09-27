@@ -16294,6 +16294,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 
 
@@ -23351,6 +23354,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 
 
@@ -23387,7 +23393,8 @@ if (false) {(function () {
 	},
 	data: function data() {
 		return {
-			currentPage: 0
+			currentPage: 0,
+			lastChange: ''
 		};
 	},
 
@@ -23401,6 +23408,12 @@ if (false) {(function () {
 		},
 		canAdvancePage: function canAdvancePage() {
 			return this.pageValidator(this.pages[this.currentPage]);
+		}
+	},
+
+	watch: {
+		currentPage: function currentPage(_currentPage, prevPage) {
+			if (_currentPage > prevPage) this.lastChange = 'forward';else if (_currentPage < prevPage) this.lastChange = 'back';else this.lastChange = '';
 		}
 	},
 
@@ -23830,7 +23843,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "pager-content"
   }, [_vm._t("default", null, {
     page: _vm.page,
-    pageNum: _vm.currentPage
+    pageNum: _vm.currentPage,
+    lastChange: _vm.lastChange
   })], 2), _vm._v(" "), _c('button', {
     staticClass: "scroll-button btn",
     attrs: {
@@ -23890,7 +23904,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     scopedSlots: _vm._u([{
       key: "default",
       fn: function(pager) {
-        return [_c('checklist-section', _vm._b({
+        return [_c('transition', {
+          attrs: {
+            "name": ("checklist-pager-" + (pager.lastChange))
+          }
+        }, [_c('checklist-section', _vm._b({
+          key: ("page-" + (pager.pageNum)),
           attrs: {
             "page": true,
             "readonly": _vm.readonly,
@@ -23901,7 +23920,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
               _vm.handleInput(pager.pageNum, arguments[0])
             }
           }
-        }, 'checklist-section', pager.page, false))]
+        }, 'checklist-section', pager.page, false))], 1)]
       }
     }])
   }), _vm._v(" "), _c('div', {
