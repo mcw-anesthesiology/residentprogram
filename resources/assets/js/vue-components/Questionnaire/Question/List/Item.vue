@@ -2,12 +2,15 @@
 	<li class="questionnaire-list-item">
 		<div class="item-controls">
 			<confirmation-button v-if="!readonly" class="btn btn-sm"
-					unpressed-class="btn-danger"
-					pressed-class="btn-warning"
+					unpressed-class="btn-warning"
+					pressed-class="btn-danger"
 					@click="$emit('remove')">
 				<span class="glyphicon glyphicon-remove"></span>
 				Remove item
 			</confirmation-button>
+			<div v-if="invalid" class="invalid-container">
+				<span class="glyphicon glyphicon-warning-sign"></span>
+			</div>
 		</div>
 		<div class="item-contents">
 			<slot></slot>
@@ -23,6 +26,10 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		invalid: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -34,6 +41,7 @@ export default {
 
 <style scoped>
 	li {
+		position: relative;
 		display: flex;
 		flex-wrap: wrap;
 	}
@@ -45,6 +53,15 @@ export default {
 
 	.item-contents {
 		flex-grow: 1;
+	}
+
+	.invalid-container .glyphicon {
+		position: absolute;
+		left: 100%;
+		transform: translateX(50%);
+		padding: 1em;
+		color: #d9534f;
+		font-size: 2em;
 	}
 </style>
 
