@@ -12,8 +12,8 @@
 						:user="user"
 						@change="handleReload"
 						@close="handleClose"
-						@view-report="viewReport(...arguments)"
-						@view-summary="viewReportSummary(...arguments)">
+						@view-report="viewReport(arguments[0])"
+						@view-summary="viewReportSummary(arguments[0])">
 					</user-with-merit-report-list-item>
 				</template>
 			</component-list>

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="summary-by-id">
 		<div class="container body-block" v-if="meritReport">
 			<merit-report-summary
 				v-bind="meritReport"
@@ -84,6 +84,12 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.summary-by-id {
+		order: 2;
+	}
+</style>
 
 <style>
 	main {

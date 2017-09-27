@@ -5,16 +5,6 @@
 @endpush
 
 @section('blockless-body')
-	<div class="merit-reports-container">
-		@if($user->isType('faculty'))
-			@include('merit-report.faculty')
-		@endif
-
-		@if($user->isType('admin') || $user->usesFeature('FACULTY_MERIT'))
-			@include("merit-report.admin-supervisor")
-		@endif
-	</div>
-
 	<transition name="merit-view">
 		<router-view :user="user"
 			title="hm"
@@ -28,6 +18,16 @@
 			@alert="alerts.push(arguments[0])">
 		</router-view>
 	</transition>
+
+	<div class="merit-reports-container">
+		@if($user->isType('faculty'))
+			@include('merit-report.faculty')
+		@endif
+
+		@if($user->isType('admin') || $user->usesFeature('FACULTY_MERIT'))
+			@include("merit-report.admin-supervisor")
+		@endif
+	</div>
 @stop
 
 @push('stylesheets')
