@@ -102,6 +102,22 @@ small[data-v-6ff62c0e] {
 		padding: 0 2em;
 }
 }
+.checklist-pager-forward-enter-active[data-v-08bc7d30],
+.checklist-pager-back-enter-active[data-v-08bc7d30] {
+	transition: all 0.1s ease-out;
+}
+.checklist-pager-forward-leave-active[data-v-08bc7d30],
+.checklist-pager-back-leave-active[data-v-08bc7d30] {
+	transition: all 0.1s ease-out;
+}
+.checklist-pager-forward-enter[data-v-08bc7d30], .checklist-pager-forward-leave-to[data-v-08bc7d30] {
+	transform: translateX(-10px);
+	opacity: 0;
+}
+.checklist-pager-back-enter[data-v-08bc7d30], .checklist-pager-back-leave-to[data-v-08bc7d30] {
+	transform: translateX(10px);
+	opacity: 0;
+}
 
 section[data-v-a8188cb2] {
 	font-size: 0.95em;

@@ -19,7 +19,10 @@
 		</button>
 
 		<div class="pager-content">
-			<slot :page="page" :page-num="currentPage"></slot>
+			<slot :page="page"
+				:page-num="currentPage"
+				:last-change="lastChange">
+			</slot>
 		</div>
 
 		<button type="button" class="scroll-button btn"
@@ -78,7 +81,8 @@ export default {
 	},
 	data() {
 		return {
-			currentPage: 0
+			currentPage: 0,
+			lastChange: ''
 		};
 	},
 
@@ -91,6 +95,17 @@ export default {
 		},
 		canAdvancePage() {
 			return this.pageValidator(this.pages[this.currentPage]);
+		}
+	},
+
+	watch: {
+		currentPage(currentPage, prevPage) {
+			if (currentPage > prevPage)
+				this.lastChange = 'forward';
+			else if (currentPage < prevPage)
+				this.lastChange = 'back';
+			else
+				this.lastChange = '';
 		}
 	},
 

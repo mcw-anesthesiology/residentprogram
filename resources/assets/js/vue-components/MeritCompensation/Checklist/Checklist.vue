@@ -5,9 +5,12 @@
 				:page-validator="validatePage"
 				@submit="handleSubmit">
 			<template scope="pager">
-				<checklist-section v-bind="pager.page" :page="true"
-					:readonly="readonly" :user="user"
-					@input="handleInput(pager.pageNum, arguments[0])" />
+				<transition :name="`checklist-pager-${pager.lastChange}`">
+					<checklist-section :key="`page-${pager.pageNum}`"
+						v-bind="pager.page" :page="true"
+						:readonly="readonly" :user="user"
+						@input="handleInput(pager.pageNum, arguments[0])" />
+				</transition>
 			</template>
 		</questionnaire-pager>
 
@@ -103,5 +106,25 @@ export default {
 		.checklist {
 			padding: 0 2em;
 		}
+	}
+
+	.checklist-pager-forward-enter-active,
+	.checklist-pager-back-enter-active {
+		transition: all 0.1s ease-out;
+	}
+
+	.checklist-pager-forward-leave-active,
+	.checklist-pager-back-leave-active {
+		transition: all 0.1s ease-out;
+	}
+
+	.checklist-pager-forward-enter, .checklist-pager-forward-leave-to {
+		transform: translateX(-10px);
+		opacity: 0;
+	}
+
+	.checklist-pager-back-enter, .checklist-pager-back-leave-to {
+		transform: translateX(10px);
+		opacity: 0;
 	}
 </style>

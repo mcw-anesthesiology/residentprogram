@@ -2,7 +2,7 @@
 	<style>
 		.lead {
 			font-size: 1.5em;
-			margin: 1em 3em;
+			margin: 1em;
 			text-align: center;
 		}
 
