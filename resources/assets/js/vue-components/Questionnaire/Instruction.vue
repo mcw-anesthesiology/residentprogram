@@ -32,9 +32,15 @@ export default {
 
 <style scoped>
 	.instruction-block {
-		margin: 1em;
-		padding: 1em;
 		font-size: 1.25em;
+	}
+
+	@media (min-width: 768px) {
+
+		.instruction-block {
+			margin: 1em;
+			padding: 1em;
+		}
 	}
 </style>
 

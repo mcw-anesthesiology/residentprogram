@@ -161,7 +161,7 @@ export default {
 	}
 
 	.item-questions {
-		margin-left: 3em;
+		margin-left: 1em;
 		padding: 1em;
 	}
 

@@ -17898,15 +17898,19 @@ if (false) {(function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Items_vue__ = __webpack_require__(667);
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(821)
+}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 var __vue_template__ = null
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-8c7e23f2"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -18061,27 +18065,22 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_TextItem_vue__ = __webpack_require__(671);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_737a1269_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_TextItem_vue__ = __webpack_require__(672);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_737a1269_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_TextItem_vue__ = __webpack_require__(822);
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(669)
-  __webpack_require__(670)
-}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-737a1269"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_TextItem_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_737a1269_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_TextItem_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_737a1269_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_TextItem_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
@@ -18110,34 +18109,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 669 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 670 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 669 */,
+/* 670 */,
 /* 671 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__ = __webpack_require__(21);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(157);
 //
 //
 //
@@ -18157,6 +18135,7 @@ if (false) {(function () {
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
+	extends: __WEBPACK_IMPORTED_MODULE_0__Item_vue__["a" /* default */],
 	model: {
 		prop: 'text'
 	},
@@ -18179,96 +18158,33 @@ if (false) {(function () {
 	},
 
 	components: {
-		ConfirmationButton: __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__["a" /* default */]
+		ListItem: __WEBPACK_IMPORTED_MODULE_0__Item_vue__["a" /* default */]
 	}
 });
 
 /***/ }),
-/* 672 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', {
-    staticClass: "text-list-item"
-  }, [_c('div', {
-    staticClass: "item-controls"
-  }, [(!_vm.readonly) ? _c('confirmation-button', {
-    staticClass: "btn btn-sm",
-    attrs: {
-      "unpressed-class": "btn-danger",
-      "pressed-class": "btn-warning"
-    },
-    on: {
-      "click": function($event) {
-        _vm.$emit('remove')
-      }
-    }
-  }, [_c('span', {
-    staticClass: "glyphicon glyphicon-remove"
-  }), _vm._v("\n\t\t\tRemove item\n\t\t")]) : _vm._e()], 1), _vm._v(" "), _c('div', {
-    staticClass: "item-contents"
-  }, [_c('div', {
-    class: {
-      'has-warning': !_vm.text
-    }
-  }, [_c('textarea', {
-    staticClass: "form-control",
-    attrs: {
-      "readonly": _vm.readonly
-    },
-    domProps: {
-      "value": _vm.text
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', {
-          text: $event.target.value
-        })
-      }
-    }
-  }), _vm._v(" "), (!_vm.text) ? _c('span', {
-    staticClass: "help-block"
-  }, [_vm._v("\n\t\t\t\tPlease complete or remove this list item\n\t\t\t")]) : _vm._e()])])])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-737a1269", esExports)
-  }
-}
-
-/***/ }),
+/* 672 */,
 /* 673 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PublicationItem_vue__ = __webpack_require__(676);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9ce3a934_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_PublicationItem_vue__ = __webpack_require__(677);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9ce3a934_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_PublicationItem_vue__ = __webpack_require__(823);
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(674)
-  __webpack_require__(675)
-}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-9ce3a934"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PublicationItem_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9ce3a934_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_PublicationItem_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9ce3a934_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_PublicationItem_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
@@ -18297,34 +18213,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 674 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 675 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 674 */,
+/* 675 */,
 /* 676 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__ = __webpack_require__(21);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(157);
 //
 //
 //
@@ -18375,6 +18270,7 @@ if (false) {(function () {
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
+	extends: __WEBPACK_IMPORTED_MODULE_0__Item_vue__["a" /* default */],
 	model: {
 		prop: 'text'
 	},
@@ -18409,161 +18305,33 @@ if (false) {(function () {
 	},
 
 	components: {
-		ConfirmationButton: __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__["a" /* default */]
+		ListItem: __WEBPACK_IMPORTED_MODULE_0__Item_vue__["a" /* default */]
 	}
 });
 
 /***/ }),
-/* 677 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', {
-    staticClass: "publication-list-item"
-  }, [_c('div', {
-    staticClass: "item-controls"
-  }, [(!_vm.readonly) ? _c('confirmation-button', {
-    staticClass: "btn btn-sm",
-    attrs: {
-      "unpressed-class": "btn-danger",
-      "pressed-class": "btn-warning"
-    },
-    on: {
-      "click": function($event) {
-        _vm.$emit('remove')
-      }
-    }
-  }, [_c('span', {
-    staticClass: "glyphicon glyphicon-remove"
-  }), _vm._v("\n\t\t\tRemove item\n\t\t")]) : _vm._e()], 1), _vm._v(" "), _c('div', {
-    staticClass: "item-contents"
-  }, [_c('div', {
-    staticClass: "form-group",
-    class: {
-      'has-warning': !_vm.title
-    }
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\tTitle of publication\n\t\t\t\t"), _c('textarea', {
-    staticClass: "form-control",
-    attrs: {
-      "readonly": _vm.readonly
-    },
-    domProps: {
-      "value": _vm.title
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', {
-          title: $event.target.value
-        })
-      }
-    }
-  })]), _vm._v(" "), (!_vm.title) ? _c('span', {
-    staticClass: "help-block"
-  }, [_vm._v("\n\t\t\t\tPlease enter a title or remove this list item\n\t\t\t")]) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\tPrimary author(s)\n\t\t\t\t"), _c('textarea', {
-    staticClass: "form-control",
-    attrs: {
-      "readonly": _vm.readonly
-    },
-    domProps: {
-      "value": _vm.author
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', {
-          author: $event.target.value
-        })
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\tLink (PubMed, MCW FCD, etc.)\n\t\t\t\t"), _c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "readonly": _vm.readonly
-    },
-    domProps: {
-      "value": _vm.link
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', {
-          link: $event.target.value
-        })
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group",
-    class: {
-      'has-warning': !_vm.role
-    }
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\tYour role on the project\n\t\t\t\t"), _c('textarea', {
-    staticClass: "form-control",
-    attrs: {
-      "readonly": _vm.readonly
-    },
-    domProps: {
-      "value": _vm.role
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', {
-          role: $event.target.value
-        })
-      }
-    }
-  })]), _vm._v(" "), (!_vm.role) ? _c('span', {
-    staticClass: "help-block"
-  }, [_vm._v("\n\t\t\t\tPlease enter your role or remove this list item\n\t\t\t")]) : _vm._e()])])])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-9ce3a934", esExports)
-  }
-}
-
-/***/ }),
+/* 677 */,
 /* 678 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_CommitteeItem_vue__ = __webpack_require__(680);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6233e112_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_CommitteeItem_vue__ = __webpack_require__(681);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6233e112_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_CommitteeItem_vue__ = __webpack_require__(824);
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(679)
-}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-6233e112"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_CommitteeItem_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6233e112_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_CommitteeItem_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6233e112_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_CommitteeItem_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
@@ -18592,29 +18360,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 679 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 679 */,
 /* 680 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__ = __webpack_require__(1);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -18687,96 +18439,7 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 681 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', {
-    staticClass: "committee-list-item"
-  }, [_c('div', {
-    staticClass: "item-controls"
-  }, [(!_vm.readonly) ? _c('confirmation-button', {
-    staticClass: "btn btn-sm",
-    attrs: {
-      "unpressed-class": "btn-danger",
-      "pressed-class": "btn-warning"
-    },
-    on: {
-      "click": function($event) {
-        _vm.$emit('remove')
-      }
-    }
-  }, [_c('span', {
-    staticClass: "glyphicon glyphicon-remove"
-  }), _vm._v("\n\t\t\tRemove item\n\t\t")]) : _vm._e()], 1), _vm._v(" "), _c('div', {
-    staticClass: "item-contents"
-  }, [_c('div', {
-    staticClass: "form-group",
-    class: {
-      'has-warning': !_vm.name
-    }
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\tCommittee name\n\t\t\t\t"), _c('textarea', {
-    staticClass: "form-control",
-    attrs: {
-      "readonly": _vm.readonly
-    },
-    domProps: {
-      "value": _vm.name
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', {
-          name: $event.target.value
-        })
-      }
-    }
-  })]), _vm._v(" "), (!_vm.name) ? _c('span', {
-    staticClass: "help-block"
-  }, [_vm._v("\n\t\t\t\tPlease enter the committee name or remove this list item\n\t\t\t")]) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "form-group",
-    class: {
-      'has-warning': !_vm.role
-    }
-  }, [_vm._m(0), _vm._v(" "), _vm._l((['chair', 'member']), function(value) {
-    return _c('label', {
-      staticClass: "containing-label"
-    }, [_c('input', {
-      attrs: {
-        "type": "radio"
-      },
-      domProps: {
-        "value": value,
-        "checked": _vm.role === value
-      },
-      on: {
-        "change": function($event) {
-          _vm.$emit('input', {
-            role: $event.target.value
-          })
-        }
-      }
-    }), _vm._v("\n\t\t\t\t" + _vm._s(_vm.ucfirst(value)) + "\n\t\t\t")])
-  }), _vm._v(" "), (!_vm.role) ? _c('span', {
-    staticClass: "help-block"
-  }, [_vm._v("\n\t\t\t\tPlease select your role or remove this list item\n\t\t\t")]) : _vm._e()], 2)])])
-}
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('fieldset', [_c('legend', [_vm._v("\n\t\t\t\t\tYour role\n\t\t\t\t")])])
-}]
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-6233e112", esExports)
-  }
-}
-
-/***/ }),
+/* 681 */,
 /* 682 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -27121,6 +26784,254 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-a56659ba", esExports)
+  }
+}
+
+/***/ }),
+/* 821 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 822 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('list-item', {
+    attrs: {
+      "readonly": _vm.readonly
+    },
+    on: {
+      "remove": function($event) {
+        _vm.$emit('remove')
+      }
+    }
+  }, [_c('div', {
+    class: {
+      'has-warning': !_vm.text
+    }
+  }, [_c('textarea', {
+    staticClass: "form-control",
+    attrs: {
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.text
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          text: $event.target.value
+        })
+      }
+    }
+  }), _vm._v(" "), (!_vm.text) ? _c('span', {
+    staticClass: "help-block"
+  }, [_vm._v("\n\t\t\tPlease complete or remove this list item\n\t\t")]) : _vm._e()])])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-737a1269", esExports)
+  }
+}
+
+/***/ }),
+/* 823 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('list-item', {
+    attrs: {
+      "readonly": _vm.readonly
+    },
+    on: {
+      "remove": function($event) {
+        _vm.$emit('remove')
+      }
+    }
+  }, [_c('div', {
+    staticClass: "form-group",
+    class: {
+      'has-warning': !_vm.title
+    }
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\tTitle of publication\n\t\t\t"), _c('textarea', {
+    staticClass: "form-control",
+    attrs: {
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.title
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          title: $event.target.value
+        })
+      }
+    }
+  })]), _vm._v(" "), (!_vm.title) ? _c('span', {
+    staticClass: "help-block"
+  }, [_vm._v("\n\t\t\tPlease enter a title or remove this list item\n\t\t")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\tPrimary author(s)\n\t\t\t"), _c('textarea', {
+    staticClass: "form-control",
+    attrs: {
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.author
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          author: $event.target.value
+        })
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\tLink (PubMed, MCW FCD, etc.)\n\t\t\t"), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.link
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          link: $event.target.value
+        })
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: {
+      'has-warning': !_vm.role
+    }
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\tYour role on the project\n\t\t\t"), _c('textarea', {
+    staticClass: "form-control",
+    attrs: {
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.role
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          role: $event.target.value
+        })
+      }
+    }
+  })]), _vm._v(" "), (!_vm.role) ? _c('span', {
+    staticClass: "help-block"
+  }, [_vm._v("\n\t\t\tPlease enter your role or remove this list item\n\t\t")]) : _vm._e()])])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-9ce3a934", esExports)
+  }
+}
+
+/***/ }),
+/* 824 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('list-item', {
+    attrs: {
+      "readonly": _vm.readonly
+    },
+    on: {
+      "remove": function($event) {
+        _vm.$emit('remove')
+      }
+    }
+  }, [_c('div', {
+    staticClass: "form-group",
+    class: {
+      'has-warning': !_vm.name
+    }
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\tCommittee name\n\t\t\t"), _c('textarea', {
+    staticClass: "form-control",
+    attrs: {
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.name
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          name: $event.target.value
+        })
+      }
+    }
+  })]), _vm._v(" "), (!_vm.name) ? _c('span', {
+    staticClass: "help-block"
+  }, [_vm._v("\n\t\t\tPlease enter the committee name or remove this list item\n\t\t")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: {
+      'has-warning': !_vm.role
+    }
+  }, [_c('fieldset', [_c('legend', [_vm._v("\n\t\t\t\tYour role\n\t\t\t")])]), _vm._v(" "), _vm._l((['chair', 'member']), function(value) {
+    return _c('label', {
+      staticClass: "containing-label"
+    }, [_c('input', {
+      attrs: {
+        "type": "radio"
+      },
+      domProps: {
+        "value": value,
+        "checked": _vm.role === value
+      },
+      on: {
+        "change": function($event) {
+          _vm.$emit('input', {
+            role: $event.target.value
+          })
+        }
+      }
+    }), _vm._v("\n\t\t\t" + _vm._s(_vm.ucfirst(value)) + "\n\t\t")])
+  }), _vm._v(" "), (!_vm.role) ? _c('span', {
+    staticClass: "help-block"
+  }, [_vm._v("\n\t\t\tPlease select your role or remove this list item\n\t\t")]) : _vm._e()], 2)])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-6233e112", esExports)
   }
 }
 

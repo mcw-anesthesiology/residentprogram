@@ -68,7 +68,7 @@ export default {
 
 	section {
 		font-size: 0.95em;
-		padding: 0 1.5em;
+		padding: 0 0.5em;
 		margin: 1.5em 0;
 		border-left: 2px solid rgba(0, 0, 0, 0.15);
 	}
