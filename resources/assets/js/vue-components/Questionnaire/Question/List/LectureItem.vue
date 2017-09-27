@@ -1,6 +1,6 @@
 <template>
-	<list-item :readonly="readonly" @remove="$emit('remove')">
-		<div class="form-group" :class="{'has-warning': !title}">
+	<list-item :readonly="readonly" :invalid="!validation.valid" @remove="$emit('remove')">
+		<validated-form-group :errors="errors" prop="title">
 			<label class="containing-label">
 				Lecture title
 				<textarea class="form-control"
@@ -8,11 +8,8 @@
 					@input="$emit('input', {title: $event.target.value})">
 				</textarea>
 			</label>
-			<span v-if="!title" class="help-block">
-				Please enter the lecture title or remove this list item
-			</span>
-		</div>
-		<div class="form-group" :class="{'has-warning': !date}">
+		</validated-form-group>
+		<validated-form-group :errors="errors" prop="date">
 			<label class="containing-label">
 				Lecture date
 				<vue-flatpickr class="form-control"
@@ -20,12 +17,9 @@
 					:value="date"
 					@input="$emit('input', {date: arguments[0]})" />
 			</label>
-			<span v-if="!date" class="help-block">
-				Please enter the lecture date or remove this list item
-			</span>
-		</div>
-		<div v-if="type !== 'audienceLecture'"
-				class="form-group" :class="{'has-warning': !audience}">
+		</validated-form-group>
+		<validated-form-group v-if="type !== 'audienceLecture'"
+				:errors="errors" prop="audience">
 			<label class="containing-label">
 				Lecture audience (department, society, group, location, etc.)
 				<textarea class="form-control"
@@ -33,10 +27,7 @@
 					@input="$emit('input', {audience: $event.target.value})">
 				</textarea>
 			</label>
-			<span v-if="!audience" class="help-block">
-				Please enter the lecture audience or remove this list item
-			</span>
-		</div>
+		</validated-form-group>
 	</list-item>
 </template>
 
@@ -44,6 +35,10 @@
 import ListItem from './Item.vue';
 import VueFlatpickr from 'vue-flatpickr';
 import 'vue-flatpickr/theme/flatpickr.min.css';
+
+import ValidatedFormGroup from 'vue-components/ValidatedFormGroup.vue';
+
+import { lectureListItem as validate } from 'modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,
@@ -82,12 +77,21 @@ export default {
 				altFormat: 'M j, Y',
 				clickOpens: !this.readonly
 			};
+		},
+		validation() {
+			return validate(this);
+		},
+		errors() {
+			return this.validation
+				? this.validation.errors
+				: new Map();
 		}
 	},
 
 	components: {
 		ListItem,
-		VueFlatpickr
+		VueFlatpickr,
+		ValidatedFormGroup
 	}
 };
 </script>

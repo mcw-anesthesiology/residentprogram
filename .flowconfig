@@ -4,6 +4,7 @@
 .*/node_modules/config-chain.*
 .*/node_modules/gulp-merge-json.*
 .*/node_modules/lunr/test.*
+.*/node_modules/stylelint/.*
 .*/vendor.*
 
 [include]

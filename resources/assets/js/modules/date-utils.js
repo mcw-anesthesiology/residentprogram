@@ -8,19 +8,18 @@ type DateLikeObject = { [string]: DateLike };
 
 import moment from 'moment';
 
-export function isoDateString(date: DateLike){
+export function isoDateString(date: DateLike): string {
 	return moment(date).format('Y-MM-DD');
 }
 
 export function isoDateStringObject(dates: DateLikeObject): { [string]: string } {
-	dates = Object.assign({}, dates);
-	Object.keys(dates).map(key => {
-		let date = dates[key];
-		if(date)
-			dates[key] = isoDateString(date);
-	});
+	const newDates = {};
 
-	return dates;
+	for (let [key, date] of Object.entries(dates)) {
+		newDates[key] = isoDateString(date);
+	}
+
+	return newDates;
 }
 
 export function datesEqual(dates1: DateLikeObject, dates2: DateLikeObject): boolean {

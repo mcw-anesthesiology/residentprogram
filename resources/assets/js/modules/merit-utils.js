@@ -4,6 +4,13 @@ import moment from 'moment';
 import { isoDateStringObject, academicYearForDate } from './date-utils.js';
 import { getFetchHeaders, jsonOrThrow } from './utils.js';
 
+import type {
+	QuestionnaireQuestion,
+	QuestionnaireInstruction,
+	QuestionnaireListQuestion,
+	QuestionnaireListItem
+} from './questionnaire/index.js';
+
 import type { User } from './utils.js';
 import type { DateLike } from './date-utils.js';
 
@@ -35,171 +42,14 @@ export type MeritReportSection = {
 export type MeritReportSectionChild =
 	| MeritReportSection
 	| MeritReportItem
-	| MeritReportInstruction;
+	| QuestionnaireInstruction;
 
 export type MeritReportItem = {
 	type: 'item',
 	text: string,
 	checked?: boolean,
 	subjectReadonly?: boolean,
-	questions: Array<MeritReportQuestion>
-};
-
-type MeritReportQuestion =
-	| MeritReportTextQuestion
-	| MeritReportNumberQuestion
-	| MeritReportCheckboxQuestion
-	| MeritReportRadioQuestion
-	| MeritReportListQuestion;
-
-export type MeritReportTextQuestion = {
-	type: 'text' | 'textarea',
-	text: string,
-	description?: string,
-	placeholder?: string,
-	value?: string,
-	required?: boolean
-};
-
-export type MeritReportNumberQuestion = {
-	type: 'number',
-	text: string,
-	description?: ?string,
-	placeholder?: ?string,
-	min?: number,
-	max?: number,
-	value?: number
-};
-
-export type MeritReportCheckboxQuestion = {
-	type: 'checkbox',
-	text: string,
-	description?: string,
-	required?: boolean,
-	options: Array<MeritReportOption>
-};
-
-export type MeritReportRadioQuestion = {
-	type: 'radio',
-	text: string,
-	description?: string,
-	required?: string,
-	options: Array<MeritReportOption>
-};
-
-export type MeritReportOption = {
-	text: string,
-	description?: string,
-	value: string | number,
-	editable?: boolean,
-	checked?: boolean
-};
-
-export type MeritReportListQuestion = {
-	type: 'list',
-	listType:
-		| 'text'
-		| 'publication'
-		| 'committee'
-		| 'study'
-		| 'grant'
-		| 'grantOther'
-		| 'certification'
-		| 'editorialBoard'
-		| 'review'
-		| 'lecture'
-		| 'audienceLecture'
-		| 'mentorship'
-		| 'subjectMentorship',
-	text?: string,
-	description?: string,
-	ordered?: boolean,
-	itemProps?: Object, // FIXME
-	itemLabels?: Object, // FIXME
-	items?: Array<MeritReportListItem>
-};
-
-export type MeritReportListItem =
-	| MeritReportTextListItem
-	| MeritReportPublicationListItem
-	| MeritReportCommitteeListItem
-	| MeritReportStudyListItem
-	| MeritReportGrantListItem
-	| MeritReportCertificationListItem
-	| MeritReportEditorialBoardListItem
-	| MeritReportReviewListItem
-	| MeritReportLectureListItem
-	| MeritReportMenstorshipListItem;
-
-export type MeritReportTextListItem = {
-	type: 'text',
-	text?: string
-};
-
-export type MeritReportPublicationListItem = {
-	type: 'publication',
-	title: string,
-	author: string,
-	link: string,
-	role: string
-};
-
-export type MeritReportCommitteeListItem = {
-	type: 'committee',
-	name: string,
-	role: 'chair' | 'member'
-};
-
-export type MeritReportStudyListItem = {
-	type: 'study',
-	title: string,
-	role: string,
-	yearInitiated: string,
-	approvalNumber: string,
-	progress: string
-};
-
-export type MeritReportGrantListItem = {
-	type: 'grant' | 'grantOther',
-	agency: string,
-	project: string,
-	amount: number
-};
-
-export type MeritReportCertificationListItem = {
-	type: 'certification',
-	board: string,
-	specialty: string
-};
-
-export type MeritReportEditorialBoardListItem = {
-	type: 'editorialBoard',
-	journal: string,
-	role: string
-};
-
-export type MeritReportReviewListItem = {
-	type: 'review',
-	work: string,
-	reviews: number
-};
-
-export type MeritReportLectureListItem = {
-	type: 'lecture' | 'audienceLecture',
-	title: string,
-	date: string,
-	audience: string
-};
-
-export type MeritReportMenstorshipListItem = {
-	type: 'mentorship' | 'subjectMentorship',
-	mentee: string,
-	subject: string
-};
-
-export type MeritReportInstruction = {
-	type: 'instruction',
-	text: string
+	questions: Array<QuestionnaireQuestion>
 };
 
 export function getCheckedItemCount(report: MeritReportChecklist): number {
@@ -289,7 +139,7 @@ export function itemIsValid(item: MeritReportItem): boolean {
 	return true;
 }
 
-export function questionIsValid(question: MeritReportQuestion): boolean {
+export function questionIsValid(question: QuestionnaireQuestion): boolean {
 	if (question.type !== 'list' && !question.required)
 		return true;
 
@@ -324,7 +174,7 @@ export function questionIsValid(question: MeritReportQuestion): boolean {
 	return true;
 }
 
-export function listQuestionIsValid(list: MeritReportListQuestion): boolean {
+export function listQuestionIsValid(list: QuestionnaireListQuestion): boolean {
 	if (!list.items || list.items.length === 0)
 		return false;
 
@@ -343,7 +193,7 @@ export function listQuestionIsValid(list: MeritReportListQuestion): boolean {
 	return true;
 }
 
-export function listItemIsValid(listItem: MeritReportListItem): boolean {
+export function listItemIsValid(listItem: QuestionnaireListItem): boolean {
 	switch (listItem.type) {
 		case 'text':
 			if (!listItem.text)

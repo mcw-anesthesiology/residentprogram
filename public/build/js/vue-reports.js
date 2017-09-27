@@ -2244,9 +2244,9 @@ function listQuestionIsValid(list) {
 						var _ref2 = _slicedToArray(_ref, 2);
 
 						var key = _ref2[0];
-						var _value = _ref2[1];
+						var value = _ref2[1];
 
-						if (listItem[key] !== _value) return false;
+						if (listItem[key] !== value) return false;
 					}
 				} catch (err) {
 					_didIteratorError8 = true;
