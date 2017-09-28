@@ -1,7 +1,6 @@
 <template>
-	<div class="form-group">
-		<label class="containing-label" :class="{'has-warning': required && !value}"
-				:title="description">
+	<validated-form-group :errors="validation.errors" prop="value">
+		<label class="containing-label" :title="description">
 			{{ text }}
 			<input type="number" class="form-control"
 				:min="min" :max="max" :value="value" :readonly="readonly"
@@ -13,13 +12,16 @@
 		<div v-if="description" v-show="show.description"
 			v-html="markedUpDescription">
 		</div>
-	</div>
+	</validated-form-group>
 </template>
 
 <script>
 import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import ValidatedFormGroup from 'vue-components/ValidatedFormGroup.vue';
 
 import snarkdown from 'snarkdown';
+
+import { numberQuestion as validate } from 'modules/questionnaire/validate.js';
 
 export default {
 	props: {
@@ -78,17 +80,22 @@ export default {
 		markedUpDescription() {
 			if (this.description)
 				return snarkdown(this.description);
+		},
+		validation() {
+			return validate(this);
 		}
 	},
 
 	methods: {
 		onInput(event) {
+			// FIXME: Firefox sends a 0 for non-numbers for some reason
 			this.$emit('input', {value: Number(event.target.value)});
 		}
 	},
 
 	components: {
-		ShowHideButton
+		ShowHideButton,
+		ValidatedFormGroup
 	}
 };
 </script>

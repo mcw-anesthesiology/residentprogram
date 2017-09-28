@@ -11,7 +11,7 @@
 			</legend>
 
 			<bootstrap-alert v-if="items.length === 0"
-				type="warning" text="Please add at least one item">
+				type="error" text="Please add at least one item">
 			</bootstrap-alert>
 
 			<list-items :ordered="ordered" :items="items" @change="onChange"

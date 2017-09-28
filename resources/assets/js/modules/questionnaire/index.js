@@ -82,7 +82,7 @@ export type QuestionnaireListItem =
 	| QuestionnaireEditorialBoardListItem
 	| QuestionnaireReviewListItem
 	| QuestionnaireLectureListItem
-	| QuestionnaireMenstorshipListItem;
+	| QuestionnaireMentorshipListItem;
 
 export type QuestionnaireTextListItem = {
 	type: 'text',
@@ -144,7 +144,7 @@ export type QuestionnaireLectureListItem = {
 	audience: string
 };
 
-export type QuestionnaireMenstorshipListItem = {
+export type QuestionnaireMentorshipListItem = {
 	type: 'mentorship' | 'subjectMentorship',
 	mentee: string,
 	subject: string

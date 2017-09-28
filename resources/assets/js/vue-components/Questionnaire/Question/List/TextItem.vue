@@ -1,20 +1,19 @@
 <template>
-	<list-item :readonly="readonly" @remove="$emit('remove')">
-		<div :class="{'has-warning': !text}">
+	<list-item :readonly="readonly" :invalid="!validation.valid"
+			@remove="$emit('remove')">
+		<validated-form-group :errors="validation.errors" prop="text">
 			<textarea class="form-control"
 				:value="text" :readonly="readonly"
 				@input="$emit('input', {text: $event.target.value})">
 			</textarea>
-
-			<span v-if="!text" class="help-block">
-				Please complete or remove this list item
-			</span>
-		</div>
+		</validated-form-group>
 	</list-item>
 </template>
 
 <script>
 import ListItem from './Item.vue';
+
+import { textListItem as validate } from 'modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,
@@ -36,6 +35,12 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		}
+	},
+
+	computed: {
+		validation() {
+			return validate(this);
 		}
 	},
 

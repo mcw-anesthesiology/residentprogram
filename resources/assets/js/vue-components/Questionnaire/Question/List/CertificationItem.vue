@@ -1,17 +1,15 @@
 <template>
-	<list-item :readonly="readonly" @remove="$emit('remove')">
-		<div class="form-group" :class="{'has-warning': !board}">
+	<list-item :readonly="readonly" :invalid="!validation.valid"
+			@remove="$emit('remove')">
+		<validated-form-group :errors="validation.errors" prop="board">
 			<label class="containing-label">
 				Board
 				<input type="text" class="form-control"
 					:value="board" :readonly="readonly"
 					@input="$emit('input', {board: $event.target.value})" />
 			</label>
-			<span v-if="!board" class="help-block">
-				Please enter the certifying board or remove this list item
-			</span>
-		</div>
-		<div class="form-group" :class="{'has-warning': !specialty}">
+		</validated-form-group>
+		<validated-form-group :errors="validation.errors" prop="specialty">
 			<label class="containing-label">
 				Specialty
 				<textarea class="form-control"
@@ -19,15 +17,14 @@
 					@input="$emit('input', {specialty: $event.target.value})">
 				</textarea>
 			</label>
-			<span v-if="!specialty" class="help-block">
-				Please enter the certification specialty or remove this list item
-			</span>
-		</div>
+		</validated-form-group>
 	</list-item>
 </template>
 
 <script>
 import ListItem from './Item.vue';
+
+import { certificationListItem as validate } from 'modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,
@@ -46,6 +43,12 @@ export default {
 		specialty: {
 			type: String,
 			default: ''
+		}
+	},
+
+	computed: {
+		validation() {
+			return validate(this);
 		}
 	},
 

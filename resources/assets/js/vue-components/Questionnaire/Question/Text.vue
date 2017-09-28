@@ -1,5 +1,5 @@
 <template>
-	<div class="form-group">
+	<validated-form-group :errors="validation.errors" prop="value">
 		<label class="containing-label" :class="{'has-warning': (required && !value)}"
 				:title="description">
 			{{ text }}
@@ -13,13 +13,16 @@
 		<div v-if="description" v-show="show.description"
 			v-html="markedUpDescription">
 		</div>
-	</div>
+	</validated-form-group>
 </template>
 
 <script>
 import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import ValidatedFormGroup from 'vue-components/ValidatedFormGroup.vue';
 
 import snarkdown from 'snarkdown';
+
+import { textQuestion as validate } from 'modules/questionnaire/validate.js';
 
 export default {
 	props: {
@@ -66,6 +69,9 @@ export default {
 		markedUpDescription() {
 			if (this.description)
 				return snarkdown(this.description);
+		},
+		validation() {
+			return validate(this);
 		}
 	},
 
@@ -76,7 +82,8 @@ export default {
 	},
 
 	components: {
-		ShowHideButton
+		ShowHideButton,
+		ValidatedFormGroup
 	}
 };
 </script>

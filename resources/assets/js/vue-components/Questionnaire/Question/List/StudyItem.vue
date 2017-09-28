@@ -1,6 +1,7 @@
 <template>
-	<list-item :readonly="readonly" @remove="$emit('remove')">
-		<div class="form-group" :class="{'has-warning': !title}">
+	<list-item :readonly="readonly" :invalid="!validation.valid"
+			@remove="$emit('remove')">
+		<validated-form-group :errors="validation.errors" prop="title">
 			<label class="containing-label">
 				Study title
 				<textarea class="form-control"
@@ -8,12 +9,8 @@
 					@input="$emit('input', {title: $event.target.value})">
 				</textarea>
 			</label>
-
-			<span v-if="!title" class="help-block">
-				Please enter the study title or remove this list item
-			</span>
-		</div>
-		<div class="form-group" :class="{'has-warning': !role}">
+		</validated-form-group>
+		<validated-form-group :errors="validation.errors" prop="role">
 			<label class="containing-label">
 				Your role in study
 				<textarea class="form-control"
@@ -21,36 +18,24 @@
 					@input="$emit('input', {role: $event.target.value})">
 				</textarea>
 			</label>
-
-			<span v-if="!role" class="help-block">
-				Please describe your role or remove this list item
-			</span>
-		</div>
-		<div class="form-group" :class="{'has-warning': !yearInitiated}">
+		</validated-form-group>
+		<validated-form-group :errors="validation.errors" prop="yearInitiated">
 			<label class="containing-label">
 				Year initiated
 				<input type="text" class="form-control"
 					:value="yearInitiated" :readonly="readonly"
 					@input="$emit('input', {yearInitiated: $event.target.value})" />
 			</label>
-
-			<span v-if="!yearInitiated" class="help-block">
-				Please enter the year the study was initiated or remove this list item
-			</span>
-		</div>
-		<div class="form-group" :class="{'has-warning': !approvalNumber}">
+		</validated-form-group>
+		<validated-form-group :errors="validation.errors" prop="approvalNumber">
 			<label class="containing-label">
 				Approval number (IRB / ACUC)
 				<input type="text" class="form-control"
 					:value="approvalNumber" :readonly="readonly"
 					@input="$emit('input', {approvalNumber: $event.target.value})" />
 			</label>
-
-			<span v-if="!approvalNumber" class="help-block">
-				Please enter the study approval number or remove this list item
-			</span>
-		</div>
-		<div class="form-group" :class="{'has-warning': !progress}">
+		</validated-form-group>
+		<validated-form-group :errors="validation.errors" prop="progress">
 			<label class="containing-label">
 				Progress
 				<textarea class="form-control"
@@ -58,16 +43,14 @@
 					@input="$emit('input', {progress: $event.target.value})">
 				</textarea>
 			</label>
-
-			<span v-if="!progress" class="help-block">
-				Please describe the study's progress or remove this list item
-			</span>
-		</div>
+		</validated-form-group>
 	</list-item>
 </template>
 
 <script>
 import ListItem from './Item.vue';
+
+import { studyListItem as validate } from 'modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,
@@ -98,6 +81,12 @@ export default {
 		progress: {
 			type: String,
 			default: ''
+		}
+	},
+
+	computed: {
+		validation() {
+			return validate(this);
 		}
 	},
 

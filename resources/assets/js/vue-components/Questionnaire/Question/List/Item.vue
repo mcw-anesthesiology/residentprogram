@@ -20,6 +20,7 @@
 
 <script>
 import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
+import ValidatedFormGroup from 'vue-components/ValidatedFormGroup.vue';
 
 export default {
 	props: {
@@ -34,7 +35,8 @@ export default {
 	},
 
 	components: {
-		ConfirmationButton
+		ConfirmationButton,
+		ValidatedFormGroup
 	}
 };
 </script>
