@@ -25,7 +25,7 @@
 		"plugin:import/errors"
 	],
 	"rules": {
-		"no-console": "off",
+		"no-console": ["warn", { "allow": ["warn", "error" ] }],
 		"no-var": "warn",
 		"eqeqeq": ["warn", "smart"],
 		"semi": ["warn", "always"],

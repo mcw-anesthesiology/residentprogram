@@ -1392,7 +1392,8 @@ module.exports = Element;
 /* 131 */,
 /* 132 */,
 /* 133 */,
-/* 134 */
+/* 134 */,
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1406,9 +1407,9 @@ module.exports.Rectangle = __webpack_require__(383);
 
 
 /***/ }),
-/* 135 */,
 /* 136 */,
-/* 137 */
+/* 137 */,
+/* 138 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1598,7 +1599,6 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 138 */,
 /* 139 */,
 /* 140 */,
 /* 141 */,
@@ -4688,7 +4688,7 @@ __webpack_require__(376)(Chart);
 
 Chart.defaults = __webpack_require__(19);
 Chart.Element = __webpack_require__(124);
-Chart.elements = __webpack_require__(134);
+Chart.elements = __webpack_require__(135);
 Chart.Interaction = __webpack_require__(320);
 Chart.platform = __webpack_require__(321);
 
@@ -6587,7 +6587,7 @@ module.exports.polyfill = function() {
 
 //# sourceMappingURL=performance-now.js.map
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(137)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(138)))
 
 /***/ }),
 /* 371 */
@@ -16139,7 +16139,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(134);
+var elements = __webpack_require__(135);
 var helpers = __webpack_require__(13);
 
 defaults._set('bar', {
@@ -16567,7 +16567,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(134);
+var elements = __webpack_require__(135);
 var helpers = __webpack_require__(13);
 
 defaults._set('bubble', {
@@ -16754,7 +16754,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(134);
+var elements = __webpack_require__(135);
 var helpers = __webpack_require__(13);
 
 defaults._set('doughnut', {
@@ -17060,7 +17060,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(134);
+var elements = __webpack_require__(135);
 var helpers = __webpack_require__(13);
 
 defaults._set('line', {
@@ -17400,7 +17400,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(134);
+var elements = __webpack_require__(135);
 var helpers = __webpack_require__(13);
 
 defaults._set('polarArea', {
@@ -17629,7 +17629,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(134);
+var elements = __webpack_require__(135);
 var helpers = __webpack_require__(13);
 
 defaults._set('radar', {
@@ -17981,7 +17981,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(134);
+var elements = __webpack_require__(135);
 var helpers = __webpack_require__(13);
 
 defaults._set('global', {

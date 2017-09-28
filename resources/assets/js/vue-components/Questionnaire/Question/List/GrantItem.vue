@@ -1,19 +1,16 @@
 <template>
-	<list-item :readonly="readonly" @remove="$emit('remove')">
-		<div v-if="type === 'grantOther'" class="form-group"
-				:class="{'has-warning': !agency}">
+	<list-item :readonly="readonly" :invalid="!validation.valid"
+			@remove="$emit('remove')">
+		<validated-form-group v-if="type === 'grantOther'"
+				:errors="validation.errors" prop="agency">
 			<label class="containing-label">
 				Funding agency
 				<input type="text" class="form-control"
 					:value="agency" :readonly="readonly"
 					@input="$emit('input', {agency: $event.target.value})" />
 			</label>
-
-			<span v-if="!agency" class="help-block">
-				Please enter the funding agency or remove this list item
-			</span>
-		</div>
-		<div class="form-group" :class="{'has-warning': !project}">
+		</validated-form-group>
+		<validated-form-group :errors="validation.errors" prop="project">
 			<label class="containing-label">
 				Project
 				<textarea class="form-control"
@@ -21,12 +18,8 @@
 					@input="$emit('input', {project: $event.target.value})">
 				</textarea>
 			</label>
-
-			<span v-if="!project" class="help-block">
-				Please enter the name of the project or remove this list item
-			</span>
-		</div>
-		<div class="form-group" :class="{'has-warning': !amount}">
+		</validated-form-group>
+		<validated-form-group :errors="validation.errors" prop="amount">
 			<label class="containing-label">
 				Funding amount
 				<div class="input-group">
@@ -36,16 +29,14 @@
 						@input="$emit('input', {amount: Number($event.target.value)})" />
 				</div>
 			</label>
-
-			<span v-if="!amount" class="help-block">
-				Please enter the funding amount or remove this list item
-			</span>
-		</div>
+		</validated-form-group>
 	</list-item>
 </template>
 
 <script>
 import ListItem from './Item.vue';
+
+import { grantListItem as validate } from 'modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,
@@ -71,6 +62,12 @@ export default {
 		amount: {
 			type: Number,
 			default: 0
+		}
+	},
+
+	computed: {
+		validation() {
+			return validate(this);
 		}
 	},
 

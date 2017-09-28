@@ -1,17 +1,15 @@
 <template>
-	<list-item :readonly="readonly" @remove="$emit('remove')">
-		<div class="form-group" :class="{'has-warning': !journal}">
+	<list-item :readonly="readonly" :invalid="!validation.valid"
+			@remove="$emit('remove')">
+		<validated-form-group :errors="validation.errors" prop="journal">
 			<label class="containing-label">
 				Journal
 				<input type="text" class="form-control"
 					:value="journal" :readonly="readonly"
 					@input="$emit('input', {journal: $event.target.value})" />
 			</label>
-			<span v-if="!journal" class="help-block">
-				Please enter the journal name or remove this list item
-			</span>
-		</div>
-		<div class="form-group" :class="{'has-warning': !role}">
+		</validated-form-group>
+		<validated-form-group :errors="validation.errors" prop="role">
 			<fieldset class="radio-question">
 				<legend>
 					Role
@@ -39,10 +37,7 @@
 					</label>
 				</div>
 			</fieldset>
-			<span v-if="!role" class="help-block">
-				Please select a role or remove this list item
-			</span>
-		</div>
+		</validated-form-group>
 	</list-item>
 </template>
 
@@ -50,6 +45,7 @@
 import ListItem from './Item.vue';
 
 import { kebabCaseToWords } from 'modules/utils.js';
+import { editorialBoardListItem as validate } from 'modules/questionnaire/validate.js';
 
 const predefinedRoles = [
 	'editor-in-chief',
@@ -87,6 +83,9 @@ export default {
 	computed: {
 		predefinedRoles() {
 			return predefinedRoles;
+		},
+		validation() {
+			return validate(this);
 		}
 	},
 

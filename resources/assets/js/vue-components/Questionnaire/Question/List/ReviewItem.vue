@@ -1,6 +1,7 @@
 <template>
-	<list-item :readonly="readonly" @remove="$emit('remove')">
-		<div class="form-group" :class="{'has-warning': !work}">
+	<list-item :readonly="readonly" :invalid="!validation.valid"
+			@remove="$emit('remove')">
+		<validated-form-group :errors="validation.errors" prop="work">
 			<label class="containing-label">
 				{{ workLabel }}
 				<textarea class="form-control"
@@ -8,23 +9,22 @@
 					@input="$emit('input', {work: $event.target.value})">
 				</textarea>
 			</label>
-			<span v-if="!work" class="help-block">
-				Please enter the name of what's being reviewed or remove this list item
-			</span>
-		</div>
-		<div class="form-group" :class="{'has-warning': !reviews}">
+		</validated-form-group>
+		<validated-form-group :errors="validation.errors" prop="reviews">
 			<label class="containing-label">
 				{{ reviewsLabel }}
 				<input type="number" class="form-control"
 					:value="reviews" :readonly="readonly"
 					@input="$emit('input', {reviews: Number($event.target.value)})" />
 			</label>
-		</div>
+		</validated-form-group>
 	</list-item>
 </template>
 
 <script>
 import ListItem from './Item.vue';
+
+import { reviewListItem as validate } from 'modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,
@@ -60,6 +60,9 @@ export default {
 			return (this.labels && this.labels.reviews)
 				? this.labels.reviews
 				: 'Number of reviews';
+		},
+		validation() {
+			return validate(this);
 		}
 	},
 

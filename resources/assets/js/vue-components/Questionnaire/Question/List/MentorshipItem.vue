@@ -1,6 +1,7 @@
 <template>
-	<list-item :readonly="readonly" @remove="$emit('remove')">
-		<div class="form-group" :class="{'has-warning': !mentee}">
+	<list-item :readonly="readonly" :invalid="!validation.valid"
+			@remove="$emit('remove')">
+		<validated-form-group :errors="validation.errors" prop="mentee">
 			<label class="containing-label">
 				{{ menteeLabel }}
 				<input type="text" class="form-control"
@@ -10,9 +11,9 @@
 			<span v-if="!mentee" class="help-block">
 				Please enter the mentee / trainee name or remove this list item
 			</span>
-		</div>
-		<div v-if="type !== 'subjectMentorship'"
-				class="form-group" :class="{'has-warning': !subject}">
+		</validated-form-group>
+		<validated-form-group v-if="type !== 'subjectMentorship'"
+				:errors="validation.errors" prop="subject">
 			<label class="containing-label">
 				{{ subjectLabel }}
 				<textarea class="form-control"
@@ -23,12 +24,14 @@
 			<span v-if="!subject" class="help-block">
 				Please enter the mentorship subject or remove this list item
 			</span>
-		</div>
+		</validated-form-group>
 	</list-item>
 </template>
 
 <script>
 import ListItem from './Item.vue';
+
+import { mentorshipListItem as validate } from 'modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,
@@ -67,6 +70,9 @@ export default {
 			return (this.labels && this.labels.subject)
 				? this.labels.subject
 				: 'Project / program / mentorship subject';
+		},
+		validation() {
+			return validate(this);
 		}
 	},
 

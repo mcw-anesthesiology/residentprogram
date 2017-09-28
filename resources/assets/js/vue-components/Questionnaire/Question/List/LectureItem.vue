@@ -36,8 +36,6 @@ import ListItem from './Item.vue';
 import VueFlatpickr from 'vue-flatpickr';
 import 'vue-flatpickr/theme/flatpickr.min.css';
 
-import ValidatedFormGroup from 'vue-components/ValidatedFormGroup.vue';
-
 import { lectureListItem as validate } from 'modules/questionnaire/validate.js';
 
 export default {
@@ -90,8 +88,7 @@ export default {
 
 	components: {
 		ListItem,
-		VueFlatpickr,
-		ValidatedFormGroup
+		VueFlatpickr
 	}
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
-	<div class="radio-question form-group"
-			:class="{'has-warning': (required && !hasResponse)}">
+	<validated-form-group class="radio-question"
+			:errors="validation.errors" prop="options">
 		<fieldset :title="description">
 			<legend class="control-label">
 				{{ text }}
@@ -28,23 +28,22 @@
 			</div>
 		</fieldset>
 
-		<span v-if="required && !hasResponse" class="help-block">
-			Please select a response
-		</span>
-
 		<show-hide-button v-if="description" v-model="show.description">
 			description
 		</show-hide-button>
 		<div v-if="description" v-show="show.description">
 			{{ markedUpDescription }}
 		</div>
-	</div>
+	</validated-form-group>
 </template>
 
 <script>
 import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import ValidatedFormGroup from 'vue-components/ValidatedFormGroup.vue';
 
 import snarkdown from 'snarkdown';
+
+import { radioQuestion as validate } from 'modules/questionnaire/validate.js';
 
 export default {
 	model: {
@@ -91,8 +90,8 @@ export default {
 			if (this.description)
 				return snarkdown(this.description);
 		},
-		hasResponse() {
-			return this.options.some(option => option.checked);
+		validation() {
+			return validate(this);
 		}
 	},
 
@@ -118,7 +117,8 @@ export default {
 	},
 
 	components: {
-		ShowHideButton
+		ShowHideButton,
+		ValidatedFormGroup
 	}
 };
 </script>

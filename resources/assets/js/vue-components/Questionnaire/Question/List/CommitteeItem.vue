@@ -1,6 +1,7 @@
 <template>
-	<list-item :readonly="readonly" @remove="$emit('remove')">
-		<div class="form-group" :class="{'has-warning': !name}">
+	<list-item :readonly="readonly" :invalid="!validation.valid"
+			@remove="$emit('remove')">
+		<validated-form-group :errors="validation.errors" prop="name">
 			<label class="containing-label">
 				Committee name
 				<textarea class="form-control"
@@ -8,11 +9,8 @@
 					@input="$emit('input', {name: $event.target.value})">
 				</textarea>
 			</label>
-			<span v-if="!name" class="help-block">
-				Please enter the committee name or remove this list item
-			</span>
-		</div>
-		<div class="form-group" :class="{'has-warning': !role}">
+		</validated-form-group>
+		<validated-form-group :errors="validation.errors" prop="role">
 			<fieldset>
 				<legend>
 					Your role
@@ -24,11 +22,7 @@
 					@change="$emit('input', {role: $event.target.value})" />
 				{{ ucfirst(value) }}
 			</label>
-
-			<span v-if="!role" class="help-block">
-				Please select your role or remove this list item
-			</span>
-		</div>
+		</validated-form-group>
 	</list-item>
 </template>
 
@@ -36,6 +30,7 @@
 import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
 
 import { ucfirst } from 'modules/utils.js';
+import { committeeListItem as validate } from 'modules/questionnaire/validate.js';
 
 export default {
 	props: {
@@ -57,6 +52,12 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		}
+	},
+
+	computed: {
+		validation() {
+			return validate(this);
 		}
 	},
 
