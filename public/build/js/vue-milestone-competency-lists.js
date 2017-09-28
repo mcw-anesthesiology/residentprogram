@@ -10,14 +10,14 @@
 })(this, function() {
 return webpackJsonp([12],{
 
-/***/ 121:
+/***/ 122:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 122:
+/***/ 123:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -60,24 +60,40 @@ return webpackJsonp([12],{
 
 /***/ }),
 
-/***/ 123:
+/***/ 124:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.$emit('input', !_vm.value)
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      staticClass: "btn",
+      attrs: { type: "button" },
+      on: {
+        click: function($event) {
+          _vm.$emit("input", !_vm.value)
+        }
       }
-    }
-  }, [_vm._t("left-glyph"), _vm._v(" "), (_vm.value) ? _vm._t("true", [_vm._v("\n\t\tHide\n\t")]) : _vm._t("false", [_vm._v("\n\t\tShow\n\t")]), _vm._v(" "), _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]), _vm._v(" "), _vm._t("glyph", [_c('span', {
-    staticClass: "glyphicon glyphicon-triangle-bottom"
-  })])], 2)
+    },
+    [
+      _vm._t("left-glyph"),
+      _vm._v(" "),
+      _vm.value
+        ? _vm._t("true", [_vm._v("\n\t\tHide\n\t")])
+        : _vm._t("false", [_vm._v("\n\t\tShow\n\t")]),
+      _vm._v(" "),
+      _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]),
+      _vm._v(" "),
+      _vm._t("glyph", [
+        _c("span", { staticClass: "glyphicon glyphicon-triangle-bottom" })
+      ])
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -96,12 +112,12 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ShowHideButton_vue__ = __webpack_require__(122);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_38459c74_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_ShowHideButton_vue__ = __webpack_require__(123);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ShowHideButton_vue__ = __webpack_require__(123);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_38459c74_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_ShowHideButton_vue__ = __webpack_require__(124);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(121)
+  __webpack_require__(122)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -422,48 +438,88 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.showLists),
-      expression: "showLists"
-    }],
-    staticClass: "milestone-competency-question-lists row"
-  }, _vm._l((_vm.groups), function(group, groupName) {
-    return _c('div', {
-      staticClass: "col-sm-6"
-    }, [_c('div', {
-      staticClass: "panel panel-info milestones-panel"
-    }, [_c('div', {
-      staticClass: "panel-heading"
-    }, [_c('h4', {
-      staticClass: "panel-title"
-    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.ucfirst(groupName)) + "\n\t\t\t\t")]), _vm._v(" "), _c('show-hide-button', {
-      staticClass: "description-button btn btn-info btn-xs",
-      model: {
-        value: (_vm.showDescriptions[groupName]),
-        callback: function($$v) {
-          _vm.$set(_vm.showDescriptions, groupName, $$v)
-        },
-        expression: "showDescriptions[groupName]"
-      }
-    }, [_vm._v("\n\t\t\t\t\tdescriptions\n\t\t\t\t")])], 1), _vm._v(" "), _c('ul', {
-      staticClass: "list-group"
-    }, _vm._l((group), function(item) {
-      return _c('li', {
-        staticClass: "list-group-item"
-      }, [_c('b', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('span', {
-        directives: [{
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
           name: "show",
           rawName: "v-show",
-          value: (_vm.showDescriptions[groupName]),
-          expression: "showDescriptions[groupName]"
-        }]
-      }, [_vm._v("\n\t\t\t\t\t\t— " + _vm._s(item.description) + "\n\t\t\t\t\t")])])
-    }))])])
-  }))
+          value: _vm.showLists,
+          expression: "showLists"
+        }
+      ],
+      staticClass: "milestone-competency-question-lists row"
+    },
+    _vm._l(_vm.groups, function(group, groupName) {
+      return _c("div", { staticClass: "col-sm-6" }, [
+        _c("div", { staticClass: "panel panel-info milestones-panel" }, [
+          _c(
+            "div",
+            { staticClass: "panel-heading" },
+            [
+              _c("h4", { staticClass: "panel-title" }, [
+                _vm._v(
+                  "\n\t\t\t\t\t" + _vm._s(_vm.ucfirst(groupName)) + "\n\t\t\t\t"
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "show-hide-button",
+                {
+                  staticClass: "description-button btn btn-info btn-xs",
+                  model: {
+                    value: _vm.showDescriptions[groupName],
+                    callback: function($$v) {
+                      _vm.$set(_vm.showDescriptions, groupName, $$v)
+                    },
+                    expression: "showDescriptions[groupName]"
+                  }
+                },
+                [_vm._v("\n\t\t\t\t\tdescriptions\n\t\t\t\t")]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "ul",
+            { staticClass: "list-group" },
+            _vm._l(group, function(item) {
+              return _c("li", { staticClass: "list-group-item" }, [
+                _c("b", [_vm._v(_vm._s(item.title))]),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.showDescriptions[groupName],
+                        expression: "showDescriptions[groupName]"
+                      }
+                    ]
+                  },
+                  [
+                    _vm._v(
+                      "\n\t\t\t\t\t\t— " +
+                        _vm._s(item.description) +
+                        "\n\t\t\t\t\t"
+                    )
+                  ]
+                )
+              ])
+            })
+          )
+        ])
+      ])
+    })
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
