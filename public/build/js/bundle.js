@@ -874,7 +874,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_20__;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(425);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_twix__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(8);
 
@@ -1072,38 +1072,11 @@ function getDataAttributes(thing) {
 /* 30 */,
 /* 31 */,
 /* 32 */,
-/* 33 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
+/* 33 */,
 /* 34 */,
 /* 35 */,
 /* 36 */,
-/* 37 */,
-/* 38 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -1131,9 +1104,36 @@ module.exports = function(module) {
 
 
 /***/ }),
+/* 38 */,
 /* 39 */,
 /* 40 */,
-/* 41 */,
+/* 41 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
 /* 42 */,
 /* 43 */,
 /* 44 */,
@@ -1141,7 +1141,8 @@ module.exports = function(module) {
 /* 46 */,
 /* 47 */,
 /* 48 */,
-/* 49 */
+/* 49 */,
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1187,7 +1188,6 @@ var FEATURE_RELEASE_DATES = {
 };
 
 /***/ }),
-/* 50 */,
 /* 51 */,
 /* 52 */,
 /* 53 */,
@@ -1261,7 +1261,8 @@ var FEATURE_RELEASE_DATES = {
 /* 121 */,
 /* 122 */,
 /* 123 */,
-/* 124 */
+/* 124 */,
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1383,7 +1384,6 @@ module.exports = Element;
 
 
 /***/ }),
-/* 125 */,
 /* 126 */,
 /* 127 */,
 /* 128 */,
@@ -1393,7 +1393,8 @@ module.exports = Element;
 /* 132 */,
 /* 133 */,
 /* 134 */,
-/* 135 */
+/* 135 */,
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1407,9 +1408,9 @@ module.exports.Rectangle = __webpack_require__(383);
 
 
 /***/ }),
-/* 136 */,
 /* 137 */,
-/* 138 */
+/* 138 */,
+/* 139 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1599,7 +1600,6 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 139 */,
 /* 140 */,
 /* 141 */,
 /* 142 */,
@@ -1622,7 +1622,8 @@ process.umask = function() { return 0; };
 /* 159 */,
 /* 160 */,
 /* 161 */,
-/* 162 */
+/* 162 */,
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
@@ -1631,7 +1632,7 @@ module.exports = !__webpack_require__(217)(function(){
 });
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1842,7 +1843,7 @@ module.exports = {
 
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2174,7 +2175,6 @@ exports.getDecimalPlaces = function getDecimalPlaces(number) {
 
 
 /***/ }),
-/* 165 */,
 /* 166 */,
 /* 167 */,
 /* 168 */,
@@ -4435,7 +4435,7 @@ Url.prototype.parseHost = function() {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)(module), __webpack_require__(33)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)(module), __webpack_require__(41)))
 
 /***/ }),
 /* 221 */,
@@ -4611,7 +4611,7 @@ var anObject       = __webpack_require__(356)
   , toPrimitive    = __webpack_require__(315)
   , dP             = Object.defineProperty;
 
-exports.f = __webpack_require__(162) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+exports.f = __webpack_require__(163) ? Object.defineProperty : function defineProperty(O, P, Attributes){
   anObject(O);
   P = toPrimitive(P, true);
   anObject(Attributes);
@@ -4627,7 +4627,7 @@ exports.f = __webpack_require__(162) ? Object.defineProperty : function definePr
 /* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(162) && !__webpack_require__(217)(function(){
+module.exports = !__webpack_require__(163) && !__webpack_require__(217)(function(){
   return Object.defineProperty(__webpack_require__(357)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
 
@@ -4687,8 +4687,8 @@ Chart.helpers = __webpack_require__(13);
 __webpack_require__(376)(Chart);
 
 Chart.defaults = __webpack_require__(19);
-Chart.Element = __webpack_require__(124);
-Chart.elements = __webpack_require__(135);
+Chart.Element = __webpack_require__(125);
+Chart.elements = __webpack_require__(136);
 Chart.Interaction = __webpack_require__(320);
 Chart.platform = __webpack_require__(321);
 
@@ -6278,7 +6278,7 @@ module.exports = function defineProperty(it, key, desc){
 
 var $export = __webpack_require__(311);
 // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(162), 'Object', {defineProperty: __webpack_require__(313).f});
+$export($export.S + $export.F * !__webpack_require__(163), 'Object', {defineProperty: __webpack_require__(313).f});
 
 /***/ }),
 /* 353 */
@@ -6320,7 +6320,7 @@ module.exports = function(it){
 
 var dP         = __webpack_require__(313)
   , createDesc = __webpack_require__(316);
-module.exports = __webpack_require__(162) ? function(object, key, value){
+module.exports = __webpack_require__(163) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
 } : function(object, key, value){
   object[key] = value;
@@ -6421,7 +6421,7 @@ var pIE            = __webpack_require__(365)
   , IE8_DOM_DEFINE = __webpack_require__(314)
   , gOPD           = Object.getOwnPropertyDescriptor;
 
-exports.f = __webpack_require__(162) ? gOPD : function getOwnPropertyDescriptor(O, P){
+exports.f = __webpack_require__(163) ? gOPD : function getOwnPropertyDescriptor(O, P){
   O = toIObject(O);
   P = toPrimitive(P, true);
   if(IE8_DOM_DEFINE)try {
@@ -6544,7 +6544,7 @@ module.exports.polyfill = function() {
   root.cancelAnimationFrame = caf
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
 
 /***/ }),
 /* 370 */
@@ -6587,7 +6587,7 @@ module.exports.polyfill = function() {
 
 //# sourceMappingURL=performance-now.js.map
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(138)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(139)))
 
 /***/ }),
 /* 371 */
@@ -8977,7 +8977,7 @@ for (var name in colorNames) {
 
 
 var defaults = __webpack_require__(19);
-var Element = __webpack_require__(124);
+var Element = __webpack_require__(125);
 var helpers = __webpack_require__(13);
 
 defaults._set('global', {
@@ -9091,7 +9091,7 @@ module.exports = Element.extend({
 
 
 var defaults = __webpack_require__(19);
-var Element = __webpack_require__(124);
+var Element = __webpack_require__(125);
 var helpers = __webpack_require__(13);
 
 var globalDefaults = defaults.global;
@@ -9189,7 +9189,7 @@ module.exports = Element.extend({
 
 
 var defaults = __webpack_require__(19);
-var Element = __webpack_require__(124);
+var Element = __webpack_require__(125);
 var helpers = __webpack_require__(13);
 
 var defaultColor = defaults.global.defaultColor;
@@ -9302,7 +9302,7 @@ module.exports = Element.extend({
 
 
 var defaults = __webpack_require__(19);
-var Element = __webpack_require__(124);
+var Element = __webpack_require__(125);
 
 defaults._set('global', {
 	elements: {
@@ -10004,7 +10004,7 @@ helpers.removeEvent = removeEventListener;
 
 
 var defaults = __webpack_require__(19);
-var Element = __webpack_require__(124);
+var Element = __webpack_require__(125);
 var helpers = __webpack_require__(13);
 
 defaults._set('global', {
@@ -10386,7 +10386,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var Element = __webpack_require__(124);
+var Element = __webpack_require__(125);
 var helpers = __webpack_require__(13);
 
 defaults._set('global', {
@@ -12265,9 +12265,9 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var Element = __webpack_require__(124);
+var Element = __webpack_require__(125);
 var helpers = __webpack_require__(13);
-var Ticks = __webpack_require__(163);
+var Ticks = __webpack_require__(164);
 
 defaults._set('scale', {
 	display: true,
@@ -13180,7 +13180,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var Element = __webpack_require__(124);
+var Element = __webpack_require__(125);
 var helpers = __webpack_require__(13);
 
 defaults._set('global', {
@@ -14132,7 +14132,7 @@ module.exports = function(Chart) {
 
 
 var helpers = __webpack_require__(13);
-var Ticks = __webpack_require__(163);
+var Ticks = __webpack_require__(164);
 
 module.exports = function(Chart) {
 
@@ -14412,7 +14412,7 @@ module.exports = function(Chart) {
 
 var defaults = __webpack_require__(19);
 var helpers = __webpack_require__(13);
-var Ticks = __webpack_require__(163);
+var Ticks = __webpack_require__(164);
 
 module.exports = function(Chart) {
 
@@ -14610,7 +14610,7 @@ module.exports = function(Chart) {
 
 
 var helpers = __webpack_require__(13);
-var Ticks = __webpack_require__(163);
+var Ticks = __webpack_require__(164);
 
 module.exports = function(Chart) {
 
@@ -14862,7 +14862,7 @@ module.exports = function(Chart) {
 
 var defaults = __webpack_require__(19);
 var helpers = __webpack_require__(13);
-var Ticks = __webpack_require__(163);
+var Ticks = __webpack_require__(164);
 
 module.exports = function(Chart) {
 
@@ -16139,7 +16139,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(135);
+var elements = __webpack_require__(136);
 var helpers = __webpack_require__(13);
 
 defaults._set('bar', {
@@ -16567,7 +16567,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(135);
+var elements = __webpack_require__(136);
 var helpers = __webpack_require__(13);
 
 defaults._set('bubble', {
@@ -16754,7 +16754,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(135);
+var elements = __webpack_require__(136);
 var helpers = __webpack_require__(13);
 
 defaults._set('doughnut', {
@@ -17060,7 +17060,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(135);
+var elements = __webpack_require__(136);
 var helpers = __webpack_require__(13);
 
 defaults._set('line', {
@@ -17400,7 +17400,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(135);
+var elements = __webpack_require__(136);
 var helpers = __webpack_require__(13);
 
 defaults._set('polarArea', {
@@ -17629,7 +17629,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(135);
+var elements = __webpack_require__(136);
 var helpers = __webpack_require__(13);
 
 defaults._set('radar', {
@@ -17981,7 +17981,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var elements = __webpack_require__(135);
+var elements = __webpack_require__(136);
 var helpers = __webpack_require__(13);
 
 defaults._set('global', {
@@ -18303,7 +18303,7 @@ module.exports = function() {
 
 
 var defaults = __webpack_require__(19);
-var Element = __webpack_require__(124);
+var Element = __webpack_require__(125);
 var helpers = __webpack_require__(13);
 
 defaults._set('global', {
@@ -18877,7 +18877,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(19);
-var Element = __webpack_require__(124);
+var Element = __webpack_require__(125);
 var helpers = __webpack_require__(13);
 
 defaults._set('global', {
@@ -19128,9 +19128,9 @@ module.exports = function(Chart) {
 
 var Validator = module.exports.Validator = __webpack_require__(418);
 
-module.exports.ValidatorResult = __webpack_require__(164).ValidatorResult;
-module.exports.ValidationError = __webpack_require__(164).ValidationError;
-module.exports.SchemaError = __webpack_require__(164).SchemaError;
+module.exports.ValidatorResult = __webpack_require__(165).ValidatorResult;
+module.exports.ValidationError = __webpack_require__(165).ValidationError;
+module.exports.SchemaError = __webpack_require__(165).SchemaError;
 
 module.exports.validate = function (instance, schema, options) {
   var v = new Validator();
@@ -19148,7 +19148,7 @@ module.exports.validate = function (instance, schema, options) {
 var urilib = __webpack_require__(219);
 
 var attribute = __webpack_require__(423);
-var helpers = __webpack_require__(164);
+var helpers = __webpack_require__(165);
 var ValidatorResult = helpers.ValidatorResult;
 var SchemaError = helpers.SchemaError;
 var SchemaContext = helpers.SchemaContext;
@@ -19703,7 +19703,7 @@ var objectKeys = Object.keys || function (obj) {
 "use strict";
 
 
-var helpers = __webpack_require__(164);
+var helpers = __webpack_require__(165);
 
 /** @type ValidatorResult */
 var ValidatorResult = helpers.ValidatorResult;
@@ -21217,7 +21217,7 @@ module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"C
 
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)(module)))
 
 /***/ }),
 /* 426 */
