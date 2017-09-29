@@ -2,7 +2,12 @@ import AlertList from 'vue-components/AlertList.vue';
 import ComponentList from 'vue-components/ComponentList.vue';
 import UserWithMeritReportListItem from 'vue-components/MeritCompensation/UserWithReportListItem.vue';
 
-import { getFetchHeaders, jsonOrThrow, isAdmin } from 'modules/utils.js';
+import {
+	getFetchHeaders,
+	jsonOrThrow,
+	isAdmin,
+	usesFeature
+} from 'modules/utils.js';
 
 export default {
 	props: {
@@ -26,14 +31,14 @@ export default {
 	},
 
 	computed: {
-		currentUserIsAdmin() {
-			return isAdmin(this.user);
+		currentUserIsAdminOrSupervisor() {
+			return isAdmin(this.user) || usesFeature(this.user, 'FACULTY_MERIT');
 		}
 	},
 
 	methods: {
 		fetchUsersWithReports() {
-			if (!this.currentUserIsAdmin)
+			if (!this.currentUserIsAdminOrSupervisor)
 				return;
 
 			fetch('/merits/by-user', {
