@@ -1,5 +1,6 @@
 <template>
 	<div ref="pager" class="questionnaire-pager">
+		<checklist-errors :pages="pages" @navigate="goToPage" />
 		<pager-controls :current-page="currentPage"
 			:total-pages="pages.length"
 			:submit-text="submitText"
@@ -7,6 +8,7 @@
 			:back-text="backText"
 			:can-advance-page="canAdvancePage"
 			:can-go-back-page="canGoBackPage"
+			:can-submit="canSubmit"
 			:readonly="readonly"
 			@back="goBack"
 			@forward="advance"
@@ -38,6 +40,7 @@
 			:back-text="backText"
 			:can-advance-page="canAdvancePage"
 			:can-go-back-page="canGoBackPage"
+			:can-submit="canSubmit"
 			:readonly="readonly"
 			@back="goBack"
 			@forward="advance"
@@ -47,6 +50,7 @@
 
 <script>
 import PagerControls from './PagerControls.vue';
+import ChecklistErrors from '../MeritCompensation/Checklist/ChecklistErrors.vue';
 
 import { getHeaderHeight } from 'modules/dom-utils.js';
 
@@ -57,6 +61,12 @@ export default {
 			required: true
 		},
 		pageValidator: {
+			type: Function,
+			default() {
+				return true;
+			}
+		},
+		checklistValidator: {
 			type: Function,
 			default() {
 				return true;
@@ -95,6 +105,9 @@ export default {
 		},
 		canAdvancePage() {
 			return this.pageValidator(this.pages[this.currentPage]);
+		},
+		canSubmit() {
+			return this.checklistValidator({ pages: this.pages });
 		}
 	},
 
@@ -135,14 +148,19 @@ export default {
 				this.currentPage++;
 			}
 		},
+		goToPage(page) {
+			this.scrollToTop();
+			this.currentPage = page;
+		},
 		submit() {
-			if (this.canAdvancePage)
+			if (this.canSubmit)
 				this.$emit('submit');
 		}
 	},
 
 	components: {
-		PagerControls
+		PagerControls,
+		ChecklistErrors
 	}
 };
 </script>

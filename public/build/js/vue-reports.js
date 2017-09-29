@@ -2376,18 +2376,19 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = getCheckedItemCount;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getCheckedItemCount;
 /* unused harmony export getSectionCheckedItemCount */
 /* unused harmony export getItemCheckedItemCount */
-/* harmony export (immutable) */ __webpack_exports__["d"] = getUsersWithCompleteMerit;
-/* harmony export (immutable) */ __webpack_exports__["g"] = sectionIsValid;
+/* harmony export (immutable) */ __webpack_exports__["e"] = getUsersWithCompleteMerit;
+/* harmony export (immutable) */ __webpack_exports__["a"] = checklistIsValid;
+/* unused harmony export sectionIsValid */
 /* unused harmony export itemIsValid */
 /* unused harmony export questionIsValid */
-/* harmony export (immutable) */ __webpack_exports__["f"] = itemIsChecked;
-/* harmony export (immutable) */ __webpack_exports__["e"] = getYearlyFacultyMeritForm;
+/* harmony export (immutable) */ __webpack_exports__["g"] = itemIsChecked;
+/* harmony export (immutable) */ __webpack_exports__["f"] = getYearlyFacultyMeritForm;
 /* unused harmony export getMostRecentCompleteReport */
-/* harmony export (immutable) */ __webpack_exports__["c"] = getCurrentYearlyMeritDateRange;
-/* harmony export (immutable) */ __webpack_exports__["a"] = fetchAllMeritReports;
+/* harmony export (immutable) */ __webpack_exports__["d"] = getCurrentYearlyMeritDateRange;
+/* harmony export (immutable) */ __webpack_exports__["b"] = fetchAllMeritReports;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__date_utils_js__ = __webpack_require__(8);
@@ -2515,9 +2516,18 @@ function getUsersWithCompleteMerit(usersWithMerits) {
 	return usersWithMerit;
 }
 
+function checklistIsValid(checklist) {
+	try {
+		return __WEBPACK_IMPORTED_MODULE_4__merits_validate_js__["a" /* checklist */](checklist).valid;
+	} catch (e) {
+		console.error(e);
+		return false;
+	}
+}
+
 function sectionIsValid(section) {
 	try {
-		return __WEBPACK_IMPORTED_MODULE_4__merits_validate_js__["c" /* section */](section).valid;
+		return __WEBPACK_IMPORTED_MODULE_4__merits_validate_js__["d" /* section */](section).valid;
 	} catch (e) {
 		console.error(e);
 		return false;
@@ -2526,7 +2536,7 @@ function sectionIsValid(section) {
 
 function itemIsValid(item) {
 	try {
-		return __WEBPACK_IMPORTED_MODULE_4__merits_validate_js__["b" /* item */](item).valid;
+		return __WEBPACK_IMPORTED_MODULE_4__merits_validate_js__["c" /* item */](item).valid;
 	} catch (e) {
 		console.error(e);
 		return false;
@@ -33027,10 +33037,10 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = flattenErrors;
-/* unused harmony export checklist */
-/* harmony export (immutable) */ __webpack_exports__["c"] = section;
-/* harmony export (immutable) */ __webpack_exports__["b"] = item;
+/* harmony export (immutable) */ __webpack_exports__["b"] = flattenErrors;
+/* harmony export (immutable) */ __webpack_exports__["a"] = checklist;
+/* harmony export (immutable) */ __webpack_exports__["d"] = section;
+/* harmony export (immutable) */ __webpack_exports__["c"] = item;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__questionnaire_validate_js__ = __webpack_require__(36);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -46072,7 +46082,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			return __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["d" /* FEATURE_RELEASE_DATES */].FACULTY_MERIT;
 		},
 		usersWithMerit: function usersWithMerit() {
-			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__["d" /* getUsersWithCompleteMerit */])(this.usersWithMerits);
+			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__["e" /* getUsersWithCompleteMerit */])(this.usersWithMerits);
 		}
 	},
 
