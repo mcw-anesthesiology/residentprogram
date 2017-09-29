@@ -26,8 +26,17 @@ export type User = {
 	reminder_frequency: string, // TODO: make enum
 	remind_only_if_pending: boolean,
 	photo_path: string,
-	profile_link: string
+	profile_link: string,
+	user_features?: Array<UserFeature>
 	// TODO: Add relationships
+};
+
+export type UserFeature = {
+	feature: string,
+	user_id?: ?number,
+	user_type?: ?string,
+	user_training_level?: ?string,
+	user_secondary_training_level?: ?string
 };
 
 export type Milestone = {
@@ -493,4 +502,15 @@ export function userIsType(user: User, type: string) {
 
 export function isAdmin(user: User) {
 	return userIsType(user, 'admin');
+}
+
+export function usesFeature(user: User, feature: string) {
+	if ('user_features' in user && Array.isArray(user.user_features)) {
+		for (let userFeature of user.user_features) {
+			if (userFeature.feature === feature)
+				return true;
+		}
+	}
+
+	return false;
 }
