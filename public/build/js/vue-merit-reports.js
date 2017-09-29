@@ -2091,18 +2091,19 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = getCheckedItemCount;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getCheckedItemCount;
 /* unused harmony export getSectionCheckedItemCount */
 /* unused harmony export getItemCheckedItemCount */
-/* harmony export (immutable) */ __webpack_exports__["d"] = getUsersWithCompleteMerit;
-/* harmony export (immutable) */ __webpack_exports__["g"] = sectionIsValid;
+/* harmony export (immutable) */ __webpack_exports__["e"] = getUsersWithCompleteMerit;
+/* harmony export (immutable) */ __webpack_exports__["a"] = checklistIsValid;
+/* unused harmony export sectionIsValid */
 /* unused harmony export itemIsValid */
 /* unused harmony export questionIsValid */
-/* harmony export (immutable) */ __webpack_exports__["f"] = itemIsChecked;
-/* harmony export (immutable) */ __webpack_exports__["e"] = getYearlyFacultyMeritForm;
+/* harmony export (immutable) */ __webpack_exports__["g"] = itemIsChecked;
+/* harmony export (immutable) */ __webpack_exports__["f"] = getYearlyFacultyMeritForm;
 /* unused harmony export getMostRecentCompleteReport */
-/* harmony export (immutable) */ __webpack_exports__["c"] = getCurrentYearlyMeritDateRange;
-/* harmony export (immutable) */ __webpack_exports__["a"] = fetchAllMeritReports;
+/* harmony export (immutable) */ __webpack_exports__["d"] = getCurrentYearlyMeritDateRange;
+/* harmony export (immutable) */ __webpack_exports__["b"] = fetchAllMeritReports;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__date_utils_js__ = __webpack_require__(8);
@@ -2230,9 +2231,18 @@ function getUsersWithCompleteMerit(usersWithMerits) {
 	return usersWithMerit;
 }
 
+function checklistIsValid(checklist) {
+	try {
+		return __WEBPACK_IMPORTED_MODULE_4__merits_validate_js__["a" /* checklist */](checklist).valid;
+	} catch (e) {
+		console.error(e);
+		return false;
+	}
+}
+
 function sectionIsValid(section) {
 	try {
-		return __WEBPACK_IMPORTED_MODULE_4__merits_validate_js__["c" /* section */](section).valid;
+		return __WEBPACK_IMPORTED_MODULE_4__merits_validate_js__["d" /* section */](section).valid;
 	} catch (e) {
 		console.error(e);
 		return false;
@@ -2241,7 +2251,7 @@ function sectionIsValid(section) {
 
 function itemIsValid(item) {
 	try {
-		return __WEBPACK_IMPORTED_MODULE_4__merits_validate_js__["b" /* item */](item).valid;
+		return __WEBPACK_IMPORTED_MODULE_4__merits_validate_js__["c" /* item */](item).valid;
 	} catch (e) {
 		console.error(e);
 		return false;
@@ -15057,10 +15067,10 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = flattenErrors;
-/* unused harmony export checklist */
-/* harmony export (immutable) */ __webpack_exports__["c"] = section;
-/* harmony export (immutable) */ __webpack_exports__["b"] = item;
+/* harmony export (immutable) */ __webpack_exports__["b"] = flattenErrors;
+/* harmony export (immutable) */ __webpack_exports__["a"] = checklist;
+/* harmony export (immutable) */ __webpack_exports__["d"] = section;
+/* harmony export (immutable) */ __webpack_exports__["c"] = item;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__questionnaire_validate_js__ = __webpack_require__(36);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -16378,7 +16388,7 @@ function createMeritReportsHub(el, propsData) {
 			fetchAllMeritReports: function fetchAllMeritReports() {
 				var _this = this;
 
-				return Object(__WEBPACK_IMPORTED_MODULE_8__modules_merit_utils_js__["a" /* fetchAllMeritReports */])().then(function (merits) {
+				return Object(__WEBPACK_IMPORTED_MODULE_8__modules_merit_utils_js__["b" /* fetchAllMeritReports */])().then(function (merits) {
 					_this.meritReports = merits;
 				}).catch(function (err) {
 					console.error(err);
@@ -16408,8 +16418,8 @@ function createMeritReportsHub(el, propsData) {
 			addMeritReport: function addMeritReport() {
 				var _this3 = this;
 
-				var form = Object(__WEBPACK_IMPORTED_MODULE_8__modules_merit_utils_js__["e" /* getYearlyFacultyMeritForm */])(this.meritForms, this.meritReportTypes, this.meritReportTypeForms);
-				var dates = Object(__WEBPACK_IMPORTED_MODULE_8__modules_merit_utils_js__["c" /* getCurrentYearlyMeritDateRange */])();
+				var form = Object(__WEBPACK_IMPORTED_MODULE_8__modules_merit_utils_js__["f" /* getYearlyFacultyMeritForm */])(this.meritForms, this.meritReportTypes, this.meritReportTypeForms);
+				var dates = Object(__WEBPACK_IMPORTED_MODULE_8__modules_merit_utils_js__["d" /* getCurrentYearlyMeritDateRange */])();
 
 				fetch('/merits', {
 					method: 'POST',
@@ -16596,7 +16606,7 @@ if (false) {(function () {
 		fetchReports: function fetchReports() {
 			var _this = this;
 
-			Object(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["a" /* fetchAllMeritReports */])().then(function (merits) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["b" /* fetchAllMeritReports */])().then(function (merits) {
 				_this.fetchedReports = merits;
 			}).catch(function (err) {
 				console.error(err);
@@ -16795,7 +16805,7 @@ if (false) {(function () {
 			return !['pending', 'open for editing'].includes(this.status);
 		},
 		checkedItems: function checkedItems() {
-			return Object(__WEBPACK_IMPORTED_MODULE_6__modules_merit_utils_js__["b" /* getCheckedItemCount */])(this.report);
+			return Object(__WEBPACK_IMPORTED_MODULE_6__modules_merit_utils_js__["c" /* getCheckedItemCount */])(this.report);
 		},
 		lastMonth: function lastMonth() {
 			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_date_utils_js__["isoDateString"])(__WEBPACK_IMPORTED_MODULE_0_moment___default()().subtract(1, 'month'));
@@ -17050,9 +17060,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		validatePage: function validatePage(page) {
-			return Object(__WEBPACK_IMPORTED_MODULE_4__modules_merit_utils_js__["g" /* sectionIsValid */])(page);
-		},
+		checklistIsValid: __WEBPACK_IMPORTED_MODULE_4__modules_merit_utils_js__["a" /* checklistIsValid */],
 		handleInput: function handleInput(pageNum, page) {
 			var pages = this.pages.slice();
 			pages[pageNum] = Object.assign({}, pages[pageNum], page);
@@ -24577,7 +24585,8 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PagerControls_vue__ = __webpack_require__(732);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_dom_utils_js__ = __webpack_require__(303);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MeritCompensation_Checklist_ChecklistErrors_vue__ = __webpack_require__(821);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_dom_utils_js__ = __webpack_require__(303);
 //
 //
 //
@@ -24625,6 +24634,10 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -24637,6 +24650,12 @@ if (false) {(function () {
 			required: true
 		},
 		pageValidator: {
+			type: Function,
+			default: function _default() {
+				return true;
+			}
+		},
+		checklistValidator: {
 			type: Function,
 			default: function _default() {
 				return true;
@@ -24676,6 +24695,9 @@ if (false) {(function () {
 		},
 		canAdvancePage: function canAdvancePage() {
 			return this.pageValidator(this.pages[this.currentPage]);
+		},
+		canSubmit: function canSubmit() {
+			return this.checklistValidator({ pages: this.pages });
 		}
 	},
 
@@ -24688,7 +24710,7 @@ if (false) {(function () {
 	methods: {
 		scrollToTop: function scrollToTop() {
 			$(this.$refs.pager).velocity('scroll', {
-				offset: -1 * Object(__WEBPACK_IMPORTED_MODULE_1__modules_dom_utils_js__["a" /* getHeaderHeight */])()
+				offset: -1 * Object(__WEBPACK_IMPORTED_MODULE_2__modules_dom_utils_js__["a" /* getHeaderHeight */])()
 			});
 		},
 		scrollToBottom: function scrollToBottom() {
@@ -24708,13 +24730,18 @@ if (false) {(function () {
 				this.currentPage++;
 			}
 		},
+		goToPage: function goToPage(page) {
+			this.scrollToTop();
+			this.currentPage = page;
+		},
 		submit: function submit() {
-			if (this.canAdvancePage) this.$emit('submit');
+			if (this.canSubmit) this.$emit('submit');
 		}
 	},
 
 	components: {
-		PagerControls: __WEBPACK_IMPORTED_MODULE_0__PagerControls_vue__["a" /* default */]
+		PagerControls: __WEBPACK_IMPORTED_MODULE_0__PagerControls_vue__["a" /* default */],
+		ChecklistErrors: __WEBPACK_IMPORTED_MODULE_1__MeritCompensation_Checklist_ChecklistErrors_vue__["a" /* default */]
 	}
 });
 
@@ -24846,6 +24873,10 @@ if (false) {(function () {
 			required: true
 		},
 		canAdvancePage: {
+			type: Boolean,
+			required: true
+		},
+		canSubmit: {
 			type: Boolean,
 			required: true
 		},
@@ -25067,7 +25098,7 @@ var render = function() {
                     staticClass: "btn btn-primary",
                     attrs: {
                       "pressed-class": "btn-success",
-                      disabled: !_vm.canAdvancePage
+                      disabled: !_vm.canSubmit
                     },
                     on: {
                       click: function($event) {
@@ -25117,6 +25148,11 @@ var render = function() {
     "div",
     { ref: "pager", staticClass: "questionnaire-pager" },
     [
+      _c("checklist-errors", {
+        attrs: { pages: _vm.pages },
+        on: { navigate: _vm.goToPage }
+      }),
+      _vm._v(" "),
       _c("pager-controls", {
         attrs: {
           "current-page": _vm.currentPage,
@@ -25126,6 +25162,7 @@ var render = function() {
           "back-text": _vm.backText,
           "can-advance-page": _vm.canAdvancePage,
           "can-go-back-page": _vm.canGoBackPage,
+          "can-submit": _vm.canSubmit,
           readonly: _vm.readonly
         },
         on: { back: _vm.goBack, forward: _vm.advance, submit: _vm.submit }
@@ -25179,6 +25216,7 @@ var render = function() {
           "back-text": _vm.backText,
           "can-advance-page": _vm.canAdvancePage,
           "can-go-back-page": _vm.canGoBackPage,
+          "can-submit": _vm.canSubmit,
           readonly: _vm.readonly
         },
         on: { back: _vm.goBack, forward: _vm.advance, submit: _vm.submit }
@@ -25217,7 +25255,7 @@ var render = function() {
         attrs: {
           pages: _vm.pages,
           readonly: _vm.readonly,
-          "page-validator": _vm.validatePage
+          "checklist-validator": _vm.checklistIsValid
         },
         on: { submit: _vm.handleSubmit },
         scopedSlots: _vm._u([
@@ -25729,7 +25767,7 @@ if (false) {(function () {
 		fetchReports: function fetchReports() {
 			var _this = this;
 
-			Object(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["a" /* fetchAllMeritReports */])().then(function (merits) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["b" /* fetchAllMeritReports */])().then(function (merits) {
 				_this.fetchedReports = merits;
 			}).catch(function (err) {
 				console.error(err);
@@ -25926,7 +25964,7 @@ if (false) {(function () {
 
 	computed: {
 		checkedItems: function checkedItems() {
-			return Object(__WEBPACK_IMPORTED_MODULE_6__modules_merit_utils_js__["b" /* getCheckedItemCount */])(this.report);
+			return Object(__WEBPACK_IMPORTED_MODULE_6__modules_merit_utils_js__["c" /* getCheckedItemCount */])(this.report);
 		},
 		lastMonth: function lastMonth() {
 			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_date_utils_js__["isoDateString"])(__WEBPACK_IMPORTED_MODULE_0_moment___default()().subtract(1, 'month'));
@@ -26050,7 +26088,7 @@ if (false) {(function () {
 	computed: {
 		filteredSections: function filteredSections() {
 			return this.pages.filter(function (page) {
-				return Object(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["f" /* itemIsChecked */])(page);
+				return Object(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["g" /* itemIsChecked */])(page);
 			});
 		}
 	},
@@ -26148,7 +26186,7 @@ if (false) {(function () {
 		var _this = this;
 
 		var items = this.items.filter(function (item) {
-			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["f" /* itemIsChecked */])(item);
+			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["g" /* itemIsChecked */])(item);
 		}).map(function (item, index) {
 			var componentName = void 0;
 			switch (item.type) {
@@ -26420,8 +26458,8 @@ if (false) {
 
 
 	computed: {
-		currentUserIsAdmin: function currentUserIsAdmin() {
-			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["r" /* isAdmin */])(this.user);
+		currentUserIsAdminOrSupervisor: function currentUserIsAdminOrSupervisor() {
+			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["r" /* isAdmin */])(this.user) || Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["I" /* usesFeature */])(this.user, 'FACULTY_MERIT');
 		}
 	},
 
@@ -26429,7 +26467,7 @@ if (false) {
 		fetchUsersWithReports: function fetchUsersWithReports() {
 			var _this = this;
 
-			if (!this.currentUserIsAdmin) return;
+			if (!this.currentUserIsAdminOrSupervisor) return;
 
 			fetch('/merits/by-user', {
 				method: 'GET',
@@ -26771,7 +26809,7 @@ if (false) {(function () {
 			return Object(__WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__["f" /* getEvaluationStatusLabel */])(this.status);
 		},
 		checkedItems: function checkedItems() {
-			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__["b" /* getCheckedItemCount */])(this.report);
+			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__["c" /* getCheckedItemCount */])(this.report);
 		}
 	},
 
@@ -27331,7 +27369,7 @@ if (false) {
 
 	computed: {
 		currentYearlyMeritDateRange: function currentYearlyMeritDateRange() {
-			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__["c" /* getCurrentYearlyMeritDateRange */])();
+			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__["d" /* getCurrentYearlyMeritDateRange */])();
 		},
 		meritReportFields: function meritReportFields() {
 			return ['id', 'form_name'];
@@ -27438,7 +27476,7 @@ function createMeritReportPrintView(el, propsData) {
 				};
 			},
 			checkedItems: function checkedItems() {
-				return Object(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["b" /* getCheckedItemCount */])(this.meritReport.report);
+				return Object(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["c" /* getCheckedItemCount */])(this.meritReport.report);
 			}
 		},
 
@@ -27527,7 +27565,7 @@ if (false) {(function () {
 
 	computed: {
 		filteredPages: function filteredPages() {
-			return this.report.pages.filter(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["f" /* itemIsChecked */]);
+			return this.report.pages.filter(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["g" /* itemIsChecked */]);
 		}
 	},
 
@@ -27622,7 +27660,7 @@ if (false) {(function () {
 		var h = arguments[0];
 
 		var items = this.items.filter(function (item) {
-			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_merit_utils_js__["f" /* itemIsChecked */])(item);
+			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_merit_utils_js__["g" /* itemIsChecked */])(item);
 		}).map(function (item) {
 			var component = void 0;
 
@@ -28544,12 +28582,12 @@ if (false) {(function () {
 
 	computed: {
 		validation: function validation() {
-			return Object(__WEBPACK_IMPORTED_MODULE_1__modules_merits_validate_js__["c" /* section */])(this.page);
+			return Object(__WEBPACK_IMPORTED_MODULE_1__modules_merits_validate_js__["d" /* section */])(this.page);
 		},
 		errors: function errors() {
 			if (!this.validation) return [];
 
-			return Object(__WEBPACK_IMPORTED_MODULE_1__modules_merits_validate_js__["a" /* flattenErrors */])(this.validation.errors);
+			return Object(__WEBPACK_IMPORTED_MODULE_1__modules_merits_validate_js__["b" /* flattenErrors */])(this.validation.errors);
 		}
 	},
 
@@ -28614,6 +28652,172 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-5ee8df1c", esExports)
+  }
+}
+
+/***/ }),
+/* 821 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ChecklistErrors_vue__ = __webpack_require__(822);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_52eb0373_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_ChecklistErrors_vue__ = __webpack_require__(823);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ChecklistErrors_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_52eb0373_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_ChecklistErrors_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/MeritCompensation/Checklist/ChecklistErrors.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ChecklistErrors.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-52eb0373", Component.options)
+  } else {
+    hotAPI.reload("data-v-52eb0373", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 822 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_merits_validate_js__ = __webpack_require__(288);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		pages: {
+			type: Array,
+			required: true
+		}
+	},
+
+	computed: {
+		pageValidations: function pageValidations() {
+			if (!this.pages) return [];
+
+			return this.pages.map(__WEBPACK_IMPORTED_MODULE_1__modules_merits_validate_js__["d" /* section */]);
+		},
+		pagesValid: function pagesValid() {
+			return this.pageValidations.every(function (validation) {
+				return validation.valid;
+			});
+		},
+		pageErrors: function pageErrors() {
+			return this.pageValidations.map(function (validation) {
+				return Object(__WEBPACK_IMPORTED_MODULE_1__modules_merits_validate_js__["b" /* flattenErrors */])(validation.errors);
+			});
+		}
+	},
+
+	components: {
+		BootstrapAlert: __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__["a" /* default */]
+	}
+});
+
+/***/ }),
+/* 823 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return !_vm.pagesValid
+    ? _c("bootstrap-alert", [
+        _c("strong", [_vm._v("Checklist errors")]),
+        _vm._v(" "),
+        _c(
+          "ul",
+          _vm._l(_vm.pageErrors, function(errors, pageNum) {
+            return errors.length > 0
+              ? _c("li", [
+                  _vm._v(
+                    "\n\t\t\t" +
+                      _vm._s(errors.length) +
+                      " error" +
+                      _vm._s(errors.length === 1 ? "" : "s") +
+                      "\n\t\t\ton page " +
+                      _vm._s(pageNum + 1) +
+                      ".\n\t\t\t"
+                  ),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          _vm.$emit("navigate", pageNum)
+                        }
+                      }
+                    },
+                    [_vm._v("\n\t\t\t\tGo to page\n\t\t\t")]
+                  )
+                ])
+              : _vm._e()
+          })
+        )
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-52eb0373", esExports)
   }
 }
 

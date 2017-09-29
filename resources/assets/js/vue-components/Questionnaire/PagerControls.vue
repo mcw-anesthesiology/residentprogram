@@ -18,7 +18,7 @@
 			</button>
 			<confirmation-button v-else-if="!readonly"
 					class="btn btn-primary" pressed-class="btn-success"
-					:disabled="!canAdvancePage"
+					:disabled="!canSubmit"
 					@click="$emit('submit')">
 				{{ submitText }}
 				<template slot="pressed">
@@ -60,6 +60,10 @@ export default {
 			required: true
 		},
 		canAdvancePage: {
+			type: Boolean,
+			required: true
+		},
+		canSubmit: {
 			type: Boolean,
 			required: true
 		},

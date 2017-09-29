@@ -48,6 +48,7 @@ return webpackJsonp([8],[
 /* harmony export (immutable) */ __webpack_exports__["c"] = errorToAlert;
 /* harmony export (immutable) */ __webpack_exports__["H"] = userIsType;
 /* harmony export (immutable) */ __webpack_exports__["r"] = isAdmin;
+/* harmony export (immutable) */ __webpack_exports__["I"] = usesFeature;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_striptags__ = __webpack_require__(427);
@@ -522,6 +523,37 @@ function userIsType(user, type) {
 
 function isAdmin(user) {
 	return userIsType(user, 'admin');
+}
+
+function usesFeature(user, feature) {
+	if ('user_features' in user && Array.isArray(user.user_features)) {
+		var _iteratorNormalCompletion5 = true;
+		var _didIteratorError5 = false;
+		var _iteratorError5 = undefined;
+
+		try {
+			for (var _iterator5 = user.user_features[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+				var userFeature = _step5.value;
+
+				if (userFeature.feature === feature) return true;
+			}
+		} catch (err) {
+			_didIteratorError5 = true;
+			_iteratorError5 = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion5 && _iterator5.return) {
+					_iterator5.return();
+				}
+			} finally {
+				if (_didIteratorError5) {
+					throw _iteratorError5;
+				}
+			}
+		}
+	}
+
+	return false;
 }
 
 /***/ }),
@@ -6659,6 +6691,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "errorToAlert", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["c"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "userIsType", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["H"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "isAdmin", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["r"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "usesFeature", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["I"]; });
 
 
 

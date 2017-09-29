@@ -72,6 +72,15 @@ export function getUsersWithCompleteMerit(
 	return usersWithMerit;
 }
 
+export function checklistIsValid(checklist: MeritReportChecklist): boolean {
+	try {
+		return validateMerit.checklist(checklist).valid;
+	} catch (e) {
+		console.error(e);
+		return false;
+	}
+}
+
 export function sectionIsValid(section: MeritReportSection): boolean {
 	try {
 		return validateMerit.section(section).valid;
