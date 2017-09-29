@@ -69,7 +69,9 @@
 				:items="userMeritReports"
 				:fields="meritReportFields"
 				:field-accessors="meritReportFieldAccessors"
-				default-sort-order="desc">
+				default-sort-order="desc"
+				reloadable
+				@reload="fetchAllMeritReports">
 			<template scope="item">
 				<merit-report-list-item v-bind="item"
 					@click="viewReport"

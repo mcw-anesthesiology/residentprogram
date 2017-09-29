@@ -20,6 +20,26 @@ import { getFetchHeaders, jsonOrThrow } from 'modules/utils.js';
 
 Vue.use(VueRouter);
 
+const router = new VueRouter({
+	routes: [
+		{
+			path: '/checklist/:id',
+			component: MeritReportById,
+			props: true
+		},
+		{
+			path: '/summary/:id',
+			component: MeritSummaryById,
+			props: true
+		}
+	]
+});
+
+router.beforeEach((to, from, next) => {
+	window.scroll(0, 0);
+	next();
+});
+
 export function createMeritReportsHub(el, propsData) {
 	return new Vue({
 		el,
@@ -55,20 +75,7 @@ export function createMeritReportsHub(el, propsData) {
 			this.fetchMeritForms();
 		},
 
-		router: new VueRouter({
-			routes: [
-				{
-					path: '/checklist/:id',
-					component: MeritReportById,
-					props: true
-				},
-				{
-					path: '/summary/:id',
-					component: MeritSummaryById,
-					props: true
-				}
-			]
-		}),
+		router,
 
 		methods: {
 			fetchReports() {

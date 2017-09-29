@@ -32,6 +32,10 @@
 
 @push('stylesheets')
 	<style>
+		div + .merit-reports-container {
+			display: none;
+		}
+
 		.merit-view-enter-active,
 		.merit-view-leave-active {
 			transition: transform 0.2s ease, opacity 0.2s ease;
