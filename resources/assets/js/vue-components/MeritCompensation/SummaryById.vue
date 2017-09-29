@@ -84,9 +84,3 @@ export default {
 	}
 };
 </script>
-
-<style scoped>
-	.summary-by-id {
-		order: 2;
-	}
-</style>

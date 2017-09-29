@@ -16474,26 +16474,22 @@ function createMeritReportsHub(el, propsData) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ReportById_vue__ = __webpack_require__(639);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_785ad86b_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_ReportById_vue__ = __webpack_require__(743);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_785ad86b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_ReportById_vue__ = __webpack_require__(824);
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(637)
-}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-785ad86b"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ReportById_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_785ad86b_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_ReportById_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_785ad86b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_ReportById_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
@@ -16522,12 +16518,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 637 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 637 */,
 /* 638 */,
 /* 639 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -25568,89 +25559,28 @@ if (false) {
 }
 
 /***/ }),
-/* 743 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "report-by-id" }, [
-    _vm.meritReport
-      ? _c(
-          "div",
-          { staticClass: "container body-block" },
-          [
-            _c(
-              "merit-report",
-              _vm._b(
-                {
-                  attrs: {
-                    title: _vm.title,
-                    "current-user": _vm.currentUser,
-                    form_id: _vm.meritReport.form.id
-                  },
-                  on: {
-                    close: function($event) {
-                      _vm.$emit("close")
-                    },
-                    reload: function($event) {
-                      _vm.$emit("reload")
-                    },
-                    alert: function($event) {
-                      _vm.$emit("alert", arguments[0])
-                    }
-                  }
-                },
-                "merit-report",
-                _vm.meritReport,
-                false
-              )
-            )
-          ],
-          1
-        )
-      : _vm._e()
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-785ad86b", esExports)
-  }
-}
-
-/***/ }),
+/* 743 */,
 /* 744 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SummaryById_vue__ = __webpack_require__(747);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a56659ba_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_SummaryById_vue__ = __webpack_require__(758);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a56659ba_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_SummaryById_vue__ = __webpack_require__(825);
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(745)
-}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-a56659ba"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SummaryById_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a56659ba_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_SummaryById_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a56659ba_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_SummaryById_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
@@ -25679,12 +25609,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 745 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 745 */,
 /* 746 */,
 /* 747 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -26362,60 +26287,7 @@ if (false) {
 }
 
 /***/ }),
-/* 758 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "summary-by-id" }, [
-    _vm.meritReport
-      ? _c(
-          "div",
-          { staticClass: "container body-block" },
-          [
-            _c(
-              "merit-report-summary",
-              _vm._b(
-                {
-                  attrs: {
-                    title: _vm.title,
-                    "subject-name": _vm.meritReport.user.full_name
-                  },
-                  on: {
-                    close: function($event) {
-                      _vm.$emit("close")
-                    },
-                    alert: function($event) {
-                      _vm.$emit("alert", arguments[0])
-                    }
-                  }
-                },
-                "merit-report-summary",
-                _vm.meritReport,
-                false
-              )
-            )
-          ],
-          1
-        )
-      : _vm._e()
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-a56659ba", esExports)
-  }
-}
-
-/***/ }),
+/* 758 */,
 /* 759 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -28813,6 +28685,118 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-52eb0373", esExports)
+  }
+}
+
+/***/ }),
+/* 824 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "report-by-id" }, [
+    _vm.meritReport
+      ? _c(
+          "div",
+          { staticClass: "container body-block" },
+          [
+            _c(
+              "merit-report",
+              _vm._b(
+                {
+                  attrs: {
+                    title: _vm.title,
+                    "current-user": _vm.currentUser,
+                    form_id: _vm.meritReport.form.id
+                  },
+                  on: {
+                    close: function($event) {
+                      _vm.$emit("close")
+                    },
+                    reload: function($event) {
+                      _vm.$emit("reload")
+                    },
+                    alert: function($event) {
+                      _vm.$emit("alert", arguments[0])
+                    }
+                  }
+                },
+                "merit-report",
+                _vm.meritReport,
+                false
+              )
+            )
+          ],
+          1
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-785ad86b", esExports)
+  }
+}
+
+/***/ }),
+/* 825 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "summary-by-id" }, [
+    _vm.meritReport
+      ? _c(
+          "div",
+          { staticClass: "container body-block" },
+          [
+            _c(
+              "merit-report-summary",
+              _vm._b(
+                {
+                  attrs: {
+                    title: _vm.title,
+                    "subject-name": _vm.meritReport.user.full_name
+                  },
+                  on: {
+                    close: function($event) {
+                      _vm.$emit("close")
+                    },
+                    alert: function($event) {
+                      _vm.$emit("alert", arguments[0])
+                    }
+                  }
+                },
+                "merit-report-summary",
+                _vm.meritReport,
+                false
+              )
+            )
+          ],
+          1
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-a56659ba", esExports)
   }
 }
 
