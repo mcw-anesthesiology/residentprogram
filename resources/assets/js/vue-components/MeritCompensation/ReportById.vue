@@ -92,18 +92,3 @@ export default {
 		order: 2;
 	}
 </style>
-
-<style>
-	main {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-end;
-		overflow-x: hidden;
-	}
-
-	main > * {
-		width: 100%;
-		flex-grow: 0;
-		flex-shrink: 0;
-	}
-</style>

@@ -16335,6 +16335,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
 
+var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
+	routes: [{
+		path: '/checklist/:id',
+		component: __WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_ReportById_vue__["a" /* default */],
+		props: true
+	}, {
+		path: '/summary/:id',
+		component: __WEBPACK_IMPORTED_MODULE_4__vue_components_MeritCompensation_SummaryById_vue__["a" /* default */],
+		props: true
+	}]
+});
+
+router.beforeEach(function (to, from, next) {
+	window.scroll(0, 0);
+	next();
+});
+
 function createMeritReportsHub(el, propsData) {
 	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 		el: el,
@@ -16368,17 +16385,7 @@ function createMeritReportsHub(el, propsData) {
 		},
 
 
-		router: new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
-			routes: [{
-				path: '/checklist/:id',
-				component: __WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_ReportById_vue__["a" /* default */],
-				props: true
-			}, {
-				path: '/summary/:id',
-				component: __WEBPACK_IMPORTED_MODULE_4__vue_components_MeritCompensation_SummaryById_vue__["a" /* default */],
-				props: true
-			}]
-		}),
+		router: router,
 
 		methods: {
 			fetchReports: function fetchReports() {
@@ -16472,7 +16479,6 @@ var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(637)
-  __webpack_require__(638)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -16522,12 +16528,7 @@ if (false) {(function () {
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 638 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 638 */,
 /* 639 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -25635,7 +25636,6 @@ var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(745)
-  __webpack_require__(746)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -25685,12 +25685,7 @@ if (false) {(function () {
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 746 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 746 */,
 /* 747 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
