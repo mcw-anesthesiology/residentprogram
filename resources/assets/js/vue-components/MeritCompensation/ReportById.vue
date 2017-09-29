@@ -86,9 +86,3 @@ export default {
 	}
 };
 </script>
-
-<style scoped>
-	.report-by-id {
-		order: 2;
-	}
-</style>

@@ -64,10 +64,6 @@ span[data-v-7a8a5f24] {
 	cursor: help;
 }
 
-.report-by-id[data-v-785ad86b] {
-	order: 2;
-}
-
 small[data-v-6ff62c0e] {
 	font-size: 0.75em;
 	color: rgba(0, 0, 0, 0.55);
@@ -359,10 +355,6 @@ confirmation-button[data-v-8aa3b4f0] {
 }
 .bullet.filled[data-v-7b09133f] {
 	background-color: rgba(0, 0, 0, 0.75);
-}
-
-.summary-by-id[data-v-a56659ba] {
-	order: 2;
 }
 
 small[data-v-02d100b1] {
