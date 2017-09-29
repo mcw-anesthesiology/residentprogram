@@ -5,12 +5,14 @@
 				:page-validator="validatePage"
 				@submit="handleSubmit">
 			<template scope="pager">
+				<section-errors :page="pager.page" />
 				<transition :name="`checklist-pager-${pager.lastChange}`">
 					<checklist-section :key="`page-${pager.pageNum}`"
 						v-bind="pager.page" :page="true"
 						:readonly="readonly" :user="user"
 						@input="handleInput(pager.pageNum, arguments[0])" />
 				</transition>
+				<section-errors :page="pager.page" />
 			</template>
 		</questionnaire-pager>
 
@@ -37,6 +39,7 @@
 
 <script>
 import ChecklistSection from './Section.vue';
+import SectionErrors from './SectionErrors.vue';
 import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
 import QuestionnairePager from 'vue-components/Questionnaire/Pager.vue';
 
@@ -85,6 +88,7 @@ export default {
 
 	components: {
 		ChecklistSection,
+		SectionErrors,
 		ConfirmationButton,
 		QuestionnairePager
 	}

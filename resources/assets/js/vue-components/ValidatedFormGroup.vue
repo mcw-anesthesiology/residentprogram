@@ -1,7 +1,7 @@
 <template>
 	<div class="form-group" :class="{[invalidClass]: errors.has(prop)}">
 		<slot></slot>
-		<span v-if="errors.has(prop)" class="help-block">
+		<span v-if="errors.has(prop)" class="help-block invalid-container">
 			{{ errors.get(prop) }}
 		</span>
 	</div>

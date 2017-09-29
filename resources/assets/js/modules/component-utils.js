@@ -12,7 +12,7 @@ export function syncWithLocalforage(
 
 	component.$watch(propertyName, prop => {
 		localforage.setItem(key, prop).catch(err => {
-			console.log(err);
+			console.error(err);
 		});
 	});
 
@@ -20,6 +20,6 @@ export function syncWithLocalforage(
 		if (prop && checker(prop))
 			component[propertyName] = prop;
 	}).catch(err => {
-		console.log(err);
+		console.error(err);
 	});
 }

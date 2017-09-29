@@ -1,6 +1,7 @@
 {
-	"parser": "babel-eslint",
+	"parser": "vue-eslint-parser",
 	"parserOptions": {
+		"parser": "babel-eslint",
 		"ecmaVersion": 6,
 		"sourceType": "module",
 		"ecmaFeatures": {
@@ -22,7 +23,8 @@
 	],
 	"extends": [
 		"eslint:recommended",
-		"plugin:import/errors"
+		"plugin:import/errors",
+		"plugin:vue/recommended"
 	],
 	"rules": {
 		"no-console": ["warn", { "allow": ["warn", "error" ] }],
@@ -34,7 +36,8 @@
 		"comma-spacing": "warn",
 		"key-spacing": "warn",
 		"compat/compat": 2,
-		"vue/jsx-uses-vars": 2
+		"vue/jsx-uses-vars": 2,
+		"vue/require-v-for-key": "off"
 	},
 	"settings": {
 		"polyfills": [

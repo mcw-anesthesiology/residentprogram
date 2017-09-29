@@ -10,7 +10,7 @@
 				</span>
 			</legend>
 
-			<bootstrap-alert v-if="items.length === 0"
+			<bootstrap-alert v-if="items.length === 0" class="invalid-container"
 				type="error" text="Please add at least one item">
 			</bootstrap-alert>
 
