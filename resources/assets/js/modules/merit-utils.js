@@ -3,53 +3,19 @@
 import moment from 'moment';
 import { isoDateStringObject, academicYearForDate } from './date-utils.js';
 import { getFetchHeaders, jsonOrThrow } from './utils.js';
-import * as validate from './questionnaire/validate.js';
+import * as validateQuestionnaire from './questionnaire/validate.js';
+import * as validateMerit from './merits/validate.js';
+
+import type { QuestionnaireQuestion } from './questionnaire/index.js';
 
 import type {
-	QuestionnaireQuestion,
-	QuestionnaireInstruction
-} from './questionnaire/index.js';
-
-import type { User } from './utils.js';
-import type { DateLike } from './date-utils.js';
-
-export type MeritReport = {
-	period_start: DateLike,
-	period_end: DateLike,
-	report: MeritReportChecklist,
-	user?: User,
-	form?: MeritReportForm
-};
-
-export type MeritReportForm = {
-	id: number,
-	name: string,
-	version: number,
-	form: MeritReportChecklist
-};
-
-export type MeritReportChecklist = {
-	pages: Array<MeritReportSection>
-};
-
-export type MeritReportSection = {
-	type: 'section',
-	title: string,
-	items: Array<MeritReportSectionChild>
-};
-
-export type MeritReportSectionChild =
-	| MeritReportSection
-	| MeritReportItem
-	| QuestionnaireInstruction;
-
-export type MeritReportItem = {
-	type: 'item',
-	text: string,
-	checked?: boolean,
-	subjectReadonly?: boolean,
-	questions: Array<QuestionnaireQuestion>
-};
+	MeritReport,
+	MeritReportForm,
+	MeritReportChecklist,
+	MeritReportSection,
+	MeritReportSectionChild,
+	MeritReportItem
+} from './merits/index.js';
 
 export function getCheckedItemCount(report: MeritReportChecklist): number {
 	let count = 0;
@@ -107,40 +73,26 @@ export function getUsersWithCompleteMerit(
 }
 
 export function sectionIsValid(section: MeritReportSection): boolean {
-	if (!('items' in section) || section.items.length === 0)
-		return true;
-
-	for (let item of section.items) {
-		switch (item.type) {
-			case 'section':
-				if (!sectionIsValid(item))
-					return false;
-				break;
-			case 'item':
-				if (!itemIsValid(item))
-					return false;
-				break;
-		}
+	try {
+		return validateMerit.section(section).valid;
+	} catch (e) {
+		console.error(e);
+		return false;
 	}
-
-	return true;
 }
 
 export function itemIsValid(item: MeritReportItem): boolean {
-	if (!item.checked || !('questions' in item) || item.questions.length === 0)
-		return true;
-
-	for (let question of item.questions) {
-		if (!questionIsValid(question))
-			return false;
+	try {
+		return validateMerit.item(item).valid;
+	} catch (e) {
+		console.error(e);
+		return false;
 	}
-
-	return true;
 }
 
 export function questionIsValid(question: QuestionnaireQuestion): boolean {
 	try {
-		return validate.question(question).valid;
+		return validateQuestionnaire.question(question).valid;
 	} catch (e) {
 		console.error(e);
 		return false;

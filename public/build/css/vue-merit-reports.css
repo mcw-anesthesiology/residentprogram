@@ -311,6 +311,12 @@ legend[data-v-2186235b] {
 	margin-bottom: 1.5em;
 }
 
+.alert[data-v-5ee8df1c] {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
 .scroll-button[data-v-a814e09c] {
 	display: block;
 	margin-left: auto;
