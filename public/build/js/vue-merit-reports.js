@@ -16348,13 +16348,11 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 	}]
 });
 
-router.beforeEach(function (to, from, next) {
+router.afterEach(function () {
 	window.scroll({
 		top: 0,
-		left: 0,
-		behavior: 'smooth'
+		left: 0
 	});
-	next();
 });
 
 function createMeritReportsHub(el, propsData) {

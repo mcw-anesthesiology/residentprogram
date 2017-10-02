@@ -35,13 +35,11 @@ const router = new VueRouter({
 	]
 });
 
-router.beforeEach((to, from, next) => {
+router.afterEach(() => {
 	window.scroll({
 		top: 0,
-		left: 0,
-		behavior: 'smooth'
+		left: 0
 	});
-	next();
 });
 
 export function createMeritReportsHub(el, propsData) {

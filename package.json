@@ -61,7 +61,6 @@
     "pdfmake": "^0.1.28",
     "raf": "^3.3.2",
     "require-dir": "^0.3.2",
-    "smoothscroll-polyfill": "^0.4.0",
     "snarkdown": "^1.2.2",
     "striptags": "^2.0.1",
     "twix": "^1.1.3",
