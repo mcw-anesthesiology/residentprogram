@@ -28,11 +28,4 @@
 			<a href="/password/reset" role="button" class="btn btn-lg btn-default btn-block">Forgot Password?</a>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
-			<div class="login-info-alert alert alert-info" role="alert">
-				<strong>New: </strong> Please use our new site <a href="https://www.dayoff.site">www.dayoff.site</a> to submit sick days and request I-Days!
-			</div>
-		</div>
-	</div>
 @stop
