@@ -69,6 +69,9 @@ small[data-v-6ff62c0e] {
 	color: rgba(0, 0, 0, 0.55);
 	display: block;
 }
+.close-container[data-v-6ff62c0e] {
+	margin-bottom: 1em;
+}
 .notes-container[data-v-6ff62c0e] {
 	margin-top: 2em;
 }

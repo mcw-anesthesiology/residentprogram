@@ -16716,6 +16716,13 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -25958,6 +25965,18 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("div", { staticClass: "close-container" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-default",
+            attrs: { type: "button" },
+            on: { click: _vm.handleClose }
+          },
+          [_c("span", { staticClass: "glyphicon glyphicon-chevron-left" })]
+        )
+      ]),
+      _vm._v(" "),
       _vm.readonly
         ? _c("div", { staticClass: "form-summary panel panel-default" }, [
             _c("div", { staticClass: "panel-body" }, [
