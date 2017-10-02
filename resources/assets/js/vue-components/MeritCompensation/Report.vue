@@ -1,5 +1,12 @@
 <template>
 	<div>
+		<div class="close-container">
+			<button type="button"
+					class="btn btn-default"
+					@click="handleClose">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+			</button>
+		</div>
 		<div v-if="readonly" class="form-summary panel panel-default">
 			<div class="panel-body">
 				<div class="row">
@@ -288,6 +295,10 @@ export default {
 		font-size: 0.75em;
 		color: rgba(0, 0, 0, 0.55);
 		display: block;
+	}
+
+	.close-container {
+		margin-bottom: 1em;
 	}
 
 	.notes-container {
