@@ -9,17 +9,15 @@ use Carbon\Carbon;
 
 use Setting;
 
-class AppServiceProvider extends ServiceProvider
-{
+class AppServiceProvider extends ServiceProvider {
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
-    public function boot()
-    {
+    public function boot() {
         Carbon::setToStringFormat("d-M-Y g:i A");
-		
+
 		// Initialize settings values
 		addSettingIfEmpty('facultyEvalThreshold', 3);
 		addSettingIfEmpty('facultyEvalTimeThreshold', '3 months ago');
@@ -32,15 +30,14 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         if($this->app->environment('production'))
 			$this->app->register(\Jenssegers\Rollbar\RollbarServiceProvider::class);
     }
 }
 
 function addSettingIfEmpty($key, $value) {
-	if (!Setting::get($key)) {
+	if (!Setting::has($key)) {
 		Setting::set($key, $value);
 		Setting::save();
 	}
