@@ -14,8 +14,11 @@
 				type="error" text="Please add at least one item">
 			</bootstrap-alert>
 
-			<list-items :ordered="ordered" :items="items" @change="onChange"
-				:readonly="readonly"/>
+			<list-items :ordered="ordered"
+				:items="items"
+				:readonly="readonly"
+				:show-errors="showErrors"
+				@change="onChange" />
 
 			<button v-if="!readonly" type="button" class="btn btn-sm btn-info"
 					@click="addItem">
@@ -99,6 +102,10 @@ export default {
 			default: false
 		},
 		readonly: {
+			type: Boolean,
+			default: false
+		},
+		showErrors: {
 			type: Boolean,
 			default: false
 		}

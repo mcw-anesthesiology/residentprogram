@@ -1,6 +1,10 @@
 <template>
 	<div ref="pager" class="questionnaire-pager">
-		<checklist-errors :pages="pages" @navigate="goToPage" />
+		<slot name="header"
+			:go-to-page="goToPage"
+			:pages="pages">
+		</slot>
+
 		<pager-controls :current-page="currentPage"
 			:total-pages="pages.length"
 			:submit-text="submitText"
@@ -42,17 +46,27 @@
 			:can-go-back-page="canGoBackPage"
 			:can-submit="canSubmit"
 			:readonly="readonly"
+			bottom
 			@back="goBack"
 			@forward="advance"
 			@submit="submit" />
+
+		<slot name="footer"
+			:go-to-page="goToPage"
+			:pages="pages">
+		</slot>
 	</div>
 </template>
 
 <script>
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
 import PagerControls from './PagerControls.vue';
-import ChecklistErrors from '../MeritCompensation/Checklist/ChecklistErrors.vue';
 
 import { getHeaderHeight } from 'modules/dom-utils.js';
+
+Vue.use(VueRouter);
 
 export default {
 	props: {
@@ -91,7 +105,7 @@ export default {
 	},
 	data() {
 		return {
-			currentPage: 0,
+			// currentPage: 0,
 			lastChange: ''
 		};
 	},
@@ -108,6 +122,25 @@ export default {
 		},
 		canSubmit() {
 			return this.checklistValidator({ pages: this.pages });
+		},
+		currentPage() {
+			if (
+				this.$route
+				&& this.$route.query
+				&& 'page' in this.$route.query
+			) {
+				const page = Number(this.$route.query.page) - 1;
+
+				if (Number.isNaN(page) || page < 0) {
+					this.goToPage(0);
+				} else if (page > this.pages.length - 1) {
+					this.goToPage(this.pages.length - 1);
+				} else {
+					return page;
+				}
+			}
+
+			return 0;
 		}
 	},
 
@@ -137,20 +170,17 @@ export default {
 			});
 		},
 		goBack() {
-			if (this.canGoBackPage) {
-				this.scrollToTop();
-				this.currentPage--;
-			}
+			if (this.canGoBackPage)
+				this.goToPage(this.currentPage - 1);
 		},
 		advance() {
-			if (this.canAdvancePage) {
-				this.scrollToTop();
-				this.currentPage++;
-			}
+			if (this.canAdvancePage)
+				this.goToPage(this.currentPage + 1);
 		},
 		goToPage(page) {
-			this.scrollToTop();
-			this.currentPage = page;
+			page = page + 1;
+			const location = Object.assign({}, this.$route, { query: { page }});
+			this.$router.push(location);
 		},
 		submit() {
 			if (this.canSubmit)
@@ -159,8 +189,7 @@ export default {
 	},
 
 	components: {
-		PagerControls,
-		ChecklistErrors
+		PagerControls
 	}
 };
 </script>

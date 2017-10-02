@@ -4,15 +4,28 @@
 		<questionnaire-pager :pages="pages" :readonly="readonly"
 				:checklist-validator="checklistIsValid"
 				@submit="handleSubmit">
+			<template slot="header" scope="pager">
+				<div class="text-right">
+					<show-hide-button class="btn btn-info btn-sm"
+							v-model="show.errors">
+						checklist validation
+						<span slot="glyph" class="glyphicon glyphicon-ok"></span>
+					</show-hide-button>
+				</div>
+				<checklist-errors v-if="show.errors"
+					:pages="pager.pages"
+					@navigate="pager.goToPage" />
+			</template>
 			<template scope="pager">
-				<section-errors :page="pager.page" />
+				<section-errors v-if="show.errors" :page="pager.page" />
 				<transition :name="`checklist-pager-${pager.lastChange}`">
 					<checklist-section :key="`page-${pager.pageNum}`"
 						v-bind="pager.page" :page="true"
 						:readonly="readonly" :user="user"
+						:show-errors="show.errors"
 						@input="handleInput(pager.pageNum, arguments[0])" />
 				</transition>
-				<section-errors :page="pager.page" />
+				<section-errors v-if="show.errors" :page="pager.page" />
 			</template>
 		</questionnaire-pager>
 
@@ -40,8 +53,10 @@
 <script>
 import ChecklistSection from './Section.vue';
 import SectionErrors from './SectionErrors.vue';
+import ChecklistErrors from './ChecklistErrors.vue';
 import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
 import QuestionnairePager from 'vue-components/Questionnaire/Pager.vue';
+import ShowHideButton from 'vue-components/ShowHideButton.vue';
 
 import { checklistIsValid } from 'modules/merit-utils.js';
 
@@ -63,6 +78,13 @@ export default {
 			type: Object,
 			required: false
 		}
+	},
+	data() {
+		return {
+			show: {
+				errors: false
+			}
+		};
 	},
 
 	methods: {
@@ -87,8 +109,10 @@ export default {
 	components: {
 		ChecklistSection,
 		SectionErrors,
+		ChecklistErrors,
 		ConfirmationButton,
-		QuestionnairePager
+		QuestionnairePager,
+		ShowHideButton
 	}
 };
 </script>

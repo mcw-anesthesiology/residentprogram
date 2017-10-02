@@ -1,17 +1,22 @@
 <template>
-	<bootstrap-alert v-if="!pagesValid">
-		<strong>Checklist errors</strong>
-		<ul>
-			<li v-for="(errors, pageNum) of pageErrors" v-if="errors.length > 0">
-				{{ errors.length }} error{{ errors.length === 1 ? '' : 's' }}
-				on page {{ pageNum + 1 }}.
-				<button type="button" class="btn btn-default"
-						@click="$emit('navigate', pageNum)">
-					Go to page
-				</button>
-			</li>
-		</ul>
-	</bootstrap-alert>
+	<div>
+		<bootstrap-alert v-if="!pagesValid">
+			<strong>Checklist errors</strong>
+			<ul>
+				<li v-for="(errors, pageNum) of pageErrors" v-if="errors.length > 0">
+					{{ errors.length }} error{{ errors.length === 1 ? '' : 's' }}
+					on page {{ pageNum + 1 }}.
+					<button type="button" class="btn btn-default"
+							@click="$emit('navigate', pageNum)">
+						Go to page
+					</button>
+				</li>
+			</ul>
+		</bootstrap-alert>
+		<bootstrap-alert v-else type="success">
+			No errors in checklist!
+		</bootstrap-alert>
+	</div>
 </template>
 
 <script>

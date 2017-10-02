@@ -36,7 +36,11 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-	window.scroll(0, 0);
+	window.scroll({
+		top: 0,
+		left: 0,
+		behavior: 'smooth'
+	});
 	next();
 });
 

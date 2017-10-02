@@ -320,8 +320,7 @@ legend[data-v-2186235b] {
 	display: inline-block;
 	margin: 0.5em;
 }
-button[data-v-8aa3b4f0],
-confirmation-button[data-v-8aa3b4f0] {
+.button-container-primary[data-v-8aa3b4f0] {
 	min-width: 100px;
 }
 .progress-bullets[data-v-8aa3b4f0] {
@@ -335,6 +334,11 @@ confirmation-button[data-v-8aa3b4f0] {
 }
 .button-container[data-v-8aa3b4f0] {
 		order: 2;
+}
+}
+@media (min-width: 768px) {
+.button-container[data-v-8aa3b4f0] {
+		width: 150px;
 }
 }
 

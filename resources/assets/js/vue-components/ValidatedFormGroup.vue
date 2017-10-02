@@ -1,7 +1,8 @@
 <template>
 	<div class="form-group" :class="{[invalidClass]: errors.has(prop)}">
 		<slot></slot>
-		<span v-if="errors.has(prop)" class="help-block invalid-container">
+		<span v-if="showErrors && errors.has(prop)"
+				class="help-block invalid-container">
 			{{ errors.get(prop) }}
 		</span>
 	</div>
@@ -10,6 +11,10 @@
 <script>
 export default {
 	props: {
+		showErrors: {
+			type: Boolean,
+			default: true
+		},
 		errors: {
 			type: Map,
 			required: true,

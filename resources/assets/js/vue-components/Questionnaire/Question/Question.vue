@@ -17,6 +17,10 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		showErrors: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -30,6 +34,7 @@ export default {
 		return h(questionComponent, {
 			props: {
 				readonly: this.readonly,
+				showErrors: this.showErrors,
 				...this.question
 			},
 			on: {

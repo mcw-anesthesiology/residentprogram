@@ -2,9 +2,7 @@
 	<div class="progress-bullets"
 			role="progressbar" :aria-valuemin="min" :aria-valuemax="max"
 			:aria-valuenow="value" :title="label">
-		<div v-for="i in max" class="bullet" :class="{filled: i <= value}">
-
-		</div>
+		<div v-for="i in max" class="bullet" :class="{filled: i <= value}"></div>
 	</div>
 </template>
 
