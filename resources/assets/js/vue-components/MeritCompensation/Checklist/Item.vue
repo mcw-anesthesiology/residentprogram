@@ -8,7 +8,10 @@
 		</label>
 		<div v-if="checked && hasQuestions" class="item-questions">
 			<questionnaire-question v-for="(question, index) of questions"
-				:question="question" :readonly="readonlyToUser"
+				:key="index"
+				:question="question"
+				:readonly="readonlyToUser"
+				:showErrors="showErrors"
 				@input="handleQuestionInput(index, arguments[0])" />
 		</div>
 	</div>
@@ -50,6 +53,10 @@ export default {
 		user: {
 			type: Object,
 			required: false
+		},
+		showErrors: {
+			type: Boolean,
+			default: false
 		}
 	},
 

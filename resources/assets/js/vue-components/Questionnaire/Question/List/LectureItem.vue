@@ -1,5 +1,8 @@
 <template>
-	<list-item :readonly="readonly" :invalid="!validation.valid" @remove="$emit('remove')">
+	<list-item :readonly="readonly"
+			:invalid="!validation.valid"
+			:show-errors="showErrors"
+			@remove="$emit('remove')">
 		<validated-form-group :errors="errors" prop="title">
 			<label class="containing-label">
 				Lecture title

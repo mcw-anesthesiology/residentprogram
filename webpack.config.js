@@ -7,12 +7,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = {
 	entry: {
-		bundle: [
-			'whatwg-fetch',
-			'element-dataset',
-			'raf/polyfill',
-			'./resources/assets/js/modules'
-		],
+		bundle: './resources/assets/js/modules/index.js',
 		'vue-deps': './resources/assets/js/vue-constructors/index.js',
 		'vue-form-builder': './resources/assets/js/vue-constructors/form-builder.js',
 		'vue-reports': './resources/assets/js/vue-constructors/reports.js',

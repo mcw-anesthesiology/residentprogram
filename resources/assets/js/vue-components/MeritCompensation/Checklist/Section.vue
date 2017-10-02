@@ -11,6 +11,14 @@ export default {
 		user: {
 			type: Object,
 			required: false
+		},
+		readonly: {
+			type: Boolean,
+			default: false
+		},
+		showErrors: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -32,6 +40,7 @@ export default {
 			return h(componentName, {
 				props: {
 					readonly: this.readonly,
+					showErrors: this.showErrors,
 					user: this.user,
 					...item
 				},

@@ -23,6 +23,10 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		showErrors: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -35,6 +39,7 @@ export default {
 			return h(itemComponent, {
 				props: {
 					readonly: this.readonly,
+					showErrors: this.showErrors,
 					...item
 				},
 				on: {

@@ -8,7 +8,7 @@
 				<span class="glyphicon glyphicon-remove"></span>
 				Remove item
 			</confirmation-button>
-			<div v-if="invalid" class="invalid-container">
+			<div v-if="showErrors && invalid" class="invalid-container">
 				<span class="glyphicon glyphicon-warning-sign"></span>
 			</div>
 		</div>
@@ -29,6 +29,10 @@ export default {
 			default: false
 		},
 		invalid: {
+			type: Boolean,
+			default: false
+		},
+		showErrors: {
 			type: Boolean,
 			default: false
 		}

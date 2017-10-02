@@ -1,7 +1,7 @@
 <template>
 	<div class="pager-controls">
 		<div class="button-container">
-			<button type="button" class="btn btn-default"
+			<button type="button" class="btn btn-default button-container-primary"
 					:disabled="!canGoBackPage"
 					@click="$emit('back')">
 				{{ backText }}
@@ -10,21 +10,32 @@
 
 		<progress-bullets :max="totalPages" :value="currentPage + 1" />
 
-		<div class="button-container">
-			<button v-if="currentPage < totalPages - 1" type="button"
-					class="btn btn-default" :disabled="!canAdvancePage"
+		<div class="button-container text-right">
+			<button v-if="currentPage < totalPages - 1"
+					type="button"
+					class="btn btn-default button-container-primary"
+					:disabled="!canAdvancePage"
 					@click="$emit('forward')">
 				{{ forwardText }}
 			</button>
-			<confirmation-button v-else-if="!readonly"
-					class="btn btn-primary" pressed-class="btn-success"
-					:disabled="!canSubmit"
-					@click="$emit('submit')">
-				{{ submitText }}
-				<template slot="pressed">
-					Confirm
-				</template>
-			</confirmation-button>
+			<template v-else-if="!readonly">
+				<bootstrap-popover v-if="!canSubmit"
+						placement="auto bottom"
+						:content="submitHelp">
+					<span class="glyphicon glyphicon-question-sign"></span>
+				</bootstrap-popover>
+				<confirmation-button
+						class="btn btn-primary button-container-primary"
+						pressed-class="btn-success"
+						:disabled="!canSubmit"
+						:title="submitHelp"
+						@click="$emit('submit')">
+					{{ submitText }}
+					<template slot="pressed">
+						Confirm
+					</template>
+				</confirmation-button>
+			</template>
 		</div>
 	</div>
 </template>
@@ -32,6 +43,7 @@
 <script>
 import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
 import ProgressBullets from 'vue-components/ProgressBullets.vue';
+import BootstrapPopover from 'vue-components/BootstrapPopover.vue';
 
 export default {
 	props: {
@@ -74,12 +86,18 @@ export default {
 	},
 
 	computed: {
-
+		submitHelp() {
+			if (!this.canSubmit) {
+				return 'There are errors preventing you from submitting the form, '
+					+ 'please show checklist validation to see them.';
+			}
+		}
 	},
 
 	components: {
 		ConfirmationButton,
-		ProgressBullets
+		ProgressBullets,
+		BootstrapPopover
 	}
 };
 </script>
@@ -98,8 +116,7 @@ export default {
 		margin: 0.5em;
 	}
 
-	button,
-	confirmation-button {
+	.button-container-primary {
 		min-width: 100px;
 	}
 
@@ -116,6 +133,12 @@ export default {
 
 		.button-container {
 			order: 2;
+		}
+	}
+
+	@media (min-width: 768px) {
+		.button-container {
+			width: 150px;
 		}
 	}
 </style>
