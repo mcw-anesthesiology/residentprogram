@@ -26,8 +26,6 @@ use Carbon\Carbon;
 use App\Alum;
 use App\Block;
 use App\BlockAssignment;
-use App\CaseLog;
-use App\CaseLogDetailsSchema;
 use App\Competency;
 use App\CompetencyQuestion;
 use App\DirectoryEntry;
@@ -392,28 +390,6 @@ class ManageController extends Controller
 
 		return view("manage.user-features", $data);
 	}
-
-	public function caseLogs(Request $request){
-		$schemas = CaseLogDetailsSchema::all()->groupBy("details_type")
-			->sortByDesc("version")->transform(function($typeSchemas){
-				return $typeSchemas->keyBy("version");
-			});
-		$newVersions = $schemas->map(function($schemas){
-			return $schemas->max("version") + 1;
-		});
-
-		$data = compact("schemas", "newVersions");
-
-		return view("manage.case-log.all", $data);
-	}
-
-    public function merit() {
-        return view('manage.merit');
-    }
-
-    public function faculty360() {
-        return view('manage.faculty360');
-    }
 
     public function scheduledRequests() {
         return view('manage.scheduled-requests');

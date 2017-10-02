@@ -24,8 +24,6 @@ use Carbon\Carbon;
 use App\Alum;
 use App\Block;
 use App\BlockAssignment;
-use App\CaseLog;
-use App\CaseLogDetailsSchema;
 use App\Contact;
 use App\DirectoryEntry;
 use App\Evaluation;
@@ -64,10 +62,6 @@ class MainController extends Controller
 		$this->middleware("type:admin", ["only" => [
             "flaggedEvaluations",
             "getEvaluation"
-        ]]);
-
-		$this->middleware("case-log.has-access", ["only" => [
-            "caseLog"
         ]]);
 
 		$this->middleware(function($request, $next) {
@@ -803,37 +797,7 @@ class MainController extends Controller
         }
     }
 
-	public function caseLog(Request $request) {
-		$user = Auth::user();
-		$title = "RAAPS"; // FIXME
-		$detailsType = "raaps"; // FIXME
-		$locations = Location::all();
-		$canLog = false;
-
-		// TODO: Only show when canLog
-		$detailsSchema = CaseLogDetailsSchema::where("details_type", $detailsType)
-			->orderBy("version", "desc")->first();
-		if ($user->isType("resident")) {
-			$canLog = true;
-
-		}
-
-		$data = compact("locations", "canLog", "detailsSchema", "title");
-
-		return view("case-log.case-log", $data);
-	}
-
     public function calendar(Request $request) {
         return view("calendar");
-    }
-
-    public function merit() {
-
-        $meritReportTypes = config('constants.MERIT_REPORT_TYPES');
-		$meritReportTypeForms = Setting::get('reportTypeForms');
-
-		$data = compact('meritReportTypes', 'meritReportTypeForms');
-
-        return view('merit-report.merit-reports', $data);
     }
 }

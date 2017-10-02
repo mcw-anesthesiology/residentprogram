@@ -49,8 +49,6 @@ Route::get('alum/{hash}', 'MainController@alumni');
 Route::get('contact', 'MainController@contact');
 Route::post('contact', 'MainController@saveContact');
 
-Route::get('case-log', 'MainController@caseLog');
-
 Route::get('calendar', 'MainController@calendar');
 
 Route::post('emails', 'EmailController@send');
@@ -78,9 +76,7 @@ Route::get('manage/alumni', 'ManageController@alumni');
 Route::get('manage/alumni/import', 'ManageController@importAlumni');
 Route::get('manage/watched-forms', 'ManageController@watchedForms');
 Route::get('manage/user-features', 'ManageController@userFeatures');
-Route::get('manage/case-logs', 'ManageController@caseLogs');
-Route::get('manage/merit', 'ManageController@merit');
-Route::get('manage/faculty360', 'ManageController@faculty360');
+
 Route::get('manage/scheduled-requests', 'ManageController@scheduledRequests');
 
 Route::get('reports', 'ReportController@reports');
@@ -97,10 +93,15 @@ Route::post('report/pending-requests', 'ReportController@pendingRequests');
 Route::get('report/stats/{type}', 'ReportController@stats');
 Route::post('report/stats/{evaluationType}/{userType}', 'ReportController@getStats');
 
-Route::get('merit', 'MainController@merit');
+Route::get('merit', 'FacultyMeritController@merit');
+Route::get('manage/merit', 'FacultyMeritController@manage');
 
 // TODO: Change url?
 Route::get('faculty360', 'FacultyPeerEvaluationController@request');
 Route::post('faculty360', 'FacultyPeerEvaluationController@createEvaluation');
 Route::get('faculty360/view/{id}', 'FacultyPeerEvaluationController@view');
 Route::get('faculty360/evaluate/{hash}', 'FacultyPeerEvaluationController@evaluate');
+Route::get('manage/faculty360', 'FacultyPeerEvaluationController@manage');
+
+Route::get('case-log', 'CaseLogController@caseLog');
+Route::get('manage/case-logs', 'CaseLogController@manage');
