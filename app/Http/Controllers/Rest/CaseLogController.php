@@ -18,6 +18,7 @@ class CaseLogController extends RestController
 		$this->middleware("type:admin", ["except" => [
 			"index", "store", "show"
 		]]);
+		$this->middleware('site-feature.case_log');
 		$this->middleware("case-log.has-access");
 	}
 
