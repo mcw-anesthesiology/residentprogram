@@ -5,8 +5,13 @@ return [
 
 
     'admin_email' => env('ADMIN_EMAIL', 'jmischka@mcw.edu'),
-	
-	'name' => env('APP_NAME', 'Resident Program Evaluation System'),
+
+	'external_links' => [
+		'Directory' => 'https://intranet.mcwanesthesiology.org/administration/department-directory/',
+		'Day Off' => 'https://www.dayoff.site'
+	],
+
+	'name' => env('APP_NAME', 'Trainee Evaluation System'),
 
     /*
     |--------------------------------------------------------------------------

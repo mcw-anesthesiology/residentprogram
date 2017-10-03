@@ -19,6 +19,8 @@ class SiteFeature
 			return $next($request);
 		}
 
-		return redirect('/');
+		return $request->ajax()
+            ? response('Feature not enabled', 403)
+            : redirect('/');
     }
 }
