@@ -22,7 +22,6 @@ use Carbon\Carbon;
 
 use App\Block;
 use App\BlockAssignment;
-use App\Contact;
 use App\Evaluation;
 use App\FacultyPeerEvaluation;
 use App\FlaggedEvaluation;
@@ -681,36 +680,6 @@ class MainController extends Controller
         return back()->with("success", "Notifications preferences saved successfully!");
     }
 
-    public function contact() {
-        return view("dashboard.contact");
-    }
-
-    public function saveContact(Request $request) {
-        $user = Auth::user();
-        $contact = new Contact();
-        $contact->user_id = $user->id;
-        $contact->subject = $request->input("subject");
-        $contact->body = $request->input("body");
-        $contact->save();
-
-        $data = [];
-        $data["body"] = $contact->body;
-        $data["email"] = $user->email;
-        $data["firstName"] = $user->first_name;
-        $data["lastName"] = $user->last_name;
-        $subject = $contact->subject;
-        try {
-            Mail::send("emails.contact", $data, function($message) use($subject) {
-                $message->to(config("app.admin_email"));
-                $message->from("contact@residentprogram.com");
-                $message->subject($subject);
-            });
-        } catch(\Exception $e) {
-			Log::error("Problem sending email: ".$e);
-        }
-        return redirect("dashboard")->with("success", "Thank you! Your message has been receieved and I will get back to you shortly");
-    }
-
     public function userProfile($id) {
         $user = Auth::user();
         $profileUser = User::find($id);
@@ -757,10 +726,6 @@ class MainController extends Controller
         $data = compact("profileUser", "yearStart", "lastCompleted", "requests",
             "totalRequests", "totalComplete", "evalData");
         return view("dashboard.profile", $data);
-    }
-
-    public function pagerDirectory() {
-        return view("dashboard.directory");
     }
 
     public function calendar(Request $request) {
