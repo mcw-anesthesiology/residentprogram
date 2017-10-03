@@ -14,7 +14,7 @@ class Kernel extends HttpKernel
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
     ];
-	
+
 	/**
 	 * The application's route middleware groups.
 	 *
@@ -48,12 +48,13 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-		
+
 		'case-log.has-access' => \App\Http\Middleware\CaseLogHasAccess::class,
 		'evaluation.requestor' => \App\Http\Middleware\EvaluationRequestor::class,
 		'evaluation.evaluator' => \App\Http\Middleware\EvaluationEvaluator::class,
 		'evaluation.user-edit' => \App\Http\Middleware\EvaluationUserEdit::class,
 		'shared' => \App\Http\Middleware\SharedVariables::class,
+		'site-feature' => \App\Http\Middleware\SiteFeature::class,
 		'type' => \App\Http\Middleware\Type::class,
 		'update.alum' => \App\Http\Middleware\UpdateAlumMiddleware::class
     ];

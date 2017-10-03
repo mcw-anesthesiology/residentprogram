@@ -14,6 +14,14 @@ use App\CaseLogDetailsSchema;
 class CaseLogDetailsSchemaController extends RestController
 {
 
+	public function __construct() {
+		$this->middleware([
+			'auth',
+			'type:admin',
+			'site-feature.case_log'
+		]);
+	}
+
 	protected $attributes = [
 		"id",
 		"details_type",

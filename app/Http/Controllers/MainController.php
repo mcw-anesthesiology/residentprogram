@@ -17,25 +17,18 @@ use Log;
 use Mail;
 use Setting;
 use View;
-use App\ScheduledRequest;
 
 use Carbon\Carbon;
 
-use App\Alum;
 use App\Block;
 use App\BlockAssignment;
-use App\CaseLog;
-use App\CaseLogDetailsSchema;
-use App\Contact;
-use App\DirectoryEntry;
 use App\Evaluation;
 use App\FacultyPeerEvaluation;
-use App\FacultyPeerForm;
 use App\FlaggedEvaluation;
 use App\Form;
 use App\Location;
-use App\Mentorship;
 use App\Response;
+use App\ScheduledRequest;
 use App\TextResponse;
 use App\User;
 use App\WatchedForm;
@@ -45,29 +38,17 @@ class MainController extends Controller
     public function __construct() {
         $this->middleware("auth", ["except" => [
             "evaluationByHashLink",
-            "saveEvaluationByHashLink",
-            "alumni",
-            "saveAlumni",
-            "alumniSubscription",
-            "confirmAlumniSubscription"
+            "saveEvaluationByHashLink"
         ]]);
 
         $this->middleware("shared", ["except" => [
             "evaluationByHashLink",
-            "saveEvaluationByHashLink",
-            "alumni",
-            "saveAlumni",
-            "alumniSubscription",
-            "confirmAlumniSubscription"
+            "saveEvaluationByHashLink"
         ]]);
 
 		$this->middleware("type:admin", ["only" => [
             "flaggedEvaluations",
             "getEvaluation"
-        ]]);
-
-		$this->middleware("case-log.has-access", ["only" => [
-            "caseLog"
         ]]);
 
 		$this->middleware(function($request, $next) {
@@ -656,79 +637,6 @@ class MainController extends Controller
 		return redirect("dashboard");
     }
 
-    public function user() {
-		$user = Auth::user();
-		$frequency = $user->reminder_frequency;
-		$onlyIfPending = $user->remind_only_if_pending;
-		$notifications = $user->notifications;
-		$data = compact("frequency", "onlyIfPending", "notifications");
-        return view("dashboard.user", $data);
-    }
-
-    public function saveUser(Request $request) {
-        $user = Auth::user();
-        if ($request->input("new_password") == $request->input("new_password_confirm") && password_verify($request->input("old_password"), $user->password)) {
-            $user->password = bcrypt($request->input("new_password"));
-            $user->save();
-            return back()->with("success", "Password changed successfully!");
-        } else{
-            if ($request->input("new_password") != $request->input("new_password_confirm"))
-                $error = "New passwords did not match";
-            elseif (!password_verify($request->input("old_password"), $user->password))
-                $error = "Current password verification failed";
-
-            return back()->with("error", $error);
-        }
-    }
-
-    public function saveUserReminders(Request $request) {
-        $user = Auth::user();
-        $user->reminder_frequency = $request->input("frequency");
-		if ($request->has("only_if_pending"))
-			$user->remind_only_if_pending = $request->input("only_if_pending");
-		else
-			$user->remind_only_if_pending = "no";
-        $user->save();
-        return back()->with("success", "Reminder preferences saved successfully!");
-    }
-
-    public function saveUserNotifications(Request $request) {
-        $user = Auth::user();
-        $user->notifications = $request->input("notifications");
-        $user->save();
-        return back()->with("success", "Notifications preferences saved successfully!");
-    }
-
-    public function contact() {
-        return view("dashboard.contact");
-    }
-
-    public function saveContact(Request $request) {
-        $user = Auth::user();
-        $contact = new Contact();
-        $contact->user_id = $user->id;
-        $contact->subject = $request->input("subject");
-        $contact->body = $request->input("body");
-        $contact->save();
-
-        $data = [];
-        $data["body"] = $contact->body;
-        $data["email"] = $user->email;
-        $data["firstName"] = $user->first_name;
-        $data["lastName"] = $user->last_name;
-        $subject = $contact->subject;
-        try {
-            Mail::send("emails.contact", $data, function($message) use($subject) {
-                $message->to(config("app.admin_email"));
-                $message->from("contact@residentprogram.com");
-                $message->subject($subject);
-            });
-        } catch(\Exception $e) {
-			Log::error("Problem sending email: ".$e);
-        }
-        return redirect("dashboard")->with("success", "Thank you! Your message has been receieved and I will get back to you shortly");
-    }
-
     public function userProfile($id) {
         $user = Auth::user();
         $profileUser = User::find($id);
@@ -777,63 +685,7 @@ class MainController extends Controller
         return view("dashboard.profile", $data);
     }
 
-    public function pagerDirectory() {
-        return view("dashboard.directory");
-    }
-
-    public function alumni(Request $request, $hash) {
-        try {
-            $alum = Alum::where("update_hash", $hash)->firstOrFail();
-            $ADMIN_EMAIL = config("app.admin_email");
-            $data = compact('hash', "alum", "ADMIN_EMAIL");
-            return view("dashboard.alumni", $data)->with(["noNavbar" => true]);
-        } catch(ModelNotFoundException $e) {
-            return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
-        }
-    }
-
-    public function alumniSubscription(Request $request, $hash) {
-        try {
-            $alum = Alum::where("update_hash", $hash)->firstOrFail();
-            $ADMIN_EMAIL = config("app.admin_email");
-            $data = compact("alum", "ADMIN_EMAIL");
-            return view("dashboard.alumni.subscription", $data)->with("noNavbar", true);
-        } catch(ModelNotFoundException $e) {
-            return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
-        }
-    }
-
-	public function caseLog(Request $request) {
-		$user = Auth::user();
-		$title = "RAAPS"; // FIXME
-		$detailsType = "raaps"; // FIXME
-		$locations = Location::all();
-		$canLog = false;
-
-		// TODO: Only show when canLog
-		$detailsSchema = CaseLogDetailsSchema::where("details_type", $detailsType)
-			->orderBy("version", "desc")->first();
-		if ($user->isType("resident")) {
-			$canLog = true;
-
-		}
-
-		$data = compact("locations", "canLog", "detailsSchema", "title");
-
-		return view("case-log.case-log", $data);
-	}
-
     public function calendar(Request $request) {
         return view("calendar");
-    }
-
-    public function merit() {
-
-        $meritReportTypes = config('constants.MERIT_REPORT_TYPES');
-		$meritReportTypeForms = Setting::get('reportTypeForms');
-
-		$data = compact('meritReportTypes', 'meritReportTypeForms');
-
-        return view('merit-report.merit-reports', $data);
     }
 }

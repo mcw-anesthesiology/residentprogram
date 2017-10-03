@@ -34,6 +34,7 @@ class MeritReportController extends RestController
     public function __construct()
     {
         $this->middleware('auth');
+		$this->middleware('site-feature:faculty_merit');
         $this->middleware('type:admin')->only('destroy');
         $this->middleware('shared')->only('printView');
 
