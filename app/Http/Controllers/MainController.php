@@ -21,7 +21,6 @@ use App\ScheduledRequest;
 
 use Carbon\Carbon;
 
-use App\Alum;
 use App\Block;
 use App\BlockAssignment;
 use App\Contact;
@@ -43,20 +42,12 @@ class MainController extends Controller
     public function __construct() {
         $this->middleware("auth", ["except" => [
             "evaluationByHashLink",
-            "saveEvaluationByHashLink",
-            "alumni",
-            "saveAlumni",
-            "alumniSubscription",
-            "confirmAlumniSubscription"
+            "saveEvaluationByHashLink"
         ]]);
 
         $this->middleware("shared", ["except" => [
             "evaluationByHashLink",
-            "saveEvaluationByHashLink",
-            "alumni",
-            "saveAlumni",
-            "alumniSubscription",
-            "confirmAlumniSubscription"
+            "saveEvaluationByHashLink"
         ]]);
 
 		$this->middleware("type:admin", ["only" => [
@@ -773,28 +764,6 @@ class MainController extends Controller
 
     public function pagerDirectory() {
         return view("dashboard.directory");
-    }
-
-    public function alumni(Request $request, $hash) {
-        try {
-            $alum = Alum::where("update_hash", $hash)->firstOrFail();
-            $ADMIN_EMAIL = config("app.admin_email");
-            $data = compact('hash', "alum", "ADMIN_EMAIL");
-            return view("dashboard.alumni", $data)->with(["noNavbar" => true]);
-        } catch(ModelNotFoundException $e) {
-            return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
-        }
-    }
-
-    public function alumniSubscription(Request $request, $hash) {
-        try {
-            $alum = Alum::where("update_hash", $hash)->firstOrFail();
-            $ADMIN_EMAIL = config("app.admin_email");
-            $data = compact("alum", "ADMIN_EMAIL");
-            return view("dashboard.alumni.subscription", $data)->with("noNavbar", true);
-        } catch(ModelNotFoundException $e) {
-            return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
-        }
     }
 
     public function calendar(Request $request) {

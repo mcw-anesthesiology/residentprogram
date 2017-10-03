@@ -23,7 +23,6 @@ use Storage;
 
 use Carbon\Carbon;
 
-use App\Alum;
 use App\Block;
 use App\BlockAssignment;
 use App\Competency;
@@ -313,14 +312,6 @@ class ManageController extends Controller
     public function deletePagerDirectoryEntry(Request $request){
         return DirectoryEntry::destroy($request->input("id")) > 0 ? "success" : "No entries deleted";
     }
-
-    public function alumni(Request $request){
-        return view("manage.alumni");
-    }
-
-	public function importAlumni(Request $request){
-		return view("manage.import-alumni");
-	}
 
 	public function watchedForms(Request $request){
 		$groupNames = [
