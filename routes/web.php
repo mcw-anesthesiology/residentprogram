@@ -37,19 +37,7 @@ Route::post('request/{requestType?}', 'MainController@createRequest');
 Route::get('profile/{id}', 'MainController@userProfile');
 Route::get('profile/evaluations/{id}/{type?}', 'MainController@profileEvaluations');
 
-Route::get('user', 'MainController@user');
-Route::post('user', 'MainController@saveUser');
-Route::post('user/reminders', 'MainController@saveUserReminders');
-Route::post('user/notifications', 'MainController@saveUserNotifications');
-
 Route::get('directory', 'MainController@pagerDirectory');
-
-Route::get('alum/{hash}', 'MainController@alumni');
-
-Route::get('contact', 'MainController@contact');
-Route::post('contact', 'MainController@saveContact');
-
-Route::get('case-log', 'MainController@caseLog');
 
 Route::get('calendar', 'MainController@calendar');
 
@@ -74,13 +62,9 @@ Route::get('manage/block-assignments', 'ManageController@blockAssignments');
 Route::post('manage/block-assignments', 'ManageController@saveBlockAssignments');
 Route::post('manage/block-assignments/table', 'ManageController@blockAssignmentsTable');
 Route::post('manage/block-assignments/get', 'ManageController@getBlockAssignments');
-Route::get('manage/alumni', 'ManageController@alumni');
-Route::get('manage/alumni/import', 'ManageController@importAlumni');
 Route::get('manage/watched-forms', 'ManageController@watchedForms');
 Route::get('manage/user-features', 'ManageController@userFeatures');
-Route::get('manage/case-logs', 'ManageController@caseLogs');
-Route::get('manage/merit', 'ManageController@merit');
-Route::get('manage/faculty360', 'ManageController@faculty360');
+
 Route::get('manage/scheduled-requests', 'ManageController@scheduledRequests');
 
 Route::get('reports', 'ReportController@reports');
@@ -97,10 +81,26 @@ Route::post('report/pending-requests', 'ReportController@pendingRequests');
 Route::get('report/stats/{type}', 'ReportController@stats');
 Route::post('report/stats/{evaluationType}/{userType}', 'ReportController@getStats');
 
-Route::get('merit', 'MainController@merit');
+Route::get('contact', 'ContactController@contact');
+Route::post('contact', 'ContactController@saveContact');
+
+Route::get('user', 'UserController@user');
+Route::post('user', 'UserController@saveUser');
+Route::post('user/reminders', 'UserController@saveUserReminders');
+Route::post('user/notifications', 'UserController@saveUserNotifications');
+
+Route::get('merit', 'FacultyMeritController@merit');
+Route::get('manage/merit', 'FacultyMeritController@manage');
 
 // TODO: Change url?
 Route::get('faculty360', 'FacultyPeerEvaluationController@request');
 Route::post('faculty360', 'FacultyPeerEvaluationController@createEvaluation');
 Route::get('faculty360/view/{id}', 'FacultyPeerEvaluationController@view');
 Route::get('faculty360/evaluate/{hash}', 'FacultyPeerEvaluationController@evaluate');
+Route::get('manage/faculty360', 'FacultyPeerEvaluationController@manage');
+
+Route::get('case-log', 'CaseLogController@caseLog');
+Route::get('manage/case-logs', 'CaseLogController@manage');
+
+Route::get('alum/{hash}', 'AlumniController@alumni');
+Route::get('manage/alumni', 'AlumniController@manage');

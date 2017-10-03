@@ -440,7 +440,7 @@ class AdminTest extends TestCase
             ]))
             ->seeInDatabase("milestones", $milestone);
     }
-    
+
     public function testOrderMilestones(){
         $milestones = factory(App\Milestone::class, 2)->create();
 		$this->actingAs($this->user)
@@ -462,12 +462,12 @@ class AdminTest extends TestCase
 					$milestones[0]->id
 				]
 			]);
-			
+
 		$this->seeInDatabase('milestones', [
 			'id' => $milestones[0]->id,
 			'order' => 1
 		]);
-		
+
 		$this->seeInDatabase('milestones', [
 			'id' => $milestones[1]->id,
 			'order' => 0
@@ -514,7 +514,7 @@ class AdminTest extends TestCase
             ]))
             ->seeInDatabase("competencies", $competency);
     }
-	
+
 	public function testOrderCompetencies(){
         $competencies = factory(App\Competency::class, 2)->create();
 		$this->actingAs($this->user)
@@ -536,12 +536,12 @@ class AdminTest extends TestCase
 					$competencies[0]->id
 				]
 			]);
-			
+
 		$this->seeInDatabase('competencies', [
 			'id' => $competencies[0]->id,
 			'order' => 1
 		]);
-		
+
 		$this->seeInDatabase('competencies', [
 			'id' => $competencies[1]->id,
 			'order' => 0
@@ -800,48 +800,6 @@ class AdminTest extends TestCase
 			->seeJson(["id" => $hiddenEval->id]);
     }
 
-    public function testEditDirectoryEntry(){
-        $faker = Faker::create();
-        $directory = factory(App\DirectoryEntry::class, 3)->create()->sortBy("last_name");
-        $newEntry = [
-            "id" => $directory[0]->id,
-            "first_name" => $faker->firstName,
-            "last_name" => $faker->lastName,
-            "pager" => $faker->phoneNumber
-        ];
-        $this->actingAs($this->user)
-            ->visit("/directory")
-            ->post("/directory_entries/" . $directory[0]->id, array_merge($newEntry, [
-				"_method" => "PATCH"
-			]))
-        	->seeInDatabase("directory", $newEntry);
-    }
-
-    public function testDeleteDirectoryEntry(){
-        $directory = factory(App\DirectoryEntry::class, 3)->create()->sortBy("last_name");
-        $this->actingAs($this->user)
-            ->visit("/directory")
-            ->post("/directory_entries/" . $directory[1]->id, [
-                "_method" => "DELETE"
-            ]);
-        $entry = App\DirectoryEntry::withTrashed()->find($directory[1]->id);
-        $this->assertTrue($entry->trashed());
-        $this->actingAs($this->user)
-            ->visit("/directory")
-            ->get("/directory_entries")
-            ->seeJson([
-				"id" => $directory[0]->id,
-                "first_name" => $directory[0]->first_name,
-                "last_name" => $directory[0]->last_name,
-                "pager" => $directory[0]->pager
-            ])->seeJson([
-				"id" => $directory[2]->id,
-	            "first_name" => $directory[2]->first_name,
-	            "last_name" => $directory[2]->last_name,
-	            "pager" => $directory[2]->pager,
-	        ]);
-    }
-    
     public function testResidentReminders(){
 		$faker = Faker::create();
         $otherResident = factory(App\User::class, 'resident')->create();
@@ -879,7 +837,7 @@ class AdminTest extends TestCase
 				])
 			]
         ];
-		
+
 		$facultyEvals = [
 			factory(App\Evaluation::class, 'complete', 2)->create([
 				'form_id' => $this->facultyForm->id,
@@ -905,11 +863,11 @@ class AdminTest extends TestCase
 				]),
 			]
 		];
-		
+
 		$requirements = Setting::get('monthlyResidentRequirements');
-		
+
 		$resident = $this->resident;
-		
+
 		Mail::shouldReceive('send')
 			->twice()
 			->andReturnUsing(function($view, $data)
@@ -929,9 +887,9 @@ class AdminTest extends TestCase
 				$this->assertEquals($requirements['facultyEvaluations'],
 					$data['facultyEvalsNeeded'] + $data['monthFacultyEvals']);
 			});
-			
+
 		Artisan::call('send:resident-reminders');
-		
+
 		$this->assertStringEndsWith("Done!\n\nSuccessful:\t\t2\n", Artisan::output());
     }
 }

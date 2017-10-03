@@ -24,6 +24,11 @@ class FacultyPeerEvaluationController extends Controller
 	];
 
     public function __construct() {
+		$this->middleware('site-feature:faculty360');
+		$this->middleware('auth')->only('view');
+		$this->middleware('shared');
+		$this->middleware('type:admin')->only('manage');
+
 		$this->middleware(function ($request, $next) {
 			if (!Auth::check() || Auth::user()->isType(self::ALLOWED_USER_TYPES))
 				return $next($request);
@@ -63,9 +68,6 @@ class FacultyPeerEvaluationController extends Controller
 				: back()->with('error', 'You are not allowed to view that faculty 360 evaluation');
 
 		})->only('view');
-
-		$this->middleware('auth')->only('view');
-		$this->middleware('shared')->only(['view', 'request', 'evaluate']);
 	}
 
 	public function request() {
@@ -135,4 +137,8 @@ class FacultyPeerEvaluationController extends Controller
 
 		return back()->with('error', "The faculty360 evaluation does not exist or you don't have permission to view it");
 	}
+
+	public function manage() {
+        return view('manage.faculty360');
+    }
 }
