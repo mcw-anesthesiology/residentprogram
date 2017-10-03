@@ -44,8 +44,6 @@ Route::post('user/notifications', 'MainController@saveUserNotifications');
 
 Route::get('directory', 'MainController@pagerDirectory');
 
-Route::get('alum/{hash}', 'MainController@alumni');
-
 Route::get('contact', 'MainController@contact');
 Route::post('contact', 'MainController@saveContact');
 
@@ -72,8 +70,6 @@ Route::get('manage/block-assignments', 'ManageController@blockAssignments');
 Route::post('manage/block-assignments', 'ManageController@saveBlockAssignments');
 Route::post('manage/block-assignments/table', 'ManageController@blockAssignmentsTable');
 Route::post('manage/block-assignments/get', 'ManageController@getBlockAssignments');
-Route::get('manage/alumni', 'ManageController@alumni');
-Route::get('manage/alumni/import', 'ManageController@importAlumni');
 Route::get('manage/watched-forms', 'ManageController@watchedForms');
 Route::get('manage/user-features', 'ManageController@userFeatures');
 
@@ -105,3 +101,6 @@ Route::get('manage/faculty360', 'FacultyPeerEvaluationController@manage');
 
 Route::get('case-log', 'CaseLogController@caseLog');
 Route::get('manage/case-logs', 'CaseLogController@manage');
+
+Route::get('alum/{hash}', 'AlumniController@alumni');
+Route::get('manage/alumni', 'AlumniController@manage');
