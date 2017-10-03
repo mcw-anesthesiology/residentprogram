@@ -17,22 +17,19 @@ use Log;
 use Mail;
 use Setting;
 use View;
-use App\ScheduledRequest;
 
 use Carbon\Carbon;
 
 use App\Block;
 use App\BlockAssignment;
 use App\Contact;
-use App\DirectoryEntry;
 use App\Evaluation;
 use App\FacultyPeerEvaluation;
-use App\FacultyPeerForm;
 use App\FlaggedEvaluation;
 use App\Form;
 use App\Location;
-use App\Mentorship;
 use App\Response;
+use App\ScheduledRequest;
 use App\TextResponse;
 use App\User;
 use App\WatchedForm;
