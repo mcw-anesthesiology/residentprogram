@@ -1,3 +1,8 @@
+import type {
+	ScoringDefinition,
+	ValueScoringDefinition
+} from './scoring.js';
+
 export type QuestionnaireQuestion =
 	| QuestionnaireTextQuestion
 	| QuestionnaireNumberQuestion
@@ -11,7 +16,8 @@ export type QuestionnaireTextQuestion = {
 	description?: string,
 	placeholder?: string,
 	value?: string,
-	required?: boolean
+	required?: boolean,
+	scoring?: ValueScoringDefinition
 };
 
 export type QuestionnaireNumberQuestion = {
@@ -21,7 +27,8 @@ export type QuestionnaireNumberQuestion = {
 	placeholder?: ?string,
 	min?: number,
 	max?: number,
-	value?: number
+	value?: number,
+	scoring?: ScoringDefinition
 };
 
 export type QuestionnaireCheckboxQuestion = {
@@ -29,7 +36,8 @@ export type QuestionnaireCheckboxQuestion = {
 	text: string,
 	description?: string,
 	required?: boolean,
-	options: Array<QuestionnaireOption>
+	options: Array<QuestionnaireOption>,
+	scoring?: ScoringDefinition
 };
 
 export type QuestionnaireRadioQuestion = {
@@ -37,7 +45,8 @@ export type QuestionnaireRadioQuestion = {
 	text: string,
 	description?: string,
 	required?: string,
-	options: Array<QuestionnaireOption>
+	options: Array<QuestionnaireOption>,
+	scoring?: ScoringDefinition
 };
 
 export type QuestionnaireOption = {
@@ -45,7 +54,8 @@ export type QuestionnaireOption = {
 	description?: string,
 	value: string | number,
 	editable?: boolean,
-	checked?: boolean
+	checked?: boolean,
+	scoring?: ScoringDefinition
 };
 
 export type QuestionnaireListQuestion = {
@@ -69,7 +79,8 @@ export type QuestionnaireListQuestion = {
 	ordered?: boolean,
 	itemProps?: Object, // FIXME
 	itemLabels?: Object, // FIXME
-	items?: Array<QuestionnaireListItem>
+	items?: Array<QuestionnaireListItem>,
+	scoring?: ValueScoringDefinition
 };
 
 export type QuestionnaireListItem =
