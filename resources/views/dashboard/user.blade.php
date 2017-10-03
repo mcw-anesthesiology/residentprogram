@@ -1,6 +1,7 @@
 @extends("app")
 
-@section("body")
+@section("blockless-body")
+<div class="container body-block">
 	<form role="form" id="password-form" action="#" method="post">
 		{!! csrf_field() !!}
 		<h3 class="sub-header">Update Password</h3>
@@ -18,42 +19,45 @@
 		</div>
 		<button type="submit" class="btn btn-primary">Update Password</button>
 	</form>
+</div>
 
 	@if($user->type == "faculty")
-</div>
-<div class="container body-block">
-		<form role="form" id="reminders-form" action="/user/reminders" method="post">
-			{!! csrf_field() !!}
-			<h3 class="sub-header">Reminders</h3>
-			<div class="form-group">
-				<label for="frequency">Frequency</label>
-				<select class="form-control" id="frequency" name="frequency">
-					<option value="daily">Daily</option>
-					<option value="weekly">Weekly</option>
-					<option value="biweekly">Biweekly</option>
-					<option value="none">None</option>
-				</select>
-			</div>
-			<div class="form-group">
-				<input type="checkbox" value="yes" id="only-if-pending" name="only_if_pending" />
-				<label for="only-if-pending">Only send reminders if pending evaluations</label>
-			</div>
-			<button type="submit" class="btn btn-primary">Update Reminder Preferences</button>
-		</form>
 
-</div>
 <div class="container body-block">
-		<form role="form" id="notifications-form" action="/user/notifications" method="post">
-			{!! csrf_field() !!}
-			<h3 class="sub-header">Notifications</h3>
-			<div class="form-group">
-				<select class="form-control" id="notifications" name="notifications">
-					<option value="yes">Enabled</option>
-					<option value="no">Disabled</option>
-				</select>
-			</div>
-			<button type="submit" class="btn btn-primary">Update Notification Preferences</button>
-		</form>
+	<form role="form" id="reminders-form" action="/user/reminders" method="post">
+		{!! csrf_field() !!}
+		<h3 class="sub-header">Reminders</h3>
+		<div class="form-group">
+			<label for="frequency">Frequency</label>
+			<select class="form-control" id="frequency" name="frequency">
+				<option value="daily">Daily</option>
+				<option value="weekly">Weekly</option>
+				<option value="biweekly">Biweekly</option>
+				<option value="none">None</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<input type="checkbox" value="yes" id="only-if-pending" name="only_if_pending" />
+			<label for="only-if-pending">Only send reminders if pending evaluations</label>
+		</div>
+		<button type="submit" class="btn btn-primary">Update Reminder Preferences</button>
+	</form>
+</div>
+
+<div class="container body-block">
+	<form role="form" id="notifications-form" action="/user/notifications" method="post">
+		{!! csrf_field() !!}
+		<h3 class="sub-header">Notifications</h3>
+		<div class="form-group">
+			<select class="form-control" id="notifications" name="notifications">
+				<option value="yes">Enabled</option>
+				<option value="no">Disabled</option>
+			</select>
+		</div>
+		<button type="submit" class="btn btn-primary">Update Notification Preferences</button>
+	</form>
+</div>
+
 	@endif
 @stop
 

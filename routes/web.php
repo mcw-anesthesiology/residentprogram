@@ -37,11 +37,6 @@ Route::post('request/{requestType?}', 'MainController@createRequest');
 Route::get('profile/{id}', 'MainController@userProfile');
 Route::get('profile/evaluations/{id}/{type?}', 'MainController@profileEvaluations');
 
-Route::get('user', 'MainController@user');
-Route::post('user', 'MainController@saveUser');
-Route::post('user/reminders', 'MainController@saveUserReminders');
-Route::post('user/notifications', 'MainController@saveUserNotifications');
-
 Route::get('directory', 'MainController@pagerDirectory');
 
 Route::get('calendar', 'MainController@calendar');
@@ -88,6 +83,11 @@ Route::post('report/stats/{evaluationType}/{userType}', 'ReportController@getSta
 
 Route::get('contact', 'ContactController@contact');
 Route::post('contact', 'ContactController@saveContact');
+
+Route::get('user', 'UserController@user');
+Route::post('user', 'UserController@saveUser');
+Route::post('user/reminders', 'UserController@saveUserReminders');
+Route::post('user/notifications', 'UserController@saveUserNotifications');
 
 Route::get('merit', 'FacultyMeritController@merit');
 Route::get('manage/merit', 'FacultyMeritController@manage');
