@@ -5,6 +5,8 @@ import type {
 	QuestionnaireInstruction
 } from '../questionnaire/index.js';
 
+import type { ValueScoringDefinition } from '../questionnaire/scoring.js';
+
 import type { User } from '../utils.js';
 import type { DateLike } from '../date-utils.js';
 
@@ -43,5 +45,6 @@ export type MeritReportItem = {
 	text: string,
 	checked?: boolean,
 	subjectReadonly?: boolean,
-	questions: Array<QuestionnaireQuestion>
+	questions: Array<QuestionnaireQuestion>,
+	scoring?: ValueScoringDefinition
 };
