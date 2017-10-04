@@ -1,0 +1,45 @@
+{
+	"pages": [
+		{
+			"type": "section",
+			"title": "Test",
+			"items": [
+				{
+					"type": "item",
+					"checked": true,
+					"questions": [
+						{
+							"type": "checkbox",
+							"text": "Checkbox question",
+							"options": [
+								{
+									"text": "Option 1",
+									"value": 1,
+									"checked": true
+								},
+								{
+									"text": "Option 2",
+									"value": 10,
+									"checked": true
+								},
+								{
+									"text": "Option 3",
+									"value": 100,
+									"checked": false
+								},
+								{
+									"text": "Option 4",
+									"value": 1000,
+									"checked": true
+								}
+							],
+							"scoring": {
+								"category": "Category"
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

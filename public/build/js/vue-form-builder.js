@@ -102,7 +102,7 @@ if (false) {(function () {
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(15),
+var Symbol = __webpack_require__(16),
     getRawTag = __webpack_require__(68),
     objectToString = __webpack_require__(69);
 
@@ -273,50 +273,6 @@ module.exports = getMapData;
 /* 13 */,
 /* 14 */,
 /* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__(2);
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-module.exports = isArray;
-
-
-/***/ }),
-/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -366,6 +322,50 @@ if (false) {(function () {
 })()}
 
 /* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__(2);
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+module.exports = isArray;
 
 
 /***/ }),
@@ -1397,7 +1397,7 @@ var Stack = __webpack_require__(56),
     equalByTag = __webpack_require__(90),
     equalObjects = __webpack_require__(94),
     getTag = __webpack_require__(116),
-    isArray = __webpack_require__(16),
+    isArray = __webpack_require__(17),
     isBuffer = __webpack_require__(31),
     isTypedArray = __webpack_require__(32);
 
@@ -1831,7 +1831,7 @@ module.exports = baseIsNative;
 /* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(15);
+var Symbol = __webpack_require__(16);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -2414,7 +2414,7 @@ module.exports = cacheHas;
 /* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(15),
+var Symbol = __webpack_require__(16),
     Uint8Array = __webpack_require__(91),
     eq = __webpack_require__(25),
     equalArrays = __webpack_require__(30),
@@ -2710,7 +2710,7 @@ module.exports = getAllKeys;
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayPush = __webpack_require__(97),
-    isArray = __webpack_require__(16);
+    isArray = __webpack_require__(17);
 
 /**
  * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
@@ -2902,7 +2902,7 @@ module.exports = keys;
 
 var baseTimes = __webpack_require__(103),
     isArguments = __webpack_require__(104),
-    isArray = __webpack_require__(16),
+    isArray = __webpack_require__(17),
     isBuffer = __webpack_require__(31),
     isIndex = __webpack_require__(107),
     isTypedArray = __webpack_require__(32);
@@ -3823,7 +3823,7 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue__ = __webpack_require__(170);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue__ = __webpack_require__(173);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ConfirmationButton_vue__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(1);
 //
@@ -6052,8 +6052,7 @@ if (false) {
 /* 426 */,
 /* 427 */,
 /* 428 */,
-/* 429 */,
-/* 430 */
+/* 429 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6119,6 +6118,6 @@ function createFormBuilder(el, propsData) {
 }
 
 /***/ })
-],[430]);
+],[429]);
 });
 //# sourceMappingURL=vue-form-builder.js.map

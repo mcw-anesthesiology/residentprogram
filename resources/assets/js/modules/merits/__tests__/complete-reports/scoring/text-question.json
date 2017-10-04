@@ -1,0 +1,26 @@
+{
+	"pages": [
+		{
+			"type": "section",
+			"title": "Test",
+			"items": [
+				{
+					"type": "item",
+					"text": "Item 1",
+					"checked": true,
+					"questions": [
+						{
+							"type": "text",
+							"text": "Text question",
+							"value": "Some text",
+							"scoring": {
+								"category": "Text category",
+								"value": 10
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}
