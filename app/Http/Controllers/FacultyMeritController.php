@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Setting;
+
 class FacultyMeritController extends Controller {
 
     public function __construct() {

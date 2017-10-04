@@ -1,0 +1,18 @@
+{
+	"pages": [
+		{
+			"type": "section",
+			"title": "Test",
+			"items": [
+				{
+					"type": "item",
+					"text": "Item 1",
+					"scoring": {
+						"category": "Selected item",
+						"value": 5
+					}
+				}
+			]
+		}
+	]
+}

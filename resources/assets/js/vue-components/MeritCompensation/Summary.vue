@@ -18,6 +18,9 @@
 		</div>
 
 		<div class="panel-body">
+			<merit-compensation-score :checklist="checklist"
+				:title="title" />
+
 			<merit-compensation-summary-checklist v-bind="checklist"
 				:title="title" />
 		</div>
@@ -46,6 +49,7 @@
 import moment from 'moment';
 
 import MeritCompensationSummaryChecklist from './Checklist/Summary/Checklist.vue';
+import MeritCompensationScore from './Checklist/Score.vue';
 
 import AcademicYearSelector from 'vue-components/AcademicYearSelector.vue';
 import LoadingButton from 'vue-components/LoadingButton.vue';
@@ -135,6 +139,7 @@ export default {
 
 	components: {
 		MeritCompensationSummaryChecklist,
+		MeritCompensationScore,
 
 		AcademicYearSelector,
 		LoadingButton,

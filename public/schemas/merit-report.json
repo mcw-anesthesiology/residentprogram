@@ -14,6 +14,18 @@
 		"pages"
 	],
 	"definitions": {
+		"scoringDefinition": {
+			"title": "Scoring definition",
+			"type": "object",
+			"properties": {
+				"category": {"type": "string"},
+				"max": {"type": "number"},
+				"weight": {"type": "number"}
+			},
+			"required": [
+				"category"
+			]
+		},
 		"section": {
 			"title": "Section",
 			"type": "object",
@@ -54,6 +66,9 @@
 					"items": {
 						"$ref": "#/definitions/question"
 					}
+				},
+				"scoring": {
+					"$ref": "#/definitions/scoringDefinition"
 				}
 			},
 			"required": ["type", "text"]
@@ -78,7 +93,10 @@
 						"description": {"type": "string"},
 						"placeholder": {"type": "string"},
 						"value": {"type": "string"},
-						"required": {"type": "boolean"}
+						"required": {"type": "boolean"},
+						"scoring": {
+							"$ref": "#/definitions/scoringDefinition"
+						}
 					},
 					"required": [
 						"type",
@@ -96,7 +114,10 @@
 						"min": {"type": "number"},
 						"max": {"type": "number"},
 						"value": {"type": "number"},
-						"required": {"type": "boolean"}
+						"required": {"type": "boolean"},
+						"scoring": {
+							"$ref": "#/definitions/scoringDefinition"
+						}
 					},
 					"required": [
 						"type",
@@ -132,6 +153,9 @@
 									"value"
 								]
 							}
+						},
+						"scoring": {
+							"$ref": "#/definitions/scoringDefinition"
 						}
 					},
 					"required": [
@@ -169,6 +193,9 @@
 									"value"
 								]
 							}
+						},
+						"scoring": {
+							"$ref": "#/definitions/scoringDefinition"
 						}
 					},
 					"required": [
@@ -218,6 +245,9 @@
 									{"$ref": "#/definitions/question/definitions/list/definitions/mentorship"}
 								]
 							}
+						},
+						"scoring": {
+							"$ref": "#/definitions/scoringDefinition"
 						}
 					},
 					"required": [

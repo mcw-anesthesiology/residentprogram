@@ -17,8 +17,7 @@ export type ScoringDefinition = {
 };
 
 // Used per-item for list questions and for text questions and checklist items
-export type ValueScoringDefinition = {
-	...ScoringDefinition,
+export type ValueScoringDefinition = ScoringDefinition & {
 	value: number
 };
 
@@ -126,7 +125,7 @@ export function radioCheckboxQuestion(
 	const score: Score = new Map();
 
 	for (const option of question.options) {
-		if (typeof option.value !== 'number')
+		if (!option.checked || typeof option.value !== 'number')
 			continue;
 
 		let scoring = option.scoring;
@@ -138,8 +137,13 @@ export function radioCheckboxQuestion(
 				? score.get(scoring.category)
 				: 0;
 
-			score.set(scoring.category,
-				scoreValue + computeScore(scoring, option.value));
+			score.set(
+				scoring.category,
+				computeScore(
+					scoring,
+					scoreValue + option.value
+				)
+			);
 		}
 	}
 
@@ -155,8 +159,13 @@ export function listQuestion(question: QuestionnaireListQuestion): Score {
 				? score.get(question.scoring.category)
 				: 0;
 
-			score.set(question.scoring.category,
-				scoreValue + computeScore(question.scoring, question.scoring.value));
+			score.set(
+				question.scoring.category,
+				computeScore(
+					question.scoring,
+					scoreValue + question.scoring.value
+				)
+			);
 		}
 	}
 

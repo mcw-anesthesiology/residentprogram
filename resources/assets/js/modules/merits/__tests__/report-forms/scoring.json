@@ -1,0 +1,110 @@
+{
+	"pages": [
+		{
+			"type": "section",
+			"title": "Test",
+			"items": [
+				{
+					"type": "item",
+					"text": "Item 1",
+					"questions": [
+						{
+							"type": "number",
+							"text": "Question 1",
+							"value": null,
+							"scoring": {
+								"category": "Number category"
+							}
+						},
+						{
+							"type": "text",
+							"text": "Question 2",
+							"value": "",
+							"scoring": {
+								"category": "Item and text category",
+								"value": 3
+							}
+						}
+					]
+				},
+				{
+					"type": "section",
+					"title": "",
+					"items": [
+						{
+							"type": "item",
+							"text": "Item",
+							"scoring": {
+								"category": "Item category",
+								"value": 10
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"items": [
+				{
+					"type": "item",
+					"questions": [
+						{
+							"type": "list",
+							"listType": "text",
+							"items": [
+
+							],
+							"scoring": {
+								"category": "List category",
+								"value": 5
+							}
+						},
+						{
+							"type": "radio",
+							"text": "Radio question",
+							"options": [
+								{
+									"text": "1",
+									"value": 1
+								},
+								{
+									"text": "2",
+									"value": 2
+								}
+							],
+							"scoring": {
+								"category": "Radio and checkbox category"
+							}
+						},
+						{
+							"type": "checkbox",
+							"text": "Checkbox question",
+							"options": [
+								{
+									"text": "Option 1",
+									"value": 1
+								},
+								{
+									"text": "Option 2",
+									"value": 2
+								},
+								{
+									"text": "Option 3",
+									"value": 3
+								},
+								{
+									"text": "Option 4",
+									"value": 4
+								}
+							],
+							"scoring": {
+								"category": "Radio and checkbox category"
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

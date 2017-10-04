@@ -1,0 +1,43 @@
+{
+	"pages": [
+		{
+			"type": "section",
+			"title": "Test",
+			"items": [
+				{
+					"type": "item",
+					"checked": true,
+					"questions": [
+						{
+							"type": "list",
+							"listType": "text",
+							"items": [
+								{
+									"type": "text",
+									"text": "Text 1"
+								},
+								{
+									"type": "text",
+									"text": "Text 2"
+								},
+								{
+									"type": "text",
+									"text": "Text 3"
+								},
+								{
+									"type": "text",
+									"text": "Text 4"
+								}
+							],
+							"scoring": {
+								"category": "Category",
+								"value": 1,
+								"max": 3
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}
