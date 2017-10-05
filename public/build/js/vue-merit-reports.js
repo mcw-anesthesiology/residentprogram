@@ -30216,7 +30216,7 @@ if (false) {(function () {
 			};
 		},
 		viewEditText: function viewEditText() {
-			return ['pending', 'open for editing'].includes(this.status) ? 'Complete' : 'View';
+			return ['pending', 'open for editing'].includes(this.status) ? 'Continue' : 'View';
 		},
 		viewEditGlyph: function viewEditGlyph() {
 			return ['pending', 'open for editing'].includes(this.status) ? 'glyphicon-pencil' : 'glyphicon-list-alt';

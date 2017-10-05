@@ -34,7 +34,7 @@
 			<div class="btn-lg-submit-container">
 				<button type="button" class="btn btn-lg btn-primary"
 						@click="finishMeritReport">
-					Finish merit report
+					Continue from where you left off
 				</button>
 			</div>
 		</template>
@@ -45,7 +45,7 @@
 			<div class="btn-lg-submit-container">
 				<button type="button" class="btn btn-lg btn-primary"
 						@click="addMeritReport">
-					Complete merit report
+					Start a new merit checklist
 				</button>
 			</div>
 		</template>
