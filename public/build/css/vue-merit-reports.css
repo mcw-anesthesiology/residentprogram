@@ -1132,6 +1132,14 @@ legend[data-v-2186235b] {
 	width: auto;
 }
 
+.checkbox-label-container[data-v-3784f438] {
+	padding: 0 -5px;
+}
+.checkbox-label[data-v-3784f438] {
+	font-weight: normal;
+	margin: 0 5px;
+}
+
 .instruction-block[data-v-16c471bd] {
 	font-size: 1.25em;
 }

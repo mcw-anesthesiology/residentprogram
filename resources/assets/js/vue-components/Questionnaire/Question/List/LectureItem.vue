@@ -15,11 +15,24 @@
 		<validated-form-group :errors="errors" prop="date">
 			<label class="containing-label">
 				Lecture date
-				<vue-flatpickr class="form-control"
+				<input v-if="dateUnknown" type="text" class="form-control"
+					:value="date" readonly />
+				<vue-flatpickr v-else class="form-control"
+					:key="`multiple-${multipleDates}`"
 					:options="flatpickrOptions"
 					:value="date"
 					@input="$emit('input', {date: arguments[0]})" />
 			</label>
+			<div class="checkbox-label-container">
+				<label class="checkbox-label">
+					<input type="checkbox" v-model="multipleDates" :disabled="dateUnknown" />
+					Multiple
+				</label>
+				<label class="checkbox-label">
+					<input type="checkbox" v-model="dateUnknown" />
+					Unknown date
+				</label>
+			</div>
 		</validated-form-group>
 		<validated-form-group v-if="type !== 'audienceLecture'"
 				:errors="errors" prop="audience">
@@ -68,6 +81,13 @@ export default {
 		}
 	},
 
+	data() {
+		return {
+			multipleDates: this.date && this.date.includes(';'),
+			dateUnknown: this.date && this.date === 'Unknown'
+		};
+	},
+
 	computed: {
 		flatpickrOptions() {
 			return {
@@ -76,7 +96,8 @@ export default {
 					? 'form-control'
 					: 'form-control appear-not-readonly',
 				altFormat: 'M j, Y',
-				clickOpens: !this.readonly
+				clickOpens: !this.readonly,
+				mode: this.multipleDates ? 'multiple' : 'single'
 			};
 		},
 		validation() {
@@ -89,9 +110,38 @@ export default {
 		}
 	},
 
+	watch: {
+		multipleDates(multipleDates) {
+			if (!multipleDates) {
+				let date = this.date;
+				if (date && date.includes(';'))
+					date = date.split(';')[0];
+
+				this.$emit('input', { date });
+			}
+		},
+		dateUnknown(dateUnknown) {
+			if (dateUnknown)
+				this.$emit('input', { date: 'Unknown' });
+			else if (this.date === 'Unknown')
+				this.$emit('input', { date: null });
+		}
+	},
+
 	components: {
 		ListItem,
 		VueFlatpickr
 	}
 };
 </script>
+
+<style scoped>
+	.checkbox-label-container {
+		padding: 0 -5px;
+	}
+
+	.checkbox-label {
+		font-weight: normal;
+		margin: 0 5px;
+	}
+</style>
