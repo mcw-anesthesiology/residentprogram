@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
-import '@jacobmischka/vue-flatpickr/theme/flatpickr.min.css';
+import 'flatpickr/dist/flatpickr.css';
 
 import HasAlerts from 'vue-mixins/HasAlerts.js';
 
