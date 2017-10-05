@@ -242,7 +242,8 @@
 									{"$ref": "#/definitions/question/definitions/list/definitions/editorialBoard"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/review"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/lecture"},
-									{"$ref": "#/definitions/question/definitions/list/definitions/mentorship"}
+									{"$ref": "#/definitions/question/definitions/list/definitions/mentorship"},
+									{"$ref": "#/definitions/question/definitions/list/definitions/project"}
 								]
 							}
 						},
@@ -263,7 +264,8 @@
 								"text": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"text"
 							]
 						},
 						"publication": {
@@ -277,7 +279,9 @@
 								"role": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"title",
+								"role"
 							]
 						},
 						"committee": {
@@ -289,7 +293,9 @@
 								"role": {"enum": ["chair", "member"]}
 							},
 							"required": [
-								"type"
+								"type",
+								"name",
+								"role"
 							]
 						},
 						"study": {
@@ -304,7 +310,12 @@
 								"progress": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"title",
+								"role",
+								"yearInitiated",
+								"approvalNumber",
+								"progress"
 							]
 						},
 						"grant": {
@@ -317,7 +328,10 @@
 								"amount": {"type": "number"}
 							},
 							"required": [
-								"type"
+								"type",
+								"agency",
+								"project",
+								"amount"
 							]
 						},
 						"certification": {
@@ -329,7 +343,9 @@
 								"specialty": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"board",
+								"specialty"
 							]
 						},
 						"editorialBoard": {
@@ -341,7 +357,9 @@
 								"role": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"journal",
+								"role"
 							]
 						},
 						"review": {
@@ -353,7 +371,9 @@
 								"reviews": {"type": "number"}
 							},
 							"required": [
-								"type"
+								"type",
+								"work",
+								"reviews"
 							]
 						},
 						"lecture": {
@@ -369,7 +389,10 @@
 								"audience": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"title",
+								"date",
+								"audience"
 							]
 						},
 						"mentorship": {
@@ -381,7 +404,23 @@
 								"subject": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"mentee",
+								"subject"
+							]
+						},
+						"project": {
+							"title": "Generic project list item",
+							"type": "object",
+							"properties": {
+								"type": {"const": "project"},
+								"description": {"type": "string"},
+								"hours": {"type": "number"}
+							},
+							"required": [
+								"type",
+								"description",
+								"hours"
 							]
 						}
 					}

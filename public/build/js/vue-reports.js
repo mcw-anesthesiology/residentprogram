@@ -1391,24 +1391,25 @@ var DISREGARD_OPTION = new Map([['faculty', {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["j"] = question;
-/* harmony export (immutable) */ __webpack_exports__["o"] = textQuestion;
+/* harmony export (immutable) */ __webpack_exports__["k"] = question;
+/* harmony export (immutable) */ __webpack_exports__["p"] = textQuestion;
 /* harmony export (immutable) */ __webpack_exports__["h"] = numberQuestion;
-/* harmony export (immutable) */ __webpack_exports__["k"] = radioQuestion;
+/* harmony export (immutable) */ __webpack_exports__["l"] = radioQuestion;
 /* harmony export (immutable) */ __webpack_exports__["b"] = checkboxQuestion;
 /* unused harmony export radioCheckboxQuestion */
 /* unused harmony export listQuestion */
 /* unused harmony export listItem */
-/* harmony export (immutable) */ __webpack_exports__["n"] = textListItem;
-/* harmony export (immutable) */ __webpack_exports__["i"] = publicationListItem;
+/* harmony export (immutable) */ __webpack_exports__["o"] = textListItem;
+/* harmony export (immutable) */ __webpack_exports__["j"] = publicationListItem;
 /* harmony export (immutable) */ __webpack_exports__["a"] = certificationListItem;
 /* harmony export (immutable) */ __webpack_exports__["c"] = committeeListItem;
 /* harmony export (immutable) */ __webpack_exports__["d"] = editorialBoardListItem;
 /* harmony export (immutable) */ __webpack_exports__["e"] = grantListItem;
 /* harmony export (immutable) */ __webpack_exports__["f"] = lectureListItem;
 /* harmony export (immutable) */ __webpack_exports__["g"] = mentorshipListItem;
-/* harmony export (immutable) */ __webpack_exports__["l"] = reviewListItem;
-/* harmony export (immutable) */ __webpack_exports__["m"] = studyListItem;
+/* harmony export (immutable) */ __webpack_exports__["m"] = reviewListItem;
+/* harmony export (immutable) */ __webpack_exports__["n"] = studyListItem;
+/* harmony export (immutable) */ __webpack_exports__["i"] = projectListItem;
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 function question(question) {
@@ -1680,6 +1681,8 @@ function listItem(item) {
 		case 'mentorship':
 		case 'subjectMentorship':
 			return mentorshipListItem(item);
+		case 'project':
+			return projectListItem(item);
 	}
 
 	// Unrecognized list type
@@ -1778,6 +1781,10 @@ function reviewListItem(item) {
 
 function studyListItem(item) {
 	return requiredListItem(item, new Map([['title', 'the study title'], ['role', 'describe your role'], ['yearInitiated', 'enter the year the study was initiated'], ['approvalNumber', 'enter the study approval number'], ['progress', "describe the study's progress"]]));
+}
+
+function projectListItem(item) {
+	return requiredListItem(item, new Map([['description', 'describe the project and your involvement'], ['hours', 'estimate the number of hours you spent on the project']]));
 }
 
 /***/ }),
@@ -2679,7 +2686,7 @@ function itemIsValid(item) {
 
 function questionIsValid(question) {
 	try {
-		return __WEBPACK_IMPORTED_MODULE_3__questionnaire_validate_js__["j" /* question */](question).valid;
+		return __WEBPACK_IMPORTED_MODULE_3__questionnaire_validate_js__["k" /* question */](question).valid;
 	} catch (e) {
 		console.error(e);
 		return false;
@@ -19816,7 +19823,7 @@ function item(item) {
 				var index = _ref6[0];
 				var itemQuestion = _ref6[1];
 
-				var questionValidation = __WEBPACK_IMPORTED_MODULE_0__questionnaire_validate_js__["j" /* question */](itemQuestion);
+				var questionValidation = __WEBPACK_IMPORTED_MODULE_0__questionnaire_validate_js__["k" /* question */](itemQuestion);
 				if (!questionValidation.valid) {
 					valid = false;
 					errors.set(index, questionValidation.errors);
