@@ -6654,9 +6654,12 @@ module.exports = function(fn) {
 module.exports.cancel = function() {
   caf.apply(root, arguments)
 }
-module.exports.polyfill = function() {
-  root.requestAnimationFrame = raf
-  root.cancelAnimationFrame = caf
+module.exports.polyfill = function(object) {
+  if (!object) {
+    object = root;
+  }
+  object.requestAnimationFrame = raf
+  object.cancelAnimationFrame = caf
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
