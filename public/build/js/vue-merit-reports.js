@@ -23565,22 +23565,26 @@ if (false) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_LectureItem_vue__ = __webpack_require__(702);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3784f438_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_LectureItem_vue__ = __webpack_require__(703);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3784f438_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_LectureItem_vue__ = __webpack_require__(830);
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(829)
+}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-3784f438"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_LectureItem_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3784f438_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_LectureItem_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3784f438_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_LectureItem_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
@@ -23654,6 +23658,19 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -23685,13 +23702,22 @@ if (false) {(function () {
 		}
 	},
 
+	data: function data() {
+		return {
+			multipleDates: this.date && this.date.includes(';'),
+			dateUnknown: this.date && this.date === 'Unknown'
+		};
+	},
+
+
 	computed: {
 		flatpickrOptions: function flatpickrOptions() {
 			return {
 				altInput: true,
 				altInputClass: this.readonly ? 'form-control' : 'form-control appear-not-readonly',
 				altFormat: 'M j, Y',
-				clickOpens: !this.readonly
+				clickOpens: !this.readonly,
+				mode: this.multipleDates ? 'multiple' : 'single'
 			};
 		},
 		validation: function validation() {
@@ -23702,6 +23728,20 @@ if (false) {(function () {
 		}
 	},
 
+	watch: {
+		multipleDates: function multipleDates(_multipleDates) {
+			if (!_multipleDates) {
+				var date = this.date;
+				if (date && date.includes(';')) date = date.split(';')[0];
+
+				this.$emit('input', { date: date });
+			}
+		},
+		dateUnknown: function dateUnknown(_dateUnknown) {
+			if (_dateUnknown) this.$emit('input', { date: 'Unknown' });else if (this.date === 'Unknown') this.$emit('input', { date: null });
+		}
+	},
+
 	components: {
 		ListItem: __WEBPACK_IMPORTED_MODULE_0__Item_vue__["a" /* default */],
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr__["a" /* default */]
@@ -23709,112 +23749,7 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 703 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "list-item",
-    {
-      attrs: {
-        readonly: _vm.readonly,
-        invalid: !_vm.validation.valid,
-        "show-errors": _vm.showErrors
-      },
-      on: {
-        remove: function($event) {
-          _vm.$emit("remove")
-        }
-      }
-    },
-    [
-      _c(
-        "validated-form-group",
-        { attrs: { errors: _vm.errors, prop: "title" } },
-        [
-          _c("label", { staticClass: "containing-label" }, [
-            _vm._v("\n\t\t\tLecture title\n\t\t\t"),
-            _c("textarea", {
-              staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
-              domProps: { value: _vm.title },
-              on: {
-                input: function($event) {
-                  _vm.$emit("input", { title: $event.target.value })
-                }
-              }
-            })
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "validated-form-group",
-        { attrs: { errors: _vm.errors, prop: "date" } },
-        [
-          _c(
-            "label",
-            { staticClass: "containing-label" },
-            [
-              _vm._v("\n\t\t\tLecture date\n\t\t\t"),
-              _c("vue-flatpickr", {
-                staticClass: "form-control",
-                attrs: { options: _vm.flatpickrOptions, value: _vm.date },
-                on: {
-                  input: function($event) {
-                    _vm.$emit("input", { date: arguments[0] })
-                  }
-                }
-              })
-            ],
-            1
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _vm.type !== "audienceLecture"
-        ? _c(
-            "validated-form-group",
-            { attrs: { errors: _vm.errors, prop: "audience" } },
-            [
-              _c("label", { staticClass: "containing-label" }, [
-                _vm._v(
-                  "\n\t\t\tLecture audience (department, society, group, location, etc.)\n\t\t\t"
-                ),
-                _c("textarea", {
-                  staticClass: "form-control",
-                  attrs: { readonly: _vm.readonly },
-                  domProps: { value: _vm.audience },
-                  on: {
-                    input: function($event) {
-                      _vm.$emit("input", { audience: $event.target.value })
-                    }
-                  }
-                })
-              ])
-            ]
-          )
-        : _vm._e()
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3784f438", esExports)
-  }
-}
-
-/***/ }),
+/* 703 */,
 /* 704 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -32164,6 +32099,209 @@ XmlRenderer.prototype.esc = __webpack_require__(164).escapeXml;
 
 module.exports = XmlRenderer;
 
+
+/***/ }),
+/* 829 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 830 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "list-item",
+    {
+      attrs: {
+        readonly: _vm.readonly,
+        invalid: !_vm.validation.valid,
+        "show-errors": _vm.showErrors
+      },
+      on: {
+        remove: function($event) {
+          _vm.$emit("remove")
+        }
+      }
+    },
+    [
+      _c(
+        "validated-form-group",
+        { attrs: { errors: _vm.errors, prop: "title" } },
+        [
+          _c("label", { staticClass: "containing-label" }, [
+            _vm._v("\n\t\t\tLecture title\n\t\t\t"),
+            _c("textarea", {
+              staticClass: "form-control",
+              attrs: { readonly: _vm.readonly },
+              domProps: { value: _vm.title },
+              on: {
+                input: function($event) {
+                  _vm.$emit("input", { title: $event.target.value })
+                }
+              }
+            })
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "validated-form-group",
+        { attrs: { errors: _vm.errors, prop: "date" } },
+        [
+          _c(
+            "label",
+            { staticClass: "containing-label" },
+            [
+              _vm._v("\n\t\t\tLecture date\n\t\t\t"),
+              _vm.dateUnknown
+                ? _c("input", {
+                    staticClass: "form-control",
+                    attrs: { type: "text", readonly: "" },
+                    domProps: { value: _vm.date }
+                  })
+                : _c("vue-flatpickr", {
+                    key: "multiple-" + _vm.multipleDates,
+                    staticClass: "form-control",
+                    attrs: { options: _vm.flatpickrOptions, value: _vm.date },
+                    on: {
+                      input: function($event) {
+                        _vm.$emit("input", { date: arguments[0] })
+                      }
+                    }
+                  })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "checkbox-label-container" }, [
+            _c("label", { staticClass: "checkbox-label" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.multipleDates,
+                    expression: "multipleDates"
+                  }
+                ],
+                attrs: { type: "checkbox", disabled: _vm.dateUnknown },
+                domProps: {
+                  checked: Array.isArray(_vm.multipleDates)
+                    ? _vm._i(_vm.multipleDates, null) > -1
+                    : _vm.multipleDates
+                },
+                on: {
+                  __c: function($event) {
+                    var $$a = _vm.multipleDates,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 && (_vm.multipleDates = $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          (_vm.multipleDates = $$a
+                            .slice(0, $$i)
+                            .concat($$a.slice($$i + 1)))
+                      }
+                    } else {
+                      _vm.multipleDates = $$c
+                    }
+                  }
+                }
+              }),
+              _vm._v("\n\t\t\t\tMultiple\n\t\t\t")
+            ]),
+            _vm._v(" "),
+            _c("label", { staticClass: "checkbox-label" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.dateUnknown,
+                    expression: "dateUnknown"
+                  }
+                ],
+                attrs: { type: "checkbox" },
+                domProps: {
+                  checked: Array.isArray(_vm.dateUnknown)
+                    ? _vm._i(_vm.dateUnknown, null) > -1
+                    : _vm.dateUnknown
+                },
+                on: {
+                  __c: function($event) {
+                    var $$a = _vm.dateUnknown,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 && (_vm.dateUnknown = $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          (_vm.dateUnknown = $$a
+                            .slice(0, $$i)
+                            .concat($$a.slice($$i + 1)))
+                      }
+                    } else {
+                      _vm.dateUnknown = $$c
+                    }
+                  }
+                }
+              }),
+              _vm._v("\n\t\t\t\tUnknown date\n\t\t\t")
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _vm.type !== "audienceLecture"
+        ? _c(
+            "validated-form-group",
+            { attrs: { errors: _vm.errors, prop: "audience" } },
+            [
+              _c("label", { staticClass: "containing-label" }, [
+                _vm._v(
+                  "\n\t\t\tLecture audience (department, society, group, location, etc.)\n\t\t\t"
+                ),
+                _c("textarea", {
+                  staticClass: "form-control",
+                  attrs: { readonly: _vm.readonly },
+                  domProps: { value: _vm.audience },
+                  on: {
+                    input: function($event) {
+                      _vm.$emit("input", { audience: $event.target.value })
+                    }
+                  }
+                })
+              ])
+            ]
+          )
+        : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3784f438", esExports)
+  }
+}
 
 /***/ })
 ],[636]);

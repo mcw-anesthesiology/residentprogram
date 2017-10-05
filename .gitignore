@@ -4,3 +4,4 @@
 Homestead.yaml
 .env*
 /.vagrant
+public/build/js/stats.json
