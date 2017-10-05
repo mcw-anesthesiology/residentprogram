@@ -129,7 +129,7 @@ export default {
 		},
 		viewEditText() {
 			return ['pending', 'open for editing'].includes(this.status)
-				? 'Complete'
+				? 'Continue'
 				: 'View';
 		},
 		viewEditGlyph() {
