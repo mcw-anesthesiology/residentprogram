@@ -3,7 +3,7 @@
 		<h1>{{ title }}</h1>
 
 		<div>
-			<summary-section v-for="section of filteredSections"
+			<summary-section v-for="(section, index) of filteredSections" :key="index"
 				v-bind="section" :page="true" readonly />
 		</div>
 	</div>

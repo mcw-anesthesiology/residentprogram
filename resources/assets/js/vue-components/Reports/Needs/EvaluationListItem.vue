@@ -58,7 +58,8 @@
 			</label>
 			<ul class="list-group">
 				<evaluation-details-list-item v-for="detailsEval of detailsEvals"
-				 	:evaluation="detailsEval" />
+					:key="detailsEval.id"
+					:evaluation="detailsEval" />
 			</ul>
 		</section>
 	</li>

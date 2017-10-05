@@ -21,7 +21,7 @@
 						<option value="100">100</option>
 					</select>
 				</label>
-			</div>			
+			</div>
 		</div>
 		<nav v-if="itemsPerPage && paginatedItems.length > 1">
 			<div class="btn-group">
@@ -29,7 +29,9 @@
 					:active="value === 0" @click="setPage" />
 
 				<paginator-link v-for="(pageItems, pageNum) of paginatedItems"
-					:value="pageNum" :active="pageNum === value"
+					:key="pageNum"
+					:value="pageNum"
+					:active="pageNum === value"
 					@click="setPage" />
 
 				<paginator-link :value="value + 1" text="Next →"

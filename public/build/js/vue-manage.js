@@ -1858,6 +1858,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -2000,7 +2002,8 @@ var render = function() {
         "bootstrap-alert",
         _vm._b(
           {
-            attrs: { dismissable: true },
+            key: index,
+            attrs: { dismissable: "" },
             on: {
               close: function($event) {
                 _vm.removeAlert(index)
@@ -5800,6 +5803,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -6006,6 +6011,7 @@ var render = function() {
               _vm._v(" "),
               _vm._l(_vm.paginatedItems, function(pageItems, pageNum) {
                 return _c("paginator-link", {
+                  key: pageNum,
                   attrs: { value: pageNum, active: pageNum === _vm.value },
                   on: { click: _vm.setPage }
                 })
@@ -13494,6 +13500,7 @@ var render = function() {
                     "form-builder-option",
                     _vm._b(
                       {
+                        key: index,
                         attrs: {
                           type: _vm.questionType,
                           "is-working-option": option === _vm.workingOption
@@ -37283,6 +37290,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 
 
@@ -37434,6 +37444,7 @@ var render = function() {
                   "form-reader-question-option",
                   _vm._b(
                     {
+                      key: index,
                       attrs: {
                         questionType: _vm.questionType,
                         questionId: _vm.questionId,
@@ -48847,7 +48858,6 @@ function createManageScheduledRequests(el, propsData) {
 					headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["m" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
 				}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["s" /* jsonOrThrow */]).then(function (scheduledRequests) {
-					console.log(scheduledRequests);
 					_this.scheduledRequests = scheduledRequests;
 				}).catch(function (err) {
 					console.error(err);

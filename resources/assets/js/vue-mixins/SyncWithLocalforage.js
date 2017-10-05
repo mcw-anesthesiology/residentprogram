@@ -17,14 +17,14 @@ export default function SyncWithLocalforage({propertyName, namespace, checker}) 
 				if(prop && checker(prop))
 				this[propertyName] = prop;
 			}).catch(err => {
-				console.log(err);
+				console.error(err);
 			});
 		},
 
 		watch: {
 			[propertyName]: prop => {
 				localforage.setItem(key, prop).catch(err => {
-					console.log(err);
+					console.error(err);
 				});
 			}
 		}

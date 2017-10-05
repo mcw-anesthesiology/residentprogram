@@ -10,9 +10,14 @@
 
 		<div class="panel-body">
 			<div class="question-body">
-				<form-reader-question-option v-if="['radio', 'radiononnumeric', 'checkbox'].includes(questionType)"
-						v-for="option of options" v-bind="option" :questionType="questionType"
-						:questionId="id" :required="required" :showDescription="showDescriptions"
+				<form-reader-question-option
+						v-if="['radio', 'radiononnumeric', 'checkbox'].includes(questionType)"
+						v-for="(option, index) of options" :key="index"
+						v-bind="option"
+						:questionType="questionType"
+						:questionId="id"
+						:required="required"
+						:showDescription="showDescriptions"
 						readonly>
 					<div class="text-center"
 							v-if="canScoreQuestion && scoreQuestion && valuesForAllOptions && !shouldDisregardOption(option) && (getOptionValue(option) || getOptionValue(option) === 0)">

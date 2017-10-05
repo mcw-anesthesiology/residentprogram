@@ -90,7 +90,6 @@ export default function createManageScheduledRequests(el, propsData) {
 					headers: getFetchHeaders(),
 					credentials: 'same-origin',
 				}).then(jsonOrThrow).then(scheduledRequests => {
-					console.log(scheduledRequests);
 					this.scheduledRequests = scheduledRequests;
 				}).catch(err => {
 					console.error(err);

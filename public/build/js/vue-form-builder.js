@@ -969,6 +969,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -1111,7 +1113,8 @@ var render = function() {
         "bootstrap-alert",
         _vm._b(
           {
-            attrs: { dismissable: true },
+            key: index,
+            attrs: { dismissable: "" },
             on: {
               close: function($event) {
                 _vm.removeAlert(index)
@@ -5360,6 +5363,7 @@ var render = function() {
                     "form-builder-option",
                     _vm._b(
                       {
+                        key: index,
                         attrs: {
                           type: _vm.questionType,
                           "is-working-option": option === _vm.workingOption

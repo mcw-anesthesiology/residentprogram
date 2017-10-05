@@ -2203,6 +2203,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -2345,7 +2347,8 @@ var render = function() {
         "bootstrap-alert",
         _vm._b(
           {
-            attrs: { dismissable: true },
+            key: index,
+            attrs: { dismissable: "" },
             on: {
               close: function($event) {
                 _vm.removeAlert(index)
@@ -6201,6 +6204,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -6407,6 +6412,7 @@ var render = function() {
               _vm._v(" "),
               _vm._l(_vm.paginatedItems, function(pageItems, pageNum) {
                 return _c("paginator-link", {
+                  key: pageNum,
                   attrs: { value: pageNum, active: pageNum === _vm.value },
                   on: { click: _vm.setPage }
                 })
@@ -34931,6 +34937,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 
@@ -34990,6 +34997,7 @@ var render = function() {
               return _c(
                 "router-link",
                 {
+                  key: type,
                   staticClass: "report-type-option btn btn-default",
                   attrs: { to: "/" + type, "active-class": "disabled" }
                 },
@@ -35255,6 +35263,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -35310,7 +35320,7 @@ if (false) {(function () {
 		Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["i" /* fetchMilestones */])().then(function (milestones) {
 			_this.milestones = milestones;
 		}).catch(function (err) {
-			console.log(err);
+			console.error(err);
 			_this.alerts.push({
 				type: 'error',
 				html: '<strong>Error:</strong> There was a problem fetching milestones'
@@ -35320,7 +35330,7 @@ if (false) {(function () {
 		Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["e" /* fetchCompetencies */])().then(function (competencies) {
 			_this.competencies = competencies;
 		}).catch(function (err) {
-			console.log(err);
+			console.error(err);
 			_this.alerts.push({
 				type: 'error',
 				html: '<strong>Error:</strong> There was a problem fetching competencies'
@@ -40846,6 +40856,7 @@ var render = function() {
             _vm.subjects && _vm.subjects.length > 0
               ? _vm._l(_vm.subjects, function(subject) {
                   return _c("individual-report", {
+                    key: subject.id,
                     ref: "individualReports",
                     refInFor: true,
                     attrs: { report: _vm.report, subject: subject }
@@ -41235,6 +41246,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+//
 //
 //
 //
@@ -42381,6 +42393,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -43162,7 +43179,7 @@ var render = function() {
           "div",
           { staticClass: "question-body" },
           [
-            _vm._l(_vm.options, function(option) {
+            _vm._l(_vm.options, function(option, index) {
               return ["radio", "radiononnumeric", "checkbox"].includes(
                 _vm.questionType
               )
@@ -43170,6 +43187,7 @@ var render = function() {
                     "form-reader-question-option",
                     _vm._b(
                       {
+                        key: index,
                         attrs: {
                           questionType: _vm.questionType,
                           questionId: _vm.id,
@@ -44060,6 +44078,7 @@ var render = function() {
                 "form-report-question",
                 _vm._b(
                   {
+                    key: index,
                     attrs: {
                       hide: _vm.hideQuestions[index],
                       "score-question": _vm.scoreQuestions[index],
@@ -44549,6 +44568,7 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__ = __webpack_require__(23);
+//
 //
 //
 //
@@ -45186,6 +45206,7 @@ var render = function() {
           { staticClass: "list-group" },
           _vm._l(_vm.detailsEvals, function(detailsEval) {
             return _c("evaluation-details-list-item", {
+              key: detailsEval.id,
               attrs: { evaluation: detailsEval }
             })
           })
@@ -45805,6 +45826,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 
@@ -45843,6 +45865,7 @@ var render = function() {
               return _c(
                 "router-link",
                 {
+                  key: type,
                   staticClass: "report-type-option btn btn-default",
                   attrs: {
                     to: "/faculty-merit/" + type,
