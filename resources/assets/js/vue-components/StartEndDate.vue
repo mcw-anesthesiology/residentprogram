@@ -31,7 +31,7 @@
 
 <script>
 import VueFlatpickr from 'vue-flatpickr';
-import 'vue-flatpickr/theme/flatpickr.min.css';
+import 'flatpickr/dist/flatpickr.css';
 
 import { camelCaseToWords } from 'modules/utils.js';
 import * as dateUtils from 'modules/date-utils.js';
@@ -88,7 +88,7 @@ export default {
 				ranges[dateUtils.DATE_RANGES.ALL_TIME] = dateUtils.allTime();
 			else
 				delete ranges[dateUtils.DATE_RANGES.ALL_TIME];
-			
+
 			return ranges;
 		},
 		flatpickrOptions(){
@@ -111,7 +111,7 @@ export default {
 		dateRange(dateRange){
 			if(dateRange === dateUtils.DATE_RANGES.ALL_TIME)
 				this.setDate(dateUtils.allTime());
-			
+
 			if(dateRange !== dateUtils.DATE_RANGES.CUSTOM && this.dateRanges[dateRange]
 					&& !dateUtils.datesEqual(this.value, this.dateRanges[dateRange]))
 				this.setDate(this.dateRanges[dateRange]);
@@ -123,7 +123,7 @@ export default {
 				this.dateRange = dateUtils.DATE_RANGES.ALL_TIME;
 				return;
 			}
-			
+
 			if(this.dateRange && this.dateRange !== dateUtils.DATE_RANGES.CUSTOM
 					&& this.dateRanges[this.dateRange]
 					&& dateUtils.datesEqual(value, this.dateRanges[this.dateRange]))

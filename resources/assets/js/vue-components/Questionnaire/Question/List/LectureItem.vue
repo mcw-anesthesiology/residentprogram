@@ -37,7 +37,7 @@
 <script>
 import ListItem from './Item.vue';
 import VueFlatpickr from 'vue-flatpickr';
-import 'vue-flatpickr/theme/flatpickr.min.css';
+import 'flatpickr/dist/flatpickr.css';
 
 import { lectureListItem as validate } from 'modules/questionnaire/validate.js';
 

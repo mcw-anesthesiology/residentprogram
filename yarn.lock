@@ -15,11 +15,11 @@
   dependencies:
     color "^2.0.0"
 
-"@jacobmischka/vue-flatpickr@2.2.11":
-  version "2.2.11"
-  resolved "https://registry.yarnpkg.com/@jacobmischka/vue-flatpickr/-/vue-flatpickr-2.2.11.tgz#2cfb4e0741539ae909b3e4ef39b2577fdf04eab0"
+"@jacobmischka/vue-flatpickr@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@jacobmischka/vue-flatpickr/-/vue-flatpickr-3.0.1.tgz#8b28d550f2efce8c93c5bade9047f190f467148a"
   dependencies:
-    flatpickr "^2.3.0-3"
+    flatpickr "^3.0.5-1"
 
 abab@^1.0.3:
   version "1.0.3"
@@ -2952,9 +2952,9 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
-flatpickr@^2.3.0-3:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-2.6.3.tgz#457357532deb135f3da64b425bf4435737961564"
+flatpickr@^3.0.5-1:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-3.0.7.tgz#2aa980c0bd83884c0299ee9fba3b7809bea16a29"
 
 flatten@^1.0.2:
   version "1.0.2"
