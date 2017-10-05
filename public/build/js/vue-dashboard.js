@@ -1309,6 +1309,8 @@ function a(e,t){function n(){e._flatpickr&&E(e._flatpickr),e._flatpickr=oe,oe.el
 //
 //
 //
+//
+//
 
 
 
@@ -1451,7 +1453,8 @@ var render = function() {
         "bootstrap-alert",
         _vm._b(
           {
-            attrs: { dismissable: true },
+            key: index,
+            attrs: { dismissable: "" },
             on: {
               close: function($event) {
                 _vm.removeAlert(index)

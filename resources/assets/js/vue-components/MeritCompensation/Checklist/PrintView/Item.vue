@@ -6,7 +6,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<print-view-question v-for="question of questions"
+			<print-view-question v-for="(question, index) of questions" :key="index"
 				:question="question" />
 		</tbody>
 	</table>

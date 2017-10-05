@@ -2725,6 +2725,7 @@ var render = function() {
                     "form-builder-option",
                     _vm._b(
                       {
+                        key: index,
                         attrs: {
                           type: _vm.questionType,
                           "is-working-option": option === _vm.workingOption
@@ -4016,6 +4017,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 
 
@@ -4168,6 +4172,7 @@ var render = function() {
                   "form-reader-question-option",
                   _vm._b(
                     {
+                      key: index,
                       attrs: {
                         questionType: _vm.questionType,
                         questionId: _vm.questionId,
@@ -4791,6 +4796,8 @@ module.exports = getNative;
 //
 //
 //
+//
+//
 
 
 
@@ -4937,7 +4944,8 @@ var render = function() {
         "bootstrap-alert",
         _vm._b(
           {
-            attrs: { dismissable: true },
+            key: index,
+            attrs: { dismissable: "" },
             on: {
               close: function($event) {
                 _vm.removeAlert(index)
@@ -5929,7 +5937,6 @@ function createFaculty360Evaluate(el, propsData) {
 						html: '<strong>Error:</strong> There was a problem\n\t\t\t\t\t\t\tsaving your progress. Please let me know at\n\t\t\t\t\t\t\t<a href="mailto:' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + '">\n\t\t\t\t\t\t\t\t' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + '\n\t\t\t\t\t\t\t</a>'
 					});
 				});
-				console.log(form);
 			},
 			handleSubmit: function handleSubmit(form) {
 				var _this2 = this;

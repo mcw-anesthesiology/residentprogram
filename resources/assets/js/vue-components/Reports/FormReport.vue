@@ -146,6 +146,7 @@
 				{{ reportContents.title }}
 			</h2>
 			<form-report-question v-for="(question, index) of reportQuestions"
+				:key="index"
 				v-bind="question"
 				:hide="hideQuestions[index]"
 				:score-question="scoreQuestions[index]"

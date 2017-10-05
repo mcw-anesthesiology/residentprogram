@@ -95,7 +95,7 @@
 			<div class="row form-options" style="margin-bottom:5px;">
 				<template v-if="['radio', 'radiononnumeric', 'checkbox'].includes(questionType)">
 					<form-builder-option v-for="(option, index) of optionsWithWorking"
-						v-bind="option" :type="questionType"
+						:key="index" v-bind="option" :type="questionType"
 						:is-working-option="option === workingOption"
 						@input="handleWorkingOptionInput(index, arguments[0])"
 						@change="handleOptionChange(index, arguments[0])" />

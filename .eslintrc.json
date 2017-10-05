@@ -37,7 +37,8 @@
 		"key-spacing": "warn",
 		"compat/compat": 2,
 		"vue/jsx-uses-vars": 2,
-		"vue/require-v-for-key": "off"
+		"vue/require-v-for-key": "off",
+		"vue/no-confusing-v-for-v-if": "off"
 	},
 	"settings": {
 		"polyfills": [

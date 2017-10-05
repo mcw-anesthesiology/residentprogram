@@ -11,8 +11,11 @@
 
 			<template v-if="isOptionQuestion">
 				<form-reader-question-option v-for="(option, index) of options"
-					v-bind="option" :questionType="questionType"
-					:questionId="questionId" :required="required"
+					:key="index"
+					v-bind="option"
+					:questionType="questionType"
+					:questionId="questionId"
+					:required="required"
 					:showDescription="showDescriptions"
 					:readonly="readonly"
 					@input="handleOptionInput(index, arguments[0])">

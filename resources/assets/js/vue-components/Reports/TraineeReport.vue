@@ -54,7 +54,7 @@
 					</div>
 				</div>
 			</fieldset>
-			
+
 			<alert-list v-model="alerts" />
 
 			<div class="btn-lg-submit-container">
@@ -107,7 +107,7 @@
 							</button>
 						</div>
 					</div>
-					
+
 					<div class="btn-lg-submit-container">
 						<button v-if="report && subjects && subjects.length > 0"
 								type="button" class="btn btn-lg btn-primary"
@@ -118,10 +118,12 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<template v-if="subjects && subjects.length > 0">
-				<individual-report v-for="subject of subjects" :report="report"
-					:subject="subject" ref="individualReports" />
+				<individual-report v-for="subject of subjects" :key="subject.id"
+					:report="report"
+					:subject="subject"
+					ref="individualReports" />
 			</template>
 			<template v-else>
 				<stats-report v-if="subjectStats" :report="subjectStats"
@@ -198,7 +200,7 @@ export default {
 
 			milestones: [],
 			competencies: [],
-			
+
 			alerts: []
 		};
 	},
@@ -206,23 +208,23 @@ export default {
 		fetchMilestones().then(milestones => {
 			this.milestones = milestones;
 		}).catch(err => {
-			console.log(err);
+			console.error(err);
 			this.alerts.push({
 				type: 'error',
 				html: '<strong>Error:</strong> There was a problem fetching milestones'
 			});
 		});
-		
+
 		fetchCompetencies().then(competencies => {
 			this.competencies = competencies;
 		}).catch(err => {
-			console.log(err);
+			console.error(err);
 			this.alerts.push({
 				type: 'error',
 				html: '<strong>Error:</strong> There was a problem fetching competencies'
 			});
 		});
-		
+
 		$(this.$refs.currentTrainingLevelHintGlyph).popover({
 			title: 'Current training level',
 			content: `
@@ -267,7 +269,7 @@ export default {
 					userGroup.text.toLowerCase() !== 'faculty')
 				: this.groupedUsers.filter(userGroup =>
 					userGroup.text.toLowerCase() === this.currentTrainingLevel.toLowerCase());
-			
+
 			return this.show.inactiveUsers
 				? groupedUsers
 				: groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');
@@ -335,7 +337,7 @@ export default {
 			}).catch(err => {
 				console.error(err);
 			});
-			
+
 			fetch('/report/stats/faculty/trainee', {
 				method: 'POST',
 				headers: getFetchHeaders(),

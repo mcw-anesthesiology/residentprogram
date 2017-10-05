@@ -68,7 +68,6 @@ export default function createFaculty360Evaluate(el, propsData) {
 							</a>`
 					});
 				});
-				console.log(form);
 			},
 			handleSubmit(form) {
 				fetch(`/faculty360/evaluations/${this.evaluation.hash}/submit`, {

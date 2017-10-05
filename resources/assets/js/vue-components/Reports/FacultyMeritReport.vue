@@ -5,7 +5,8 @@
 				<legend>
 					Merit report type
 				</legend>
-				<router-link v-for="type of reportTypes" :to="`/faculty-merit/${type}`"
+				<router-link v-for="type of reportTypes" :key="type"
+						:to="`/faculty-merit/${type}`"
 						class="report-type-option btn btn-default"
 						active-class="disabled">
 					{{ kebabCaseToWords(type) }}

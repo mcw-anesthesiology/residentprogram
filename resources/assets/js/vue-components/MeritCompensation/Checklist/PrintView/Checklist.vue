@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<checklist-section v-for="page of filteredPages"
+		<checklist-section v-for="(page, index) of filteredPages" :key="index"
 			v-bind="page" />
 	</div>
 </template>

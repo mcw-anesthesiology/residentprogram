@@ -4,7 +4,8 @@
 			<fieldset>
 				<legend>Report type</legend>
 				<div class="form-inline">
-					<router-link v-for="type of reportTypes" :to="`/${type}`"
+					<router-link v-for="type of reportTypes" :key="type"
+							:to="`/${type}`"
 							class="report-type-option btn btn-default"
 							active-class="disabled">
 						{{ kebabCaseToWords(type) }}
