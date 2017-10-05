@@ -9,6 +9,7 @@ import EditorialBoardItem from './EditorialBoardItem.vue';
 import ReviewItem from './ReviewItem.vue';
 import LectureItem from './LectureItem.vue';
 import MentorshipItem from './MentorshipItem.vue';
+import ProjectItem from './ProjectItem.vue';
 
 export default {
 	props: {
@@ -86,6 +87,8 @@ export default {
 				case 'mentorship':
 				case 'subjectMentorship':
 					return 'mentorship-item';
+				case 'project':
+					return 'project-item';
 			}
 		}
 	},
@@ -100,7 +103,8 @@ export default {
 		EditorialBoardItem,
 		ReviewItem,
 		LectureItem,
-		MentorshipItem
+		MentorshipItem,
+		ProjectItem
 	}
 };
 </script>

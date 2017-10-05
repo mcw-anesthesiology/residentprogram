@@ -17,7 +17,8 @@ import type {
 	QuestionnaireEditorialBoardListItem,
 	QuestionnaireReviewListItem,
 	QuestionnaireLectureListItem,
-	QuestionnaireMentorshipListItem
+	QuestionnaireMentorshipListItem,
+	QuestionnaireProjectListItem
 } from './index.js';
 
 export type Validation = {
@@ -197,6 +198,8 @@ export function listItem(item: QuestionnaireListItem): Validation {
 		case 'mentorship':
 		case 'subjectMentorship':
 			return mentorshipListItem(item);
+		case 'project':
+			return projectListItem(item);
 	}
 
 	// Unrecognized list type
@@ -299,5 +302,12 @@ export function studyListItem(item: QuestionnaireStudyListItem): Validation {
 		['yearInitiated', 'enter the year the study was initiated'],
 		['approvalNumber', 'enter the study approval number'],
 		['progress', "describe the study's progress"]
+	]));
+}
+
+export function projectListItem(item: QuestionnaireProjectListItem): Validation {
+	return requiredListItem(item, new Map([
+		['description', 'describe the project and your involvement'],
+		['hours', 'estimate the number of hours you spent on the project']
 	]));
 }
