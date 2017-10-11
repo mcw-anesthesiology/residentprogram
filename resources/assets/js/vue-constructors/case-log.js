@@ -8,6 +8,8 @@ import ComponentList from 'vue-components/ComponentList.vue';
 import ShowHideButton from 'vue-components/ShowHideButton.vue';
 
 import CaseLogs from 'vue-components/CaseLog/CaseLogs.vue';
+import CaseLogEditor from 'vue-components/CaseLog/Editor.vue';
+import CaseLogEditorV1 from 'vue-components/CaseLog/V1/Editor.vue';
 
 import {
 	getFetchHeaders,
@@ -48,6 +50,12 @@ export function createCaseLog(el, propsData) {
 		},
 
 		computed: {
+			editorComponent() {
+				if (this.detailsSchema.case_log_version === 2)
+					return 'CaseLogEditor';
+
+				return 'CaseLogEditorV1';
+			},
 			subsections() {
 				let subsections = [];
 				for (let schema of this.detailsSchema.schema) {
@@ -136,26 +144,9 @@ export function createCaseLog(el, propsData) {
 					caseLog.id !== id
 				);
 			},
-			addCaseLog(event) {
-				event.preventDefault();
-
-				let body = new FormData(this.$refs.addLogForm);
-				fetch('/case_logs', {
-					method: 'POST',
-					headers: getFetchHeaders({contentType: null}),
-					credentials: 'same-origin',
-					body
-				}).then(okOrThrow).then(() => {
-					this.$refs.addLogForm.reset();
-					this.show.addCaseLog = false;
-					this.fetchCaseLogs();
-				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem adding the case log entry'
-					});
-				});
+			handleEditorSubmit() {
+				this.show.addCaseLog = false;
+				this.fetchCaseLogs();
 			}
 		},
 
@@ -163,7 +154,9 @@ export function createCaseLog(el, propsData) {
 			ComponentList,
 			ShowHideButton,
 			CaseLogs,
-			VueFlatpickr
+			VueFlatpickr,
+			CaseLogEditor,
+			CaseLogEditorV1
 		}
 	});
 }

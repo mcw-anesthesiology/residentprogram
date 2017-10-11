@@ -68,68 +68,18 @@
 		<template slot="glyph"></template>
 	</show-hide-button>
 	@endif
+
+	<alert-list v-model="alerts"></alert-list>
 </div>
 
 	@if($canLog)
-<div class="container body-block" v-show="show.addCaseLog" v-cloak>
-
-	<h2>Add entry</h2>
-
-	<form ref="addLogForm" role="form" method="post" action="/case_logs"
-			@submit="addCaseLog">
-
-		<h3>{{ $title }}</h3>
-
-		<section class="case-info">
-			<div class="row">
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="containing-label">
-							Location
-							<select class="form-control" name="location_id">
-								<option v-for="location of locations"
-										:value="location.id">
-									@{{ location.name }}
-								</option>
-							</select>
-						</label>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label class="containing-label">
-							Case Date
-							<vue-flatpickr class="form-control appear-not-readonly"
-								name="case_date">
-							</vue-flatpickr>
-						</label>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="containing-label">
-							Comments
-							<textarea class="form-control" name="comment">
-							</textarea>
-						</label>
-					</div>
-				</div>
-			</div>
-		</section>
-
-
-		<input type="hidden" name="details_schema_id" value="{{ $detailsSchema->id }}" />
-		<section class="case-details"></section>
-
-		<button type="submit" class="btn btn-primary center-block">
-			<span class="glyphicon glyphicon-plus"></span>
-			Add entry
-		</button>
-	</form>
-
-</div>
+	<component v-if="show.addCaseLog" :is="editorComponent"
+		title="RAAPS"
+		:details-schema="detailsSchema"
+		:locations="locations"
+		@alert="alerts.push(arguments[0])"
+		@submit="handleEditorSubmit">
+	</component>
 	@endif
 
 @stop
@@ -145,10 +95,6 @@
 		};
 
 		createCaseLog('main', propsData);
-
-	@if($canLog)
-		renderCaseLogDetailsSchema(propsData.detailsSchema.schema, undefined, document.querySelector(".case-details"));
-	@endif
 
 	</script>
 @endpush
