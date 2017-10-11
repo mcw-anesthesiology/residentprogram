@@ -4,6 +4,7 @@ import type moment$Moment from 'moment';
 
 export type DateLike = string | Date | moment$Moment;
 
+// I don't know what this flow error wants from me
 type DateLikeObject = { [string]: DateLike };
 
 import moment from 'moment';

@@ -15,7 +15,6 @@ class CaseLogDetailsSchema extends Model
 
 	protected $fillable = [
 		"details_type",
-		"version",
 		"schema"
 	];
 
