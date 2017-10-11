@@ -48,6 +48,7 @@ class CaseLogDetailsSchemaController extends RestController
 			throw new \Exception("Details do not match schema");
 
 		$schema = new CaseLogDetailsSchema($input);
+		$schema->case_log_version = 2;
 		$schema->version = $newVersion;
 		$schema->save();
 		if($request->ajax())
