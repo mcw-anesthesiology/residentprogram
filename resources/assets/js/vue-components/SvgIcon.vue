@@ -20,12 +20,12 @@ export default {
 		fetch(this.src).then(response => {
 			if(response.ok)
 				return response.text();
-			
+
 			throw new Error('Unable to load icon');
 		}).then(svg => {
 			this.svg = svg;
 		}).catch(err => {
-			console.err(err.message);
+			console.error(err.message);
 		});
 	}
 };

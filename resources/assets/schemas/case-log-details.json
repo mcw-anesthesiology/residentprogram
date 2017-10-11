@@ -1,5 +1,5 @@
 {
-	"$schema": "http://json-schema.org/draft-04/schema#",
+	"$id": "https://www.residentprogram.com/schemas/case-log-details.json#",
 	"title": "Case Log Details Schema",
 	"type": "array",
 	"items": {
@@ -15,7 +15,7 @@
 				}
 			}
 		},
-		"required": "subsections"
+		"required": ["subsections"]
 	},
 	"definitions": {
 		"subsection": {

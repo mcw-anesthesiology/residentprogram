@@ -27,20 +27,11 @@
 							</span>
 						</div>
 
-						<show-hide-button v-model="show.schema">
-							schema
-						</show-hide-button>
 						<button type="button" class="btn btn-info"
 								:disabled="!newJsonObject" @click="formatJson">
 							Format JSON
 						</button>
-						<div v-if="show.schema" class="json-container">
-							<label class="containing-label control-label">
-								Schema
-								<textarea class="schema-json form-control"
-									readonly :value="schema"></textarea>
-							</label>
-						</div>
+						<small>{{ schemaId }}</small>
 					</div>
 					<div class="col-md-6">
 						<div class="json-container">
@@ -61,7 +52,8 @@
 					@click="submitJson">
 				Submit
 			</button>
-			<button type="button" class="btn btn-lg btn-default"
+			<button v-if="closeable" type="button"
+					class="btn btn-lg btn-default"
 					@click="$emit('close')">
 				Close
 			</button>
@@ -75,16 +67,20 @@ import ShowHideButton from 'vue-components/ShowHideButton.vue';
 
 import Ajv from 'ajv';
 
-import { ucfirst, ucfirstWords } from 'modules/utils.js';
-
-const ajv = new Ajv({
-	allErrors: true
-});
+import {
+	ucfirst,
+	ucfirstWords,
+	jsonOrThrow
+} from 'modules/utils.js';
 
 export default {
 	props: {
-		schemaUrl: {
+		schemaId: {
 			type: String,
+			required: true
+		},
+		schemaUrls: {
+			type: Array,
 			required: true
 		},
 		name: {
@@ -94,42 +90,31 @@ export default {
 		pastValues: {
 			type: Array,
 			default: []
+		},
+		formProp: {
+			type: String,
+			default: 'form'
+		},
+		closeable: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data() {
 		return {
 			newJson: null,
-			schema: null,
-
-			show: {
-				schema: false
-			},
 			alerts: []
 		};
 	},
 
 	mounted() {
-		fetch(this.schemaUrl).then(response => {
-			if (response.ok)
-				return response.text();
-
-			throw new Error(response.statusText);
-		}).then(schema => {
-			this.schema = schema;
-			this.schemaValidator = ajv.compile(JSON.parse(schema));
-		}).catch(err => {
-			console.error(err);
-			this.alerts.push({
-				type: 'error',
-				html: `<strong>Error:</strong> There was a problem fetching the schema`
-			});
-		});
+		this.fetchSchemas();
 	},
 
 	computed: {
 		previousJson() {
 			if (this.pastValues && this.pastValues.length > 0)
-				return this.pastValues[0].form;
+				return this.pastValues[0][this.formProp];
 		},
 		newJsonObject() {
 			try {
@@ -160,6 +145,24 @@ export default {
 	methods: {
 		ucfirst,
 		ucfirstWords,
+		fetchSchemas() {
+			Promise.all(this.schemaUrls.map(url => fetch(url).then(jsonOrThrow))).then(schemas => {
+				const ajv = new Ajv({
+					allErrors: true
+				});
+
+				for (let schema of schemas) {
+					ajv.addSchema(schema);
+				}
+				this.schemaValidator = ajv.getSchema(this.schemaId);
+			}).catch(err => {
+				console.error(err);
+				this.alerts.push({
+					type: 'error',
+					html: `<strong>Error:</strong> There was a problem fetching the schema`
+				});
+			});
+		},
 		formatJson() {
 			if (this.newJsonObject)
 				this.newJson = JSON.stringify(this.newJsonObject, null, 4);

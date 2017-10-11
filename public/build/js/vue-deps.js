@@ -15,12 +15,14 @@ return webpackJsonp([13],{
 
 /* globals __VUE_SSR_CONTEXT__ */
 
-// this module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle
+// IMPORTANT: Do NOT use ES2015 features in this file.
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
 
 module.exports = function normalizeComponent (
   rawScriptExports,
   compiledTemplate,
+  functionalTemplate,
   injectStyles,
   scopeId,
   moduleIdentifier /* server only */
@@ -44,6 +46,12 @@ module.exports = function normalizeComponent (
   if (compiledTemplate) {
     options.render = compiledTemplate.render
     options.staticRenderFns = compiledTemplate.staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
   }
 
   // scopedId
@@ -84,12 +92,16 @@ module.exports = function normalizeComponent (
     var existing = functional
       ? options.render
       : options.beforeCreate
+
     if (!functional) {
       // inject component registration as beforeCreate hook
       options.beforeCreate = existing
         ? [].concat(existing, hook)
         : [hook]
     } else {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
       // register for functioal component in vue file
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)
@@ -10305,11 +10317,11 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(140), __webpack_require__(41)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(140), __webpack_require__(42)))
 
 /***/ }),
 
-/***/ 429:
+/***/ 431:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10335,6 +10347,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.directive('visible', function (el, _
 
 /***/ })
 
-},[429]);
+},[431]);
 });
 //# sourceMappingURL=vue-deps.js.map

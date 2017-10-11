@@ -335,14 +335,16 @@ module.exports = getNative;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AlertList_vue__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4ff56c56_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_AlertList_vue__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AlertList_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4ff56c56_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AlertList_vue__ = __webpack_require__(48);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -350,15 +352,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AlertList_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4ff56c56_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_AlertList_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AlertList_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4ff56c56_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AlertList_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/AlertList.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] AlertList.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -370,7 +372,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-4ff56c56", Component.options)
   } else {
     hotAPI.reload("data-v-4ff56c56", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -557,8 +559,8 @@ module.exports = getMapData;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ShowHideButton_vue__ = __webpack_require__(123);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_38459c74_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_ShowHideButton_vue__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ShowHideButton_vue__ = __webpack_require__(123);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_38459c74_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ShowHideButton_vue__ = __webpack_require__(124);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -569,6 +571,8 @@ var normalizeComponent = __webpack_require__(0)
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -576,15 +580,15 @@ var __vue_scopeId__ = "data-v-38459c74"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ShowHideButton_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_38459c74_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_ShowHideButton_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ShowHideButton_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_38459c74_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ShowHideButton_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/ShowHideButton.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ShowHideButton.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -596,7 +600,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-38459c74", Component.options)
   } else {
     hotAPI.reload("data-v-38459c74", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -669,14 +673,16 @@ module.exports = Map;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationButton_vue__ = __webpack_require__(127);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4aea83c8_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_ConfirmationButton_vue__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ConfirmationButton_vue__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4aea83c8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ConfirmationButton_vue__ = __webpack_require__(128);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -684,15 +690,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationButton_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4aea83c8_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_ConfirmationButton_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ConfirmationButton_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4aea83c8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ConfirmationButton_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/ConfirmationButton.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ConfirmationButton.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -704,7 +710,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-4aea83c8", Component.options)
   } else {
     hotAPI.reload("data-v-4aea83c8", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -756,8 +762,8 @@ module.exports = isObject;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_BootstrapAlert_vue__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8d03363a_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_BootstrapAlert_vue__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_BootstrapAlert_vue__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8d03363a_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_BootstrapAlert_vue__ = __webpack_require__(47);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -768,6 +774,8 @@ var normalizeComponent = __webpack_require__(0)
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -775,15 +783,15 @@ var __vue_scopeId__ = "data-v-8d03363a"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_BootstrapAlert_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8d03363a_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_BootstrapAlert_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_BootstrapAlert_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8d03363a_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_BootstrapAlert_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/BootstrapAlert.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] BootstrapAlert.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -795,7 +803,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-8d03363a", Component.options)
   } else {
     hotAPI.reload("data-v-8d03363a", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -899,7 +907,7 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(42)))
 
 /***/ }),
 /* 28 */
@@ -1180,18 +1188,21 @@ module.exports = isLength;
 
 
 /***/ }),
-/* 34 */
+/* 34 */,
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SelectTwo_vue__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2434126b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_SelectTwo_vue__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_SelectTwo_vue__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2434126b_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_SelectTwo_vue__ = __webpack_require__(121);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -1199,15 +1210,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SelectTwo_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2434126b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_SelectTwo_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_SelectTwo_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2434126b_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_SelectTwo_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/SelectTwo.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -1219,7 +1230,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-2434126b", Component.options)
   } else {
     hotAPI.reload("data-v-2434126b", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -1229,7 +1240,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1320,7 +1331,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["A" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["C" /* sortNumbers */]);
 
 	var _iteratorNormalCompletion = true;
 	var _didIteratorError = false;
@@ -1435,7 +1446,6 @@ var DISREGARD_OPTION = new Map([['faculty', {
 }]]);
 
 /***/ }),
-/* 36 */,
 /* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1558,18 +1568,20 @@ function parse(md) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DataTable_vue__ = __webpack_require__(133);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4d4c1aff_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_DataTable_vue__ = __webpack_require__(134);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_DataTable_vue__ = __webpack_require__(134);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4d4c1aff_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_DataTable_vue__ = __webpack_require__(135);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(132)
+  __webpack_require__(133)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -1577,15 +1589,15 @@ var __vue_scopeId__ = "data-v-4d4c1aff"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DataTable_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4d4c1aff_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_DataTable_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_DataTable_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4d4c1aff_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_DataTable_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/DataTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] DataTable.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -1597,7 +1609,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-4d4c1aff", Component.options)
   } else {
     hotAPI.reload("data-v-4d4c1aff", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -1783,8 +1795,63 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 41 */,
-/* 42 */
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ComponentList_vue__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6d54e2f6_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ComponentList_vue__ = __webpack_require__(154);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(144)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-6d54e2f6"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ComponentList_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6d54e2f6_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ComponentList_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/ComponentList.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6d54e2f6", Component.options)
+  } else {
+    hotAPI.reload("data-v-6d54e2f6", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 42 */,
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1924,59 +1991,6 @@ function stripOn(hook) {
 
 
 /***/ }),
-/* 43 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ComponentList_vue__ = __webpack_require__(145);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6d54e2f6_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_ComponentList_vue__ = __webpack_require__(154);
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(144)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-6d54e2f6"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ComponentList_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6d54e2f6_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_ComponentList_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/vue-components/ComponentList.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ComponentList.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6d54e2f6", Component.options)
-  } else {
-    hotAPI.reload("data-v-6d54e2f6", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
 /* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2113,7 +2127,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-8d03363a", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-8d03363a", esExports)
   }
 }
 
@@ -2156,14 +2170,12 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4ff56c56", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-4ff56c56", esExports)
   }
 }
 
 /***/ }),
-/* 49 */,
-/* 50 */,
-/* 51 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2184,6 +2196,8 @@ if (false) {
 });
 
 /***/ }),
+/* 50 */,
+/* 51 */,
 /* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4554,7 +4568,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2434126b", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-2434126b", esExports)
   }
 }
 
@@ -4649,7 +4663,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-38459c74", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-38459c74", esExports)
   }
 }
 
@@ -7112,7 +7126,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4aea83c8", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-4aea83c8", esExports)
   }
 }
 
@@ -7121,8 +7135,8 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_StartEndDate_vue__ = __webpack_require__(142);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7d00f708_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_StartEndDate_vue__ = __webpack_require__(143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_StartEndDate_vue__ = __webpack_require__(142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7d00f708_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_StartEndDate_vue__ = __webpack_require__(143);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -7133,6 +7147,8 @@ var normalizeComponent = __webpack_require__(0)
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -7140,15 +7156,15 @@ var __vue_scopeId__ = "data-v-7d00f708"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_StartEndDate_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7d00f708_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_StartEndDate_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_StartEndDate_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7d00f708_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_StartEndDate_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/StartEndDate.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] StartEndDate.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -7160,7 +7176,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-7d00f708", Component.options)
   } else {
     hotAPI.reload("data-v-7d00f708", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -7180,14 +7196,16 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_EvaluationDataTable_vue__ = __webpack_require__(205);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c24d553a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_EvaluationDataTable_vue__ = __webpack_require__(207);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_EvaluationDataTable_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c24d553a_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_EvaluationDataTable_vue__ = __webpack_require__(207);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -7195,15 +7213,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_EvaluationDataTable_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c24d553a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_EvaluationDataTable_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_EvaluationDataTable_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c24d553a_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_EvaluationDataTable_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/EvaluationDataTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] EvaluationDataTable.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -7215,7 +7233,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-c24d553a", Component.options)
   } else {
     hotAPI.reload("data-v-c24d553a", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -7225,19 +7243,20 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 132 */
+/* 132 */,
+/* 133 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_downloadjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
 //
 //
@@ -7375,7 +7394,7 @@ if (false) {(function () {
 				return row.map(function (cell) {
 					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["z" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["B" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -7397,7 +7416,7 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7482,17 +7501,17 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4d4c1aff", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-4d4c1aff", esExports)
   }
 }
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SvgIcon_vue__ = __webpack_require__(185);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5137c9f8_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_SvgIcon_vue__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_SvgIcon_vue__ = __webpack_require__(185);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5137c9f8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_SvgIcon_vue__ = __webpack_require__(186);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -7503,6 +7522,8 @@ var normalizeComponent = __webpack_require__(0)
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -7510,15 +7531,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SvgIcon_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5137c9f8_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_SvgIcon_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_SvgIcon_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5137c9f8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_SvgIcon_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/SvgIcon.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] SvgIcon.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -7530,7 +7551,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-5137c9f8", Component.options)
   } else {
     hotAPI.reload("data-v-5137c9f8", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -7540,20 +7561,21 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 136 */,
 /* 137 */,
 /* 138 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AcademicYearSelector_vue__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_672cba10_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_AcademicYearSelector_vue__ = __webpack_require__(159);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AcademicYearSelector_vue__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_672cba10_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AcademicYearSelector_vue__ = __webpack_require__(159);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -7561,15 +7583,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AcademicYearSelector_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_672cba10_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_AcademicYearSelector_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AcademicYearSelector_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_672cba10_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AcademicYearSelector_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/AcademicYearSelector.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] AcademicYearSelector.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -7581,7 +7603,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-672cba10", Component.options)
   } else {
     hotAPI.reload("data-v-672cba10", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -7595,18 +7617,20 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_RichDateRange_vue__ = __webpack_require__(294);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7a8a5f24_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_RichDateRange_vue__ = __webpack_require__(295);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_RichDateRange_vue__ = __webpack_require__(301);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7a8a5f24_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_RichDateRange_vue__ = __webpack_require__(302);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(293)
+  __webpack_require__(300)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -7614,15 +7638,15 @@ var __vue_scopeId__ = "data-v-7a8a5f24"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_RichDateRange_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7a8a5f24_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_RichDateRange_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_RichDateRange_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7a8a5f24_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_RichDateRange_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/RichDateRange.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] RichDateRange.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -7634,7 +7658,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-7a8a5f24", Component.options)
   } else {
     hotAPI.reload("data-v-7a8a5f24", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -7655,7 +7679,7 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css__ = __webpack_require__(130);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
@@ -7932,7 +7956,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-7d00f708", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-7d00f708", esExports)
   }
 }
 
@@ -7951,7 +7975,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr__ = __webpack_require__(153);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lunr__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__ = __webpack_require__(36);
 //
 //
 //
@@ -8174,7 +8198,7 @@ if (false) {
 		renderFieldName: function renderFieldName(field) {
 			if (field === 'id') return 'ID';
 
-			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["w" /* snakeCaseToWords */])(field);
+			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["y" /* snakeCaseToWords */])(field);
 		}
 	},
 	components: {
@@ -8187,8 +8211,8 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ListPaginator_vue__ = __webpack_require__(148);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_05c830ce_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_ListPaginator_vue__ = __webpack_require__(152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ListPaginator_vue__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_05c830ce_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ListPaginator_vue__ = __webpack_require__(152);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -8199,6 +8223,8 @@ var normalizeComponent = __webpack_require__(0)
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -8206,15 +8232,15 @@ var __vue_scopeId__ = "data-v-05c830ce"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ListPaginator_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_05c830ce_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_ListPaginator_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ListPaginator_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_05c830ce_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ListPaginator_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/ListPaginator.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ListPaginator.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -8226,7 +8252,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-05c830ce", Component.options)
   } else {
     hotAPI.reload("data-v-05c830ce", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -8320,14 +8346,16 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PaginatorLink_vue__ = __webpack_require__(150);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_115d9766_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_PaginatorLink_vue__ = __webpack_require__(151);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_PaginatorLink_vue__ = __webpack_require__(150);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_115d9766_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_PaginatorLink_vue__ = __webpack_require__(151);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -8335,15 +8363,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PaginatorLink_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_115d9766_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_PaginatorLink_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_PaginatorLink_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_115d9766_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_PaginatorLink_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/PaginatorLink.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] PaginatorLink.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -8355,7 +8383,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-115d9766", Component.options)
   } else {
     hotAPI.reload("data-v-115d9766", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -8419,7 +8447,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-115d9766", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-115d9766", esExports)
   }
 }
 
@@ -8525,7 +8553,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-05c830ce", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-05c830ce", esExports)
   }
 }
 
@@ -10799,7 +10827,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-6d54e2f6", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-6d54e2f6", esExports)
   }
 }
 
@@ -11377,7 +11405,7 @@ module.exports = Token;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SelectTwo_vue__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SelectTwo_vue__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__ = __webpack_require__(8);
@@ -11532,7 +11560,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-672cba10", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-672cba10", esExports)
   }
 }
 
@@ -14060,14 +14088,16 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_LoadingButton_vue__ = __webpack_require__(201);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1ae71dc9_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_LoadingButton_vue__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_LoadingButton_vue__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1ae71dc9_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_LoadingButton_vue__ = __webpack_require__(203);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -14075,15 +14105,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_LoadingButton_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1ae71dc9_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_LoadingButton_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_LoadingButton_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1ae71dc9_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_LoadingButton_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/LoadingButton.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] LoadingButton.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -14095,7 +14125,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-1ae71dc9", Component.options)
   } else {
     hotAPI.reload("data-v-1ae71dc9", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -14120,8 +14150,8 @@ module.exports = {
   toHash: toHash,
   getProperty: getProperty,
   escapeQuotes: escapeQuotes,
-  equal: __webpack_require__(303),
-  ucs2length: __webpack_require__(578),
+  equal: __webpack_require__(298),
+  ucs2length: __webpack_require__(584),
   varOccurences: varOccurences,
   varReplace: varReplace,
   cleanUpCode: cleanUpCode,
@@ -14387,8 +14417,8 @@ function unescapeJsonPointer(str) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormBuilder_vue__ = __webpack_require__(170);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2c14a78c_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_FormBuilder_vue__ = __webpack_require__(182);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormBuilder_vue__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2c14a78c_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormBuilder_vue__ = __webpack_require__(182);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -14399,6 +14429,8 @@ var normalizeComponent = __webpack_require__(0)
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -14406,15 +14438,15 @@ var __vue_scopeId__ = "data-v-2c14a78c"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormBuilder_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2c14a78c_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_FormBuilder_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormBuilder_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2c14a78c_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormBuilder_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/FormBuilder/FormBuilder.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FormBuilder.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -14426,7 +14458,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-2c14a78c", Component.options)
   } else {
     hotAPI.reload("data-v-2c14a78c", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -14619,7 +14651,7 @@ if (false) {(function () {
 		var _this = this;
 
 		if (this.showMilestonesCompetencies) {
-			Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["h" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+			Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["i" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
 				_this.groupedMilestones = milestoneGroups;
 			}).catch(function (err) {
 				console.error(err);
@@ -14667,7 +14699,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["F" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* ucfirst */],
 		addInstruction: function addInstruction() {
 			this.items.push({
 				type: 'instruction',
@@ -14883,14 +14915,16 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormBuilderInstruction_vue__ = __webpack_require__(172);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b07925b8_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_FormBuilderInstruction_vue__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormBuilderInstruction_vue__ = __webpack_require__(172);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b07925b8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormBuilderInstruction_vue__ = __webpack_require__(173);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -14898,15 +14932,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormBuilderInstruction_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b07925b8_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_FormBuilderInstruction_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormBuilderInstruction_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b07925b8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormBuilderInstruction_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/FormBuilder/FormBuilderInstruction.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FormBuilderInstruction.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -14918,7 +14952,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-b07925b8", Component.options)
   } else {
     hotAPI.reload("data-v-b07925b8", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -15058,7 +15092,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-b07925b8", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-b07925b8", esExports)
   }
 }
 
@@ -15067,8 +15101,8 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormBuilderQuestion_vue__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e2c7d180_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_FormBuilderQuestion_vue__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormBuilderQuestion_vue__ = __webpack_require__(176);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e2c7d180_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormBuilderQuestion_vue__ = __webpack_require__(181);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -15079,6 +15113,8 @@ var normalizeComponent = __webpack_require__(0)
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -15086,15 +15122,15 @@ var __vue_scopeId__ = "data-v-e2c7d180"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormBuilderQuestion_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e2c7d180_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_FormBuilderQuestion_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormBuilderQuestion_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e2c7d180_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormBuilderQuestion_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/FormBuilder/FormBuilderQuestion.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FormBuilderQuestion.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -15106,7 +15142,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-e2c7d180", Component.options)
   } else {
     hotAPI.reload("data-v-e2c7d180", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -15129,8 +15165,8 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue__ = __webpack_require__(177);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ConfirmationButton_vue__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectTwo_vue__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectTwo_vue__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(1);
 //
 //
@@ -15344,7 +15380,7 @@ if (false) {(function () {
 					id: competency.id,
 					text: competency.title
 				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["E" /* sortSelect2Objects */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["G" /* sortSelect2Objects */]);
 		}
 	},
 	methods: {
@@ -15482,8 +15518,8 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormBuilderOption_vue__ = __webpack_require__(179);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_855ce662_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_FormBuilderOption_vue__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormBuilderOption_vue__ = __webpack_require__(179);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_855ce662_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormBuilderOption_vue__ = __webpack_require__(180);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -15494,6 +15530,8 @@ var normalizeComponent = __webpack_require__(0)
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -15501,15 +15539,15 @@ var __vue_scopeId__ = "data-v-855ce662"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormBuilderOption_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_855ce662_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_FormBuilderOption_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormBuilderOption_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_855ce662_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormBuilderOption_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/FormBuilder/FormBuilderOption.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FormBuilderOption.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -15521,7 +15559,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-855ce662", Component.options)
   } else {
     hotAPI.reload("data-v-855ce662", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -15694,7 +15732,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-855ce662", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-855ce662", esExports)
   }
 }
 
@@ -16054,7 +16092,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-e2c7d180", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-e2c7d180", esExports)
   }
 }
 
@@ -16427,7 +16465,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2c14a78c", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-2c14a78c", esExports)
   }
 }
 
@@ -16471,7 +16509,7 @@ if (false) {
 		}).then(function (svg) {
 			_this.svg = svg;
 		}).catch(function (err) {
-			console.err(err.message);
+			console.error(err.message);
 		});
 	}
 });
@@ -16497,7 +16535,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5137c9f8", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-5137c9f8", esExports)
   }
 }
 
@@ -16578,14 +16616,16 @@ module.exports = toNumber;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormReaderQuestionOption_vue__ = __webpack_require__(189);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_587e8505_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_FormReaderQuestionOption_vue__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormReaderQuestionOption_vue__ = __webpack_require__(189);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_587e8505_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormReaderQuestionOption_vue__ = __webpack_require__(190);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -16593,15 +16633,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormReaderQuestionOption_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_587e8505_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_FormReaderQuestionOption_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormReaderQuestionOption_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_587e8505_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormReaderQuestionOption_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/FormReader/FormReaderQuestionOption.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FormReaderQuestionOption.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -16613,7 +16653,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-587e8505", Component.options)
   } else {
     hotAPI.reload("data-v-587e8505", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -16774,7 +16814,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-587e8505", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-587e8505", esExports)
   }
 }
 
@@ -17356,7 +17396,7 @@ module.exports.postProcess = function emphasis(state) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_v_tooltip__ = __webpack_require__(202);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SvgIcon_vue__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SvgIcon_vue__ = __webpack_require__(136);
 //
 //
 //
@@ -20653,326 +20693,348 @@ var possibleConstructorReturn = function (self, call) {
 };
 
 var state = {
-  enabled: true
+	enabled: true
 };
 
 var positions = ['top', 'top-start', 'top-end', 'right', 'right-start', 'right-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end'];
 
 var defaultOptions = {
-  // Default tooltip placement relative to target element
-  defaultPlacement: 'top',
-  // Default CSS classes applied to the tooltip element
-  defaultClass: 'vue-tooltip-theme',
-  // Default HTML template of the tooltip element
-  // It must include `tooltip` & `tooltip-inner` CSS classes
-  defaultTemplate: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-  // Delay (ms)
-  defaultDelay: 0,
-  // Default events that trigger the tooltip
-  defaultTrigger: 'hover focus',
-  // Default position offset (px)
-  defaultOffset: 0,
-  // Default container where the tooltip will be appended
-  defaultContainer: 'body',
-  defaultBoundariesElement: undefined,
-  defaultPopperOptions: {},
-  autoHide: true,
-  // Auto destroy tooltip DOM nodes (ms)
-  disposeTimeout: 5000
+	// Default tooltip placement relative to target element
+	defaultPlacement: 'top',
+	// Default CSS classes applied to the tooltip element
+	defaultClass: 'vue-tooltip-theme',
+	// Default HTML template of the tooltip element
+	// It must include `tooltip` & `tooltip-inner` CSS classes
+	defaultTemplate: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+	// Delay (ms)
+	defaultDelay: 0,
+	// Default events that trigger the tooltip
+	defaultTrigger: 'hover focus',
+	// Default position offset (px)
+	defaultOffset: 0,
+	// Default container where the tooltip will be appended
+	defaultContainer: 'body',
+	defaultBoundariesElement: undefined,
+	defaultPopperOptions: {},
+	autoHide: true,
+	// Auto destroy tooltip DOM nodes (ms)
+	disposeTimeout: 5000
 };
 
 function getOptions(options) {
-  return {
-    placement: options.placement || directive.options.defaultPlacement,
-    delay: options.delay || directive.options.defaultDelay,
-    template: options.template || directive.options.defaultTemplate,
-    trigger: options.trigger || directive.options.defaultTrigger,
-    offset: options.offset || directive.options.defaultOffset,
-    container: options.container || directive.options.defaultContainer,
-    boundariesElement: options.boundariesElement || directive.options.defaultBoundariesElement,
-    popperOptions: options.popperOptions || directive.options.defaultPopperOptions
-  };
+	var result = {
+		placement: options.placement || directive.options.defaultPlacement,
+		delay: options.delay || directive.options.defaultDelay,
+		template: options.template || directive.options.defaultTemplate,
+		trigger: options.trigger || directive.options.defaultTrigger,
+		offset: options.offset || directive.options.defaultOffset,
+		container: options.container || directive.options.defaultContainer,
+		boundariesElement: options.boundariesElement || directive.options.defaultBoundariesElement,
+		popperOptions: _extends$2({}, options.popperOptions || directive.options.defaultPopperOptions)
+	};
+
+	if (options.offset) {
+		var typeofOffset = _typeof(options.offset);
+		var offset = options.offset;
+
+		// One value -> switch
+		if (typeofOffset === 'number' || typeofOffset === 'string' && offset.indexOf(',') === -1) {
+			offset = '0, ' + offset;
+		}
+
+		if (!result.popperOptions.modifiers) {
+			result.popperOptions.modifiers = {};
+		}
+		result.popperOptions.modifiers.offset = {
+			offset: offset
+		};
+	}
+
+	return result;
 }
 
 function getPlacement(value, modifiers) {
-  var placement = value.placement;
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+	var placement = value.placement;
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
 
-  try {
-    for (var _iterator = positions[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var pos = _step.value;
+	try {
+		for (var _iterator = positions[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var pos = _step.value;
 
-      if (modifiers[pos]) {
-        placement = pos;
-      }
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
+			if (modifiers[pos]) {
+				placement = pos;
+			}
+		}
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
+	}
 
-  return placement;
+	return placement;
 }
 
 var SuperTooltip = function (_Tooltip) {
-  inherits(SuperTooltip, _Tooltip);
+	inherits(SuperTooltip, _Tooltip);
 
-  function SuperTooltip() {
-    classCallCheck$2(this, SuperTooltip);
-    return possibleConstructorReturn(this, (SuperTooltip.__proto__ || Object.getPrototypeOf(SuperTooltip)).apply(this, arguments));
-  }
+	function SuperTooltip() {
+		classCallCheck$2(this, SuperTooltip);
+		return possibleConstructorReturn(this, (SuperTooltip.__proto__ || Object.getPrototypeOf(SuperTooltip)).apply(this, arguments));
+	}
 
-  createClass$2(SuperTooltip, [{
-    key: 'setClasses',
-    value: function setClasses(classes) {
-      this._classes = classes;
-    }
-  }, {
-    key: 'setContent',
-    value: function setContent(content) {
-      this.options.title = content;
-      if (this._tooltipNode) {
-        var el = this._tooltipNode.querySelector(this.innerSelector);
+	createClass$2(SuperTooltip, [{
+		key: 'setClasses',
+		value: function setClasses(classes) {
+			this._classes = classes;
+		}
+	}, {
+		key: 'setContent',
+		value: function setContent(content) {
+			this.options.title = content;
+			if (this._tooltipNode) {
+				var el = this._tooltipNode.querySelector(this.innerSelector);
 
-        if (el) {
-          if (!content) {
-            el.innerHTML = '';
-          } else {
-            el.innerHTML = content;
-          }
+				if (el) {
+					if (!content) {
+						el.innerHTML = '';
+					} else {
+						el.innerHTML = content;
+					}
 
-          this.popperInstance.update();
-        }
-      }
-    }
-  }, {
-    key: 'setOptions',
-    value: function setOptions(options) {
-      var classesUpdated = false;
-      var classes = options && options.classes || directive.options.defaultClass;
-      if (this._classes !== classes) {
-        this.setClasses(classes);
-        classesUpdated = true;
-      }
+					this.popperInstance.update();
+				}
+			}
+		}
+	}, {
+		key: 'setOptions',
+		value: function setOptions(options) {
+			var classesUpdated = false;
+			var classes = options && options.classes || directive.options.defaultClass;
+			if (this._classes !== classes) {
+				this.setClasses(classes);
+				classesUpdated = true;
+			}
 
-      options = getOptions(options);
+			options = getOptions(options);
 
-      var needPopperUpdate = false;
-      var needRestart = false;
+			var needPopperUpdate = false;
+			var needRestart = false;
 
-      if (this.options.offset !== options.offset || this.options.placement !== options.placement) {
-        needPopperUpdate = true;
-      }
+			if (this.options.offset !== options.offset || this.options.placement !== options.placement) {
+				needPopperUpdate = true;
+			}
 
-      if (this.options.template !== options.template || this.options.trigger !== options.trigger || this.options.container !== options.container || classesUpdated) {
-        needRestart = true;
-      }
+			if (this.options.template !== options.template || this.options.trigger !== options.trigger || this.options.container !== options.container || classesUpdated) {
+				needRestart = true;
+			}
 
-      for (var key in options) {
-        this.options[key] = options[key];
-      }
+			for (var key in options) {
+				this.options[key] = options[key];
+			}
 
-      if (this._tooltipNode) {
-        if (needRestart) {
-          var isOpen = this._isOpen;
+			if (this._tooltipNode) {
+				if (needRestart) {
+					var isOpen = this._isOpen;
 
-          this.dispose();
+					this.dispose();
 
-          var events = typeof this.options.trigger === 'string' ? options.trigger.split(' ').filter(function (trigger) {
-            return ['click', 'hover', 'focus'].indexOf(trigger) !== -1;
-          }) : [];
-          this._setEventListeners(this.reference, events, this.options);
+					var events = typeof this.options.trigger === 'string' ? options.trigger.split(' ').filter(function (trigger) {
+						return ['click', 'hover', 'focus'].indexOf(trigger) !== -1;
+					}) : [];
+					this._setEventListeners(this.reference, events, this.options);
 
-          if (isOpen) {
-            this.show();
-          }
-        } else if (needPopperUpdate) {
-          this.popperInstance.update();
-        }
-      }
-    }
-  }, {
-    key: '_create',
-    value: function _create() {
-      var _babelHelpers$get;
+					if (isOpen) {
+						this.show();
+					}
+				} else if (needPopperUpdate) {
+					this.popperInstance.update();
+				}
+			}
+		}
+	}, {
+		key: '_create',
+		value: function _create() {
+			var _babelHelpers$get;
 
-      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
+			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+				args[_key] = arguments[_key];
+			}
 
-      var result = (_babelHelpers$get = get(SuperTooltip.prototype.__proto__ || Object.getPrototypeOf(SuperTooltip.prototype), '_create', this)).call.apply(_babelHelpers$get, [this].concat(args));
+			var result = (_babelHelpers$get = get(SuperTooltip.prototype.__proto__ || Object.getPrototypeOf(SuperTooltip.prototype), '_create', this)).call.apply(_babelHelpers$get, [this].concat(args));
 
-      if (defaultOptions.autoHide && this.options.trigger.indexOf('hover') !== -1) {
-        result.addEventListener('mouseenter', this.hide);
-        result.addEventListener('click', this.hide);
-      }
+			if (defaultOptions.autoHide && this.options.trigger.indexOf('hover') !== -1) {
+				result.addEventListener('mouseenter', this.hide);
+				result.addEventListener('click', this.hide);
+			}
 
-      return result;
-    }
-  }, {
-    key: '_dispose',
-    value: function _dispose() {
-      var _this2 = this;
+			return result;
+		}
+	}, {
+		key: '_dispose',
+		value: function _dispose() {
+			var _this2 = this;
 
-      if (this._tooltipNode) {
-        this._tooltipNode.removeEventListener('mouseenter', this.hide);
-        this._tooltipNode.removeEventListener('click', this.hide);
-      }
+			if (this._tooltipNode) {
+				this._tooltipNode.removeEventListener('mouseenter', this.hide);
+				this._tooltipNode.removeEventListener('click', this.hide);
+			}
 
-      this._events.forEach(function (_ref) {
-        var func = _ref.func,
-            event = _ref.event;
+			this._events.forEach(function (_ref) {
+				var func = _ref.func,
+				    event = _ref.event;
 
-        _this2.reference.removeEventListener(event, func);
-      });
-      this._events = [];
-      return get(SuperTooltip.prototype.__proto__ || Object.getPrototypeOf(SuperTooltip.prototype), '_dispose', this).call(this);
-    }
-  }, {
-    key: '_show',
-    value: function _show(reference, options) {
-      var _babelHelpers$get2,
-          _this3 = this;
+				_this2.reference.removeEventListener(event, func);
+			});
+			this._events = [];
+			return get(SuperTooltip.prototype.__proto__ || Object.getPrototypeOf(SuperTooltip.prototype), '_dispose', this).call(this);
+		}
+	}, {
+		key: '_show',
+		value: function _show(reference, options) {
+			var _babelHelpers$get2,
+			    _this3 = this;
 
-      if (options && typeof options.container === 'string') {
-        var container = document.querySelector(options.container);
-        if (!container) return;
-      }
+			if (options && typeof options.container === 'string') {
+				var container = document.querySelector(options.container);
+				if (!container) return;
+			}
 
-      var updateClasses = true;
-      if (this._tooltipNode) {
-        addClasses(this._tooltipNode, this._classes);
-        updateClasses = false;
-      }
+			options = Object.assign({}, options);
+			delete options.offset;
 
-      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-        args[_key2 - 2] = arguments[_key2];
-      }
+			var updateClasses = true;
+			if (this._tooltipNode) {
+				addClasses(this._tooltipNode, this._classes);
+				updateClasses = false;
+			}
 
-      var result = (_babelHelpers$get2 = get(SuperTooltip.prototype.__proto__ || Object.getPrototypeOf(SuperTooltip.prototype), '_show', this)).call.apply(_babelHelpers$get2, [this, reference, options].concat(args));
+			for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+				args[_key2 - 2] = arguments[_key2];
+			}
 
-      if (updateClasses && this._tooltipNode) {
-        addClasses(this._tooltipNode, this._classes);
-      }
+			var result = (_babelHelpers$get2 = get(SuperTooltip.prototype.__proto__ || Object.getPrototypeOf(SuperTooltip.prototype), '_show', this)).call.apply(_babelHelpers$get2, [this, reference, options].concat(args));
 
-      // Fix position
-      setTimeout(function () {
-        if (_this3.popperInstance) {
-          _this3.popperInstance.update();
-        }
-      }, 0);
+			if (updateClasses && this._tooltipNode) {
+				addClasses(this._tooltipNode, this._classes);
+			}
 
-      clearTimeout(this._disposeTimer);
+			// Fix position
+			setTimeout(function () {
+				if (_this3.popperInstance) {
+					_this3.popperInstance.update();
+				}
+			}, 0);
 
-      return result;
-    }
-  }, {
-    key: '_hide',
-    value: function _hide() {
-      var _babelHelpers$get3,
-          _this4 = this;
+			clearTimeout(this._disposeTimer);
 
-      for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
-      }
+			return result;
+		}
+	}, {
+		key: '_hide',
+		value: function _hide() {
+			var _babelHelpers$get3,
+			    _this4 = this;
 
-      var result = (_babelHelpers$get3 = get(SuperTooltip.prototype.__proto__ || Object.getPrototypeOf(SuperTooltip.prototype), '_hide', this)).call.apply(_babelHelpers$get3, [this].concat(args));
+			for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+				args[_key3] = arguments[_key3];
+			}
 
-      clearTimeout(this._disposeTimer);
-      this._disposeTimer = setTimeout(function () {
-        if (_this4._tooltipNode) {
-          _this4._tooltipNode.removeEventListener('mouseenter', _this4.hide);
-          _this4._tooltipNode.removeEventListener('click', _this4.hide);
-          _this4._tooltipNode.parentNode.removeChild(_this4._tooltipNode);
-          _this4._tooltipNode = null;
-        }
-      }, defaultOptions.disposeTimeout);
+			var result = (_babelHelpers$get3 = get(SuperTooltip.prototype.__proto__ || Object.getPrototypeOf(SuperTooltip.prototype), '_hide', this)).call.apply(_babelHelpers$get3, [this].concat(args));
 
-      return result;
-    }
-  }]);
-  return SuperTooltip;
+			clearTimeout(this._disposeTimer);
+			this._disposeTimer = setTimeout(function () {
+				if (_this4._tooltipNode) {
+					_this4._tooltipNode.removeEventListener('mouseenter', _this4.hide);
+					_this4._tooltipNode.removeEventListener('click', _this4.hide);
+					_this4._tooltipNode.parentNode.removeChild(_this4._tooltipNode);
+					_this4._tooltipNode = null;
+				}
+			}, directive.options.disposeTimeout || defaultOptions.disposeTimeout);
+
+			return result;
+		}
+	}]);
+	return SuperTooltip;
 }(Tooltip);
 
 function getContent(value) {
-  var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
-  if (type === 'string') {
-    return value;
-  } else if (value && type === 'object') {
-    return value.content;
-  } else {
-    return false;
-  }
+	var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+	if (type === 'string') {
+		return value;
+	} else if (value && type === 'object') {
+		return value.content;
+	} else {
+		return false;
+	}
 }
 
 function createTooltip(el, value, modifiers) {
-  var content = getContent(value);
-  var classes = value.classes || directive.options.defaultClass;
-  var opts = _extends$2({
-    title: content,
-    html: true
-  }, getOptions(_extends$2({}, value, {
-    placement: getPlacement(value, modifiers)
-  })));
-  var tooltip = el._tooltip = new SuperTooltip(el, opts);
-  tooltip.setClasses(classes);
-  tooltip._vueEl = el;
+	var content = getContent(value);
+	var classes = value.classes || directive.options.defaultClass;
+	var opts = _extends$2({
+		title: content,
+		html: true
+	}, getOptions(_extends$2({}, value, {
+		placement: getPlacement(value, modifiers)
+	})));
+	var tooltip = el._tooltip = new SuperTooltip(el, opts);
+	tooltip.setClasses(classes);
+	tooltip._vueEl = el;
 }
 
 function destroyTooltip(el) {
-  if (el._tooltip) {
-    el._tooltip.dispose();
-    delete el._tooltip;
-  }
+	if (el._tooltip) {
+		el._tooltip.dispose();
+		delete el._tooltip;
+	}
 }
 
 var directive = {
-  options: defaultOptions,
-  bind: function bind(el, _ref2) {
-    var value = _ref2.value,
-        modifiers = _ref2.modifiers;
+	options: defaultOptions,
+	bind: function bind(el, _ref2) {
+		var value = _ref2.value,
+		    modifiers = _ref2.modifiers;
 
-    var content = getContent(value);
-    destroyTooltip(el);
-    if (content && state.enabled) {
-      createTooltip(el, value, modifiers);
-    }
-  },
-  update: function update(el, _ref3) {
-    var value = _ref3.value,
-        oldValue = _ref3.oldValue,
-        modifiers = _ref3.modifiers;
+		var content = getContent(value);
+		destroyTooltip(el);
+		if (content && state.enabled) {
+			createTooltip(el, value, modifiers);
+		}
+	},
+	update: function update(el, _ref3) {
+		var value = _ref3.value,
+		    oldValue = _ref3.oldValue,
+		    modifiers = _ref3.modifiers;
 
-    var content = getContent(value);
-    if (!content || !state.enabled) {
-      destroyTooltip(el);
-    } else if (el._tooltip) {
-      var tooltip = el._tooltip;
-      // Content
-      tooltip.setContent(content);
-      // Options
-      tooltip.setOptions(_extends$2({}, value, {
-        placement: getPlacement(value, modifiers)
-      }));
-    } else {
-      createTooltip(el, value, modifiers);
-    }
-  },
-  unbind: function unbind(el) {
-    destroyTooltip(el);
-  }
+		var content = getContent(value);
+		if (!content || !state.enabled) {
+			destroyTooltip(el);
+		} else if (el._tooltip) {
+			var tooltip = el._tooltip;
+			// Content
+			tooltip.setContent(content);
+			// Options
+			tooltip.setOptions(_extends$2({}, value, {
+				placement: getPlacement(value, modifiers)
+			}));
+		} else {
+			createTooltip(el, value, modifiers);
+		}
+	},
+	unbind: function unbind(el) {
+		destroyTooltip(el);
+	}
 };
 
 function install(Vue, options) {
@@ -21012,7 +21074,7 @@ if (GlobalVue) {
 
 /* unused harmony default export */ var _unused_webpack_default_export = (plugin);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(41)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(42)))
 
 /***/ }),
 /* 203 */
@@ -21060,7 +21122,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-1ae71dc9", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-1ae71dc9", esExports)
   }
 }
 
@@ -21188,7 +21250,7 @@ window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
 
 /* WEBPACK VAR INJECTION */(function(global) {var require;var require;/*!
     localForage -- Offline Storage, Improved
-    Version 1.5.0
+    Version 1.5.2
     https://localforage.github.io/localForage
     (c) 2013-2017 Mozilla, Apache License 2.0
 */
@@ -21553,7 +21615,9 @@ function getIDB() {
         if (typeof msIndexedDB !== 'undefined') {
             return msIndexedDB;
         }
-    } catch (e) {}
+    } catch (e) {
+        return;
+    }
 }
 
 var idb = getIDB();
@@ -21578,19 +21642,9 @@ function isIndexedDBValid() {
         return (!isSafari || hasFetch) && typeof indexedDB !== 'undefined' &&
         // some outdated implementations of IDB that appear on Samsung
         // and HTC Android devices <4.4 are missing IDBKeyRange
+        // See: https://github.com/mozilla/localForage/issues/128
+        // See: https://github.com/mozilla/localForage/issues/272
         typeof IDBKeyRange !== 'undefined';
-    } catch (e) {
-        return false;
-    }
-}
-
-function isWebSQLValid() {
-    return typeof openDatabase === 'function';
-}
-
-function isLocalStorageValid() {
-    try {
-        return typeof localStorage !== 'undefined' && 'setItem' in localStorage && localStorage.setItem;
     } catch (e) {
         return false;
     }
@@ -21650,6 +21704,16 @@ function executeTwoCallbacks(promise, callback, errorCallback) {
     }
 }
 
+function normalizeKey(key) {
+    // Cast the key to a string, as that's all we can set as a key.
+    if (typeof key !== 'string') {
+        console.warn(key + ' used as a key, but it is not a string.');
+        key = String(key);
+    }
+
+    return key;
+}
+
 // Some code originally from async_storage.js in
 // [Gaia](https://github.com/mozilla-b2g/gaia).
 
@@ -21657,6 +21721,10 @@ var DETECT_BLOB_SUPPORT_STORE = 'local-forage-detect-blob-support';
 var supportsBlobs;
 var dbContexts;
 var toString = Object.prototype.toString;
+
+// Transaction Modes
+var READ_ONLY = 'readonly';
+var READ_WRITE = 'readwrite';
 
 // Transform a binary string to an array buffer, because otherwise
 // weird stuff happens when you try to work with the binary string directly.
@@ -21690,7 +21758,7 @@ function _binStringToArrayBuffer(bin) {
 //
 function _checkBlobSupportWithoutCaching(idb) {
     return new Promise$1(function (resolve) {
-        var txn = idb.transaction(DETECT_BLOB_SUPPORT_STORE, 'readwrite');
+        var txn = idb.transaction(DETECT_BLOB_SUPPORT_STORE, READ_WRITE);
         var blob = createBlob(['']);
         txn.objectStore(DETECT_BLOB_SUPPORT_STORE).put(blob, 'key');
 
@@ -21757,6 +21825,19 @@ function _advanceReadiness(dbInfo) {
     // chain of promises).
     if (deferredOperation) {
         deferredOperation.resolve();
+    }
+}
+
+function _rejectReadiness(dbInfo, err) {
+    var dbContext = dbContexts[dbInfo.name];
+
+    // Dequeue a deferred operation.
+    var deferredOperation = dbContext.deferredOperations.pop();
+
+    // Reject its promise (which is part of the database readiness
+    // chain of promises).
+    if (deferredOperation) {
+        deferredOperation.reject(err);
     }
 }
 
@@ -21902,6 +21983,51 @@ function _fullyReady(callback) {
     return promise;
 }
 
+// Try to establish a new db connection to replace the
+// current one which is broken (i.e. experiencing
+// InvalidStateError while creating a transaction).
+function _tryReconnect(dbInfo) {
+    _deferReadiness(dbInfo);
+
+    var dbContext = dbContexts[dbInfo.name];
+    var forages = dbContext.forages;
+
+    for (var i = 0; i < forages.length; i++) {
+        if (forages[i]._dbInfo.db) {
+            forages[i]._dbInfo.db.close();
+            forages[i]._dbInfo.db = null;
+        }
+    }
+
+    return _getConnection(dbInfo, false).then(function (db) {
+        for (var j = 0; j < forages.length; j++) {
+            forages[j]._dbInfo.db = db;
+        }
+    })["catch"](function (err) {
+        _rejectReadiness(dbInfo, err);
+        throw err;
+    });
+}
+
+// FF doesn't like Promises (micro-tasks) and IDDB store operations,
+// so we have to do it with callbacks
+function createTransaction(dbInfo, mode, callback) {
+    try {
+        var tx = dbInfo.db.transaction(dbInfo.storeName, mode);
+        callback(null, tx);
+    } catch (err) {
+        if (!dbInfo.db || err.name === 'InvalidStateError') {
+            return _tryReconnect(dbInfo).then(function () {
+
+                var tx = dbInfo.db.transaction(dbInfo.storeName, mode);
+                callback(null, tx);
+            });
+        }
+
+        callback(err);
+    }
+}
+
 // Open the IndexedDB database (automatically creates one if one didn't
 // previously exist), using any options set in the config.
 function _initStorage(options) {
@@ -22000,32 +22126,37 @@ function _initStorage(options) {
 function getItem(key, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var store = dbInfo.db.transaction(dbInfo.storeName, 'readonly').objectStore(dbInfo.storeName);
-            var req = store.get(key);
-
-            req.onsuccess = function () {
-                var value = req.result;
-                if (value === undefined) {
-                    value = null;
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
                 }
-                if (_isEncodedBlob(value)) {
-                    value = _decodeBlob(value);
-                }
-                resolve(value);
-            };
 
-            req.onerror = function () {
-                reject(req.error);
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.get(key);
+
+                    req.onsuccess = function () {
+                        var value = req.result;
+                        if (value === undefined) {
+                            value = null;
+                        }
+                        if (_isEncodedBlob(value)) {
+                            value = _decodeBlob(value);
+                        }
+                        resolve(value);
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -22039,35 +22170,46 @@ function iterate(iterator, callback) {
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var store = dbInfo.db.transaction(dbInfo.storeName, 'readonly').objectStore(dbInfo.storeName);
-
-            var req = store.openCursor();
-            var iterationNumber = 1;
-
-            req.onsuccess = function () {
-                var cursor = req.result;
-
-                if (cursor) {
-                    var value = cursor.value;
-                    if (_isEncodedBlob(value)) {
-                        value = _decodeBlob(value);
-                    }
-                    var result = iterator(value, cursor.key, iterationNumber++);
-
-                    if (result !== void 0) {
-                        resolve(result);
-                    } else {
-                        cursor["continue"]();
-                    }
-                } else {
-                    resolve();
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
                 }
-            };
 
-            req.onerror = function () {
-                reject(req.error);
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.openCursor();
+                    var iterationNumber = 1;
+
+                    req.onsuccess = function () {
+                        var cursor = req.result;
+
+                        if (cursor) {
+                            var value = cursor.value;
+                            if (_isEncodedBlob(value)) {
+                                value = _decodeBlob(value);
+                            }
+                            var result = iterator(value, cursor.key, iterationNumber++);
+
+                            // when the iterator callback retuns any
+                            // (non-`undefined`) value, then we stop
+                            // the iteration immediately
+                            if (result !== void 0) {
+                                resolve(result);
+                            } else {
+                                cursor["continue"]();
+                            }
+                        } else {
+                            resolve();
+                        }
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -22079,11 +22221,7 @@ function iterate(iterator, callback) {
 function setItem(key, value, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = new Promise$1(function (resolve, reject) {
         var dbInfo;
@@ -22099,35 +22237,44 @@ function setItem(key, value, callback) {
             }
             return value;
         }).then(function (value) {
-            var transaction = dbInfo.db.transaction(dbInfo.storeName, 'readwrite');
-            var store = transaction.objectStore(dbInfo.storeName);
-            var req = store.put(value, key);
-
-            // The reason we don't _save_ null is because IE 10 does
-            // not support saving the `null` type in IndexedDB. How
-            // ironic, given the bug below!
-            // See: https://github.com/mozilla/localForage/issues/161
-            if (value === null) {
-                value = undefined;
-            }
-
-            transaction.oncomplete = function () {
-                // Cast to undefined so the value passed to
-                // callback/promise is the same as what one would get out
-                // of `getItem()` later. This leads to some weirdness
-                // (setItem('foo', undefined) will return `null`), but
-                // it's not my fault localStorage is our baseline and that
-                // it's weird.
-                if (value === undefined) {
-                    value = null;
+            createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
+                if (err) {
+                    return reject(err);
                 }
 
-                resolve(value);
-            };
-            transaction.onabort = transaction.onerror = function () {
-                var err = req.error ? req.error : req.transaction.error;
-                reject(err);
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.put(value, key);
+
+                    // The reason we don't _save_ null is because IE 10 does
+                    // not support saving the `null` type in IndexedDB. How
+                    // ironic, given the bug below!
+                    // See: https://github.com/mozilla/localForage/issues/161
+                    if (value === null) {
+                        value = undefined;
+                    }
+
+                    transaction.oncomplete = function () {
+                        // Cast to undefined so the value passed to
+                        // callback/promise is the same as what one would get out
+                        // of `getItem()` later. This leads to some weirdness
+                        // (setItem('foo', undefined) will return `null`), but
+                        // it's not my fault localStorage is our baseline and that
+                        // it's weird.
+                        if (value === undefined) {
+                            value = null;
+                        }
+
+                        resolve(value);
+                    };
+                    transaction.onabort = transaction.onerror = function () {
+                        var err = req.error ? req.error : req.transaction.error;
+                        reject(err);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -22138,38 +22285,41 @@ function setItem(key, value, callback) {
 function removeItem(key, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var transaction = dbInfo.db.transaction(dbInfo.storeName, 'readwrite');
-            var store = transaction.objectStore(dbInfo.storeName);
+            createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
 
-            // We use a Grunt task to make this safe for IE and some
-            // versions of Android (including those used by Cordova).
-            // Normally IE won't like `.delete()` and will insist on
-            // using `['delete']()`, but we have a build step that
-            // fixes this for us now.
-            var req = store["delete"](key);
-            transaction.oncomplete = function () {
-                resolve();
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    // We use a Grunt task to make this safe for IE and some
+                    // versions of Android (including those used by Cordova).
+                    // Normally IE won't like `.delete()` and will insist on
+                    // using `['delete']()`, but we have a build step that
+                    // fixes this for us now.
+                    var req = store["delete"](key);
+                    transaction.oncomplete = function () {
+                        resolve();
+                    };
 
-            transaction.onerror = function () {
-                reject(req.error);
-            };
+                    transaction.onerror = function () {
+                        reject(req.error);
+                    };
 
-            // The request will be also be aborted if we've exceeded our storage
-            // space.
-            transaction.onabort = function () {
-                var err = req.error ? req.error : req.transaction.error;
-                reject(err);
-            };
+                    // The request will be also be aborted if we've exceeded our storage
+                    // space.
+                    transaction.onabort = function () {
+                        var err = req.error ? req.error : req.transaction.error;
+                        reject(err);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -22182,19 +22332,27 @@ function clear(callback) {
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var transaction = dbInfo.db.transaction(dbInfo.storeName, 'readwrite');
-            var store = transaction.objectStore(dbInfo.storeName);
-            var req = store.clear();
+            createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
 
-            transaction.oncomplete = function () {
-                resolve();
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.clear();
 
-            transaction.onabort = transaction.onerror = function () {
-                var err = req.error ? req.error : req.transaction.error;
-                reject(err);
-            };
+                    transaction.oncomplete = function () {
+                        resolve();
+                    };
+
+                    transaction.onabort = transaction.onerror = function () {
+                        var err = req.error ? req.error : req.transaction.error;
+                        reject(err);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -22207,17 +22365,26 @@ function length(callback) {
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var store = dbInfo.db.transaction(dbInfo.storeName, 'readonly').objectStore(dbInfo.storeName);
-            var req = store.count();
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
 
-            req.onsuccess = function () {
-                resolve(req.result);
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.count();
 
-            req.onerror = function () {
-                reject(req.error);
-            };
+                    req.onsuccess = function () {
+                        resolve(req.result);
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -22236,40 +22403,49 @@ function key(n, callback) {
         }
 
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var store = dbInfo.db.transaction(dbInfo.storeName, 'readonly').objectStore(dbInfo.storeName);
-
-            var advanced = false;
-            var req = store.openCursor();
-            req.onsuccess = function () {
-                var cursor = req.result;
-                if (!cursor) {
-                    // this means there weren't enough keys
-                    resolve(null);
-
-                    return;
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
                 }
 
-                if (n === 0) {
-                    // We have the first key, return it if that's what they
-                    // wanted.
-                    resolve(cursor.key);
-                } else {
-                    if (!advanced) {
-                        // Otherwise, ask the cursor to skip ahead n
-                        // records.
-                        advanced = true;
-                        cursor.advance(n);
-                    } else {
-                        // When we get here, we've got the nth key.
-                        resolve(cursor.key);
-                    }
-                }
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var advanced = false;
+                    var req = store.openCursor();
 
-            req.onerror = function () {
-                reject(req.error);
-            };
+                    req.onsuccess = function () {
+                        var cursor = req.result;
+                        if (!cursor) {
+                            // this means there weren't enough keys
+                            resolve(null);
+
+                            return;
+                        }
+
+                        if (n === 0) {
+                            // We have the first key, return it if that's what they
+                            // wanted.
+                            resolve(cursor.key);
+                        } else {
+                            if (!advanced) {
+                                // Otherwise, ask the cursor to skip ahead n
+                                // records.
+                                advanced = true;
+                                cursor.advance(n);
+                            } else {
+                                // When we get here, we've got the nth key.
+                                resolve(cursor.key);
+                            }
+                        }
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -22282,27 +22458,35 @@ function keys(callback) {
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var store = dbInfo.db.transaction(dbInfo.storeName, 'readonly').objectStore(dbInfo.storeName);
-
-            var req = store.openCursor();
-            var keys = [];
-
-            req.onsuccess = function () {
-                var cursor = req.result;
-
-                if (!cursor) {
-                    resolve(keys);
-                    return;
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
                 }
 
-                keys.push(cursor.key);
-                cursor["continue"]();
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.openCursor();
+                    var keys = [];
 
-            req.onerror = function () {
-                reject(req.error);
-            };
+                    req.onsuccess = function () {
+                        var cursor = req.result;
+
+                        if (!cursor) {
+                            resolve(keys);
+                            return;
+                        }
+
+                        keys.push(cursor.key);
+                        cursor["continue"]();
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -22313,6 +22497,7 @@ function keys(callback) {
 var asyncStorage = {
     _driver: 'asyncStorage',
     _initStorage: _initStorage,
+    _support: isIndexedDBValid(),
     iterate: iterate,
     getItem: getItem,
     setItem: setItem,
@@ -22322,6 +22507,10 @@ var asyncStorage = {
     key: key,
     keys: keys
 };
+
+function isWebSQLValid() {
+    return typeof openDatabase === 'function';
+}
 
 // Sadly, the best way to save binary data in WebSQL/localStorage is serializing
 // it to Base64, so this is how we store it to prevent very strange errors with less
@@ -22598,11 +22787,7 @@ function _initStorage$1(options) {
 function getItem$1(key, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
@@ -22677,11 +22862,7 @@ function iterate$1(iterator, callback) {
 function _setItem(key, value, callback, retriesLeft) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
@@ -22740,11 +22921,7 @@ function setItem$1(key, value, callback) {
 function removeItem$1(key, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
@@ -22753,7 +22930,6 @@ function removeItem$1(key, callback) {
                 t.executeSql('DELETE FROM ' + dbInfo.storeName + ' WHERE key = ?', [key], function () {
                     resolve();
                 }, function (t, error) {
-
                     reject(error);
                 });
             });
@@ -22801,7 +22977,6 @@ function length$1(callback) {
 
                     resolve(result);
                 }, function (t, error) {
-
                     reject(error);
                 });
             });
@@ -22856,7 +23031,6 @@ function keys$1(callback) {
 
                     resolve(keys);
                 }, function (t, error) {
-
                     reject(error);
                 });
             });
@@ -22870,6 +23044,7 @@ function keys$1(callback) {
 var webSQLStorage = {
     _driver: 'webSQLStorage',
     _initStorage: _initStorage$1,
+    _support: isWebSQLValid(),
     iterate: iterate$1,
     getItem: getItem$1,
     setItem: setItem$1,
@@ -22879,6 +23054,14 @@ var webSQLStorage = {
     key: key$1,
     keys: keys$1
 };
+
+function isLocalStorageValid() {
+    try {
+        return typeof localStorage !== 'undefined' && 'setItem' in localStorage && typeof localStorage.setItem === 'function';
+    } catch (e) {
+        return false;
+    }
+}
 
 // Config the localStorage backend, using options set in the config.
 function _initStorage$2(options) {
@@ -22928,11 +23111,7 @@ function clear$2(callback) {
 function getItem$2(key, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = self.ready().then(function () {
         var dbInfo = self._dbInfo;
@@ -23057,11 +23236,7 @@ function length$2(callback) {
 function removeItem$2(key, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = self.ready().then(function () {
         var dbInfo = self._dbInfo;
@@ -23079,11 +23254,7 @@ function removeItem$2(key, callback) {
 function setItem$2(key, value, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = self.ready().then(function () {
         // Convert undefined values to null.
@@ -23124,7 +23295,7 @@ function setItem$2(key, value, callback) {
 var localStorageWrapper = {
     _driver: 'localStorageWrapper',
     _initStorage: _initStorage$2,
-    // Default API, from Gaia/localStorage.
+    _support: isLocalStorageValid(),
     iterate: iterate$2,
     getItem: getItem$2,
     setItem: setItem$2,
@@ -23135,17 +23306,23 @@ var localStorageWrapper = {
     keys: keys$2
 };
 
-// Custom drivers are stored here when `defineDriver()` is called.
-// They are shared across all instances of localForage.
-var CustomDrivers = {};
-
-var DriverType = {
-    INDEXEDDB: 'asyncStorage',
-    LOCALSTORAGE: 'localStorageWrapper',
-    WEBSQL: 'webSQLStorage'
+var isArray = Array.isArray || function (arg) {
+    return Object.prototype.toString.call(arg) === '[object Array]';
 };
 
-var DefaultDriverOrder = [DriverType.INDEXEDDB, DriverType.WEBSQL, DriverType.LOCALSTORAGE];
+// Drivers are stored here when `defineDriver()` is called.
+// They are shared across all instances of localForage.
+var DefinedDrivers = {};
+
+var DriverSupport = {};
+
+var DefaultDrivers = {
+    INDEXEDDB: asyncStorage,
+    WEBSQL: webSQLStorage,
+    LOCALSTORAGE: localStorageWrapper
+};
+
+var DefaultDriverOrder = [DefaultDrivers.INDEXEDDB._driver, DefaultDrivers.WEBSQL._driver, DefaultDrivers.LOCALSTORAGE._driver];
 
 var LibraryMethods = ['clear', 'getItem', 'iterate', 'key', 'keys', 'length', 'removeItem', 'setItem'];
 
@@ -23158,22 +23335,6 @@ var DefaultConfig = {
     size: 4980736,
     storeName: 'keyvaluepairs',
     version: 1.0
-};
-
-var driverSupport = {};
-// Check to see if IndexedDB is available and if it is the latest
-// implementation; it's our preferred backend library. We use "_spec_test"
-// as the name of the database because it's not the one we'll operate on,
-// but it's useful to make sure its using the right spec.
-// See: https://github.com/mozilla/localForage/issues/128
-driverSupport[DriverType.INDEXEDDB] = isIndexedDBValid();
-
-driverSupport[DriverType.WEBSQL] = isWebSQLValid();
-
-driverSupport[DriverType.LOCALSTORAGE] = isLocalStorageValid();
-
-var isArray = Array.isArray || function (arg) {
-    return Object.prototype.toString.call(arg) === '[object Array]';
 };
 
 function callWhenReady(localForageInstance, libraryMethod) {
@@ -23190,12 +23351,12 @@ function extend() {
         var arg = arguments[i];
 
         if (arg) {
-            for (var key in arg) {
-                if (arg.hasOwnProperty(key)) {
-                    if (isArray(arg[key])) {
-                        arguments[0][key] = arg[key].slice();
+            for (var _key in arg) {
+                if (arg.hasOwnProperty(_key)) {
+                    if (isArray(arg[_key])) {
+                        arguments[0][_key] = arg[_key].slice();
                     } else {
-                        arguments[0][key] = arg[key];
+                        arguments[0][_key] = arg[_key];
                     }
                 }
             }
@@ -23205,23 +23366,24 @@ function extend() {
     return arguments[0];
 }
 
-function isLibraryDriver(driverName) {
-    for (var driver in DriverType) {
-        if (DriverType.hasOwnProperty(driver) && DriverType[driver] === driverName) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 var LocalForage = function () {
     function LocalForage(options) {
         _classCallCheck(this, LocalForage);
 
-        this.INDEXEDDB = DriverType.INDEXEDDB;
-        this.LOCALSTORAGE = DriverType.LOCALSTORAGE;
-        this.WEBSQL = DriverType.WEBSQL;
+        for (var driverTypeKey in DefaultDrivers) {
+            if (DefaultDrivers.hasOwnProperty(driverTypeKey)) {
+                var driver = DefaultDrivers[driverTypeKey];
+                var driverName = driver._driver;
+                this[driverTypeKey] = driverName;
+
+                if (!DefinedDrivers[driverName]) {
+                    // we don't need to wait for the promise,
+                    // since the default drivers can be defined
+                    // in a blocking manner
+                    this.defineDriver(driver);
+                }
+            }
+        }
 
         this._defaultConfig = extend({}, DefaultConfig);
         this._config = extend({}, this._defaultConfig, options);
@@ -23248,7 +23410,7 @@ var LocalForage = function () {
             // If localforage is ready and fully initialized, we can't set
             // any new configuration values. Instead, we return an error.
             if (this._ready) {
-                return new Error("Can't call config() after localforage " + 'has been used.');
+                return new Error('Can\'t call config() after localforage ' + 'has been used.');
             }
 
             for (var i in options) {
@@ -23286,7 +23448,6 @@ var LocalForage = function () {
             try {
                 var driverName = driverObject._driver;
                 var complianceError = new Error('Custom driver not compliant; see ' + 'https://mozilla.github.io/localForage/#definedriver');
-                var namingError = new Error('Custom driver name already in use: ' + driverObject._driver);
 
                 // A driver name should be defined and not overlap with the
                 // library-defined, default drivers.
@@ -23294,34 +23455,37 @@ var LocalForage = function () {
                     reject(complianceError);
                     return;
                 }
-                if (isLibraryDriver(driverObject._driver)) {
-                    reject(namingError);
-                    return;
-                }
 
-                var customDriverMethods = LibraryMethods.concat('_initStorage');
-                for (var i = 0; i < customDriverMethods.length; i++) {
-                    var customDriverMethod = customDriverMethods[i];
+                var driverMethods = LibraryMethods.concat('_initStorage');
+                for (var i = 0, len = driverMethods.length; i < len; i++) {
+                    var customDriverMethod = driverMethods[i];
                     if (!customDriverMethod || !driverObject[customDriverMethod] || typeof driverObject[customDriverMethod] !== 'function') {
                         reject(complianceError);
                         return;
                     }
                 }
 
-                var supportPromise = Promise$1.resolve(true);
+                var setDriverSupport = function setDriverSupport(support) {
+                    if (DefinedDrivers[driverName]) {
+                        console.info('Redefining LocalForage driver: ' + driverName);
+                    }
+                    DefinedDrivers[driverName] = driverObject;
+                    DriverSupport[driverName] = support;
+                    // don't use a then, so that we can define
+                    // drivers that have simple _support methods
+                    // in a blocking manner
+                    resolve();
+                };
+
                 if ('_support' in driverObject) {
                     if (driverObject._support && typeof driverObject._support === 'function') {
-                        supportPromise = driverObject._support();
+                        driverObject._support().then(setDriverSupport, reject);
                     } else {
-                        supportPromise = Promise$1.resolve(!!driverObject._support);
+                        setDriverSupport(!!driverObject._support);
                     }
+                } else {
+                    setDriverSupport(true);
                 }
-
-                supportPromise.then(function (supportResult) {
-                    driverSupport[driverName] = supportResult;
-                    CustomDrivers[driverName] = driverObject;
-                    resolve();
-                }, reject);
             } catch (e) {
                 reject(e);
             }
@@ -23336,23 +23500,8 @@ var LocalForage = function () {
     };
 
     LocalForage.prototype.getDriver = function getDriver(driverName, callback, errorCallback) {
-        var self = this;
-        var getDriverPromise = Promise$1.resolve().then(function () {
-            if (isLibraryDriver(driverName)) {
-                switch (driverName) {
-                    case self.INDEXEDDB:
-                        return asyncStorage;
-                    case self.LOCALSTORAGE:
-                        return localStorageWrapper;
-                    case self.WEBSQL:
-                        return webSQLStorage;
-                }
-            } else if (CustomDrivers[driverName]) {
-                return CustomDrivers[driverName];
-            } else {
-                throw new Error('Driver not found.');
-            }
-        });
+        var getDriverPromise = DefinedDrivers[driverName] ? Promise$1.resolve(DefinedDrivers[driverName]) : Promise$1.reject(new Error('Driver not found.'));
+
         executeTwoCallbacks(getDriverPromise, callback, errorCallback);
         return getDriverPromise;
     };
@@ -23454,7 +23603,7 @@ var LocalForage = function () {
     };
 
     LocalForage.prototype.supports = function supports(driverName) {
-        return !!driverSupport[driverName];
+        return !!DriverSupport[driverName];
     };
 
     LocalForage.prototype._extend = function _extend(libraryMethodsAndProperties) {
@@ -23477,7 +23626,7 @@ var LocalForage = function () {
         // corresponding driver method until localForage is ready. These stubs
         // will be replaced by the driver methods as soon as the driver is
         // loaded, so there is no performance impact.
-        for (var i = 0; i < LibraryMethods.length; i++) {
+        for (var i = 0, len = LibraryMethods.length; i < len; i++) {
             callWhenReady(this, LibraryMethods[i]);
         }
     };
@@ -23499,7 +23648,7 @@ module.exports = localforage_js;
 
 },{"3":3}]},{},[4])(4)
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(42)))
 
 /***/ }),
 /* 207 */
@@ -23560,7 +23709,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-c24d553a", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-c24d553a", esExports)
   }
 }
 
@@ -23569,18 +23718,20 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormReader_vue__ = __webpack_require__(297);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_439e6c2c_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_FormReader_vue__ = __webpack_require__(301);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormReader_vue__ = __webpack_require__(304);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_439e6c2c_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormReader_vue__ = __webpack_require__(308);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(296)
+  __webpack_require__(303)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -23588,15 +23739,15 @@ var __vue_scopeId__ = "data-v-439e6c2c"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormReader_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_439e6c2c_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_FormReader_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormReader_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_439e6c2c_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormReader_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/FormReader/FormReader.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FormReader.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -23608,7 +23759,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-439e6c2c", Component.options)
   } else {
     hotAPI.reload("data-v-439e6c2c", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -23663,8 +23814,8 @@ module.exports = isSymbol;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_EmailEditor_vue__ = __webpack_require__(225);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5b23c1a4_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_EmailEditor_vue__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_EmailEditor_vue__ = __webpack_require__(225);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5b23c1a4_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_EmailEditor_vue__ = __webpack_require__(290);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -23675,6 +23826,8 @@ var normalizeComponent = __webpack_require__(0)
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -23682,15 +23835,15 @@ var __vue_scopeId__ = "data-v-5b23c1a4"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_EmailEditor_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5b23c1a4_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_EmailEditor_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_EmailEditor_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5b23c1a4_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_EmailEditor_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/EmailEditor.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] EmailEditor.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -23702,7 +23855,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-5b23c1a4", Component.options)
   } else {
     hotAPI.reload("data-v-5b23c1a4", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -23926,7 +24079,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			subject: this.defaultSubject,
 			body: {
 				markdown: this.defaultBodyMarkdown,
-				html: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["q" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
+				html: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
 			},
 			editorType: 'medium',
 
@@ -23946,7 +24099,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			return ['medium', 'markdown'];
 		},
 		groupedPossibleRecipients: function groupedPossibleRecipients() {
-			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["p" /* groupUsers */])(this.possibleRecipients);
+			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["q" /* groupUsers */])(this.possibleRecipients);
 		},
 		toDisplayValue: function toDisplayValue() {
 			if (this.possibleRecipients || Array.isArray(this.to)) return (this.to ? this.to.length : '0') + ' recipients';
@@ -23963,7 +24116,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 		defaultBody: function defaultBody() {
 			return {
 				markdown: this.defaultBodyMarkdown,
-				html: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["q" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
+				html: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
 			};
 		}
 	},
@@ -24028,7 +24181,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 
 			fetch(this.target, {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
 			}).then(function (response) {
@@ -24070,7 +24223,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			});
 		},
 
-		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["F" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* ucfirst */]
 	},
 	components: {
 		AlertList: __WEBPACK_IMPORTED_MODULE_1__AlertList_vue__["a" /* default */],
@@ -30404,8 +30557,8 @@ module.exports = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_MediumEditor_vue__ = __webpack_require__(279);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e89af052_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_MediumEditor_vue__ = __webpack_require__(289);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_MediumEditor_vue__ = __webpack_require__(279);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e89af052_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_MediumEditor_vue__ = __webpack_require__(289);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -30416,6 +30569,8 @@ var normalizeComponent = __webpack_require__(0)
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -30423,15 +30578,15 @@ var __vue_scopeId__ = "data-v-e89af052"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_MediumEditor_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e89af052_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_MediumEditor_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_MediumEditor_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e89af052_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_MediumEditor_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/MediumEditor.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] MediumEditor.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -30443,7 +30598,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-e89af052", Component.options)
   } else {
     hotAPI.reload("data-v-e89af052", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -30536,7 +30691,7 @@ if (false) {(function () {
 		this.editor.subscribe('editableInput', __WEBPACK_IMPORTED_MODULE_3_lodash_debounce___default()(function () {
 			var html = _this.editor.getContent();
 
-			_this.$emit('input', Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["q" /* htmlLabelReplacements */])(html, _this.replacements));
+			_this.$emit('input', Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* htmlLabelReplacements */])(html, _this.replacements));
 		}, 500));
 
 		this.$refs.container.querySelector('.medium-editor-element').classList.add('form-control');
@@ -38697,8 +38852,8 @@ module.exports = now;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ReplacementList_vue__ = __webpack_require__(287);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0409124b_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_ReplacementList_vue__ = __webpack_require__(288);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ReplacementList_vue__ = __webpack_require__(287);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0409124b_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ReplacementList_vue__ = __webpack_require__(288);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -38709,6 +38864,8 @@ var normalizeComponent = __webpack_require__(0)
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -38716,15 +38873,15 @@ var __vue_scopeId__ = "data-v-0409124b"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ReplacementList_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0409124b_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_ReplacementList_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ReplacementList_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0409124b_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ReplacementList_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/ReplacementList.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ReplacementList.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -38736,7 +38893,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-0409124b", Component.options)
   } else {
     hotAPI.reload("data-v-0409124b", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -38850,7 +39007,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0409124b", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-0409124b", esExports)
   }
 }
 
@@ -38906,7 +39063,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-e89af052", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-e89af052", esExports)
   }
 }
 
@@ -39364,7 +39521,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5b23c1a4", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-5b23c1a4", esExports)
   }
 }
 
@@ -39374,18 +39531,20 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_RichDate_vue__ = __webpack_require__(565);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1443b082_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_RichDate_vue__ = __webpack_require__(566);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_RichDate_vue__ = __webpack_require__(571);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1443b082_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_RichDate_vue__ = __webpack_require__(572);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(564)
+  __webpack_require__(570)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -39393,15 +39552,15 @@ var __vue_scopeId__ = "data-v-1443b082"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_RichDate_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1443b082_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_RichDate_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_RichDate_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_1443b082_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_RichDate_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/RichDate.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] RichDate.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -39413,7 +39572,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-1443b082", Component.options)
   } else {
     hotAPI.reload("data-v-1443b082", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -39424,1103 +39583,23 @@ if (false) {(function () {
 
 /***/ }),
 /* 293 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 294 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_date_utils_js__ = __webpack_require__(8);
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	props: {
-		dates: {
-			type: Object,
-			required: true
-		},
-		start: {
-			type: String,
-			default: 'startDate'
-		},
-		end: {
-			type: String,
-			default: 'endDate'
-		},
-		time: {
-			type: Boolean,
-			default: false
-		}
-	},
-	data: function data() {
-		return {
-			hovered: false
-		};
-	},
-	mounted: function mounted() {
-		this.$refs.container.addEventListener('mouseenter', this.handleMouseEnter);
-
-		this.$refs.container.addEventListener('mouseleave', this.handleMouseLeave);
-	},
-
-
-	computed: {
-		startDate: function startDate() {
-			return this.dates[this.start];
-		},
-		endDate: function endDate() {
-			return this.dates[this.end];
-		},
-		dateString: function dateString() {
-			return Object(__WEBPACK_IMPORTED_MODULE_0__modules_date_utils_js__["renderDateRange"])(this.startDate, this.endDate, this.hovered);
-		}
-	},
-
-	methods: {
-		handleMouseEnter: function handleMouseEnter() {
-			this.hovered = true;
-		},
-		handleMouseLeave: function handleMouseLeave() {
-			this.hovered = false;
-		}
-	},
-
-	beforeDestroy: function beforeDestroy() {
-		this.$refs.container.removeEventListener('mouseenter', this.handleMouseEnter);
-
-		this.$refs.container.removeEventListener('mouseleave', this.handleMouseLeave);
-	}
-});
-
-/***/ }),
-/* 295 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("span", { ref: "container" }, [
-    _vm._v("\n\t" + _vm._s(_vm.dateString) + "\n")
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-7a8a5f24", esExports)
-  }
-}
-
-/***/ }),
-/* 296 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 297 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormReaderQuestion_vue__ = __webpack_require__(298);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_snarkdown__ = __webpack_require__(37);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	props: {
-		title: {
-			type: String,
-			required: true
-		},
-		contents: {
-			type: Object,
-			required: true
-		},
-		readonly: {
-			type: Boolean,
-			default: false
-		}
-	},
-
-	computed: {
-		formIsValid: function formIsValid() {
-			if (this.readonly) return;
-
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = this.contents.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var item = _step.value;
-
-					if (item.type === 'question' && item.required) {
-						if (['radio', 'radiononnumeric'].includes(item.questionType)) {
-							if (!item.options.some(function (option) {
-								return option.checked;
-							})) return false;
-						} else if (item.questionType !== 'checkbox') {
-							if (!item.value) return false;
-						}
-					}
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			return true;
-		}
-	},
-
-	methods: {
-		snarkdown: __WEBPACK_IMPORTED_MODULE_1_snarkdown__["a" /* default */],
-		handleInput: function handleInput(index, question) {
-			if (this.readonly) return;
-
-			var items = this.contents.items.slice();
-			items.splice(index, 1, Object.assign({}, this.contents.items[index], question));
-			var contents = Object.assign({}, contents, { items: items });
-			this.$emit('input', { contents: contents });
-		},
-		handleSave: function handleSave() {
-			if (!this.readonly) this.$emit('save', {
-				contents: this.contents
-			});
-		},
-		handleSubmit: function handleSubmit() {
-			if (!this.readonly && this.formIsValid) this.$emit('submit', {
-				contents: this.contents
-			});
-		}
-	},
-
-	components: {
-		FormReaderQuestion: __WEBPACK_IMPORTED_MODULE_0__FormReaderQuestion_vue__["a" /* default */]
-	}
-});
-
-/***/ }),
-/* 298 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormReaderQuestion_vue__ = __webpack_require__(299);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7112f620_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_FormReaderQuestion_vue__ = __webpack_require__(300);
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormReaderQuestion_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7112f620_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_FormReaderQuestion_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/vue-components/FormReader/FormReaderQuestion.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FormReaderQuestion.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7112f620", Component.options)
-  } else {
-    hotAPI.reload("data-v-7112f620", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 299 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_snarkdown__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue__ = __webpack_require__(188);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShowHideButton_vue__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(1);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	props: {
-		questionId: {
-			type: String,
-			required: true
-		},
-		type: {
-			type: String,
-			required: true,
-			validate: function validate(type) {
-				return type === 'question';
-			}
-		},
-		questionType: {
-			type: String,
-			required: true
-		},
-		text: {
-			type: String,
-			required: true
-		},
-		required: {
-			type: Boolean,
-			default: false
-		},
-		weight: {
-			type: Number,
-			default: 100
-		},
-		options: {
-			type: Array,
-			required: false
-		},
-		value: {
-			type: [String, Number],
-			required: false
-		},
-		readonly: {
-			type: Boolean,
-			default: false
-		}
-	},
-	data: function data() {
-		return {
-			showDescriptions: false
-		};
-	},
-
-	computed: {
-		hasResponse: function hasResponse() {
-			return this.isOptionQuestion ? this.options.some(function (option) {
-				return option.checked;
-			}) : this.value;
-		},
-		hasDescriptions: function hasDescriptions() {
-			if (!this.options) return false;
-
-			return this.options.some(function (option) {
-				return option.description;
-			});
-		},
-		resettable: function resettable() {
-			return !this.readonly && this.isOptionQuestion && !this.required;
-		},
-		showFooter: function showFooter() {
-			return this.hasDescriptions || this.resettable;
-		},
-		isOptionQuestion: function isOptionQuestion() {
-			return ['radio', 'radiononnumeric', 'checkbox'].includes(this.questionType);
-		},
-		renderedText: function renderedText() {
-			return Object(__WEBPACK_IMPORTED_MODULE_0_snarkdown__["a" /* default */])(this.text.replace('{{', '`{{').replace('}}', '}}`'));
-		}
-	},
-
-	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["F" /* ucfirst */],
-		resetOptions: function resetOptions() {
-			if (this.readonly) return;
-
-			var options = this.options.map(function (option) {
-				return Object.assign({}, option, { checked: false });
-			});
-			this.$emit('input', { options: options });
-		},
-		handleOptionInput: function handleOptionInput(index, option) {
-			if (this.readonly) return;
-
-			var options = ['radiononnumeric', 'radio'].includes(this.questionType) && option.checked ? this.options.map(function (option) {
-				return Object.assign({}, option, { checked: false });
-			}) : this.options.slice();
-			options.splice(index, 1, Object.assign({}, options[index], option));
-			this.$emit('input', { options: options });
-		},
-		handleInput: function handleInput(event) {
-			if (this.readonly) return;
-
-			this.$emit('input', { value: event.target.value });
-		}
-	},
-
-	components: {
-		FormReaderQuestionOption: __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue__["a" /* default */],
-		ShowHideButton: __WEBPACK_IMPORTED_MODULE_2__ShowHideButton_vue__["a" /* default */]
-	}
-});
-
-/***/ }),
-/* 300 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      class:
-        "question panel " + (_vm.required ? "panel-primary" : "panel-default")
-    },
-    [
-      _vm.text
-        ? _c("div", { staticClass: "question-header panel-heading" }, [
-            _c("h3", { staticClass: "question-title panel-title" }, [
-              _c("b", [_vm._v(_vm._s(_vm.ucfirst(_vm.questionId)) + ": ")]),
-              _vm._v(" "),
-              _c("span", { domProps: { innerHTML: _vm._s(_vm.renderedText) } })
-            ])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "question-body panel-body" },
-        [
-          _vm.isOptionQuestion
-            ? _vm._l(_vm.options, function(option, index) {
-                return _c(
-                  "form-reader-question-option",
-                  _vm._b(
-                    {
-                      key: index,
-                      attrs: {
-                        questionType: _vm.questionType,
-                        questionId: _vm.questionId,
-                        required: _vm.required,
-                        showDescription: _vm.showDescriptions,
-                        readonly: _vm.readonly
-                      },
-                      on: {
-                        input: function($event) {
-                          _vm.handleOptionInput(index, arguments[0])
-                        }
-                      }
-                    },
-                    "form-reader-question-option",
-                    option,
-                    false
-                  )
-                )
-              })
-            : _c("div", { staticClass: "question-option" }, [
-                _vm.questionType === "text"
-                  ? _c("textarea", {
-                      staticClass: "form-control",
-                      attrs: {
-                        name: _vm.questionId,
-                        required: _vm.required,
-                        readonly: _vm.readonly
-                      },
-                      domProps: { value: _vm.value },
-                      on: { input: _vm.handleInput }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.questionType === "number"
-                  ? _c("input", {
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "number",
-                        name: _vm.questionId,
-                        required: _vm.required,
-                        readonly: _vm.readonly
-                      },
-                      domProps: { value: _vm.value },
-                      on: { input: _vm.handleInput }
-                    })
-                  : _vm._e()
-              ])
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _vm.showFooter
-        ? _c("div", { staticClass: "question-footer panel-footer" }, [
-            _c(
-              "div",
-              [
-                _vm.hasDescriptions
-                  ? _c(
-                      "show-hide-button",
-                      {
-                        staticClass: "btn btn-info",
-                        model: {
-                          value: _vm.showDescriptions,
-                          callback: function($$v) {
-                            _vm.showDescriptions = $$v
-                          },
-                          expression: "showDescriptions"
-                        }
-                      },
-                      [_vm._v("\n\t\t\t\tdescriptions\n\t\t\t")]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.resettable
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-default",
-                        attrs: { type: "button", disabled: !_vm.hasResponse },
-                        on: { click: _vm.resetOptions }
-                      },
-                      [_vm._v("\n\t\t\t\tReset response\n\t\t\t")]
-                    )
-                  : _vm._e()
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _vm.resettable ? _c("div", [_vm._m(0)]) : _vm._e()
-          ])
-        : _vm._e()
-    ]
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _c("small", [
-        _vm._v(
-          "\n\t\t\t\t\tIf you do not feel you are able to accurately respond to\n\t\t\t\t\tthis question, please do not select any response.\n\t\t\t\t\tIf you would like to clear your response, please press\n\t\t\t\t\tthe "
-        ),
-        _c("i", [_vm._v("Reset response")]),
-        _vm._v(" button above.\n\t\t\t\t")
-      ])
-    ])
-  }
-]
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-7112f620", esExports)
-  }
-}
-
-/***/ }),
-/* 301 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _vm.title
-        ? _c("h2", [_vm._v("\n\t\t" + _vm._s(_vm.title) + "\n\t")])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm._l(_vm.contents.items, function(item, index) {
-        return [
-          item.type === "question"
-            ? _c(
-                "form-reader-question",
-                _vm._b(
-                  {
-                    attrs: { readonly: _vm.readonly },
-                    on: {
-                      input: function($event) {
-                        _vm.handleInput(index, arguments[0])
-                      }
-                    }
-                  },
-                  "form-reader-question",
-                  item,
-                  false
-                )
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          item.type === "instruction"
-            ? _c("div", {
-                staticClass: "instruction-block",
-                domProps: { innerHTML: _vm._s(_vm.snarkdown(item.text)) }
-              })
-            : _vm._e()
-        ]
-      }),
-      _vm._v(" "),
-      !_vm.readonly
-        ? _c("div", { staticClass: "btn-lg-submit-container" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-lg btn-default",
-                attrs: { type: "button" },
-                on: { click: _vm.handleSave }
-              },
-              [_vm._v("\n\t\t\tSave\n\t\t")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-lg btn-primary",
-                attrs: { type: "button", disabled: !_vm.formIsValid },
-                on: { click: _vm.handleSubmit }
-              },
-              [_vm._v("\n\t\t\tSubmit\n\t\t")]
-            )
-          ])
-        : _vm._e()
-    ],
-    2
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-439e6c2c", esExports)
-  }
-}
-
-/***/ }),
-/* 302 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var url = __webpack_require__(222)
-  , equal = __webpack_require__(303)
-  , util = __webpack_require__(163)
-  , SchemaObject = __webpack_require__(334)
-  , traverse = __webpack_require__(579);
-
-module.exports = resolve;
-
-resolve.normalizeId = normalizeId;
-resolve.fullPath = getFullPath;
-resolve.url = resolveUrl;
-resolve.ids = resolveIds;
-resolve.inlineRef = inlineRef;
-resolve.schema = resolveSchema;
-
-/**
- * [resolve and compile the references ($ref)]
- * @this   Ajv
- * @param  {Function} compile reference to schema compilation funciton (localCompile)
- * @param  {Object} root object with information about the root schema for the current schema
- * @param  {String} ref reference to resolve
- * @return {Object|Function} schema object (if the schema can be inlined) or validation function
- */
-function resolve(compile, root, ref) {
-  /* jshint validthis: true */
-  var refVal = this._refs[ref];
-  if (typeof refVal == 'string') {
-    if (this._refs[refVal]) refVal = this._refs[refVal];
-    else return resolve.call(this, compile, root, refVal);
-  }
-
-  refVal = refVal || this._schemas[ref];
-  if (refVal instanceof SchemaObject) {
-    return inlineRef(refVal.schema, this._opts.inlineRefs)
-            ? refVal.schema
-            : refVal.validate || this._compile(refVal);
-  }
-
-  var res = resolveSchema.call(this, root, ref);
-  var schema, v, baseId;
-  if (res) {
-    schema = res.schema;
-    root = res.root;
-    baseId = res.baseId;
-  }
-
-  if (schema instanceof SchemaObject) {
-    v = schema.validate || compile.call(this, schema.schema, root, undefined, baseId);
-  } else if (schema !== undefined) {
-    v = inlineRef(schema, this._opts.inlineRefs)
-        ? schema
-        : compile.call(this, schema, root, undefined, baseId);
-  }
-
-  return v;
-}
-
-
-/**
- * Resolve schema, its root and baseId
- * @this Ajv
- * @param  {Object} root root object with properties schema, refVal, refs
- * @param  {String} ref  reference to resolve
- * @return {Object} object with properties schema, root, baseId
- */
-function resolveSchema(root, ref) {
-  /* jshint validthis: true */
-  var p = url.parse(ref, false, true)
-    , refPath = _getFullPath(p)
-    , baseId = getFullPath(this._getId(root.schema));
-  if (refPath !== baseId) {
-    var id = normalizeId(refPath);
-    var refVal = this._refs[id];
-    if (typeof refVal == 'string') {
-      return resolveRecursive.call(this, root, refVal, p);
-    } else if (refVal instanceof SchemaObject) {
-      if (!refVal.validate) this._compile(refVal);
-      root = refVal;
-    } else {
-      refVal = this._schemas[id];
-      if (refVal instanceof SchemaObject) {
-        if (!refVal.validate) this._compile(refVal);
-        if (id == normalizeId(ref))
-          return { schema: refVal, root: root, baseId: baseId };
-        root = refVal;
-      } else {
-        return;
-      }
-    }
-    if (!root.schema) return;
-    baseId = getFullPath(this._getId(root.schema));
-  }
-  return getJsonPointer.call(this, p, baseId, root.schema, root);
-}
-
-
-/* @this Ajv */
-function resolveRecursive(root, ref, parsedRef) {
-  /* jshint validthis: true */
-  var res = resolveSchema.call(this, root, ref);
-  if (res) {
-    var schema = res.schema;
-    var baseId = res.baseId;
-    root = res.root;
-    var id = this._getId(schema);
-    if (id) baseId = resolveUrl(baseId, id);
-    return getJsonPointer.call(this, parsedRef, baseId, schema, root);
-  }
-}
-
-
-var PREVENT_SCOPE_CHANGE = util.toHash(['properties', 'patternProperties', 'enum', 'dependencies', 'definitions']);
-/* @this Ajv */
-function getJsonPointer(parsedRef, baseId, schema, root) {
-  /* jshint validthis: true */
-  parsedRef.hash = parsedRef.hash || '';
-  if (parsedRef.hash.slice(0,2) != '#/') return;
-  var parts = parsedRef.hash.split('/');
-
-  for (var i = 1; i < parts.length; i++) {
-    var part = parts[i];
-    if (part) {
-      part = util.unescapeFragment(part);
-      schema = schema[part];
-      if (schema === undefined) break;
-      var id;
-      if (!PREVENT_SCOPE_CHANGE[part]) {
-        id = this._getId(schema);
-        if (id) baseId = resolveUrl(baseId, id);
-        if (schema.$ref) {
-          var $ref = resolveUrl(baseId, schema.$ref);
-          var res = resolveSchema.call(this, root, $ref);
-          if (res) {
-            schema = res.schema;
-            root = res.root;
-            baseId = res.baseId;
-          }
-        }
-      }
-    }
-  }
-  if (schema !== undefined && schema !== root.schema)
-    return { schema: schema, root: root, baseId: baseId };
-}
-
-
-var SIMPLE_INLINED = util.toHash([
-  'type', 'format', 'pattern',
-  'maxLength', 'minLength',
-  'maxProperties', 'minProperties',
-  'maxItems', 'minItems',
-  'maximum', 'minimum',
-  'uniqueItems', 'multipleOf',
-  'required', 'enum'
-]);
-function inlineRef(schema, limit) {
-  if (limit === false) return false;
-  if (limit === undefined || limit === true) return checkNoRef(schema);
-  else if (limit) return countKeys(schema) <= limit;
-}
-
-
-function checkNoRef(schema) {
-  var item;
-  if (Array.isArray(schema)) {
-    for (var i=0; i<schema.length; i++) {
-      item = schema[i];
-      if (typeof item == 'object' && !checkNoRef(item)) return false;
-    }
-  } else {
-    for (var key in schema) {
-      if (key == '$ref') return false;
-      item = schema[key];
-      if (typeof item == 'object' && !checkNoRef(item)) return false;
-    }
-  }
-  return true;
-}
-
-
-function countKeys(schema) {
-  var count = 0, item;
-  if (Array.isArray(schema)) {
-    for (var i=0; i<schema.length; i++) {
-      item = schema[i];
-      if (typeof item == 'object') count += countKeys(item);
-      if (count == Infinity) return Infinity;
-    }
-  } else {
-    for (var key in schema) {
-      if (key == '$ref') return Infinity;
-      if (SIMPLE_INLINED[key]) {
-        count++;
-      } else {
-        item = schema[key];
-        if (typeof item == 'object') count += countKeys(item) + 1;
-        if (count == Infinity) return Infinity;
-      }
-    }
-  }
-  return count;
-}
-
-
-function getFullPath(id, normalize) {
-  if (normalize !== false) id = normalizeId(id);
-  var p = url.parse(id, false, true);
-  return _getFullPath(p);
-}
-
-
-function _getFullPath(p) {
-  var protocolSeparator = p.protocol || p.href.slice(0,2) == '//' ? '//' : '';
-  return (p.protocol||'') + protocolSeparator + (p.host||'') + (p.path||'')  + '#';
-}
-
-
-var TRAILING_SLASH_HASH = /#\/?$/;
-function normalizeId(id) {
-  return id ? id.replace(TRAILING_SLASH_HASH, '') : '';
-}
-
-
-function resolveUrl(baseId, id) {
-  id = normalizeId(id);
-  return url.resolve(baseId, id);
-}
-
-
-/* @this Ajv */
-function resolveIds(schema) {
-  var schemaId = normalizeId(this._getId(schema));
-  var baseIds = {'': schemaId};
-  var fullPaths = {'': getFullPath(schemaId, false)};
-  var localRefs = {};
-  var self = this;
-
-  traverse(schema, {allKeys: true}, function(sch, jsonPtr, rootSchema, parentJsonPtr, parentKeyword, parentSchema, keyIndex) {
-    if (jsonPtr === '') return;
-    var id = self._getId(sch);
-    var baseId = baseIds[parentJsonPtr];
-    var fullPath = fullPaths[parentJsonPtr] + '/' + parentKeyword;
-    if (keyIndex !== undefined)
-      fullPath += '/' + (typeof keyIndex == 'number' ? keyIndex : util.escapeFragment(keyIndex));
-
-    if (typeof id == 'string') {
-      id = baseId = normalizeId(baseId ? url.resolve(baseId, id) : id);
-
-      var refVal = self._refs[id];
-      if (typeof refVal == 'string') refVal = self._refs[refVal];
-      if (refVal && refVal.schema) {
-        if (!equal(sch, refVal.schema))
-          throw new Error('id "' + id + '" resolves to more than one schema');
-      } else if (id != normalizeId(fullPath)) {
-        if (id[0] == '#') {
-          if (localRefs[id] && !equal(sch, localRefs[id]))
-            throw new Error('id "' + id + '" resolves to more than one schema');
-          localRefs[id] = sch;
-        } else {
-          self._refs[id] = fullPath;
-        }
-      }
-    }
-    baseIds[jsonPtr] = baseId;
-    fullPaths[jsonPtr] = fullPath;
-  });
-
-  return localRefs;
-}
-
-
-/***/ }),
-/* 303 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function equal(a, b) {
-  if (a === b) return true;
-
-  var arrA = Array.isArray(a)
-    , arrB = Array.isArray(b)
-    , i;
-
-  if (arrA && arrB) {
-    if (a.length != b.length) return false;
-    for (i = 0; i < a.length; i++)
-      if (!equal(a[i], b[i])) return false;
-    return true;
-  }
-
-  if (arrA != arrB) return false;
-
-  if (a && b && typeof a === 'object' && typeof b === 'object') {
-    var keys = Object.keys(a);
-    if (keys.length !== Object.keys(b).length) return false;
-
-    var dateA = a instanceof Date
-      , dateB = b instanceof Date;
-    if (dateA && dateB) return a.getTime() == b.getTime();
-    if (dateA != dateB) return false;
-
-    var regexpA = a instanceof RegExp
-      , regexpB = b instanceof RegExp;
-    if (regexpA && regexpB) return a.toString() == b.toString();
-    if (regexpA != regexpB) return false;
-
-    for (i = 0; i < keys.length; i++)
-      if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
-
-    for (i = 0; i < keys.length; i++)
-      if(!equal(a[keys[i]], b[keys[i]])) return false;
-
-    return true;
-  }
-
-  return false;
-};
-
-
-/***/ }),
-/* 304 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var resolve = __webpack_require__(302);
-
-module.exports = {
-  Validation: errorSubclass(ValidationError),
-  MissingRef: errorSubclass(MissingRefError)
-};
-
-
-function ValidationError(errors) {
-  this.message = 'validation failed';
-  this.errors = errors;
-  this.ajv = this.validation = true;
-}
-
-
-MissingRefError.message = function (baseId, ref) {
-  return 'can\'t resolve reference ' + ref + ' from id ' + baseId;
-};
-
-
-function MissingRefError(baseId, ref, message) {
-  this.message = message || MissingRefError.message(baseId, ref);
-  this.missingRef = resolve.url(baseId, ref);
-  this.missingSchema = resolve.normalizeId(resolve.fullPath(this.missingRef));
-}
-
-
-function errorSubclass(Subclass) {
-  Subclass.prototype = Object.create(Error.prototype);
-  Subclass.prototype.constructor = Subclass;
-  return Subclass;
-}
-
-
-/***/ }),
-/* 305 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Edit_vue__ = __webpack_require__(307);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9ec25dd4_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_Edit_vue__ = __webpack_require__(308);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Edit_vue__ = __webpack_require__(295);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9ec25dd4_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Edit_vue__ = __webpack_require__(296);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(306)
+  __webpack_require__(294)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -40528,15 +39607,15 @@ var __vue_scopeId__ = "data-v-9ec25dd4"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Edit_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9ec25dd4_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_Edit_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Edit_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9ec25dd4_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Edit_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/Alumni/Edit.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Edit.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -40548,7 +39627,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-9ec25dd4", Component.options)
   } else {
     hotAPI.reload("data-v-9ec25dd4", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -40558,17 +39637,17 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 306 */
+/* 294 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 307 */
+/* 295 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ConfirmationButton_vue__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
 //
@@ -40900,10 +39979,10 @@ if (false) {(function () {
 
 			fetch(this.saveUrl, {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["m" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["n" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
-			}).then(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["v" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["w" /* okOrThrow */]).then(function () {
 				_this.$emit('reload');
 			}).catch(function (err) {
 				console.error(err);
@@ -40922,7 +40001,7 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 308 */
+/* 296 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -41428,7 +40507,1093 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-9ec25dd4", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-9ec25dd4", esExports)
+  }
+}
+
+/***/ }),
+/* 297 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var url = __webpack_require__(222)
+  , equal = __webpack_require__(298)
+  , util = __webpack_require__(163)
+  , SchemaObject = __webpack_require__(335)
+  , traverse = __webpack_require__(585);
+
+module.exports = resolve;
+
+resolve.normalizeId = normalizeId;
+resolve.fullPath = getFullPath;
+resolve.url = resolveUrl;
+resolve.ids = resolveIds;
+resolve.inlineRef = inlineRef;
+resolve.schema = resolveSchema;
+
+/**
+ * [resolve and compile the references ($ref)]
+ * @this   Ajv
+ * @param  {Function} compile reference to schema compilation funciton (localCompile)
+ * @param  {Object} root object with information about the root schema for the current schema
+ * @param  {String} ref reference to resolve
+ * @return {Object|Function} schema object (if the schema can be inlined) or validation function
+ */
+function resolve(compile, root, ref) {
+  /* jshint validthis: true */
+  var refVal = this._refs[ref];
+  if (typeof refVal == 'string') {
+    if (this._refs[refVal]) refVal = this._refs[refVal];
+    else return resolve.call(this, compile, root, refVal);
+  }
+
+  refVal = refVal || this._schemas[ref];
+  if (refVal instanceof SchemaObject) {
+    return inlineRef(refVal.schema, this._opts.inlineRefs)
+            ? refVal.schema
+            : refVal.validate || this._compile(refVal);
+  }
+
+  var res = resolveSchema.call(this, root, ref);
+  var schema, v, baseId;
+  if (res) {
+    schema = res.schema;
+    root = res.root;
+    baseId = res.baseId;
+  }
+
+  if (schema instanceof SchemaObject) {
+    v = schema.validate || compile.call(this, schema.schema, root, undefined, baseId);
+  } else if (schema !== undefined) {
+    v = inlineRef(schema, this._opts.inlineRefs)
+        ? schema
+        : compile.call(this, schema, root, undefined, baseId);
+  }
+
+  return v;
+}
+
+
+/**
+ * Resolve schema, its root and baseId
+ * @this Ajv
+ * @param  {Object} root root object with properties schema, refVal, refs
+ * @param  {String} ref  reference to resolve
+ * @return {Object} object with properties schema, root, baseId
+ */
+function resolveSchema(root, ref) {
+  /* jshint validthis: true */
+  var p = url.parse(ref, false, true)
+    , refPath = _getFullPath(p)
+    , baseId = getFullPath(this._getId(root.schema));
+  if (refPath !== baseId) {
+    var id = normalizeId(refPath);
+    var refVal = this._refs[id];
+    if (typeof refVal == 'string') {
+      return resolveRecursive.call(this, root, refVal, p);
+    } else if (refVal instanceof SchemaObject) {
+      if (!refVal.validate) this._compile(refVal);
+      root = refVal;
+    } else {
+      refVal = this._schemas[id];
+      if (refVal instanceof SchemaObject) {
+        if (!refVal.validate) this._compile(refVal);
+        if (id == normalizeId(ref))
+          return { schema: refVal, root: root, baseId: baseId };
+        root = refVal;
+      } else {
+        return;
+      }
+    }
+    if (!root.schema) return;
+    baseId = getFullPath(this._getId(root.schema));
+  }
+  return getJsonPointer.call(this, p, baseId, root.schema, root);
+}
+
+
+/* @this Ajv */
+function resolveRecursive(root, ref, parsedRef) {
+  /* jshint validthis: true */
+  var res = resolveSchema.call(this, root, ref);
+  if (res) {
+    var schema = res.schema;
+    var baseId = res.baseId;
+    root = res.root;
+    var id = this._getId(schema);
+    if (id) baseId = resolveUrl(baseId, id);
+    return getJsonPointer.call(this, parsedRef, baseId, schema, root);
+  }
+}
+
+
+var PREVENT_SCOPE_CHANGE = util.toHash(['properties', 'patternProperties', 'enum', 'dependencies', 'definitions']);
+/* @this Ajv */
+function getJsonPointer(parsedRef, baseId, schema, root) {
+  /* jshint validthis: true */
+  parsedRef.hash = parsedRef.hash || '';
+  if (parsedRef.hash.slice(0,2) != '#/') return;
+  var parts = parsedRef.hash.split('/');
+
+  for (var i = 1; i < parts.length; i++) {
+    var part = parts[i];
+    if (part) {
+      part = util.unescapeFragment(part);
+      schema = schema[part];
+      if (schema === undefined) break;
+      var id;
+      if (!PREVENT_SCOPE_CHANGE[part]) {
+        id = this._getId(schema);
+        if (id) baseId = resolveUrl(baseId, id);
+        if (schema.$ref) {
+          var $ref = resolveUrl(baseId, schema.$ref);
+          var res = resolveSchema.call(this, root, $ref);
+          if (res) {
+            schema = res.schema;
+            root = res.root;
+            baseId = res.baseId;
+          }
+        }
+      }
+    }
+  }
+  if (schema !== undefined && schema !== root.schema)
+    return { schema: schema, root: root, baseId: baseId };
+}
+
+
+var SIMPLE_INLINED = util.toHash([
+  'type', 'format', 'pattern',
+  'maxLength', 'minLength',
+  'maxProperties', 'minProperties',
+  'maxItems', 'minItems',
+  'maximum', 'minimum',
+  'uniqueItems', 'multipleOf',
+  'required', 'enum'
+]);
+function inlineRef(schema, limit) {
+  if (limit === false) return false;
+  if (limit === undefined || limit === true) return checkNoRef(schema);
+  else if (limit) return countKeys(schema) <= limit;
+}
+
+
+function checkNoRef(schema) {
+  var item;
+  if (Array.isArray(schema)) {
+    for (var i=0; i<schema.length; i++) {
+      item = schema[i];
+      if (typeof item == 'object' && !checkNoRef(item)) return false;
+    }
+  } else {
+    for (var key in schema) {
+      if (key == '$ref') return false;
+      item = schema[key];
+      if (typeof item == 'object' && !checkNoRef(item)) return false;
+    }
+  }
+  return true;
+}
+
+
+function countKeys(schema) {
+  var count = 0, item;
+  if (Array.isArray(schema)) {
+    for (var i=0; i<schema.length; i++) {
+      item = schema[i];
+      if (typeof item == 'object') count += countKeys(item);
+      if (count == Infinity) return Infinity;
+    }
+  } else {
+    for (var key in schema) {
+      if (key == '$ref') return Infinity;
+      if (SIMPLE_INLINED[key]) {
+        count++;
+      } else {
+        item = schema[key];
+        if (typeof item == 'object') count += countKeys(item) + 1;
+        if (count == Infinity) return Infinity;
+      }
+    }
+  }
+  return count;
+}
+
+
+function getFullPath(id, normalize) {
+  if (normalize !== false) id = normalizeId(id);
+  var p = url.parse(id, false, true);
+  return _getFullPath(p);
+}
+
+
+function _getFullPath(p) {
+  var protocolSeparator = p.protocol || p.href.slice(0,2) == '//' ? '//' : '';
+  return (p.protocol||'') + protocolSeparator + (p.host||'') + (p.path||'')  + '#';
+}
+
+
+var TRAILING_SLASH_HASH = /#\/?$/;
+function normalizeId(id) {
+  return id ? id.replace(TRAILING_SLASH_HASH, '') : '';
+}
+
+
+function resolveUrl(baseId, id) {
+  id = normalizeId(id);
+  return url.resolve(baseId, id);
+}
+
+
+/* @this Ajv */
+function resolveIds(schema) {
+  var schemaId = normalizeId(this._getId(schema));
+  var baseIds = {'': schemaId};
+  var fullPaths = {'': getFullPath(schemaId, false)};
+  var localRefs = {};
+  var self = this;
+
+  traverse(schema, {allKeys: true}, function(sch, jsonPtr, rootSchema, parentJsonPtr, parentKeyword, parentSchema, keyIndex) {
+    if (jsonPtr === '') return;
+    var id = self._getId(sch);
+    var baseId = baseIds[parentJsonPtr];
+    var fullPath = fullPaths[parentJsonPtr] + '/' + parentKeyword;
+    if (keyIndex !== undefined)
+      fullPath += '/' + (typeof keyIndex == 'number' ? keyIndex : util.escapeFragment(keyIndex));
+
+    if (typeof id == 'string') {
+      id = baseId = normalizeId(baseId ? url.resolve(baseId, id) : id);
+
+      var refVal = self._refs[id];
+      if (typeof refVal == 'string') refVal = self._refs[refVal];
+      if (refVal && refVal.schema) {
+        if (!equal(sch, refVal.schema))
+          throw new Error('id "' + id + '" resolves to more than one schema');
+      } else if (id != normalizeId(fullPath)) {
+        if (id[0] == '#') {
+          if (localRefs[id] && !equal(sch, localRefs[id]))
+            throw new Error('id "' + id + '" resolves to more than one schema');
+          localRefs[id] = sch;
+        } else {
+          self._refs[id] = fullPath;
+        }
+      }
+    }
+    baseIds[jsonPtr] = baseId;
+    fullPaths[jsonPtr] = fullPath;
+  });
+
+  return localRefs;
+}
+
+
+/***/ }),
+/* 298 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function equal(a, b) {
+  if (a === b) return true;
+
+  var arrA = Array.isArray(a)
+    , arrB = Array.isArray(b)
+    , i;
+
+  if (arrA && arrB) {
+    if (a.length != b.length) return false;
+    for (i = 0; i < a.length; i++)
+      if (!equal(a[i], b[i])) return false;
+    return true;
+  }
+
+  if (arrA != arrB) return false;
+
+  if (a && b && typeof a === 'object' && typeof b === 'object') {
+    var keys = Object.keys(a);
+    if (keys.length !== Object.keys(b).length) return false;
+
+    var dateA = a instanceof Date
+      , dateB = b instanceof Date;
+    if (dateA && dateB) return a.getTime() == b.getTime();
+    if (dateA != dateB) return false;
+
+    var regexpA = a instanceof RegExp
+      , regexpB = b instanceof RegExp;
+    if (regexpA && regexpB) return a.toString() == b.toString();
+    if (regexpA != regexpB) return false;
+
+    for (i = 0; i < keys.length; i++)
+      if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
+
+    for (i = 0; i < keys.length; i++)
+      if(!equal(a[keys[i]], b[keys[i]])) return false;
+
+    return true;
+  }
+
+  return false;
+};
+
+
+/***/ }),
+/* 299 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var resolve = __webpack_require__(297);
+
+module.exports = {
+  Validation: errorSubclass(ValidationError),
+  MissingRef: errorSubclass(MissingRefError)
+};
+
+
+function ValidationError(errors) {
+  this.message = 'validation failed';
+  this.errors = errors;
+  this.ajv = this.validation = true;
+}
+
+
+MissingRefError.message = function (baseId, ref) {
+  return 'can\'t resolve reference ' + ref + ' from id ' + baseId;
+};
+
+
+function MissingRefError(baseId, ref, message) {
+  this.message = message || MissingRefError.message(baseId, ref);
+  this.missingRef = resolve.url(baseId, ref);
+  this.missingSchema = resolve.normalizeId(resolve.fullPath(this.missingRef));
+}
+
+
+function errorSubclass(Subclass) {
+  Subclass.prototype = Object.create(Error.prototype);
+  Subclass.prototype.constructor = Subclass;
+  return Subclass;
+}
+
+
+/***/ }),
+/* 300 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 301 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_date_utils_js__ = __webpack_require__(8);
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		dates: {
+			type: Object,
+			required: true
+		},
+		start: {
+			type: String,
+			default: 'startDate'
+		},
+		end: {
+			type: String,
+			default: 'endDate'
+		},
+		time: {
+			type: Boolean,
+			default: false
+		}
+	},
+	data: function data() {
+		return {
+			hovered: false
+		};
+	},
+	mounted: function mounted() {
+		this.$refs.container.addEventListener('mouseenter', this.handleMouseEnter);
+
+		this.$refs.container.addEventListener('mouseleave', this.handleMouseLeave);
+	},
+
+
+	computed: {
+		startDate: function startDate() {
+			return this.dates[this.start];
+		},
+		endDate: function endDate() {
+			return this.dates[this.end];
+		},
+		dateString: function dateString() {
+			return Object(__WEBPACK_IMPORTED_MODULE_0__modules_date_utils_js__["renderDateRange"])(this.startDate, this.endDate, this.hovered);
+		}
+	},
+
+	methods: {
+		handleMouseEnter: function handleMouseEnter() {
+			this.hovered = true;
+		},
+		handleMouseLeave: function handleMouseLeave() {
+			this.hovered = false;
+		}
+	},
+
+	beforeDestroy: function beforeDestroy() {
+		this.$refs.container.removeEventListener('mouseenter', this.handleMouseEnter);
+
+		this.$refs.container.removeEventListener('mouseleave', this.handleMouseLeave);
+	}
+});
+
+/***/ }),
+/* 302 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", { ref: "container" }, [
+    _vm._v("\n\t" + _vm._s(_vm.dateString) + "\n")
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7a8a5f24", esExports)
+  }
+}
+
+/***/ }),
+/* 303 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 304 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormReaderQuestion_vue__ = __webpack_require__(305);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_snarkdown__ = __webpack_require__(37);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		title: {
+			type: String,
+			required: true
+		},
+		contents: {
+			type: Object,
+			required: true
+		},
+		readonly: {
+			type: Boolean,
+			default: false
+		}
+	},
+
+	computed: {
+		formIsValid: function formIsValid() {
+			if (this.readonly) return;
+
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = this.contents.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var item = _step.value;
+
+					if (item.type === 'question' && item.required) {
+						if (['radio', 'radiononnumeric'].includes(item.questionType)) {
+							if (!item.options.some(function (option) {
+								return option.checked;
+							})) return false;
+						} else if (item.questionType !== 'checkbox') {
+							if (!item.value) return false;
+						}
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return true;
+		}
+	},
+
+	methods: {
+		snarkdown: __WEBPACK_IMPORTED_MODULE_1_snarkdown__["a" /* default */],
+		handleInput: function handleInput(index, question) {
+			if (this.readonly) return;
+
+			var items = this.contents.items.slice();
+			items.splice(index, 1, Object.assign({}, this.contents.items[index], question));
+			var contents = Object.assign({}, contents, { items: items });
+			this.$emit('input', { contents: contents });
+		},
+		handleSave: function handleSave() {
+			if (!this.readonly) this.$emit('save', {
+				contents: this.contents
+			});
+		},
+		handleSubmit: function handleSubmit() {
+			if (!this.readonly && this.formIsValid) this.$emit('submit', {
+				contents: this.contents
+			});
+		}
+	},
+
+	components: {
+		FormReaderQuestion: __WEBPACK_IMPORTED_MODULE_0__FormReaderQuestion_vue__["a" /* default */]
+	}
+});
+
+/***/ }),
+/* 305 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormReaderQuestion_vue__ = __webpack_require__(306);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7112f620_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormReaderQuestion_vue__ = __webpack_require__(307);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormReaderQuestion_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7112f620_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormReaderQuestion_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/FormReader/FormReaderQuestion.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7112f620", Component.options)
+  } else {
+    hotAPI.reload("data-v-7112f620", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 306 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_snarkdown__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShowHideButton_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(1);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		questionId: {
+			type: String,
+			required: true
+		},
+		type: {
+			type: String,
+			required: true,
+			validate: function validate(type) {
+				return type === 'question';
+			}
+		},
+		questionType: {
+			type: String,
+			required: true
+		},
+		text: {
+			type: String,
+			required: true
+		},
+		required: {
+			type: Boolean,
+			default: false
+		},
+		weight: {
+			type: Number,
+			default: 100
+		},
+		options: {
+			type: Array,
+			required: false
+		},
+		value: {
+			type: [String, Number],
+			required: false
+		},
+		readonly: {
+			type: Boolean,
+			default: false
+		}
+	},
+	data: function data() {
+		return {
+			showDescriptions: false
+		};
+	},
+
+	computed: {
+		hasResponse: function hasResponse() {
+			return this.isOptionQuestion ? this.options.some(function (option) {
+				return option.checked;
+			}) : this.value;
+		},
+		hasDescriptions: function hasDescriptions() {
+			if (!this.options) return false;
+
+			return this.options.some(function (option) {
+				return option.description;
+			});
+		},
+		resettable: function resettable() {
+			return !this.readonly && this.isOptionQuestion && !this.required;
+		},
+		showFooter: function showFooter() {
+			return this.hasDescriptions || this.resettable;
+		},
+		isOptionQuestion: function isOptionQuestion() {
+			return ['radio', 'radiononnumeric', 'checkbox'].includes(this.questionType);
+		},
+		renderedText: function renderedText() {
+			return Object(__WEBPACK_IMPORTED_MODULE_0_snarkdown__["a" /* default */])(this.text.replace('{{', '`{{').replace('}}', '}}`'));
+		}
+	},
+
+	methods: {
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["H" /* ucfirst */],
+		resetOptions: function resetOptions() {
+			if (this.readonly) return;
+
+			var options = this.options.map(function (option) {
+				return Object.assign({}, option, { checked: false });
+			});
+			this.$emit('input', { options: options });
+		},
+		handleOptionInput: function handleOptionInput(index, option) {
+			if (this.readonly) return;
+
+			var options = ['radiononnumeric', 'radio'].includes(this.questionType) && option.checked ? this.options.map(function (option) {
+				return Object.assign({}, option, { checked: false });
+			}) : this.options.slice();
+			options.splice(index, 1, Object.assign({}, options[index], option));
+			this.$emit('input', { options: options });
+		},
+		handleInput: function handleInput(event) {
+			if (this.readonly) return;
+
+			this.$emit('input', { value: event.target.value });
+		}
+	},
+
+	components: {
+		FormReaderQuestionOption: __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue__["a" /* default */],
+		ShowHideButton: __WEBPACK_IMPORTED_MODULE_2__ShowHideButton_vue__["a" /* default */]
+	}
+});
+
+/***/ }),
+/* 307 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      class:
+        "question panel " + (_vm.required ? "panel-primary" : "panel-default")
+    },
+    [
+      _vm.text
+        ? _c("div", { staticClass: "question-header panel-heading" }, [
+            _c("h3", { staticClass: "question-title panel-title" }, [
+              _c("b", [_vm._v(_vm._s(_vm.ucfirst(_vm.questionId)) + ": ")]),
+              _vm._v(" "),
+              _c("span", { domProps: { innerHTML: _vm._s(_vm.renderedText) } })
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "question-body panel-body" },
+        [
+          _vm.isOptionQuestion
+            ? _vm._l(_vm.options, function(option, index) {
+                return _c(
+                  "form-reader-question-option",
+                  _vm._b(
+                    {
+                      key: index,
+                      attrs: {
+                        questionType: _vm.questionType,
+                        questionId: _vm.questionId,
+                        required: _vm.required,
+                        showDescription: _vm.showDescriptions,
+                        readonly: _vm.readonly
+                      },
+                      on: {
+                        input: function($event) {
+                          _vm.handleOptionInput(index, arguments[0])
+                        }
+                      }
+                    },
+                    "form-reader-question-option",
+                    option,
+                    false
+                  )
+                )
+              })
+            : _c("div", { staticClass: "question-option" }, [
+                _vm.questionType === "text"
+                  ? _c("textarea", {
+                      staticClass: "form-control",
+                      attrs: {
+                        name: _vm.questionId,
+                        required: _vm.required,
+                        readonly: _vm.readonly
+                      },
+                      domProps: { value: _vm.value },
+                      on: { input: _vm.handleInput }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.questionType === "number"
+                  ? _c("input", {
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "number",
+                        name: _vm.questionId,
+                        required: _vm.required,
+                        readonly: _vm.readonly
+                      },
+                      domProps: { value: _vm.value },
+                      on: { input: _vm.handleInput }
+                    })
+                  : _vm._e()
+              ])
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _vm.showFooter
+        ? _c("div", { staticClass: "question-footer panel-footer" }, [
+            _c(
+              "div",
+              [
+                _vm.hasDescriptions
+                  ? _c(
+                      "show-hide-button",
+                      {
+                        staticClass: "btn btn-info",
+                        model: {
+                          value: _vm.showDescriptions,
+                          callback: function($$v) {
+                            _vm.showDescriptions = $$v
+                          },
+                          expression: "showDescriptions"
+                        }
+                      },
+                      [_vm._v("\n\t\t\t\tdescriptions\n\t\t\t")]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.resettable
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        attrs: { type: "button", disabled: !_vm.hasResponse },
+                        on: { click: _vm.resetOptions }
+                      },
+                      [_vm._v("\n\t\t\t\tReset response\n\t\t\t")]
+                    )
+                  : _vm._e()
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm.resettable ? _c("div", [_vm._m(0)]) : _vm._e()
+          ])
+        : _vm._e()
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("small", [
+        _vm._v(
+          "\n\t\t\t\t\tIf you do not feel you are able to accurately respond to\n\t\t\t\t\tthis question, please do not select any response.\n\t\t\t\t\tIf you would like to clear your response, please press\n\t\t\t\t\tthe "
+        ),
+        _c("i", [_vm._v("Reset response")]),
+        _vm._v(" button above.\n\t\t\t\t")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7112f620", esExports)
+  }
+}
+
+/***/ }),
+/* 308 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _vm.title
+        ? _c("h2", [_vm._v("\n\t\t" + _vm._s(_vm.title) + "\n\t")])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._l(_vm.contents.items, function(item, index) {
+        return [
+          item.type === "question"
+            ? _c(
+                "form-reader-question",
+                _vm._b(
+                  {
+                    key: index,
+                    attrs: { readonly: _vm.readonly },
+                    on: {
+                      input: function($event) {
+                        _vm.handleInput(index, arguments[0])
+                      }
+                    }
+                  },
+                  "form-reader-question",
+                  item,
+                  false
+                )
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          item.type === "instruction"
+            ? _c("div", {
+                staticClass: "instruction-block",
+                domProps: { innerHTML: _vm._s(_vm.snarkdown(item.text)) }
+              })
+            : _vm._e()
+        ]
+      }),
+      _vm._v(" "),
+      !_vm.readonly
+        ? _c("div", { staticClass: "btn-lg-submit-container" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-lg btn-default",
+                attrs: { type: "button" },
+                on: { click: _vm.handleSave }
+              },
+              [_vm._v("\n\t\t\tSave\n\t\t")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-lg btn-primary",
+                attrs: { type: "button", disabled: !_vm.formIsValid },
+                on: { click: _vm.handleSubmit }
+              },
+              [_vm._v("\n\t\t\tSubmit\n\t\t")]
+            )
+          ])
+        : _vm._e()
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-439e6c2c", esExports)
   }
 }
 
@@ -41459,6 +41624,61 @@ if (false) {
 /* 332 */,
 /* 333 */,
 /* 334 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_JsonSchemaEditor_vue__ = __webpack_require__(581);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_227f018b_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_JsonSchemaEditor_vue__ = __webpack_require__(617);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(580)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-227f018b"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_JsonSchemaEditor_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_227f018b_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_JsonSchemaEditor_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/JsonSchemaEditor.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-227f018b", Component.options)
+  } else {
+    hotAPI.reload("data-v-227f018b", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41474,10 +41694,10 @@ function SchemaObject(obj) {
 
 
 /***/ }),
-/* 335 */
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(580);
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(586);
 
 module.exports = function (obj, opts) {
     if (!opts) opts = {};
@@ -41564,7 +41784,7 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 336 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42029,7 +42249,7 @@ module.exports = function generate_validate(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 337 */
+/* 338 */
 /***/ (function(module, exports) {
 
 
@@ -42272,7 +42492,7 @@ function isObject(val) {
 
 
 /***/ }),
-/* 338 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42428,7 +42648,7 @@ module.exports = function generate__limit(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 339 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42511,7 +42731,7 @@ module.exports = function generate__limitItems(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 340 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42599,7 +42819,7 @@ module.exports = function generate__limitLength(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 341 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42682,7 +42902,6 @@ module.exports = function generate__limitProperties(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 342 */,
 /* 343 */,
 /* 344 */,
 /* 345 */,
@@ -42901,162 +43120,27 @@ module.exports = function generate__limitProperties(it, $keyword, $ruleType) {
 /* 558 */,
 /* 559 */,
 /* 560 */,
-/* 561 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__evaluations_js__ = __webpack_require__(562);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageEvaluations", function() { return __WEBPACK_IMPORTED_MODULE_0__evaluations_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__faculty360_js__ = __webpack_require__(563);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageFaculty360", function() { return __WEBPACK_IMPORTED_MODULE_1__faculty360_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__milestones_competencies_js__ = __webpack_require__(567);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMilestonesCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_2__milestones_competencies_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__merit_js__ = __webpack_require__(572);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMerit", function() { return __WEBPACK_IMPORTED_MODULE_3__merit_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__alumni_js__ = __webpack_require__(616);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageAlumni", function() { return __WEBPACK_IMPORTED_MODULE_4__alumni_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__scheduled_requests_js__ = __webpack_require__(628);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageScheduledRequests", function() { return __WEBPACK_IMPORTED_MODULE_5__scheduled_requests_js__["a"]; });
-
-
-
-
-
-
-
-/***/ }),
-/* 562 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = createManageEvaluations;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(131);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(23);
-
-
-
-
-
-
-
-function createManageEvaluations(el, propsData) {
-
-	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-		el: el,
-		props: {},
-		propsData: propsData,
-
-		computed: {
-			thead: function thead() {
-				return [['#', 'Subject', 'Evaluator', 'Requested By', 'Form', 'Evaluation Date', 'Request Date', 'Complete Date', 'Status', 'Action']];
-			},
-			config: function config() {
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							with: {
-								subject: ['full_name'],
-								evaluator: ['full_name'],
-								requestor: ['full_name'],
-								form: ['title', 'visibility', 'type']
-							}
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
-						data: null,
-						render: Object(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["j" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: Object(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["k" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["k" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateTimeCell */] }, { data: null, orderable: false, render: function render(evaluation) {
-							if (!evaluation.visibility) evaluation.visibility = evaluation.form.visibility;
-							var label = void 0;
-							switch (evaluation.status) {
-								case 'complete':
-									label = 'success';
-									break;
-								case 'pending':
-									label = 'warning';
-									break;
-								default:
-									label = 'danger';
-									break;
-							}
-							var eyeType = void 0,
-							    visBtnType = void 0;
-							switch (evaluation.visibility) {
-								case 'visible':
-									eyeType = 'open';
-									visBtnType = 'btn-info';
-									break;
-								case 'anonymous':
-								case 'under faculty threshold':
-									eyeType = 'close';
-									visBtnType = '';
-									break;
-								case 'hidden':
-									eyeType = 'close';
-									visBtnType = 'btn-default';
-									break;
-							}
-							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["F" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["F" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
-						} }, { data: null, orderable: false, render: function render(evaluation) {
-							var buttonClass = void 0,
-							    buttonType = void 0,
-							    glyphicon = void 0,
-							    buttonText = void 0;
-							if (evaluation.status === "disabled") {
-								buttonClass = "enableEval";
-								buttonType = "success";
-								glyphicon = "ok";
-								buttonText = "Enable";
-							} else {
-								buttonClass = "disableEval";
-								buttonType = "danger";
-								glyphicon = "remove";
-								buttonText = "Disable";
-							}
-
-							return '<span>\n\t\t\t\t\t\t\t\t<button class="' + buttonClass + ' btn btn-' + buttonType + ' btn-xs"\n\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-' + glyphicon + '"></span>\n\t\t\t\t\t\t\t\t\t' + buttonText + '\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<span class="cancel">\n\t\t\t\t\t\t\t\t' + (evaluation.status === 'pending' ? '<button class="cancelEval btn btn-danger btn-xs"\n\t\t\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-remove"></span>\n\t\t\t\t\t\t\t\t\t\t\tCancel\n\t\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t\t<button class="send-reminder btn btn-primary btn-xs"\n\t\t\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-send"></span>\n\t\t\t\t\t\t\t\t\t\t\tSend reminder\n\t\t\t\t\t\t\t\t\t\t</button>' : '') + '\n\t\t\t\t\t\t\t</span>';
-						} }],
-					order: [[0, 'desc']],
-					deferRender: true
-				};
-			}
-		},
-
-		components: {
-			EvaluationDataTable: __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__["a" /* default */]
-		}
-	});
-}
-
-/***/ }),
+/* 561 */,
+/* 562 */,
 /* 563 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = createManageFaculty360;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_ConfirmationButton_vue__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_DataTable_vue__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_RichDate_vue__ = __webpack_require__(292);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__vue_components_RichDateRange_vue__ = __webpack_require__(139);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__vue_components_AcademicYearSelector_vue__ = __webpack_require__(138);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__vue_components_FormBuilder_FormBuilder_vue__ = __webpack_require__(168);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__vue_components_FormReader_FormReader_vue__ = __webpack_require__(208);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_moment__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__modules_datatable_utils_js__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__modules_utils_js__ = __webpack_require__(1);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__alumni_js__ = __webpack_require__(564);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageAlumni", function() { return __WEBPACK_IMPORTED_MODULE_0__alumni_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__case_logs_js__ = __webpack_require__(579);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageCaseLogs", function() { return __WEBPACK_IMPORTED_MODULE_1__case_logs_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__evaluations_js__ = __webpack_require__(618);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageEvaluations", function() { return __WEBPACK_IMPORTED_MODULE_2__evaluations_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__faculty360_js__ = __webpack_require__(619);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageFaculty360", function() { return __WEBPACK_IMPORTED_MODULE_3__faculty360_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__merit_js__ = __webpack_require__(620);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMerit", function() { return __WEBPACK_IMPORTED_MODULE_4__merit_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__milestones_competencies_js__ = __webpack_require__(625);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMilestonesCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_5__milestones_competencies_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__scheduled_requests_js__ = __webpack_require__(630);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageScheduledRequests", function() { return __WEBPACK_IMPORTED_MODULE_6__scheduled_requests_js__["a"]; });
 
 
 
@@ -43064,6416 +43148,9 @@ function createManageEvaluations(el, propsData) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-function createManageFaculty360(el) {
-	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-		el: el,
-		props: {},
-		data: function data() {
-			return {
-				forms: null,
-				evaluations: null,
-
-				evaluationDates: Object(__WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["isoDateStringObject"])(Object(__WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["currentYear"])()),
-
-				formToEdit: null,
-				viewedEvaluation: null,
-
-				show: {
-					createForm: false
-				},
-
-				alerts: []
-			};
-		},
-		mounted: function mounted() {
-			this.fetchForms();
-			this.fetchEvaluations();
-		},
-
-
-		computed: {
-			formFields: function formFields() {
-				return ['id', 'title', 'created'];
-			},
-			formFieldAccessors: function formFieldAccessors() {
-				return {
-					created: function created(form, action) {
-						if (action === 'sort') return __WEBPACK_IMPORTED_MODULE_10_moment___default()(form.created_at).valueOf();
-
-						return Object(__WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDate"])(form.created_at);
-					}
-				};
-			},
-			evaluationFields: function evaluationFields() {
-				return ['id', 'faculty', 'evaluation_date'];
-			},
-			evaluationFieldAccessors: function evaluationFieldAccessors() {
-				return {
-					faculty: function faculty(evaluation) {
-						return evaluation.subject.full_name;
-					},
-					evaluation_date: function evaluation_date(evaluation, action) {
-						if (action === 'sort') {
-							return __WEBPACK_IMPORTED_MODULE_10_moment___default()(evaluation.evaluation_date_start).valueOf();
-						}
-
-						return Object(__WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDateRange"])(evaluation.evaluation_date_start, evaluation.evaluation_date_end);
-					}
-				};
-			}
-		},
-
-		watch: {
-			evaluationDates: function evaluationDates() {
-				this.fetchEvaluations();
-			}
-		},
-
-		methods: {
-			ucfirst: __WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["F" /* ucfirst */],
-			renderDateTime: __WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDateTime"],
-			renderDateRange: __WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDateRange"],
-			getEvaluationStatusLabel: __WEBPACK_IMPORTED_MODULE_11__modules_datatable_utils_js__["f" /* getEvaluationStatusLabel */],
-			fetchForms: function fetchForms() {
-				var _this = this;
-
-				fetch('/faculty360/forms', {
-					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["s" /* jsonOrThrow */]).then(function (forms) {
-					_this.forms = forms;
-				}).catch(function (err) {
-					console.error(err);
-					_this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching forms'
-					});
-				});
-			},
-			fetchEvaluations: function fetchEvaluations() {
-				var _this2 = this;
-
-				var query = $.param({
-					evaluation_date_start: this.evaluationDates.startDate,
-					evaluation_date_end: this.evaluationDates.endDate,
-					with: {
-						subject: ['full_name'],
-						form: ['title']
-					}
-				});
-
-				fetch('/faculty360/evaluations?' + query, {
-					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["s" /* jsonOrThrow */]).then(function (evals) {
-					_this2.evaluations = evals;
-				}).catch(function (err) {
-					console.error(err);
-					_this2.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching evaluations'
-					});
-				});
-			},
-			toggleFormStatus: function toggleFormStatus(form) {
-				var _this3 = this;
-
-				var newStatus = form.status === 'active' ? 'inactive' : 'active';
-
-				fetch('/faculty360/forms/' + form.id, {
-					method: 'POST', // PATCH
-					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin',
-					body: JSON.stringify({
-						_method: 'PATCH',
-						status: newStatus
-					})
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["v" /* okOrThrow */]).then(function () {
-					_this3.fetchForms();
-				}).catch(function (err) {
-					console.error(err);
-					_this3.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem changing the form status'
-					});
-				});
-			},
-			toggleEvaluationStatus: function toggleEvaluationStatus(evaluation, event) {
-				var _this4 = this;
-
-				event.preventDefault();
-
-				var newStatus = evaluation.status === 'disabled' ? evaluation.complete_date !== null ? 'completed' : 'pending' : 'disabled';
-
-				fetch('/faculty360/evaluations/' + evaluation.id, {
-					method: 'POST', // PATCH
-					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin',
-					body: JSON.stringify({
-						_method: 'PATCH',
-						status: newStatus
-					})
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["v" /* okOrThrow */]).then(function () {
-					_this4.fetchEvaluations();
-				}).catch(function (err) {
-					console.error(err);
-					_this4.alerts.push({
-						type: 'error',
-						html: "<strong>Error:</strong> There was a problem changing the evaluation's status"
-					});
-				});
-			},
-			resendEvaluationHash: function resendEvaluationHash(evaluation, event) {
-				var _this5 = this;
-
-				event.preventDefault();
-
-				fetch('/faculty360/evaluations/' + evaluation.id + '/send-new', {
-					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["v" /* okOrThrow */]).then(function () {
-					_this5.alerts.push({
-						type: 'success',
-						text: 'New link sent successfully!'
-					});
-				}).catch(function (err) {
-					console.error(err);
-					_this5.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem sending a new completion link'
-					});
-				});
-			},
-			viewEvaluation: function viewEvaluation(evaluation, event) {
-				if (event.defaultPrevented) return;
-
-				this.viewedEvaluation = evaluation;
-			},
-			handleFormSubmit: function handleFormSubmit(form) {
-				var _this6 = this;
-
-				fetch('/faculty360/forms', {
-					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin',
-					body: JSON.stringify(form)
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["s" /* jsonOrThrow */]).then(function () {
-					_this6.show.createForm = false;
-					_this6.fetchForms();
-				}).catch(function (err) {
-					console.error(err);
-					_this6.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem saving the form'
-					});
-				});
-			}
-		},
-
-		components: {
-			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__["a" /* default */],
-			ComponentList: __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__["a" /* default */],
-			ConfirmationButton: __WEBPACK_IMPORTED_MODULE_3__vue_components_ConfirmationButton_vue__["a" /* default */],
-			DataTable: __WEBPACK_IMPORTED_MODULE_4__vue_components_DataTable_vue__["a" /* default */],
-			RichDate: __WEBPACK_IMPORTED_MODULE_5__vue_components_RichDate_vue__["a" /* default */],
-			RichDateRange: __WEBPACK_IMPORTED_MODULE_6__vue_components_RichDateRange_vue__["a" /* default */],
-			AcademicYearSelector: __WEBPACK_IMPORTED_MODULE_7__vue_components_AcademicYearSelector_vue__["a" /* default */],
-
-			FormBuilder: __WEBPACK_IMPORTED_MODULE_8__vue_components_FormBuilder_FormBuilder_vue__["a" /* default */],
-			FormReader: __WEBPACK_IMPORTED_MODULE_9__vue_components_FormReader_FormReader_vue__["a" /* default */]
-		}
-	});
-}
 
 /***/ }),
 /* 564 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 565 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_date_utils_js__ = __webpack_require__(8);
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	props: {
-		date: {
-			type: [String, Date, Object],
-			required: false
-		},
-		time: {
-			type: Boolean,
-			default: false
-		}
-	},
-	data: function data() {
-		return {
-			hovered: false
-		};
-	},
-	mounted: function mounted() {
-		this.$refs.container.addEventListener('mouseenter', this.handleMouseEnter);
-
-		this.$refs.container.addEventListener('mouseleave', this.handleMouseLeave);
-	},
-
-
-	computed: {
-		dateString: function dateString() {
-			if (!this.date) return '';
-
-			if (this.time) {
-				return this.hovered ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.date).format('ll LT') : Object(__WEBPACK_IMPORTED_MODULE_1__modules_date_utils_js__["renderDateTime"])(this.date);
-			}
-
-			return this.hovered ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.date).format('ll') : Object(__WEBPACK_IMPORTED_MODULE_1__modules_date_utils_js__["renderDate"])(this.date);
-		}
-	},
-
-	methods: {
-		handleMouseEnter: function handleMouseEnter() {
-			this.hovered = true;
-		},
-		handleMouseLeave: function handleMouseLeave() {
-			this.hovered = false;
-		}
-	},
-
-	beforeDestroy: function beforeDestroy() {
-		this.$refs.container.removeEventListener('mouseenter', this.handleMouseEnter);
-
-		this.$refs.container.removeEventListener('mouseleave', this.handleMouseLeave);
-	}
-});
-
-/***/ }),
-/* 566 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("span", { ref: "container" }, [
-    _vm._v("\n\t" + _vm._s(_vm.dateString) + "\n")
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-1443b082", esExports)
-  }
-}
-
-/***/ }),
-/* 567 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = createManageMilestonesCompetencies;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__ = __webpack_require__(568);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(1);
-
-
-
-
-
-
-
-
-
-
-function createManageMilestonesCompetencies(el, propsData) {
-
-	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-		el: el,
-		props: {},
-		propsData: propsData,
-
-		data: function data() {
-			return {
-				milestones: null,
-				competencies: null,
-
-				orderedMilestones: [],
-				orderedCompetencies: [],
-
-				show: {
-					milestoneOrder: false,
-					competencyOrder: false
-				},
-
-				milestoneAlerts: [],
-				competencyAlerts: []
-			};
-		},
-		mounted: function mounted() {
-			this.fetchMilestones();
-			this.fetchCompetencies();
-		},
-
-
-		computed: {
-			milestonesThead: function milestonesThead() {
-				return [['Order', 'Title', 'Type', 'Subspecialty', 'Description', 'Action']];
-			},
-			milestonesConfig: function milestonesConfig() {
-				return {
-					columns: [{ data: 'order', render: function render(order, type) {
-							if (['sort', 'type'].includes(type)) return order != null ? Number(order) + 1 : Number.MAX_VALUE;
-
-							return order != null ? Number(order) + 1 : '';
-						}
-					}, { data: 'title' }, { data: 'type' }, { data: 'training_level' }, { data: 'description' }, { data: null, searchable: false, orderable: false, render: function render(milestone) {
-							var milestoneData = 'data-id="' + milestone.id + '"\n\t\t\t\t\t\t\t\tdata-title="' + milestone.title + '"\n\t\t\t\t\t\t\t\tdata-type="' + milestone.type + '"\n\t\t\t\t\t\t\t\tdata-training-level="' + milestone.training_level + '"\n\t\t\t\t\t\t\t\tdata-description="' + milestone.description + '"';
-
-							var editButton = '\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="edit-milestone-button btn btn-info btn-xs"\n\t\t\t\t\t\t\t\t\t' + milestoneData + '>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-edit"></span>\n\t\t\t\t\t\t\t\tEdit\n\t\t\t\t\t\t\t</button>';
-
-							var levelsButton = '\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="edit-milestone-levels-button btn btn-info btn-xs"\n\t\t\t\t\t\t\t\t\t' + milestoneData + '>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-th-list"></span>\n\t\t\t\t\t\t\t\tLevels\n\t\t\t\t\t\t\t</button>';
-
-							var deleteButton = '\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="delete-milestone-button btn btn-danger btn-xs"\n\t\t\t\t\t\t\t\t\t' + milestoneData + '>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-remove"></span>\n\t\t\t\t\t\t\t\tDelete\n\t\t\t\t\t\t\t</button>';
-
-							return editButton + ' ' + levelsButton + '\n\t\t\t\t\t\t\t\t' + (milestone.forms.length === 0 ? deleteButton : '');
-						}
-					}]
-				};
-			},
-			competenciesThead: function competenciesThead() {
-				return [['Order', 'Title', 'Description', 'Action']];
-			},
-			competenciesConfig: function competenciesConfig() {
-				return {
-					columns: [{ data: 'order', render: function render(order, type) {
-							if (['sort', 'type'].includes(type)) return order != null ? Number(order) + 1 : Number.MAX_VALUE;
-
-							return order != null ? Number(order) + 1 : '';
-						}
-					}, { data: 'title' }, { data: 'description' }, { data: null, searchable: false, orderable: false, render: function render(competency) {
-							var competencyData = 'data-id="' + competency.id + '"\n\t\t\t\t\t\t\t\tdata-title="' + competency.title + '"\n\t\t\t\t\t\t\t\tdata-description="' + competency.description + '"';
-
-							var editButton = '\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="edit-competency-button btn btn-info btn-xs"\n\t\t\t\t\t\t\t\t\t' + competencyData + '>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-edit"></span>\n\t\t\t\t\t\t\t\tEdit\n\t\t\t\t\t\t\t</button>';
-
-							var deleteButton = '\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="delete-competency-button btn btn-danger btn-xs"\n\t\t\t\t\t\t\t\t\t' + competencyData + '>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-remove"></span>\n\t\t\t\t\t\t\t\tDelete\n\t\t\t\t\t\t\t</button>';
-
-							return editButton + ' ' + (competency.forms.length === 0 ? deleteButton : '');
-						} }]
-				};
-			}
-		},
-
-		watch: {
-			competencies: function competencies(_competencies) {
-				this.orderedCompetencies = _competencies.filter(function (competency) {
-					return competency.order != null;
-				}).sort(Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["D" /* sortPropNumbers */])('order'));
-			},
-			milestones: function milestones(_milestones) {
-				this.orderedMilestones = _milestones.filter(function (milestone) {
-					return milestone.order != null;
-				}).sort(Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["D" /* sortPropNumbers */])('order'));
-			}
-		},
-
-		methods: {
-			ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["F" /* ucfirst */],
-			fetchMilestones: function fetchMilestones() {
-				var _this = this;
-
-				var query = $.param({
-					with: {
-						forms: true
-					}
-				});
-
-				return fetch('/milestones?' + query, {
-					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* jsonOrThrow */]).then(function (milestones) {
-					_this.milestones = milestones;
-				}).catch(function (err) {
-					console.error(err);
-					_this.milestoneAlerts.push({
-						type: 'error',
-						html: '<strong>Error: </strong> Problem fetching milestones'
-					});
-				});
-			},
-			fetchCompetencies: function fetchCompetencies() {
-				var _this2 = this;
-
-				var query = $.param({
-					with: {
-						forms: true
-					}
-				});
-
-				return fetch('/competencies?' + query, {
-					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* jsonOrThrow */]).then(function (competencies) {
-					_this2.competencies = competencies;
-				}).catch(function (err) {
-					console.error(err);
-					_this2.competencyAlerts.push({
-						type: 'error',
-						html: '<strong>Error: </strong> Problem fetching competencies'
-					});
-				});
-			},
-			saveMilestoneOrder: function saveMilestoneOrder() {
-				var _this3 = this;
-
-				var orderMap = this.orderedMilestones.map(function (milestone, index) {
-					return {
-						id: milestone.id,
-						order: index
-					};
-				});
-
-				fetch('/milestones/order', {
-					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin',
-					body: JSON.stringify({
-						_method: 'PATCH',
-						orderMap: orderMap
-					})
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* jsonOrThrow */]).then(function (results) {
-					if (results.success && results.success.length === _this3.orderedMilestones.length) _this3.milestoneAlerts.push({
-						type: 'success',
-						text: 'All orders saved successfully'
-					});else if (results.error && results.error.length === _this3.orderedMilestones.length) throw new Error(results);else _this3.milestoneAlerts.push({
-						type: 'warning',
-						text: 'Some orders were not saved successfully'
-					});
-
-					_this3.fetchMilestones();
-				}).catch(function (err) {
-					console.error(err);
-					_this3.milestoneAlerts.push({
-						type: 'error',
-						text: 'There was a problem saving the orders'
-					});
-				});
-			},
-			saveCompetencyOrder: function saveCompetencyOrder() {
-				var _this4 = this;
-
-				var orderMap = this.orderedCompetencies.map(function (competency, index) {
-					return {
-						id: competency.id,
-						order: index
-					};
-				});
-
-				fetch('/competencies/order', {
-					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin',
-					body: JSON.stringify({
-						_method: 'PATCH',
-						orderMap: orderMap
-					})
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* jsonOrThrow */]).then(function (results) {
-					if (results.success && results.success.length === _this4.orderedCompetencies.length) _this4.competencyAlerts.push({
-						type: 'success',
-						text: 'All orders saved successfully'
-					});else if (results.error && results.error.length === _this4.orderedCompetencies.length) throw new Error(results);else _this4.competencyAlerts.push({
-						type: 'warning',
-						text: 'Some orders were not saved successfully'
-					});
-					_this4.fetchCompetencies();
-				}).catch(function (err) {
-					console.error(err);
-					_this4.competencyAlerts.push({
-						type: 'error',
-						text: 'There was a problem saving the orders'
-					});
-				});
-			}
-		},
-
-		components: {
-			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__["a" /* default */],
-			DataTable: __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__["a" /* default */],
-			OrderingList: __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__["a" /* default */],
-			ShowHideButton: __WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue__["a" /* default */]
-		}
-	});
-}
-
-/***/ }),
-/* 568 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_OrderingList_vue__ = __webpack_require__(570);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d93fa1b2_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_OrderingList_vue__ = __webpack_require__(571);
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(569)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-d93fa1b2"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_OrderingList_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d93fa1b2_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_OrderingList_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/vue-components/OrderingList.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] OrderingList.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d93fa1b2", Component.options)
-  } else {
-    hotAPI.reload("data-v-d93fa1b2", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 569 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 570 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	props: {
-		value: {
-			type: Array,
-			required: true,
-			default: function _default() {
-				return [];
-			}
-		},
-		items: {
-			type: Array,
-			required: true
-		},
-		itemKey: {
-			type: String,
-			default: 'id'
-		}
-	},
-
-	data: function data() {
-		return {
-			activeItem: null,
-			activeItemTimeoutId: null
-		};
-	},
-
-
-	computed: {
-		itemsRemaining: function itemsRemaining() {
-			var _this = this;
-
-			return this.items.filter(function (item) {
-				return !_this.value.includes(item);
-			});
-		}
-	},
-	watch: {
-		activeItem: function activeItem() {
-			var _this2 = this;
-
-			if (this.activeItemTimeoutId) window.clearTimeout(this.activeItemTimeoutId);
-
-			this.activeItemTimeoutId = window.setTimeout(function () {
-				if (_this2.activeItemTimeoutId) {
-					_this2.activeItem = null;
-					_this2.activeItemTimeoutId = null;
-				}
-			}, 1000);
-		}
-	},
-
-	methods: {
-		addItem: function addItem(item) {
-			this.$emit('input', this.value.concat(item));
-		},
-		removeItem: function removeItem(index) {
-			if (event.defaultPrevented) return;
-
-			var value = this.value.slice();
-			value.splice(index, 1);
-			this.$emit('input', value);
-		},
-		moveItemTo: function moveItemTo(event, index) {
-			var newIndex = event.target.value - 1;
-
-			if (newIndex < 0 || newIndex > this.value.length - 1) return;
-
-			var value = this.value.slice();
-			value.splice(newIndex, 0, value.splice(index, 1)[0]);
-
-			this.activeItem = newIndex;
-			this.$emit('input', value);
-		},
-		moveItemUp: function moveItemUp(event, index) {
-			event.preventDefault();
-			event.stopPropagation();
-
-			if (index === 0) return;
-
-			var newIndex = index - 1;
-			var value = this.value.slice();
-
-			value.splice(newIndex, 0, value.splice(index, 1)[0]);
-
-			this.activeItem = newIndex;
-			this.$emit('input', value);
-		},
-		moveItemDown: function moveItemDown(event, index) {
-			event.preventDefault();
-			event.stopPropagation();
-
-			if (index === this.value.length - 1) return;
-
-			var newIndex = index + 1;
-			var value = this.value.slice();
-
-			value.splice(newIndex, 0, value.splice(index, 1)[0]);
-
-			this.activeItem = newIndex;
-			this.$emit('input', value);
-		}
-	}
-});
-
-/***/ }),
-/* 571 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-6" }, [
-      _c("b", [_vm._v("Unordered items")]),
-      _vm._v(" "),
-      _c(
-        "ul",
-        { staticClass: "list-group" },
-        _vm._l(_vm.itemsRemaining, function(item) {
-          return _c(
-            "li",
-            {
-              key: _vm.itemKey in item && "bank-" + item[_vm.itemKey],
-              staticClass: "list-group-item",
-              on: {
-                click: function($event) {
-                  _vm.addItem(item)
-                }
-              }
-            },
-            [
-              _vm._t(
-                "default",
-                [_vm._v("\n\t\t\t\t\t" + _vm._s(item) + "\n\t\t\t\t")],
-                null,
-                item
-              )
-            ],
-            2
-          )
-        })
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-md-6" }, [
-      _c("b", [_vm._v("Ordered list")]),
-      _vm._v(" "),
-      _c(
-        "ol",
-        { ref: "orderedList", staticClass: "list-group" },
-        _vm._l(_vm.value, function(item, index) {
-          return _c(
-            "li",
-            {
-              key: _vm.itemKey in item && item[_vm.itemKey],
-              staticClass: "list-group-item",
-              class: { active: _vm.activeItem === index },
-              on: {
-                click: function($event) {
-                  _vm.removeItem(index)
-                }
-              }
-            },
-            [
-              _vm._t(
-                "default",
-                [_vm._v("\n\t\t\t\t\t" + _vm._s(item) + "\n\t\t\t\t")],
-                null,
-                item
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "item-controls" }, [
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: { type: "number" },
-                  domProps: { value: index + 1 },
-                  on: {
-                    click: function($event) {
-                      $event.stopPropagation()
-                    },
-                    change: function($event) {
-                      _vm.moveItemTo($event, index)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "item-controls-buttons" }, [
-                  index > 0
-                    ? _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-default",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              _vm.moveItemUp($event, index)
-                            }
-                          }
-                        },
-                        [
-                          _c("span", {
-                            staticClass: "glyphicon glyphicon-arrow-up"
-                          })
-                        ]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  index < _vm.value.length - 1
-                    ? _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-default",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              _vm.moveItemDown($event, index)
-                            }
-                          }
-                        },
-                        [
-                          _c("span", {
-                            staticClass: "glyphicon glyphicon-arrow-down"
-                          })
-                        ]
-                      )
-                    : _vm._e()
-                ])
-              ])
-            ],
-            2
-          )
-        })
-      ),
-      _vm._v(" "),
-      _vm.value.length > 0
-        ? _c("div", { staticClass: "text-center" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-warning",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    _vm.$emit("input", [])
-                  }
-                }
-              },
-              [_vm._v("\n\t\t\t\tClear list\n\t\t\t")]
-            )
-          ])
-        : _vm._e()
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-d93fa1b2", esExports)
-  }
-}
-
-/***/ }),
-/* 572 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = createManageMerit;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_JsonSchemaEditor_vue__ = __webpack_require__(573);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_SelectTwo_vue__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Manage_Merit_FormListItem_vue__ = __webpack_require__(612);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(1);
-
-
-
-
-
-
-
-
-
-
-
-var reportTypeFormsKey = 'reportTypeForms';
-
-function createManageMerit(el, propsData) {
-	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-		el: el,
-		props: {
-			meritReportTypes: {
-				type: Object,
-				required: true
-			}
-		},
-		data: function data() {
-			return {
-				meritForms: [],
-				meritReportTypeForms: {},
-
-				pastMeritForms: null,
-				merit: null,
-				alerts: []
-			};
-		},
-
-		propsData: propsData,
-
-		mounted: function mounted() {
-			this.fetchMerits();
-			this.fetchReportTypeForms();
-		},
-
-
-		computed: {
-			formFields: function formFields() {
-				return ['id', 'name'];
-			},
-			groupedMeritForms: function groupedMeritForms() {
-				var forms = new Map();
-				this.meritForms.map(function (form) {
-					var nameForms = [];
-					if (forms.has(form.name)) nameForms = forms.get(form.name);
-
-					nameForms.push(form);
-					forms.set(form.name, nameForms);
-				});
-
-				var _iteratorNormalCompletion = true;
-				var _didIteratorError = false;
-				var _iteratorError = undefined;
-
-				try {
-					for (var _iterator = forms.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-						var name = _step.value;
-
-						var nameForms = forms.get(name);
-						nameForms.sort(function (a, b) {
-							return Number(b.version) - Number(a.version);
-						});
-						forms.set(name, nameForms);
-					}
-				} catch (err) {
-					_didIteratorError = true;
-					_iteratorError = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion && _iterator.return) {
-							_iterator.return();
-						}
-					} finally {
-						if (_didIteratorError) {
-							throw _iteratorError;
-						}
-					}
-				}
-
-				return Array.from(forms.values());
-			},
-			currentForms: function currentForms() {
-				return this.groupedMeritForms.map(function (forms) {
-					return forms[0];
-				});
-			}
-		},
-
-		methods: {
-			fetchMerits: function fetchMerits() {
-				var _this = this;
-
-				fetch('/merit-forms', {
-					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["s" /* jsonOrThrow */]).then(function (meritForms) {
-					_this.meritForms = meritForms;
-				}).catch(function (err) {
-					console.error(err);
-					_this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching merit forms'
-					});
-				});
-			},
-			fetchReportTypeForms: function fetchReportTypeForms() {
-				var _this2 = this;
-
-				fetch('/setting/' + reportTypeFormsKey, {
-					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin'
-				}).then(function (response) {
-					if (response.ok) return response.json();
-
-					if (response.status === 404) return {};
-
-					throw Error(response.statusText);
-				}).then(function (reportTypeForms) {
-					_this2.meritReportTypeForms = reportTypeForms;
-				}).catch(function (err) {
-					console.error(err);
-					_this2.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching merit report type forms'
-					});
-				});
-			},
-			addMerit: function addMerit() {
-				this.merit = {
-					name: null,
-					version: 0,
-					form: null
-				};
-			},
-			editMeritForm: function editMeritForm(forms) {
-				this.pastMeritForms = Array.slice(forms);
-				var currentForm = forms[0];
-				this.merit = {
-					id: currentForm.id,
-					name: currentForm.name,
-					version: currentForm.version,
-					form: null
-				};
-			},
-			handleMeritSubmit: function handleMeritSubmit(form) {
-				var _this3 = this;
-
-				var merit = Object.assign({}, this.merit, { form: form });
-				merit.version++;
-
-				fetch('/merit-forms', {
-					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin',
-					body: JSON.stringify(merit)
-				}).then(function (response) {
-					if (!response.ok) throw Error(response.statusText);
-
-					_this3.merit = null;
-					_this3.fetchMerits();
-				}).catch(function (err) {
-					console.error(err);
-					_this3.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem saving the merit form'
-					});
-				});
-			},
-			removeMeritForms: function removeMeritForms(forms) {
-				var _this4 = this;
-
-				var reportTypeRemovalPromises = [];
-				var formRemovalPromises = [];
-
-				formRemovalPromises = forms.map(function (form) {
-					return fetch('/merit-forms/' + form.id, {
-						method: 'POST', // DELETE
-						headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["m" /* getFetchHeaders */])(),
-						credentials: 'same-origin',
-						body: JSON.stringify({
-							_method: 'DELETE'
-						})
-					}).then(function (response) {
-						if (!response.ok) throw Error(response.statusText);
-
-						for (var reportType in _this4.meritReportTypeForms) {
-							var _form = _this4.meritReportTypeForms[reportType];
-
-							if (Number(_form.id) === Number(_form)) reportTypeRemovalPromises.push(fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
-								method: 'POST', // DELETE
-								headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["m" /* getFetchHeaders */])(),
-								credentials: 'same-origin',
-								body: JSON.stringify({
-									_method: 'DELETE'
-								})
-							}));
-						}
-					}).catch(function (err) {
-						console.error(err);
-						_this4.alerts.push({
-							type: 'error',
-							html: '<strong>Error:</strong> There was a problem removing the merit form'
-						});
-					});
-				});
-
-				if (formRemovalPromises.length > 0) {
-					Promise.all(formRemovalPromises).then(function () {
-						_this4.fetchMerits();
-
-						if (reportTypeRemovalPromises.length > 0) {
-							Promise.all(reportTypeRemovalPromises).then(function () {
-								_this4.fetchReportTypeForms();
-							});
-						}
-					});
-				}
-			},
-			handleReportTypeInput: function handleReportTypeInput(reportType, formName) {
-				var _this5 = this;
-
-				if (!formName || formName === this.meritReportTypeForms[reportType]) return;
-
-				fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
-					method: 'POST', // PATCH
-					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin',
-					body: JSON.stringify({
-						_method: 'PATCH',
-						value: formName
-					})
-				}).then(function (response) {
-					if (!response.ok) throw Error(response.statusText);
-
-					_this5.fetchReportTypeForms();
-				}).catch(function (err) {
-					console.error(err);
-					_this5.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem saving report type form'
-					});
-				});
-			},
-			removeReportTypeForm: function removeReportTypeForm(reportType) {
-				var _this6 = this;
-
-				fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
-					method: 'POST', // DELETE
-					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["m" /* getFetchHeaders */])(),
-					credentials: 'same-origin',
-					body: JSON.stringify({
-						_method: 'DELETE'
-					})
-				}).then(function (response) {
-					if (!response.ok) throw Error(response.statusText);
-
-					_this6.fetchReportTypeForms();
-				}).catch(function (err) {
-					console.error(err);
-					_this6.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem removing the type form'
-					});
-				});
-			}
-		},
-
-		components: {
-			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__["a" /* default */],
-			ComponentList: __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__["a" /* default */],
-			JsonSchemaEditor: __WEBPACK_IMPORTED_MODULE_3__vue_components_JsonSchemaEditor_vue__["a" /* default */],
-			SelectTwo: __WEBPACK_IMPORTED_MODULE_4__vue_components_SelectTwo_vue__["a" /* default */],
-
-			MeritFormListItem: __WEBPACK_IMPORTED_MODULE_5__vue_components_Manage_Merit_FormListItem_vue__["a" /* default */]
-		}
-	});
-}
-
-/***/ }),
-/* 573 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_JsonSchemaEditor_vue__ = __webpack_require__(575);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_227f018b_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_JsonSchemaEditor_vue__ = __webpack_require__(611);
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(574)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-227f018b"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_JsonSchemaEditor_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_227f018b_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_JsonSchemaEditor_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/vue-components/JsonSchemaEditor.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] JsonSchemaEditor.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-227f018b", Component.options)
-  } else {
-    hotAPI.reload("data-v-227f018b", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 574 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 575 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AlertList_vue__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ajv__ = __webpack_require__(576);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ajv___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ajv__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(1);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-
-
-var ajv = new __WEBPACK_IMPORTED_MODULE_2_ajv___default.a({
-	allErrors: true
-});
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	props: {
-		schemaUrl: {
-			type: String,
-			required: true
-		},
-		name: {
-			type: String,
-			default: 'JSON'
-		},
-		pastValues: {
-			type: Array,
-			default: []
-		}
-	},
-	data: function data() {
-		return {
-			newJson: null,
-			schema: null,
-
-			show: {
-				schema: false
-			},
-			alerts: []
-		};
-	},
-	mounted: function mounted() {
-		var _this = this;
-
-		fetch(this.schemaUrl).then(function (response) {
-			if (response.ok) return response.text();
-
-			throw new Error(response.statusText);
-		}).then(function (schema) {
-			_this.schema = schema;
-			_this.schemaValidator = ajv.compile(JSON.parse(schema));
-		}).catch(function (err) {
-			console.error(err);
-			_this.alerts.push({
-				type: 'error',
-				html: '<strong>Error:</strong> There was a problem fetching the schema'
-			});
-		});
-	},
-
-
-	computed: {
-		previousJson: function previousJson() {
-			if (this.pastValues && this.pastValues.length > 0) return this.pastValues[0].form;
-		},
-		newJsonObject: function newJsonObject() {
-			try {
-				return JSON.parse(this.newJson);
-			} catch (err) {
-				console.error(err);
-			}
-		},
-		schemaErrors: function schemaErrors() {
-			if (this.newJson && !this.newJsonObject) return [{
-				message: 'Input is not valid JSON'
-			}];
-
-			if (this.newJsonObject && this.schemaValidator) return this.schemaValidator.errors;
-
-			return [];
-		},
-		isSchemaValid: function isSchemaValid() {
-			if (this.newJsonObject && this.schemaValidator) return this.schemaValidator(this.newJsonObject);
-
-			return false;
-		}
-	},
-
-	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["F" /* ucfirst */],
-		ucfirstWords: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["G" /* ucfirstWords */],
-		formatJson: function formatJson() {
-			if (this.newJsonObject) this.newJson = JSON.stringify(this.newJsonObject, null, 4);
-		},
-		submitJson: function submitJson() {
-			this.$emit('submit', this.newJson);
-		}
-	},
-
-	components: {
-		AlertList: __WEBPACK_IMPORTED_MODULE_0__AlertList_vue__["a" /* default */],
-		ShowHideButton: __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__["a" /* default */]
-	}
-});
-
-/***/ }),
-/* 576 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var compileSchema = __webpack_require__(577)
-  , resolve = __webpack_require__(302)
-  , Cache = __webpack_require__(583)
-  , SchemaObject = __webpack_require__(334)
-  , stableStringify = __webpack_require__(335)
-  , formats = __webpack_require__(584)
-  , rules = __webpack_require__(585)
-  , $dataMetaSchema = __webpack_require__(604)
-  , patternGroups = __webpack_require__(605)
-  , util = __webpack_require__(163)
-  , co = __webpack_require__(337);
-
-module.exports = Ajv;
-
-Ajv.prototype.validate = validate;
-Ajv.prototype.compile = compile;
-Ajv.prototype.addSchema = addSchema;
-Ajv.prototype.addMetaSchema = addMetaSchema;
-Ajv.prototype.validateSchema = validateSchema;
-Ajv.prototype.getSchema = getSchema;
-Ajv.prototype.removeSchema = removeSchema;
-Ajv.prototype.addFormat = addFormat;
-Ajv.prototype.errorsText = errorsText;
-
-Ajv.prototype._addSchema = _addSchema;
-Ajv.prototype._compile = _compile;
-
-Ajv.prototype.compileAsync = __webpack_require__(606);
-var customKeyword = __webpack_require__(607);
-Ajv.prototype.addKeyword = customKeyword.add;
-Ajv.prototype.getKeyword = customKeyword.get;
-Ajv.prototype.removeKeyword = customKeyword.remove;
-
-var errorClasses = __webpack_require__(304);
-Ajv.ValidationError = errorClasses.Validation;
-Ajv.MissingRefError = errorClasses.MissingRef;
-Ajv.$dataMetaSchema = $dataMetaSchema;
-
-var META_SCHEMA_ID = 'http://json-schema.org/draft-06/schema';
-
-var META_IGNORE_OPTIONS = [ 'removeAdditional', 'useDefaults', 'coerceTypes' ];
-var META_SUPPORT_DATA = ['/properties'];
-
-/**
- * Creates validator instance.
- * Usage: `Ajv(opts)`
- * @param {Object} opts optional options
- * @return {Object} ajv instance
- */
-function Ajv(opts) {
-  if (!(this instanceof Ajv)) return new Ajv(opts);
-  opts = this._opts = util.copy(opts) || {};
-  this._schemas = {};
-  this._refs = {};
-  this._fragments = {};
-  this._formats = formats(opts.format);
-  var schemaUriFormat = this._schemaUriFormat = this._formats['uri-reference'];
-  this._schemaUriFormatFunc = function (str) { return schemaUriFormat.test(str); };
-
-  this._cache = opts.cache || new Cache;
-  this._loadingSchemas = {};
-  this._compilations = [];
-  this.RULES = rules();
-  this._getId = chooseGetId(opts);
-
-  opts.loopRequired = opts.loopRequired || Infinity;
-  if (opts.errorDataPath == 'property') opts._errorDataPathProperty = true;
-  if (opts.serialize === undefined) opts.serialize = stableStringify;
-  this._metaOpts = getMetaSchemaOptions(this);
-
-  if (opts.formats) addInitialFormats(this);
-  addDraft6MetaSchema(this);
-  if (typeof opts.meta == 'object') this.addMetaSchema(opts.meta);
-  addInitialSchemas(this);
-  if (opts.patternGroups) patternGroups(this);
-}
-
-
-
-/**
- * Validate data using schema
- * Schema will be compiled and cached (using serialized JSON as key. [json-stable-stringify](https://github.com/substack/json-stable-stringify) is used to serialize.
- * @this   Ajv
- * @param  {String|Object} schemaKeyRef key, ref or schema object
- * @param  {Any} data to be validated
- * @return {Boolean} validation result. Errors from the last validation will be available in `ajv.errors` (and also in compiled schema: `schema.errors`).
- */
-function validate(schemaKeyRef, data) {
-  var v;
-  if (typeof schemaKeyRef == 'string') {
-    v = this.getSchema(schemaKeyRef);
-    if (!v) throw new Error('no schema with key or ref "' + schemaKeyRef + '"');
-  } else {
-    var schemaObj = this._addSchema(schemaKeyRef);
-    v = schemaObj.validate || this._compile(schemaObj);
-  }
-
-  var valid = v(data);
-  if (v.$async === true)
-    return this._opts.async == '*' ? co(valid) : valid;
-  this.errors = v.errors;
-  return valid;
-}
-
-
-/**
- * Create validating function for passed schema.
- * @this   Ajv
- * @param  {Object} schema schema object
- * @param  {Boolean} _meta true if schema is a meta-schema. Used internally to compile meta schemas of custom keywords.
- * @return {Function} validating function
- */
-function compile(schema, _meta) {
-  var schemaObj = this._addSchema(schema, undefined, _meta);
-  return schemaObj.validate || this._compile(schemaObj);
-}
-
-
-/**
- * Adds schema to the instance.
- * @this   Ajv
- * @param {Object|Array} schema schema or array of schemas. If array is passed, `key` and other parameters will be ignored.
- * @param {String} key Optional schema key. Can be passed to `validate` method instead of schema object or id/ref. One schema per instance can have empty `id` and `key`.
- * @param {Boolean} _skipValidation true to skip schema validation. Used internally, option validateSchema should be used instead.
- * @param {Boolean} _meta true if schema is a meta-schema. Used internally, addMetaSchema should be used instead.
- */
-function addSchema(schema, key, _skipValidation, _meta) {
-  if (Array.isArray(schema)){
-    for (var i=0; i<schema.length; i++) this.addSchema(schema[i], undefined, _skipValidation, _meta);
-    return;
-  }
-  var id = this._getId(schema);
-  if (id !== undefined && typeof id != 'string')
-    throw new Error('schema id must be string');
-  key = resolve.normalizeId(key || id);
-  checkUnique(this, key);
-  this._schemas[key] = this._addSchema(schema, _skipValidation, _meta, true);
-}
-
-
-/**
- * Add schema that will be used to validate other schemas
- * options in META_IGNORE_OPTIONS are alway set to false
- * @this   Ajv
- * @param {Object} schema schema object
- * @param {String} key optional schema key
- * @param {Boolean} skipValidation true to skip schema validation, can be used to override validateSchema option for meta-schema
- */
-function addMetaSchema(schema, key, skipValidation) {
-  this.addSchema(schema, key, skipValidation, true);
-}
-
-
-/**
- * Validate schema
- * @this   Ajv
- * @param {Object} schema schema to validate
- * @param {Boolean} throwOrLogError pass true to throw (or log) an error if invalid
- * @return {Boolean} true if schema is valid
- */
-function validateSchema(schema, throwOrLogError) {
-  var $schema = schema.$schema;
-  if ($schema !== undefined && typeof $schema != 'string')
-    throw new Error('$schema must be a string');
-  $schema = $schema || this._opts.defaultMeta || defaultMeta(this);
-  if (!$schema) {
-    console.warn('meta-schema not available');
-    this.errors = null;
-    return true;
-  }
-  var currentUriFormat = this._formats.uri;
-  this._formats.uri = typeof currentUriFormat == 'function'
-                      ? this._schemaUriFormatFunc
-                      : this._schemaUriFormat;
-  var valid;
-  try { valid = this.validate($schema, schema); }
-  finally { this._formats.uri = currentUriFormat; }
-  if (!valid && throwOrLogError) {
-    var message = 'schema is invalid: ' + this.errorsText();
-    if (this._opts.validateSchema == 'log') console.error(message);
-    else throw new Error(message);
-  }
-  return valid;
-}
-
-
-function defaultMeta(self) {
-  var meta = self._opts.meta;
-  self._opts.defaultMeta = typeof meta == 'object'
-                            ? self._getId(meta) || meta
-                            : self.getSchema(META_SCHEMA_ID)
-                              ? META_SCHEMA_ID
-                              : undefined;
-  return self._opts.defaultMeta;
-}
-
-
-/**
- * Get compiled schema from the instance by `key` or `ref`.
- * @this   Ajv
- * @param  {String} keyRef `key` that was passed to `addSchema` or full schema reference (`schema.id` or resolved id).
- * @return {Function} schema validating function (with property `schema`).
- */
-function getSchema(keyRef) {
-  var schemaObj = _getSchemaObj(this, keyRef);
-  switch (typeof schemaObj) {
-    case 'object': return schemaObj.validate || this._compile(schemaObj);
-    case 'string': return this.getSchema(schemaObj);
-    case 'undefined': return _getSchemaFragment(this, keyRef);
-  }
-}
-
-
-function _getSchemaFragment(self, ref) {
-  var res = resolve.schema.call(self, { schema: {} }, ref);
-  if (res) {
-    var schema = res.schema
-      , root = res.root
-      , baseId = res.baseId;
-    var v = compileSchema.call(self, schema, root, undefined, baseId);
-    self._fragments[ref] = new SchemaObject({
-      ref: ref,
-      fragment: true,
-      schema: schema,
-      root: root,
-      baseId: baseId,
-      validate: v
-    });
-    return v;
-  }
-}
-
-
-function _getSchemaObj(self, keyRef) {
-  keyRef = resolve.normalizeId(keyRef);
-  return self._schemas[keyRef] || self._refs[keyRef] || self._fragments[keyRef];
-}
-
-
-/**
- * Remove cached schema(s).
- * If no parameter is passed all schemas but meta-schemas are removed.
- * If RegExp is passed all schemas with key/id matching pattern but meta-schemas are removed.
- * Even if schema is referenced by other schemas it still can be removed as other schemas have local references.
- * @this   Ajv
- * @param  {String|Object|RegExp} schemaKeyRef key, ref, pattern to match key/ref or schema object
- */
-function removeSchema(schemaKeyRef) {
-  if (schemaKeyRef instanceof RegExp) {
-    _removeAllSchemas(this, this._schemas, schemaKeyRef);
-    _removeAllSchemas(this, this._refs, schemaKeyRef);
-    return;
-  }
-  switch (typeof schemaKeyRef) {
-    case 'undefined':
-      _removeAllSchemas(this, this._schemas);
-      _removeAllSchemas(this, this._refs);
-      this._cache.clear();
-      return;
-    case 'string':
-      var schemaObj = _getSchemaObj(this, schemaKeyRef);
-      if (schemaObj) this._cache.del(schemaObj.cacheKey);
-      delete this._schemas[schemaKeyRef];
-      delete this._refs[schemaKeyRef];
-      return;
-    case 'object':
-      var serialize = this._opts.serialize;
-      var cacheKey = serialize ? serialize(schemaKeyRef) : schemaKeyRef;
-      this._cache.del(cacheKey);
-      var id = this._getId(schemaKeyRef);
-      if (id) {
-        id = resolve.normalizeId(id);
-        delete this._schemas[id];
-        delete this._refs[id];
-      }
-  }
-}
-
-
-function _removeAllSchemas(self, schemas, regex) {
-  for (var keyRef in schemas) {
-    var schemaObj = schemas[keyRef];
-    if (!schemaObj.meta && (!regex || regex.test(keyRef))) {
-      self._cache.del(schemaObj.cacheKey);
-      delete schemas[keyRef];
-    }
-  }
-}
-
-
-/* @this   Ajv */
-function _addSchema(schema, skipValidation, meta, shouldAddSchema) {
-  if (typeof schema != 'object' && typeof schema != 'boolean')
-    throw new Error('schema should be object or boolean');
-  var serialize = this._opts.serialize;
-  var cacheKey = serialize ? serialize(schema) : schema;
-  var cached = this._cache.get(cacheKey);
-  if (cached) return cached;
-
-  shouldAddSchema = shouldAddSchema || this._opts.addUsedSchema !== false;
-
-  var id = resolve.normalizeId(this._getId(schema));
-  if (id && shouldAddSchema) checkUnique(this, id);
-
-  var willValidate = this._opts.validateSchema !== false && !skipValidation;
-  var recursiveMeta;
-  if (willValidate && !(recursiveMeta = id && id == resolve.normalizeId(schema.$schema)))
-    this.validateSchema(schema, true);
-
-  var localRefs = resolve.ids.call(this, schema);
-
-  var schemaObj = new SchemaObject({
-    id: id,
-    schema: schema,
-    localRefs: localRefs,
-    cacheKey: cacheKey,
-    meta: meta
-  });
-
-  if (id[0] != '#' && shouldAddSchema) this._refs[id] = schemaObj;
-  this._cache.put(cacheKey, schemaObj);
-
-  if (willValidate && recursiveMeta) this.validateSchema(schema, true);
-
-  return schemaObj;
-}
-
-
-/* @this   Ajv */
-function _compile(schemaObj, root) {
-  if (schemaObj.compiling) {
-    schemaObj.validate = callValidate;
-    callValidate.schema = schemaObj.schema;
-    callValidate.errors = null;
-    callValidate.root = root ? root : callValidate;
-    if (schemaObj.schema.$async === true)
-      callValidate.$async = true;
-    return callValidate;
-  }
-  schemaObj.compiling = true;
-
-  var currentOpts;
-  if (schemaObj.meta) {
-    currentOpts = this._opts;
-    this._opts = this._metaOpts;
-  }
-
-  var v;
-  try { v = compileSchema.call(this, schemaObj.schema, root, schemaObj.localRefs); }
-  finally {
-    schemaObj.compiling = false;
-    if (schemaObj.meta) this._opts = currentOpts;
-  }
-
-  schemaObj.validate = v;
-  schemaObj.refs = v.refs;
-  schemaObj.refVal = v.refVal;
-  schemaObj.root = v.root;
-  return v;
-
-
-  function callValidate() {
-    var _validate = schemaObj.validate;
-    var result = _validate.apply(null, arguments);
-    callValidate.errors = _validate.errors;
-    return result;
-  }
-}
-
-
-function chooseGetId(opts) {
-  switch (opts.schemaId) {
-    case '$id': return _get$Id;
-    case 'id': return _getId;
-    default: return _get$IdOrId;
-  }
-}
-
-
-function _getId(schema) {
-  if (schema.$id) console.warn('schema $id ignored', schema.$id);
-  return schema.id;
-}
-
-
-function _get$Id(schema) {
-  if (schema.id) console.warn('schema id ignored', schema.id);
-  return schema.$id;
-}
-
-
-function _get$IdOrId(schema) {
-  if (schema.$id && schema.id && schema.$id != schema.id)
-    throw new Error('schema $id is different from id');
-  return schema.$id || schema.id;
-}
-
-
-/**
- * Convert array of error message objects to string
- * @this   Ajv
- * @param  {Array<Object>} errors optional array of validation errors, if not passed errors from the instance are used.
- * @param  {Object} options optional options with properties `separator` and `dataVar`.
- * @return {String} human readable string with all errors descriptions
- */
-function errorsText(errors, options) {
-  errors = errors || this.errors;
-  if (!errors) return 'No errors';
-  options = options || {};
-  var separator = options.separator === undefined ? ', ' : options.separator;
-  var dataVar = options.dataVar === undefined ? 'data' : options.dataVar;
-
-  var text = '';
-  for (var i=0; i<errors.length; i++) {
-    var e = errors[i];
-    if (e) text += dataVar + e.dataPath + ' ' + e.message + separator;
-  }
-  return text.slice(0, -separator.length);
-}
-
-
-/**
- * Add custom format
- * @this   Ajv
- * @param {String} name format name
- * @param {String|RegExp|Function} format string is converted to RegExp; function should return boolean (true when valid)
- */
-function addFormat(name, format) {
-  if (typeof format == 'string') format = new RegExp(format);
-  this._formats[name] = format;
-}
-
-
-function addDraft6MetaSchema(self) {
-  var $dataSchema;
-  if (self._opts.$data) {
-    $dataSchema = __webpack_require__(609);
-    self.addMetaSchema($dataSchema, $dataSchema.$id, true);
-  }
-  if (self._opts.meta === false) return;
-  var metaSchema = __webpack_require__(610);
-  if (self._opts.$data) metaSchema = $dataMetaSchema(metaSchema, META_SUPPORT_DATA);
-  self.addMetaSchema(metaSchema, META_SCHEMA_ID, true);
-  self._refs['http://json-schema.org/schema'] = META_SCHEMA_ID;
-}
-
-
-function addInitialSchemas(self) {
-  var optsSchemas = self._opts.schemas;
-  if (!optsSchemas) return;
-  if (Array.isArray(optsSchemas)) self.addSchema(optsSchemas);
-  else for (var key in optsSchemas) self.addSchema(optsSchemas[key], key);
-}
-
-
-function addInitialFormats(self) {
-  for (var name in self._opts.formats) {
-    var format = self._opts.formats[name];
-    self.addFormat(name, format);
-  }
-}
-
-
-function checkUnique(self, id) {
-  if (self._schemas[id] || self._refs[id])
-    throw new Error('schema with key or id "' + id + '" already exists');
-}
-
-
-function getMetaSchemaOptions(self) {
-  var metaOpts = util.copy(self._opts);
-  for (var i=0; i<META_IGNORE_OPTIONS.length; i++)
-    delete metaOpts[META_IGNORE_OPTIONS[i]];
-  return metaOpts;
-}
-
-
-/***/ }),
-/* 577 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var resolve = __webpack_require__(302)
-  , util = __webpack_require__(163)
-  , errorClasses = __webpack_require__(304)
-  , stableStringify = __webpack_require__(335);
-
-var validateGenerator = __webpack_require__(336);
-
-/**
- * Functions below are used inside compiled validations function
- */
-
-var co = __webpack_require__(337);
-var ucs2length = util.ucs2length;
-var equal = __webpack_require__(303);
-
-// this error is thrown by async schemas to return validation errors via exception
-var ValidationError = errorClasses.Validation;
-
-module.exports = compile;
-
-
-/**
- * Compiles schema to validation function
- * @this   Ajv
- * @param  {Object} schema schema object
- * @param  {Object} root object with information about the root schema for this schema
- * @param  {Object} localRefs the hash of local references inside the schema (created by resolve.id), used for inline resolution
- * @param  {String} baseId base ID for IDs in the schema
- * @return {Function} validation function
- */
-function compile(schema, root, localRefs, baseId) {
-  /* jshint validthis: true, evil: true */
-  /* eslint no-shadow: 0 */
-  var self = this
-    , opts = this._opts
-    , refVal = [ undefined ]
-    , refs = {}
-    , patterns = []
-    , patternsHash = {}
-    , defaults = []
-    , defaultsHash = {}
-    , customRules = [];
-
-  root = root || { schema: schema, refVal: refVal, refs: refs };
-
-  var c = checkCompiling.call(this, schema, root, baseId);
-  var compilation = this._compilations[c.index];
-  if (c.compiling) return (compilation.callValidate = callValidate);
-
-  var formats = this._formats;
-  var RULES = this.RULES;
-
-  try {
-    var v = localCompile(schema, root, localRefs, baseId);
-    compilation.validate = v;
-    var cv = compilation.callValidate;
-    if (cv) {
-      cv.schema = v.schema;
-      cv.errors = null;
-      cv.refs = v.refs;
-      cv.refVal = v.refVal;
-      cv.root = v.root;
-      cv.$async = v.$async;
-      if (opts.sourceCode) cv.source = v.source;
-    }
-    return v;
-  } finally {
-    endCompiling.call(this, schema, root, baseId);
-  }
-
-  function callValidate() {
-    var validate = compilation.validate;
-    var result = validate.apply(null, arguments);
-    callValidate.errors = validate.errors;
-    return result;
-  }
-
-  function localCompile(_schema, _root, localRefs, baseId) {
-    var isRoot = !_root || (_root && _root.schema == _schema);
-    if (_root.schema != root.schema)
-      return compile.call(self, _schema, _root, localRefs, baseId);
-
-    var $async = _schema.$async === true;
-
-    var sourceCode = validateGenerator({
-      isTop: true,
-      schema: _schema,
-      isRoot: isRoot,
-      baseId: baseId,
-      root: _root,
-      schemaPath: '',
-      errSchemaPath: '#',
-      errorPath: '""',
-      MissingRefError: errorClasses.MissingRef,
-      RULES: RULES,
-      validate: validateGenerator,
-      util: util,
-      resolve: resolve,
-      resolveRef: resolveRef,
-      usePattern: usePattern,
-      useDefault: useDefault,
-      useCustomRule: useCustomRule,
-      opts: opts,
-      formats: formats,
-      self: self
-    });
-
-    sourceCode = vars(refVal, refValCode) + vars(patterns, patternCode)
-                   + vars(defaults, defaultCode) + vars(customRules, customRuleCode)
-                   + sourceCode;
-
-    if (opts.processCode) sourceCode = opts.processCode(sourceCode);
-    // console.log('\n\n\n *** \n', JSON.stringify(sourceCode));
-    var validate;
-    try {
-      var makeValidate = new Function(
-        'self',
-        'RULES',
-        'formats',
-        'root',
-        'refVal',
-        'defaults',
-        'customRules',
-        'co',
-        'equal',
-        'ucs2length',
-        'ValidationError',
-        sourceCode
-      );
-
-      validate = makeValidate(
-        self,
-        RULES,
-        formats,
-        root,
-        refVal,
-        defaults,
-        customRules,
-        co,
-        equal,
-        ucs2length,
-        ValidationError
-      );
-
-      refVal[0] = validate;
-    } catch(e) {
-      console.error('Error compiling schema, function code:', sourceCode);
-      throw e;
-    }
-
-    validate.schema = _schema;
-    validate.errors = null;
-    validate.refs = refs;
-    validate.refVal = refVal;
-    validate.root = isRoot ? validate : _root;
-    if ($async) validate.$async = true;
-    if (opts.sourceCode === true) {
-      validate.source = {
-        code: sourceCode,
-        patterns: patterns,
-        defaults: defaults
-      };
-    }
-
-    return validate;
-  }
-
-  function resolveRef(baseId, ref, isRoot) {
-    ref = resolve.url(baseId, ref);
-    var refIndex = refs[ref];
-    var _refVal, refCode;
-    if (refIndex !== undefined) {
-      _refVal = refVal[refIndex];
-      refCode = 'refVal[' + refIndex + ']';
-      return resolvedRef(_refVal, refCode);
-    }
-    if (!isRoot && root.refs) {
-      var rootRefId = root.refs[ref];
-      if (rootRefId !== undefined) {
-        _refVal = root.refVal[rootRefId];
-        refCode = addLocalRef(ref, _refVal);
-        return resolvedRef(_refVal, refCode);
-      }
-    }
-
-    refCode = addLocalRef(ref);
-    var v = resolve.call(self, localCompile, root, ref);
-    if (v === undefined) {
-      var localSchema = localRefs && localRefs[ref];
-      if (localSchema) {
-        v = resolve.inlineRef(localSchema, opts.inlineRefs)
-            ? localSchema
-            : compile.call(self, localSchema, root, localRefs, baseId);
-      }
-    }
-
-    if (v === undefined) {
-      removeLocalRef(ref);
-    } else {
-      replaceLocalRef(ref, v);
-      return resolvedRef(v, refCode);
-    }
-  }
-
-  function addLocalRef(ref, v) {
-    var refId = refVal.length;
-    refVal[refId] = v;
-    refs[ref] = refId;
-    return 'refVal' + refId;
-  }
-
-  function removeLocalRef(ref) {
-    delete refs[ref];
-  }
-
-  function replaceLocalRef(ref, v) {
-    var refId = refs[ref];
-    refVal[refId] = v;
-  }
-
-  function resolvedRef(refVal, code) {
-    return typeof refVal == 'object' || typeof refVal == 'boolean'
-            ? { code: code, schema: refVal, inline: true }
-            : { code: code, $async: refVal && refVal.$async };
-  }
-
-  function usePattern(regexStr) {
-    var index = patternsHash[regexStr];
-    if (index === undefined) {
-      index = patternsHash[regexStr] = patterns.length;
-      patterns[index] = regexStr;
-    }
-    return 'pattern' + index;
-  }
-
-  function useDefault(value) {
-    switch (typeof value) {
-      case 'boolean':
-      case 'number':
-        return '' + value;
-      case 'string':
-        return util.toQuotedString(value);
-      case 'object':
-        if (value === null) return 'null';
-        var valueStr = stableStringify(value);
-        var index = defaultsHash[valueStr];
-        if (index === undefined) {
-          index = defaultsHash[valueStr] = defaults.length;
-          defaults[index] = value;
-        }
-        return 'default' + index;
-    }
-  }
-
-  function useCustomRule(rule, schema, parentSchema, it) {
-    var validateSchema = rule.definition.validateSchema;
-    if (validateSchema && self._opts.validateSchema !== false) {
-      var valid = validateSchema(schema);
-      if (!valid) {
-        var message = 'keyword schema is invalid: ' + self.errorsText(validateSchema.errors);
-        if (self._opts.validateSchema == 'log') console.error(message);
-        else throw new Error(message);
-      }
-    }
-
-    var compile = rule.definition.compile
-      , inline = rule.definition.inline
-      , macro = rule.definition.macro;
-
-    var validate;
-    if (compile) {
-      validate = compile.call(self, schema, parentSchema, it);
-    } else if (macro) {
-      validate = macro.call(self, schema, parentSchema, it);
-      if (opts.validateSchema !== false) self.validateSchema(validate, true);
-    } else if (inline) {
-      validate = inline.call(self, it, rule.keyword, schema, parentSchema);
-    } else {
-      validate = rule.definition.validate;
-      if (!validate) return;
-    }
-
-    if (validate === undefined)
-      throw new Error('custom keyword "' + rule.keyword + '"failed to compile');
-
-    var index = customRules.length;
-    customRules[index] = validate;
-
-    return {
-      code: 'customRule' + index,
-      validate: validate
-    };
-  }
-}
-
-
-/**
- * Checks if the schema is currently compiled
- * @this   Ajv
- * @param  {Object} schema schema to compile
- * @param  {Object} root root object
- * @param  {String} baseId base schema ID
- * @return {Object} object with properties "index" (compilation index) and "compiling" (boolean)
- */
-function checkCompiling(schema, root, baseId) {
-  /* jshint validthis: true */
-  var index = compIndex.call(this, schema, root, baseId);
-  if (index >= 0) return { index: index, compiling: true };
-  index = this._compilations.length;
-  this._compilations[index] = {
-    schema: schema,
-    root: root,
-    baseId: baseId
-  };
-  return { index: index, compiling: false };
-}
-
-
-/**
- * Removes the schema from the currently compiled list
- * @this   Ajv
- * @param  {Object} schema schema to compile
- * @param  {Object} root root object
- * @param  {String} baseId base schema ID
- */
-function endCompiling(schema, root, baseId) {
-  /* jshint validthis: true */
-  var i = compIndex.call(this, schema, root, baseId);
-  if (i >= 0) this._compilations.splice(i, 1);
-}
-
-
-/**
- * Index of schema compilation in the currently compiled list
- * @this   Ajv
- * @param  {Object} schema schema to compile
- * @param  {Object} root root object
- * @param  {String} baseId base schema ID
- * @return {Integer} compilation index
- */
-function compIndex(schema, root, baseId) {
-  /* jshint validthis: true */
-  for (var i=0; i<this._compilations.length; i++) {
-    var c = this._compilations[i];
-    if (c.schema == schema && c.root == root && c.baseId == baseId) return i;
-  }
-  return -1;
-}
-
-
-function patternCode(i, patterns) {
-  return 'var pattern' + i + ' = new RegExp(' + util.toQuotedString(patterns[i]) + ');';
-}
-
-
-function defaultCode(i) {
-  return 'var default' + i + ' = defaults[' + i + '];';
-}
-
-
-function refValCode(i, refVal) {
-  return refVal[i] === undefined ? '' : 'var refVal' + i + ' = refVal[' + i + '];';
-}
-
-
-function customRuleCode(i) {
-  return 'var customRule' + i + ' = customRules[' + i + '];';
-}
-
-
-function vars(arr, statement) {
-  if (!arr.length) return '';
-  var code = '';
-  for (var i=0; i<arr.length; i++)
-    code += statement(i, arr);
-  return code;
-}
-
-
-/***/ }),
-/* 578 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// https://mathiasbynens.be/notes/javascript-encoding
-// https://github.com/bestiejs/punycode.js - punycode.ucs2.decode
-module.exports = function ucs2length(str) {
-  var length = 0
-    , len = str.length
-    , pos = 0
-    , value;
-  while (pos < len) {
-    length++;
-    value = str.charCodeAt(pos++);
-    if (value >= 0xD800 && value <= 0xDBFF && pos < len) {
-      // high surrogate, and there is a next character
-      value = str.charCodeAt(pos);
-      if ((value & 0xFC00) == 0xDC00) pos++; // low surrogate
-    }
-  }
-  return length;
-};
-
-
-/***/ }),
-/* 579 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var traverse = module.exports = function (schema, opts, cb) {
-  if (typeof opts == 'function') {
-    cb = opts;
-    opts = {};
-  }
-  _traverse(opts, cb, schema, '', schema);
-};
-
-
-traverse.keywords = {
-  additionalItems: true,
-  items: true,
-  contains: true,
-  additionalProperties: true,
-  propertyNames: true,
-  not: true
-};
-
-traverse.arrayKeywords = {
-  items: true,
-  allOf: true,
-  anyOf: true,
-  oneOf: true
-};
-
-traverse.propsKeywords = {
-  definitions: true,
-  properties: true,
-  patternProperties: true,
-  dependencies: true
-};
-
-traverse.skipKeywords = {
-  enum: true,
-  const: true,
-  required: true,
-  maximum: true,
-  minimum: true,
-  exclusiveMaximum: true,
-  exclusiveMinimum: true,
-  multipleOf: true,
-  maxLength: true,
-  minLength: true,
-  pattern: true,
-  format: true,
-  maxItems: true,
-  minItems: true,
-  uniqueItems: true,
-  maxProperties: true,
-  minProperties: true
-};
-
-
-function _traverse(opts, cb, schema, jsonPtr, rootSchema, parentJsonPtr, parentKeyword, parentSchema, keyIndex) {
-  if (schema && typeof schema == 'object' && !Array.isArray(schema)) {
-    cb(schema, jsonPtr, rootSchema, parentJsonPtr, parentKeyword, parentSchema, keyIndex);
-    for (var key in schema) {
-      var sch = schema[key];
-      if (Array.isArray(sch)) {
-        if (key in traverse.arrayKeywords) {
-          for (var i=0; i<sch.length; i++)
-            _traverse(opts, cb, sch[i], jsonPtr + '/' + key + '/' + i, rootSchema, jsonPtr, key, schema, i);
-        }
-      } else if (key in traverse.propsKeywords) {
-        if (sch && typeof sch == 'object') {
-          for (var prop in sch)
-            _traverse(opts, cb, sch[prop], jsonPtr + '/' + key + '/' + escapeJsonPtr(prop), rootSchema, jsonPtr, key, schema, prop);
-        }
-      } else if (key in traverse.keywords || (opts.allKeys && !(key in traverse.skipKeywords))) {
-        _traverse(opts, cb, sch, jsonPtr + '/' + key, rootSchema, jsonPtr, key, schema);
-      }
-    }
-  }
-}
-
-
-function escapeJsonPtr(str) {
-  return str.replace(/~/g, '~0').replace(/\//g, '~1');
-}
-
-
-/***/ }),
-/* 580 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports.parse = __webpack_require__(581);
-exports.stringify = __webpack_require__(582);
-
-
-/***/ }),
-/* 581 */
-/***/ (function(module, exports) {
-
-var at, // The index of the current character
-    ch, // The current character
-    escapee = {
-        '"':  '"',
-        '\\': '\\',
-        '/':  '/',
-        b:    '\b',
-        f:    '\f',
-        n:    '\n',
-        r:    '\r',
-        t:    '\t'
-    },
-    text,
-
-    error = function (m) {
-        // Call error when something is wrong.
-        throw {
-            name:    'SyntaxError',
-            message: m,
-            at:      at,
-            text:    text
-        };
-    },
-    
-    next = function (c) {
-        // If a c parameter is provided, verify that it matches the current character.
-        if (c && c !== ch) {
-            error("Expected '" + c + "' instead of '" + ch + "'");
-        }
-        
-        // Get the next character. When there are no more characters,
-        // return the empty string.
-        
-        ch = text.charAt(at);
-        at += 1;
-        return ch;
-    },
-    
-    number = function () {
-        // Parse a number value.
-        var number,
-            string = '';
-        
-        if (ch === '-') {
-            string = '-';
-            next('-');
-        }
-        while (ch >= '0' && ch <= '9') {
-            string += ch;
-            next();
-        }
-        if (ch === '.') {
-            string += '.';
-            while (next() && ch >= '0' && ch <= '9') {
-                string += ch;
-            }
-        }
-        if (ch === 'e' || ch === 'E') {
-            string += ch;
-            next();
-            if (ch === '-' || ch === '+') {
-                string += ch;
-                next();
-            }
-            while (ch >= '0' && ch <= '9') {
-                string += ch;
-                next();
-            }
-        }
-        number = +string;
-        if (!isFinite(number)) {
-            error("Bad number");
-        } else {
-            return number;
-        }
-    },
-    
-    string = function () {
-        // Parse a string value.
-        var hex,
-            i,
-            string = '',
-            uffff;
-        
-        // When parsing for string values, we must look for " and \ characters.
-        if (ch === '"') {
-            while (next()) {
-                if (ch === '"') {
-                    next();
-                    return string;
-                } else if (ch === '\\') {
-                    next();
-                    if (ch === 'u') {
-                        uffff = 0;
-                        for (i = 0; i < 4; i += 1) {
-                            hex = parseInt(next(), 16);
-                            if (!isFinite(hex)) {
-                                break;
-                            }
-                            uffff = uffff * 16 + hex;
-                        }
-                        string += String.fromCharCode(uffff);
-                    } else if (typeof escapee[ch] === 'string') {
-                        string += escapee[ch];
-                    } else {
-                        break;
-                    }
-                } else {
-                    string += ch;
-                }
-            }
-        }
-        error("Bad string");
-    },
-
-    white = function () {
-
-// Skip whitespace.
-
-        while (ch && ch <= ' ') {
-            next();
-        }
-    },
-
-    word = function () {
-
-// true, false, or null.
-
-        switch (ch) {
-        case 't':
-            next('t');
-            next('r');
-            next('u');
-            next('e');
-            return true;
-        case 'f':
-            next('f');
-            next('a');
-            next('l');
-            next('s');
-            next('e');
-            return false;
-        case 'n':
-            next('n');
-            next('u');
-            next('l');
-            next('l');
-            return null;
-        }
-        error("Unexpected '" + ch + "'");
-    },
-
-    value,  // Place holder for the value function.
-
-    array = function () {
-
-// Parse an array value.
-
-        var array = [];
-
-        if (ch === '[') {
-            next('[');
-            white();
-            if (ch === ']') {
-                next(']');
-                return array;   // empty array
-            }
-            while (ch) {
-                array.push(value());
-                white();
-                if (ch === ']') {
-                    next(']');
-                    return array;
-                }
-                next(',');
-                white();
-            }
-        }
-        error("Bad array");
-    },
-
-    object = function () {
-
-// Parse an object value.
-
-        var key,
-            object = {};
-
-        if (ch === '{') {
-            next('{');
-            white();
-            if (ch === '}') {
-                next('}');
-                return object;   // empty object
-            }
-            while (ch) {
-                key = string();
-                white();
-                next(':');
-                if (Object.hasOwnProperty.call(object, key)) {
-                    error('Duplicate key "' + key + '"');
-                }
-                object[key] = value();
-                white();
-                if (ch === '}') {
-                    next('}');
-                    return object;
-                }
-                next(',');
-                white();
-            }
-        }
-        error("Bad object");
-    };
-
-value = function () {
-
-// Parse a JSON value. It could be an object, an array, a string, a number,
-// or a word.
-
-    white();
-    switch (ch) {
-    case '{':
-        return object();
-    case '[':
-        return array();
-    case '"':
-        return string();
-    case '-':
-        return number();
-    default:
-        return ch >= '0' && ch <= '9' ? number() : word();
-    }
-};
-
-// Return the json_parse function. It will have access to all of the above
-// functions and variables.
-
-module.exports = function (source, reviver) {
-    var result;
-    
-    text = source;
-    at = 0;
-    ch = ' ';
-    result = value();
-    white();
-    if (ch) {
-        error("Syntax error");
-    }
-
-    // If there is a reviver function, we recursively walk the new structure,
-    // passing each name/value pair to the reviver function for possible
-    // transformation, starting with a temporary root object that holds the result
-    // in an empty key. If there is not a reviver function, we simply return the
-    // result.
-
-    return typeof reviver === 'function' ? (function walk(holder, key) {
-        var k, v, value = holder[key];
-        if (value && typeof value === 'object') {
-            for (k in value) {
-                if (Object.prototype.hasOwnProperty.call(value, k)) {
-                    v = walk(value, k);
-                    if (v !== undefined) {
-                        value[k] = v;
-                    } else {
-                        delete value[k];
-                    }
-                }
-            }
-        }
-        return reviver.call(holder, key, value);
-    }({'': result}, '')) : result;
-};
-
-
-/***/ }),
-/* 582 */
-/***/ (function(module, exports) {
-
-var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-    escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-    gap,
-    indent,
-    meta = {    // table of character substitutions
-        '\b': '\\b',
-        '\t': '\\t',
-        '\n': '\\n',
-        '\f': '\\f',
-        '\r': '\\r',
-        '"' : '\\"',
-        '\\': '\\\\'
-    },
-    rep;
-
-function quote(string) {
-    // If the string contains no control characters, no quote characters, and no
-    // backslash characters, then we can safely slap some quotes around it.
-    // Otherwise we must also replace the offending characters with safe escape
-    // sequences.
-    
-    escapable.lastIndex = 0;
-    return escapable.test(string) ? '"' + string.replace(escapable, function (a) {
-        var c = meta[a];
-        return typeof c === 'string' ? c :
-            '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
-    }) + '"' : '"' + string + '"';
-}
-
-function str(key, holder) {
-    // Produce a string from holder[key].
-    var i,          // The loop counter.
-        k,          // The member key.
-        v,          // The member value.
-        length,
-        mind = gap,
-        partial,
-        value = holder[key];
-    
-    // If the value has a toJSON method, call it to obtain a replacement value.
-    if (value && typeof value === 'object' &&
-            typeof value.toJSON === 'function') {
-        value = value.toJSON(key);
-    }
-    
-    // If we were called with a replacer function, then call the replacer to
-    // obtain a replacement value.
-    if (typeof rep === 'function') {
-        value = rep.call(holder, key, value);
-    }
-    
-    // What happens next depends on the value's type.
-    switch (typeof value) {
-        case 'string':
-            return quote(value);
-        
-        case 'number':
-            // JSON numbers must be finite. Encode non-finite numbers as null.
-            return isFinite(value) ? String(value) : 'null';
-        
-        case 'boolean':
-        case 'null':
-            // If the value is a boolean or null, convert it to a string. Note:
-            // typeof null does not produce 'null'. The case is included here in
-            // the remote chance that this gets fixed someday.
-            return String(value);
-            
-        case 'object':
-            if (!value) return 'null';
-            gap += indent;
-            partial = [];
-            
-            // Array.isArray
-            if (Object.prototype.toString.apply(value) === '[object Array]') {
-                length = value.length;
-                for (i = 0; i < length; i += 1) {
-                    partial[i] = str(i, value) || 'null';
-                }
-                
-                // Join all of the elements together, separated with commas, and
-                // wrap them in brackets.
-                v = partial.length === 0 ? '[]' : gap ?
-                    '[\n' + gap + partial.join(',\n' + gap) + '\n' + mind + ']' :
-                    '[' + partial.join(',') + ']';
-                gap = mind;
-                return v;
-            }
-            
-            // If the replacer is an array, use it to select the members to be
-            // stringified.
-            if (rep && typeof rep === 'object') {
-                length = rep.length;
-                for (i = 0; i < length; i += 1) {
-                    k = rep[i];
-                    if (typeof k === 'string') {
-                        v = str(k, value);
-                        if (v) {
-                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
-                        }
-                    }
-                }
-            }
-            else {
-                // Otherwise, iterate through all of the keys in the object.
-                for (k in value) {
-                    if (Object.prototype.hasOwnProperty.call(value, k)) {
-                        v = str(k, value);
-                        if (v) {
-                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
-                        }
-                    }
-                }
-            }
-            
-        // Join all of the member texts together, separated with commas,
-        // and wrap them in braces.
-
-        v = partial.length === 0 ? '{}' : gap ?
-            '{\n' + gap + partial.join(',\n' + gap) + '\n' + mind + '}' :
-            '{' + partial.join(',') + '}';
-        gap = mind;
-        return v;
-    }
-}
-
-module.exports = function (value, replacer, space) {
-    var i;
-    gap = '';
-    indent = '';
-    
-    // If the space parameter is a number, make an indent string containing that
-    // many spaces.
-    if (typeof space === 'number') {
-        for (i = 0; i < space; i += 1) {
-            indent += ' ';
-        }
-    }
-    // If the space parameter is a string, it will be used as the indent string.
-    else if (typeof space === 'string') {
-        indent = space;
-    }
-
-    // If there is a replacer, it must be a function or an array.
-    // Otherwise, throw an error.
-    rep = replacer;
-    if (replacer && typeof replacer !== 'function'
-    && (typeof replacer !== 'object' || typeof replacer.length !== 'number')) {
-        throw new Error('JSON.stringify');
-    }
-    
-    // Make a fake root object containing our value under the key of ''.
-    // Return the result of stringifying the value.
-    return str('', {'': value});
-};
-
-
-/***/ }),
-/* 583 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-
-var Cache = module.exports = function Cache() {
-  this._cache = {};
-};
-
-
-Cache.prototype.put = function Cache_put(key, value) {
-  this._cache[key] = value;
-};
-
-
-Cache.prototype.get = function Cache_get(key) {
-  return this._cache[key];
-};
-
-
-Cache.prototype.del = function Cache_del(key) {
-  delete this._cache[key];
-};
-
-
-Cache.prototype.clear = function Cache_clear() {
-  this._cache = {};
-};
-
-
-/***/ }),
-/* 584 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var util = __webpack_require__(163);
-
-var DATE = /^\d\d\d\d-(\d\d)-(\d\d)$/;
-var DAYS = [0,31,29,31,30,31,30,31,31,30,31,30,31];
-var TIME = /^(\d\d):(\d\d):(\d\d)(\.\d+)?(z|[+-]\d\d:\d\d)?$/i;
-var HOSTNAME = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$/i;
-var URI = /^(?:[a-z][a-z0-9+\-.]*:)(?:\/?\/(?:(?:[a-z0-9\-._~!$&'()*+,;=:]|%[0-9a-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9a-f]{1,4}:){6}|::(?:[0-9a-f]{1,4}:){5}|(?:[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){4}|(?:(?:[0-9a-f]{1,4}:){0,1}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){3}|(?:(?:[0-9a-f]{1,4}:){0,2}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){2}|(?:(?:[0-9a-f]{1,4}:){0,3}[0-9a-f]{1,4})?::[0-9a-f]{1,4}:|(?:(?:[0-9a-f]{1,4}:){0,4}[0-9a-f]{1,4})?::)(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?))|(?:(?:[0-9a-f]{1,4}:){0,5}[0-9a-f]{1,4})?::[0-9a-f]{1,4}|(?:(?:[0-9a-f]{1,4}:){0,6}[0-9a-f]{1,4})?::)|[Vv][0-9a-f]+\.[a-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)|(?:[a-z0-9\-._~!$&'()*+,;=]|%[0-9a-f]{2})*)(?::\d*)?(?:\/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*|\/(?:(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*)?|(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*)(?:\?(?:[a-z0-9\-._~!$&'()*+,;=:@/?]|%[0-9a-f]{2})*)?(?:#(?:[a-z0-9\-._~!$&'()*+,;=:@/?]|%[0-9a-f]{2})*)?$/i;
-var URIREF = /^(?:[a-z][a-z0-9+\-.]*:)?(?:\/?\/(?:(?:[a-z0-9\-._~!$&'()*+,;=:]|%[0-9a-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9a-f]{1,4}:){6}|::(?:[0-9a-f]{1,4}:){5}|(?:[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){4}|(?:(?:[0-9a-f]{1,4}:){0,1}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){3}|(?:(?:[0-9a-f]{1,4}:){0,2}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){2}|(?:(?:[0-9a-f]{1,4}:){0,3}[0-9a-f]{1,4})?::[0-9a-f]{1,4}:|(?:(?:[0-9a-f]{1,4}:){0,4}[0-9a-f]{1,4})?::)(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?))|(?:(?:[0-9a-f]{1,4}:){0,5}[0-9a-f]{1,4})?::[0-9a-f]{1,4}|(?:(?:[0-9a-f]{1,4}:){0,6}[0-9a-f]{1,4})?::)|[Vv][0-9a-f]+\.[a-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)|(?:[a-z0-9\-._~!$&'"()*+,;=]|%[0-9a-f]{2})*)(?::\d*)?(?:\/(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})*)*|\/(?:(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})*)*)?|(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})*)*)?(?:\?(?:[a-z0-9\-._~!$&'"()*+,;=:@/?]|%[0-9a-f]{2})*)?(?:#(?:[a-z0-9\-._~!$&'"()*+,;=:@/?]|%[0-9a-f]{2})*)?$/i;
-// uri-template: https://tools.ietf.org/html/rfc6570
-var URITEMPLATE = /^(?:(?:[^\x00-\x20"'<>%\\^`{|}]|%[0-9a-f]{2})|\{[+#./;?&=,!@|]?(?:[a-z0-9_]|%[0-9a-f]{2})+(?::[1-9][0-9]{0,3}|\*)?(?:,(?:[a-z0-9_]|%[0-9a-f]{2})+(?::[1-9][0-9]{0,3}|\*)?)*\})*$/i;
-// For the source: https://gist.github.com/dperini/729294
-// For test cases: https://mathiasbynens.be/demo/url-regex
-// @todo Delete current URL in favour of the commented out URL rule when this issue is fixed https://github.com/eslint/eslint/issues/7983.
-// var URL = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u{00a1}-\u{ffff}0-9]+-?)*[a-z\u{00a1}-\u{ffff}0-9]+)(?:\.(?:[a-z\u{00a1}-\u{ffff}0-9]+-?)*[a-z\u{00a1}-\u{ffff}0-9]+)*(?:\.(?:[a-z\u{00a1}-\u{ffff}]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/iu;
-var URL = /^(?:(?:http[s\u017F]?|ftp):\/\/)(?:(?:[\0-\x08\x0E-\x1F!-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+(?::(?:[\0-\x08\x0E-\x1F!-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])*)?@)?(?:(?!10(?:\.[0-9]{1,3}){3})(?!127(?:\.[0-9]{1,3}){3})(?!169\.254(?:\.[0-9]{1,3}){2})(?!192\.168(?:\.[0-9]{1,3}){2})(?!172\.(?:1[6-9]|2[0-9]|3[01])(?:\.[0-9]{1,3}){2})(?:[1-9][0-9]?|1[0-9][0-9]|2[01][0-9]|22[0-3])(?:\.(?:1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])){2}(?:\.(?:[1-9][0-9]?|1[0-9][0-9]|2[0-4][0-9]|25[0-4]))|(?:(?:(?:[0-9KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+-?)*(?:[0-9KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+)(?:\.(?:(?:[0-9KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+-?)*(?:[0-9KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+)*(?:\.(?:(?:[KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]){2,})))(?::[0-9]{2,5})?(?:\/(?:[\0-\x08\x0E-\x1F!-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])*)?$/i;
-var UUID = /^(?:urn:uuid:)?[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
-var JSON_POINTER = /^(?:\/(?:[^~/]|~0|~1)*)*$|^#(?:\/(?:[a-z0-9_\-.!$&'()*+,;:=@]|%[0-9a-f]{2}|~0|~1)*)*$/i;
-var RELATIVE_JSON_POINTER = /^(?:0|[1-9][0-9]*)(?:#|(?:\/(?:[^~/]|~0|~1)*)*)$/;
-
-
-module.exports = formats;
-
-function formats(mode) {
-  mode = mode == 'full' ? 'full' : 'fast';
-  return util.copy(formats[mode]);
-}
-
-
-formats.fast = {
-  // date: http://tools.ietf.org/html/rfc3339#section-5.6
-  date: /^\d\d\d\d-[0-1]\d-[0-3]\d$/,
-  // date-time: http://tools.ietf.org/html/rfc3339#section-5.6
-  time: /^[0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:z|[+-]\d\d:\d\d)?$/i,
-  'date-time': /^\d\d\d\d-[0-1]\d-[0-3]\d[t\s][0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:z|[+-]\d\d:\d\d)$/i,
-  // uri: https://github.com/mafintosh/is-my-json-valid/blob/master/formats.js
-  uri: /^(?:[a-z][a-z0-9+-.]*)(?::|\/)\/?[^\s]*$/i,
-  'uri-reference': /^(?:(?:[a-z][a-z0-9+-.]*:)?\/\/)?[^\s]*$/i,
-  'uri-template': URITEMPLATE,
-  url: URL,
-  // email (sources from jsen validator):
-  // http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address#answer-8829363
-  // http://www.w3.org/TR/html5/forms.html#valid-e-mail-address (search for 'willful violation')
-  email: /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*$/i,
-  hostname: HOSTNAME,
-  // optimized https://www.safaribooksonline.com/library/view/regular-expressions-cookbook/9780596802837/ch07s16.html
-  ipv4: /^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$/,
-  // optimized http://stackoverflow.com/questions/53497/regular-expression-that-matches-valid-ipv6-addresses
-  ipv6: /^\s*(?:(?:(?:[0-9a-f]{1,4}:){7}(?:[0-9a-f]{1,4}|:))|(?:(?:[0-9a-f]{1,4}:){6}(?::[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(?:(?:[0-9a-f]{1,4}:){5}(?:(?:(?::[0-9a-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(?:(?:[0-9a-f]{1,4}:){4}(?:(?:(?::[0-9a-f]{1,4}){1,3})|(?:(?::[0-9a-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){3}(?:(?:(?::[0-9a-f]{1,4}){1,4})|(?:(?::[0-9a-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){2}(?:(?:(?::[0-9a-f]{1,4}){1,5})|(?:(?::[0-9a-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){1}(?:(?:(?::[0-9a-f]{1,4}){1,6})|(?:(?::[0-9a-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?::(?:(?:(?::[0-9a-f]{1,4}){1,7})|(?:(?::[0-9a-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(?:%.+)?\s*$/i,
-  regex: regex,
-  // uuid: http://tools.ietf.org/html/rfc4122
-  uuid: UUID,
-  // JSON-pointer: https://tools.ietf.org/html/rfc6901
-  // uri fragment: https://tools.ietf.org/html/rfc3986#appendix-A
-  'json-pointer': JSON_POINTER,
-  // relative JSON-pointer: http://tools.ietf.org/html/draft-luff-relative-json-pointer-00
-  'relative-json-pointer': RELATIVE_JSON_POINTER
-};
-
-
-formats.full = {
-  date: date,
-  time: time,
-  'date-time': date_time,
-  uri: uri,
-  'uri-reference': URIREF,
-  'uri-template': URITEMPLATE,
-  url: URL,
-  email: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
-  hostname: hostname,
-  ipv4: /^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$/,
-  ipv6: /^\s*(?:(?:(?:[0-9a-f]{1,4}:){7}(?:[0-9a-f]{1,4}|:))|(?:(?:[0-9a-f]{1,4}:){6}(?::[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(?:(?:[0-9a-f]{1,4}:){5}(?:(?:(?::[0-9a-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(?:(?:[0-9a-f]{1,4}:){4}(?:(?:(?::[0-9a-f]{1,4}){1,3})|(?:(?::[0-9a-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){3}(?:(?:(?::[0-9a-f]{1,4}){1,4})|(?:(?::[0-9a-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){2}(?:(?:(?::[0-9a-f]{1,4}){1,5})|(?:(?::[0-9a-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){1}(?:(?:(?::[0-9a-f]{1,4}){1,6})|(?:(?::[0-9a-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?::(?:(?:(?::[0-9a-f]{1,4}){1,7})|(?:(?::[0-9a-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(?:%.+)?\s*$/i,
-  regex: regex,
-  uuid: UUID,
-  'json-pointer': JSON_POINTER,
-  'relative-json-pointer': RELATIVE_JSON_POINTER
-};
-
-
-function date(str) {
-  // full-date from http://tools.ietf.org/html/rfc3339#section-5.6
-  var matches = str.match(DATE);
-  if (!matches) return false;
-
-  var month = +matches[1];
-  var day = +matches[2];
-  return month >= 1 && month <= 12 && day >= 1 && day <= DAYS[month];
-}
-
-
-function time(str, full) {
-  var matches = str.match(TIME);
-  if (!matches) return false;
-
-  var hour = matches[1];
-  var minute = matches[2];
-  var second = matches[3];
-  var timeZone = matches[5];
-  return hour <= 23 && minute <= 59 && second <= 59 && (!full || timeZone);
-}
-
-
-var DATE_TIME_SEPARATOR = /t|\s/i;
-function date_time(str) {
-  // http://tools.ietf.org/html/rfc3339#section-5.6
-  var dateTime = str.split(DATE_TIME_SEPARATOR);
-  return dateTime.length == 2 && date(dateTime[0]) && time(dateTime[1], true);
-}
-
-
-function hostname(str) {
-  // https://tools.ietf.org/html/rfc1034#section-3.5
-  // https://tools.ietf.org/html/rfc1123#section-2
-  return str.length <= 255 && HOSTNAME.test(str);
-}
-
-
-var NOT_URI_FRAGMENT = /\/|:/;
-function uri(str) {
-  // http://jmrware.com/articles/2009/uri_regexp/URI_regex.html + optional protocol + required "."
-  return NOT_URI_FRAGMENT.test(str) && URI.test(str);
-}
-
-
-var Z_ANCHOR = /[^\\]\\Z/;
-function regex(str) {
-  if (Z_ANCHOR.test(str)) return false;
-  try {
-    new RegExp(str);
-    return true;
-  } catch(e) {
-    return false;
-  }
-}
-
-
-/***/ }),
-/* 585 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var ruleModules = __webpack_require__(586)
-  , toHash = __webpack_require__(163).toHash;
-
-module.exports = function rules() {
-  var RULES = [
-    { type: 'number',
-      rules: [ { 'maximum': ['exclusiveMaximum'] },
-               { 'minimum': ['exclusiveMinimum'] }, 'multipleOf', 'format'] },
-    { type: 'string',
-      rules: [ 'maxLength', 'minLength', 'pattern', 'format' ] },
-    { type: 'array',
-      rules: [ 'maxItems', 'minItems', 'uniqueItems', 'contains', 'items' ] },
-    { type: 'object',
-      rules: [ 'maxProperties', 'minProperties', 'required', 'dependencies', 'propertyNames',
-               { 'properties': ['additionalProperties', 'patternProperties'] } ] },
-    { rules: [ '$ref', 'const', 'enum', 'not', 'anyOf', 'oneOf', 'allOf' ] }
-  ];
-
-  var ALL = [ 'type' ];
-  var KEYWORDS = [
-    'additionalItems', '$schema', 'id', 'title',
-    'description', 'default', 'definitions'
-  ];
-  var TYPES = [ 'number', 'integer', 'string', 'array', 'object', 'boolean', 'null' ];
-  RULES.all = toHash(ALL);
-  RULES.types = toHash(TYPES);
-
-  RULES.forEach(function (group) {
-    group.rules = group.rules.map(function (keyword) {
-      var implKeywords;
-      if (typeof keyword == 'object') {
-        var key = Object.keys(keyword)[0];
-        implKeywords = keyword[key];
-        keyword = key;
-        implKeywords.forEach(function (k) {
-          ALL.push(k);
-          RULES.all[k] = true;
-        });
-      }
-      ALL.push(keyword);
-      var rule = RULES.all[keyword] = {
-        keyword: keyword,
-        code: ruleModules[keyword],
-        implements: implKeywords
-      };
-      return rule;
-    });
-
-    if (group.type) RULES.types[group.type] = group;
-  });
-
-  RULES.keywords = toHash(ALL.concat(KEYWORDS));
-  RULES.custom = {};
-
-  return RULES;
-};
-
-
-/***/ }),
-/* 586 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-//all requires must be explicit because browserify won't work with dynamic requires
-module.exports = {
-  '$ref': __webpack_require__(587),
-  allOf: __webpack_require__(588),
-  anyOf: __webpack_require__(589),
-  const: __webpack_require__(590),
-  contains: __webpack_require__(591),
-  dependencies: __webpack_require__(592),
-  'enum': __webpack_require__(593),
-  format: __webpack_require__(594),
-  items: __webpack_require__(595),
-  maximum: __webpack_require__(338),
-  minimum: __webpack_require__(338),
-  maxItems: __webpack_require__(339),
-  minItems: __webpack_require__(339),
-  maxLength: __webpack_require__(340),
-  minLength: __webpack_require__(340),
-  maxProperties: __webpack_require__(341),
-  minProperties: __webpack_require__(341),
-  multipleOf: __webpack_require__(596),
-  not: __webpack_require__(597),
-  oneOf: __webpack_require__(598),
-  pattern: __webpack_require__(599),
-  properties: __webpack_require__(600),
-  propertyNames: __webpack_require__(601),
-  required: __webpack_require__(602),
-  uniqueItems: __webpack_require__(603),
-  validate: __webpack_require__(336)
-};
-
-
-/***/ }),
-/* 587 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_ref(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $valid = 'valid' + $lvl;
-  var $async, $refCode;
-  if ($schema == '#' || $schema == '#/') {
-    if (it.isRoot) {
-      $async = it.async;
-      $refCode = 'validate';
-    } else {
-      $async = it.root.schema.$async === true;
-      $refCode = 'root.refVal[0]';
-    }
-  } else {
-    var $refVal = it.resolveRef(it.baseId, $schema, it.isRoot);
-    if ($refVal === undefined) {
-      var $message = it.MissingRefError.message(it.baseId, $schema);
-      if (it.opts.missingRefs == 'fail') {
-        console.error($message);
-        var $$outStack = $$outStack || [];
-        $$outStack.push(out);
-        out = ''; /* istanbul ignore else */
-        if (it.createErrors !== false) {
-          out += ' { keyword: \'' + ('$ref') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { ref: \'' + (it.util.escapeQuotes($schema)) + '\' } ';
-          if (it.opts.messages !== false) {
-            out += ' , message: \'can\\\'t resolve reference ' + (it.util.escapeQuotes($schema)) + '\' ';
-          }
-          if (it.opts.verbose) {
-            out += ' , schema: ' + (it.util.toQuotedString($schema)) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-          }
-          out += ' } ';
-        } else {
-          out += ' {} ';
-        }
-        var __err = out;
-        out = $$outStack.pop();
-        if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-          if (it.async) {
-            out += ' throw new ValidationError([' + (__err) + ']); ';
-          } else {
-            out += ' validate.errors = [' + (__err) + ']; return false; ';
-          }
-        } else {
-          out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-        }
-        if ($breakOnError) {
-          out += ' if (false) { ';
-        }
-      } else if (it.opts.missingRefs == 'ignore') {
-        console.warn($message);
-        if ($breakOnError) {
-          out += ' if (true) { ';
-        }
-      } else {
-        throw new it.MissingRefError(it.baseId, $schema, $message);
-      }
-    } else if ($refVal.inline) {
-      var $it = it.util.copy(it);
-      $it.level++;
-      var $nextValid = 'valid' + $it.level;
-      $it.schema = $refVal.schema;
-      $it.schemaPath = '';
-      $it.errSchemaPath = $schema;
-      var $code = it.validate($it).replace(/validate\.schema/g, $refVal.code);
-      out += ' ' + ($code) + ' ';
-      if ($breakOnError) {
-        out += ' if (' + ($nextValid) + ') { ';
-      }
-    } else {
-      $async = $refVal.$async === true;
-      $refCode = $refVal.code;
-    }
-  }
-  if ($refCode) {
-    var $$outStack = $$outStack || [];
-    $$outStack.push(out);
-    out = '';
-    if (it.opts.passContext) {
-      out += ' ' + ($refCode) + '.call(this, ';
-    } else {
-      out += ' ' + ($refCode) + '( ';
-    }
-    out += ' ' + ($data) + ', (dataPath || \'\')';
-    if (it.errorPath != '""') {
-      out += ' + ' + (it.errorPath);
-    }
-    var $parentData = $dataLvl ? 'data' + (($dataLvl - 1) || '') : 'parentData',
-      $parentDataProperty = $dataLvl ? it.dataPathArr[$dataLvl] : 'parentDataProperty';
-    out += ' , ' + ($parentData) + ' , ' + ($parentDataProperty) + ', rootData)  ';
-    var __callValidate = out;
-    out = $$outStack.pop();
-    if ($async) {
-      if (!it.async) throw new Error('async schema referenced by sync schema');
-      if ($breakOnError) {
-        out += ' var ' + ($valid) + '; ';
-      }
-      out += ' try { ' + (it.yieldAwait) + ' ' + (__callValidate) + '; ';
-      if ($breakOnError) {
-        out += ' ' + ($valid) + ' = true; ';
-      }
-      out += ' } catch (e) { if (!(e instanceof ValidationError)) throw e; if (vErrors === null) vErrors = e.errors; else vErrors = vErrors.concat(e.errors); errors = vErrors.length; ';
-      if ($breakOnError) {
-        out += ' ' + ($valid) + ' = false; ';
-      }
-      out += ' } ';
-      if ($breakOnError) {
-        out += ' if (' + ($valid) + ') { ';
-      }
-    } else {
-      out += ' if (!' + (__callValidate) + ') { if (vErrors === null) vErrors = ' + ($refCode) + '.errors; else vErrors = vErrors.concat(' + ($refCode) + '.errors); errors = vErrors.length; } ';
-      if ($breakOnError) {
-        out += ' else { ';
-      }
-    }
-  }
-  return out;
-}
-
-
-/***/ }),
-/* 588 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_allOf(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $it = it.util.copy(it);
-  var $closingBraces = '';
-  $it.level++;
-  var $nextValid = 'valid' + $it.level;
-  var $currentBaseId = $it.baseId,
-    $allSchemasEmpty = true;
-  var arr1 = $schema;
-  if (arr1) {
-    var $sch, $i = -1,
-      l1 = arr1.length - 1;
-    while ($i < l1) {
-      $sch = arr1[$i += 1];
-      if (it.util.schemaHasRules($sch, it.RULES.all)) {
-        $allSchemasEmpty = false;
-        $it.schema = $sch;
-        $it.schemaPath = $schemaPath + '[' + $i + ']';
-        $it.errSchemaPath = $errSchemaPath + '/' + $i;
-        out += '  ' + (it.validate($it)) + ' ';
-        $it.baseId = $currentBaseId;
-        if ($breakOnError) {
-          out += ' if (' + ($nextValid) + ') { ';
-          $closingBraces += '}';
-        }
-      }
-    }
-  }
-  if ($breakOnError) {
-    if ($allSchemasEmpty) {
-      out += ' if (true) { ';
-    } else {
-      out += ' ' + ($closingBraces.slice(0, -1)) + ' ';
-    }
-  }
-  out = it.util.cleanUpCode(out);
-  return out;
-}
-
-
-/***/ }),
-/* 589 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_anyOf(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $valid = 'valid' + $lvl;
-  var $errs = 'errs__' + $lvl;
-  var $it = it.util.copy(it);
-  var $closingBraces = '';
-  $it.level++;
-  var $nextValid = 'valid' + $it.level;
-  var $noEmptySchema = $schema.every(function($sch) {
-    return it.util.schemaHasRules($sch, it.RULES.all);
-  });
-  if ($noEmptySchema) {
-    var $currentBaseId = $it.baseId;
-    out += ' var ' + ($errs) + ' = errors; var ' + ($valid) + ' = false;  ';
-    var $wasComposite = it.compositeRule;
-    it.compositeRule = $it.compositeRule = true;
-    var arr1 = $schema;
-    if (arr1) {
-      var $sch, $i = -1,
-        l1 = arr1.length - 1;
-      while ($i < l1) {
-        $sch = arr1[$i += 1];
-        $it.schema = $sch;
-        $it.schemaPath = $schemaPath + '[' + $i + ']';
-        $it.errSchemaPath = $errSchemaPath + '/' + $i;
-        out += '  ' + (it.validate($it)) + ' ';
-        $it.baseId = $currentBaseId;
-        out += ' ' + ($valid) + ' = ' + ($valid) + ' || ' + ($nextValid) + '; if (!' + ($valid) + ') { ';
-        $closingBraces += '}';
-      }
-    }
-    it.compositeRule = $it.compositeRule = $wasComposite;
-    out += ' ' + ($closingBraces) + ' if (!' + ($valid) + ') {   var err =   '; /* istanbul ignore else */
-    if (it.createErrors !== false) {
-      out += ' { keyword: \'' + ('anyOf') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
-      if (it.opts.messages !== false) {
-        out += ' , message: \'should match some schema in anyOf\' ';
-      }
-      if (it.opts.verbose) {
-        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-      }
-      out += ' } ';
-    } else {
-      out += ' {} ';
-    }
-    out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-      if (it.async) {
-        out += ' throw new ValidationError(vErrors); ';
-      } else {
-        out += ' validate.errors = vErrors; return false; ';
-      }
-    }
-    out += ' } else {  errors = ' + ($errs) + '; if (vErrors !== null) { if (' + ($errs) + ') vErrors.length = ' + ($errs) + '; else vErrors = null; } ';
-    if (it.opts.allErrors) {
-      out += ' } ';
-    }
-    out = it.util.cleanUpCode(out);
-  } else {
-    if ($breakOnError) {
-      out += ' if (true) { ';
-    }
-  }
-  return out;
-}
-
-
-/***/ }),
-/* 590 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_const(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $valid = 'valid' + $lvl;
-  var $isData = it.opts.$data && $schema && $schema.$data,
-    $schemaValue;
-  if ($isData) {
-    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
-    $schemaValue = 'schema' + $lvl;
-  } else {
-    $schemaValue = $schema;
-  }
-  if (!$isData) {
-    out += ' var schema' + ($lvl) + ' = validate.schema' + ($schemaPath) + ';';
-  }
-  out += 'var ' + ($valid) + ' = equal(' + ($data) + ', schema' + ($lvl) + '); if (!' + ($valid) + ') {   ';
-  var $$outStack = $$outStack || [];
-  $$outStack.push(out);
-  out = ''; /* istanbul ignore else */
-  if (it.createErrors !== false) {
-    out += ' { keyword: \'' + ('const') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
-    if (it.opts.messages !== false) {
-      out += ' , message: \'should be equal to constant\' ';
-    }
-    if (it.opts.verbose) {
-      out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-    }
-    out += ' } ';
-  } else {
-    out += ' {} ';
-  }
-  var __err = out;
-  out = $$outStack.pop();
-  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-    if (it.async) {
-      out += ' throw new ValidationError([' + (__err) + ']); ';
-    } else {
-      out += ' validate.errors = [' + (__err) + ']; return false; ';
-    }
-  } else {
-    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-  }
-  out += ' }';
-  if ($breakOnError) {
-    out += ' else { ';
-  }
-  return out;
-}
-
-
-/***/ }),
-/* 591 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_contains(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $valid = 'valid' + $lvl;
-  var $errs = 'errs__' + $lvl;
-  var $it = it.util.copy(it);
-  var $closingBraces = '';
-  $it.level++;
-  var $nextValid = 'valid' + $it.level;
-  var $idx = 'i' + $lvl,
-    $dataNxt = $it.dataLevel = it.dataLevel + 1,
-    $nextData = 'data' + $dataNxt,
-    $currentBaseId = it.baseId,
-    $nonEmptySchema = it.util.schemaHasRules($schema, it.RULES.all);
-  out += 'var ' + ($errs) + ' = errors;var ' + ($valid) + ';';
-  if ($nonEmptySchema) {
-    var $wasComposite = it.compositeRule;
-    it.compositeRule = $it.compositeRule = true;
-    $it.schema = $schema;
-    $it.schemaPath = $schemaPath;
-    $it.errSchemaPath = $errSchemaPath;
-    out += ' var ' + ($nextValid) + ' = false; for (var ' + ($idx) + ' = 0; ' + ($idx) + ' < ' + ($data) + '.length; ' + ($idx) + '++) { ';
-    $it.errorPath = it.util.getPathExpr(it.errorPath, $idx, it.opts.jsonPointers, true);
-    var $passData = $data + '[' + $idx + ']';
-    $it.dataPathArr[$dataNxt] = $idx;
-    var $code = it.validate($it);
-    $it.baseId = $currentBaseId;
-    if (it.util.varOccurences($code, $nextData) < 2) {
-      out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
-    } else {
-      out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
-    }
-    out += ' if (' + ($nextValid) + ') break; }  ';
-    it.compositeRule = $it.compositeRule = $wasComposite;
-    out += ' ' + ($closingBraces) + ' if (!' + ($nextValid) + ') {';
-  } else {
-    out += ' if (' + ($data) + '.length == 0) {';
-  }
-  var $$outStack = $$outStack || [];
-  $$outStack.push(out);
-  out = ''; /* istanbul ignore else */
-  if (it.createErrors !== false) {
-    out += ' { keyword: \'' + ('contains') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
-    if (it.opts.messages !== false) {
-      out += ' , message: \'should contain a valid item\' ';
-    }
-    if (it.opts.verbose) {
-      out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-    }
-    out += ' } ';
-  } else {
-    out += ' {} ';
-  }
-  var __err = out;
-  out = $$outStack.pop();
-  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-    if (it.async) {
-      out += ' throw new ValidationError([' + (__err) + ']); ';
-    } else {
-      out += ' validate.errors = [' + (__err) + ']; return false; ';
-    }
-  } else {
-    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-  }
-  out += ' } else { ';
-  if ($nonEmptySchema) {
-    out += '  errors = ' + ($errs) + '; if (vErrors !== null) { if (' + ($errs) + ') vErrors.length = ' + ($errs) + '; else vErrors = null; } ';
-  }
-  if (it.opts.allErrors) {
-    out += ' } ';
-  }
-  out = it.util.cleanUpCode(out);
-  return out;
-}
-
-
-/***/ }),
-/* 592 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_dependencies(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $errs = 'errs__' + $lvl;
-  var $it = it.util.copy(it);
-  var $closingBraces = '';
-  $it.level++;
-  var $nextValid = 'valid' + $it.level;
-  var $schemaDeps = {},
-    $propertyDeps = {},
-    $ownProperties = it.opts.ownProperties;
-  for ($property in $schema) {
-    var $sch = $schema[$property];
-    var $deps = Array.isArray($sch) ? $propertyDeps : $schemaDeps;
-    $deps[$property] = $sch;
-  }
-  out += 'var ' + ($errs) + ' = errors;';
-  var $currentErrorPath = it.errorPath;
-  out += 'var missing' + ($lvl) + ';';
-  for (var $property in $propertyDeps) {
-    $deps = $propertyDeps[$property];
-    if ($deps.length) {
-      out += ' if ( ' + ($data) + (it.util.getProperty($property)) + ' !== undefined ';
-      if ($ownProperties) {
-        out += ' && Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($property)) + '\') ';
-      }
-      if ($breakOnError) {
-        out += ' && ( ';
-        var arr1 = $deps;
-        if (arr1) {
-          var $propertyKey, $i = -1,
-            l1 = arr1.length - 1;
-          while ($i < l1) {
-            $propertyKey = arr1[$i += 1];
-            if ($i) {
-              out += ' || ';
-            }
-            var $prop = it.util.getProperty($propertyKey),
-              $useData = $data + $prop;
-            out += ' ( ( ' + ($useData) + ' === undefined ';
-            if ($ownProperties) {
-              out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
-            }
-            out += ') && (missing' + ($lvl) + ' = ' + (it.util.toQuotedString(it.opts.jsonPointers ? $propertyKey : $prop)) + ') ) ';
-          }
-        }
-        out += ')) {  ';
-        var $propertyPath = 'missing' + $lvl,
-          $missingProperty = '\' + ' + $propertyPath + ' + \'';
-        if (it.opts._errorDataPathProperty) {
-          it.errorPath = it.opts.jsonPointers ? it.util.getPathExpr($currentErrorPath, $propertyPath, true) : $currentErrorPath + ' + ' + $propertyPath;
-        }
-        var $$outStack = $$outStack || [];
-        $$outStack.push(out);
-        out = ''; /* istanbul ignore else */
-        if (it.createErrors !== false) {
-          out += ' { keyword: \'' + ('dependencies') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { property: \'' + (it.util.escapeQuotes($property)) + '\', missingProperty: \'' + ($missingProperty) + '\', depsCount: ' + ($deps.length) + ', deps: \'' + (it.util.escapeQuotes($deps.length == 1 ? $deps[0] : $deps.join(", "))) + '\' } ';
-          if (it.opts.messages !== false) {
-            out += ' , message: \'should have ';
-            if ($deps.length == 1) {
-              out += 'property ' + (it.util.escapeQuotes($deps[0]));
-            } else {
-              out += 'properties ' + (it.util.escapeQuotes($deps.join(", ")));
-            }
-            out += ' when property ' + (it.util.escapeQuotes($property)) + ' is present\' ';
-          }
-          if (it.opts.verbose) {
-            out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-          }
-          out += ' } ';
-        } else {
-          out += ' {} ';
-        }
-        var __err = out;
-        out = $$outStack.pop();
-        if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-          if (it.async) {
-            out += ' throw new ValidationError([' + (__err) + ']); ';
-          } else {
-            out += ' validate.errors = [' + (__err) + ']; return false; ';
-          }
-        } else {
-          out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-        }
-      } else {
-        out += ' ) { ';
-        var arr2 = $deps;
-        if (arr2) {
-          var $propertyKey, i2 = -1,
-            l2 = arr2.length - 1;
-          while (i2 < l2) {
-            $propertyKey = arr2[i2 += 1];
-            var $prop = it.util.getProperty($propertyKey),
-              $missingProperty = it.util.escapeQuotes($propertyKey),
-              $useData = $data + $prop;
-            if (it.opts._errorDataPathProperty) {
-              it.errorPath = it.util.getPath($currentErrorPath, $propertyKey, it.opts.jsonPointers);
-            }
-            out += ' if ( ' + ($useData) + ' === undefined ';
-            if ($ownProperties) {
-              out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
-            }
-            out += ') {  var err =   '; /* istanbul ignore else */
-            if (it.createErrors !== false) {
-              out += ' { keyword: \'' + ('dependencies') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { property: \'' + (it.util.escapeQuotes($property)) + '\', missingProperty: \'' + ($missingProperty) + '\', depsCount: ' + ($deps.length) + ', deps: \'' + (it.util.escapeQuotes($deps.length == 1 ? $deps[0] : $deps.join(", "))) + '\' } ';
-              if (it.opts.messages !== false) {
-                out += ' , message: \'should have ';
-                if ($deps.length == 1) {
-                  out += 'property ' + (it.util.escapeQuotes($deps[0]));
-                } else {
-                  out += 'properties ' + (it.util.escapeQuotes($deps.join(", ")));
-                }
-                out += ' when property ' + (it.util.escapeQuotes($property)) + ' is present\' ';
-              }
-              if (it.opts.verbose) {
-                out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-              }
-              out += ' } ';
-            } else {
-              out += ' {} ';
-            }
-            out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; } ';
-          }
-        }
-      }
-      out += ' }   ';
-      if ($breakOnError) {
-        $closingBraces += '}';
-        out += ' else { ';
-      }
-    }
-  }
-  it.errorPath = $currentErrorPath;
-  var $currentBaseId = $it.baseId;
-  for (var $property in $schemaDeps) {
-    var $sch = $schemaDeps[$property];
-    if (it.util.schemaHasRules($sch, it.RULES.all)) {
-      out += ' ' + ($nextValid) + ' = true; if ( ' + ($data) + (it.util.getProperty($property)) + ' !== undefined ';
-      if ($ownProperties) {
-        out += ' && Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($property)) + '\') ';
-      }
-      out += ') { ';
-      $it.schema = $sch;
-      $it.schemaPath = $schemaPath + it.util.getProperty($property);
-      $it.errSchemaPath = $errSchemaPath + '/' + it.util.escapeFragment($property);
-      out += '  ' + (it.validate($it)) + ' ';
-      $it.baseId = $currentBaseId;
-      out += ' }  ';
-      if ($breakOnError) {
-        out += ' if (' + ($nextValid) + ') { ';
-        $closingBraces += '}';
-      }
-    }
-  }
-  if ($breakOnError) {
-    out += '   ' + ($closingBraces) + ' if (' + ($errs) + ' == errors) {';
-  }
-  out = it.util.cleanUpCode(out);
-  return out;
-}
-
-
-/***/ }),
-/* 593 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_enum(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $valid = 'valid' + $lvl;
-  var $isData = it.opts.$data && $schema && $schema.$data,
-    $schemaValue;
-  if ($isData) {
-    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
-    $schemaValue = 'schema' + $lvl;
-  } else {
-    $schemaValue = $schema;
-  }
-  var $i = 'i' + $lvl,
-    $vSchema = 'schema' + $lvl;
-  if (!$isData) {
-    out += ' var ' + ($vSchema) + ' = validate.schema' + ($schemaPath) + ';';
-  }
-  out += 'var ' + ($valid) + ';';
-  if ($isData) {
-    out += ' if (schema' + ($lvl) + ' === undefined) ' + ($valid) + ' = true; else if (!Array.isArray(schema' + ($lvl) + ')) ' + ($valid) + ' = false; else {';
-  }
-  out += '' + ($valid) + ' = false;for (var ' + ($i) + '=0; ' + ($i) + '<' + ($vSchema) + '.length; ' + ($i) + '++) if (equal(' + ($data) + ', ' + ($vSchema) + '[' + ($i) + '])) { ' + ($valid) + ' = true; break; }';
-  if ($isData) {
-    out += '  }  ';
-  }
-  out += ' if (!' + ($valid) + ') {   ';
-  var $$outStack = $$outStack || [];
-  $$outStack.push(out);
-  out = ''; /* istanbul ignore else */
-  if (it.createErrors !== false) {
-    out += ' { keyword: \'' + ('enum') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { allowedValues: schema' + ($lvl) + ' } ';
-    if (it.opts.messages !== false) {
-      out += ' , message: \'should be equal to one of the allowed values\' ';
-    }
-    if (it.opts.verbose) {
-      out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-    }
-    out += ' } ';
-  } else {
-    out += ' {} ';
-  }
-  var __err = out;
-  out = $$outStack.pop();
-  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-    if (it.async) {
-      out += ' throw new ValidationError([' + (__err) + ']); ';
-    } else {
-      out += ' validate.errors = [' + (__err) + ']; return false; ';
-    }
-  } else {
-    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-  }
-  out += ' }';
-  if ($breakOnError) {
-    out += ' else { ';
-  }
-  return out;
-}
-
-
-/***/ }),
-/* 594 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_format(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  if (it.opts.format === false) {
-    if ($breakOnError) {
-      out += ' if (true) { ';
-    }
-    return out;
-  }
-  var $isData = it.opts.$data && $schema && $schema.$data,
-    $schemaValue;
-  if ($isData) {
-    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
-    $schemaValue = 'schema' + $lvl;
-  } else {
-    $schemaValue = $schema;
-  }
-  var $unknownFormats = it.opts.unknownFormats,
-    $allowUnknown = Array.isArray($unknownFormats);
-  if ($isData) {
-    var $format = 'format' + $lvl,
-      $isObject = 'isObject' + $lvl,
-      $formatType = 'formatType' + $lvl;
-    out += ' var ' + ($format) + ' = formats[' + ($schemaValue) + ']; var ' + ($isObject) + ' = typeof ' + ($format) + ' == \'object\' && !(' + ($format) + ' instanceof RegExp) && ' + ($format) + '.validate; var ' + ($formatType) + ' = ' + ($isObject) + ' && ' + ($format) + '.type || \'string\'; if (' + ($isObject) + ') { ';
-    if (it.async) {
-      out += ' var async' + ($lvl) + ' = ' + ($format) + '.async; ';
-    }
-    out += ' ' + ($format) + ' = ' + ($format) + '.validate; } if (  ';
-    if ($isData) {
-      out += ' (' + ($schemaValue) + ' !== undefined && typeof ' + ($schemaValue) + ' != \'string\') || ';
-    }
-    out += ' (';
-    if ($unknownFormats != 'ignore') {
-      out += ' (' + ($schemaValue) + ' && !' + ($format) + ' ';
-      if ($allowUnknown) {
-        out += ' && self._opts.unknownFormats.indexOf(' + ($schemaValue) + ') == -1 ';
-      }
-      out += ') || ';
-    }
-    out += ' (' + ($format) + ' && ' + ($formatType) + ' == \'' + ($ruleType) + '\' && !(typeof ' + ($format) + ' == \'function\' ? ';
-    if (it.async) {
-      out += ' (async' + ($lvl) + ' ? ' + (it.yieldAwait) + ' ' + ($format) + '(' + ($data) + ') : ' + ($format) + '(' + ($data) + ')) ';
-    } else {
-      out += ' ' + ($format) + '(' + ($data) + ') ';
-    }
-    out += ' : ' + ($format) + '.test(' + ($data) + '))))) {';
-  } else {
-    var $format = it.formats[$schema];
-    if (!$format) {
-      if ($unknownFormats == 'ignore') {
-        console.warn('unknown format "' + $schema + '" ignored in schema at path "' + it.errSchemaPath + '"');
-        if ($breakOnError) {
-          out += ' if (true) { ';
-        }
-        return out;
-      } else if ($allowUnknown && $unknownFormats.indexOf($schema) >= 0) {
-        if ($breakOnError) {
-          out += ' if (true) { ';
-        }
-        return out;
-      } else {
-        throw new Error('unknown format "' + $schema + '" is used in schema at path "' + it.errSchemaPath + '"');
-      }
-    }
-    var $isObject = typeof $format == 'object' && !($format instanceof RegExp) && $format.validate;
-    var $formatType = $isObject && $format.type || 'string';
-    if ($isObject) {
-      var $async = $format.async === true;
-      $format = $format.validate;
-    }
-    if ($formatType != $ruleType) {
-      if ($breakOnError) {
-        out += ' if (true) { ';
-      }
-      return out;
-    }
-    if ($async) {
-      if (!it.async) throw new Error('async format in sync schema');
-      var $formatRef = 'formats' + it.util.getProperty($schema) + '.validate';
-      out += ' if (!(' + (it.yieldAwait) + ' ' + ($formatRef) + '(' + ($data) + '))) { ';
-    } else {
-      out += ' if (! ';
-      var $formatRef = 'formats' + it.util.getProperty($schema);
-      if ($isObject) $formatRef += '.validate';
-      if (typeof $format == 'function') {
-        out += ' ' + ($formatRef) + '(' + ($data) + ') ';
-      } else {
-        out += ' ' + ($formatRef) + '.test(' + ($data) + ') ';
-      }
-      out += ') { ';
-    }
-  }
-  var $$outStack = $$outStack || [];
-  $$outStack.push(out);
-  out = ''; /* istanbul ignore else */
-  if (it.createErrors !== false) {
-    out += ' { keyword: \'' + ('format') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { format:  ';
-    if ($isData) {
-      out += '' + ($schemaValue);
-    } else {
-      out += '' + (it.util.toQuotedString($schema));
-    }
-    out += '  } ';
-    if (it.opts.messages !== false) {
-      out += ' , message: \'should match format "';
-      if ($isData) {
-        out += '\' + ' + ($schemaValue) + ' + \'';
-      } else {
-        out += '' + (it.util.escapeQuotes($schema));
-      }
-      out += '"\' ';
-    }
-    if (it.opts.verbose) {
-      out += ' , schema:  ';
-      if ($isData) {
-        out += 'validate.schema' + ($schemaPath);
-      } else {
-        out += '' + (it.util.toQuotedString($schema));
-      }
-      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-    }
-    out += ' } ';
-  } else {
-    out += ' {} ';
-  }
-  var __err = out;
-  out = $$outStack.pop();
-  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-    if (it.async) {
-      out += ' throw new ValidationError([' + (__err) + ']); ';
-    } else {
-      out += ' validate.errors = [' + (__err) + ']; return false; ';
-    }
-  } else {
-    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-  }
-  out += ' } ';
-  if ($breakOnError) {
-    out += ' else { ';
-  }
-  return out;
-}
-
-
-/***/ }),
-/* 595 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_items(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $valid = 'valid' + $lvl;
-  var $errs = 'errs__' + $lvl;
-  var $it = it.util.copy(it);
-  var $closingBraces = '';
-  $it.level++;
-  var $nextValid = 'valid' + $it.level;
-  var $idx = 'i' + $lvl,
-    $dataNxt = $it.dataLevel = it.dataLevel + 1,
-    $nextData = 'data' + $dataNxt,
-    $currentBaseId = it.baseId;
-  out += 'var ' + ($errs) + ' = errors;var ' + ($valid) + ';';
-  if (Array.isArray($schema)) {
-    var $additionalItems = it.schema.additionalItems;
-    if ($additionalItems === false) {
-      out += ' ' + ($valid) + ' = ' + ($data) + '.length <= ' + ($schema.length) + '; ';
-      var $currErrSchemaPath = $errSchemaPath;
-      $errSchemaPath = it.errSchemaPath + '/additionalItems';
-      out += '  if (!' + ($valid) + ') {   ';
-      var $$outStack = $$outStack || [];
-      $$outStack.push(out);
-      out = ''; /* istanbul ignore else */
-      if (it.createErrors !== false) {
-        out += ' { keyword: \'' + ('additionalItems') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { limit: ' + ($schema.length) + ' } ';
-        if (it.opts.messages !== false) {
-          out += ' , message: \'should NOT have more than ' + ($schema.length) + ' items\' ';
-        }
-        if (it.opts.verbose) {
-          out += ' , schema: false , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-        }
-        out += ' } ';
-      } else {
-        out += ' {} ';
-      }
-      var __err = out;
-      out = $$outStack.pop();
-      if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-        if (it.async) {
-          out += ' throw new ValidationError([' + (__err) + ']); ';
-        } else {
-          out += ' validate.errors = [' + (__err) + ']; return false; ';
-        }
-      } else {
-        out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-      }
-      out += ' } ';
-      $errSchemaPath = $currErrSchemaPath;
-      if ($breakOnError) {
-        $closingBraces += '}';
-        out += ' else { ';
-      }
-    }
-    var arr1 = $schema;
-    if (arr1) {
-      var $sch, $i = -1,
-        l1 = arr1.length - 1;
-      while ($i < l1) {
-        $sch = arr1[$i += 1];
-        if (it.util.schemaHasRules($sch, it.RULES.all)) {
-          out += ' ' + ($nextValid) + ' = true; if (' + ($data) + '.length > ' + ($i) + ') { ';
-          var $passData = $data + '[' + $i + ']';
-          $it.schema = $sch;
-          $it.schemaPath = $schemaPath + '[' + $i + ']';
-          $it.errSchemaPath = $errSchemaPath + '/' + $i;
-          $it.errorPath = it.util.getPathExpr(it.errorPath, $i, it.opts.jsonPointers, true);
-          $it.dataPathArr[$dataNxt] = $i;
-          var $code = it.validate($it);
-          $it.baseId = $currentBaseId;
-          if (it.util.varOccurences($code, $nextData) < 2) {
-            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
-          } else {
-            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
-          }
-          out += ' }  ';
-          if ($breakOnError) {
-            out += ' if (' + ($nextValid) + ') { ';
-            $closingBraces += '}';
-          }
-        }
-      }
-    }
-    if (typeof $additionalItems == 'object' && it.util.schemaHasRules($additionalItems, it.RULES.all)) {
-      $it.schema = $additionalItems;
-      $it.schemaPath = it.schemaPath + '.additionalItems';
-      $it.errSchemaPath = it.errSchemaPath + '/additionalItems';
-      out += ' ' + ($nextValid) + ' = true; if (' + ($data) + '.length > ' + ($schema.length) + ') {  for (var ' + ($idx) + ' = ' + ($schema.length) + '; ' + ($idx) + ' < ' + ($data) + '.length; ' + ($idx) + '++) { ';
-      $it.errorPath = it.util.getPathExpr(it.errorPath, $idx, it.opts.jsonPointers, true);
-      var $passData = $data + '[' + $idx + ']';
-      $it.dataPathArr[$dataNxt] = $idx;
-      var $code = it.validate($it);
-      $it.baseId = $currentBaseId;
-      if (it.util.varOccurences($code, $nextData) < 2) {
-        out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
-      } else {
-        out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
-      }
-      if ($breakOnError) {
-        out += ' if (!' + ($nextValid) + ') break; ';
-      }
-      out += ' } }  ';
-      if ($breakOnError) {
-        out += ' if (' + ($nextValid) + ') { ';
-        $closingBraces += '}';
-      }
-    }
-  } else if (it.util.schemaHasRules($schema, it.RULES.all)) {
-    $it.schema = $schema;
-    $it.schemaPath = $schemaPath;
-    $it.errSchemaPath = $errSchemaPath;
-    out += '  for (var ' + ($idx) + ' = ' + (0) + '; ' + ($idx) + ' < ' + ($data) + '.length; ' + ($idx) + '++) { ';
-    $it.errorPath = it.util.getPathExpr(it.errorPath, $idx, it.opts.jsonPointers, true);
-    var $passData = $data + '[' + $idx + ']';
-    $it.dataPathArr[$dataNxt] = $idx;
-    var $code = it.validate($it);
-    $it.baseId = $currentBaseId;
-    if (it.util.varOccurences($code, $nextData) < 2) {
-      out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
-    } else {
-      out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
-    }
-    if ($breakOnError) {
-      out += ' if (!' + ($nextValid) + ') break; ';
-    }
-    out += ' }';
-  }
-  if ($breakOnError) {
-    out += ' ' + ($closingBraces) + ' if (' + ($errs) + ' == errors) {';
-  }
-  out = it.util.cleanUpCode(out);
-  return out;
-}
-
-
-/***/ }),
-/* 596 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_multipleOf(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $isData = it.opts.$data && $schema && $schema.$data,
-    $schemaValue;
-  if ($isData) {
-    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
-    $schemaValue = 'schema' + $lvl;
-  } else {
-    $schemaValue = $schema;
-  }
-  out += 'var division' + ($lvl) + ';if (';
-  if ($isData) {
-    out += ' ' + ($schemaValue) + ' !== undefined && ( typeof ' + ($schemaValue) + ' != \'number\' || ';
-  }
-  out += ' (division' + ($lvl) + ' = ' + ($data) + ' / ' + ($schemaValue) + ', ';
-  if (it.opts.multipleOfPrecision) {
-    out += ' Math.abs(Math.round(division' + ($lvl) + ') - division' + ($lvl) + ') > 1e-' + (it.opts.multipleOfPrecision) + ' ';
-  } else {
-    out += ' division' + ($lvl) + ' !== parseInt(division' + ($lvl) + ') ';
-  }
-  out += ' ) ';
-  if ($isData) {
-    out += '  )  ';
-  }
-  out += ' ) {   ';
-  var $$outStack = $$outStack || [];
-  $$outStack.push(out);
-  out = ''; /* istanbul ignore else */
-  if (it.createErrors !== false) {
-    out += ' { keyword: \'' + ('multipleOf') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { multipleOf: ' + ($schemaValue) + ' } ';
-    if (it.opts.messages !== false) {
-      out += ' , message: \'should be multiple of ';
-      if ($isData) {
-        out += '\' + ' + ($schemaValue);
-      } else {
-        out += '' + ($schemaValue) + '\'';
-      }
-    }
-    if (it.opts.verbose) {
-      out += ' , schema:  ';
-      if ($isData) {
-        out += 'validate.schema' + ($schemaPath);
-      } else {
-        out += '' + ($schema);
-      }
-      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-    }
-    out += ' } ';
-  } else {
-    out += ' {} ';
-  }
-  var __err = out;
-  out = $$outStack.pop();
-  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-    if (it.async) {
-      out += ' throw new ValidationError([' + (__err) + ']); ';
-    } else {
-      out += ' validate.errors = [' + (__err) + ']; return false; ';
-    }
-  } else {
-    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-  }
-  out += '} ';
-  if ($breakOnError) {
-    out += ' else { ';
-  }
-  return out;
-}
-
-
-/***/ }),
-/* 597 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_not(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $errs = 'errs__' + $lvl;
-  var $it = it.util.copy(it);
-  $it.level++;
-  var $nextValid = 'valid' + $it.level;
-  if (it.util.schemaHasRules($schema, it.RULES.all)) {
-    $it.schema = $schema;
-    $it.schemaPath = $schemaPath;
-    $it.errSchemaPath = $errSchemaPath;
-    out += ' var ' + ($errs) + ' = errors;  ';
-    var $wasComposite = it.compositeRule;
-    it.compositeRule = $it.compositeRule = true;
-    $it.createErrors = false;
-    var $allErrorsOption;
-    if ($it.opts.allErrors) {
-      $allErrorsOption = $it.opts.allErrors;
-      $it.opts.allErrors = false;
-    }
-    out += ' ' + (it.validate($it)) + ' ';
-    $it.createErrors = true;
-    if ($allErrorsOption) $it.opts.allErrors = $allErrorsOption;
-    it.compositeRule = $it.compositeRule = $wasComposite;
-    out += ' if (' + ($nextValid) + ') {   ';
-    var $$outStack = $$outStack || [];
-    $$outStack.push(out);
-    out = ''; /* istanbul ignore else */
-    if (it.createErrors !== false) {
-      out += ' { keyword: \'' + ('not') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
-      if (it.opts.messages !== false) {
-        out += ' , message: \'should NOT be valid\' ';
-      }
-      if (it.opts.verbose) {
-        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-      }
-      out += ' } ';
-    } else {
-      out += ' {} ';
-    }
-    var __err = out;
-    out = $$outStack.pop();
-    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-      if (it.async) {
-        out += ' throw new ValidationError([' + (__err) + ']); ';
-      } else {
-        out += ' validate.errors = [' + (__err) + ']; return false; ';
-      }
-    } else {
-      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-    }
-    out += ' } else {  errors = ' + ($errs) + '; if (vErrors !== null) { if (' + ($errs) + ') vErrors.length = ' + ($errs) + '; else vErrors = null; } ';
-    if (it.opts.allErrors) {
-      out += ' } ';
-    }
-  } else {
-    out += '  var err =   '; /* istanbul ignore else */
-    if (it.createErrors !== false) {
-      out += ' { keyword: \'' + ('not') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
-      if (it.opts.messages !== false) {
-        out += ' , message: \'should NOT be valid\' ';
-      }
-      if (it.opts.verbose) {
-        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-      }
-      out += ' } ';
-    } else {
-      out += ' {} ';
-    }
-    out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-    if ($breakOnError) {
-      out += ' if (false) { ';
-    }
-  }
-  return out;
-}
-
-
-/***/ }),
-/* 598 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_oneOf(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $valid = 'valid' + $lvl;
-  var $errs = 'errs__' + $lvl;
-  var $it = it.util.copy(it);
-  var $closingBraces = '';
-  $it.level++;
-  var $nextValid = 'valid' + $it.level;
-  out += 'var ' + ($errs) + ' = errors;var prevValid' + ($lvl) + ' = false;var ' + ($valid) + ' = false;';
-  var $currentBaseId = $it.baseId;
-  var $wasComposite = it.compositeRule;
-  it.compositeRule = $it.compositeRule = true;
-  var arr1 = $schema;
-  if (arr1) {
-    var $sch, $i = -1,
-      l1 = arr1.length - 1;
-    while ($i < l1) {
-      $sch = arr1[$i += 1];
-      if (it.util.schemaHasRules($sch, it.RULES.all)) {
-        $it.schema = $sch;
-        $it.schemaPath = $schemaPath + '[' + $i + ']';
-        $it.errSchemaPath = $errSchemaPath + '/' + $i;
-        out += '  ' + (it.validate($it)) + ' ';
-        $it.baseId = $currentBaseId;
-      } else {
-        out += ' var ' + ($nextValid) + ' = true; ';
-      }
-      if ($i) {
-        out += ' if (' + ($nextValid) + ' && prevValid' + ($lvl) + ') ' + ($valid) + ' = false; else { ';
-        $closingBraces += '}';
-      }
-      out += ' if (' + ($nextValid) + ') ' + ($valid) + ' = prevValid' + ($lvl) + ' = true;';
-    }
-  }
-  it.compositeRule = $it.compositeRule = $wasComposite;
-  out += '' + ($closingBraces) + 'if (!' + ($valid) + ') {   var err =   '; /* istanbul ignore else */
-  if (it.createErrors !== false) {
-    out += ' { keyword: \'' + ('oneOf') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
-    if (it.opts.messages !== false) {
-      out += ' , message: \'should match exactly one schema in oneOf\' ';
-    }
-    if (it.opts.verbose) {
-      out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-    }
-    out += ' } ';
-  } else {
-    out += ' {} ';
-  }
-  out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-    if (it.async) {
-      out += ' throw new ValidationError(vErrors); ';
-    } else {
-      out += ' validate.errors = vErrors; return false; ';
-    }
-  }
-  out += '} else {  errors = ' + ($errs) + '; if (vErrors !== null) { if (' + ($errs) + ') vErrors.length = ' + ($errs) + '; else vErrors = null; }';
-  if (it.opts.allErrors) {
-    out += ' } ';
-  }
-  return out;
-}
-
-
-/***/ }),
-/* 599 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_pattern(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $isData = it.opts.$data && $schema && $schema.$data,
-    $schemaValue;
-  if ($isData) {
-    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
-    $schemaValue = 'schema' + $lvl;
-  } else {
-    $schemaValue = $schema;
-  }
-  var $regexp = $isData ? '(new RegExp(' + $schemaValue + '))' : it.usePattern($schema);
-  out += 'if ( ';
-  if ($isData) {
-    out += ' (' + ($schemaValue) + ' !== undefined && typeof ' + ($schemaValue) + ' != \'string\') || ';
-  }
-  out += ' !' + ($regexp) + '.test(' + ($data) + ') ) {   ';
-  var $$outStack = $$outStack || [];
-  $$outStack.push(out);
-  out = ''; /* istanbul ignore else */
-  if (it.createErrors !== false) {
-    out += ' { keyword: \'' + ('pattern') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { pattern:  ';
-    if ($isData) {
-      out += '' + ($schemaValue);
-    } else {
-      out += '' + (it.util.toQuotedString($schema));
-    }
-    out += '  } ';
-    if (it.opts.messages !== false) {
-      out += ' , message: \'should match pattern "';
-      if ($isData) {
-        out += '\' + ' + ($schemaValue) + ' + \'';
-      } else {
-        out += '' + (it.util.escapeQuotes($schema));
-      }
-      out += '"\' ';
-    }
-    if (it.opts.verbose) {
-      out += ' , schema:  ';
-      if ($isData) {
-        out += 'validate.schema' + ($schemaPath);
-      } else {
-        out += '' + (it.util.toQuotedString($schema));
-      }
-      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-    }
-    out += ' } ';
-  } else {
-    out += ' {} ';
-  }
-  var __err = out;
-  out = $$outStack.pop();
-  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-    if (it.async) {
-      out += ' throw new ValidationError([' + (__err) + ']); ';
-    } else {
-      out += ' validate.errors = [' + (__err) + ']; return false; ';
-    }
-  } else {
-    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-  }
-  out += '} ';
-  if ($breakOnError) {
-    out += ' else { ';
-  }
-  return out;
-}
-
-
-/***/ }),
-/* 600 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_properties(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $valid = 'valid' + $lvl;
-  var $errs = 'errs__' + $lvl;
-  var $it = it.util.copy(it);
-  var $closingBraces = '';
-  $it.level++;
-  var $nextValid = 'valid' + $it.level;
-  var $key = 'key' + $lvl,
-    $idx = 'idx' + $lvl,
-    $dataNxt = $it.dataLevel = it.dataLevel + 1,
-    $nextData = 'data' + $dataNxt,
-    $dataProperties = 'dataProperties' + $lvl;
-  var $schemaKeys = Object.keys($schema || {}),
-    $pProperties = it.schema.patternProperties || {},
-    $pPropertyKeys = Object.keys($pProperties),
-    $aProperties = it.schema.additionalProperties,
-    $someProperties = $schemaKeys.length || $pPropertyKeys.length,
-    $noAdditional = $aProperties === false,
-    $additionalIsSchema = typeof $aProperties == 'object' && Object.keys($aProperties).length,
-    $removeAdditional = it.opts.removeAdditional,
-    $checkAdditional = $noAdditional || $additionalIsSchema || $removeAdditional,
-    $ownProperties = it.opts.ownProperties,
-    $currentBaseId = it.baseId;
-  var $required = it.schema.required;
-  if ($required && !(it.opts.v5 && $required.$data) && $required.length < it.opts.loopRequired) var $requiredHash = it.util.toHash($required);
-  if (it.opts.patternGroups) {
-    var $pgProperties = it.schema.patternGroups || {},
-      $pgPropertyKeys = Object.keys($pgProperties);
-  }
-  out += 'var ' + ($errs) + ' = errors;var ' + ($nextValid) + ' = true;';
-  if ($ownProperties) {
-    out += ' var ' + ($dataProperties) + ' = undefined;';
-  }
-  if ($checkAdditional) {
-    if ($ownProperties) {
-      out += ' ' + ($dataProperties) + ' = ' + ($dataProperties) + ' || Object.keys(' + ($data) + '); for (var ' + ($idx) + '=0; ' + ($idx) + '<' + ($dataProperties) + '.length; ' + ($idx) + '++) { var ' + ($key) + ' = ' + ($dataProperties) + '[' + ($idx) + ']; ';
-    } else {
-      out += ' for (var ' + ($key) + ' in ' + ($data) + ') { ';
-    }
-    if ($someProperties) {
-      out += ' var isAdditional' + ($lvl) + ' = !(false ';
-      if ($schemaKeys.length) {
-        if ($schemaKeys.length > 5) {
-          out += ' || validate.schema' + ($schemaPath) + '[' + ($key) + '] ';
-        } else {
-          var arr1 = $schemaKeys;
-          if (arr1) {
-            var $propertyKey, i1 = -1,
-              l1 = arr1.length - 1;
-            while (i1 < l1) {
-              $propertyKey = arr1[i1 += 1];
-              out += ' || ' + ($key) + ' == ' + (it.util.toQuotedString($propertyKey)) + ' ';
-            }
-          }
-        }
-      }
-      if ($pPropertyKeys.length) {
-        var arr2 = $pPropertyKeys;
-        if (arr2) {
-          var $pProperty, $i = -1,
-            l2 = arr2.length - 1;
-          while ($i < l2) {
-            $pProperty = arr2[$i += 1];
-            out += ' || ' + (it.usePattern($pProperty)) + '.test(' + ($key) + ') ';
-          }
-        }
-      }
-      if (it.opts.patternGroups && $pgPropertyKeys.length) {
-        var arr3 = $pgPropertyKeys;
-        if (arr3) {
-          var $pgProperty, $i = -1,
-            l3 = arr3.length - 1;
-          while ($i < l3) {
-            $pgProperty = arr3[$i += 1];
-            out += ' || ' + (it.usePattern($pgProperty)) + '.test(' + ($key) + ') ';
-          }
-        }
-      }
-      out += ' ); if (isAdditional' + ($lvl) + ') { ';
-    }
-    if ($removeAdditional == 'all') {
-      out += ' delete ' + ($data) + '[' + ($key) + ']; ';
-    } else {
-      var $currentErrorPath = it.errorPath;
-      var $additionalProperty = '\' + ' + $key + ' + \'';
-      if (it.opts._errorDataPathProperty) {
-        it.errorPath = it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
-      }
-      if ($noAdditional) {
-        if ($removeAdditional) {
-          out += ' delete ' + ($data) + '[' + ($key) + ']; ';
-        } else {
-          out += ' ' + ($nextValid) + ' = false; ';
-          var $currErrSchemaPath = $errSchemaPath;
-          $errSchemaPath = it.errSchemaPath + '/additionalProperties';
-          var $$outStack = $$outStack || [];
-          $$outStack.push(out);
-          out = ''; /* istanbul ignore else */
-          if (it.createErrors !== false) {
-            out += ' { keyword: \'' + ('additionalProperties') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { additionalProperty: \'' + ($additionalProperty) + '\' } ';
-            if (it.opts.messages !== false) {
-              out += ' , message: \'should NOT have additional properties\' ';
-            }
-            if (it.opts.verbose) {
-              out += ' , schema: false , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-            }
-            out += ' } ';
-          } else {
-            out += ' {} ';
-          }
-          var __err = out;
-          out = $$outStack.pop();
-          if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-            if (it.async) {
-              out += ' throw new ValidationError([' + (__err) + ']); ';
-            } else {
-              out += ' validate.errors = [' + (__err) + ']; return false; ';
-            }
-          } else {
-            out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-          }
-          $errSchemaPath = $currErrSchemaPath;
-          if ($breakOnError) {
-            out += ' break; ';
-          }
-        }
-      } else if ($additionalIsSchema) {
-        if ($removeAdditional == 'failing') {
-          out += ' var ' + ($errs) + ' = errors;  ';
-          var $wasComposite = it.compositeRule;
-          it.compositeRule = $it.compositeRule = true;
-          $it.schema = $aProperties;
-          $it.schemaPath = it.schemaPath + '.additionalProperties';
-          $it.errSchemaPath = it.errSchemaPath + '/additionalProperties';
-          $it.errorPath = it.opts._errorDataPathProperty ? it.errorPath : it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
-          var $passData = $data + '[' + $key + ']';
-          $it.dataPathArr[$dataNxt] = $key;
-          var $code = it.validate($it);
-          $it.baseId = $currentBaseId;
-          if (it.util.varOccurences($code, $nextData) < 2) {
-            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
-          } else {
-            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
-          }
-          out += ' if (!' + ($nextValid) + ') { errors = ' + ($errs) + '; if (validate.errors !== null) { if (errors) validate.errors.length = errors; else validate.errors = null; } delete ' + ($data) + '[' + ($key) + ']; }  ';
-          it.compositeRule = $it.compositeRule = $wasComposite;
-        } else {
-          $it.schema = $aProperties;
-          $it.schemaPath = it.schemaPath + '.additionalProperties';
-          $it.errSchemaPath = it.errSchemaPath + '/additionalProperties';
-          $it.errorPath = it.opts._errorDataPathProperty ? it.errorPath : it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
-          var $passData = $data + '[' + $key + ']';
-          $it.dataPathArr[$dataNxt] = $key;
-          var $code = it.validate($it);
-          $it.baseId = $currentBaseId;
-          if (it.util.varOccurences($code, $nextData) < 2) {
-            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
-          } else {
-            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
-          }
-          if ($breakOnError) {
-            out += ' if (!' + ($nextValid) + ') break; ';
-          }
-        }
-      }
-      it.errorPath = $currentErrorPath;
-    }
-    if ($someProperties) {
-      out += ' } ';
-    }
-    out += ' }  ';
-    if ($breakOnError) {
-      out += ' if (' + ($nextValid) + ') { ';
-      $closingBraces += '}';
-    }
-  }
-  var $useDefaults = it.opts.useDefaults && !it.compositeRule;
-  if ($schemaKeys.length) {
-    var arr4 = $schemaKeys;
-    if (arr4) {
-      var $propertyKey, i4 = -1,
-        l4 = arr4.length - 1;
-      while (i4 < l4) {
-        $propertyKey = arr4[i4 += 1];
-        var $sch = $schema[$propertyKey];
-        if (it.util.schemaHasRules($sch, it.RULES.all)) {
-          var $prop = it.util.getProperty($propertyKey),
-            $passData = $data + $prop,
-            $hasDefault = $useDefaults && $sch.default !== undefined;
-          $it.schema = $sch;
-          $it.schemaPath = $schemaPath + $prop;
-          $it.errSchemaPath = $errSchemaPath + '/' + it.util.escapeFragment($propertyKey);
-          $it.errorPath = it.util.getPath(it.errorPath, $propertyKey, it.opts.jsonPointers);
-          $it.dataPathArr[$dataNxt] = it.util.toQuotedString($propertyKey);
-          var $code = it.validate($it);
-          $it.baseId = $currentBaseId;
-          if (it.util.varOccurences($code, $nextData) < 2) {
-            $code = it.util.varReplace($code, $nextData, $passData);
-            var $useData = $passData;
-          } else {
-            var $useData = $nextData;
-            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ';
-          }
-          if ($hasDefault) {
-            out += ' ' + ($code) + ' ';
-          } else {
-            if ($requiredHash && $requiredHash[$propertyKey]) {
-              out += ' if ( ' + ($useData) + ' === undefined ';
-              if ($ownProperties) {
-                out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
-              }
-              out += ') { ' + ($nextValid) + ' = false; ';
-              var $currentErrorPath = it.errorPath,
-                $currErrSchemaPath = $errSchemaPath,
-                $missingProperty = it.util.escapeQuotes($propertyKey);
-              if (it.opts._errorDataPathProperty) {
-                it.errorPath = it.util.getPath($currentErrorPath, $propertyKey, it.opts.jsonPointers);
-              }
-              $errSchemaPath = it.errSchemaPath + '/required';
-              var $$outStack = $$outStack || [];
-              $$outStack.push(out);
-              out = ''; /* istanbul ignore else */
-              if (it.createErrors !== false) {
-                out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
-                if (it.opts.messages !== false) {
-                  out += ' , message: \'';
-                  if (it.opts._errorDataPathProperty) {
-                    out += 'is a required property';
-                  } else {
-                    out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
-                  }
-                  out += '\' ';
-                }
-                if (it.opts.verbose) {
-                  out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-                }
-                out += ' } ';
-              } else {
-                out += ' {} ';
-              }
-              var __err = out;
-              out = $$outStack.pop();
-              if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-                if (it.async) {
-                  out += ' throw new ValidationError([' + (__err) + ']); ';
-                } else {
-                  out += ' validate.errors = [' + (__err) + ']; return false; ';
-                }
-              } else {
-                out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-              }
-              $errSchemaPath = $currErrSchemaPath;
-              it.errorPath = $currentErrorPath;
-              out += ' } else { ';
-            } else {
-              if ($breakOnError) {
-                out += ' if ( ' + ($useData) + ' === undefined ';
-                if ($ownProperties) {
-                  out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
-                }
-                out += ') { ' + ($nextValid) + ' = true; } else { ';
-              } else {
-                out += ' if (' + ($useData) + ' !== undefined ';
-                if ($ownProperties) {
-                  out += ' &&   Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
-                }
-                out += ' ) { ';
-              }
-            }
-            out += ' ' + ($code) + ' } ';
-          }
-        }
-        if ($breakOnError) {
-          out += ' if (' + ($nextValid) + ') { ';
-          $closingBraces += '}';
-        }
-      }
-    }
-  }
-  if ($pPropertyKeys.length) {
-    var arr5 = $pPropertyKeys;
-    if (arr5) {
-      var $pProperty, i5 = -1,
-        l5 = arr5.length - 1;
-      while (i5 < l5) {
-        $pProperty = arr5[i5 += 1];
-        var $sch = $pProperties[$pProperty];
-        if (it.util.schemaHasRules($sch, it.RULES.all)) {
-          $it.schema = $sch;
-          $it.schemaPath = it.schemaPath + '.patternProperties' + it.util.getProperty($pProperty);
-          $it.errSchemaPath = it.errSchemaPath + '/patternProperties/' + it.util.escapeFragment($pProperty);
-          if ($ownProperties) {
-            out += ' ' + ($dataProperties) + ' = ' + ($dataProperties) + ' || Object.keys(' + ($data) + '); for (var ' + ($idx) + '=0; ' + ($idx) + '<' + ($dataProperties) + '.length; ' + ($idx) + '++) { var ' + ($key) + ' = ' + ($dataProperties) + '[' + ($idx) + ']; ';
-          } else {
-            out += ' for (var ' + ($key) + ' in ' + ($data) + ') { ';
-          }
-          out += ' if (' + (it.usePattern($pProperty)) + '.test(' + ($key) + ')) { ';
-          $it.errorPath = it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
-          var $passData = $data + '[' + $key + ']';
-          $it.dataPathArr[$dataNxt] = $key;
-          var $code = it.validate($it);
-          $it.baseId = $currentBaseId;
-          if (it.util.varOccurences($code, $nextData) < 2) {
-            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
-          } else {
-            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
-          }
-          if ($breakOnError) {
-            out += ' if (!' + ($nextValid) + ') break; ';
-          }
-          out += ' } ';
-          if ($breakOnError) {
-            out += ' else ' + ($nextValid) + ' = true; ';
-          }
-          out += ' }  ';
-          if ($breakOnError) {
-            out += ' if (' + ($nextValid) + ') { ';
-            $closingBraces += '}';
-          }
-        }
-      }
-    }
-  }
-  if (it.opts.patternGroups && $pgPropertyKeys.length) {
-    var arr6 = $pgPropertyKeys;
-    if (arr6) {
-      var $pgProperty, i6 = -1,
-        l6 = arr6.length - 1;
-      while (i6 < l6) {
-        $pgProperty = arr6[i6 += 1];
-        var $pgSchema = $pgProperties[$pgProperty],
-          $sch = $pgSchema.schema;
-        if (it.util.schemaHasRules($sch, it.RULES.all)) {
-          $it.schema = $sch;
-          $it.schemaPath = it.schemaPath + '.patternGroups' + it.util.getProperty($pgProperty) + '.schema';
-          $it.errSchemaPath = it.errSchemaPath + '/patternGroups/' + it.util.escapeFragment($pgProperty) + '/schema';
-          out += ' var pgPropCount' + ($lvl) + ' = 0;  ';
-          if ($ownProperties) {
-            out += ' ' + ($dataProperties) + ' = ' + ($dataProperties) + ' || Object.keys(' + ($data) + '); for (var ' + ($idx) + '=0; ' + ($idx) + '<' + ($dataProperties) + '.length; ' + ($idx) + '++) { var ' + ($key) + ' = ' + ($dataProperties) + '[' + ($idx) + ']; ';
-          } else {
-            out += ' for (var ' + ($key) + ' in ' + ($data) + ') { ';
-          }
-          out += ' if (' + (it.usePattern($pgProperty)) + '.test(' + ($key) + ')) { pgPropCount' + ($lvl) + '++; ';
-          $it.errorPath = it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
-          var $passData = $data + '[' + $key + ']';
-          $it.dataPathArr[$dataNxt] = $key;
-          var $code = it.validate($it);
-          $it.baseId = $currentBaseId;
-          if (it.util.varOccurences($code, $nextData) < 2) {
-            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
-          } else {
-            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
-          }
-          if ($breakOnError) {
-            out += ' if (!' + ($nextValid) + ') break; ';
-          }
-          out += ' } ';
-          if ($breakOnError) {
-            out += ' else ' + ($nextValid) + ' = true; ';
-          }
-          out += ' }  ';
-          if ($breakOnError) {
-            out += ' if (' + ($nextValid) + ') { ';
-            $closingBraces += '}';
-          }
-          var $pgMin = $pgSchema.minimum,
-            $pgMax = $pgSchema.maximum;
-          if ($pgMin !== undefined || $pgMax !== undefined) {
-            out += ' var ' + ($valid) + ' = true; ';
-            var $currErrSchemaPath = $errSchemaPath;
-            if ($pgMin !== undefined) {
-              var $limit = $pgMin,
-                $reason = 'minimum',
-                $moreOrLess = 'less';
-              out += ' ' + ($valid) + ' = pgPropCount' + ($lvl) + ' >= ' + ($pgMin) + '; ';
-              $errSchemaPath = it.errSchemaPath + '/patternGroups/minimum';
-              out += '  if (!' + ($valid) + ') {   ';
-              var $$outStack = $$outStack || [];
-              $$outStack.push(out);
-              out = ''; /* istanbul ignore else */
-              if (it.createErrors !== false) {
-                out += ' { keyword: \'' + ('patternGroups') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { reason: \'' + ($reason) + '\', limit: ' + ($limit) + ', pattern: \'' + (it.util.escapeQuotes($pgProperty)) + '\' } ';
-                if (it.opts.messages !== false) {
-                  out += ' , message: \'should NOT have ' + ($moreOrLess) + ' than ' + ($limit) + ' properties matching pattern "' + (it.util.escapeQuotes($pgProperty)) + '"\' ';
-                }
-                if (it.opts.verbose) {
-                  out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-                }
-                out += ' } ';
-              } else {
-                out += ' {} ';
-              }
-              var __err = out;
-              out = $$outStack.pop();
-              if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-                if (it.async) {
-                  out += ' throw new ValidationError([' + (__err) + ']); ';
-                } else {
-                  out += ' validate.errors = [' + (__err) + ']; return false; ';
-                }
-              } else {
-                out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-              }
-              out += ' } ';
-              if ($pgMax !== undefined) {
-                out += ' else ';
-              }
-            }
-            if ($pgMax !== undefined) {
-              var $limit = $pgMax,
-                $reason = 'maximum',
-                $moreOrLess = 'more';
-              out += ' ' + ($valid) + ' = pgPropCount' + ($lvl) + ' <= ' + ($pgMax) + '; ';
-              $errSchemaPath = it.errSchemaPath + '/patternGroups/maximum';
-              out += '  if (!' + ($valid) + ') {   ';
-              var $$outStack = $$outStack || [];
-              $$outStack.push(out);
-              out = ''; /* istanbul ignore else */
-              if (it.createErrors !== false) {
-                out += ' { keyword: \'' + ('patternGroups') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { reason: \'' + ($reason) + '\', limit: ' + ($limit) + ', pattern: \'' + (it.util.escapeQuotes($pgProperty)) + '\' } ';
-                if (it.opts.messages !== false) {
-                  out += ' , message: \'should NOT have ' + ($moreOrLess) + ' than ' + ($limit) + ' properties matching pattern "' + (it.util.escapeQuotes($pgProperty)) + '"\' ';
-                }
-                if (it.opts.verbose) {
-                  out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-                }
-                out += ' } ';
-              } else {
-                out += ' {} ';
-              }
-              var __err = out;
-              out = $$outStack.pop();
-              if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-                if (it.async) {
-                  out += ' throw new ValidationError([' + (__err) + ']); ';
-                } else {
-                  out += ' validate.errors = [' + (__err) + ']; return false; ';
-                }
-              } else {
-                out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-              }
-              out += ' } ';
-            }
-            $errSchemaPath = $currErrSchemaPath;
-            if ($breakOnError) {
-              out += ' if (' + ($valid) + ') { ';
-              $closingBraces += '}';
-            }
-          }
-        }
-      }
-    }
-  }
-  if ($breakOnError) {
-    out += ' ' + ($closingBraces) + ' if (' + ($errs) + ' == errors) {';
-  }
-  out = it.util.cleanUpCode(out);
-  return out;
-}
-
-
-/***/ }),
-/* 601 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_propertyNames(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $errs = 'errs__' + $lvl;
-  var $it = it.util.copy(it);
-  var $closingBraces = '';
-  $it.level++;
-  var $nextValid = 'valid' + $it.level;
-  if (it.util.schemaHasRules($schema, it.RULES.all)) {
-    $it.schema = $schema;
-    $it.schemaPath = $schemaPath;
-    $it.errSchemaPath = $errSchemaPath;
-    var $key = 'key' + $lvl,
-      $idx = 'idx' + $lvl,
-      $i = 'i' + $lvl,
-      $invalidName = '\' + ' + $key + ' + \'',
-      $dataNxt = $it.dataLevel = it.dataLevel + 1,
-      $nextData = 'data' + $dataNxt,
-      $dataProperties = 'dataProperties' + $lvl,
-      $ownProperties = it.opts.ownProperties,
-      $currentBaseId = it.baseId;
-    out += ' var ' + ($errs) + ' = errors; ';
-    if ($ownProperties) {
-      out += ' var ' + ($dataProperties) + ' = undefined; ';
-    }
-    if ($ownProperties) {
-      out += ' ' + ($dataProperties) + ' = ' + ($dataProperties) + ' || Object.keys(' + ($data) + '); for (var ' + ($idx) + '=0; ' + ($idx) + '<' + ($dataProperties) + '.length; ' + ($idx) + '++) { var ' + ($key) + ' = ' + ($dataProperties) + '[' + ($idx) + ']; ';
-    } else {
-      out += ' for (var ' + ($key) + ' in ' + ($data) + ') { ';
-    }
-    out += ' var startErrs' + ($lvl) + ' = errors; ';
-    var $passData = $key;
-    var $wasComposite = it.compositeRule;
-    it.compositeRule = $it.compositeRule = true;
-    var $code = it.validate($it);
-    $it.baseId = $currentBaseId;
-    if (it.util.varOccurences($code, $nextData) < 2) {
-      out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
-    } else {
-      out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
-    }
-    it.compositeRule = $it.compositeRule = $wasComposite;
-    out += ' if (!' + ($nextValid) + ') { for (var ' + ($i) + '=startErrs' + ($lvl) + '; ' + ($i) + '<errors; ' + ($i) + '++) { vErrors[' + ($i) + '].propertyName = ' + ($key) + '; }   var err =   '; /* istanbul ignore else */
-    if (it.createErrors !== false) {
-      out += ' { keyword: \'' + ('propertyNames') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { propertyName: \'' + ($invalidName) + '\' } ';
-      if (it.opts.messages !== false) {
-        out += ' , message: \'property name \\\'' + ($invalidName) + '\\\' is invalid\' ';
-      }
-      if (it.opts.verbose) {
-        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-      }
-      out += ' } ';
-    } else {
-      out += ' {} ';
-    }
-    out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-      if (it.async) {
-        out += ' throw new ValidationError(vErrors); ';
-      } else {
-        out += ' validate.errors = vErrors; return false; ';
-      }
-    }
-    if ($breakOnError) {
-      out += ' break; ';
-    }
-    out += ' } }';
-  }
-  if ($breakOnError) {
-    out += ' ' + ($closingBraces) + ' if (' + ($errs) + ' == errors) {';
-  }
-  out = it.util.cleanUpCode(out);
-  return out;
-}
-
-
-/***/ }),
-/* 602 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_required(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $valid = 'valid' + $lvl;
-  var $isData = it.opts.$data && $schema && $schema.$data,
-    $schemaValue;
-  if ($isData) {
-    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
-    $schemaValue = 'schema' + $lvl;
-  } else {
-    $schemaValue = $schema;
-  }
-  var $vSchema = 'schema' + $lvl;
-  if (!$isData) {
-    if ($schema.length < it.opts.loopRequired && it.schema.properties && Object.keys(it.schema.properties).length) {
-      var $required = [];
-      var arr1 = $schema;
-      if (arr1) {
-        var $property, i1 = -1,
-          l1 = arr1.length - 1;
-        while (i1 < l1) {
-          $property = arr1[i1 += 1];
-          var $propertySch = it.schema.properties[$property];
-          if (!($propertySch && it.util.schemaHasRules($propertySch, it.RULES.all))) {
-            $required[$required.length] = $property;
-          }
-        }
-      }
-    } else {
-      var $required = $schema;
-    }
-  }
-  if ($isData || $required.length) {
-    var $currentErrorPath = it.errorPath,
-      $loopRequired = $isData || $required.length >= it.opts.loopRequired,
-      $ownProperties = it.opts.ownProperties;
-    if ($breakOnError) {
-      out += ' var missing' + ($lvl) + '; ';
-      if ($loopRequired) {
-        if (!$isData) {
-          out += ' var ' + ($vSchema) + ' = validate.schema' + ($schemaPath) + '; ';
-        }
-        var $i = 'i' + $lvl,
-          $propertyPath = 'schema' + $lvl + '[' + $i + ']',
-          $missingProperty = '\' + ' + $propertyPath + ' + \'';
-        if (it.opts._errorDataPathProperty) {
-          it.errorPath = it.util.getPathExpr($currentErrorPath, $propertyPath, it.opts.jsonPointers);
-        }
-        out += ' var ' + ($valid) + ' = true; ';
-        if ($isData) {
-          out += ' if (schema' + ($lvl) + ' === undefined) ' + ($valid) + ' = true; else if (!Array.isArray(schema' + ($lvl) + ')) ' + ($valid) + ' = false; else {';
-        }
-        out += ' for (var ' + ($i) + ' = 0; ' + ($i) + ' < ' + ($vSchema) + '.length; ' + ($i) + '++) { ' + ($valid) + ' = ' + ($data) + '[' + ($vSchema) + '[' + ($i) + ']] !== undefined ';
-        if ($ownProperties) {
-          out += ' &&   Object.prototype.hasOwnProperty.call(' + ($data) + ', ' + ($vSchema) + '[' + ($i) + ']) ';
-        }
-        out += '; if (!' + ($valid) + ') break; } ';
-        if ($isData) {
-          out += '  }  ';
-        }
-        out += '  if (!' + ($valid) + ') {   ';
-        var $$outStack = $$outStack || [];
-        $$outStack.push(out);
-        out = ''; /* istanbul ignore else */
-        if (it.createErrors !== false) {
-          out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
-          if (it.opts.messages !== false) {
-            out += ' , message: \'';
-            if (it.opts._errorDataPathProperty) {
-              out += 'is a required property';
-            } else {
-              out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
-            }
-            out += '\' ';
-          }
-          if (it.opts.verbose) {
-            out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-          }
-          out += ' } ';
-        } else {
-          out += ' {} ';
-        }
-        var __err = out;
-        out = $$outStack.pop();
-        if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-          if (it.async) {
-            out += ' throw new ValidationError([' + (__err) + ']); ';
-          } else {
-            out += ' validate.errors = [' + (__err) + ']; return false; ';
-          }
-        } else {
-          out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-        }
-        out += ' } else { ';
-      } else {
-        out += ' if ( ';
-        var arr2 = $required;
-        if (arr2) {
-          var $propertyKey, $i = -1,
-            l2 = arr2.length - 1;
-          while ($i < l2) {
-            $propertyKey = arr2[$i += 1];
-            if ($i) {
-              out += ' || ';
-            }
-            var $prop = it.util.getProperty($propertyKey),
-              $useData = $data + $prop;
-            out += ' ( ( ' + ($useData) + ' === undefined ';
-            if ($ownProperties) {
-              out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
-            }
-            out += ') && (missing' + ($lvl) + ' = ' + (it.util.toQuotedString(it.opts.jsonPointers ? $propertyKey : $prop)) + ') ) ';
-          }
-        }
-        out += ') {  ';
-        var $propertyPath = 'missing' + $lvl,
-          $missingProperty = '\' + ' + $propertyPath + ' + \'';
-        if (it.opts._errorDataPathProperty) {
-          it.errorPath = it.opts.jsonPointers ? it.util.getPathExpr($currentErrorPath, $propertyPath, true) : $currentErrorPath + ' + ' + $propertyPath;
-        }
-        var $$outStack = $$outStack || [];
-        $$outStack.push(out);
-        out = ''; /* istanbul ignore else */
-        if (it.createErrors !== false) {
-          out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
-          if (it.opts.messages !== false) {
-            out += ' , message: \'';
-            if (it.opts._errorDataPathProperty) {
-              out += 'is a required property';
-            } else {
-              out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
-            }
-            out += '\' ';
-          }
-          if (it.opts.verbose) {
-            out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-          }
-          out += ' } ';
-        } else {
-          out += ' {} ';
-        }
-        var __err = out;
-        out = $$outStack.pop();
-        if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-          if (it.async) {
-            out += ' throw new ValidationError([' + (__err) + ']); ';
-          } else {
-            out += ' validate.errors = [' + (__err) + ']; return false; ';
-          }
-        } else {
-          out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-        }
-        out += ' } else { ';
-      }
-    } else {
-      if ($loopRequired) {
-        if (!$isData) {
-          out += ' var ' + ($vSchema) + ' = validate.schema' + ($schemaPath) + '; ';
-        }
-        var $i = 'i' + $lvl,
-          $propertyPath = 'schema' + $lvl + '[' + $i + ']',
-          $missingProperty = '\' + ' + $propertyPath + ' + \'';
-        if (it.opts._errorDataPathProperty) {
-          it.errorPath = it.util.getPathExpr($currentErrorPath, $propertyPath, it.opts.jsonPointers);
-        }
-        if ($isData) {
-          out += ' if (' + ($vSchema) + ' && !Array.isArray(' + ($vSchema) + ')) {  var err =   '; /* istanbul ignore else */
-          if (it.createErrors !== false) {
-            out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
-            if (it.opts.messages !== false) {
-              out += ' , message: \'';
-              if (it.opts._errorDataPathProperty) {
-                out += 'is a required property';
-              } else {
-                out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
-              }
-              out += '\' ';
-            }
-            if (it.opts.verbose) {
-              out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-            }
-            out += ' } ';
-          } else {
-            out += ' {} ';
-          }
-          out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; } else if (' + ($vSchema) + ' !== undefined) { ';
-        }
-        out += ' for (var ' + ($i) + ' = 0; ' + ($i) + ' < ' + ($vSchema) + '.length; ' + ($i) + '++) { if (' + ($data) + '[' + ($vSchema) + '[' + ($i) + ']] === undefined ';
-        if ($ownProperties) {
-          out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', ' + ($vSchema) + '[' + ($i) + ']) ';
-        }
-        out += ') {  var err =   '; /* istanbul ignore else */
-        if (it.createErrors !== false) {
-          out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
-          if (it.opts.messages !== false) {
-            out += ' , message: \'';
-            if (it.opts._errorDataPathProperty) {
-              out += 'is a required property';
-            } else {
-              out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
-            }
-            out += '\' ';
-          }
-          if (it.opts.verbose) {
-            out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-          }
-          out += ' } ';
-        } else {
-          out += ' {} ';
-        }
-        out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; } } ';
-        if ($isData) {
-          out += '  }  ';
-        }
-      } else {
-        var arr3 = $required;
-        if (arr3) {
-          var $propertyKey, i3 = -1,
-            l3 = arr3.length - 1;
-          while (i3 < l3) {
-            $propertyKey = arr3[i3 += 1];
-            var $prop = it.util.getProperty($propertyKey),
-              $missingProperty = it.util.escapeQuotes($propertyKey),
-              $useData = $data + $prop;
-            if (it.opts._errorDataPathProperty) {
-              it.errorPath = it.util.getPath($currentErrorPath, $propertyKey, it.opts.jsonPointers);
-            }
-            out += ' if ( ' + ($useData) + ' === undefined ';
-            if ($ownProperties) {
-              out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
-            }
-            out += ') {  var err =   '; /* istanbul ignore else */
-            if (it.createErrors !== false) {
-              out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
-              if (it.opts.messages !== false) {
-                out += ' , message: \'';
-                if (it.opts._errorDataPathProperty) {
-                  out += 'is a required property';
-                } else {
-                  out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
-                }
-                out += '\' ';
-              }
-              if (it.opts.verbose) {
-                out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-              }
-              out += ' } ';
-            } else {
-              out += ' {} ';
-            }
-            out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; } ';
-          }
-        }
-      }
-    }
-    it.errorPath = $currentErrorPath;
-  } else if ($breakOnError) {
-    out += ' if (true) {';
-  }
-  return out;
-}
-
-
-/***/ }),
-/* 603 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_uniqueItems(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $data = 'data' + ($dataLvl || '');
-  var $valid = 'valid' + $lvl;
-  var $isData = it.opts.$data && $schema && $schema.$data,
-    $schemaValue;
-  if ($isData) {
-    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
-    $schemaValue = 'schema' + $lvl;
-  } else {
-    $schemaValue = $schema;
-  }
-  if (($schema || $isData) && it.opts.uniqueItems !== false) {
-    if ($isData) {
-      out += ' var ' + ($valid) + '; if (' + ($schemaValue) + ' === false || ' + ($schemaValue) + ' === undefined) ' + ($valid) + ' = true; else if (typeof ' + ($schemaValue) + ' != \'boolean\') ' + ($valid) + ' = false; else { ';
-    }
-    out += ' var ' + ($valid) + ' = true; if (' + ($data) + '.length > 1) { var i = ' + ($data) + '.length, j; outer: for (;i--;) { for (j = i; j--;) { if (equal(' + ($data) + '[i], ' + ($data) + '[j])) { ' + ($valid) + ' = false; break outer; } } } } ';
-    if ($isData) {
-      out += '  }  ';
-    }
-    out += ' if (!' + ($valid) + ') {   ';
-    var $$outStack = $$outStack || [];
-    $$outStack.push(out);
-    out = ''; /* istanbul ignore else */
-    if (it.createErrors !== false) {
-      out += ' { keyword: \'' + ('uniqueItems') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { i: i, j: j } ';
-      if (it.opts.messages !== false) {
-        out += ' , message: \'should NOT have duplicate items (items ## \' + j + \' and \' + i + \' are identical)\' ';
-      }
-      if (it.opts.verbose) {
-        out += ' , schema:  ';
-        if ($isData) {
-          out += 'validate.schema' + ($schemaPath);
-        } else {
-          out += '' + ($schema);
-        }
-        out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-      }
-      out += ' } ';
-    } else {
-      out += ' {} ';
-    }
-    var __err = out;
-    out = $$outStack.pop();
-    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-      if (it.async) {
-        out += ' throw new ValidationError([' + (__err) + ']); ';
-      } else {
-        out += ' validate.errors = [' + (__err) + ']; return false; ';
-      }
-    } else {
-      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-    }
-    out += ' } ';
-    if ($breakOnError) {
-      out += ' else { ';
-    }
-  } else {
-    if ($breakOnError) {
-      out += ' if (true) { ';
-    }
-  }
-  return out;
-}
-
-
-/***/ }),
-/* 604 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var KEYWORDS = [
-  'multipleOf',
-  'maximum',
-  'exclusiveMaximum',
-  'minimum',
-  'exclusiveMinimum',
-  'maxLength',
-  'minLength',
-  'pattern',
-  'additionalItems',
-  'maxItems',
-  'minItems',
-  'uniqueItems',
-  'maxProperties',
-  'minProperties',
-  'required',
-  'additionalProperties',
-  'enum',
-  'format',
-  'const'
-];
-
-module.exports = function (metaSchema, keywordsJsonPointers) {
-  for (var i=0; i<keywordsJsonPointers.length; i++) {
-    metaSchema = JSON.parse(JSON.stringify(metaSchema));
-    var segments = keywordsJsonPointers[i].split('/');
-    var keywords = metaSchema;
-    var j;
-    for (j=1; j<segments.length; j++)
-      keywords = keywords[segments[j]];
-
-    for (j=0; j<KEYWORDS.length; j++) {
-      var key = KEYWORDS[j];
-      var schema = keywords[key];
-      if (schema) {
-        keywords[key] = {
-          anyOf: [
-            schema,
-            { $ref: 'https://raw.githubusercontent.com/epoberezkin/ajv/master/lib/refs/$data.json#' }
-          ]
-        };
-      }
-    }
-  }
-
-  return metaSchema;
-};
-
-
-/***/ }),
-/* 605 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var META_SCHEMA_ID = 'http://json-schema.org/draft-06/schema';
-
-module.exports = function (ajv) {
-  var defaultMeta = ajv._opts.defaultMeta;
-  var metaSchemaRef = typeof defaultMeta == 'string'
-                      ? { $ref: defaultMeta }
-                      : ajv.getSchema(META_SCHEMA_ID)
-                        ? { $ref: META_SCHEMA_ID }
-                        : {};
-
-  ajv.addKeyword('patternGroups', {
-    // implemented in properties.jst
-    metaSchema: {
-      type: 'object',
-      additionalProperties: {
-        type: 'object',
-        required: [ 'schema' ],
-        properties: {
-          maximum: {
-            type: 'integer',
-            minimum: 0
-          },
-          minimum: {
-            type: 'integer',
-            minimum: 0
-          },
-          schema: metaSchemaRef
-        },
-        additionalProperties: false
-      }
-    }
-  });
-  ajv.RULES.all.properties.implements.push('patternGroups');
-};
-
-
-/***/ }),
-/* 606 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var MissingRefError = __webpack_require__(304).MissingRef;
-
-module.exports = compileAsync;
-
-
-/**
- * Creates validating function for passed schema with asynchronous loading of missing schemas.
- * `loadSchema` option should be a function that accepts schema uri and returns promise that resolves with the schema.
- * @this  Ajv
- * @param {Object}   schema schema object
- * @param {Boolean}  meta optional true to compile meta-schema; this parameter can be skipped
- * @param {Function} callback an optional node-style callback, it is called with 2 parameters: error (or null) and validating function.
- * @return {Promise} promise that resolves with a validating function.
- */
-function compileAsync(schema, meta, callback) {
-  /* eslint no-shadow: 0 */
-  /* global Promise */
-  /* jshint validthis: true */
-  var self = this;
-  if (typeof this._opts.loadSchema != 'function')
-    throw new Error('options.loadSchema should be a function');
-
-  if (typeof meta == 'function') {
-    callback = meta;
-    meta = undefined;
-  }
-
-  var p = loadMetaSchemaOf(schema).then(function () {
-    var schemaObj = self._addSchema(schema, undefined, meta);
-    return schemaObj.validate || _compileAsync(schemaObj);
-  });
-
-  if (callback) {
-    p.then(
-      function(v) { callback(null, v); },
-      callback
-    );
-  }
-
-  return p;
-
-
-  function loadMetaSchemaOf(sch) {
-    var $schema = sch.$schema;
-    return $schema && !self.getSchema($schema)
-            ? compileAsync.call(self, { $ref: $schema }, true)
-            : Promise.resolve();
-  }
-
-
-  function _compileAsync(schemaObj) {
-    try { return self._compile(schemaObj); }
-    catch(e) {
-      if (e instanceof MissingRefError) return loadMissingSchema(e);
-      throw e;
-    }
-
-
-    function loadMissingSchema(e) {
-      var ref = e.missingSchema;
-      if (added(ref)) throw new Error('Schema ' + ref + ' is loaded but ' + e.missingRef + ' cannot be resolved');
-
-      var schemaPromise = self._loadingSchemas[ref];
-      if (!schemaPromise) {
-        schemaPromise = self._loadingSchemas[ref] = self._opts.loadSchema(ref);
-        schemaPromise.then(removePromise, removePromise);
-      }
-
-      return schemaPromise.then(function (sch) {
-        if (!added(ref)) {
-          return loadMetaSchemaOf(sch).then(function () {
-            if (!added(ref)) self.addSchema(sch, ref, undefined, meta);
-          });
-        }
-      }).then(function() {
-        return _compileAsync(schemaObj);
-      });
-
-      function removePromise() {
-        delete self._loadingSchemas[ref];
-      }
-
-      function added(ref) {
-        return self._refs[ref] || self._schemas[ref];
-      }
-    }
-  }
-}
-
-
-/***/ }),
-/* 607 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var IDENTIFIER = /^[a-z_$][a-z0-9_$-]*$/i;
-var customRuleCode = __webpack_require__(608);
-
-module.exports = {
-  add: addKeyword,
-  get: getKeyword,
-  remove: removeKeyword
-};
-
-/**
- * Define custom keyword
- * @this  Ajv
- * @param {String} keyword custom keyword, should be unique (including different from all standard, custom and macro keywords).
- * @param {Object} definition keyword definition object with properties `type` (type(s) which the keyword applies to), `validate` or `compile`.
- */
-function addKeyword(keyword, definition) {
-  /* jshint validthis: true */
-  /* eslint no-shadow: 0 */
-  var RULES = this.RULES;
-
-  if (RULES.keywords[keyword])
-    throw new Error('Keyword ' + keyword + ' is already defined');
-
-  if (!IDENTIFIER.test(keyword))
-    throw new Error('Keyword ' + keyword + ' is not a valid identifier');
-
-  if (definition) {
-    if (definition.macro && definition.valid !== undefined)
-      throw new Error('"valid" option cannot be used with macro keywords');
-
-    var dataType = definition.type;
-    if (Array.isArray(dataType)) {
-      var i, len = dataType.length;
-      for (i=0; i<len; i++) checkDataType(dataType[i]);
-      for (i=0; i<len; i++) _addRule(keyword, dataType[i], definition);
-    } else {
-      if (dataType) checkDataType(dataType);
-      _addRule(keyword, dataType, definition);
-    }
-
-    var $data = definition.$data === true && this._opts.$data;
-    if ($data && !definition.validate)
-      throw new Error('$data support: "validate" function is not defined');
-
-    var metaSchema = definition.metaSchema;
-    if (metaSchema) {
-      if ($data) {
-        metaSchema = {
-          anyOf: [
-            metaSchema,
-            { '$ref': 'https://raw.githubusercontent.com/epoberezkin/ajv/master/lib/refs/$data.json#' }
-          ]
-        };
-      }
-      definition.validateSchema = this.compile(metaSchema, true);
-    }
-  }
-
-  RULES.keywords[keyword] = RULES.all[keyword] = true;
-
-
-  function _addRule(keyword, dataType, definition) {
-    var ruleGroup;
-    for (var i=0; i<RULES.length; i++) {
-      var rg = RULES[i];
-      if (rg.type == dataType) {
-        ruleGroup = rg;
-        break;
-      }
-    }
-
-    if (!ruleGroup) {
-      ruleGroup = { type: dataType, rules: [] };
-      RULES.push(ruleGroup);
-    }
-
-    var rule = {
-      keyword: keyword,
-      definition: definition,
-      custom: true,
-      code: customRuleCode,
-      implements: definition.implements
-    };
-    ruleGroup.rules.push(rule);
-    RULES.custom[keyword] = rule;
-  }
-
-
-  function checkDataType(dataType) {
-    if (!RULES.types[dataType]) throw new Error('Unknown type ' + dataType);
-  }
-}
-
-
-/**
- * Get keyword
- * @this  Ajv
- * @param {String} keyword pre-defined or custom keyword.
- * @return {Object|Boolean} custom keyword definition, `true` if it is a predefined keyword, `false` otherwise.
- */
-function getKeyword(keyword) {
-  /* jshint validthis: true */
-  var rule = this.RULES.custom[keyword];
-  return rule ? rule.definition : this.RULES.keywords[keyword] || false;
-}
-
-
-/**
- * Remove keyword
- * @this  Ajv
- * @param {String} keyword pre-defined or custom keyword.
- */
-function removeKeyword(keyword) {
-  /* jshint validthis: true */
-  var RULES = this.RULES;
-  delete RULES.keywords[keyword];
-  delete RULES.all[keyword];
-  delete RULES.custom[keyword];
-  for (var i=0; i<RULES.length; i++) {
-    var rules = RULES[i].rules;
-    for (var j=0; j<rules.length; j++) {
-      if (rules[j].keyword == keyword) {
-        rules.splice(j, 1);
-        break;
-      }
-    }
-  }
-}
-
-
-/***/ }),
-/* 608 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = function generate_custom(it, $keyword, $ruleType) {
-  var out = ' ';
-  var $lvl = it.level;
-  var $dataLvl = it.dataLevel;
-  var $schema = it.schema[$keyword];
-  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
-  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
-  var $breakOnError = !it.opts.allErrors;
-  var $errorKeyword;
-  var $data = 'data' + ($dataLvl || '');
-  var $valid = 'valid' + $lvl;
-  var $errs = 'errs__' + $lvl;
-  var $isData = it.opts.$data && $schema && $schema.$data,
-    $schemaValue;
-  if ($isData) {
-    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
-    $schemaValue = 'schema' + $lvl;
-  } else {
-    $schemaValue = $schema;
-  }
-  var $rule = this,
-    $definition = 'definition' + $lvl,
-    $rDef = $rule.definition,
-    $closingBraces = '';
-  var $compile, $inline, $macro, $ruleValidate, $validateCode;
-  if ($isData && $rDef.$data) {
-    $validateCode = 'keywordValidate' + $lvl;
-    var $validateSchema = $rDef.validateSchema;
-    out += ' var ' + ($definition) + ' = RULES.custom[\'' + ($keyword) + '\'].definition; var ' + ($validateCode) + ' = ' + ($definition) + '.validate;';
-  } else {
-    $ruleValidate = it.useCustomRule($rule, $schema, it.schema, it);
-    if (!$ruleValidate) return;
-    $schemaValue = 'validate.schema' + $schemaPath;
-    $validateCode = $ruleValidate.code;
-    $compile = $rDef.compile;
-    $inline = $rDef.inline;
-    $macro = $rDef.macro;
-  }
-  var $ruleErrs = $validateCode + '.errors',
-    $i = 'i' + $lvl,
-    $ruleErr = 'ruleErr' + $lvl,
-    $asyncKeyword = $rDef.async;
-  if ($asyncKeyword && !it.async) throw new Error('async keyword in sync schema');
-  if (!($inline || $macro)) {
-    out += '' + ($ruleErrs) + ' = null;';
-  }
-  out += 'var ' + ($errs) + ' = errors;var ' + ($valid) + ';';
-  if ($isData && $rDef.$data) {
-    $closingBraces += '}';
-    out += ' if (' + ($schemaValue) + ' === undefined) { ' + ($valid) + ' = true; } else { ';
-    if ($validateSchema) {
-      $closingBraces += '}';
-      out += ' ' + ($valid) + ' = ' + ($definition) + '.validateSchema(' + ($schemaValue) + '); if (' + ($valid) + ') { ';
-    }
-  }
-  if ($inline) {
-    if ($rDef.statements) {
-      out += ' ' + ($ruleValidate.validate) + ' ';
-    } else {
-      out += ' ' + ($valid) + ' = ' + ($ruleValidate.validate) + '; ';
-    }
-  } else if ($macro) {
-    var $it = it.util.copy(it);
-    var $closingBraces = '';
-    $it.level++;
-    var $nextValid = 'valid' + $it.level;
-    $it.schema = $ruleValidate.validate;
-    $it.schemaPath = '';
-    var $wasComposite = it.compositeRule;
-    it.compositeRule = $it.compositeRule = true;
-    var $code = it.validate($it).replace(/validate\.schema/g, $validateCode);
-    it.compositeRule = $it.compositeRule = $wasComposite;
-    out += ' ' + ($code);
-  } else {
-    var $$outStack = $$outStack || [];
-    $$outStack.push(out);
-    out = '';
-    out += '  ' + ($validateCode) + '.call( ';
-    if (it.opts.passContext) {
-      out += 'this';
-    } else {
-      out += 'self';
-    }
-    if ($compile || $rDef.schema === false) {
-      out += ' , ' + ($data) + ' ';
-    } else {
-      out += ' , ' + ($schemaValue) + ' , ' + ($data) + ' , validate.schema' + (it.schemaPath) + ' ';
-    }
-    out += ' , (dataPath || \'\')';
-    if (it.errorPath != '""') {
-      out += ' + ' + (it.errorPath);
-    }
-    var $parentData = $dataLvl ? 'data' + (($dataLvl - 1) || '') : 'parentData',
-      $parentDataProperty = $dataLvl ? it.dataPathArr[$dataLvl] : 'parentDataProperty';
-    out += ' , ' + ($parentData) + ' , ' + ($parentDataProperty) + ' , rootData )  ';
-    var def_callRuleValidate = out;
-    out = $$outStack.pop();
-    if ($rDef.errors === false) {
-      out += ' ' + ($valid) + ' = ';
-      if ($asyncKeyword) {
-        out += '' + (it.yieldAwait);
-      }
-      out += '' + (def_callRuleValidate) + '; ';
-    } else {
-      if ($asyncKeyword) {
-        $ruleErrs = 'customErrors' + $lvl;
-        out += ' var ' + ($ruleErrs) + ' = null; try { ' + ($valid) + ' = ' + (it.yieldAwait) + (def_callRuleValidate) + '; } catch (e) { ' + ($valid) + ' = false; if (e instanceof ValidationError) ' + ($ruleErrs) + ' = e.errors; else throw e; } ';
-      } else {
-        out += ' ' + ($ruleErrs) + ' = null; ' + ($valid) + ' = ' + (def_callRuleValidate) + '; ';
-      }
-    }
-  }
-  if ($rDef.modifying) {
-    out += ' if (' + ($parentData) + ') ' + ($data) + ' = ' + ($parentData) + '[' + ($parentDataProperty) + '];';
-  }
-  out += '' + ($closingBraces);
-  if ($rDef.valid) {
-    if ($breakOnError) {
-      out += ' if (true) { ';
-    }
-  } else {
-    out += ' if ( ';
-    if ($rDef.valid === undefined) {
-      out += ' !';
-      if ($macro) {
-        out += '' + ($nextValid);
-      } else {
-        out += '' + ($valid);
-      }
-    } else {
-      out += ' ' + (!$rDef.valid) + ' ';
-    }
-    out += ') { ';
-    $errorKeyword = $rule.keyword;
-    var $$outStack = $$outStack || [];
-    $$outStack.push(out);
-    out = '';
-    var $$outStack = $$outStack || [];
-    $$outStack.push(out);
-    out = ''; /* istanbul ignore else */
-    if (it.createErrors !== false) {
-      out += ' { keyword: \'' + ($errorKeyword || 'custom') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { keyword: \'' + ($rule.keyword) + '\' } ';
-      if (it.opts.messages !== false) {
-        out += ' , message: \'should pass "' + ($rule.keyword) + '" keyword validation\' ';
-      }
-      if (it.opts.verbose) {
-        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-      }
-      out += ' } ';
-    } else {
-      out += ' {} ';
-    }
-    var __err = out;
-    out = $$outStack.pop();
-    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-      if (it.async) {
-        out += ' throw new ValidationError([' + (__err) + ']); ';
-      } else {
-        out += ' validate.errors = [' + (__err) + ']; return false; ';
-      }
-    } else {
-      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-    }
-    var def_customError = out;
-    out = $$outStack.pop();
-    if ($inline) {
-      if ($rDef.errors) {
-        if ($rDef.errors != 'full') {
-          out += '  for (var ' + ($i) + '=' + ($errs) + '; ' + ($i) + '<errors; ' + ($i) + '++) { var ' + ($ruleErr) + ' = vErrors[' + ($i) + ']; if (' + ($ruleErr) + '.dataPath === undefined) ' + ($ruleErr) + '.dataPath = (dataPath || \'\') + ' + (it.errorPath) + '; if (' + ($ruleErr) + '.schemaPath === undefined) { ' + ($ruleErr) + '.schemaPath = "' + ($errSchemaPath) + '"; } ';
-          if (it.opts.verbose) {
-            out += ' ' + ($ruleErr) + '.schema = ' + ($schemaValue) + '; ' + ($ruleErr) + '.data = ' + ($data) + '; ';
-          }
-          out += ' } ';
-        }
-      } else {
-        if ($rDef.errors === false) {
-          out += ' ' + (def_customError) + ' ';
-        } else {
-          out += ' if (' + ($errs) + ' == errors) { ' + (def_customError) + ' } else {  for (var ' + ($i) + '=' + ($errs) + '; ' + ($i) + '<errors; ' + ($i) + '++) { var ' + ($ruleErr) + ' = vErrors[' + ($i) + ']; if (' + ($ruleErr) + '.dataPath === undefined) ' + ($ruleErr) + '.dataPath = (dataPath || \'\') + ' + (it.errorPath) + '; if (' + ($ruleErr) + '.schemaPath === undefined) { ' + ($ruleErr) + '.schemaPath = "' + ($errSchemaPath) + '"; } ';
-          if (it.opts.verbose) {
-            out += ' ' + ($ruleErr) + '.schema = ' + ($schemaValue) + '; ' + ($ruleErr) + '.data = ' + ($data) + '; ';
-          }
-          out += ' } } ';
-        }
-      }
-    } else if ($macro) {
-      out += '   var err =   '; /* istanbul ignore else */
-      if (it.createErrors !== false) {
-        out += ' { keyword: \'' + ($errorKeyword || 'custom') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { keyword: \'' + ($rule.keyword) + '\' } ';
-        if (it.opts.messages !== false) {
-          out += ' , message: \'should pass "' + ($rule.keyword) + '" keyword validation\' ';
-        }
-        if (it.opts.verbose) {
-          out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
-        }
-        out += ' } ';
-      } else {
-        out += ' {} ';
-      }
-      out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
-      if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
-        if (it.async) {
-          out += ' throw new ValidationError(vErrors); ';
-        } else {
-          out += ' validate.errors = vErrors; return false; ';
-        }
-      }
-    } else {
-      if ($rDef.errors === false) {
-        out += ' ' + (def_customError) + ' ';
-      } else {
-        out += ' if (Array.isArray(' + ($ruleErrs) + ')) { if (vErrors === null) vErrors = ' + ($ruleErrs) + '; else vErrors = vErrors.concat(' + ($ruleErrs) + '); errors = vErrors.length;  for (var ' + ($i) + '=' + ($errs) + '; ' + ($i) + '<errors; ' + ($i) + '++) { var ' + ($ruleErr) + ' = vErrors[' + ($i) + ']; if (' + ($ruleErr) + '.dataPath === undefined) ' + ($ruleErr) + '.dataPath = (dataPath || \'\') + ' + (it.errorPath) + ';  ' + ($ruleErr) + '.schemaPath = "' + ($errSchemaPath) + '";  ';
-        if (it.opts.verbose) {
-          out += ' ' + ($ruleErr) + '.schema = ' + ($schemaValue) + '; ' + ($ruleErr) + '.data = ' + ($data) + '; ';
-        }
-        out += ' } } else { ' + (def_customError) + ' } ';
-      }
-    }
-    out += ' } ';
-    if ($breakOnError) {
-      out += ' else { ';
-    }
-  }
-  return out;
-}
-
-
-/***/ }),
-/* 609 */
-/***/ (function(module, exports) {
-
-module.exports = {"$schema":"http://json-schema.org/draft-06/schema#","$id":"https://raw.githubusercontent.com/epoberezkin/ajv/master/lib/refs/$data.json#","description":"Meta-schema for $data reference (JSON-schema extension proposal)","type":"object","required":["$data"],"properties":{"$data":{"type":"string","anyOf":[{"format":"relative-json-pointer"},{"format":"json-pointer"}]}},"additionalProperties":false}
-
-/***/ }),
-/* 610 */
-/***/ (function(module, exports) {
-
-module.exports = {"$schema":"http://json-schema.org/draft-06/schema#","$id":"http://json-schema.org/draft-06/schema#","title":"Core schema meta-schema","definitions":{"schemaArray":{"type":"array","minItems":1,"items":{"$ref":"#"}},"nonNegativeInteger":{"type":"integer","minimum":0},"nonNegativeIntegerDefault0":{"allOf":[{"$ref":"#/definitions/nonNegativeInteger"},{"default":0}]},"simpleTypes":{"enum":["array","boolean","integer","null","number","object","string"]},"stringArray":{"type":"array","items":{"type":"string"},"uniqueItems":true,"default":[]}},"type":["object","boolean"],"properties":{"$id":{"type":"string","format":"uri-reference"},"$schema":{"type":"string","format":"uri"},"$ref":{"type":"string","format":"uri-reference"},"title":{"type":"string"},"description":{"type":"string"},"default":{},"multipleOf":{"type":"number","exclusiveMinimum":0},"maximum":{"type":"number"},"exclusiveMaximum":{"type":"number"},"minimum":{"type":"number"},"exclusiveMinimum":{"type":"number"},"maxLength":{"$ref":"#/definitions/nonNegativeInteger"},"minLength":{"$ref":"#/definitions/nonNegativeIntegerDefault0"},"pattern":{"type":"string","format":"regex"},"additionalItems":{"$ref":"#"},"items":{"anyOf":[{"$ref":"#"},{"$ref":"#/definitions/schemaArray"}],"default":{}},"maxItems":{"$ref":"#/definitions/nonNegativeInteger"},"minItems":{"$ref":"#/definitions/nonNegativeIntegerDefault0"},"uniqueItems":{"type":"boolean","default":false},"contains":{"$ref":"#"},"maxProperties":{"$ref":"#/definitions/nonNegativeInteger"},"minProperties":{"$ref":"#/definitions/nonNegativeIntegerDefault0"},"required":{"$ref":"#/definitions/stringArray"},"additionalProperties":{"$ref":"#"},"definitions":{"type":"object","additionalProperties":{"$ref":"#"},"default":{}},"properties":{"type":"object","additionalProperties":{"$ref":"#"},"default":{}},"patternProperties":{"type":"object","additionalProperties":{"$ref":"#"},"default":{}},"dependencies":{"type":"object","additionalProperties":{"anyOf":[{"$ref":"#"},{"$ref":"#/definitions/stringArray"}]}},"propertyNames":{"$ref":"#"},"const":{},"enum":{"type":"array","minItems":1,"uniqueItems":true},"type":{"anyOf":[{"$ref":"#/definitions/simpleTypes"},{"type":"array","items":{"$ref":"#/definitions/simpleTypes"},"minItems":1,"uniqueItems":true}]},"format":{"type":"string"},"allOf":{"$ref":"#/definitions/schemaArray"},"anyOf":{"$ref":"#/definitions/schemaArray"},"oneOf":{"$ref":"#/definitions/schemaArray"},"not":{"$ref":"#"}},"default":{}}
-
-/***/ }),
-/* 611 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("div", { staticClass: "panel panel-default" }, [
-        _c("div", { staticClass: "panel-heading" }, [
-          _vm._v(
-            "\n\t\t\t" + _vm._s(_vm.ucfirstWords(_vm.name)) + " Editor\n\t\t"
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "panel-body" }, [
-          _c("div", { staticClass: "row" }, [
-            _c(
-              "div",
-              { staticClass: "col-md-6" },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass: "json-container form-group",
-                    class: {
-                      "has-error": _vm.newJson && !_vm.isSchemaValid,
-                      "has-success": _vm.newJson && _vm.isSchemaValid
-                    }
-                  },
-                  [
-                    _c(
-                      "label",
-                      { staticClass: "control-label containing-label" },
-                      [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t\tNew " +
-                            _vm._s(_vm.name) +
-                            "\n\t\t\t\t\t\t\t"
-                        ),
-                        _c("textarea", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model.lazy",
-                              value: _vm.newJson,
-                              expression: "newJson",
-                              modifiers: { lazy: true }
-                            }
-                          ],
-                          staticClass: "input-json form-control",
-                          domProps: { value: _vm.newJson },
-                          on: {
-                            change: function($event) {
-                              _vm.newJson = $event.target.value
-                            }
-                          }
-                        })
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _vm.newJson && !_vm.isSchemaValid
-                      ? _c(
-                          "ul",
-                          { staticClass: "help-block" },
-                          _vm._l(_vm.schemaErrors, function(error) {
-                            return _c("li", [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\t\t" +
-                                  _vm._s(_vm.ucfirst(error.message)) +
-                                  "\n\t\t\t\t\t\t\t"
-                              )
-                            ])
-                          })
-                        )
-                      : _vm.newJson && _vm.isSchemaValid
-                        ? _c("span", { staticClass: "help-block" }, [
-                            _vm._v(
-                              "\n\t\t\t\t\t\t\t" +
-                                _vm._s(_vm.ucfirst(_vm.name)) +
-                                " valid!\n\t\t\t\t\t\t"
-                            )
-                          ])
-                        : _vm._e()
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "show-hide-button",
-                  {
-                    model: {
-                      value: _vm.show.schema,
-                      callback: function($$v) {
-                        _vm.show.schema = $$v
-                      },
-                      expression: "show.schema"
-                    }
-                  },
-                  [_vm._v("\n\t\t\t\t\t\tschema\n\t\t\t\t\t")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-info",
-                    attrs: { type: "button", disabled: !_vm.newJsonObject },
-                    on: { click: _vm.formatJson }
-                  },
-                  [_vm._v("\n\t\t\t\t\t\tFormat JSON\n\t\t\t\t\t")]
-                ),
-                _vm._v(" "),
-                _vm.show.schema
-                  ? _c("div", { staticClass: "json-container" }, [
-                      _c(
-                        "label",
-                        { staticClass: "containing-label control-label" },
-                        [
-                          _vm._v("\n\t\t\t\t\t\t\tSchema\n\t\t\t\t\t\t\t"),
-                          _c("textarea", {
-                            staticClass: "schema-json form-control",
-                            attrs: { readonly: "" },
-                            domProps: { value: _vm.schema }
-                          })
-                        ]
-                      )
-                    ])
-                  : _vm._e()
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
-              _c("div", { staticClass: "json-container" }, [
-                _c("label", { staticClass: "containing-label control-label" }, [
-                  _vm._v(
-                    "\n\t\t\t\t\t\t\tCurrent " +
-                      _vm._s(_vm.name) +
-                      "\n\t\t\t\t\t\t\t"
-                  ),
-                  _c("textarea", {
-                    staticClass: "previous-json form-control",
-                    attrs: { readonly: "" },
-                    domProps: { value: _vm.previousJson }
-                  })
-                ])
-              ])
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("alert-list", {
-        model: {
-          value: _vm.alerts,
-          callback: function($$v) {
-            _vm.alerts = $$v
-          },
-          expression: "alerts"
-        }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "btn-lg-submit-container" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-lg btn-primary",
-            attrs: { type: "button", disabled: !_vm.isSchemaValid },
-            on: { click: _vm.submitJson }
-          },
-          [_vm._v("\n\t\t\tSubmit\n\t\t")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-lg btn-default",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                _vm.$emit("close")
-              }
-            }
-          },
-          [_vm._v("\n\t\t\tClose\n\t\t")]
-        )
-      ])
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-227f018b", esExports)
-  }
-}
-
-/***/ }),
-/* 612 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormListItem_vue__ = __webpack_require__(614);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3c839864_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_FormListItem_vue__ = __webpack_require__(615);
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(613)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-3c839864"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_FormListItem_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3c839864_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_FormListItem_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/vue-components/Manage/Merit/FormListItem.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FormListItem.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3c839864", Component.options)
-  } else {
-    hotAPI.reload("data-v-3c839864", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 613 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 614 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__ = __webpack_require__(21);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-	props: {
-		forms: {
-			type: Array,
-			required: true
-		}
-	},
-
-	computed: {
-		currentForm: function currentForm() {
-			return this.forms[0];
-		}
-	},
-
-	methods: {
-		handleClick: function handleClick() {
-			this.$emit('click');
-		}
-	},
-
-	components: {
-		ConfirmationButton: __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__["a" /* default */]
-	}
-});
-
-/***/ }),
-/* 615 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "merit-form-list-item" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-sm-6 name-cell" }, [
-        _c("span", { staticClass: "name" }, [
-          _vm._v(_vm._s(_vm.currentForm.name))
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-3 version-cell" }, [
-        _c("small", [_vm._v("Version")]),
-        _vm._v(" "),
-        _c("span", [_vm._v(_vm._s(_vm.currentForm.version))])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "col-sm-3 controls-cell text-right" },
-        [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-sm btn-info",
-              attrs: { type: "button" },
-              on: { click: _vm.handleClick }
-            },
-            [
-              _c("span", { staticClass: "glyphicon glyphicon-pencil" }),
-              _vm._v("\n\t\t\t\tView / edit\n\t\t\t")
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "confirmation-button",
-            {
-              staticClass: "btn btn-sm btn-danger",
-              attrs: { "pressed-class": "btn btn-sm btn-warning" },
-              on: {
-                click: function($event) {
-                  _vm.$emit("delete")
-                }
-              }
-            },
-            [
-              _c("span", { staticClass: "glyphicon glyphicon-remove" }),
-              _vm._v("\n\t\t\t\tDelete\n\t\t\t\t\n\t\t\t\t"),
-              _c("template", { attrs: { slot: "pressed" }, slot: "pressed" }, [
-                _c("span", { staticClass: "glyphicon glyphicon-trash" }),
-                _vm._v("\n\t\t\t\t\tConfirm delete\n\t\t\t\t")
-              ])
-            ],
-            2
-          )
-        ],
-        1
-      )
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3c839864", esExports)
-  }
-}
-
-/***/ }),
-/* 616 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49481,9 +43158,9 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(160);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_Manage_Alumni_vue__ = __webpack_require__(617);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Alumni_Edit_vue__ = __webpack_require__(305);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_Alumni_Import_vue__ = __webpack_require__(624);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_Manage_Alumni_vue__ = __webpack_require__(565);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Alumni_Edit_vue__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_Alumni_Import_vue__ = __webpack_require__(575);
 
 
 
@@ -49512,18 +43189,20 @@ function createAlumni(el) {
 }
 
 /***/ }),
-/* 617 */
+/* 565 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Alumni_vue__ = __webpack_require__(618);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_14bed243_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_Alumni_vue__ = __webpack_require__(623);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Alumni_vue__ = __webpack_require__(566);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_14bed243_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Alumni_vue__ = __webpack_require__(574);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -49531,15 +43210,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Alumni_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_14bed243_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_Alumni_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Alumni_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_14bed243_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Alumni_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/Manage/Alumni.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Alumni.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -49551,7 +43230,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-14bed243", Component.options)
   } else {
     hotAPI.reload("data-v-14bed243", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -49561,16 +43240,16 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 618 */
+/* 566 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ComponentList_vue__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ComponentList_vue__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue__ = __webpack_require__(216);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Alumni_AlumniListItem_vue__ = __webpack_require__(619);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Alumni_AlumniListItem_vue__ = __webpack_require__(567);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_dom_utils_js__ = __webpack_require__(218);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(1);
 //
@@ -49693,9 +43372,9 @@ if (false) {(function () {
 
 			fetch('/alumni', {
 				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["m" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["s" /* jsonOrThrow */]).then(function (alumni) {
+			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["t" /* jsonOrThrow */]).then(function (alumni) {
 				_this.alumni = alumni;
 			}).catch(function (err) {
 				console.error(err);
@@ -49734,12 +43413,12 @@ if (false) {(function () {
 
 			fetch('/alumni/' + alum.id, {
 				method: 'POST', // DELETE
-				headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["m" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					_method: 'DELETE'
 				})
-			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["v" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["w" /* okOrThrow */]).then(function () {
 				_this2.fetchAlumni();
 			}).catch(function (err) {
 				console.error(err);
@@ -49763,22 +43442,24 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 619 */
+/* 567 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AlumniListItem_vue__ = __webpack_require__(621);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8313b90a_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_AlumniListItem_vue__ = __webpack_require__(622);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AlumniListItem_vue__ = __webpack_require__(569);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8313b90a_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AlumniListItem_vue__ = __webpack_require__(573);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(620)
+  __webpack_require__(568)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -49786,15 +43467,15 @@ var __vue_scopeId__ = "data-v-8313b90a"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AlumniListItem_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8313b90a_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_AlumniListItem_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AlumniListItem_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8313b90a_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AlumniListItem_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/Alumni/AlumniListItem.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] AlumniListItem.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -49806,7 +43487,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-8313b90a", Component.options)
   } else {
     hotAPI.reload("data-v-8313b90a", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -49816,13 +43497,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 620 */
+/* 568 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 621 */
+/* 569 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49830,7 +43511,7 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ConfirmationButton_vue__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__RichDate_vue__ = __webpack_require__(292);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__ = __webpack_require__(51);
 //
 //
 //
@@ -49925,7 +43606,107 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 622 */
+/* 570 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 571 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_date_utils_js__ = __webpack_require__(8);
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		date: {
+			type: [String, Date, Object],
+			required: false
+		},
+		time: {
+			type: Boolean,
+			default: false
+		}
+	},
+	data: function data() {
+		return {
+			hovered: false
+		};
+	},
+	mounted: function mounted() {
+		this.$refs.container.addEventListener('mouseenter', this.handleMouseEnter);
+
+		this.$refs.container.addEventListener('mouseleave', this.handleMouseLeave);
+	},
+
+
+	computed: {
+		dateString: function dateString() {
+			if (!this.date) return '';
+
+			if (this.time) {
+				return this.hovered ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.date).format('ll LT') : Object(__WEBPACK_IMPORTED_MODULE_1__modules_date_utils_js__["renderDateTime"])(this.date);
+			}
+
+			return this.hovered ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.date).format('ll') : Object(__WEBPACK_IMPORTED_MODULE_1__modules_date_utils_js__["renderDate"])(this.date);
+		}
+	},
+
+	methods: {
+		handleMouseEnter: function handleMouseEnter() {
+			this.hovered = true;
+		},
+		handleMouseLeave: function handleMouseLeave() {
+			this.hovered = false;
+		}
+	},
+
+	beforeDestroy: function beforeDestroy() {
+		this.$refs.container.removeEventListener('mouseenter', this.handleMouseEnter);
+
+		this.$refs.container.removeEventListener('mouseleave', this.handleMouseLeave);
+	}
+});
+
+/***/ }),
+/* 572 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", { ref: "container" }, [
+    _vm._v("\n\t" + _vm._s(_vm.dateString) + "\n")
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1443b082", esExports)
+  }
+}
+
+/***/ }),
+/* 573 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -50043,12 +43824,12 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-8313b90a", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-8313b90a", esExports)
   }
 }
 
 /***/ }),
-/* 623 */
+/* 574 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -50210,27 +43991,29 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-14bed243", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-14bed243", esExports)
   }
 }
 
 /***/ }),
-/* 624 */
+/* 575 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Import_vue__ = __webpack_require__(626);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4e330431_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_Import_vue__ = __webpack_require__(627);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Import_vue__ = __webpack_require__(577);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4e330431_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Import_vue__ = __webpack_require__(578);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(625)
+  __webpack_require__(576)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -50238,15 +44021,15 @@ var __vue_scopeId__ = "data-v-4e330431"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Import_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4e330431_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_Import_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Import_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4e330431_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Import_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/Alumni/Import.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Import.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -50258,7 +44041,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-4e330431", Component.options)
   } else {
     hotAPI.reload("data-v-4e330431", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -50268,18 +44051,18 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 625 */
+/* 576 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 626 */
+/* 577 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ComponentList_vue__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ComponentList_vue__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ConfirmationButton_vue__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(8);
@@ -50566,9 +44349,9 @@ if (false) {(function () {
 
 			fetch('/users?' + query, {
 				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* jsonOrThrow */]).then(function (users) {
+			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (users) {
 				_this4.residents = users;
 			}).catch(function (err) {
 				console.error(err);
@@ -50588,9 +44371,9 @@ if (false) {(function () {
 
 			fetch('/users?' + query, {
 				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* jsonOrThrow */]).then(function (users) {
+			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (users) {
 				_this5.fellows = users;
 			}).catch(function (err) {
 				console.error(err);
@@ -50609,9 +44392,9 @@ if (false) {(function () {
 
 			fetch('/users?' + query, {
 				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* jsonOrThrow */]).then(function (users) {
+			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (users) {
 				_this6.faculty = users;
 			}).catch(function (err) {
 				console.error(err);
@@ -50626,13 +44409,13 @@ if (false) {(function () {
 
 			fetch('/alumni/import/users', {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					users: this.usersToImport,
 					graduation_date: this.graduationDate
 				})
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* jsonOrThrow */]).then(function (response) {
+			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (response) {
 				if (response.successes && response.successes.length > 0) {
 					var lis = response.successes.map(function (userId) {
 						var user = _this7.selectedUsers.find(function (user) {
@@ -50696,7 +44479,7 @@ if (false) {(function () {
 });
 
 /***/ }),
-/* 627 */
+/* 578 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -51250,20 +45033,6525 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4e330431", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-4e330431", esExports)
   }
 }
+
+/***/ }),
+/* 579 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = createManageCaseLogs;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ConfirmationButton_vue__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_ComponentList_vue__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_JsonSchemaEditor_vue__ = __webpack_require__(334);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Location_AddEdit_vue__ = __webpack_require__(833);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(1);
+
+
+
+
+
+
+
+
+
+
+
+function createManageCaseLogs(el, propsData) {
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		mixins: [__WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__["a" /* default */]],
+		el: el,
+		props: {
+			detailsSchemas: {
+				type: Object,
+				required: true
+			}
+		},
+		propsData: propsData,
+		data: function data() {
+			return {
+				locations: null,
+				locationBeingEdited: null
+			};
+		},
+
+
+		computed: {},
+
+		mounted: function mounted() {
+			this.fetchLocations();
+		},
+
+
+		methods: {
+			fetchLocations: function fetchLocations() {
+				var _this = this;
+
+				fetch('/locations', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["f" /* fetchConfig */])())).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["t" /* jsonOrThrow */]).then(function (locations) {
+					_this.locations = locations;
+				}).catch(function (err) {
+					console.error(err);
+					_this.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem fetching locations'
+					});
+				});
+			},
+			addLocation: function addLocation() {
+				this.locationBeingEdited = {};
+			},
+			editLocation: function editLocation(location) {
+				this.locationBeingEdited = location;
+			},
+			handleLocationSubmit: function handleLocationSubmit() {
+				this.locationBeingEdited = null;
+				this.fetchLocations();
+			},
+			deleteLocation: function deleteLocation(location) {
+				var _this2 = this;
+
+				fetch('/locations/' + location.id, Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["f" /* fetchConfig */])(), {
+					method: 'POST', // DELETE
+					body: JSON.stringify({
+						_method: 'DELETE'
+					})
+				})).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+					_this2.fetchLocations();
+				}).catch(function (err) {
+					console.error(err);
+					_this2.alerts.push(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["x" /* simpleErrorAlert */])('There was a problem deleting the location'));
+				});
+			},
+			handleSchemaSubmit: function handleSchemaSubmit(detailsType, schema) {
+				var _this3 = this;
+
+				fetch('/case_log_details_schemas', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["f" /* fetchConfig */])(), {
+					method: 'POST',
+					body: JSON.stringify({
+						details_type: detailsType,
+						schema: schema
+					})
+				})).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["w" /* okOrThrow */]).then(function () {}).catch(function (err) {
+					console.error(err);
+					_this3.alerts.push(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["x" /* simpleErrorAlert */])('There was a problem updating the schema'));
+				});
+			}
+		},
+
+		components: {
+			ConfirmationButton: __WEBPACK_IMPORTED_MODULE_2__vue_components_ConfirmationButton_vue__["a" /* default */],
+			ComponentList: __WEBPACK_IMPORTED_MODULE_3__vue_components_ComponentList_vue__["a" /* default */],
+			JsonSchemaEditor: __WEBPACK_IMPORTED_MODULE_4__vue_components_JsonSchemaEditor_vue__["a" /* default */],
+			AddEditLocation: __WEBPACK_IMPORTED_MODULE_5__vue_components_Location_AddEdit_vue__["a" /* default */]
+		}
+	});
+}
+
+/***/ }),
+/* 580 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 581 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AlertList_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ajv__ = __webpack_require__(582);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ajv___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ajv__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(1);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		schemaId: {
+			type: String,
+			required: true
+		},
+		schemaUrls: {
+			type: Array,
+			required: true
+		},
+		name: {
+			type: String,
+			default: 'JSON'
+		},
+		pastValues: {
+			type: Array,
+			default: []
+		},
+		formProp: {
+			type: String,
+			default: 'form'
+		},
+		closeable: {
+			type: Boolean,
+			default: true
+		}
+	},
+	data: function data() {
+		return {
+			newJson: null,
+			alerts: []
+		};
+	},
+	mounted: function mounted() {
+		this.fetchSchemas();
+	},
+
+
+	computed: {
+		previousJson: function previousJson() {
+			if (this.pastValues && this.pastValues.length > 0) return this.pastValues[0][this.formProp];
+		},
+		newJsonObject: function newJsonObject() {
+			try {
+				return JSON.parse(this.newJson);
+			} catch (err) {
+				console.error(err);
+			}
+		},
+		schemaErrors: function schemaErrors() {
+			if (this.newJson && !this.newJsonObject) return [{
+				message: 'Input is not valid JSON'
+			}];
+
+			if (this.newJsonObject && this.schemaValidator) return this.schemaValidator.errors;
+
+			return [];
+		},
+		isSchemaValid: function isSchemaValid() {
+			if (this.newJsonObject && this.schemaValidator) return this.schemaValidator(this.newJsonObject);
+
+			return false;
+		}
+	},
+
+	methods: {
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["H" /* ucfirst */],
+		ucfirstWords: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["I" /* ucfirstWords */],
+		fetchSchemas: function fetchSchemas() {
+			var _this = this;
+
+			Promise.all(this.schemaUrls.map(function (url) {
+				return fetch(url).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["t" /* jsonOrThrow */]);
+			})).then(function (schemas) {
+				var ajv = new __WEBPACK_IMPORTED_MODULE_2_ajv___default.a({
+					allErrors: true
+				});
+
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = schemas[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var schema = _step.value;
+
+						ajv.addSchema(schema);
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				_this.schemaValidator = ajv.getSchema(_this.schemaId);
+			}).catch(function (err) {
+				console.error(err);
+				_this.alerts.push({
+					type: 'error',
+					html: '<strong>Error:</strong> There was a problem fetching the schema'
+				});
+			});
+		},
+		formatJson: function formatJson() {
+			if (this.newJsonObject) this.newJson = JSON.stringify(this.newJsonObject, null, 4);
+		},
+		submitJson: function submitJson() {
+			this.$emit('submit', this.newJson);
+		}
+	},
+
+	components: {
+		AlertList: __WEBPACK_IMPORTED_MODULE_0__AlertList_vue__["a" /* default */],
+		ShowHideButton: __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__["a" /* default */]
+	}
+});
+
+/***/ }),
+/* 582 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var compileSchema = __webpack_require__(583)
+  , resolve = __webpack_require__(297)
+  , Cache = __webpack_require__(589)
+  , SchemaObject = __webpack_require__(335)
+  , stableStringify = __webpack_require__(336)
+  , formats = __webpack_require__(590)
+  , rules = __webpack_require__(591)
+  , $dataMetaSchema = __webpack_require__(610)
+  , patternGroups = __webpack_require__(611)
+  , util = __webpack_require__(163)
+  , co = __webpack_require__(338);
+
+module.exports = Ajv;
+
+Ajv.prototype.validate = validate;
+Ajv.prototype.compile = compile;
+Ajv.prototype.addSchema = addSchema;
+Ajv.prototype.addMetaSchema = addMetaSchema;
+Ajv.prototype.validateSchema = validateSchema;
+Ajv.prototype.getSchema = getSchema;
+Ajv.prototype.removeSchema = removeSchema;
+Ajv.prototype.addFormat = addFormat;
+Ajv.prototype.errorsText = errorsText;
+
+Ajv.prototype._addSchema = _addSchema;
+Ajv.prototype._compile = _compile;
+
+Ajv.prototype.compileAsync = __webpack_require__(612);
+var customKeyword = __webpack_require__(613);
+Ajv.prototype.addKeyword = customKeyword.add;
+Ajv.prototype.getKeyword = customKeyword.get;
+Ajv.prototype.removeKeyword = customKeyword.remove;
+
+var errorClasses = __webpack_require__(299);
+Ajv.ValidationError = errorClasses.Validation;
+Ajv.MissingRefError = errorClasses.MissingRef;
+Ajv.$dataMetaSchema = $dataMetaSchema;
+
+var META_SCHEMA_ID = 'http://json-schema.org/draft-06/schema';
+
+var META_IGNORE_OPTIONS = [ 'removeAdditional', 'useDefaults', 'coerceTypes' ];
+var META_SUPPORT_DATA = ['/properties'];
+
+/**
+ * Creates validator instance.
+ * Usage: `Ajv(opts)`
+ * @param {Object} opts optional options
+ * @return {Object} ajv instance
+ */
+function Ajv(opts) {
+  if (!(this instanceof Ajv)) return new Ajv(opts);
+  opts = this._opts = util.copy(opts) || {};
+  this._schemas = {};
+  this._refs = {};
+  this._fragments = {};
+  this._formats = formats(opts.format);
+  var schemaUriFormat = this._schemaUriFormat = this._formats['uri-reference'];
+  this._schemaUriFormatFunc = function (str) { return schemaUriFormat.test(str); };
+
+  this._cache = opts.cache || new Cache;
+  this._loadingSchemas = {};
+  this._compilations = [];
+  this.RULES = rules();
+  this._getId = chooseGetId(opts);
+
+  opts.loopRequired = opts.loopRequired || Infinity;
+  if (opts.errorDataPath == 'property') opts._errorDataPathProperty = true;
+  if (opts.serialize === undefined) opts.serialize = stableStringify;
+  this._metaOpts = getMetaSchemaOptions(this);
+
+  if (opts.formats) addInitialFormats(this);
+  addDraft6MetaSchema(this);
+  if (typeof opts.meta == 'object') this.addMetaSchema(opts.meta);
+  addInitialSchemas(this);
+  if (opts.patternGroups) patternGroups(this);
+}
+
+
+
+/**
+ * Validate data using schema
+ * Schema will be compiled and cached (using serialized JSON as key. [json-stable-stringify](https://github.com/substack/json-stable-stringify) is used to serialize.
+ * @this   Ajv
+ * @param  {String|Object} schemaKeyRef key, ref or schema object
+ * @param  {Any} data to be validated
+ * @return {Boolean} validation result. Errors from the last validation will be available in `ajv.errors` (and also in compiled schema: `schema.errors`).
+ */
+function validate(schemaKeyRef, data) {
+  var v;
+  if (typeof schemaKeyRef == 'string') {
+    v = this.getSchema(schemaKeyRef);
+    if (!v) throw new Error('no schema with key or ref "' + schemaKeyRef + '"');
+  } else {
+    var schemaObj = this._addSchema(schemaKeyRef);
+    v = schemaObj.validate || this._compile(schemaObj);
+  }
+
+  var valid = v(data);
+  if (v.$async === true)
+    return this._opts.async == '*' ? co(valid) : valid;
+  this.errors = v.errors;
+  return valid;
+}
+
+
+/**
+ * Create validating function for passed schema.
+ * @this   Ajv
+ * @param  {Object} schema schema object
+ * @param  {Boolean} _meta true if schema is a meta-schema. Used internally to compile meta schemas of custom keywords.
+ * @return {Function} validating function
+ */
+function compile(schema, _meta) {
+  var schemaObj = this._addSchema(schema, undefined, _meta);
+  return schemaObj.validate || this._compile(schemaObj);
+}
+
+
+/**
+ * Adds schema to the instance.
+ * @this   Ajv
+ * @param {Object|Array} schema schema or array of schemas. If array is passed, `key` and other parameters will be ignored.
+ * @param {String} key Optional schema key. Can be passed to `validate` method instead of schema object or id/ref. One schema per instance can have empty `id` and `key`.
+ * @param {Boolean} _skipValidation true to skip schema validation. Used internally, option validateSchema should be used instead.
+ * @param {Boolean} _meta true if schema is a meta-schema. Used internally, addMetaSchema should be used instead.
+ */
+function addSchema(schema, key, _skipValidation, _meta) {
+  if (Array.isArray(schema)){
+    for (var i=0; i<schema.length; i++) this.addSchema(schema[i], undefined, _skipValidation, _meta);
+    return;
+  }
+  var id = this._getId(schema);
+  if (id !== undefined && typeof id != 'string')
+    throw new Error('schema id must be string');
+  key = resolve.normalizeId(key || id);
+  checkUnique(this, key);
+  this._schemas[key] = this._addSchema(schema, _skipValidation, _meta, true);
+}
+
+
+/**
+ * Add schema that will be used to validate other schemas
+ * options in META_IGNORE_OPTIONS are alway set to false
+ * @this   Ajv
+ * @param {Object} schema schema object
+ * @param {String} key optional schema key
+ * @param {Boolean} skipValidation true to skip schema validation, can be used to override validateSchema option for meta-schema
+ */
+function addMetaSchema(schema, key, skipValidation) {
+  this.addSchema(schema, key, skipValidation, true);
+}
+
+
+/**
+ * Validate schema
+ * @this   Ajv
+ * @param {Object} schema schema to validate
+ * @param {Boolean} throwOrLogError pass true to throw (or log) an error if invalid
+ * @return {Boolean} true if schema is valid
+ */
+function validateSchema(schema, throwOrLogError) {
+  var $schema = schema.$schema;
+  if ($schema !== undefined && typeof $schema != 'string')
+    throw new Error('$schema must be a string');
+  $schema = $schema || this._opts.defaultMeta || defaultMeta(this);
+  if (!$schema) {
+    console.warn('meta-schema not available');
+    this.errors = null;
+    return true;
+  }
+  var currentUriFormat = this._formats.uri;
+  this._formats.uri = typeof currentUriFormat == 'function'
+                      ? this._schemaUriFormatFunc
+                      : this._schemaUriFormat;
+  var valid;
+  try { valid = this.validate($schema, schema); }
+  finally { this._formats.uri = currentUriFormat; }
+  if (!valid && throwOrLogError) {
+    var message = 'schema is invalid: ' + this.errorsText();
+    if (this._opts.validateSchema == 'log') console.error(message);
+    else throw new Error(message);
+  }
+  return valid;
+}
+
+
+function defaultMeta(self) {
+  var meta = self._opts.meta;
+  self._opts.defaultMeta = typeof meta == 'object'
+                            ? self._getId(meta) || meta
+                            : self.getSchema(META_SCHEMA_ID)
+                              ? META_SCHEMA_ID
+                              : undefined;
+  return self._opts.defaultMeta;
+}
+
+
+/**
+ * Get compiled schema from the instance by `key` or `ref`.
+ * @this   Ajv
+ * @param  {String} keyRef `key` that was passed to `addSchema` or full schema reference (`schema.id` or resolved id).
+ * @return {Function} schema validating function (with property `schema`).
+ */
+function getSchema(keyRef) {
+  var schemaObj = _getSchemaObj(this, keyRef);
+  switch (typeof schemaObj) {
+    case 'object': return schemaObj.validate || this._compile(schemaObj);
+    case 'string': return this.getSchema(schemaObj);
+    case 'undefined': return _getSchemaFragment(this, keyRef);
+  }
+}
+
+
+function _getSchemaFragment(self, ref) {
+  var res = resolve.schema.call(self, { schema: {} }, ref);
+  if (res) {
+    var schema = res.schema
+      , root = res.root
+      , baseId = res.baseId;
+    var v = compileSchema.call(self, schema, root, undefined, baseId);
+    self._fragments[ref] = new SchemaObject({
+      ref: ref,
+      fragment: true,
+      schema: schema,
+      root: root,
+      baseId: baseId,
+      validate: v
+    });
+    return v;
+  }
+}
+
+
+function _getSchemaObj(self, keyRef) {
+  keyRef = resolve.normalizeId(keyRef);
+  return self._schemas[keyRef] || self._refs[keyRef] || self._fragments[keyRef];
+}
+
+
+/**
+ * Remove cached schema(s).
+ * If no parameter is passed all schemas but meta-schemas are removed.
+ * If RegExp is passed all schemas with key/id matching pattern but meta-schemas are removed.
+ * Even if schema is referenced by other schemas it still can be removed as other schemas have local references.
+ * @this   Ajv
+ * @param  {String|Object|RegExp} schemaKeyRef key, ref, pattern to match key/ref or schema object
+ */
+function removeSchema(schemaKeyRef) {
+  if (schemaKeyRef instanceof RegExp) {
+    _removeAllSchemas(this, this._schemas, schemaKeyRef);
+    _removeAllSchemas(this, this._refs, schemaKeyRef);
+    return;
+  }
+  switch (typeof schemaKeyRef) {
+    case 'undefined':
+      _removeAllSchemas(this, this._schemas);
+      _removeAllSchemas(this, this._refs);
+      this._cache.clear();
+      return;
+    case 'string':
+      var schemaObj = _getSchemaObj(this, schemaKeyRef);
+      if (schemaObj) this._cache.del(schemaObj.cacheKey);
+      delete this._schemas[schemaKeyRef];
+      delete this._refs[schemaKeyRef];
+      return;
+    case 'object':
+      var serialize = this._opts.serialize;
+      var cacheKey = serialize ? serialize(schemaKeyRef) : schemaKeyRef;
+      this._cache.del(cacheKey);
+      var id = this._getId(schemaKeyRef);
+      if (id) {
+        id = resolve.normalizeId(id);
+        delete this._schemas[id];
+        delete this._refs[id];
+      }
+  }
+}
+
+
+function _removeAllSchemas(self, schemas, regex) {
+  for (var keyRef in schemas) {
+    var schemaObj = schemas[keyRef];
+    if (!schemaObj.meta && (!regex || regex.test(keyRef))) {
+      self._cache.del(schemaObj.cacheKey);
+      delete schemas[keyRef];
+    }
+  }
+}
+
+
+/* @this   Ajv */
+function _addSchema(schema, skipValidation, meta, shouldAddSchema) {
+  if (typeof schema != 'object' && typeof schema != 'boolean')
+    throw new Error('schema should be object or boolean');
+  var serialize = this._opts.serialize;
+  var cacheKey = serialize ? serialize(schema) : schema;
+  var cached = this._cache.get(cacheKey);
+  if (cached) return cached;
+
+  shouldAddSchema = shouldAddSchema || this._opts.addUsedSchema !== false;
+
+  var id = resolve.normalizeId(this._getId(schema));
+  if (id && shouldAddSchema) checkUnique(this, id);
+
+  var willValidate = this._opts.validateSchema !== false && !skipValidation;
+  var recursiveMeta;
+  if (willValidate && !(recursiveMeta = id && id == resolve.normalizeId(schema.$schema)))
+    this.validateSchema(schema, true);
+
+  var localRefs = resolve.ids.call(this, schema);
+
+  var schemaObj = new SchemaObject({
+    id: id,
+    schema: schema,
+    localRefs: localRefs,
+    cacheKey: cacheKey,
+    meta: meta
+  });
+
+  if (id[0] != '#' && shouldAddSchema) this._refs[id] = schemaObj;
+  this._cache.put(cacheKey, schemaObj);
+
+  if (willValidate && recursiveMeta) this.validateSchema(schema, true);
+
+  return schemaObj;
+}
+
+
+/* @this   Ajv */
+function _compile(schemaObj, root) {
+  if (schemaObj.compiling) {
+    schemaObj.validate = callValidate;
+    callValidate.schema = schemaObj.schema;
+    callValidate.errors = null;
+    callValidate.root = root ? root : callValidate;
+    if (schemaObj.schema.$async === true)
+      callValidate.$async = true;
+    return callValidate;
+  }
+  schemaObj.compiling = true;
+
+  var currentOpts;
+  if (schemaObj.meta) {
+    currentOpts = this._opts;
+    this._opts = this._metaOpts;
+  }
+
+  var v;
+  try { v = compileSchema.call(this, schemaObj.schema, root, schemaObj.localRefs); }
+  finally {
+    schemaObj.compiling = false;
+    if (schemaObj.meta) this._opts = currentOpts;
+  }
+
+  schemaObj.validate = v;
+  schemaObj.refs = v.refs;
+  schemaObj.refVal = v.refVal;
+  schemaObj.root = v.root;
+  return v;
+
+
+  function callValidate() {
+    var _validate = schemaObj.validate;
+    var result = _validate.apply(null, arguments);
+    callValidate.errors = _validate.errors;
+    return result;
+  }
+}
+
+
+function chooseGetId(opts) {
+  switch (opts.schemaId) {
+    case '$id': return _get$Id;
+    case 'id': return _getId;
+    default: return _get$IdOrId;
+  }
+}
+
+
+function _getId(schema) {
+  if (schema.$id) console.warn('schema $id ignored', schema.$id);
+  return schema.id;
+}
+
+
+function _get$Id(schema) {
+  if (schema.id) console.warn('schema id ignored', schema.id);
+  return schema.$id;
+}
+
+
+function _get$IdOrId(schema) {
+  if (schema.$id && schema.id && schema.$id != schema.id)
+    throw new Error('schema $id is different from id');
+  return schema.$id || schema.id;
+}
+
+
+/**
+ * Convert array of error message objects to string
+ * @this   Ajv
+ * @param  {Array<Object>} errors optional array of validation errors, if not passed errors from the instance are used.
+ * @param  {Object} options optional options with properties `separator` and `dataVar`.
+ * @return {String} human readable string with all errors descriptions
+ */
+function errorsText(errors, options) {
+  errors = errors || this.errors;
+  if (!errors) return 'No errors';
+  options = options || {};
+  var separator = options.separator === undefined ? ', ' : options.separator;
+  var dataVar = options.dataVar === undefined ? 'data' : options.dataVar;
+
+  var text = '';
+  for (var i=0; i<errors.length; i++) {
+    var e = errors[i];
+    if (e) text += dataVar + e.dataPath + ' ' + e.message + separator;
+  }
+  return text.slice(0, -separator.length);
+}
+
+
+/**
+ * Add custom format
+ * @this   Ajv
+ * @param {String} name format name
+ * @param {String|RegExp|Function} format string is converted to RegExp; function should return boolean (true when valid)
+ */
+function addFormat(name, format) {
+  if (typeof format == 'string') format = new RegExp(format);
+  this._formats[name] = format;
+}
+
+
+function addDraft6MetaSchema(self) {
+  var $dataSchema;
+  if (self._opts.$data) {
+    $dataSchema = __webpack_require__(615);
+    self.addMetaSchema($dataSchema, $dataSchema.$id, true);
+  }
+  if (self._opts.meta === false) return;
+  var metaSchema = __webpack_require__(616);
+  if (self._opts.$data) metaSchema = $dataMetaSchema(metaSchema, META_SUPPORT_DATA);
+  self.addMetaSchema(metaSchema, META_SCHEMA_ID, true);
+  self._refs['http://json-schema.org/schema'] = META_SCHEMA_ID;
+}
+
+
+function addInitialSchemas(self) {
+  var optsSchemas = self._opts.schemas;
+  if (!optsSchemas) return;
+  if (Array.isArray(optsSchemas)) self.addSchema(optsSchemas);
+  else for (var key in optsSchemas) self.addSchema(optsSchemas[key], key);
+}
+
+
+function addInitialFormats(self) {
+  for (var name in self._opts.formats) {
+    var format = self._opts.formats[name];
+    self.addFormat(name, format);
+  }
+}
+
+
+function checkUnique(self, id) {
+  if (self._schemas[id] || self._refs[id])
+    throw new Error('schema with key or id "' + id + '" already exists');
+}
+
+
+function getMetaSchemaOptions(self) {
+  var metaOpts = util.copy(self._opts);
+  for (var i=0; i<META_IGNORE_OPTIONS.length; i++)
+    delete metaOpts[META_IGNORE_OPTIONS[i]];
+  return metaOpts;
+}
+
+
+/***/ }),
+/* 583 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var resolve = __webpack_require__(297)
+  , util = __webpack_require__(163)
+  , errorClasses = __webpack_require__(299)
+  , stableStringify = __webpack_require__(336);
+
+var validateGenerator = __webpack_require__(337);
+
+/**
+ * Functions below are used inside compiled validations function
+ */
+
+var co = __webpack_require__(338);
+var ucs2length = util.ucs2length;
+var equal = __webpack_require__(298);
+
+// this error is thrown by async schemas to return validation errors via exception
+var ValidationError = errorClasses.Validation;
+
+module.exports = compile;
+
+
+/**
+ * Compiles schema to validation function
+ * @this   Ajv
+ * @param  {Object} schema schema object
+ * @param  {Object} root object with information about the root schema for this schema
+ * @param  {Object} localRefs the hash of local references inside the schema (created by resolve.id), used for inline resolution
+ * @param  {String} baseId base ID for IDs in the schema
+ * @return {Function} validation function
+ */
+function compile(schema, root, localRefs, baseId) {
+  /* jshint validthis: true, evil: true */
+  /* eslint no-shadow: 0 */
+  var self = this
+    , opts = this._opts
+    , refVal = [ undefined ]
+    , refs = {}
+    , patterns = []
+    , patternsHash = {}
+    , defaults = []
+    , defaultsHash = {}
+    , customRules = [];
+
+  root = root || { schema: schema, refVal: refVal, refs: refs };
+
+  var c = checkCompiling.call(this, schema, root, baseId);
+  var compilation = this._compilations[c.index];
+  if (c.compiling) return (compilation.callValidate = callValidate);
+
+  var formats = this._formats;
+  var RULES = this.RULES;
+
+  try {
+    var v = localCompile(schema, root, localRefs, baseId);
+    compilation.validate = v;
+    var cv = compilation.callValidate;
+    if (cv) {
+      cv.schema = v.schema;
+      cv.errors = null;
+      cv.refs = v.refs;
+      cv.refVal = v.refVal;
+      cv.root = v.root;
+      cv.$async = v.$async;
+      if (opts.sourceCode) cv.source = v.source;
+    }
+    return v;
+  } finally {
+    endCompiling.call(this, schema, root, baseId);
+  }
+
+  function callValidate() {
+    var validate = compilation.validate;
+    var result = validate.apply(null, arguments);
+    callValidate.errors = validate.errors;
+    return result;
+  }
+
+  function localCompile(_schema, _root, localRefs, baseId) {
+    var isRoot = !_root || (_root && _root.schema == _schema);
+    if (_root.schema != root.schema)
+      return compile.call(self, _schema, _root, localRefs, baseId);
+
+    var $async = _schema.$async === true;
+
+    var sourceCode = validateGenerator({
+      isTop: true,
+      schema: _schema,
+      isRoot: isRoot,
+      baseId: baseId,
+      root: _root,
+      schemaPath: '',
+      errSchemaPath: '#',
+      errorPath: '""',
+      MissingRefError: errorClasses.MissingRef,
+      RULES: RULES,
+      validate: validateGenerator,
+      util: util,
+      resolve: resolve,
+      resolveRef: resolveRef,
+      usePattern: usePattern,
+      useDefault: useDefault,
+      useCustomRule: useCustomRule,
+      opts: opts,
+      formats: formats,
+      self: self
+    });
+
+    sourceCode = vars(refVal, refValCode) + vars(patterns, patternCode)
+                   + vars(defaults, defaultCode) + vars(customRules, customRuleCode)
+                   + sourceCode;
+
+    if (opts.processCode) sourceCode = opts.processCode(sourceCode);
+    // console.log('\n\n\n *** \n', JSON.stringify(sourceCode));
+    var validate;
+    try {
+      var makeValidate = new Function(
+        'self',
+        'RULES',
+        'formats',
+        'root',
+        'refVal',
+        'defaults',
+        'customRules',
+        'co',
+        'equal',
+        'ucs2length',
+        'ValidationError',
+        sourceCode
+      );
+
+      validate = makeValidate(
+        self,
+        RULES,
+        formats,
+        root,
+        refVal,
+        defaults,
+        customRules,
+        co,
+        equal,
+        ucs2length,
+        ValidationError
+      );
+
+      refVal[0] = validate;
+    } catch(e) {
+      console.error('Error compiling schema, function code:', sourceCode);
+      throw e;
+    }
+
+    validate.schema = _schema;
+    validate.errors = null;
+    validate.refs = refs;
+    validate.refVal = refVal;
+    validate.root = isRoot ? validate : _root;
+    if ($async) validate.$async = true;
+    if (opts.sourceCode === true) {
+      validate.source = {
+        code: sourceCode,
+        patterns: patterns,
+        defaults: defaults
+      };
+    }
+
+    return validate;
+  }
+
+  function resolveRef(baseId, ref, isRoot) {
+    ref = resolve.url(baseId, ref);
+    var refIndex = refs[ref];
+    var _refVal, refCode;
+    if (refIndex !== undefined) {
+      _refVal = refVal[refIndex];
+      refCode = 'refVal[' + refIndex + ']';
+      return resolvedRef(_refVal, refCode);
+    }
+    if (!isRoot && root.refs) {
+      var rootRefId = root.refs[ref];
+      if (rootRefId !== undefined) {
+        _refVal = root.refVal[rootRefId];
+        refCode = addLocalRef(ref, _refVal);
+        return resolvedRef(_refVal, refCode);
+      }
+    }
+
+    refCode = addLocalRef(ref);
+    var v = resolve.call(self, localCompile, root, ref);
+    if (v === undefined) {
+      var localSchema = localRefs && localRefs[ref];
+      if (localSchema) {
+        v = resolve.inlineRef(localSchema, opts.inlineRefs)
+            ? localSchema
+            : compile.call(self, localSchema, root, localRefs, baseId);
+      }
+    }
+
+    if (v === undefined) {
+      removeLocalRef(ref);
+    } else {
+      replaceLocalRef(ref, v);
+      return resolvedRef(v, refCode);
+    }
+  }
+
+  function addLocalRef(ref, v) {
+    var refId = refVal.length;
+    refVal[refId] = v;
+    refs[ref] = refId;
+    return 'refVal' + refId;
+  }
+
+  function removeLocalRef(ref) {
+    delete refs[ref];
+  }
+
+  function replaceLocalRef(ref, v) {
+    var refId = refs[ref];
+    refVal[refId] = v;
+  }
+
+  function resolvedRef(refVal, code) {
+    return typeof refVal == 'object' || typeof refVal == 'boolean'
+            ? { code: code, schema: refVal, inline: true }
+            : { code: code, $async: refVal && refVal.$async };
+  }
+
+  function usePattern(regexStr) {
+    var index = patternsHash[regexStr];
+    if (index === undefined) {
+      index = patternsHash[regexStr] = patterns.length;
+      patterns[index] = regexStr;
+    }
+    return 'pattern' + index;
+  }
+
+  function useDefault(value) {
+    switch (typeof value) {
+      case 'boolean':
+      case 'number':
+        return '' + value;
+      case 'string':
+        return util.toQuotedString(value);
+      case 'object':
+        if (value === null) return 'null';
+        var valueStr = stableStringify(value);
+        var index = defaultsHash[valueStr];
+        if (index === undefined) {
+          index = defaultsHash[valueStr] = defaults.length;
+          defaults[index] = value;
+        }
+        return 'default' + index;
+    }
+  }
+
+  function useCustomRule(rule, schema, parentSchema, it) {
+    var validateSchema = rule.definition.validateSchema;
+    if (validateSchema && self._opts.validateSchema !== false) {
+      var valid = validateSchema(schema);
+      if (!valid) {
+        var message = 'keyword schema is invalid: ' + self.errorsText(validateSchema.errors);
+        if (self._opts.validateSchema == 'log') console.error(message);
+        else throw new Error(message);
+      }
+    }
+
+    var compile = rule.definition.compile
+      , inline = rule.definition.inline
+      , macro = rule.definition.macro;
+
+    var validate;
+    if (compile) {
+      validate = compile.call(self, schema, parentSchema, it);
+    } else if (macro) {
+      validate = macro.call(self, schema, parentSchema, it);
+      if (opts.validateSchema !== false) self.validateSchema(validate, true);
+    } else if (inline) {
+      validate = inline.call(self, it, rule.keyword, schema, parentSchema);
+    } else {
+      validate = rule.definition.validate;
+      if (!validate) return;
+    }
+
+    if (validate === undefined)
+      throw new Error('custom keyword "' + rule.keyword + '"failed to compile');
+
+    var index = customRules.length;
+    customRules[index] = validate;
+
+    return {
+      code: 'customRule' + index,
+      validate: validate
+    };
+  }
+}
+
+
+/**
+ * Checks if the schema is currently compiled
+ * @this   Ajv
+ * @param  {Object} schema schema to compile
+ * @param  {Object} root root object
+ * @param  {String} baseId base schema ID
+ * @return {Object} object with properties "index" (compilation index) and "compiling" (boolean)
+ */
+function checkCompiling(schema, root, baseId) {
+  /* jshint validthis: true */
+  var index = compIndex.call(this, schema, root, baseId);
+  if (index >= 0) return { index: index, compiling: true };
+  index = this._compilations.length;
+  this._compilations[index] = {
+    schema: schema,
+    root: root,
+    baseId: baseId
+  };
+  return { index: index, compiling: false };
+}
+
+
+/**
+ * Removes the schema from the currently compiled list
+ * @this   Ajv
+ * @param  {Object} schema schema to compile
+ * @param  {Object} root root object
+ * @param  {String} baseId base schema ID
+ */
+function endCompiling(schema, root, baseId) {
+  /* jshint validthis: true */
+  var i = compIndex.call(this, schema, root, baseId);
+  if (i >= 0) this._compilations.splice(i, 1);
+}
+
+
+/**
+ * Index of schema compilation in the currently compiled list
+ * @this   Ajv
+ * @param  {Object} schema schema to compile
+ * @param  {Object} root root object
+ * @param  {String} baseId base schema ID
+ * @return {Integer} compilation index
+ */
+function compIndex(schema, root, baseId) {
+  /* jshint validthis: true */
+  for (var i=0; i<this._compilations.length; i++) {
+    var c = this._compilations[i];
+    if (c.schema == schema && c.root == root && c.baseId == baseId) return i;
+  }
+  return -1;
+}
+
+
+function patternCode(i, patterns) {
+  return 'var pattern' + i + ' = new RegExp(' + util.toQuotedString(patterns[i]) + ');';
+}
+
+
+function defaultCode(i) {
+  return 'var default' + i + ' = defaults[' + i + '];';
+}
+
+
+function refValCode(i, refVal) {
+  return refVal[i] === undefined ? '' : 'var refVal' + i + ' = refVal[' + i + '];';
+}
+
+
+function customRuleCode(i) {
+  return 'var customRule' + i + ' = customRules[' + i + '];';
+}
+
+
+function vars(arr, statement) {
+  if (!arr.length) return '';
+  var code = '';
+  for (var i=0; i<arr.length; i++)
+    code += statement(i, arr);
+  return code;
+}
+
+
+/***/ }),
+/* 584 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// https://mathiasbynens.be/notes/javascript-encoding
+// https://github.com/bestiejs/punycode.js - punycode.ucs2.decode
+module.exports = function ucs2length(str) {
+  var length = 0
+    , len = str.length
+    , pos = 0
+    , value;
+  while (pos < len) {
+    length++;
+    value = str.charCodeAt(pos++);
+    if (value >= 0xD800 && value <= 0xDBFF && pos < len) {
+      // high surrogate, and there is a next character
+      value = str.charCodeAt(pos);
+      if ((value & 0xFC00) == 0xDC00) pos++; // low surrogate
+    }
+  }
+  return length;
+};
+
+
+/***/ }),
+/* 585 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var traverse = module.exports = function (schema, opts, cb) {
+  if (typeof opts == 'function') {
+    cb = opts;
+    opts = {};
+  }
+  _traverse(opts, cb, schema, '', schema);
+};
+
+
+traverse.keywords = {
+  additionalItems: true,
+  items: true,
+  contains: true,
+  additionalProperties: true,
+  propertyNames: true,
+  not: true
+};
+
+traverse.arrayKeywords = {
+  items: true,
+  allOf: true,
+  anyOf: true,
+  oneOf: true
+};
+
+traverse.propsKeywords = {
+  definitions: true,
+  properties: true,
+  patternProperties: true,
+  dependencies: true
+};
+
+traverse.skipKeywords = {
+  enum: true,
+  const: true,
+  required: true,
+  maximum: true,
+  minimum: true,
+  exclusiveMaximum: true,
+  exclusiveMinimum: true,
+  multipleOf: true,
+  maxLength: true,
+  minLength: true,
+  pattern: true,
+  format: true,
+  maxItems: true,
+  minItems: true,
+  uniqueItems: true,
+  maxProperties: true,
+  minProperties: true
+};
+
+
+function _traverse(opts, cb, schema, jsonPtr, rootSchema, parentJsonPtr, parentKeyword, parentSchema, keyIndex) {
+  if (schema && typeof schema == 'object' && !Array.isArray(schema)) {
+    cb(schema, jsonPtr, rootSchema, parentJsonPtr, parentKeyword, parentSchema, keyIndex);
+    for (var key in schema) {
+      var sch = schema[key];
+      if (Array.isArray(sch)) {
+        if (key in traverse.arrayKeywords) {
+          for (var i=0; i<sch.length; i++)
+            _traverse(opts, cb, sch[i], jsonPtr + '/' + key + '/' + i, rootSchema, jsonPtr, key, schema, i);
+        }
+      } else if (key in traverse.propsKeywords) {
+        if (sch && typeof sch == 'object') {
+          for (var prop in sch)
+            _traverse(opts, cb, sch[prop], jsonPtr + '/' + key + '/' + escapeJsonPtr(prop), rootSchema, jsonPtr, key, schema, prop);
+        }
+      } else if (key in traverse.keywords || (opts.allKeys && !(key in traverse.skipKeywords))) {
+        _traverse(opts, cb, sch, jsonPtr + '/' + key, rootSchema, jsonPtr, key, schema);
+      }
+    }
+  }
+}
+
+
+function escapeJsonPtr(str) {
+  return str.replace(/~/g, '~0').replace(/\//g, '~1');
+}
+
+
+/***/ }),
+/* 586 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports.parse = __webpack_require__(587);
+exports.stringify = __webpack_require__(588);
+
+
+/***/ }),
+/* 587 */
+/***/ (function(module, exports) {
+
+var at, // The index of the current character
+    ch, // The current character
+    escapee = {
+        '"':  '"',
+        '\\': '\\',
+        '/':  '/',
+        b:    '\b',
+        f:    '\f',
+        n:    '\n',
+        r:    '\r',
+        t:    '\t'
+    },
+    text,
+
+    error = function (m) {
+        // Call error when something is wrong.
+        throw {
+            name:    'SyntaxError',
+            message: m,
+            at:      at,
+            text:    text
+        };
+    },
+    
+    next = function (c) {
+        // If a c parameter is provided, verify that it matches the current character.
+        if (c && c !== ch) {
+            error("Expected '" + c + "' instead of '" + ch + "'");
+        }
+        
+        // Get the next character. When there are no more characters,
+        // return the empty string.
+        
+        ch = text.charAt(at);
+        at += 1;
+        return ch;
+    },
+    
+    number = function () {
+        // Parse a number value.
+        var number,
+            string = '';
+        
+        if (ch === '-') {
+            string = '-';
+            next('-');
+        }
+        while (ch >= '0' && ch <= '9') {
+            string += ch;
+            next();
+        }
+        if (ch === '.') {
+            string += '.';
+            while (next() && ch >= '0' && ch <= '9') {
+                string += ch;
+            }
+        }
+        if (ch === 'e' || ch === 'E') {
+            string += ch;
+            next();
+            if (ch === '-' || ch === '+') {
+                string += ch;
+                next();
+            }
+            while (ch >= '0' && ch <= '9') {
+                string += ch;
+                next();
+            }
+        }
+        number = +string;
+        if (!isFinite(number)) {
+            error("Bad number");
+        } else {
+            return number;
+        }
+    },
+    
+    string = function () {
+        // Parse a string value.
+        var hex,
+            i,
+            string = '',
+            uffff;
+        
+        // When parsing for string values, we must look for " and \ characters.
+        if (ch === '"') {
+            while (next()) {
+                if (ch === '"') {
+                    next();
+                    return string;
+                } else if (ch === '\\') {
+                    next();
+                    if (ch === 'u') {
+                        uffff = 0;
+                        for (i = 0; i < 4; i += 1) {
+                            hex = parseInt(next(), 16);
+                            if (!isFinite(hex)) {
+                                break;
+                            }
+                            uffff = uffff * 16 + hex;
+                        }
+                        string += String.fromCharCode(uffff);
+                    } else if (typeof escapee[ch] === 'string') {
+                        string += escapee[ch];
+                    } else {
+                        break;
+                    }
+                } else {
+                    string += ch;
+                }
+            }
+        }
+        error("Bad string");
+    },
+
+    white = function () {
+
+// Skip whitespace.
+
+        while (ch && ch <= ' ') {
+            next();
+        }
+    },
+
+    word = function () {
+
+// true, false, or null.
+
+        switch (ch) {
+        case 't':
+            next('t');
+            next('r');
+            next('u');
+            next('e');
+            return true;
+        case 'f':
+            next('f');
+            next('a');
+            next('l');
+            next('s');
+            next('e');
+            return false;
+        case 'n':
+            next('n');
+            next('u');
+            next('l');
+            next('l');
+            return null;
+        }
+        error("Unexpected '" + ch + "'");
+    },
+
+    value,  // Place holder for the value function.
+
+    array = function () {
+
+// Parse an array value.
+
+        var array = [];
+
+        if (ch === '[') {
+            next('[');
+            white();
+            if (ch === ']') {
+                next(']');
+                return array;   // empty array
+            }
+            while (ch) {
+                array.push(value());
+                white();
+                if (ch === ']') {
+                    next(']');
+                    return array;
+                }
+                next(',');
+                white();
+            }
+        }
+        error("Bad array");
+    },
+
+    object = function () {
+
+// Parse an object value.
+
+        var key,
+            object = {};
+
+        if (ch === '{') {
+            next('{');
+            white();
+            if (ch === '}') {
+                next('}');
+                return object;   // empty object
+            }
+            while (ch) {
+                key = string();
+                white();
+                next(':');
+                if (Object.hasOwnProperty.call(object, key)) {
+                    error('Duplicate key "' + key + '"');
+                }
+                object[key] = value();
+                white();
+                if (ch === '}') {
+                    next('}');
+                    return object;
+                }
+                next(',');
+                white();
+            }
+        }
+        error("Bad object");
+    };
+
+value = function () {
+
+// Parse a JSON value. It could be an object, an array, a string, a number,
+// or a word.
+
+    white();
+    switch (ch) {
+    case '{':
+        return object();
+    case '[':
+        return array();
+    case '"':
+        return string();
+    case '-':
+        return number();
+    default:
+        return ch >= '0' && ch <= '9' ? number() : word();
+    }
+};
+
+// Return the json_parse function. It will have access to all of the above
+// functions and variables.
+
+module.exports = function (source, reviver) {
+    var result;
+    
+    text = source;
+    at = 0;
+    ch = ' ';
+    result = value();
+    white();
+    if (ch) {
+        error("Syntax error");
+    }
+
+    // If there is a reviver function, we recursively walk the new structure,
+    // passing each name/value pair to the reviver function for possible
+    // transformation, starting with a temporary root object that holds the result
+    // in an empty key. If there is not a reviver function, we simply return the
+    // result.
+
+    return typeof reviver === 'function' ? (function walk(holder, key) {
+        var k, v, value = holder[key];
+        if (value && typeof value === 'object') {
+            for (k in value) {
+                if (Object.prototype.hasOwnProperty.call(value, k)) {
+                    v = walk(value, k);
+                    if (v !== undefined) {
+                        value[k] = v;
+                    } else {
+                        delete value[k];
+                    }
+                }
+            }
+        }
+        return reviver.call(holder, key, value);
+    }({'': result}, '')) : result;
+};
+
+
+/***/ }),
+/* 588 */
+/***/ (function(module, exports) {
+
+var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+    escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+    gap,
+    indent,
+    meta = {    // table of character substitutions
+        '\b': '\\b',
+        '\t': '\\t',
+        '\n': '\\n',
+        '\f': '\\f',
+        '\r': '\\r',
+        '"' : '\\"',
+        '\\': '\\\\'
+    },
+    rep;
+
+function quote(string) {
+    // If the string contains no control characters, no quote characters, and no
+    // backslash characters, then we can safely slap some quotes around it.
+    // Otherwise we must also replace the offending characters with safe escape
+    // sequences.
+    
+    escapable.lastIndex = 0;
+    return escapable.test(string) ? '"' + string.replace(escapable, function (a) {
+        var c = meta[a];
+        return typeof c === 'string' ? c :
+            '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+    }) + '"' : '"' + string + '"';
+}
+
+function str(key, holder) {
+    // Produce a string from holder[key].
+    var i,          // The loop counter.
+        k,          // The member key.
+        v,          // The member value.
+        length,
+        mind = gap,
+        partial,
+        value = holder[key];
+    
+    // If the value has a toJSON method, call it to obtain a replacement value.
+    if (value && typeof value === 'object' &&
+            typeof value.toJSON === 'function') {
+        value = value.toJSON(key);
+    }
+    
+    // If we were called with a replacer function, then call the replacer to
+    // obtain a replacement value.
+    if (typeof rep === 'function') {
+        value = rep.call(holder, key, value);
+    }
+    
+    // What happens next depends on the value's type.
+    switch (typeof value) {
+        case 'string':
+            return quote(value);
+        
+        case 'number':
+            // JSON numbers must be finite. Encode non-finite numbers as null.
+            return isFinite(value) ? String(value) : 'null';
+        
+        case 'boolean':
+        case 'null':
+            // If the value is a boolean or null, convert it to a string. Note:
+            // typeof null does not produce 'null'. The case is included here in
+            // the remote chance that this gets fixed someday.
+            return String(value);
+            
+        case 'object':
+            if (!value) return 'null';
+            gap += indent;
+            partial = [];
+            
+            // Array.isArray
+            if (Object.prototype.toString.apply(value) === '[object Array]') {
+                length = value.length;
+                for (i = 0; i < length; i += 1) {
+                    partial[i] = str(i, value) || 'null';
+                }
+                
+                // Join all of the elements together, separated with commas, and
+                // wrap them in brackets.
+                v = partial.length === 0 ? '[]' : gap ?
+                    '[\n' + gap + partial.join(',\n' + gap) + '\n' + mind + ']' :
+                    '[' + partial.join(',') + ']';
+                gap = mind;
+                return v;
+            }
+            
+            // If the replacer is an array, use it to select the members to be
+            // stringified.
+            if (rep && typeof rep === 'object') {
+                length = rep.length;
+                for (i = 0; i < length; i += 1) {
+                    k = rep[i];
+                    if (typeof k === 'string') {
+                        v = str(k, value);
+                        if (v) {
+                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                        }
+                    }
+                }
+            }
+            else {
+                // Otherwise, iterate through all of the keys in the object.
+                for (k in value) {
+                    if (Object.prototype.hasOwnProperty.call(value, k)) {
+                        v = str(k, value);
+                        if (v) {
+                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                        }
+                    }
+                }
+            }
+            
+        // Join all of the member texts together, separated with commas,
+        // and wrap them in braces.
+
+        v = partial.length === 0 ? '{}' : gap ?
+            '{\n' + gap + partial.join(',\n' + gap) + '\n' + mind + '}' :
+            '{' + partial.join(',') + '}';
+        gap = mind;
+        return v;
+    }
+}
+
+module.exports = function (value, replacer, space) {
+    var i;
+    gap = '';
+    indent = '';
+    
+    // If the space parameter is a number, make an indent string containing that
+    // many spaces.
+    if (typeof space === 'number') {
+        for (i = 0; i < space; i += 1) {
+            indent += ' ';
+        }
+    }
+    // If the space parameter is a string, it will be used as the indent string.
+    else if (typeof space === 'string') {
+        indent = space;
+    }
+
+    // If there is a replacer, it must be a function or an array.
+    // Otherwise, throw an error.
+    rep = replacer;
+    if (replacer && typeof replacer !== 'function'
+    && (typeof replacer !== 'object' || typeof replacer.length !== 'number')) {
+        throw new Error('JSON.stringify');
+    }
+    
+    // Make a fake root object containing our value under the key of ''.
+    // Return the result of stringifying the value.
+    return str('', {'': value});
+};
+
+
+/***/ }),
+/* 589 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+var Cache = module.exports = function Cache() {
+  this._cache = {};
+};
+
+
+Cache.prototype.put = function Cache_put(key, value) {
+  this._cache[key] = value;
+};
+
+
+Cache.prototype.get = function Cache_get(key) {
+  return this._cache[key];
+};
+
+
+Cache.prototype.del = function Cache_del(key) {
+  delete this._cache[key];
+};
+
+
+Cache.prototype.clear = function Cache_clear() {
+  this._cache = {};
+};
+
+
+/***/ }),
+/* 590 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var util = __webpack_require__(163);
+
+var DATE = /^\d\d\d\d-(\d\d)-(\d\d)$/;
+var DAYS = [0,31,29,31,30,31,30,31,31,30,31,30,31];
+var TIME = /^(\d\d):(\d\d):(\d\d)(\.\d+)?(z|[+-]\d\d:\d\d)?$/i;
+var HOSTNAME = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$/i;
+var URI = /^(?:[a-z][a-z0-9+\-.]*:)(?:\/?\/(?:(?:[a-z0-9\-._~!$&'()*+,;=:]|%[0-9a-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9a-f]{1,4}:){6}|::(?:[0-9a-f]{1,4}:){5}|(?:[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){4}|(?:(?:[0-9a-f]{1,4}:){0,1}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){3}|(?:(?:[0-9a-f]{1,4}:){0,2}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){2}|(?:(?:[0-9a-f]{1,4}:){0,3}[0-9a-f]{1,4})?::[0-9a-f]{1,4}:|(?:(?:[0-9a-f]{1,4}:){0,4}[0-9a-f]{1,4})?::)(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?))|(?:(?:[0-9a-f]{1,4}:){0,5}[0-9a-f]{1,4})?::[0-9a-f]{1,4}|(?:(?:[0-9a-f]{1,4}:){0,6}[0-9a-f]{1,4})?::)|[Vv][0-9a-f]+\.[a-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)|(?:[a-z0-9\-._~!$&'()*+,;=]|%[0-9a-f]{2})*)(?::\d*)?(?:\/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*|\/(?:(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*)?|(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*)(?:\?(?:[a-z0-9\-._~!$&'()*+,;=:@/?]|%[0-9a-f]{2})*)?(?:#(?:[a-z0-9\-._~!$&'()*+,;=:@/?]|%[0-9a-f]{2})*)?$/i;
+var URIREF = /^(?:[a-z][a-z0-9+\-.]*:)?(?:\/?\/(?:(?:[a-z0-9\-._~!$&'()*+,;=:]|%[0-9a-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9a-f]{1,4}:){6}|::(?:[0-9a-f]{1,4}:){5}|(?:[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){4}|(?:(?:[0-9a-f]{1,4}:){0,1}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){3}|(?:(?:[0-9a-f]{1,4}:){0,2}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){2}|(?:(?:[0-9a-f]{1,4}:){0,3}[0-9a-f]{1,4})?::[0-9a-f]{1,4}:|(?:(?:[0-9a-f]{1,4}:){0,4}[0-9a-f]{1,4})?::)(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?))|(?:(?:[0-9a-f]{1,4}:){0,5}[0-9a-f]{1,4})?::[0-9a-f]{1,4}|(?:(?:[0-9a-f]{1,4}:){0,6}[0-9a-f]{1,4})?::)|[Vv][0-9a-f]+\.[a-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)|(?:[a-z0-9\-._~!$&'"()*+,;=]|%[0-9a-f]{2})*)(?::\d*)?(?:\/(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})*)*|\/(?:(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})*)*)?|(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})*)*)?(?:\?(?:[a-z0-9\-._~!$&'"()*+,;=:@/?]|%[0-9a-f]{2})*)?(?:#(?:[a-z0-9\-._~!$&'"()*+,;=:@/?]|%[0-9a-f]{2})*)?$/i;
+// uri-template: https://tools.ietf.org/html/rfc6570
+var URITEMPLATE = /^(?:(?:[^\x00-\x20"'<>%\\^`{|}]|%[0-9a-f]{2})|\{[+#./;?&=,!@|]?(?:[a-z0-9_]|%[0-9a-f]{2})+(?::[1-9][0-9]{0,3}|\*)?(?:,(?:[a-z0-9_]|%[0-9a-f]{2})+(?::[1-9][0-9]{0,3}|\*)?)*\})*$/i;
+// For the source: https://gist.github.com/dperini/729294
+// For test cases: https://mathiasbynens.be/demo/url-regex
+// @todo Delete current URL in favour of the commented out URL rule when this issue is fixed https://github.com/eslint/eslint/issues/7983.
+// var URL = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u{00a1}-\u{ffff}0-9]+-?)*[a-z\u{00a1}-\u{ffff}0-9]+)(?:\.(?:[a-z\u{00a1}-\u{ffff}0-9]+-?)*[a-z\u{00a1}-\u{ffff}0-9]+)*(?:\.(?:[a-z\u{00a1}-\u{ffff}]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/iu;
+var URL = /^(?:(?:http[s\u017F]?|ftp):\/\/)(?:(?:[\0-\x08\x0E-\x1F!-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+(?::(?:[\0-\x08\x0E-\x1F!-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])*)?@)?(?:(?!10(?:\.[0-9]{1,3}){3})(?!127(?:\.[0-9]{1,3}){3})(?!169\.254(?:\.[0-9]{1,3}){2})(?!192\.168(?:\.[0-9]{1,3}){2})(?!172\.(?:1[6-9]|2[0-9]|3[01])(?:\.[0-9]{1,3}){2})(?:[1-9][0-9]?|1[0-9][0-9]|2[01][0-9]|22[0-3])(?:\.(?:1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])){2}(?:\.(?:[1-9][0-9]?|1[0-9][0-9]|2[0-4][0-9]|25[0-4]))|(?:(?:(?:[0-9KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+-?)*(?:[0-9KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+)(?:\.(?:(?:[0-9KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+-?)*(?:[0-9KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+)*(?:\.(?:(?:[KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]){2,})))(?::[0-9]{2,5})?(?:\/(?:[\0-\x08\x0E-\x1F!-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])*)?$/i;
+var UUID = /^(?:urn:uuid:)?[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
+var JSON_POINTER = /^(?:\/(?:[^~/]|~0|~1)*)*$|^#(?:\/(?:[a-z0-9_\-.!$&'()*+,;:=@]|%[0-9a-f]{2}|~0|~1)*)*$/i;
+var RELATIVE_JSON_POINTER = /^(?:0|[1-9][0-9]*)(?:#|(?:\/(?:[^~/]|~0|~1)*)*)$/;
+
+
+module.exports = formats;
+
+function formats(mode) {
+  mode = mode == 'full' ? 'full' : 'fast';
+  return util.copy(formats[mode]);
+}
+
+
+formats.fast = {
+  // date: http://tools.ietf.org/html/rfc3339#section-5.6
+  date: /^\d\d\d\d-[0-1]\d-[0-3]\d$/,
+  // date-time: http://tools.ietf.org/html/rfc3339#section-5.6
+  time: /^[0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:z|[+-]\d\d:\d\d)?$/i,
+  'date-time': /^\d\d\d\d-[0-1]\d-[0-3]\d[t\s][0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:z|[+-]\d\d:\d\d)$/i,
+  // uri: https://github.com/mafintosh/is-my-json-valid/blob/master/formats.js
+  uri: /^(?:[a-z][a-z0-9+-.]*)(?::|\/)\/?[^\s]*$/i,
+  'uri-reference': /^(?:(?:[a-z][a-z0-9+-.]*:)?\/\/)?[^\s]*$/i,
+  'uri-template': URITEMPLATE,
+  url: URL,
+  // email (sources from jsen validator):
+  // http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address#answer-8829363
+  // http://www.w3.org/TR/html5/forms.html#valid-e-mail-address (search for 'willful violation')
+  email: /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*$/i,
+  hostname: HOSTNAME,
+  // optimized https://www.safaribooksonline.com/library/view/regular-expressions-cookbook/9780596802837/ch07s16.html
+  ipv4: /^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$/,
+  // optimized http://stackoverflow.com/questions/53497/regular-expression-that-matches-valid-ipv6-addresses
+  ipv6: /^\s*(?:(?:(?:[0-9a-f]{1,4}:){7}(?:[0-9a-f]{1,4}|:))|(?:(?:[0-9a-f]{1,4}:){6}(?::[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(?:(?:[0-9a-f]{1,4}:){5}(?:(?:(?::[0-9a-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(?:(?:[0-9a-f]{1,4}:){4}(?:(?:(?::[0-9a-f]{1,4}){1,3})|(?:(?::[0-9a-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){3}(?:(?:(?::[0-9a-f]{1,4}){1,4})|(?:(?::[0-9a-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){2}(?:(?:(?::[0-9a-f]{1,4}){1,5})|(?:(?::[0-9a-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){1}(?:(?:(?::[0-9a-f]{1,4}){1,6})|(?:(?::[0-9a-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?::(?:(?:(?::[0-9a-f]{1,4}){1,7})|(?:(?::[0-9a-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(?:%.+)?\s*$/i,
+  regex: regex,
+  // uuid: http://tools.ietf.org/html/rfc4122
+  uuid: UUID,
+  // JSON-pointer: https://tools.ietf.org/html/rfc6901
+  // uri fragment: https://tools.ietf.org/html/rfc3986#appendix-A
+  'json-pointer': JSON_POINTER,
+  // relative JSON-pointer: http://tools.ietf.org/html/draft-luff-relative-json-pointer-00
+  'relative-json-pointer': RELATIVE_JSON_POINTER
+};
+
+
+formats.full = {
+  date: date,
+  time: time,
+  'date-time': date_time,
+  uri: uri,
+  'uri-reference': URIREF,
+  'uri-template': URITEMPLATE,
+  url: URL,
+  email: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
+  hostname: hostname,
+  ipv4: /^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$/,
+  ipv6: /^\s*(?:(?:(?:[0-9a-f]{1,4}:){7}(?:[0-9a-f]{1,4}|:))|(?:(?:[0-9a-f]{1,4}:){6}(?::[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(?:(?:[0-9a-f]{1,4}:){5}(?:(?:(?::[0-9a-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(?:(?:[0-9a-f]{1,4}:){4}(?:(?:(?::[0-9a-f]{1,4}){1,3})|(?:(?::[0-9a-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){3}(?:(?:(?::[0-9a-f]{1,4}){1,4})|(?:(?::[0-9a-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){2}(?:(?:(?::[0-9a-f]{1,4}){1,5})|(?:(?::[0-9a-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){1}(?:(?:(?::[0-9a-f]{1,4}){1,6})|(?:(?::[0-9a-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?::(?:(?:(?::[0-9a-f]{1,4}){1,7})|(?:(?::[0-9a-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(?:%.+)?\s*$/i,
+  regex: regex,
+  uuid: UUID,
+  'json-pointer': JSON_POINTER,
+  'relative-json-pointer': RELATIVE_JSON_POINTER
+};
+
+
+function date(str) {
+  // full-date from http://tools.ietf.org/html/rfc3339#section-5.6
+  var matches = str.match(DATE);
+  if (!matches) return false;
+
+  var month = +matches[1];
+  var day = +matches[2];
+  return month >= 1 && month <= 12 && day >= 1 && day <= DAYS[month];
+}
+
+
+function time(str, full) {
+  var matches = str.match(TIME);
+  if (!matches) return false;
+
+  var hour = matches[1];
+  var minute = matches[2];
+  var second = matches[3];
+  var timeZone = matches[5];
+  return hour <= 23 && minute <= 59 && second <= 59 && (!full || timeZone);
+}
+
+
+var DATE_TIME_SEPARATOR = /t|\s/i;
+function date_time(str) {
+  // http://tools.ietf.org/html/rfc3339#section-5.6
+  var dateTime = str.split(DATE_TIME_SEPARATOR);
+  return dateTime.length == 2 && date(dateTime[0]) && time(dateTime[1], true);
+}
+
+
+function hostname(str) {
+  // https://tools.ietf.org/html/rfc1034#section-3.5
+  // https://tools.ietf.org/html/rfc1123#section-2
+  return str.length <= 255 && HOSTNAME.test(str);
+}
+
+
+var NOT_URI_FRAGMENT = /\/|:/;
+function uri(str) {
+  // http://jmrware.com/articles/2009/uri_regexp/URI_regex.html + optional protocol + required "."
+  return NOT_URI_FRAGMENT.test(str) && URI.test(str);
+}
+
+
+var Z_ANCHOR = /[^\\]\\Z/;
+function regex(str) {
+  if (Z_ANCHOR.test(str)) return false;
+  try {
+    new RegExp(str);
+    return true;
+  } catch(e) {
+    return false;
+  }
+}
+
+
+/***/ }),
+/* 591 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var ruleModules = __webpack_require__(592)
+  , toHash = __webpack_require__(163).toHash;
+
+module.exports = function rules() {
+  var RULES = [
+    { type: 'number',
+      rules: [ { 'maximum': ['exclusiveMaximum'] },
+               { 'minimum': ['exclusiveMinimum'] }, 'multipleOf', 'format'] },
+    { type: 'string',
+      rules: [ 'maxLength', 'minLength', 'pattern', 'format' ] },
+    { type: 'array',
+      rules: [ 'maxItems', 'minItems', 'uniqueItems', 'contains', 'items' ] },
+    { type: 'object',
+      rules: [ 'maxProperties', 'minProperties', 'required', 'dependencies', 'propertyNames',
+               { 'properties': ['additionalProperties', 'patternProperties'] } ] },
+    { rules: [ '$ref', 'const', 'enum', 'not', 'anyOf', 'oneOf', 'allOf' ] }
+  ];
+
+  var ALL = [ 'type' ];
+  var KEYWORDS = [
+    'additionalItems', '$schema', 'id', 'title',
+    'description', 'default', 'definitions'
+  ];
+  var TYPES = [ 'number', 'integer', 'string', 'array', 'object', 'boolean', 'null' ];
+  RULES.all = toHash(ALL);
+  RULES.types = toHash(TYPES);
+
+  RULES.forEach(function (group) {
+    group.rules = group.rules.map(function (keyword) {
+      var implKeywords;
+      if (typeof keyword == 'object') {
+        var key = Object.keys(keyword)[0];
+        implKeywords = keyword[key];
+        keyword = key;
+        implKeywords.forEach(function (k) {
+          ALL.push(k);
+          RULES.all[k] = true;
+        });
+      }
+      ALL.push(keyword);
+      var rule = RULES.all[keyword] = {
+        keyword: keyword,
+        code: ruleModules[keyword],
+        implements: implKeywords
+      };
+      return rule;
+    });
+
+    if (group.type) RULES.types[group.type] = group;
+  });
+
+  RULES.keywords = toHash(ALL.concat(KEYWORDS));
+  RULES.custom = {};
+
+  return RULES;
+};
+
+
+/***/ }),
+/* 592 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+//all requires must be explicit because browserify won't work with dynamic requires
+module.exports = {
+  '$ref': __webpack_require__(593),
+  allOf: __webpack_require__(594),
+  anyOf: __webpack_require__(595),
+  const: __webpack_require__(596),
+  contains: __webpack_require__(597),
+  dependencies: __webpack_require__(598),
+  'enum': __webpack_require__(599),
+  format: __webpack_require__(600),
+  items: __webpack_require__(601),
+  maximum: __webpack_require__(339),
+  minimum: __webpack_require__(339),
+  maxItems: __webpack_require__(340),
+  minItems: __webpack_require__(340),
+  maxLength: __webpack_require__(341),
+  minLength: __webpack_require__(341),
+  maxProperties: __webpack_require__(342),
+  minProperties: __webpack_require__(342),
+  multipleOf: __webpack_require__(602),
+  not: __webpack_require__(603),
+  oneOf: __webpack_require__(604),
+  pattern: __webpack_require__(605),
+  properties: __webpack_require__(606),
+  propertyNames: __webpack_require__(607),
+  required: __webpack_require__(608),
+  uniqueItems: __webpack_require__(609),
+  validate: __webpack_require__(337)
+};
+
+
+/***/ }),
+/* 593 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_ref(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $async, $refCode;
+  if ($schema == '#' || $schema == '#/') {
+    if (it.isRoot) {
+      $async = it.async;
+      $refCode = 'validate';
+    } else {
+      $async = it.root.schema.$async === true;
+      $refCode = 'root.refVal[0]';
+    }
+  } else {
+    var $refVal = it.resolveRef(it.baseId, $schema, it.isRoot);
+    if ($refVal === undefined) {
+      var $message = it.MissingRefError.message(it.baseId, $schema);
+      if (it.opts.missingRefs == 'fail') {
+        console.error($message);
+        var $$outStack = $$outStack || [];
+        $$outStack.push(out);
+        out = ''; /* istanbul ignore else */
+        if (it.createErrors !== false) {
+          out += ' { keyword: \'' + ('$ref') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { ref: \'' + (it.util.escapeQuotes($schema)) + '\' } ';
+          if (it.opts.messages !== false) {
+            out += ' , message: \'can\\\'t resolve reference ' + (it.util.escapeQuotes($schema)) + '\' ';
+          }
+          if (it.opts.verbose) {
+            out += ' , schema: ' + (it.util.toQuotedString($schema)) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+          }
+          out += ' } ';
+        } else {
+          out += ' {} ';
+        }
+        var __err = out;
+        out = $$outStack.pop();
+        if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+          if (it.async) {
+            out += ' throw new ValidationError([' + (__err) + ']); ';
+          } else {
+            out += ' validate.errors = [' + (__err) + ']; return false; ';
+          }
+        } else {
+          out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+        }
+        if ($breakOnError) {
+          out += ' if (false) { ';
+        }
+      } else if (it.opts.missingRefs == 'ignore') {
+        console.warn($message);
+        if ($breakOnError) {
+          out += ' if (true) { ';
+        }
+      } else {
+        throw new it.MissingRefError(it.baseId, $schema, $message);
+      }
+    } else if ($refVal.inline) {
+      var $it = it.util.copy(it);
+      $it.level++;
+      var $nextValid = 'valid' + $it.level;
+      $it.schema = $refVal.schema;
+      $it.schemaPath = '';
+      $it.errSchemaPath = $schema;
+      var $code = it.validate($it).replace(/validate\.schema/g, $refVal.code);
+      out += ' ' + ($code) + ' ';
+      if ($breakOnError) {
+        out += ' if (' + ($nextValid) + ') { ';
+      }
+    } else {
+      $async = $refVal.$async === true;
+      $refCode = $refVal.code;
+    }
+  }
+  if ($refCode) {
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = '';
+    if (it.opts.passContext) {
+      out += ' ' + ($refCode) + '.call(this, ';
+    } else {
+      out += ' ' + ($refCode) + '( ';
+    }
+    out += ' ' + ($data) + ', (dataPath || \'\')';
+    if (it.errorPath != '""') {
+      out += ' + ' + (it.errorPath);
+    }
+    var $parentData = $dataLvl ? 'data' + (($dataLvl - 1) || '') : 'parentData',
+      $parentDataProperty = $dataLvl ? it.dataPathArr[$dataLvl] : 'parentDataProperty';
+    out += ' , ' + ($parentData) + ' , ' + ($parentDataProperty) + ', rootData)  ';
+    var __callValidate = out;
+    out = $$outStack.pop();
+    if ($async) {
+      if (!it.async) throw new Error('async schema referenced by sync schema');
+      if ($breakOnError) {
+        out += ' var ' + ($valid) + '; ';
+      }
+      out += ' try { ' + (it.yieldAwait) + ' ' + (__callValidate) + '; ';
+      if ($breakOnError) {
+        out += ' ' + ($valid) + ' = true; ';
+      }
+      out += ' } catch (e) { if (!(e instanceof ValidationError)) throw e; if (vErrors === null) vErrors = e.errors; else vErrors = vErrors.concat(e.errors); errors = vErrors.length; ';
+      if ($breakOnError) {
+        out += ' ' + ($valid) + ' = false; ';
+      }
+      out += ' } ';
+      if ($breakOnError) {
+        out += ' if (' + ($valid) + ') { ';
+      }
+    } else {
+      out += ' if (!' + (__callValidate) + ') { if (vErrors === null) vErrors = ' + ($refCode) + '.errors; else vErrors = vErrors.concat(' + ($refCode) + '.errors); errors = vErrors.length; } ';
+      if ($breakOnError) {
+        out += ' else { ';
+      }
+    }
+  }
+  return out;
+}
+
+
+/***/ }),
+/* 594 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_allOf(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  var $currentBaseId = $it.baseId,
+    $allSchemasEmpty = true;
+  var arr1 = $schema;
+  if (arr1) {
+    var $sch, $i = -1,
+      l1 = arr1.length - 1;
+    while ($i < l1) {
+      $sch = arr1[$i += 1];
+      if (it.util.schemaHasRules($sch, it.RULES.all)) {
+        $allSchemasEmpty = false;
+        $it.schema = $sch;
+        $it.schemaPath = $schemaPath + '[' + $i + ']';
+        $it.errSchemaPath = $errSchemaPath + '/' + $i;
+        out += '  ' + (it.validate($it)) + ' ';
+        $it.baseId = $currentBaseId;
+        if ($breakOnError) {
+          out += ' if (' + ($nextValid) + ') { ';
+          $closingBraces += '}';
+        }
+      }
+    }
+  }
+  if ($breakOnError) {
+    if ($allSchemasEmpty) {
+      out += ' if (true) { ';
+    } else {
+      out += ' ' + ($closingBraces.slice(0, -1)) + ' ';
+    }
+  }
+  out = it.util.cleanUpCode(out);
+  return out;
+}
+
+
+/***/ }),
+/* 595 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_anyOf(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  var $noEmptySchema = $schema.every(function($sch) {
+    return it.util.schemaHasRules($sch, it.RULES.all);
+  });
+  if ($noEmptySchema) {
+    var $currentBaseId = $it.baseId;
+    out += ' var ' + ($errs) + ' = errors; var ' + ($valid) + ' = false;  ';
+    var $wasComposite = it.compositeRule;
+    it.compositeRule = $it.compositeRule = true;
+    var arr1 = $schema;
+    if (arr1) {
+      var $sch, $i = -1,
+        l1 = arr1.length - 1;
+      while ($i < l1) {
+        $sch = arr1[$i += 1];
+        $it.schema = $sch;
+        $it.schemaPath = $schemaPath + '[' + $i + ']';
+        $it.errSchemaPath = $errSchemaPath + '/' + $i;
+        out += '  ' + (it.validate($it)) + ' ';
+        $it.baseId = $currentBaseId;
+        out += ' ' + ($valid) + ' = ' + ($valid) + ' || ' + ($nextValid) + '; if (!' + ($valid) + ') { ';
+        $closingBraces += '}';
+      }
+    }
+    it.compositeRule = $it.compositeRule = $wasComposite;
+    out += ' ' + ($closingBraces) + ' if (!' + ($valid) + ') {   var err =   '; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ('anyOf') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'should match some schema in anyOf\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError(vErrors); ';
+      } else {
+        out += ' validate.errors = vErrors; return false; ';
+      }
+    }
+    out += ' } else {  errors = ' + ($errs) + '; if (vErrors !== null) { if (' + ($errs) + ') vErrors.length = ' + ($errs) + '; else vErrors = null; } ';
+    if (it.opts.allErrors) {
+      out += ' } ';
+    }
+    out = it.util.cleanUpCode(out);
+  } else {
+    if ($breakOnError) {
+      out += ' if (true) { ';
+    }
+  }
+  return out;
+}
+
+
+/***/ }),
+/* 596 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_const(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  if (!$isData) {
+    out += ' var schema' + ($lvl) + ' = validate.schema' + ($schemaPath) + ';';
+  }
+  out += 'var ' + ($valid) + ' = equal(' + ($data) + ', schema' + ($lvl) + '); if (!' + ($valid) + ') {   ';
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('const') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should be equal to constant\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += ' }';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+/* 597 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_contains(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  var $idx = 'i' + $lvl,
+    $dataNxt = $it.dataLevel = it.dataLevel + 1,
+    $nextData = 'data' + $dataNxt,
+    $currentBaseId = it.baseId,
+    $nonEmptySchema = it.util.schemaHasRules($schema, it.RULES.all);
+  out += 'var ' + ($errs) + ' = errors;var ' + ($valid) + ';';
+  if ($nonEmptySchema) {
+    var $wasComposite = it.compositeRule;
+    it.compositeRule = $it.compositeRule = true;
+    $it.schema = $schema;
+    $it.schemaPath = $schemaPath;
+    $it.errSchemaPath = $errSchemaPath;
+    out += ' var ' + ($nextValid) + ' = false; for (var ' + ($idx) + ' = 0; ' + ($idx) + ' < ' + ($data) + '.length; ' + ($idx) + '++) { ';
+    $it.errorPath = it.util.getPathExpr(it.errorPath, $idx, it.opts.jsonPointers, true);
+    var $passData = $data + '[' + $idx + ']';
+    $it.dataPathArr[$dataNxt] = $idx;
+    var $code = it.validate($it);
+    $it.baseId = $currentBaseId;
+    if (it.util.varOccurences($code, $nextData) < 2) {
+      out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+    } else {
+      out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+    }
+    out += ' if (' + ($nextValid) + ') break; }  ';
+    it.compositeRule = $it.compositeRule = $wasComposite;
+    out += ' ' + ($closingBraces) + ' if (!' + ($nextValid) + ') {';
+  } else {
+    out += ' if (' + ($data) + '.length == 0) {';
+  }
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('contains') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should contain a valid item\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += ' } else { ';
+  if ($nonEmptySchema) {
+    out += '  errors = ' + ($errs) + '; if (vErrors !== null) { if (' + ($errs) + ') vErrors.length = ' + ($errs) + '; else vErrors = null; } ';
+  }
+  if (it.opts.allErrors) {
+    out += ' } ';
+  }
+  out = it.util.cleanUpCode(out);
+  return out;
+}
+
+
+/***/ }),
+/* 598 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_dependencies(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  var $schemaDeps = {},
+    $propertyDeps = {},
+    $ownProperties = it.opts.ownProperties;
+  for ($property in $schema) {
+    var $sch = $schema[$property];
+    var $deps = Array.isArray($sch) ? $propertyDeps : $schemaDeps;
+    $deps[$property] = $sch;
+  }
+  out += 'var ' + ($errs) + ' = errors;';
+  var $currentErrorPath = it.errorPath;
+  out += 'var missing' + ($lvl) + ';';
+  for (var $property in $propertyDeps) {
+    $deps = $propertyDeps[$property];
+    if ($deps.length) {
+      out += ' if ( ' + ($data) + (it.util.getProperty($property)) + ' !== undefined ';
+      if ($ownProperties) {
+        out += ' && Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($property)) + '\') ';
+      }
+      if ($breakOnError) {
+        out += ' && ( ';
+        var arr1 = $deps;
+        if (arr1) {
+          var $propertyKey, $i = -1,
+            l1 = arr1.length - 1;
+          while ($i < l1) {
+            $propertyKey = arr1[$i += 1];
+            if ($i) {
+              out += ' || ';
+            }
+            var $prop = it.util.getProperty($propertyKey),
+              $useData = $data + $prop;
+            out += ' ( ( ' + ($useData) + ' === undefined ';
+            if ($ownProperties) {
+              out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+            }
+            out += ') && (missing' + ($lvl) + ' = ' + (it.util.toQuotedString(it.opts.jsonPointers ? $propertyKey : $prop)) + ') ) ';
+          }
+        }
+        out += ')) {  ';
+        var $propertyPath = 'missing' + $lvl,
+          $missingProperty = '\' + ' + $propertyPath + ' + \'';
+        if (it.opts._errorDataPathProperty) {
+          it.errorPath = it.opts.jsonPointers ? it.util.getPathExpr($currentErrorPath, $propertyPath, true) : $currentErrorPath + ' + ' + $propertyPath;
+        }
+        var $$outStack = $$outStack || [];
+        $$outStack.push(out);
+        out = ''; /* istanbul ignore else */
+        if (it.createErrors !== false) {
+          out += ' { keyword: \'' + ('dependencies') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { property: \'' + (it.util.escapeQuotes($property)) + '\', missingProperty: \'' + ($missingProperty) + '\', depsCount: ' + ($deps.length) + ', deps: \'' + (it.util.escapeQuotes($deps.length == 1 ? $deps[0] : $deps.join(", "))) + '\' } ';
+          if (it.opts.messages !== false) {
+            out += ' , message: \'should have ';
+            if ($deps.length == 1) {
+              out += 'property ' + (it.util.escapeQuotes($deps[0]));
+            } else {
+              out += 'properties ' + (it.util.escapeQuotes($deps.join(", ")));
+            }
+            out += ' when property ' + (it.util.escapeQuotes($property)) + ' is present\' ';
+          }
+          if (it.opts.verbose) {
+            out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+          }
+          out += ' } ';
+        } else {
+          out += ' {} ';
+        }
+        var __err = out;
+        out = $$outStack.pop();
+        if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+          if (it.async) {
+            out += ' throw new ValidationError([' + (__err) + ']); ';
+          } else {
+            out += ' validate.errors = [' + (__err) + ']; return false; ';
+          }
+        } else {
+          out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+        }
+      } else {
+        out += ' ) { ';
+        var arr2 = $deps;
+        if (arr2) {
+          var $propertyKey, i2 = -1,
+            l2 = arr2.length - 1;
+          while (i2 < l2) {
+            $propertyKey = arr2[i2 += 1];
+            var $prop = it.util.getProperty($propertyKey),
+              $missingProperty = it.util.escapeQuotes($propertyKey),
+              $useData = $data + $prop;
+            if (it.opts._errorDataPathProperty) {
+              it.errorPath = it.util.getPath($currentErrorPath, $propertyKey, it.opts.jsonPointers);
+            }
+            out += ' if ( ' + ($useData) + ' === undefined ';
+            if ($ownProperties) {
+              out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+            }
+            out += ') {  var err =   '; /* istanbul ignore else */
+            if (it.createErrors !== false) {
+              out += ' { keyword: \'' + ('dependencies') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { property: \'' + (it.util.escapeQuotes($property)) + '\', missingProperty: \'' + ($missingProperty) + '\', depsCount: ' + ($deps.length) + ', deps: \'' + (it.util.escapeQuotes($deps.length == 1 ? $deps[0] : $deps.join(", "))) + '\' } ';
+              if (it.opts.messages !== false) {
+                out += ' , message: \'should have ';
+                if ($deps.length == 1) {
+                  out += 'property ' + (it.util.escapeQuotes($deps[0]));
+                } else {
+                  out += 'properties ' + (it.util.escapeQuotes($deps.join(", ")));
+                }
+                out += ' when property ' + (it.util.escapeQuotes($property)) + ' is present\' ';
+              }
+              if (it.opts.verbose) {
+                out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+              }
+              out += ' } ';
+            } else {
+              out += ' {} ';
+            }
+            out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; } ';
+          }
+        }
+      }
+      out += ' }   ';
+      if ($breakOnError) {
+        $closingBraces += '}';
+        out += ' else { ';
+      }
+    }
+  }
+  it.errorPath = $currentErrorPath;
+  var $currentBaseId = $it.baseId;
+  for (var $property in $schemaDeps) {
+    var $sch = $schemaDeps[$property];
+    if (it.util.schemaHasRules($sch, it.RULES.all)) {
+      out += ' ' + ($nextValid) + ' = true; if ( ' + ($data) + (it.util.getProperty($property)) + ' !== undefined ';
+      if ($ownProperties) {
+        out += ' && Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($property)) + '\') ';
+      }
+      out += ') { ';
+      $it.schema = $sch;
+      $it.schemaPath = $schemaPath + it.util.getProperty($property);
+      $it.errSchemaPath = $errSchemaPath + '/' + it.util.escapeFragment($property);
+      out += '  ' + (it.validate($it)) + ' ';
+      $it.baseId = $currentBaseId;
+      out += ' }  ';
+      if ($breakOnError) {
+        out += ' if (' + ($nextValid) + ') { ';
+        $closingBraces += '}';
+      }
+    }
+  }
+  if ($breakOnError) {
+    out += '   ' + ($closingBraces) + ' if (' + ($errs) + ' == errors) {';
+  }
+  out = it.util.cleanUpCode(out);
+  return out;
+}
+
+
+/***/ }),
+/* 599 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_enum(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $i = 'i' + $lvl,
+    $vSchema = 'schema' + $lvl;
+  if (!$isData) {
+    out += ' var ' + ($vSchema) + ' = validate.schema' + ($schemaPath) + ';';
+  }
+  out += 'var ' + ($valid) + ';';
+  if ($isData) {
+    out += ' if (schema' + ($lvl) + ' === undefined) ' + ($valid) + ' = true; else if (!Array.isArray(schema' + ($lvl) + ')) ' + ($valid) + ' = false; else {';
+  }
+  out += '' + ($valid) + ' = false;for (var ' + ($i) + '=0; ' + ($i) + '<' + ($vSchema) + '.length; ' + ($i) + '++) if (equal(' + ($data) + ', ' + ($vSchema) + '[' + ($i) + '])) { ' + ($valid) + ' = true; break; }';
+  if ($isData) {
+    out += '  }  ';
+  }
+  out += ' if (!' + ($valid) + ') {   ';
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('enum') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { allowedValues: schema' + ($lvl) + ' } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should be equal to one of the allowed values\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += ' }';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+/* 600 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_format(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  if (it.opts.format === false) {
+    if ($breakOnError) {
+      out += ' if (true) { ';
+    }
+    return out;
+  }
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $unknownFormats = it.opts.unknownFormats,
+    $allowUnknown = Array.isArray($unknownFormats);
+  if ($isData) {
+    var $format = 'format' + $lvl,
+      $isObject = 'isObject' + $lvl,
+      $formatType = 'formatType' + $lvl;
+    out += ' var ' + ($format) + ' = formats[' + ($schemaValue) + ']; var ' + ($isObject) + ' = typeof ' + ($format) + ' == \'object\' && !(' + ($format) + ' instanceof RegExp) && ' + ($format) + '.validate; var ' + ($formatType) + ' = ' + ($isObject) + ' && ' + ($format) + '.type || \'string\'; if (' + ($isObject) + ') { ';
+    if (it.async) {
+      out += ' var async' + ($lvl) + ' = ' + ($format) + '.async; ';
+    }
+    out += ' ' + ($format) + ' = ' + ($format) + '.validate; } if (  ';
+    if ($isData) {
+      out += ' (' + ($schemaValue) + ' !== undefined && typeof ' + ($schemaValue) + ' != \'string\') || ';
+    }
+    out += ' (';
+    if ($unknownFormats != 'ignore') {
+      out += ' (' + ($schemaValue) + ' && !' + ($format) + ' ';
+      if ($allowUnknown) {
+        out += ' && self._opts.unknownFormats.indexOf(' + ($schemaValue) + ') == -1 ';
+      }
+      out += ') || ';
+    }
+    out += ' (' + ($format) + ' && ' + ($formatType) + ' == \'' + ($ruleType) + '\' && !(typeof ' + ($format) + ' == \'function\' ? ';
+    if (it.async) {
+      out += ' (async' + ($lvl) + ' ? ' + (it.yieldAwait) + ' ' + ($format) + '(' + ($data) + ') : ' + ($format) + '(' + ($data) + ')) ';
+    } else {
+      out += ' ' + ($format) + '(' + ($data) + ') ';
+    }
+    out += ' : ' + ($format) + '.test(' + ($data) + '))))) {';
+  } else {
+    var $format = it.formats[$schema];
+    if (!$format) {
+      if ($unknownFormats == 'ignore') {
+        console.warn('unknown format "' + $schema + '" ignored in schema at path "' + it.errSchemaPath + '"');
+        if ($breakOnError) {
+          out += ' if (true) { ';
+        }
+        return out;
+      } else if ($allowUnknown && $unknownFormats.indexOf($schema) >= 0) {
+        if ($breakOnError) {
+          out += ' if (true) { ';
+        }
+        return out;
+      } else {
+        throw new Error('unknown format "' + $schema + '" is used in schema at path "' + it.errSchemaPath + '"');
+      }
+    }
+    var $isObject = typeof $format == 'object' && !($format instanceof RegExp) && $format.validate;
+    var $formatType = $isObject && $format.type || 'string';
+    if ($isObject) {
+      var $async = $format.async === true;
+      $format = $format.validate;
+    }
+    if ($formatType != $ruleType) {
+      if ($breakOnError) {
+        out += ' if (true) { ';
+      }
+      return out;
+    }
+    if ($async) {
+      if (!it.async) throw new Error('async format in sync schema');
+      var $formatRef = 'formats' + it.util.getProperty($schema) + '.validate';
+      out += ' if (!(' + (it.yieldAwait) + ' ' + ($formatRef) + '(' + ($data) + '))) { ';
+    } else {
+      out += ' if (! ';
+      var $formatRef = 'formats' + it.util.getProperty($schema);
+      if ($isObject) $formatRef += '.validate';
+      if (typeof $format == 'function') {
+        out += ' ' + ($formatRef) + '(' + ($data) + ') ';
+      } else {
+        out += ' ' + ($formatRef) + '.test(' + ($data) + ') ';
+      }
+      out += ') { ';
+    }
+  }
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('format') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { format:  ';
+    if ($isData) {
+      out += '' + ($schemaValue);
+    } else {
+      out += '' + (it.util.toQuotedString($schema));
+    }
+    out += '  } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should match format "';
+      if ($isData) {
+        out += '\' + ' + ($schemaValue) + ' + \'';
+      } else {
+        out += '' + (it.util.escapeQuotes($schema));
+      }
+      out += '"\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema:  ';
+      if ($isData) {
+        out += 'validate.schema' + ($schemaPath);
+      } else {
+        out += '' + (it.util.toQuotedString($schema));
+      }
+      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += ' } ';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+/* 601 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_items(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  var $idx = 'i' + $lvl,
+    $dataNxt = $it.dataLevel = it.dataLevel + 1,
+    $nextData = 'data' + $dataNxt,
+    $currentBaseId = it.baseId;
+  out += 'var ' + ($errs) + ' = errors;var ' + ($valid) + ';';
+  if (Array.isArray($schema)) {
+    var $additionalItems = it.schema.additionalItems;
+    if ($additionalItems === false) {
+      out += ' ' + ($valid) + ' = ' + ($data) + '.length <= ' + ($schema.length) + '; ';
+      var $currErrSchemaPath = $errSchemaPath;
+      $errSchemaPath = it.errSchemaPath + '/additionalItems';
+      out += '  if (!' + ($valid) + ') {   ';
+      var $$outStack = $$outStack || [];
+      $$outStack.push(out);
+      out = ''; /* istanbul ignore else */
+      if (it.createErrors !== false) {
+        out += ' { keyword: \'' + ('additionalItems') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { limit: ' + ($schema.length) + ' } ';
+        if (it.opts.messages !== false) {
+          out += ' , message: \'should NOT have more than ' + ($schema.length) + ' items\' ';
+        }
+        if (it.opts.verbose) {
+          out += ' , schema: false , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+        }
+        out += ' } ';
+      } else {
+        out += ' {} ';
+      }
+      var __err = out;
+      out = $$outStack.pop();
+      if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+        if (it.async) {
+          out += ' throw new ValidationError([' + (__err) + ']); ';
+        } else {
+          out += ' validate.errors = [' + (__err) + ']; return false; ';
+        }
+      } else {
+        out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+      }
+      out += ' } ';
+      $errSchemaPath = $currErrSchemaPath;
+      if ($breakOnError) {
+        $closingBraces += '}';
+        out += ' else { ';
+      }
+    }
+    var arr1 = $schema;
+    if (arr1) {
+      var $sch, $i = -1,
+        l1 = arr1.length - 1;
+      while ($i < l1) {
+        $sch = arr1[$i += 1];
+        if (it.util.schemaHasRules($sch, it.RULES.all)) {
+          out += ' ' + ($nextValid) + ' = true; if (' + ($data) + '.length > ' + ($i) + ') { ';
+          var $passData = $data + '[' + $i + ']';
+          $it.schema = $sch;
+          $it.schemaPath = $schemaPath + '[' + $i + ']';
+          $it.errSchemaPath = $errSchemaPath + '/' + $i;
+          $it.errorPath = it.util.getPathExpr(it.errorPath, $i, it.opts.jsonPointers, true);
+          $it.dataPathArr[$dataNxt] = $i;
+          var $code = it.validate($it);
+          $it.baseId = $currentBaseId;
+          if (it.util.varOccurences($code, $nextData) < 2) {
+            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+          } else {
+            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+          }
+          out += ' }  ';
+          if ($breakOnError) {
+            out += ' if (' + ($nextValid) + ') { ';
+            $closingBraces += '}';
+          }
+        }
+      }
+    }
+    if (typeof $additionalItems == 'object' && it.util.schemaHasRules($additionalItems, it.RULES.all)) {
+      $it.schema = $additionalItems;
+      $it.schemaPath = it.schemaPath + '.additionalItems';
+      $it.errSchemaPath = it.errSchemaPath + '/additionalItems';
+      out += ' ' + ($nextValid) + ' = true; if (' + ($data) + '.length > ' + ($schema.length) + ') {  for (var ' + ($idx) + ' = ' + ($schema.length) + '; ' + ($idx) + ' < ' + ($data) + '.length; ' + ($idx) + '++) { ';
+      $it.errorPath = it.util.getPathExpr(it.errorPath, $idx, it.opts.jsonPointers, true);
+      var $passData = $data + '[' + $idx + ']';
+      $it.dataPathArr[$dataNxt] = $idx;
+      var $code = it.validate($it);
+      $it.baseId = $currentBaseId;
+      if (it.util.varOccurences($code, $nextData) < 2) {
+        out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+      } else {
+        out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+      }
+      if ($breakOnError) {
+        out += ' if (!' + ($nextValid) + ') break; ';
+      }
+      out += ' } }  ';
+      if ($breakOnError) {
+        out += ' if (' + ($nextValid) + ') { ';
+        $closingBraces += '}';
+      }
+    }
+  } else if (it.util.schemaHasRules($schema, it.RULES.all)) {
+    $it.schema = $schema;
+    $it.schemaPath = $schemaPath;
+    $it.errSchemaPath = $errSchemaPath;
+    out += '  for (var ' + ($idx) + ' = ' + (0) + '; ' + ($idx) + ' < ' + ($data) + '.length; ' + ($idx) + '++) { ';
+    $it.errorPath = it.util.getPathExpr(it.errorPath, $idx, it.opts.jsonPointers, true);
+    var $passData = $data + '[' + $idx + ']';
+    $it.dataPathArr[$dataNxt] = $idx;
+    var $code = it.validate($it);
+    $it.baseId = $currentBaseId;
+    if (it.util.varOccurences($code, $nextData) < 2) {
+      out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+    } else {
+      out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+    }
+    if ($breakOnError) {
+      out += ' if (!' + ($nextValid) + ') break; ';
+    }
+    out += ' }';
+  }
+  if ($breakOnError) {
+    out += ' ' + ($closingBraces) + ' if (' + ($errs) + ' == errors) {';
+  }
+  out = it.util.cleanUpCode(out);
+  return out;
+}
+
+
+/***/ }),
+/* 602 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_multipleOf(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  out += 'var division' + ($lvl) + ';if (';
+  if ($isData) {
+    out += ' ' + ($schemaValue) + ' !== undefined && ( typeof ' + ($schemaValue) + ' != \'number\' || ';
+  }
+  out += ' (division' + ($lvl) + ' = ' + ($data) + ' / ' + ($schemaValue) + ', ';
+  if (it.opts.multipleOfPrecision) {
+    out += ' Math.abs(Math.round(division' + ($lvl) + ') - division' + ($lvl) + ') > 1e-' + (it.opts.multipleOfPrecision) + ' ';
+  } else {
+    out += ' division' + ($lvl) + ' !== parseInt(division' + ($lvl) + ') ';
+  }
+  out += ' ) ';
+  if ($isData) {
+    out += '  )  ';
+  }
+  out += ' ) {   ';
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('multipleOf') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { multipleOf: ' + ($schemaValue) + ' } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should be multiple of ';
+      if ($isData) {
+        out += '\' + ' + ($schemaValue);
+      } else {
+        out += '' + ($schemaValue) + '\'';
+      }
+    }
+    if (it.opts.verbose) {
+      out += ' , schema:  ';
+      if ($isData) {
+        out += 'validate.schema' + ($schemaPath);
+      } else {
+        out += '' + ($schema);
+      }
+      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += '} ';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+/* 603 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_not(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  if (it.util.schemaHasRules($schema, it.RULES.all)) {
+    $it.schema = $schema;
+    $it.schemaPath = $schemaPath;
+    $it.errSchemaPath = $errSchemaPath;
+    out += ' var ' + ($errs) + ' = errors;  ';
+    var $wasComposite = it.compositeRule;
+    it.compositeRule = $it.compositeRule = true;
+    $it.createErrors = false;
+    var $allErrorsOption;
+    if ($it.opts.allErrors) {
+      $allErrorsOption = $it.opts.allErrors;
+      $it.opts.allErrors = false;
+    }
+    out += ' ' + (it.validate($it)) + ' ';
+    $it.createErrors = true;
+    if ($allErrorsOption) $it.opts.allErrors = $allErrorsOption;
+    it.compositeRule = $it.compositeRule = $wasComposite;
+    out += ' if (' + ($nextValid) + ') {   ';
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = ''; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ('not') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'should NOT be valid\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    var __err = out;
+    out = $$outStack.pop();
+    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError([' + (__err) + ']); ';
+      } else {
+        out += ' validate.errors = [' + (__err) + ']; return false; ';
+      }
+    } else {
+      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    }
+    out += ' } else {  errors = ' + ($errs) + '; if (vErrors !== null) { if (' + ($errs) + ') vErrors.length = ' + ($errs) + '; else vErrors = null; } ';
+    if (it.opts.allErrors) {
+      out += ' } ';
+    }
+  } else {
+    out += '  var err =   '; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ('not') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'should NOT be valid\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    if ($breakOnError) {
+      out += ' if (false) { ';
+    }
+  }
+  return out;
+}
+
+
+/***/ }),
+/* 604 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_oneOf(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  out += 'var ' + ($errs) + ' = errors;var prevValid' + ($lvl) + ' = false;var ' + ($valid) + ' = false;';
+  var $currentBaseId = $it.baseId;
+  var $wasComposite = it.compositeRule;
+  it.compositeRule = $it.compositeRule = true;
+  var arr1 = $schema;
+  if (arr1) {
+    var $sch, $i = -1,
+      l1 = arr1.length - 1;
+    while ($i < l1) {
+      $sch = arr1[$i += 1];
+      if (it.util.schemaHasRules($sch, it.RULES.all)) {
+        $it.schema = $sch;
+        $it.schemaPath = $schemaPath + '[' + $i + ']';
+        $it.errSchemaPath = $errSchemaPath + '/' + $i;
+        out += '  ' + (it.validate($it)) + ' ';
+        $it.baseId = $currentBaseId;
+      } else {
+        out += ' var ' + ($nextValid) + ' = true; ';
+      }
+      if ($i) {
+        out += ' if (' + ($nextValid) + ' && prevValid' + ($lvl) + ') ' + ($valid) + ' = false; else { ';
+        $closingBraces += '}';
+      }
+      out += ' if (' + ($nextValid) + ') ' + ($valid) + ' = prevValid' + ($lvl) + ' = true;';
+    }
+  }
+  it.compositeRule = $it.compositeRule = $wasComposite;
+  out += '' + ($closingBraces) + 'if (!' + ($valid) + ') {   var err =   '; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('oneOf') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should match exactly one schema in oneOf\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError(vErrors); ';
+    } else {
+      out += ' validate.errors = vErrors; return false; ';
+    }
+  }
+  out += '} else {  errors = ' + ($errs) + '; if (vErrors !== null) { if (' + ($errs) + ') vErrors.length = ' + ($errs) + '; else vErrors = null; }';
+  if (it.opts.allErrors) {
+    out += ' } ';
+  }
+  return out;
+}
+
+
+/***/ }),
+/* 605 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_pattern(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $regexp = $isData ? '(new RegExp(' + $schemaValue + '))' : it.usePattern($schema);
+  out += 'if ( ';
+  if ($isData) {
+    out += ' (' + ($schemaValue) + ' !== undefined && typeof ' + ($schemaValue) + ' != \'string\') || ';
+  }
+  out += ' !' + ($regexp) + '.test(' + ($data) + ') ) {   ';
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('pattern') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { pattern:  ';
+    if ($isData) {
+      out += '' + ($schemaValue);
+    } else {
+      out += '' + (it.util.toQuotedString($schema));
+    }
+    out += '  } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should match pattern "';
+      if ($isData) {
+        out += '\' + ' + ($schemaValue) + ' + \'';
+      } else {
+        out += '' + (it.util.escapeQuotes($schema));
+      }
+      out += '"\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema:  ';
+      if ($isData) {
+        out += 'validate.schema' + ($schemaPath);
+      } else {
+        out += '' + (it.util.toQuotedString($schema));
+      }
+      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += '} ';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+/* 606 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_properties(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  var $key = 'key' + $lvl,
+    $idx = 'idx' + $lvl,
+    $dataNxt = $it.dataLevel = it.dataLevel + 1,
+    $nextData = 'data' + $dataNxt,
+    $dataProperties = 'dataProperties' + $lvl;
+  var $schemaKeys = Object.keys($schema || {}),
+    $pProperties = it.schema.patternProperties || {},
+    $pPropertyKeys = Object.keys($pProperties),
+    $aProperties = it.schema.additionalProperties,
+    $someProperties = $schemaKeys.length || $pPropertyKeys.length,
+    $noAdditional = $aProperties === false,
+    $additionalIsSchema = typeof $aProperties == 'object' && Object.keys($aProperties).length,
+    $removeAdditional = it.opts.removeAdditional,
+    $checkAdditional = $noAdditional || $additionalIsSchema || $removeAdditional,
+    $ownProperties = it.opts.ownProperties,
+    $currentBaseId = it.baseId;
+  var $required = it.schema.required;
+  if ($required && !(it.opts.v5 && $required.$data) && $required.length < it.opts.loopRequired) var $requiredHash = it.util.toHash($required);
+  if (it.opts.patternGroups) {
+    var $pgProperties = it.schema.patternGroups || {},
+      $pgPropertyKeys = Object.keys($pgProperties);
+  }
+  out += 'var ' + ($errs) + ' = errors;var ' + ($nextValid) + ' = true;';
+  if ($ownProperties) {
+    out += ' var ' + ($dataProperties) + ' = undefined;';
+  }
+  if ($checkAdditional) {
+    if ($ownProperties) {
+      out += ' ' + ($dataProperties) + ' = ' + ($dataProperties) + ' || Object.keys(' + ($data) + '); for (var ' + ($idx) + '=0; ' + ($idx) + '<' + ($dataProperties) + '.length; ' + ($idx) + '++) { var ' + ($key) + ' = ' + ($dataProperties) + '[' + ($idx) + ']; ';
+    } else {
+      out += ' for (var ' + ($key) + ' in ' + ($data) + ') { ';
+    }
+    if ($someProperties) {
+      out += ' var isAdditional' + ($lvl) + ' = !(false ';
+      if ($schemaKeys.length) {
+        if ($schemaKeys.length > 5) {
+          out += ' || validate.schema' + ($schemaPath) + '[' + ($key) + '] ';
+        } else {
+          var arr1 = $schemaKeys;
+          if (arr1) {
+            var $propertyKey, i1 = -1,
+              l1 = arr1.length - 1;
+            while (i1 < l1) {
+              $propertyKey = arr1[i1 += 1];
+              out += ' || ' + ($key) + ' == ' + (it.util.toQuotedString($propertyKey)) + ' ';
+            }
+          }
+        }
+      }
+      if ($pPropertyKeys.length) {
+        var arr2 = $pPropertyKeys;
+        if (arr2) {
+          var $pProperty, $i = -1,
+            l2 = arr2.length - 1;
+          while ($i < l2) {
+            $pProperty = arr2[$i += 1];
+            out += ' || ' + (it.usePattern($pProperty)) + '.test(' + ($key) + ') ';
+          }
+        }
+      }
+      if (it.opts.patternGroups && $pgPropertyKeys.length) {
+        var arr3 = $pgPropertyKeys;
+        if (arr3) {
+          var $pgProperty, $i = -1,
+            l3 = arr3.length - 1;
+          while ($i < l3) {
+            $pgProperty = arr3[$i += 1];
+            out += ' || ' + (it.usePattern($pgProperty)) + '.test(' + ($key) + ') ';
+          }
+        }
+      }
+      out += ' ); if (isAdditional' + ($lvl) + ') { ';
+    }
+    if ($removeAdditional == 'all') {
+      out += ' delete ' + ($data) + '[' + ($key) + ']; ';
+    } else {
+      var $currentErrorPath = it.errorPath;
+      var $additionalProperty = '\' + ' + $key + ' + \'';
+      if (it.opts._errorDataPathProperty) {
+        it.errorPath = it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
+      }
+      if ($noAdditional) {
+        if ($removeAdditional) {
+          out += ' delete ' + ($data) + '[' + ($key) + ']; ';
+        } else {
+          out += ' ' + ($nextValid) + ' = false; ';
+          var $currErrSchemaPath = $errSchemaPath;
+          $errSchemaPath = it.errSchemaPath + '/additionalProperties';
+          var $$outStack = $$outStack || [];
+          $$outStack.push(out);
+          out = ''; /* istanbul ignore else */
+          if (it.createErrors !== false) {
+            out += ' { keyword: \'' + ('additionalProperties') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { additionalProperty: \'' + ($additionalProperty) + '\' } ';
+            if (it.opts.messages !== false) {
+              out += ' , message: \'should NOT have additional properties\' ';
+            }
+            if (it.opts.verbose) {
+              out += ' , schema: false , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+            }
+            out += ' } ';
+          } else {
+            out += ' {} ';
+          }
+          var __err = out;
+          out = $$outStack.pop();
+          if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+            if (it.async) {
+              out += ' throw new ValidationError([' + (__err) + ']); ';
+            } else {
+              out += ' validate.errors = [' + (__err) + ']; return false; ';
+            }
+          } else {
+            out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+          }
+          $errSchemaPath = $currErrSchemaPath;
+          if ($breakOnError) {
+            out += ' break; ';
+          }
+        }
+      } else if ($additionalIsSchema) {
+        if ($removeAdditional == 'failing') {
+          out += ' var ' + ($errs) + ' = errors;  ';
+          var $wasComposite = it.compositeRule;
+          it.compositeRule = $it.compositeRule = true;
+          $it.schema = $aProperties;
+          $it.schemaPath = it.schemaPath + '.additionalProperties';
+          $it.errSchemaPath = it.errSchemaPath + '/additionalProperties';
+          $it.errorPath = it.opts._errorDataPathProperty ? it.errorPath : it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
+          var $passData = $data + '[' + $key + ']';
+          $it.dataPathArr[$dataNxt] = $key;
+          var $code = it.validate($it);
+          $it.baseId = $currentBaseId;
+          if (it.util.varOccurences($code, $nextData) < 2) {
+            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+          } else {
+            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+          }
+          out += ' if (!' + ($nextValid) + ') { errors = ' + ($errs) + '; if (validate.errors !== null) { if (errors) validate.errors.length = errors; else validate.errors = null; } delete ' + ($data) + '[' + ($key) + ']; }  ';
+          it.compositeRule = $it.compositeRule = $wasComposite;
+        } else {
+          $it.schema = $aProperties;
+          $it.schemaPath = it.schemaPath + '.additionalProperties';
+          $it.errSchemaPath = it.errSchemaPath + '/additionalProperties';
+          $it.errorPath = it.opts._errorDataPathProperty ? it.errorPath : it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
+          var $passData = $data + '[' + $key + ']';
+          $it.dataPathArr[$dataNxt] = $key;
+          var $code = it.validate($it);
+          $it.baseId = $currentBaseId;
+          if (it.util.varOccurences($code, $nextData) < 2) {
+            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+          } else {
+            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+          }
+          if ($breakOnError) {
+            out += ' if (!' + ($nextValid) + ') break; ';
+          }
+        }
+      }
+      it.errorPath = $currentErrorPath;
+    }
+    if ($someProperties) {
+      out += ' } ';
+    }
+    out += ' }  ';
+    if ($breakOnError) {
+      out += ' if (' + ($nextValid) + ') { ';
+      $closingBraces += '}';
+    }
+  }
+  var $useDefaults = it.opts.useDefaults && !it.compositeRule;
+  if ($schemaKeys.length) {
+    var arr4 = $schemaKeys;
+    if (arr4) {
+      var $propertyKey, i4 = -1,
+        l4 = arr4.length - 1;
+      while (i4 < l4) {
+        $propertyKey = arr4[i4 += 1];
+        var $sch = $schema[$propertyKey];
+        if (it.util.schemaHasRules($sch, it.RULES.all)) {
+          var $prop = it.util.getProperty($propertyKey),
+            $passData = $data + $prop,
+            $hasDefault = $useDefaults && $sch.default !== undefined;
+          $it.schema = $sch;
+          $it.schemaPath = $schemaPath + $prop;
+          $it.errSchemaPath = $errSchemaPath + '/' + it.util.escapeFragment($propertyKey);
+          $it.errorPath = it.util.getPath(it.errorPath, $propertyKey, it.opts.jsonPointers);
+          $it.dataPathArr[$dataNxt] = it.util.toQuotedString($propertyKey);
+          var $code = it.validate($it);
+          $it.baseId = $currentBaseId;
+          if (it.util.varOccurences($code, $nextData) < 2) {
+            $code = it.util.varReplace($code, $nextData, $passData);
+            var $useData = $passData;
+          } else {
+            var $useData = $nextData;
+            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ';
+          }
+          if ($hasDefault) {
+            out += ' ' + ($code) + ' ';
+          } else {
+            if ($requiredHash && $requiredHash[$propertyKey]) {
+              out += ' if ( ' + ($useData) + ' === undefined ';
+              if ($ownProperties) {
+                out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+              }
+              out += ') { ' + ($nextValid) + ' = false; ';
+              var $currentErrorPath = it.errorPath,
+                $currErrSchemaPath = $errSchemaPath,
+                $missingProperty = it.util.escapeQuotes($propertyKey);
+              if (it.opts._errorDataPathProperty) {
+                it.errorPath = it.util.getPath($currentErrorPath, $propertyKey, it.opts.jsonPointers);
+              }
+              $errSchemaPath = it.errSchemaPath + '/required';
+              var $$outStack = $$outStack || [];
+              $$outStack.push(out);
+              out = ''; /* istanbul ignore else */
+              if (it.createErrors !== false) {
+                out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
+                if (it.opts.messages !== false) {
+                  out += ' , message: \'';
+                  if (it.opts._errorDataPathProperty) {
+                    out += 'is a required property';
+                  } else {
+                    out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
+                  }
+                  out += '\' ';
+                }
+                if (it.opts.verbose) {
+                  out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+                }
+                out += ' } ';
+              } else {
+                out += ' {} ';
+              }
+              var __err = out;
+              out = $$outStack.pop();
+              if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+                if (it.async) {
+                  out += ' throw new ValidationError([' + (__err) + ']); ';
+                } else {
+                  out += ' validate.errors = [' + (__err) + ']; return false; ';
+                }
+              } else {
+                out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+              }
+              $errSchemaPath = $currErrSchemaPath;
+              it.errorPath = $currentErrorPath;
+              out += ' } else { ';
+            } else {
+              if ($breakOnError) {
+                out += ' if ( ' + ($useData) + ' === undefined ';
+                if ($ownProperties) {
+                  out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+                }
+                out += ') { ' + ($nextValid) + ' = true; } else { ';
+              } else {
+                out += ' if (' + ($useData) + ' !== undefined ';
+                if ($ownProperties) {
+                  out += ' &&   Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+                }
+                out += ' ) { ';
+              }
+            }
+            out += ' ' + ($code) + ' } ';
+          }
+        }
+        if ($breakOnError) {
+          out += ' if (' + ($nextValid) + ') { ';
+          $closingBraces += '}';
+        }
+      }
+    }
+  }
+  if ($pPropertyKeys.length) {
+    var arr5 = $pPropertyKeys;
+    if (arr5) {
+      var $pProperty, i5 = -1,
+        l5 = arr5.length - 1;
+      while (i5 < l5) {
+        $pProperty = arr5[i5 += 1];
+        var $sch = $pProperties[$pProperty];
+        if (it.util.schemaHasRules($sch, it.RULES.all)) {
+          $it.schema = $sch;
+          $it.schemaPath = it.schemaPath + '.patternProperties' + it.util.getProperty($pProperty);
+          $it.errSchemaPath = it.errSchemaPath + '/patternProperties/' + it.util.escapeFragment($pProperty);
+          if ($ownProperties) {
+            out += ' ' + ($dataProperties) + ' = ' + ($dataProperties) + ' || Object.keys(' + ($data) + '); for (var ' + ($idx) + '=0; ' + ($idx) + '<' + ($dataProperties) + '.length; ' + ($idx) + '++) { var ' + ($key) + ' = ' + ($dataProperties) + '[' + ($idx) + ']; ';
+          } else {
+            out += ' for (var ' + ($key) + ' in ' + ($data) + ') { ';
+          }
+          out += ' if (' + (it.usePattern($pProperty)) + '.test(' + ($key) + ')) { ';
+          $it.errorPath = it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
+          var $passData = $data + '[' + $key + ']';
+          $it.dataPathArr[$dataNxt] = $key;
+          var $code = it.validate($it);
+          $it.baseId = $currentBaseId;
+          if (it.util.varOccurences($code, $nextData) < 2) {
+            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+          } else {
+            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+          }
+          if ($breakOnError) {
+            out += ' if (!' + ($nextValid) + ') break; ';
+          }
+          out += ' } ';
+          if ($breakOnError) {
+            out += ' else ' + ($nextValid) + ' = true; ';
+          }
+          out += ' }  ';
+          if ($breakOnError) {
+            out += ' if (' + ($nextValid) + ') { ';
+            $closingBraces += '}';
+          }
+        }
+      }
+    }
+  }
+  if (it.opts.patternGroups && $pgPropertyKeys.length) {
+    var arr6 = $pgPropertyKeys;
+    if (arr6) {
+      var $pgProperty, i6 = -1,
+        l6 = arr6.length - 1;
+      while (i6 < l6) {
+        $pgProperty = arr6[i6 += 1];
+        var $pgSchema = $pgProperties[$pgProperty],
+          $sch = $pgSchema.schema;
+        if (it.util.schemaHasRules($sch, it.RULES.all)) {
+          $it.schema = $sch;
+          $it.schemaPath = it.schemaPath + '.patternGroups' + it.util.getProperty($pgProperty) + '.schema';
+          $it.errSchemaPath = it.errSchemaPath + '/patternGroups/' + it.util.escapeFragment($pgProperty) + '/schema';
+          out += ' var pgPropCount' + ($lvl) + ' = 0;  ';
+          if ($ownProperties) {
+            out += ' ' + ($dataProperties) + ' = ' + ($dataProperties) + ' || Object.keys(' + ($data) + '); for (var ' + ($idx) + '=0; ' + ($idx) + '<' + ($dataProperties) + '.length; ' + ($idx) + '++) { var ' + ($key) + ' = ' + ($dataProperties) + '[' + ($idx) + ']; ';
+          } else {
+            out += ' for (var ' + ($key) + ' in ' + ($data) + ') { ';
+          }
+          out += ' if (' + (it.usePattern($pgProperty)) + '.test(' + ($key) + ')) { pgPropCount' + ($lvl) + '++; ';
+          $it.errorPath = it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
+          var $passData = $data + '[' + $key + ']';
+          $it.dataPathArr[$dataNxt] = $key;
+          var $code = it.validate($it);
+          $it.baseId = $currentBaseId;
+          if (it.util.varOccurences($code, $nextData) < 2) {
+            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+          } else {
+            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+          }
+          if ($breakOnError) {
+            out += ' if (!' + ($nextValid) + ') break; ';
+          }
+          out += ' } ';
+          if ($breakOnError) {
+            out += ' else ' + ($nextValid) + ' = true; ';
+          }
+          out += ' }  ';
+          if ($breakOnError) {
+            out += ' if (' + ($nextValid) + ') { ';
+            $closingBraces += '}';
+          }
+          var $pgMin = $pgSchema.minimum,
+            $pgMax = $pgSchema.maximum;
+          if ($pgMin !== undefined || $pgMax !== undefined) {
+            out += ' var ' + ($valid) + ' = true; ';
+            var $currErrSchemaPath = $errSchemaPath;
+            if ($pgMin !== undefined) {
+              var $limit = $pgMin,
+                $reason = 'minimum',
+                $moreOrLess = 'less';
+              out += ' ' + ($valid) + ' = pgPropCount' + ($lvl) + ' >= ' + ($pgMin) + '; ';
+              $errSchemaPath = it.errSchemaPath + '/patternGroups/minimum';
+              out += '  if (!' + ($valid) + ') {   ';
+              var $$outStack = $$outStack || [];
+              $$outStack.push(out);
+              out = ''; /* istanbul ignore else */
+              if (it.createErrors !== false) {
+                out += ' { keyword: \'' + ('patternGroups') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { reason: \'' + ($reason) + '\', limit: ' + ($limit) + ', pattern: \'' + (it.util.escapeQuotes($pgProperty)) + '\' } ';
+                if (it.opts.messages !== false) {
+                  out += ' , message: \'should NOT have ' + ($moreOrLess) + ' than ' + ($limit) + ' properties matching pattern "' + (it.util.escapeQuotes($pgProperty)) + '"\' ';
+                }
+                if (it.opts.verbose) {
+                  out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+                }
+                out += ' } ';
+              } else {
+                out += ' {} ';
+              }
+              var __err = out;
+              out = $$outStack.pop();
+              if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+                if (it.async) {
+                  out += ' throw new ValidationError([' + (__err) + ']); ';
+                } else {
+                  out += ' validate.errors = [' + (__err) + ']; return false; ';
+                }
+              } else {
+                out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+              }
+              out += ' } ';
+              if ($pgMax !== undefined) {
+                out += ' else ';
+              }
+            }
+            if ($pgMax !== undefined) {
+              var $limit = $pgMax,
+                $reason = 'maximum',
+                $moreOrLess = 'more';
+              out += ' ' + ($valid) + ' = pgPropCount' + ($lvl) + ' <= ' + ($pgMax) + '; ';
+              $errSchemaPath = it.errSchemaPath + '/patternGroups/maximum';
+              out += '  if (!' + ($valid) + ') {   ';
+              var $$outStack = $$outStack || [];
+              $$outStack.push(out);
+              out = ''; /* istanbul ignore else */
+              if (it.createErrors !== false) {
+                out += ' { keyword: \'' + ('patternGroups') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { reason: \'' + ($reason) + '\', limit: ' + ($limit) + ', pattern: \'' + (it.util.escapeQuotes($pgProperty)) + '\' } ';
+                if (it.opts.messages !== false) {
+                  out += ' , message: \'should NOT have ' + ($moreOrLess) + ' than ' + ($limit) + ' properties matching pattern "' + (it.util.escapeQuotes($pgProperty)) + '"\' ';
+                }
+                if (it.opts.verbose) {
+                  out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+                }
+                out += ' } ';
+              } else {
+                out += ' {} ';
+              }
+              var __err = out;
+              out = $$outStack.pop();
+              if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+                if (it.async) {
+                  out += ' throw new ValidationError([' + (__err) + ']); ';
+                } else {
+                  out += ' validate.errors = [' + (__err) + ']; return false; ';
+                }
+              } else {
+                out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+              }
+              out += ' } ';
+            }
+            $errSchemaPath = $currErrSchemaPath;
+            if ($breakOnError) {
+              out += ' if (' + ($valid) + ') { ';
+              $closingBraces += '}';
+            }
+          }
+        }
+      }
+    }
+  }
+  if ($breakOnError) {
+    out += ' ' + ($closingBraces) + ' if (' + ($errs) + ' == errors) {';
+  }
+  out = it.util.cleanUpCode(out);
+  return out;
+}
+
+
+/***/ }),
+/* 607 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_propertyNames(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  if (it.util.schemaHasRules($schema, it.RULES.all)) {
+    $it.schema = $schema;
+    $it.schemaPath = $schemaPath;
+    $it.errSchemaPath = $errSchemaPath;
+    var $key = 'key' + $lvl,
+      $idx = 'idx' + $lvl,
+      $i = 'i' + $lvl,
+      $invalidName = '\' + ' + $key + ' + \'',
+      $dataNxt = $it.dataLevel = it.dataLevel + 1,
+      $nextData = 'data' + $dataNxt,
+      $dataProperties = 'dataProperties' + $lvl,
+      $ownProperties = it.opts.ownProperties,
+      $currentBaseId = it.baseId;
+    out += ' var ' + ($errs) + ' = errors; ';
+    if ($ownProperties) {
+      out += ' var ' + ($dataProperties) + ' = undefined; ';
+    }
+    if ($ownProperties) {
+      out += ' ' + ($dataProperties) + ' = ' + ($dataProperties) + ' || Object.keys(' + ($data) + '); for (var ' + ($idx) + '=0; ' + ($idx) + '<' + ($dataProperties) + '.length; ' + ($idx) + '++) { var ' + ($key) + ' = ' + ($dataProperties) + '[' + ($idx) + ']; ';
+    } else {
+      out += ' for (var ' + ($key) + ' in ' + ($data) + ') { ';
+    }
+    out += ' var startErrs' + ($lvl) + ' = errors; ';
+    var $passData = $key;
+    var $wasComposite = it.compositeRule;
+    it.compositeRule = $it.compositeRule = true;
+    var $code = it.validate($it);
+    $it.baseId = $currentBaseId;
+    if (it.util.varOccurences($code, $nextData) < 2) {
+      out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+    } else {
+      out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+    }
+    it.compositeRule = $it.compositeRule = $wasComposite;
+    out += ' if (!' + ($nextValid) + ') { for (var ' + ($i) + '=startErrs' + ($lvl) + '; ' + ($i) + '<errors; ' + ($i) + '++) { vErrors[' + ($i) + '].propertyName = ' + ($key) + '; }   var err =   '; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ('propertyNames') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { propertyName: \'' + ($invalidName) + '\' } ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'property name \\\'' + ($invalidName) + '\\\' is invalid\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError(vErrors); ';
+      } else {
+        out += ' validate.errors = vErrors; return false; ';
+      }
+    }
+    if ($breakOnError) {
+      out += ' break; ';
+    }
+    out += ' } }';
+  }
+  if ($breakOnError) {
+    out += ' ' + ($closingBraces) + ' if (' + ($errs) + ' == errors) {';
+  }
+  out = it.util.cleanUpCode(out);
+  return out;
+}
+
+
+/***/ }),
+/* 608 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_required(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $vSchema = 'schema' + $lvl;
+  if (!$isData) {
+    if ($schema.length < it.opts.loopRequired && it.schema.properties && Object.keys(it.schema.properties).length) {
+      var $required = [];
+      var arr1 = $schema;
+      if (arr1) {
+        var $property, i1 = -1,
+          l1 = arr1.length - 1;
+        while (i1 < l1) {
+          $property = arr1[i1 += 1];
+          var $propertySch = it.schema.properties[$property];
+          if (!($propertySch && it.util.schemaHasRules($propertySch, it.RULES.all))) {
+            $required[$required.length] = $property;
+          }
+        }
+      }
+    } else {
+      var $required = $schema;
+    }
+  }
+  if ($isData || $required.length) {
+    var $currentErrorPath = it.errorPath,
+      $loopRequired = $isData || $required.length >= it.opts.loopRequired,
+      $ownProperties = it.opts.ownProperties;
+    if ($breakOnError) {
+      out += ' var missing' + ($lvl) + '; ';
+      if ($loopRequired) {
+        if (!$isData) {
+          out += ' var ' + ($vSchema) + ' = validate.schema' + ($schemaPath) + '; ';
+        }
+        var $i = 'i' + $lvl,
+          $propertyPath = 'schema' + $lvl + '[' + $i + ']',
+          $missingProperty = '\' + ' + $propertyPath + ' + \'';
+        if (it.opts._errorDataPathProperty) {
+          it.errorPath = it.util.getPathExpr($currentErrorPath, $propertyPath, it.opts.jsonPointers);
+        }
+        out += ' var ' + ($valid) + ' = true; ';
+        if ($isData) {
+          out += ' if (schema' + ($lvl) + ' === undefined) ' + ($valid) + ' = true; else if (!Array.isArray(schema' + ($lvl) + ')) ' + ($valid) + ' = false; else {';
+        }
+        out += ' for (var ' + ($i) + ' = 0; ' + ($i) + ' < ' + ($vSchema) + '.length; ' + ($i) + '++) { ' + ($valid) + ' = ' + ($data) + '[' + ($vSchema) + '[' + ($i) + ']] !== undefined ';
+        if ($ownProperties) {
+          out += ' &&   Object.prototype.hasOwnProperty.call(' + ($data) + ', ' + ($vSchema) + '[' + ($i) + ']) ';
+        }
+        out += '; if (!' + ($valid) + ') break; } ';
+        if ($isData) {
+          out += '  }  ';
+        }
+        out += '  if (!' + ($valid) + ') {   ';
+        var $$outStack = $$outStack || [];
+        $$outStack.push(out);
+        out = ''; /* istanbul ignore else */
+        if (it.createErrors !== false) {
+          out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
+          if (it.opts.messages !== false) {
+            out += ' , message: \'';
+            if (it.opts._errorDataPathProperty) {
+              out += 'is a required property';
+            } else {
+              out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
+            }
+            out += '\' ';
+          }
+          if (it.opts.verbose) {
+            out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+          }
+          out += ' } ';
+        } else {
+          out += ' {} ';
+        }
+        var __err = out;
+        out = $$outStack.pop();
+        if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+          if (it.async) {
+            out += ' throw new ValidationError([' + (__err) + ']); ';
+          } else {
+            out += ' validate.errors = [' + (__err) + ']; return false; ';
+          }
+        } else {
+          out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+        }
+        out += ' } else { ';
+      } else {
+        out += ' if ( ';
+        var arr2 = $required;
+        if (arr2) {
+          var $propertyKey, $i = -1,
+            l2 = arr2.length - 1;
+          while ($i < l2) {
+            $propertyKey = arr2[$i += 1];
+            if ($i) {
+              out += ' || ';
+            }
+            var $prop = it.util.getProperty($propertyKey),
+              $useData = $data + $prop;
+            out += ' ( ( ' + ($useData) + ' === undefined ';
+            if ($ownProperties) {
+              out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+            }
+            out += ') && (missing' + ($lvl) + ' = ' + (it.util.toQuotedString(it.opts.jsonPointers ? $propertyKey : $prop)) + ') ) ';
+          }
+        }
+        out += ') {  ';
+        var $propertyPath = 'missing' + $lvl,
+          $missingProperty = '\' + ' + $propertyPath + ' + \'';
+        if (it.opts._errorDataPathProperty) {
+          it.errorPath = it.opts.jsonPointers ? it.util.getPathExpr($currentErrorPath, $propertyPath, true) : $currentErrorPath + ' + ' + $propertyPath;
+        }
+        var $$outStack = $$outStack || [];
+        $$outStack.push(out);
+        out = ''; /* istanbul ignore else */
+        if (it.createErrors !== false) {
+          out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
+          if (it.opts.messages !== false) {
+            out += ' , message: \'';
+            if (it.opts._errorDataPathProperty) {
+              out += 'is a required property';
+            } else {
+              out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
+            }
+            out += '\' ';
+          }
+          if (it.opts.verbose) {
+            out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+          }
+          out += ' } ';
+        } else {
+          out += ' {} ';
+        }
+        var __err = out;
+        out = $$outStack.pop();
+        if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+          if (it.async) {
+            out += ' throw new ValidationError([' + (__err) + ']); ';
+          } else {
+            out += ' validate.errors = [' + (__err) + ']; return false; ';
+          }
+        } else {
+          out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+        }
+        out += ' } else { ';
+      }
+    } else {
+      if ($loopRequired) {
+        if (!$isData) {
+          out += ' var ' + ($vSchema) + ' = validate.schema' + ($schemaPath) + '; ';
+        }
+        var $i = 'i' + $lvl,
+          $propertyPath = 'schema' + $lvl + '[' + $i + ']',
+          $missingProperty = '\' + ' + $propertyPath + ' + \'';
+        if (it.opts._errorDataPathProperty) {
+          it.errorPath = it.util.getPathExpr($currentErrorPath, $propertyPath, it.opts.jsonPointers);
+        }
+        if ($isData) {
+          out += ' if (' + ($vSchema) + ' && !Array.isArray(' + ($vSchema) + ')) {  var err =   '; /* istanbul ignore else */
+          if (it.createErrors !== false) {
+            out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
+            if (it.opts.messages !== false) {
+              out += ' , message: \'';
+              if (it.opts._errorDataPathProperty) {
+                out += 'is a required property';
+              } else {
+                out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
+              }
+              out += '\' ';
+            }
+            if (it.opts.verbose) {
+              out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+            }
+            out += ' } ';
+          } else {
+            out += ' {} ';
+          }
+          out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; } else if (' + ($vSchema) + ' !== undefined) { ';
+        }
+        out += ' for (var ' + ($i) + ' = 0; ' + ($i) + ' < ' + ($vSchema) + '.length; ' + ($i) + '++) { if (' + ($data) + '[' + ($vSchema) + '[' + ($i) + ']] === undefined ';
+        if ($ownProperties) {
+          out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', ' + ($vSchema) + '[' + ($i) + ']) ';
+        }
+        out += ') {  var err =   '; /* istanbul ignore else */
+        if (it.createErrors !== false) {
+          out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
+          if (it.opts.messages !== false) {
+            out += ' , message: \'';
+            if (it.opts._errorDataPathProperty) {
+              out += 'is a required property';
+            } else {
+              out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
+            }
+            out += '\' ';
+          }
+          if (it.opts.verbose) {
+            out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+          }
+          out += ' } ';
+        } else {
+          out += ' {} ';
+        }
+        out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; } } ';
+        if ($isData) {
+          out += '  }  ';
+        }
+      } else {
+        var arr3 = $required;
+        if (arr3) {
+          var $propertyKey, i3 = -1,
+            l3 = arr3.length - 1;
+          while (i3 < l3) {
+            $propertyKey = arr3[i3 += 1];
+            var $prop = it.util.getProperty($propertyKey),
+              $missingProperty = it.util.escapeQuotes($propertyKey),
+              $useData = $data + $prop;
+            if (it.opts._errorDataPathProperty) {
+              it.errorPath = it.util.getPath($currentErrorPath, $propertyKey, it.opts.jsonPointers);
+            }
+            out += ' if ( ' + ($useData) + ' === undefined ';
+            if ($ownProperties) {
+              out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+            }
+            out += ') {  var err =   '; /* istanbul ignore else */
+            if (it.createErrors !== false) {
+              out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
+              if (it.opts.messages !== false) {
+                out += ' , message: \'';
+                if (it.opts._errorDataPathProperty) {
+                  out += 'is a required property';
+                } else {
+                  out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
+                }
+                out += '\' ';
+              }
+              if (it.opts.verbose) {
+                out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+              }
+              out += ' } ';
+            } else {
+              out += ' {} ';
+            }
+            out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; } ';
+          }
+        }
+      }
+    }
+    it.errorPath = $currentErrorPath;
+  } else if ($breakOnError) {
+    out += ' if (true) {';
+  }
+  return out;
+}
+
+
+/***/ }),
+/* 609 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_uniqueItems(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  if (($schema || $isData) && it.opts.uniqueItems !== false) {
+    if ($isData) {
+      out += ' var ' + ($valid) + '; if (' + ($schemaValue) + ' === false || ' + ($schemaValue) + ' === undefined) ' + ($valid) + ' = true; else if (typeof ' + ($schemaValue) + ' != \'boolean\') ' + ($valid) + ' = false; else { ';
+    }
+    out += ' var ' + ($valid) + ' = true; if (' + ($data) + '.length > 1) { var i = ' + ($data) + '.length, j; outer: for (;i--;) { for (j = i; j--;) { if (equal(' + ($data) + '[i], ' + ($data) + '[j])) { ' + ($valid) + ' = false; break outer; } } } } ';
+    if ($isData) {
+      out += '  }  ';
+    }
+    out += ' if (!' + ($valid) + ') {   ';
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = ''; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ('uniqueItems') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { i: i, j: j } ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'should NOT have duplicate items (items ## \' + j + \' and \' + i + \' are identical)\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema:  ';
+        if ($isData) {
+          out += 'validate.schema' + ($schemaPath);
+        } else {
+          out += '' + ($schema);
+        }
+        out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    var __err = out;
+    out = $$outStack.pop();
+    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError([' + (__err) + ']); ';
+      } else {
+        out += ' validate.errors = [' + (__err) + ']; return false; ';
+      }
+    } else {
+      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    }
+    out += ' } ';
+    if ($breakOnError) {
+      out += ' else { ';
+    }
+  } else {
+    if ($breakOnError) {
+      out += ' if (true) { ';
+    }
+  }
+  return out;
+}
+
+
+/***/ }),
+/* 610 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var KEYWORDS = [
+  'multipleOf',
+  'maximum',
+  'exclusiveMaximum',
+  'minimum',
+  'exclusiveMinimum',
+  'maxLength',
+  'minLength',
+  'pattern',
+  'additionalItems',
+  'maxItems',
+  'minItems',
+  'uniqueItems',
+  'maxProperties',
+  'minProperties',
+  'required',
+  'additionalProperties',
+  'enum',
+  'format',
+  'const'
+];
+
+module.exports = function (metaSchema, keywordsJsonPointers) {
+  for (var i=0; i<keywordsJsonPointers.length; i++) {
+    metaSchema = JSON.parse(JSON.stringify(metaSchema));
+    var segments = keywordsJsonPointers[i].split('/');
+    var keywords = metaSchema;
+    var j;
+    for (j=1; j<segments.length; j++)
+      keywords = keywords[segments[j]];
+
+    for (j=0; j<KEYWORDS.length; j++) {
+      var key = KEYWORDS[j];
+      var schema = keywords[key];
+      if (schema) {
+        keywords[key] = {
+          anyOf: [
+            schema,
+            { $ref: 'https://raw.githubusercontent.com/epoberezkin/ajv/master/lib/refs/$data.json#' }
+          ]
+        };
+      }
+    }
+  }
+
+  return metaSchema;
+};
+
+
+/***/ }),
+/* 611 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var META_SCHEMA_ID = 'http://json-schema.org/draft-06/schema';
+
+module.exports = function (ajv) {
+  var defaultMeta = ajv._opts.defaultMeta;
+  var metaSchemaRef = typeof defaultMeta == 'string'
+                      ? { $ref: defaultMeta }
+                      : ajv.getSchema(META_SCHEMA_ID)
+                        ? { $ref: META_SCHEMA_ID }
+                        : {};
+
+  ajv.addKeyword('patternGroups', {
+    // implemented in properties.jst
+    metaSchema: {
+      type: 'object',
+      additionalProperties: {
+        type: 'object',
+        required: [ 'schema' ],
+        properties: {
+          maximum: {
+            type: 'integer',
+            minimum: 0
+          },
+          minimum: {
+            type: 'integer',
+            minimum: 0
+          },
+          schema: metaSchemaRef
+        },
+        additionalProperties: false
+      }
+    }
+  });
+  ajv.RULES.all.properties.implements.push('patternGroups');
+};
+
+
+/***/ }),
+/* 612 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var MissingRefError = __webpack_require__(299).MissingRef;
+
+module.exports = compileAsync;
+
+
+/**
+ * Creates validating function for passed schema with asynchronous loading of missing schemas.
+ * `loadSchema` option should be a function that accepts schema uri and returns promise that resolves with the schema.
+ * @this  Ajv
+ * @param {Object}   schema schema object
+ * @param {Boolean}  meta optional true to compile meta-schema; this parameter can be skipped
+ * @param {Function} callback an optional node-style callback, it is called with 2 parameters: error (or null) and validating function.
+ * @return {Promise} promise that resolves with a validating function.
+ */
+function compileAsync(schema, meta, callback) {
+  /* eslint no-shadow: 0 */
+  /* global Promise */
+  /* jshint validthis: true */
+  var self = this;
+  if (typeof this._opts.loadSchema != 'function')
+    throw new Error('options.loadSchema should be a function');
+
+  if (typeof meta == 'function') {
+    callback = meta;
+    meta = undefined;
+  }
+
+  var p = loadMetaSchemaOf(schema).then(function () {
+    var schemaObj = self._addSchema(schema, undefined, meta);
+    return schemaObj.validate || _compileAsync(schemaObj);
+  });
+
+  if (callback) {
+    p.then(
+      function(v) { callback(null, v); },
+      callback
+    );
+  }
+
+  return p;
+
+
+  function loadMetaSchemaOf(sch) {
+    var $schema = sch.$schema;
+    return $schema && !self.getSchema($schema)
+            ? compileAsync.call(self, { $ref: $schema }, true)
+            : Promise.resolve();
+  }
+
+
+  function _compileAsync(schemaObj) {
+    try { return self._compile(schemaObj); }
+    catch(e) {
+      if (e instanceof MissingRefError) return loadMissingSchema(e);
+      throw e;
+    }
+
+
+    function loadMissingSchema(e) {
+      var ref = e.missingSchema;
+      if (added(ref)) throw new Error('Schema ' + ref + ' is loaded but ' + e.missingRef + ' cannot be resolved');
+
+      var schemaPromise = self._loadingSchemas[ref];
+      if (!schemaPromise) {
+        schemaPromise = self._loadingSchemas[ref] = self._opts.loadSchema(ref);
+        schemaPromise.then(removePromise, removePromise);
+      }
+
+      return schemaPromise.then(function (sch) {
+        if (!added(ref)) {
+          return loadMetaSchemaOf(sch).then(function () {
+            if (!added(ref)) self.addSchema(sch, ref, undefined, meta);
+          });
+        }
+      }).then(function() {
+        return _compileAsync(schemaObj);
+      });
+
+      function removePromise() {
+        delete self._loadingSchemas[ref];
+      }
+
+      function added(ref) {
+        return self._refs[ref] || self._schemas[ref];
+      }
+    }
+  }
+}
+
+
+/***/ }),
+/* 613 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var IDENTIFIER = /^[a-z_$][a-z0-9_$-]*$/i;
+var customRuleCode = __webpack_require__(614);
+
+module.exports = {
+  add: addKeyword,
+  get: getKeyword,
+  remove: removeKeyword
+};
+
+/**
+ * Define custom keyword
+ * @this  Ajv
+ * @param {String} keyword custom keyword, should be unique (including different from all standard, custom and macro keywords).
+ * @param {Object} definition keyword definition object with properties `type` (type(s) which the keyword applies to), `validate` or `compile`.
+ */
+function addKeyword(keyword, definition) {
+  /* jshint validthis: true */
+  /* eslint no-shadow: 0 */
+  var RULES = this.RULES;
+
+  if (RULES.keywords[keyword])
+    throw new Error('Keyword ' + keyword + ' is already defined');
+
+  if (!IDENTIFIER.test(keyword))
+    throw new Error('Keyword ' + keyword + ' is not a valid identifier');
+
+  if (definition) {
+    if (definition.macro && definition.valid !== undefined)
+      throw new Error('"valid" option cannot be used with macro keywords');
+
+    var dataType = definition.type;
+    if (Array.isArray(dataType)) {
+      var i, len = dataType.length;
+      for (i=0; i<len; i++) checkDataType(dataType[i]);
+      for (i=0; i<len; i++) _addRule(keyword, dataType[i], definition);
+    } else {
+      if (dataType) checkDataType(dataType);
+      _addRule(keyword, dataType, definition);
+    }
+
+    var $data = definition.$data === true && this._opts.$data;
+    if ($data && !definition.validate)
+      throw new Error('$data support: "validate" function is not defined');
+
+    var metaSchema = definition.metaSchema;
+    if (metaSchema) {
+      if ($data) {
+        metaSchema = {
+          anyOf: [
+            metaSchema,
+            { '$ref': 'https://raw.githubusercontent.com/epoberezkin/ajv/master/lib/refs/$data.json#' }
+          ]
+        };
+      }
+      definition.validateSchema = this.compile(metaSchema, true);
+    }
+  }
+
+  RULES.keywords[keyword] = RULES.all[keyword] = true;
+
+
+  function _addRule(keyword, dataType, definition) {
+    var ruleGroup;
+    for (var i=0; i<RULES.length; i++) {
+      var rg = RULES[i];
+      if (rg.type == dataType) {
+        ruleGroup = rg;
+        break;
+      }
+    }
+
+    if (!ruleGroup) {
+      ruleGroup = { type: dataType, rules: [] };
+      RULES.push(ruleGroup);
+    }
+
+    var rule = {
+      keyword: keyword,
+      definition: definition,
+      custom: true,
+      code: customRuleCode,
+      implements: definition.implements
+    };
+    ruleGroup.rules.push(rule);
+    RULES.custom[keyword] = rule;
+  }
+
+
+  function checkDataType(dataType) {
+    if (!RULES.types[dataType]) throw new Error('Unknown type ' + dataType);
+  }
+}
+
+
+/**
+ * Get keyword
+ * @this  Ajv
+ * @param {String} keyword pre-defined or custom keyword.
+ * @return {Object|Boolean} custom keyword definition, `true` if it is a predefined keyword, `false` otherwise.
+ */
+function getKeyword(keyword) {
+  /* jshint validthis: true */
+  var rule = this.RULES.custom[keyword];
+  return rule ? rule.definition : this.RULES.keywords[keyword] || false;
+}
+
+
+/**
+ * Remove keyword
+ * @this  Ajv
+ * @param {String} keyword pre-defined or custom keyword.
+ */
+function removeKeyword(keyword) {
+  /* jshint validthis: true */
+  var RULES = this.RULES;
+  delete RULES.keywords[keyword];
+  delete RULES.all[keyword];
+  delete RULES.custom[keyword];
+  for (var i=0; i<RULES.length; i++) {
+    var rules = RULES[i].rules;
+    for (var j=0; j<rules.length; j++) {
+      if (rules[j].keyword == keyword) {
+        rules.splice(j, 1);
+        break;
+      }
+    }
+  }
+}
+
+
+/***/ }),
+/* 614 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_custom(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $errorKeyword;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $errs = 'errs__' + $lvl;
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $rule = this,
+    $definition = 'definition' + $lvl,
+    $rDef = $rule.definition,
+    $closingBraces = '';
+  var $compile, $inline, $macro, $ruleValidate, $validateCode;
+  if ($isData && $rDef.$data) {
+    $validateCode = 'keywordValidate' + $lvl;
+    var $validateSchema = $rDef.validateSchema;
+    out += ' var ' + ($definition) + ' = RULES.custom[\'' + ($keyword) + '\'].definition; var ' + ($validateCode) + ' = ' + ($definition) + '.validate;';
+  } else {
+    $ruleValidate = it.useCustomRule($rule, $schema, it.schema, it);
+    if (!$ruleValidate) return;
+    $schemaValue = 'validate.schema' + $schemaPath;
+    $validateCode = $ruleValidate.code;
+    $compile = $rDef.compile;
+    $inline = $rDef.inline;
+    $macro = $rDef.macro;
+  }
+  var $ruleErrs = $validateCode + '.errors',
+    $i = 'i' + $lvl,
+    $ruleErr = 'ruleErr' + $lvl,
+    $asyncKeyword = $rDef.async;
+  if ($asyncKeyword && !it.async) throw new Error('async keyword in sync schema');
+  if (!($inline || $macro)) {
+    out += '' + ($ruleErrs) + ' = null;';
+  }
+  out += 'var ' + ($errs) + ' = errors;var ' + ($valid) + ';';
+  if ($isData && $rDef.$data) {
+    $closingBraces += '}';
+    out += ' if (' + ($schemaValue) + ' === undefined) { ' + ($valid) + ' = true; } else { ';
+    if ($validateSchema) {
+      $closingBraces += '}';
+      out += ' ' + ($valid) + ' = ' + ($definition) + '.validateSchema(' + ($schemaValue) + '); if (' + ($valid) + ') { ';
+    }
+  }
+  if ($inline) {
+    if ($rDef.statements) {
+      out += ' ' + ($ruleValidate.validate) + ' ';
+    } else {
+      out += ' ' + ($valid) + ' = ' + ($ruleValidate.validate) + '; ';
+    }
+  } else if ($macro) {
+    var $it = it.util.copy(it);
+    var $closingBraces = '';
+    $it.level++;
+    var $nextValid = 'valid' + $it.level;
+    $it.schema = $ruleValidate.validate;
+    $it.schemaPath = '';
+    var $wasComposite = it.compositeRule;
+    it.compositeRule = $it.compositeRule = true;
+    var $code = it.validate($it).replace(/validate\.schema/g, $validateCode);
+    it.compositeRule = $it.compositeRule = $wasComposite;
+    out += ' ' + ($code);
+  } else {
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = '';
+    out += '  ' + ($validateCode) + '.call( ';
+    if (it.opts.passContext) {
+      out += 'this';
+    } else {
+      out += 'self';
+    }
+    if ($compile || $rDef.schema === false) {
+      out += ' , ' + ($data) + ' ';
+    } else {
+      out += ' , ' + ($schemaValue) + ' , ' + ($data) + ' , validate.schema' + (it.schemaPath) + ' ';
+    }
+    out += ' , (dataPath || \'\')';
+    if (it.errorPath != '""') {
+      out += ' + ' + (it.errorPath);
+    }
+    var $parentData = $dataLvl ? 'data' + (($dataLvl - 1) || '') : 'parentData',
+      $parentDataProperty = $dataLvl ? it.dataPathArr[$dataLvl] : 'parentDataProperty';
+    out += ' , ' + ($parentData) + ' , ' + ($parentDataProperty) + ' , rootData )  ';
+    var def_callRuleValidate = out;
+    out = $$outStack.pop();
+    if ($rDef.errors === false) {
+      out += ' ' + ($valid) + ' = ';
+      if ($asyncKeyword) {
+        out += '' + (it.yieldAwait);
+      }
+      out += '' + (def_callRuleValidate) + '; ';
+    } else {
+      if ($asyncKeyword) {
+        $ruleErrs = 'customErrors' + $lvl;
+        out += ' var ' + ($ruleErrs) + ' = null; try { ' + ($valid) + ' = ' + (it.yieldAwait) + (def_callRuleValidate) + '; } catch (e) { ' + ($valid) + ' = false; if (e instanceof ValidationError) ' + ($ruleErrs) + ' = e.errors; else throw e; } ';
+      } else {
+        out += ' ' + ($ruleErrs) + ' = null; ' + ($valid) + ' = ' + (def_callRuleValidate) + '; ';
+      }
+    }
+  }
+  if ($rDef.modifying) {
+    out += ' if (' + ($parentData) + ') ' + ($data) + ' = ' + ($parentData) + '[' + ($parentDataProperty) + '];';
+  }
+  out += '' + ($closingBraces);
+  if ($rDef.valid) {
+    if ($breakOnError) {
+      out += ' if (true) { ';
+    }
+  } else {
+    out += ' if ( ';
+    if ($rDef.valid === undefined) {
+      out += ' !';
+      if ($macro) {
+        out += '' + ($nextValid);
+      } else {
+        out += '' + ($valid);
+      }
+    } else {
+      out += ' ' + (!$rDef.valid) + ' ';
+    }
+    out += ') { ';
+    $errorKeyword = $rule.keyword;
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = '';
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = ''; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ($errorKeyword || 'custom') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { keyword: \'' + ($rule.keyword) + '\' } ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'should pass "' + ($rule.keyword) + '" keyword validation\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    var __err = out;
+    out = $$outStack.pop();
+    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError([' + (__err) + ']); ';
+      } else {
+        out += ' validate.errors = [' + (__err) + ']; return false; ';
+      }
+    } else {
+      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    }
+    var def_customError = out;
+    out = $$outStack.pop();
+    if ($inline) {
+      if ($rDef.errors) {
+        if ($rDef.errors != 'full') {
+          out += '  for (var ' + ($i) + '=' + ($errs) + '; ' + ($i) + '<errors; ' + ($i) + '++) { var ' + ($ruleErr) + ' = vErrors[' + ($i) + ']; if (' + ($ruleErr) + '.dataPath === undefined) ' + ($ruleErr) + '.dataPath = (dataPath || \'\') + ' + (it.errorPath) + '; if (' + ($ruleErr) + '.schemaPath === undefined) { ' + ($ruleErr) + '.schemaPath = "' + ($errSchemaPath) + '"; } ';
+          if (it.opts.verbose) {
+            out += ' ' + ($ruleErr) + '.schema = ' + ($schemaValue) + '; ' + ($ruleErr) + '.data = ' + ($data) + '; ';
+          }
+          out += ' } ';
+        }
+      } else {
+        if ($rDef.errors === false) {
+          out += ' ' + (def_customError) + ' ';
+        } else {
+          out += ' if (' + ($errs) + ' == errors) { ' + (def_customError) + ' } else {  for (var ' + ($i) + '=' + ($errs) + '; ' + ($i) + '<errors; ' + ($i) + '++) { var ' + ($ruleErr) + ' = vErrors[' + ($i) + ']; if (' + ($ruleErr) + '.dataPath === undefined) ' + ($ruleErr) + '.dataPath = (dataPath || \'\') + ' + (it.errorPath) + '; if (' + ($ruleErr) + '.schemaPath === undefined) { ' + ($ruleErr) + '.schemaPath = "' + ($errSchemaPath) + '"; } ';
+          if (it.opts.verbose) {
+            out += ' ' + ($ruleErr) + '.schema = ' + ($schemaValue) + '; ' + ($ruleErr) + '.data = ' + ($data) + '; ';
+          }
+          out += ' } } ';
+        }
+      }
+    } else if ($macro) {
+      out += '   var err =   '; /* istanbul ignore else */
+      if (it.createErrors !== false) {
+        out += ' { keyword: \'' + ($errorKeyword || 'custom') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { keyword: \'' + ($rule.keyword) + '\' } ';
+        if (it.opts.messages !== false) {
+          out += ' , message: \'should pass "' + ($rule.keyword) + '" keyword validation\' ';
+        }
+        if (it.opts.verbose) {
+          out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+        }
+        out += ' } ';
+      } else {
+        out += ' {} ';
+      }
+      out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+      if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+        if (it.async) {
+          out += ' throw new ValidationError(vErrors); ';
+        } else {
+          out += ' validate.errors = vErrors; return false; ';
+        }
+      }
+    } else {
+      if ($rDef.errors === false) {
+        out += ' ' + (def_customError) + ' ';
+      } else {
+        out += ' if (Array.isArray(' + ($ruleErrs) + ')) { if (vErrors === null) vErrors = ' + ($ruleErrs) + '; else vErrors = vErrors.concat(' + ($ruleErrs) + '); errors = vErrors.length;  for (var ' + ($i) + '=' + ($errs) + '; ' + ($i) + '<errors; ' + ($i) + '++) { var ' + ($ruleErr) + ' = vErrors[' + ($i) + ']; if (' + ($ruleErr) + '.dataPath === undefined) ' + ($ruleErr) + '.dataPath = (dataPath || \'\') + ' + (it.errorPath) + ';  ' + ($ruleErr) + '.schemaPath = "' + ($errSchemaPath) + '";  ';
+        if (it.opts.verbose) {
+          out += ' ' + ($ruleErr) + '.schema = ' + ($schemaValue) + '; ' + ($ruleErr) + '.data = ' + ($data) + '; ';
+        }
+        out += ' } } else { ' + (def_customError) + ' } ';
+      }
+    }
+    out += ' } ';
+    if ($breakOnError) {
+      out += ' else { ';
+    }
+  }
+  return out;
+}
+
+
+/***/ }),
+/* 615 */
+/***/ (function(module, exports) {
+
+module.exports = {"$schema":"http://json-schema.org/draft-06/schema#","$id":"https://raw.githubusercontent.com/epoberezkin/ajv/master/lib/refs/$data.json#","description":"Meta-schema for $data reference (JSON-schema extension proposal)","type":"object","required":["$data"],"properties":{"$data":{"type":"string","anyOf":[{"format":"relative-json-pointer"},{"format":"json-pointer"}]}},"additionalProperties":false}
+
+/***/ }),
+/* 616 */
+/***/ (function(module, exports) {
+
+module.exports = {"$schema":"http://json-schema.org/draft-06/schema#","$id":"http://json-schema.org/draft-06/schema#","title":"Core schema meta-schema","definitions":{"schemaArray":{"type":"array","minItems":1,"items":{"$ref":"#"}},"nonNegativeInteger":{"type":"integer","minimum":0},"nonNegativeIntegerDefault0":{"allOf":[{"$ref":"#/definitions/nonNegativeInteger"},{"default":0}]},"simpleTypes":{"enum":["array","boolean","integer","null","number","object","string"]},"stringArray":{"type":"array","items":{"type":"string"},"uniqueItems":true,"default":[]}},"type":["object","boolean"],"properties":{"$id":{"type":"string","format":"uri-reference"},"$schema":{"type":"string","format":"uri"},"$ref":{"type":"string","format":"uri-reference"},"title":{"type":"string"},"description":{"type":"string"},"default":{},"multipleOf":{"type":"number","exclusiveMinimum":0},"maximum":{"type":"number"},"exclusiveMaximum":{"type":"number"},"minimum":{"type":"number"},"exclusiveMinimum":{"type":"number"},"maxLength":{"$ref":"#/definitions/nonNegativeInteger"},"minLength":{"$ref":"#/definitions/nonNegativeIntegerDefault0"},"pattern":{"type":"string","format":"regex"},"additionalItems":{"$ref":"#"},"items":{"anyOf":[{"$ref":"#"},{"$ref":"#/definitions/schemaArray"}],"default":{}},"maxItems":{"$ref":"#/definitions/nonNegativeInteger"},"minItems":{"$ref":"#/definitions/nonNegativeIntegerDefault0"},"uniqueItems":{"type":"boolean","default":false},"contains":{"$ref":"#"},"maxProperties":{"$ref":"#/definitions/nonNegativeInteger"},"minProperties":{"$ref":"#/definitions/nonNegativeIntegerDefault0"},"required":{"$ref":"#/definitions/stringArray"},"additionalProperties":{"$ref":"#"},"definitions":{"type":"object","additionalProperties":{"$ref":"#"},"default":{}},"properties":{"type":"object","additionalProperties":{"$ref":"#"},"default":{}},"patternProperties":{"type":"object","additionalProperties":{"$ref":"#"},"default":{}},"dependencies":{"type":"object","additionalProperties":{"anyOf":[{"$ref":"#"},{"$ref":"#/definitions/stringArray"}]}},"propertyNames":{"$ref":"#"},"const":{},"enum":{"type":"array","minItems":1,"uniqueItems":true},"type":{"anyOf":[{"$ref":"#/definitions/simpleTypes"},{"type":"array","items":{"$ref":"#/definitions/simpleTypes"},"minItems":1,"uniqueItems":true}]},"format":{"type":"string"},"allOf":{"$ref":"#/definitions/schemaArray"},"anyOf":{"$ref":"#/definitions/schemaArray"},"oneOf":{"$ref":"#/definitions/schemaArray"},"not":{"$ref":"#"}},"default":{}}
+
+/***/ }),
+/* 617 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "panel panel-default" }, [
+        _c("div", { staticClass: "panel-heading" }, [
+          _vm._v(
+            "\n\t\t\t" + _vm._s(_vm.ucfirstWords(_vm.name)) + " Editor\n\t\t"
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "panel-body" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "json-container form-group",
+                  class: {
+                    "has-error": _vm.newJson && !_vm.isSchemaValid,
+                    "has-success": _vm.newJson && _vm.isSchemaValid
+                  }
+                },
+                [
+                  _c(
+                    "label",
+                    { staticClass: "control-label containing-label" },
+                    [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t\tNew " +
+                          _vm._s(_vm.name) +
+                          "\n\t\t\t\t\t\t\t"
+                      ),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.lazy",
+                            value: _vm.newJson,
+                            expression: "newJson",
+                            modifiers: { lazy: true }
+                          }
+                        ],
+                        staticClass: "input-json form-control",
+                        domProps: { value: _vm.newJson },
+                        on: {
+                          change: function($event) {
+                            _vm.newJson = $event.target.value
+                          }
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm.newJson && !_vm.isSchemaValid
+                    ? _c(
+                        "ul",
+                        { staticClass: "help-block" },
+                        _vm._l(_vm.schemaErrors, function(error) {
+                          return _c("li", [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t" +
+                                _vm._s(_vm.ucfirst(error.message)) +
+                                "\n\t\t\t\t\t\t\t"
+                            )
+                          ])
+                        })
+                      )
+                    : _vm.newJson && _vm.isSchemaValid
+                      ? _c("span", { staticClass: "help-block" }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t" +
+                              _vm._s(_vm.ucfirst(_vm.name)) +
+                              " valid!\n\t\t\t\t\t\t"
+                          )
+                        ])
+                      : _vm._e()
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-info",
+                  attrs: { type: "button", disabled: !_vm.newJsonObject },
+                  on: { click: _vm.formatJson }
+                },
+                [_vm._v("\n\t\t\t\t\t\tFormat JSON\n\t\t\t\t\t")]
+              ),
+              _vm._v(" "),
+              _c("small", [_vm._v(_vm._s(_vm.schemaId))])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "json-container" }, [
+                _c("label", { staticClass: "containing-label control-label" }, [
+                  _vm._v(
+                    "\n\t\t\t\t\t\t\tCurrent " +
+                      _vm._s(_vm.name) +
+                      "\n\t\t\t\t\t\t\t"
+                  ),
+                  _c("textarea", {
+                    staticClass: "previous-json form-control",
+                    attrs: { readonly: "" },
+                    domProps: { value: _vm.previousJson }
+                  })
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("alert-list", {
+        model: {
+          value: _vm.alerts,
+          callback: function($$v) {
+            _vm.alerts = $$v
+          },
+          expression: "alerts"
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "btn-lg-submit-container" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-lg btn-primary",
+            attrs: { type: "button", disabled: !_vm.isSchemaValid },
+            on: { click: _vm.submitJson }
+          },
+          [_vm._v("\n\t\t\tSubmit\n\t\t")]
+        ),
+        _vm._v(" "),
+        _vm.closeable
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-lg btn-default",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.$emit("close")
+                  }
+                }
+              },
+              [_vm._v("\n\t\t\tClose\n\t\t")]
+            )
+          : _vm._e()
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-227f018b", esExports)
+  }
+}
+
+/***/ }),
+/* 618 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = createManageEvaluations;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(23);
+
+
+
+
+
+
+
+function createManageEvaluations(el, propsData) {
+
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		props: {},
+		propsData: propsData,
+
+		computed: {
+			thead: function thead() {
+				return [['#', 'Subject', 'Evaluator', 'Requested By', 'Form', 'Evaluation Date', 'Request Date', 'Complete Date', 'Status', 'Action']];
+			},
+			config: function config() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								subject: ['full_name'],
+								evaluator: ['full_name'],
+								requestor: ['full_name'],
+								form: ['title', 'visibility', 'type']
+							}
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
+						data: null,
+						render: Object(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["j" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: Object(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["k" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["k" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateTimeCell */] }, { data: null, orderable: false, render: function render(evaluation) {
+							if (!evaluation.visibility) evaluation.visibility = evaluation.form.visibility;
+							var label = void 0;
+							switch (evaluation.status) {
+								case 'complete':
+									label = 'success';
+									break;
+								case 'pending':
+									label = 'warning';
+									break;
+								default:
+									label = 'danger';
+									break;
+							}
+							var eyeType = void 0,
+							    visBtnType = void 0;
+							switch (evaluation.visibility) {
+								case 'visible':
+									eyeType = 'open';
+									visBtnType = 'btn-info';
+									break;
+								case 'anonymous':
+								case 'under faculty threshold':
+									eyeType = 'close';
+									visBtnType = '';
+									break;
+								case 'hidden':
+									eyeType = 'close';
+									visBtnType = 'btn-default';
+									break;
+							}
+							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["H" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["H" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
+						} }, { data: null, orderable: false, render: function render(evaluation) {
+							var buttonClass = void 0,
+							    buttonType = void 0,
+							    glyphicon = void 0,
+							    buttonText = void 0;
+							if (evaluation.status === "disabled") {
+								buttonClass = "enableEval";
+								buttonType = "success";
+								glyphicon = "ok";
+								buttonText = "Enable";
+							} else {
+								buttonClass = "disableEval";
+								buttonType = "danger";
+								glyphicon = "remove";
+								buttonText = "Disable";
+							}
+
+							return '<span>\n\t\t\t\t\t\t\t\t<button class="' + buttonClass + ' btn btn-' + buttonType + ' btn-xs"\n\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-' + glyphicon + '"></span>\n\t\t\t\t\t\t\t\t\t' + buttonText + '\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<span class="cancel">\n\t\t\t\t\t\t\t\t' + (evaluation.status === 'pending' ? '<button class="cancelEval btn btn-danger btn-xs"\n\t\t\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-remove"></span>\n\t\t\t\t\t\t\t\t\t\t\tCancel\n\t\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t\t<button class="send-reminder btn btn-primary btn-xs"\n\t\t\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-send"></span>\n\t\t\t\t\t\t\t\t\t\t\tSend reminder\n\t\t\t\t\t\t\t\t\t\t</button>' : '') + '\n\t\t\t\t\t\t\t</span>';
+						} }],
+					order: [[0, 'desc']],
+					deferRender: true
+				};
+			}
+		},
+
+		components: {
+			EvaluationDataTable: __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__["a" /* default */]
+		}
+	});
+}
+
+/***/ }),
+/* 619 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = createManageFaculty360;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_ConfirmationButton_vue__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_DataTable_vue__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_RichDate_vue__ = __webpack_require__(292);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__vue_components_RichDateRange_vue__ = __webpack_require__(139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__vue_components_AcademicYearSelector_vue__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__vue_components_FormBuilder_FormBuilder_vue__ = __webpack_require__(168);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__vue_components_FormReader_FormReader_vue__ = __webpack_require__(208);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_moment__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__modules_datatable_utils_js__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__modules_utils_js__ = __webpack_require__(1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function createManageFaculty360(el) {
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		props: {},
+		data: function data() {
+			return {
+				forms: null,
+				evaluations: null,
+
+				evaluationDates: Object(__WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["isoDateStringObject"])(Object(__WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["currentYear"])()),
+
+				formToEdit: null,
+				viewedEvaluation: null,
+
+				show: {
+					createForm: false
+				},
+
+				alerts: []
+			};
+		},
+		mounted: function mounted() {
+			this.fetchForms();
+			this.fetchEvaluations();
+		},
+
+
+		computed: {
+			formFields: function formFields() {
+				return ['id', 'title', 'created'];
+			},
+			formFieldAccessors: function formFieldAccessors() {
+				return {
+					created: function created(form, action) {
+						if (action === 'sort') return __WEBPACK_IMPORTED_MODULE_10_moment___default()(form.created_at).valueOf();
+
+						return Object(__WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDate"])(form.created_at);
+					}
+				};
+			},
+			evaluationFields: function evaluationFields() {
+				return ['id', 'faculty', 'evaluation_date'];
+			},
+			evaluationFieldAccessors: function evaluationFieldAccessors() {
+				return {
+					faculty: function faculty(evaluation) {
+						return evaluation.subject.full_name;
+					},
+					evaluation_date: function evaluation_date(evaluation, action) {
+						if (action === 'sort') {
+							return __WEBPACK_IMPORTED_MODULE_10_moment___default()(evaluation.evaluation_date_start).valueOf();
+						}
+
+						return Object(__WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDateRange"])(evaluation.evaluation_date_start, evaluation.evaluation_date_end);
+					}
+				};
+			}
+		},
+
+		watch: {
+			evaluationDates: function evaluationDates() {
+				this.fetchEvaluations();
+			}
+		},
+
+		methods: {
+			ucfirst: __WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["H" /* ucfirst */],
+			renderDateTime: __WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDateTime"],
+			renderDateRange: __WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDateRange"],
+			getEvaluationStatusLabel: __WEBPACK_IMPORTED_MODULE_11__modules_datatable_utils_js__["f" /* getEvaluationStatusLabel */],
+			fetchForms: function fetchForms() {
+				var _this = this;
+
+				fetch('/faculty360/forms', {
+					method: 'GET',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["t" /* jsonOrThrow */]).then(function (forms) {
+					_this.forms = forms;
+				}).catch(function (err) {
+					console.error(err);
+					_this.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem fetching forms'
+					});
+				});
+			},
+			fetchEvaluations: function fetchEvaluations() {
+				var _this2 = this;
+
+				var query = $.param({
+					evaluation_date_start: this.evaluationDates.startDate,
+					evaluation_date_end: this.evaluationDates.endDate,
+					with: {
+						subject: ['full_name'],
+						form: ['title']
+					}
+				});
+
+				fetch('/faculty360/evaluations?' + query, {
+					method: 'GET',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["t" /* jsonOrThrow */]).then(function (evals) {
+					_this2.evaluations = evals;
+				}).catch(function (err) {
+					console.error(err);
+					_this2.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem fetching evaluations'
+					});
+				});
+			},
+			toggleFormStatus: function toggleFormStatus(form) {
+				var _this3 = this;
+
+				var newStatus = form.status === 'active' ? 'inactive' : 'active';
+
+				fetch('/faculty360/forms/' + form.id, {
+					method: 'POST', // PATCH
+					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						status: newStatus
+					})
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+					_this3.fetchForms();
+				}).catch(function (err) {
+					console.error(err);
+					_this3.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem changing the form status'
+					});
+				});
+			},
+			toggleEvaluationStatus: function toggleEvaluationStatus(evaluation, event) {
+				var _this4 = this;
+
+				event.preventDefault();
+
+				var newStatus = evaluation.status === 'disabled' ? evaluation.complete_date !== null ? 'completed' : 'pending' : 'disabled';
+
+				fetch('/faculty360/evaluations/' + evaluation.id, {
+					method: 'POST', // PATCH
+					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						status: newStatus
+					})
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+					_this4.fetchEvaluations();
+				}).catch(function (err) {
+					console.error(err);
+					_this4.alerts.push({
+						type: 'error',
+						html: "<strong>Error:</strong> There was a problem changing the evaluation's status"
+					});
+				});
+			},
+			resendEvaluationHash: function resendEvaluationHash(evaluation, event) {
+				var _this5 = this;
+
+				event.preventDefault();
+
+				fetch('/faculty360/evaluations/' + evaluation.id + '/send-new', {
+					method: 'GET',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+					_this5.alerts.push({
+						type: 'success',
+						text: 'New link sent successfully!'
+					});
+				}).catch(function (err) {
+					console.error(err);
+					_this5.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem sending a new completion link'
+					});
+				});
+			},
+			viewEvaluation: function viewEvaluation(evaluation, event) {
+				if (event.defaultPrevented) return;
+
+				this.viewedEvaluation = evaluation;
+			},
+			handleFormSubmit: function handleFormSubmit(form) {
+				var _this6 = this;
+
+				fetch('/faculty360/forms', {
+					method: 'POST',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify(form)
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["t" /* jsonOrThrow */]).then(function () {
+					_this6.show.createForm = false;
+					_this6.fetchForms();
+				}).catch(function (err) {
+					console.error(err);
+					_this6.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem saving the form'
+					});
+				});
+			}
+		},
+
+		components: {
+			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__["a" /* default */],
+			ComponentList: __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__["a" /* default */],
+			ConfirmationButton: __WEBPACK_IMPORTED_MODULE_3__vue_components_ConfirmationButton_vue__["a" /* default */],
+			DataTable: __WEBPACK_IMPORTED_MODULE_4__vue_components_DataTable_vue__["a" /* default */],
+			RichDate: __WEBPACK_IMPORTED_MODULE_5__vue_components_RichDate_vue__["a" /* default */],
+			RichDateRange: __WEBPACK_IMPORTED_MODULE_6__vue_components_RichDateRange_vue__["a" /* default */],
+			AcademicYearSelector: __WEBPACK_IMPORTED_MODULE_7__vue_components_AcademicYearSelector_vue__["a" /* default */],
+
+			FormBuilder: __WEBPACK_IMPORTED_MODULE_8__vue_components_FormBuilder_FormBuilder_vue__["a" /* default */],
+			FormReader: __WEBPACK_IMPORTED_MODULE_9__vue_components_FormReader_FormReader_vue__["a" /* default */]
+		}
+	});
+}
+
+/***/ }),
+/* 620 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = createManageMerit;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_JsonSchemaEditor_vue__ = __webpack_require__(334);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_SelectTwo_vue__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Manage_Merit_FormListItem_vue__ = __webpack_require__(621);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(1);
+
+
+
+
+
+
+
+
+
+
+
+var reportTypeFormsKey = 'reportTypeForms';
+
+function createManageMerit(el, propsData) {
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		props: {
+			meritReportTypes: {
+				type: Object,
+				required: true
+			}
+		},
+		data: function data() {
+			return {
+				meritForms: [],
+				meritReportTypeForms: {},
+
+				pastMeritForms: null,
+				merit: null,
+				alerts: []
+			};
+		},
+
+		propsData: propsData,
+
+		mounted: function mounted() {
+			this.fetchMerits();
+			this.fetchReportTypeForms();
+		},
+
+
+		computed: {
+			formFields: function formFields() {
+				return ['id', 'name'];
+			},
+			groupedMeritForms: function groupedMeritForms() {
+				var forms = new Map();
+				this.meritForms.map(function (form) {
+					var nameForms = [];
+					if (forms.has(form.name)) nameForms = forms.get(form.name);
+
+					nameForms.push(form);
+					forms.set(form.name, nameForms);
+				});
+
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = forms.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var name = _step.value;
+
+						var nameForms = forms.get(name);
+						nameForms.sort(function (a, b) {
+							return Number(b.version) - Number(a.version);
+						});
+						forms.set(name, nameForms);
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				return Array.from(forms.values());
+			},
+			currentForms: function currentForms() {
+				return this.groupedMeritForms.map(function (forms) {
+					return forms[0];
+				});
+			}
+		},
+
+		methods: {
+			fetchMerits: function fetchMerits() {
+				var _this = this;
+
+				fetch('/merit-forms', {
+					method: 'GET',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["t" /* jsonOrThrow */]).then(function (meritForms) {
+					_this.meritForms = meritForms;
+				}).catch(function (err) {
+					console.error(err);
+					_this.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem fetching merit forms'
+					});
+				});
+			},
+			fetchReportTypeForms: function fetchReportTypeForms() {
+				var _this2 = this;
+
+				fetch('/setting/' + reportTypeFormsKey, {
+					method: 'GET',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(function (response) {
+					if (response.ok) return response.json();
+
+					if (response.status === 404) return {};
+
+					throw Error(response.statusText);
+				}).then(function (reportTypeForms) {
+					_this2.meritReportTypeForms = reportTypeForms;
+				}).catch(function (err) {
+					console.error(err);
+					_this2.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem fetching merit report type forms'
+					});
+				});
+			},
+			addMerit: function addMerit() {
+				this.merit = {
+					name: null,
+					version: 0,
+					form: null
+				};
+			},
+			editMeritForm: function editMeritForm(forms) {
+				this.pastMeritForms = Array.slice(forms);
+				var currentForm = forms[0];
+				this.merit = {
+					id: currentForm.id,
+					name: currentForm.name,
+					version: currentForm.version,
+					form: null
+				};
+			},
+			handleMeritSubmit: function handleMeritSubmit(form) {
+				var _this3 = this;
+
+				var merit = Object.assign({}, this.merit, { form: form });
+				merit.version++;
+
+				fetch('/merit-forms', {
+					method: 'POST',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify(merit)
+				}).then(function (response) {
+					if (!response.ok) throw Error(response.statusText);
+
+					_this3.merit = null;
+					_this3.fetchMerits();
+				}).catch(function (err) {
+					console.error(err);
+					_this3.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem saving the merit form'
+					});
+				});
+			},
+			removeMeritForms: function removeMeritForms(forms) {
+				var _this4 = this;
+
+				var reportTypeRemovalPromises = [];
+				var formRemovalPromises = [];
+
+				formRemovalPromises = forms.map(function (form) {
+					return fetch('/merit-forms/' + form.id, {
+						method: 'POST', // DELETE
+						headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+						credentials: 'same-origin',
+						body: JSON.stringify({
+							_method: 'DELETE'
+						})
+					}).then(function (response) {
+						if (!response.ok) throw Error(response.statusText);
+
+						for (var reportType in _this4.meritReportTypeForms) {
+							var _form = _this4.meritReportTypeForms[reportType];
+
+							if (Number(_form.id) === Number(_form)) reportTypeRemovalPromises.push(fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
+								method: 'POST', // DELETE
+								headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+								credentials: 'same-origin',
+								body: JSON.stringify({
+									_method: 'DELETE'
+								})
+							}));
+						}
+					}).catch(function (err) {
+						console.error(err);
+						_this4.alerts.push({
+							type: 'error',
+							html: '<strong>Error:</strong> There was a problem removing the merit form'
+						});
+					});
+				});
+
+				if (formRemovalPromises.length > 0) {
+					Promise.all(formRemovalPromises).then(function () {
+						_this4.fetchMerits();
+
+						if (reportTypeRemovalPromises.length > 0) {
+							Promise.all(reportTypeRemovalPromises).then(function () {
+								_this4.fetchReportTypeForms();
+							});
+						}
+					});
+				}
+			},
+			handleReportTypeInput: function handleReportTypeInput(reportType, formName) {
+				var _this5 = this;
+
+				if (!formName || formName === this.meritReportTypeForms[reportType]) return;
+
+				fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
+					method: 'POST', // PATCH
+					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						value: formName
+					})
+				}).then(function (response) {
+					if (!response.ok) throw Error(response.statusText);
+
+					_this5.fetchReportTypeForms();
+				}).catch(function (err) {
+					console.error(err);
+					_this5.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem saving report type form'
+					});
+				});
+			},
+			removeReportTypeForm: function removeReportTypeForm(reportType) {
+				var _this6 = this;
+
+				fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
+					method: 'POST', // DELETE
+					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'DELETE'
+					})
+				}).then(function (response) {
+					if (!response.ok) throw Error(response.statusText);
+
+					_this6.fetchReportTypeForms();
+				}).catch(function (err) {
+					console.error(err);
+					_this6.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem removing the type form'
+					});
+				});
+			}
+		},
+
+		components: {
+			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__["a" /* default */],
+			ComponentList: __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__["a" /* default */],
+			JsonSchemaEditor: __WEBPACK_IMPORTED_MODULE_3__vue_components_JsonSchemaEditor_vue__["a" /* default */],
+			SelectTwo: __WEBPACK_IMPORTED_MODULE_4__vue_components_SelectTwo_vue__["a" /* default */],
+
+			MeritFormListItem: __WEBPACK_IMPORTED_MODULE_5__vue_components_Manage_Merit_FormListItem_vue__["a" /* default */]
+		}
+	});
+}
+
+/***/ }),
+/* 621 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormListItem_vue__ = __webpack_require__(623);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3c839864_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormListItem_vue__ = __webpack_require__(624);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(622)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-3c839864"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FormListItem_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3c839864_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FormListItem_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/Manage/Merit/FormListItem.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3c839864", Component.options)
+  } else {
+    hotAPI.reload("data-v-3c839864", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 622 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 623 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__ = __webpack_require__(21);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		forms: {
+			type: Array,
+			required: true
+		}
+	},
+
+	computed: {
+		currentForm: function currentForm() {
+			return this.forms[0];
+		}
+	},
+
+	methods: {
+		handleClick: function handleClick() {
+			this.$emit('click');
+		}
+	},
+
+	components: {
+		ConfirmationButton: __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__["a" /* default */]
+	}
+});
+
+/***/ }),
+/* 624 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "merit-form-list-item" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-sm-6 name-cell" }, [
+        _c("span", { staticClass: "name" }, [
+          _vm._v(_vm._s(_vm.currentForm.name))
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-3 version-cell" }, [
+        _c("small", [_vm._v("Version")]),
+        _vm._v(" "),
+        _c("span", [_vm._v(_vm._s(_vm.currentForm.version))])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-sm-3 controls-cell text-right" },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-sm btn-info",
+              attrs: { type: "button" },
+              on: { click: _vm.handleClick }
+            },
+            [
+              _c("span", { staticClass: "glyphicon glyphicon-pencil" }),
+              _vm._v("\n\t\t\t\tView / edit\n\t\t\t")
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "confirmation-button",
+            {
+              staticClass: "btn btn-sm btn-danger",
+              attrs: { "pressed-class": "btn btn-sm btn-warning" },
+              on: {
+                click: function($event) {
+                  _vm.$emit("delete")
+                }
+              }
+            },
+            [
+              _c("span", { staticClass: "glyphicon glyphicon-remove" }),
+              _vm._v("\n\t\t\t\tDelete\n\t\t\t\t\n\t\t\t\t"),
+              _c("template", { attrs: { slot: "pressed" }, slot: "pressed" }, [
+                _c("span", { staticClass: "glyphicon glyphicon-trash" }),
+                _vm._v("\n\t\t\t\t\tConfirm delete\n\t\t\t\t")
+              ])
+            ],
+            2
+          )
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3c839864", esExports)
+  }
+}
+
+/***/ }),
+/* 625 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = createManageMilestonesCompetencies;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__ = __webpack_require__(626);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(1);
+
+
+
+
+
+
+
+
+
+
+function createManageMilestonesCompetencies(el, propsData) {
+
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		props: {},
+		propsData: propsData,
+
+		data: function data() {
+			return {
+				milestones: null,
+				competencies: null,
+
+				orderedMilestones: [],
+				orderedCompetencies: [],
+
+				show: {
+					milestoneOrder: false,
+					competencyOrder: false
+				},
+
+				milestoneAlerts: [],
+				competencyAlerts: []
+			};
+		},
+		mounted: function mounted() {
+			this.fetchMilestones();
+			this.fetchCompetencies();
+		},
+
+
+		computed: {
+			milestonesThead: function milestonesThead() {
+				return [['Order', 'Title', 'Type', 'Subspecialty', 'Description', 'Action']];
+			},
+			milestonesConfig: function milestonesConfig() {
+				return {
+					columns: [{ data: 'order', render: function render(order, type) {
+							if (['sort', 'type'].includes(type)) return order != null ? Number(order) + 1 : Number.MAX_VALUE;
+
+							return order != null ? Number(order) + 1 : '';
+						}
+					}, { data: 'title' }, { data: 'type' }, { data: 'training_level' }, { data: 'description' }, { data: null, searchable: false, orderable: false, render: function render(milestone) {
+							var milestoneData = 'data-id="' + milestone.id + '"\n\t\t\t\t\t\t\t\tdata-title="' + milestone.title + '"\n\t\t\t\t\t\t\t\tdata-type="' + milestone.type + '"\n\t\t\t\t\t\t\t\tdata-training-level="' + milestone.training_level + '"\n\t\t\t\t\t\t\t\tdata-description="' + milestone.description + '"';
+
+							var editButton = '\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="edit-milestone-button btn btn-info btn-xs"\n\t\t\t\t\t\t\t\t\t' + milestoneData + '>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-edit"></span>\n\t\t\t\t\t\t\t\tEdit\n\t\t\t\t\t\t\t</button>';
+
+							var levelsButton = '\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="edit-milestone-levels-button btn btn-info btn-xs"\n\t\t\t\t\t\t\t\t\t' + milestoneData + '>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-th-list"></span>\n\t\t\t\t\t\t\t\tLevels\n\t\t\t\t\t\t\t</button>';
+
+							var deleteButton = '\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="delete-milestone-button btn btn-danger btn-xs"\n\t\t\t\t\t\t\t\t\t' + milestoneData + '>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-remove"></span>\n\t\t\t\t\t\t\t\tDelete\n\t\t\t\t\t\t\t</button>';
+
+							return editButton + ' ' + levelsButton + '\n\t\t\t\t\t\t\t\t' + (milestone.forms.length === 0 ? deleteButton : '');
+						}
+					}]
+				};
+			},
+			competenciesThead: function competenciesThead() {
+				return [['Order', 'Title', 'Description', 'Action']];
+			},
+			competenciesConfig: function competenciesConfig() {
+				return {
+					columns: [{ data: 'order', render: function render(order, type) {
+							if (['sort', 'type'].includes(type)) return order != null ? Number(order) + 1 : Number.MAX_VALUE;
+
+							return order != null ? Number(order) + 1 : '';
+						}
+					}, { data: 'title' }, { data: 'description' }, { data: null, searchable: false, orderable: false, render: function render(competency) {
+							var competencyData = 'data-id="' + competency.id + '"\n\t\t\t\t\t\t\t\tdata-title="' + competency.title + '"\n\t\t\t\t\t\t\t\tdata-description="' + competency.description + '"';
+
+							var editButton = '\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="edit-competency-button btn btn-info btn-xs"\n\t\t\t\t\t\t\t\t\t' + competencyData + '>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-edit"></span>\n\t\t\t\t\t\t\t\tEdit\n\t\t\t\t\t\t\t</button>';
+
+							var deleteButton = '\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="delete-competency-button btn btn-danger btn-xs"\n\t\t\t\t\t\t\t\t\t' + competencyData + '>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-remove"></span>\n\t\t\t\t\t\t\t\tDelete\n\t\t\t\t\t\t\t</button>';
+
+							return editButton + ' ' + (competency.forms.length === 0 ? deleteButton : '');
+						} }]
+				};
+			}
+		},
+
+		watch: {
+			competencies: function competencies(_competencies) {
+				this.orderedCompetencies = _competencies.filter(function (competency) {
+					return competency.order != null;
+				}).sort(Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["F" /* sortPropNumbers */])('order'));
+			},
+			milestones: function milestones(_milestones) {
+				this.orderedMilestones = _milestones.filter(function (milestone) {
+					return milestone.order != null;
+				}).sort(Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["F" /* sortPropNumbers */])('order'));
+			}
+		},
+
+		methods: {
+			ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* ucfirst */],
+			fetchMilestones: function fetchMilestones() {
+				var _this = this;
+
+				var query = $.param({
+					with: {
+						forms: true
+					}
+				});
+
+				return fetch('/milestones?' + query, {
+					method: 'GET',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (milestones) {
+					_this.milestones = milestones;
+				}).catch(function (err) {
+					console.error(err);
+					_this.milestoneAlerts.push({
+						type: 'error',
+						html: '<strong>Error: </strong> Problem fetching milestones'
+					});
+				});
+			},
+			fetchCompetencies: function fetchCompetencies() {
+				var _this2 = this;
+
+				var query = $.param({
+					with: {
+						forms: true
+					}
+				});
+
+				return fetch('/competencies?' + query, {
+					method: 'GET',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (competencies) {
+					_this2.competencies = competencies;
+				}).catch(function (err) {
+					console.error(err);
+					_this2.competencyAlerts.push({
+						type: 'error',
+						html: '<strong>Error: </strong> Problem fetching competencies'
+					});
+				});
+			},
+			saveMilestoneOrder: function saveMilestoneOrder() {
+				var _this3 = this;
+
+				var orderMap = this.orderedMilestones.map(function (milestone, index) {
+					return {
+						id: milestone.id,
+						order: index
+					};
+				});
+
+				fetch('/milestones/order', {
+					method: 'POST',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						orderMap: orderMap
+					})
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (results) {
+					if (results.success && results.success.length === _this3.orderedMilestones.length) _this3.milestoneAlerts.push({
+						type: 'success',
+						text: 'All orders saved successfully'
+					});else if (results.error && results.error.length === _this3.orderedMilestones.length) throw new Error(results);else _this3.milestoneAlerts.push({
+						type: 'warning',
+						text: 'Some orders were not saved successfully'
+					});
+
+					_this3.fetchMilestones();
+				}).catch(function (err) {
+					console.error(err);
+					_this3.milestoneAlerts.push({
+						type: 'error',
+						text: 'There was a problem saving the orders'
+					});
+				});
+			},
+			saveCompetencyOrder: function saveCompetencyOrder() {
+				var _this4 = this;
+
+				var orderMap = this.orderedCompetencies.map(function (competency, index) {
+					return {
+						id: competency.id,
+						order: index
+					};
+				});
+
+				fetch('/competencies/order', {
+					method: 'POST',
+					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						orderMap: orderMap
+					})
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (results) {
+					if (results.success && results.success.length === _this4.orderedCompetencies.length) _this4.competencyAlerts.push({
+						type: 'success',
+						text: 'All orders saved successfully'
+					});else if (results.error && results.error.length === _this4.orderedCompetencies.length) throw new Error(results);else _this4.competencyAlerts.push({
+						type: 'warning',
+						text: 'Some orders were not saved successfully'
+					});
+					_this4.fetchCompetencies();
+				}).catch(function (err) {
+					console.error(err);
+					_this4.competencyAlerts.push({
+						type: 'error',
+						text: 'There was a problem saving the orders'
+					});
+				});
+			}
+		},
+
+		components: {
+			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__["a" /* default */],
+			DataTable: __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__["a" /* default */],
+			OrderingList: __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__["a" /* default */],
+			ShowHideButton: __WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue__["a" /* default */]
+		}
+	});
+}
+
+/***/ }),
+/* 626 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_OrderingList_vue__ = __webpack_require__(628);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d93fa1b2_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_OrderingList_vue__ = __webpack_require__(629);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(627)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-d93fa1b2"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_OrderingList_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d93fa1b2_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_OrderingList_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/OrderingList.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d93fa1b2", Component.options)
+  } else {
+    hotAPI.reload("data-v-d93fa1b2", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 627 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 628 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		value: {
+			type: Array,
+			required: true,
+			default: function _default() {
+				return [];
+			}
+		},
+		items: {
+			type: Array,
+			required: true
+		},
+		itemKey: {
+			type: String,
+			default: 'id'
+		}
+	},
+
+	data: function data() {
+		return {
+			activeItem: null,
+			activeItemTimeoutId: null
+		};
+	},
+
+
+	computed: {
+		itemsRemaining: function itemsRemaining() {
+			var _this = this;
+
+			return this.items.filter(function (item) {
+				return !_this.value.includes(item);
+			});
+		}
+	},
+	watch: {
+		activeItem: function activeItem() {
+			var _this2 = this;
+
+			if (this.activeItemTimeoutId) window.clearTimeout(this.activeItemTimeoutId);
+
+			this.activeItemTimeoutId = window.setTimeout(function () {
+				if (_this2.activeItemTimeoutId) {
+					_this2.activeItem = null;
+					_this2.activeItemTimeoutId = null;
+				}
+			}, 1000);
+		}
+	},
+
+	methods: {
+		addItem: function addItem(item) {
+			this.$emit('input', this.value.concat(item));
+		},
+		removeItem: function removeItem(index) {
+			if (event.defaultPrevented) return;
+
+			var value = this.value.slice();
+			value.splice(index, 1);
+			this.$emit('input', value);
+		},
+		moveItemTo: function moveItemTo(event, index) {
+			var newIndex = event.target.value - 1;
+
+			if (newIndex < 0 || newIndex > this.value.length - 1) return;
+
+			var value = this.value.slice();
+			value.splice(newIndex, 0, value.splice(index, 1)[0]);
+
+			this.activeItem = newIndex;
+			this.$emit('input', value);
+		},
+		moveItemUp: function moveItemUp(event, index) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			if (index === 0) return;
+
+			var newIndex = index - 1;
+			var value = this.value.slice();
+
+			value.splice(newIndex, 0, value.splice(index, 1)[0]);
+
+			this.activeItem = newIndex;
+			this.$emit('input', value);
+		},
+		moveItemDown: function moveItemDown(event, index) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			if (index === this.value.length - 1) return;
+
+			var newIndex = index + 1;
+			var value = this.value.slice();
+
+			value.splice(newIndex, 0, value.splice(index, 1)[0]);
+
+			this.activeItem = newIndex;
+			this.$emit('input', value);
+		}
+	}
+});
+
+/***/ }),
+/* 629 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-md-6" }, [
+      _c("b", [_vm._v("Unordered items")]),
+      _vm._v(" "),
+      _c(
+        "ul",
+        { staticClass: "list-group" },
+        _vm._l(_vm.itemsRemaining, function(item) {
+          return _c(
+            "li",
+            {
+              key: _vm.itemKey in item && "bank-" + item[_vm.itemKey],
+              staticClass: "list-group-item",
+              on: {
+                click: function($event) {
+                  _vm.addItem(item)
+                }
+              }
+            },
+            [
+              _vm._t(
+                "default",
+                [_vm._v("\n\t\t\t\t\t" + _vm._s(item) + "\n\t\t\t\t")],
+                null,
+                item
+              )
+            ],
+            2
+          )
+        })
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-6" }, [
+      _c("b", [_vm._v("Ordered list")]),
+      _vm._v(" "),
+      _c(
+        "ol",
+        { ref: "orderedList", staticClass: "list-group" },
+        _vm._l(_vm.value, function(item, index) {
+          return _c(
+            "li",
+            {
+              key: _vm.itemKey in item && item[_vm.itemKey],
+              staticClass: "list-group-item",
+              class: { active: _vm.activeItem === index },
+              on: {
+                click: function($event) {
+                  _vm.removeItem(index)
+                }
+              }
+            },
+            [
+              _vm._t(
+                "default",
+                [_vm._v("\n\t\t\t\t\t" + _vm._s(item) + "\n\t\t\t\t")],
+                null,
+                item
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "item-controls" }, [
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "number" },
+                  domProps: { value: index + 1 },
+                  on: {
+                    click: function($event) {
+                      $event.stopPropagation()
+                    },
+                    change: function($event) {
+                      _vm.moveItemTo($event, index)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "item-controls-buttons" }, [
+                  index > 0
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-default",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.moveItemUp($event, index)
+                            }
+                          }
+                        },
+                        [
+                          _c("span", {
+                            staticClass: "glyphicon glyphicon-arrow-up"
+                          })
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  index < _vm.value.length - 1
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-default",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.moveItemDown($event, index)
+                            }
+                          }
+                        },
+                        [
+                          _c("span", {
+                            staticClass: "glyphicon glyphicon-arrow-down"
+                          })
+                        ]
+                      )
+                    : _vm._e()
+                ])
+              ])
+            ],
+            2
+          )
+        })
+      ),
+      _vm._v(" "),
+      _vm.value.length > 0
+        ? _c("div", { staticClass: "text-center" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-warning",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.$emit("input", [])
+                  }
+                }
+              },
+              [_vm._v("\n\t\t\t\tClear list\n\t\t\t")]
+            )
+          ])
+        : _vm._e()
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d93fa1b2", esExports)
+  }
+}
+
+/***/ }),
+/* 630 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = createManageScheduledRequests;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_ConfirmationButton_vue__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_RichDate_vue__ = __webpack_require__(292);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_RichDateRange_vue__ = __webpack_require__(139);
@@ -51321,7 +51609,7 @@ function createManageScheduledRequests(el, propsData) {
 				};
 			},
 			scheduledRequestSortFunctions: function scheduledRequestSortFunctions() {
-				return new Map([['evaluation_date', Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["B" /* sortPropDates */])('evaluation_date_start')], ['request_date', Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["B" /* sortPropDates */])('request_date')]]);
+				return new Map([['evaluation_date', Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["D" /* sortPropDates */])('evaluation_date_start')], ['request_date', Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["D" /* sortPropDates */])('request_date')]]);
 			}
 		},
 
@@ -51339,9 +51627,9 @@ function createManageScheduledRequests(el, propsData) {
 				});
 
 				fetch('/scheduled-requests?' + query, {
-					headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["m" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["n" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["s" /* jsonOrThrow */]).then(function (scheduledRequests) {
+				}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["t" /* jsonOrThrow */]).then(function (scheduledRequests) {
 					_this.scheduledRequests = scheduledRequests;
 				}).catch(function (err) {
 					console.error(err);
@@ -51356,12 +51644,12 @@ function createManageScheduledRequests(el, propsData) {
 
 				fetch('/scheduled-requests/' + scheduledRequest.id, {
 					method: 'POST', // DELETE,
-					headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["m" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["n" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'DELETE'
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["v" /* okOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["w" /* okOrThrow */]).then(function () {
 					_this2.scheduledRequests = _this2.scheduledRequests.filter(function (request) {
 						return request.id !== scheduledRequest.id;
 					});
@@ -51384,7 +51672,435 @@ function createManageScheduledRequests(el, propsData) {
 	});
 }
 
+/***/ }),
+/* 631 */,
+/* 632 */,
+/* 633 */,
+/* 634 */,
+/* 635 */,
+/* 636 */,
+/* 637 */,
+/* 638 */,
+/* 639 */,
+/* 640 */,
+/* 641 */,
+/* 642 */,
+/* 643 */,
+/* 644 */,
+/* 645 */,
+/* 646 */,
+/* 647 */,
+/* 648 */,
+/* 649 */,
+/* 650 */,
+/* 651 */,
+/* 652 */,
+/* 653 */,
+/* 654 */,
+/* 655 */,
+/* 656 */,
+/* 657 */,
+/* 658 */,
+/* 659 */,
+/* 660 */,
+/* 661 */,
+/* 662 */,
+/* 663 */,
+/* 664 */,
+/* 665 */,
+/* 666 */,
+/* 667 */,
+/* 668 */,
+/* 669 */,
+/* 670 */,
+/* 671 */,
+/* 672 */,
+/* 673 */,
+/* 674 */,
+/* 675 */,
+/* 676 */,
+/* 677 */,
+/* 678 */,
+/* 679 */,
+/* 680 */,
+/* 681 */,
+/* 682 */,
+/* 683 */,
+/* 684 */,
+/* 685 */,
+/* 686 */,
+/* 687 */,
+/* 688 */,
+/* 689 */,
+/* 690 */,
+/* 691 */,
+/* 692 */,
+/* 693 */,
+/* 694 */,
+/* 695 */,
+/* 696 */,
+/* 697 */,
+/* 698 */,
+/* 699 */,
+/* 700 */,
+/* 701 */,
+/* 702 */,
+/* 703 */,
+/* 704 */,
+/* 705 */,
+/* 706 */,
+/* 707 */,
+/* 708 */,
+/* 709 */,
+/* 710 */,
+/* 711 */,
+/* 712 */,
+/* 713 */,
+/* 714 */,
+/* 715 */,
+/* 716 */,
+/* 717 */,
+/* 718 */,
+/* 719 */,
+/* 720 */,
+/* 721 */,
+/* 722 */,
+/* 723 */,
+/* 724 */,
+/* 725 */,
+/* 726 */,
+/* 727 */,
+/* 728 */,
+/* 729 */,
+/* 730 */,
+/* 731 */,
+/* 732 */,
+/* 733 */,
+/* 734 */,
+/* 735 */,
+/* 736 */,
+/* 737 */,
+/* 738 */,
+/* 739 */,
+/* 740 */,
+/* 741 */,
+/* 742 */,
+/* 743 */,
+/* 744 */,
+/* 745 */,
+/* 746 */,
+/* 747 */,
+/* 748 */,
+/* 749 */,
+/* 750 */,
+/* 751 */,
+/* 752 */,
+/* 753 */,
+/* 754 */,
+/* 755 */,
+/* 756 */,
+/* 757 */,
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */,
+/* 764 */,
+/* 765 */,
+/* 766 */,
+/* 767 */,
+/* 768 */,
+/* 769 */,
+/* 770 */,
+/* 771 */,
+/* 772 */,
+/* 773 */,
+/* 774 */,
+/* 775 */,
+/* 776 */,
+/* 777 */,
+/* 778 */,
+/* 779 */,
+/* 780 */,
+/* 781 */,
+/* 782 */,
+/* 783 */,
+/* 784 */,
+/* 785 */,
+/* 786 */,
+/* 787 */,
+/* 788 */,
+/* 789 */,
+/* 790 */,
+/* 791 */,
+/* 792 */,
+/* 793 */,
+/* 794 */,
+/* 795 */,
+/* 796 */,
+/* 797 */,
+/* 798 */,
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */,
+/* 804 */,
+/* 805 */,
+/* 806 */,
+/* 807 */,
+/* 808 */,
+/* 809 */,
+/* 810 */,
+/* 811 */,
+/* 812 */,
+/* 813 */,
+/* 814 */,
+/* 815 */,
+/* 816 */,
+/* 817 */,
+/* 818 */,
+/* 819 */,
+/* 820 */,
+/* 821 */,
+/* 822 */,
+/* 823 */,
+/* 824 */,
+/* 825 */,
+/* 826 */,
+/* 827 */,
+/* 828 */,
+/* 829 */,
+/* 830 */,
+/* 831 */,
+/* 832 */,
+/* 833 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AddEdit_vue__ = __webpack_require__(834);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_51598266_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AddEdit_vue__ = __webpack_require__(835);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AddEdit_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_51598266_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AddEdit_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/Location/AddEdit.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-51598266", Component.options)
+  } else {
+    hotAPI.reload("data-v-51598266", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 834 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_utils_js__ = __webpack_require__(1);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		id: {
+			type: Number,
+			required: false
+		},
+		name: {
+			type: String,
+			default: ''
+		}
+	},
+	data: function data() {
+		return {
+			newName: this.name
+		};
+	},
+
+
+	computed: {
+		editing: function editing() {
+			return Boolean(this.id);
+		}
+	},
+
+	methods: {
+		handleSubmit: function handleSubmit() {
+			var _this = this;
+
+			var url = this.editing ? '/locations/' + this.id : '/locations';
+
+			var body = {
+				name: this.newName
+			};
+
+			if (this.editing) body._method = 'PATCH';
+
+			fetch(url, Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["f" /* fetchConfig */])(), {
+				method: 'POST', // maybe PATCH
+				body: JSON.stringify(body)
+			})).then(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+				_this.$emit('submit');
+			}).catch(function (err) {
+				console.error(err);
+				_this.$emit('alert', Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["x" /* simpleErrorAlert */])('There was a problem saving the location'));
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 835 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "panel panel-default" }, [
+    _c("div", { staticClass: "panel-heading" }, [
+      _c("div", { staticClass: "panel-title" }, [
+        _vm._v(
+          "\n\t\t\t" + _vm._s(this.editing ? "Edit" : "Add") + " Location\n\t\t"
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "panel-body" }, [
+      _c("form", [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { staticClass: "containing-label" }, [
+            _vm._v("\n\t\t\t\t\tName\n\t\t\t\t\t"),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newName,
+                  expression: "newName"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text" },
+              domProps: { value: _vm.newName },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.newName = $event.target.value
+                }
+              }
+            })
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "panel-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-default",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              _vm.$emit("close")
+            }
+          }
+        },
+        [_vm._v("\n\t\t\tCancel\n\t\t")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-info",
+          attrs: { type: "button" },
+          on: { click: _vm.handleSubmit }
+        },
+        [_vm._v("\n\t\t\tSave\n\t\t")]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-51598266", esExports)
+  }
+}
+
 /***/ })
-],[561]);
+],[563]);
 });
 //# sourceMappingURL=vue-manage.js.map
