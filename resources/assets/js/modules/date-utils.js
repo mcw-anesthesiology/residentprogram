@@ -4,8 +4,22 @@ import type moment$Moment from 'moment';
 
 export type DateLike = string | Date | moment$Moment;
 
-// I don't know what this flow error wants from me
-type DateLikeObject = { [string]: DateLike };
+export type DateLikeObject = { [string]: DateLike };
+
+export type StartEndDateLikeObject = {
+	startDate: DateLike,
+	endDate: DateLike
+};
+
+export type StartEndDateObject = {
+	startDate: Date,
+	endDate: Date
+};
+
+export type StartEndDateStringObject = {
+	startDate: string,
+	endDate: string
+};
 
 import moment from 'moment';
 
@@ -13,19 +27,25 @@ export function isoDateString(date: DateLike): string {
 	return moment(date).format('Y-MM-DD');
 }
 
-export function isoDateStringObject(dates: DateLikeObject): { [string]: string } {
-	const newDates = {};
+export function isoDateStringObject(
+	dates: StartEndDateLikeObject
+): StartEndDateStringObject {
+	const newDates: {[string]: string} = {};
 
 	for (let [key, date] of Object.entries(dates)) {
-		newDates[key] = isoDateString(date);
+		let dateString = isoDateString(date);
+		newDates[key] = dateString;
 	}
 
 	return newDates;
 }
 
-export function datesEqual(dates1: DateLikeObject, dates2: DateLikeObject): boolean {
-	dates1 = isoDateStringObject(dates1);
-	dates2 = isoDateStringObject(dates2);
+export function datesEqual(
+	d1: StartEndDateLikeObject,
+	d2: StartEndDateLikeObject
+): boolean {
+	let dates1 = isoDateStringObject(d1);
+	let dates2 = isoDateStringObject(d2);
 
 	return dates1.startDate === dates2.startDate
 		&& dates1.endDate === dates2.endDate;

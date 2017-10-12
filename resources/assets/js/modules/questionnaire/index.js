@@ -1,11 +1,13 @@
+/* @flow */
+
 import type {
 	ScoringDefinition,
 	ValueScoringDefinition
 } from './scoring.js';
 
-export type QuestionaireSection = {
+export type QuestionnaireSection = {
 	title?: string,
-	items: QuestionnaireQuestion | QuestionnaireInstruction
+	items: Array<QuestionnaireQuestion | QuestionnaireInstruction>
 };
 
 export type QuestionnaireQuestion =
@@ -16,6 +18,7 @@ export type QuestionnaireQuestion =
 	| QuestionnaireListQuestion;
 
 type QuestionnaireQuestionBase = {
+	id?: string,
 	text: string,
 	description?: string,
 	required?: boolean,
@@ -24,44 +27,35 @@ type QuestionnaireQuestionBase = {
 	condition?: QuestionnaireQuestionCondition
 };
 
-type QuestionnaireQuestionCondition = {
+export type QuestionnaireQuestionCondition = {
 	questionId: string,
-	questionValue: boolean | string | number
+	questionValue: QuestionnaireQuestionValue
 };
+
+export type QuestionnaireQuestionValue = boolean | string | number;
 
 export type QuestionnaireTextQuestion = QuestionnaireQuestionBase & {
 	type: 'text' | 'textarea',
 	placeholder?: string,
-	value?: string,
+	value?: string
 };
 
 export type QuestionnaireNumberQuestion = QuestionnaireQuestionBase & {
 	type: 'number',
-	text: string,
-	description?: ?string,
 	placeholder?: ?string,
 	min?: number,
 	max?: number,
-	value?: number,
-	scoring?: ScoringDefinition
+	value?: number
 };
 
 export type QuestionnaireCheckboxQuestion = QuestionnaireQuestionBase & {
 	type: 'checkbox',
-	text: string,
-	description?: string,
-	required?: boolean,
-	options: Array<QuestionnaireOption>,
-	scoring?: ScoringDefinition
+	options: Array<QuestionnaireOption>
 };
 
 export type QuestionnaireRadioQuestion = QuestionnaireQuestionBase & {
 	type: 'radio',
-	text: string,
-	description?: string,
-	required?: string,
-	options: Array<QuestionnaireOption>,
-	scoring?: ScoringDefinition
+	options: Array<QuestionnaireOption>
 };
 
 export type QuestionnaireOption = {
@@ -95,7 +89,7 @@ export type QuestionnaireListQuestion = QuestionnaireQuestionBase & {
 	ordered?: boolean,
 	itemProps?: Object, // FIXME
 	itemLabels?: Object, // FIXME
-	items?: Array<QuestionnaireListItem>,
+	items: Array<QuestionnaireListItem>,
 	scoring?: ValueScoringDefinition
 };
 
@@ -189,14 +183,101 @@ export type QuestionnaireInstruction = {
 	text: string
 };
 
-// export function getQuestionConditionChecker(questionnaire: QuestionaireSection):
-// 		(string, boolean | string | number) => boolean {
-// 	return (questionId, questionValue) =>
-// }
-//
-// export function getQuestionById(
-// 	questionnaire: QuestionaireSection,
-// 	questionId: string
-// ): QuestionnaireQuestion {
-//
-// }
+export function getQuestionConditionChecker(questions: Array<QuestionnaireQuestion>):
+		(string, QuestionnaireQuestionValue) => boolean {
+	const questionIdMap = getQuestionsIdMap(questions);
+	return (questionId, questionValue) =>
+		questionIdMap.has(questionId) && questionMatchesValue(
+			// $FlowFixMe: Okay flow I tested has right above here can you read
+			(questionIdMap.get(questionId): QuestionnaireQuestion),
+			questionValue
+		);
+}
+
+export function getQuestions(questionnaire: QuestionnaireSection)
+		: Array<QuestionnaireQuestion> {
+	// $FlowFixMe: This is right I promise
+	return questionnaire.items.filter(isQuestion);
+}
+
+export function isQuestion(item: QuestionnaireQuestion | QuestionnaireInstruction)
+		: boolean {
+	return [
+		'text',
+		'number',
+		'checkbox',
+		'radio',
+		'list'
+	].includes(item.type);
+}
+
+export function getQuestionnaireIdMap(questionnaire: QuestionnaireSection)
+		: Map<string, QuestionnaireQuestion> {
+	return getQuestionsIdMap(getQuestions(questionnaire));
+}
+
+export function getQuestionsIdMap(
+	questions: Array<QuestionnaireQuestion>
+): Map<string, QuestionnaireQuestion> {
+	const map = new Map();
+
+	for (let question of questions) {
+		if (question.id && !map.has(question.id))
+			map.set(question.id, question);
+	}
+
+	return map;
+}
+
+export function questionMatchesValue(
+	question: QuestionnaireQuestion,
+	value: QuestionnaireQuestionValue
+): boolean {
+	switch (question.type) {
+		case 'text':
+			(question: QuestionnaireTextQuestion);
+			if (
+				(typeof value === 'boolean' && question.value)
+				|| (typeof value === 'string' && value === question.value)
+			)
+				return true;
+			break;
+		case 'number':
+			(question: QuestionnaireNumberQuestion);
+			if (
+				(typeof value === 'boolean' && question.value)
+				|| (typeof value === 'number' && value === question.value)
+			)
+				return true;
+			break;
+		case 'checkbox':
+		case 'radio': {
+			(question: QuestionnaireCheckboxQuestion | QuestionnaireRadioQuestion);
+			let values = getRadioCheckboxValues(question);
+			if (
+				(typeof value === 'boolean' && values.length > 0)
+				|| (
+					(typeof value === 'string' || typeof value === 'number')
+					&& values.includes(value)
+				)
+			)
+				return true;
+			break;
+		}
+		case 'list':
+			(question: QuestionnaireListQuestion);
+			if (typeof value === 'boolean' && question.items.length > 0)
+				return true;
+			break;
+	}
+
+	return false;
+}
+
+export function getRadioCheckboxValues(
+	question: QuestionnaireRadioQuestion | QuestionnaireCheckboxQuestion
+): Array<string | number> {
+	return question.options
+		.filter(option => option.checked)
+		.map(option => option.value);
+}
