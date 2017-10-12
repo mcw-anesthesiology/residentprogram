@@ -7,6 +7,11 @@ import CheckboxQuestion from './Question/Checkbox.vue';
 import RadioQuestion from './Question/Radio.vue';
 import ListQuestion from './Question/List/List.vue';
 
+import {
+	isQuestion,
+	getQuestionConditionChecker
+} from 'modules/questionnaire/index.js';
+
 export default {
 	name: 'questionnaire-section',
 	model: {
@@ -38,7 +43,13 @@ export default {
 	},
 
 	render(h) {
-		let items = this.items.filter(validItem).map((item, index) => {
+		const validItems = this.items.filter(validItem);
+		const questionConditionMet = getQuestionConditionChecker(validItems);
+		const activeItems = validItems.filter(item =>
+			!isQuestion(item) || questionConditionMet(item)
+		);
+
+		const items = activeItems.map((item, index) => {
 			let componentName = item.type === 'instruction'
 				? 'questionnaire-instruction'
 				: `question-${item.type}`;

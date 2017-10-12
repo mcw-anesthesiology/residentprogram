@@ -93,23 +93,7 @@
 						"options": {
 							"type": "array",
 							"items": {
-								"type": "object",
-								"properties": {
-									"text": {"type": "string"},
-									"description": {"type": "string"},
-									"value": {
-										"oneOf": [
-											{"type": "string"},
-											{"type": "number"}
-										]
-									},
-									"editable": {"type": "boolean"},
-									"checked": {"type": "boolean"}
-								},
-								"required": [
-									"text",
-									"value"
-								]
+								"$ref": "#/definitions/question/definitions/option"
 							}
 						}
 					},
@@ -126,29 +110,32 @@
 						"options": {
 							"type": "array",
 							"items": {
-								"type": "object",
-								"properties": {
-									"text": {"type": "string"},
-									"description": {"type": "string"},
-									"value": {
-										"oneOf": [
-											{"type": "string"},
-											{"type": "number"}
-										]
-									},
-									"editable": {"type": "boolean"},
-									"checked": {"type": "boolean"}
-								},
-								"required": [
-									"text",
-									"value"
-								]
+								"$ref": "#/definitions/question/definitions/option"
 							}
 						}
 					},
 					"required": [
 						"type",
 						"options"
+					]
+				},
+				"option": {
+					"type": "object",
+					"properties": {
+						"text": {"type": "string"},
+						"description": {"type": "string"},
+						"value": {
+							"oneOf": [
+								{"type": "string"},
+								{"type": "number"}
+							]
+						},
+						"editable": {"type": "boolean"},
+						"checked": {"type": "boolean"}
+					},
+					"required": [
+						"text",
+						"value"
 					]
 				},
 				"list": {

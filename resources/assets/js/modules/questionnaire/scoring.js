@@ -103,7 +103,7 @@ export function textQuestion(question: QuestionnaireTextQuestion): Score {
 export function numberQuestion(question: QuestionnaireNumberQuestion): Score {
 	const score: Score = new Map();
 
-	if (question.scoring) {
+	if (question.scoring && question.value) {
 		score.set(question.scoring.category,
 			computeScore(question.scoring, question.value));
 	}
@@ -125,25 +125,27 @@ export function radioCheckboxQuestion(
 	const score: Score = new Map();
 
 	for (const option of question.options) {
-		if (!option.checked || typeof option.value !== 'number')
-			continue;
+		// if instead of continue in order to appease flow
+		if (option.checked && typeof option.value === 'number') {
+			let optionValue: number = option.value;
 
-		let scoring = option.scoring;
-		if (!scoring)
-			scoring = question.scoring;
+			let scoring = option.scoring;
+			if (!scoring)
+				scoring = question.scoring;
 
-		if (scoring) {
-			let scoreValue = score.has(scoring.category)
-				? score.get(scoring.category)
-				: 0;
+			if (scoring) {
+				let scoreValue = score.has(scoring.category)
+					? score.get(scoring.category)
+					: 0;
 
-			score.set(
-				scoring.category,
-				computeScore(
-					scoring,
-					scoreValue + option.value
-				)
-			);
+				score.set(
+					scoring.category,
+					computeScore(
+						scoring,
+						scoreValue + optionValue
+					)
+				);
+			}
 		}
 	}
 
@@ -154,16 +156,17 @@ export function listQuestion(question: QuestionnaireListQuestion): Score {
 	const score: Score = new Map();
 
 	if (question.scoring) {
+		const scoring = question.scoring;
 		for (let i = 0; i < question.items.length; i++) {
-			let scoreValue = score.has(question.scoring.category)
-				? score.get(question.scoring.category)
+			let scoreValue = score.has(scoring.category)
+				? score.get(scoring.category)
 				: 0;
 
 			score.set(
-				question.scoring.category,
+				scoring.category,
 				computeScore(
-					question.scoring,
-					scoreValue + question.scoring.value
+					scoring,
+					scoreValue + scoring.value
 				)
 			);
 		}
