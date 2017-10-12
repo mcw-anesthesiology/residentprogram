@@ -13,15 +13,48 @@
 				"category"
 			]
 		},
+		"section": {
+			"title": "Section",
+			"type": "object",
+			"properties": {
+				"type": "section"
+			}
+		},
 		"question": {
 			"title": "Question",
 			"type": "object",
-			"oneOf": [
-				{"$ref": "#/definitions/question/definitions/text"},
-				{"$ref": "#/definitions/question/definitions/number"},
-				{"$ref": "#/definitions/question/definitions/checkbox"},
-				{"$ref": "#/definitions/question/definitions/radio"},
-				{"$ref": "#/definitions/question/definitions/list"}
+			"allOf": [
+				{
+					"properties": {
+						"id": {"type": "string"},
+						"text": {"type": "string"},
+						"description": {"type": "string"},
+						"required": {"type": "boolean"},
+						"condition": {
+							"type": "object",
+							"properties": {
+								"questionId": {
+									"type": "string"
+								},
+								"questionValue": {
+									"type": ["boolean", "string", "number"]
+								}
+							}
+						},
+						"scoring": {
+							"$ref": "#/definitions/scoringDefinition"
+						}
+					}
+				},
+				{
+					"oneOf": [
+						{"$ref": "#/definitions/question/definitions/text"},
+						{"$ref": "#/definitions/question/definitions/number"},
+						{"$ref": "#/definitions/question/definitions/checkbox"},
+						{"$ref": "#/definitions/question/definitions/radio"},
+						{"$ref": "#/definitions/question/definitions/list"}
+					]
+				}
 			],
 			"definitions": {
 				"text": {
@@ -29,14 +62,8 @@
 					"type": "object",
 					"properties": {
 						"type": {"enum": ["text", "textarea"]},
-						"text": {"type": "string"},
-						"description": {"type": "string"},
 						"placeholder": {"type": "string"},
-						"value": {"type": "string"},
-						"required": {"type": "boolean"},
-						"scoring": {
-							"$ref": "#/definitions/scoringDefinition"
-						}
+						"value": {"type": "string"}
 					},
 					"required": [
 						"type",
@@ -48,16 +75,10 @@
 					"type": "object",
 					"properties": {
 						"type": {"const": "number"},
-						"text": {"type": "string"},
-						"description": {"type": "string"},
 						"placeholder": {"type": "string"},
 						"min": {"type": "number"},
 						"max": {"type": "number"},
-						"value": {"type": "number"},
-						"required": {"type": "boolean"},
-						"scoring": {
-							"$ref": "#/definitions/scoringDefinition"
-						}
+						"value": {"type": "number"}
 					},
 					"required": [
 						"type",
@@ -69,9 +90,6 @@
 					"type": "object",
 					"properties": {
 						"type": {"const": "checkbox"},
-						"text": {"type": "string"},
-						"description": {"type": "string"},
-						"required": {"type": "boolean"},
 						"options": {
 							"type": "array",
 							"items": {
@@ -93,14 +111,10 @@
 									"value"
 								]
 							}
-						},
-						"scoring": {
-							"$ref": "#/definitions/scoringDefinition"
 						}
 					},
 					"required": [
 						"type",
-						"text",
 						"options"
 					]
 				},
@@ -109,9 +123,6 @@
 					"type": "object",
 					"properties": {
 						"type": {"const": "radio"},
-						"text": {"type": "string"},
-						"description": {"type": "string"},
-						"required": {"type": "boolean"},
 						"options": {
 							"type": "array",
 							"items": {
@@ -133,14 +144,10 @@
 									"value"
 								]
 							}
-						},
-						"scoring": {
-							"$ref": "#/definitions/scoringDefinition"
 						}
 					},
 					"required": [
 						"type",
-						"text",
 						"options"
 					]
 				},
@@ -186,9 +193,6 @@
 									{"$ref": "#/definitions/question/definitions/list/definitions/project"}
 								]
 							}
-						},
-						"scoring": {
-							"$ref": "#/definitions/scoringDefinition"
 						}
 					},
 					"required": [

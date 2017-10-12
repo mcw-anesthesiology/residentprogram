@@ -3,6 +3,11 @@ import type {
 	ValueScoringDefinition
 } from './scoring.js';
 
+export type QuestionaireSection = {
+	title?: string,
+	items: QuestionnaireQuestion | QuestionnaireInstruction
+};
+
 export type QuestionnaireQuestion =
 	| QuestionnaireTextQuestion
 	| QuestionnaireNumberQuestion
@@ -10,17 +15,27 @@ export type QuestionnaireQuestion =
 	| QuestionnaireRadioQuestion
 	| QuestionnaireListQuestion;
 
-export type QuestionnaireTextQuestion = {
-	type: 'text' | 'textarea',
+type QuestionnaireQuestionBase = {
 	text: string,
 	description?: string,
-	placeholder?: string,
-	value?: string,
 	required?: boolean,
-	scoring?: ValueScoringDefinition
+	required?: boolean,
+	scoring?: ValueScoringDefinition,
+	condition?: QuestionnaireQuestionCondition
 };
 
-export type QuestionnaireNumberQuestion = {
+type QuestionnaireQuestionCondition = {
+	questionId: string,
+	questionValue: boolean | string | number
+};
+
+export type QuestionnaireTextQuestion = QuestionnaireQuestionBase & {
+	type: 'text' | 'textarea',
+	placeholder?: string,
+	value?: string,
+};
+
+export type QuestionnaireNumberQuestion = QuestionnaireQuestionBase & {
 	type: 'number',
 	text: string,
 	description?: ?string,
@@ -31,7 +46,7 @@ export type QuestionnaireNumberQuestion = {
 	scoring?: ScoringDefinition
 };
 
-export type QuestionnaireCheckboxQuestion = {
+export type QuestionnaireCheckboxQuestion = QuestionnaireQuestionBase & {
 	type: 'checkbox',
 	text: string,
 	description?: string,
@@ -40,7 +55,7 @@ export type QuestionnaireCheckboxQuestion = {
 	scoring?: ScoringDefinition
 };
 
-export type QuestionnaireRadioQuestion = {
+export type QuestionnaireRadioQuestion = QuestionnaireQuestionBase & {
 	type: 'radio',
 	text: string,
 	description?: string,
@@ -58,7 +73,7 @@ export type QuestionnaireOption = {
 	scoring?: ScoringDefinition
 };
 
-export type QuestionnaireListQuestion = {
+export type QuestionnaireListQuestion = QuestionnaireQuestionBase & {
 	type: 'list',
 	listType:
 		| 'text'
@@ -173,3 +188,15 @@ export type QuestionnaireInstruction = {
 	type: 'instruction',
 	text: string
 };
+
+// export function getQuestionConditionChecker(questionnaire: QuestionaireSection):
+// 		(string, boolean | string | number) => boolean {
+// 	return (questionId, questionValue) =>
+// }
+//
+// export function getQuestionById(
+// 	questionnaire: QuestionaireSection,
+// 	questionId: string
+// ): QuestionnaireQuestion {
+//
+// }

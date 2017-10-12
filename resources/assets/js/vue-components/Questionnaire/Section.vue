@@ -1,6 +1,12 @@
 <script>
 import QuestionnaireInstruction from './Instruction.vue';
 
+import TextQuestion from './Question/Text.vue';
+import NumberQuestion from './Question/Number.vue';
+import CheckboxQuestion from './Question/Checkbox.vue';
+import RadioQuestion from './Question/Radio.vue';
+import ListQuestion from './Question/List/List.vue';
+
 export default {
 	name: 'questionnaire-section',
 	model: {
@@ -30,11 +36,13 @@ export default {
 			default: false
 		}
 	},
-	
+
 	render(h) {
-		let items = this.items.map((item, index) => {
-			let componentName = `question-${item.type}`;
-			
+		let items = this.items.filter(validItem).map((item, index) => {
+			let componentName = item.type === 'instruction'
+				? 'questionnaire-instruction'
+				: `question-${item.type}`;
+
 			return h(componentName, {
 				props: {
 					readonly: this.readonly,
@@ -44,25 +52,42 @@ export default {
 					input: item => {
 						let items = this.items.slice();
 						items[index] = Object.assign({}, items[index], item);
-						
+
 						this.$emit('input', {items});
 					}
 				}
 			});
 		});
-		
+
 		if (this.title)
 			items.unshift(h('h1', this.title));
-		
+
 		return h('section', {
 			class: {
 				page: this.page
 			}
 		}, items);
 	},
-	
+
 	components: {
-		QuestionnaireInstruction
+		QuestionnaireInstruction,
+		TextQuestion,
+		NumberQuestion,
+		CheckboxQuestion,
+		RadioQuestion,
+		ListQuestion
 	}
 };
+
+function validItem(item) {
+	return item.type && [
+		'instruction',
+		'text',
+		'textarea',
+		'number',
+		'checkbox',
+		'radio',
+		'list'
+	].includes(item.type);
+}
 </script>
