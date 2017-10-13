@@ -27,7 +27,7 @@
 <script>
 import ShowHideButton from './ShowHideButton.vue';
 
-import { ucfirst } from 'modules/utils.js';
+import { ucfirst } from '@/modules/utils.js';
 
 export default {
 	props: [

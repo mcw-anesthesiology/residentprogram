@@ -1,8 +1,8 @@
 import Vue from 'vue';
 
-import HasAlerts from 'vue-mixins/HasAlerts.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import EvaluationDataTable from 'vue-components/EvaluationDataTable.vue';
+import EvaluationDataTable from '@/vue-components/EvaluationDataTable.vue';
 
 import {
 	renderSubjectEvalUrl,
@@ -10,7 +10,7 @@ import {
 	createDateTimeCell,
 	renderDateRangeCell,
 	createDateRangeCell
-} from 'modules/datatable-utils.js';
+} from '@/modules/datatable-utils.js';
 
 export default function createAPPDashboard(el, propsData) {
 	return new Vue({

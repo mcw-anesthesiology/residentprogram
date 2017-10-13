@@ -20,7 +20,7 @@ import StartEndDate from './StartEndDate.vue';
 import * as localforage from 'localforage';
 import moment from 'moment';
 
-import * as dateUtils from 'modules/date-utils.js';
+import * as dateUtils from '@/modules/date-utils.js';
 
 window.localforage = localforage;
 

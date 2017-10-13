@@ -1,10 +1,10 @@
 import Vue from 'vue';
 
-import PrintViewChecklist from 'vue-components/MeritCompensation/Checklist/PrintView/Checklist.vue';
+import PrintViewChecklist from '@/vue-components/MeritCompensation/Checklist/PrintView/Checklist.vue';
 
-import RichDateRange from 'vue-components/RichDateRange.vue';
+import RichDateRange from '@/vue-components/RichDateRange.vue';
 
-import { getCheckedItemCount } from 'modules/merit-utils.js';
+import { getCheckedItemCount } from '@/modules/merit-utils.js';
 
 export default function createMeritReportPrintView(el, propsData) {
 	return new Vue({

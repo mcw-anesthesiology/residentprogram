@@ -34,12 +34,13 @@
 	},
 	"plugins": [
 		["module-resolver", {
-			"root": [
-				"./resources/assets/js"
-			],
 			"alias": {
-				"vue-flatpickr": "@jacobmischka/vue-flatpickr"
-			}
+				"vue-flatpickr": "@jacobmischka/vue-flatpickr",
+				"@": "./resources/assets/js"
+			},
+			"extensions": [
+				".vue"
+			]
 		}],
 		"syntax-dynamic-import",
 		["transform-object-rest-spread", {

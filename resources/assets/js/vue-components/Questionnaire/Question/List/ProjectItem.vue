@@ -26,7 +26,7 @@
 <script>
 import ListItem from './Item.vue';
 
-import { projectListItem as validate } from 'modules/questionnaire/validate.js';
+import { projectListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,

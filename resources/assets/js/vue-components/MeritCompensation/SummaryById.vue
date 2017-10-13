@@ -14,7 +14,7 @@
 <script>
 import MeritReportSummary from './Summary.vue';
 
-import { fetchAllMeritReports } from 'modules/merit-utils.js';
+import { fetchAllMeritReports } from '@/modules/merit-utils.js';
 
 export default {
 	props: {

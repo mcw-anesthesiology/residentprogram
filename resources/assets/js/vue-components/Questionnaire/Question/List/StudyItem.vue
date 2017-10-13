@@ -52,7 +52,7 @@
 <script>
 import ListItem from './Item.vue';
 
-import { studyListItem as validate } from 'modules/questionnaire/validate.js';
+import { studyListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,

@@ -1,4 +1,4 @@
-import AlertList from 'vue-components/AlertList.vue';
+import AlertList from '@/vue-components/AlertList.vue';
 
 export default {
 	data() {

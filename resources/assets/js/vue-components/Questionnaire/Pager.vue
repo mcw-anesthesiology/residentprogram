@@ -64,7 +64,7 @@ import VueRouter from 'vue-router';
 
 import PagerControls from './PagerControls.vue';
 
-import { getHeaderHeight } from 'modules/dom-utils.js';
+import { getHeaderHeight } from '@/modules/dom-utils.js';
 
 Vue.use(VueRouter);
 

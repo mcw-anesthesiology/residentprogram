@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 
-import { ucfirst } from 'modules/utils.js';
-import { committeeListItem as validate } from 'modules/questionnaire/validate.js';
+import { ucfirst } from '@/modules/utils.js';
+import { committeeListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	props: {

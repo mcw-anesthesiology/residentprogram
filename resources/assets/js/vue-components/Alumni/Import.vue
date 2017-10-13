@@ -204,15 +204,15 @@
 <script>
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 
-import ComponentList from 'vue-components/ComponentList.vue';
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 
 import {
 	renderTrainingLevel,
 	renderSecondaryTrainingLevel
-} from 'modules/datatable-utils.js';
-import { isoDateString, currentYear } from 'modules/date-utils.js';
-import { getFetchHeaders, jsonOrThrow } from 'modules/utils.js';
+} from '@/modules/datatable-utils.js';
+import { isoDateString, currentYear } from '@/modules/date-utils.js';
+import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
 
 export default {
 	data() {

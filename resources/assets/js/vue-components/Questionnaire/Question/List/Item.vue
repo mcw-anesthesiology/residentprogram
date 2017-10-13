@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
-import ValidatedFormGroup from 'vue-components/ValidatedFormGroup.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
+import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
 export default {
 	props: {

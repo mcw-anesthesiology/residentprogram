@@ -1,9 +1,9 @@
 <script>
 import ChecklistItem from '../Item.vue';
-import QuestionnaireInstruction from 'vue-components/Questionnaire/Instruction.vue';
-import QuestionnaireSection from 'vue-components/Questionnaire/Section.vue';
+import QuestionnaireInstruction from '@/vue-components/Questionnaire/Instruction.vue';
+import QuestionnaireSection from '@/vue-components/Questionnaire/Section.vue';
 
-import { itemIsChecked } from 'modules/merit-utils.js';
+import { itemIsChecked } from '@/modules/merit-utils.js';
 
 export default {
 	extends: QuestionnaireSection,

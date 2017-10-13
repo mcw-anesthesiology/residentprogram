@@ -1,13 +1,13 @@
-import AlertList from 'vue-components/AlertList.vue';
-import ComponentList from 'vue-components/ComponentList.vue';
-import UserWithMeritReportListItem from 'vue-components/MeritCompensation/UserWithReportListItem.vue';
+import AlertList from '@/vue-components/AlertList.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
+import UserWithMeritReportListItem from '@/vue-components/MeritCompensation/UserWithReportListItem.vue';
 
 import {
 	getFetchHeaders,
 	jsonOrThrow,
 	isAdmin,
 	usesFeature
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 
 export default {
 	props: {

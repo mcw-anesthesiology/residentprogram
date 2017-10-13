@@ -60,8 +60,8 @@ import ListPaginator from './ListPaginator.vue';
 
 import lunr from 'lunr';
 
-import { snakeCaseToWords } from 'modules/utils.js';
-import { sortFunctions } from 'modules/report-utils.js';
+import { snakeCaseToWords } from '@/modules/utils.js';
+import { sortFunctions } from '@/modules/report-utils.js';
 
 export default {
 	props: {

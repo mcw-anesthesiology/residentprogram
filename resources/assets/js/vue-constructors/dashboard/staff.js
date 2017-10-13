@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
-import AlertList from 'vue-components/AlertList.vue';
-import EvaluationDataTable from 'vue-components/EvaluationDataTable.vue';
+import AlertList from '@/vue-components/AlertList.vue';
+import EvaluationDataTable from '@/vue-components/EvaluationDataTable.vue';
 
 import {
 	renderEvaluatorEvalUrl,
@@ -10,7 +10,7 @@ import {
 	renderDateRangeCell,
 	createDateRangeCell,
 	renderEvaluationStatus
-} from 'modules/datatable-utils.js';
+} from '@/modules/datatable-utils.js';
 
 export default function createStaffDashboard(el, propsData){
 	

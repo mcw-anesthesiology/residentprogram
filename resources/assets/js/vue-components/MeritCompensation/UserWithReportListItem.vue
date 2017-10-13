@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import HasAlerts from 'vue-mixins/HasAlerts.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import ComponentList from 'vue-components/ComponentList.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
 import MeritReportListItem from './ReportListItem.vue';
 
 export default {

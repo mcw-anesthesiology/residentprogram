@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { getFetchHeaders, okOrThrow } from 'modules/utils.js';
+import { getFetchHeaders, okOrThrow } from '@/modules/utils.js';
 
 export default {
 	props: {

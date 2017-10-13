@@ -1,13 +1,13 @@
 import Vue from 'vue';
 
-import AlertList from 'vue-components/AlertList.vue';
-import ComponentList from 'vue-components/ComponentList.vue';
-import JsonSchemaEditor from 'vue-components/JsonSchemaEditor.vue';
-import SelectTwo from 'vue-components/SelectTwo.vue';
+import AlertList from '@/vue-components/AlertList.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
+import JsonSchemaEditor from '@/vue-components/JsonSchemaEditor.vue';
+import SelectTwo from '@/vue-components/SelectTwo.vue';
 
-import MeritFormListItem from 'vue-components/Manage/Merit/FormListItem.vue';
+import MeritFormListItem from '@/vue-components/Manage/Merit/FormListItem.vue';
 
-import { getFetchHeaders, jsonOrThrow } from 'modules/utils.js';
+import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
 
 const reportTypeFormsKey = 'reportTypeForms';
 

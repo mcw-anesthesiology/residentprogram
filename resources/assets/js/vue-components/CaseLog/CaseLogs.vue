@@ -28,16 +28,16 @@
 <script>
 import Vue from 'vue';
 
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
-import DataTable from 'vue-components/DataTable.vue';
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
+import DataTable from '@/vue-components/DataTable.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
-import CaseLogDetails from 'vue-components/CaseLog/Details.vue';
-import CaseLogDetailsReport from 'vue-components/CaseLog/DetailsReport.vue';
-import CaseLogDetailsSchema from 'vue-components/CaseLog/DetailsSchema.vue';
+import CaseLogDetails from '@/vue-components/CaseLog/Details.vue';
+import CaseLogDetailsReport from '@/vue-components/CaseLog/DetailsReport.vue';
+import CaseLogDetailsSchema from '@/vue-components/CaseLog/DetailsSchema.vue';
 
-import { renderDateCell, createDateCell } from 'modules/datatable-utils.js';
-import { getFetchHeaders, okOrThrow } from 'modules/utils.js';
+import { renderDateCell, createDateCell } from '@/modules/datatable-utils.js';
+import { getFetchHeaders, okOrThrow } from '@/modules/utils.js';
 
 export default {
 	props: {

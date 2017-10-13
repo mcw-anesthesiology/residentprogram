@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-import MilestoneCompetencyQuestionLists from 'vue-components/MilestoneCompetencyQuestionLists.vue';
+import MilestoneCompetencyQuestionLists from '@/vue-components/MilestoneCompetencyQuestionLists.vue';
 
 export function renderMilestoneCompetencyLists(milestoneQuestions, competencyQuestions){
 	let questionMilestonesCompetencies = {};

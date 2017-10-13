@@ -2,21 +2,21 @@ import Vue from 'vue';
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 import 'flatpickr/dist/flatpickr.css';
 
-import HasAlerts from 'vue-mixins/HasAlerts.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import ComponentList from 'vue-components/ComponentList.vue';
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
-import CaseLogs from 'vue-components/CaseLog/CaseLogs.vue';
-import CaseLogEditor from 'vue-components/CaseLog/Editor.vue';
-import CaseLogEditorV1 from 'vue-components/CaseLog/V1/Editor.vue';
+import CaseLogs from '@/vue-components/CaseLog/CaseLogs.vue';
+import CaseLogEditor from '@/vue-components/CaseLog/Editor.vue';
+import CaseLogEditorV1 from '@/vue-components/CaseLog/V1/Editor.vue';
 
 import {
 	getFetchHeaders,
 	okOrThrow,
 	jsonOrThrow,
 	userIsType
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 
 export function createCaseLog(el, propsData) {
 	return new Vue({

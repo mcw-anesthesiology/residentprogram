@@ -1,12 +1,12 @@
 import Vue from 'vue';
 
-import AlertList from 'vue-components/AlertList.vue';
-import FormBuilder from 'vue-components/FormBuilder/FormBuilder.vue';
+import AlertList from '@/vue-components/AlertList.vue';
+import FormBuilder from '@/vue-components/FormBuilder/FormBuilder.vue';
 
 import {
 	getFetchHeaders,
 	jsonOrThrow
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 
 export default function createFaculty360CreateForm(el) {
 	return new Vue({

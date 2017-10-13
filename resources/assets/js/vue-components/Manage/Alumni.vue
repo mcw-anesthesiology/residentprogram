@@ -61,15 +61,15 @@
 <script>
 import moment from 'moment';
 
-import HasAlerts from 'vue-mixins/HasAlerts.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import ComponentList from 'vue-components/ComponentList.vue';
-import EmailEditor from 'vue-components/EmailEditor.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
+import EmailEditor from '@/vue-components/EmailEditor.vue';
 
-import AlumniListItem from 'vue-components/Alumni/AlumniListItem.vue';
+import AlumniListItem from '@/vue-components/Alumni/AlumniListItem.vue';
 
-import { getHeaderHeight } from 'modules/dom-utils.js';
-import { getFetchHeaders, okOrThrow, jsonOrThrow } from 'modules/utils.js';
+import { getHeaderHeight } from '@/modules/dom-utils.js';
+import { getFetchHeaders, okOrThrow, jsonOrThrow } from '@/modules/utils.js';
 
 export default {
 	mixins: [

@@ -1,15 +1,15 @@
 <script>
-import AcademicYearSelector from 'vue-components/AcademicYearSelector.vue';
-import ComponentList from 'vue-components/ComponentList.vue';
+import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
 
-import HasAlerts from 'vue-mixins/HasAlerts.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import { FEATURE_RELEASE_DATES } from 'modules/constants.js';
-import { isoDateStringObject, lastYear } from 'modules/date-utils.js';
+import { FEATURE_RELEASE_DATES } from '@/modules/constants.js';
+import { isoDateStringObject, lastYear } from '@/modules/date-utils.js';
 import {
 	getUsersWithCompleteMerit
-} from 'modules/merit-utils.js';
-import { getFetchHeaders, jsonOrThrow } from 'modules/utils.js';
+} from '@/modules/merit-utils.js';
+import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
 
 export default {
 	mixins: [

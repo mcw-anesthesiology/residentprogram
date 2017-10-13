@@ -1,18 +1,18 @@
 import Vue from 'vue';
-import HasAlerts from 'vue-mixins/HasAlerts.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
-import ComponentList from 'vue-components/ComponentList.vue';
-import JsonSchemaEditor from 'vue-components/JsonSchemaEditor.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
+import JsonSchemaEditor from '@/vue-components/JsonSchemaEditor.vue';
 
-import AddEditLocation from 'vue-components/Location/AddEdit.vue';
+import AddEditLocation from '@/vue-components/Location/AddEdit.vue';
 
 import {
 	fetchConfig,
 	okOrThrow,
 	jsonOrThrow,
 	simpleErrorAlert
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 
 export default function createManageCaseLogs(el, propsData) {
 	return new Vue({

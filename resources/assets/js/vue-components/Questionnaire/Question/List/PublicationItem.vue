@@ -44,7 +44,7 @@
 <script>
 import ListItem from './Item.vue';
 
-import { publicationListItem as validate } from 'modules/questionnaire/validate.js';
+import { publicationListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,

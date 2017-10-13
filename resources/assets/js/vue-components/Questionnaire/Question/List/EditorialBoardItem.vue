@@ -46,8 +46,8 @@
 <script>
 import ListItem from './Item.vue';
 
-import { kebabCaseToWords } from 'modules/utils.js';
-import { editorialBoardListItem as validate } from 'modules/questionnaire/validate.js';
+import { kebabCaseToWords } from '@/modules/utils.js';
+import { editorialBoardListItem as validate } from '@/modules/questionnaire/validate.js';
 
 const predefinedRoles = [
 	'editor-in-chief',

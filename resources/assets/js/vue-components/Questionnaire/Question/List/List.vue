@@ -37,8 +37,8 @@
 
 <script>
 import ListItems from './Items.vue';
-import BootstrapAlert from 'vue-components/BootstrapAlert.vue';
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import BootstrapAlert from '@/vue-components/BootstrapAlert.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import snarkdown from 'snarkdown';
 
