@@ -5,6 +5,11 @@ import type {
 	ValueScoringDefinition
 } from './scoring.js';
 
+export type Questionnaire = {
+	title: string,
+	sections: Array<QuestionnaireSection>
+};
+
 export type QuestionnaireSection = {
 	title?: string,
 	items: Array<QuestionnaireQuestion | QuestionnaireInstruction>
@@ -194,10 +199,16 @@ export function getQuestionConditionChecker(questions: Array<QuestionnaireQuesti
 		);
 }
 
-export function getQuestions(questionnaire: QuestionnaireSection)
+export function getQuestions(questionnaire: Questionnaire)
 		: Array<QuestionnaireQuestion> {
-	// $FlowFixMe: This is right I promise
-	return questionnaire.items.filter(isQuestion);
+	const questions = [];
+
+	for (let section of questionnaire.sections) {
+		// $FlowFixMe: This is right but I can't prove it
+		questions.push(...section.items.filter(isQuestion));
+	}
+
+	return questions;
 }
 
 export function isQuestion(item: QuestionnaireQuestion | QuestionnaireInstruction)
@@ -211,7 +222,7 @@ export function isQuestion(item: QuestionnaireQuestion | QuestionnaireInstructio
 	].includes(item.type);
 }
 
-export function getQuestionnaireIdMap(questionnaire: QuestionnaireSection)
+export function getQuestionnaireIdMap(questionnaire: Questionnaire)
 		: Map<string, QuestionnaireQuestion> {
 	return getQuestionsIdMap(getQuestions(questionnaire));
 }
