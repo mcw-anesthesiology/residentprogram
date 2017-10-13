@@ -61,9 +61,9 @@
 <script>
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 
-import { renderCaseLogDetailsSchema } from 'modules/case-log-details-schema.js';
+import { renderCaseLogDetailsSchema } from '@/modules/case-log-details-schema.js';
 
-import { getFetchHeaders, okOrThrow, simpleErrorAlert } from 'modules/utils.js';
+import { getFetchHeaders, okOrThrow, simpleErrorAlert } from '@/modules/utils.js';
 
 export default {
 	props: {

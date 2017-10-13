@@ -25,8 +25,8 @@ import StatsReport from './StatsReport.vue';
 import StartEndDate from '../StartEndDate.vue';
 import AlertList from '../AlertList.vue';
 
-import { getFetchHeaders, jsonOrThrow } from 'modules/utils.js';
-import { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';
+import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
+import { isoDateStringObject, currentQuarter } from '@/modules/date-utils.js';
 
 export default {
 	props: {

@@ -34,8 +34,8 @@ import StartEndDate from '../StartEndDate.vue';
 import AlertList from '../AlertList.vue';
 import ComponentList from '../ComponentList.vue';
 
-import { getFetchHeaders } from 'modules/utils.js';
-import { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';
+import { getFetchHeaders } from '@/modules/utils.js';
+import { isoDateStringObject, currentQuarter } from '@/modules/date-utils.js';
 
 export default {
 	data(){

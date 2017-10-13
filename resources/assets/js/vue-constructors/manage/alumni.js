@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import ManageAlumni from 'vue-components/Manage/Alumni.vue';
-import EditAlumni from 'vue-components/Alumni/Edit.vue';
-import ImportAlumni from 'vue-components/Alumni/Import.vue';
+import ManageAlumni from '@/vue-components/Manage/Alumni.vue';
+import EditAlumni from '@/vue-components/Alumni/Edit.vue';
+import ImportAlumni from '@/vue-components/Alumni/Import.vue';
 
 Vue.use(VueRouter);
 

@@ -30,11 +30,11 @@
 </template>
 
 <script>
-import VueFlatpickr from 'vue-flatpickr';
+import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 import 'flatpickr/dist/flatpickr.css';
 
-import { camelCaseToWords } from 'modules/utils.js';
-import * as dateUtils from 'modules/date-utils.js';
+import { camelCaseToWords } from '@/modules/utils.js';
+import * as dateUtils from '@/modules/date-utils.js';
 
 export default {
 	props: {

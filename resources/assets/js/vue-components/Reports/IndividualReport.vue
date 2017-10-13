@@ -149,24 +149,24 @@ import {
 	CHART_COLORS,
 	RESIDENT_VALUE_MAP,
 	FELLOWSHIP_VALUE_MAPS
-} from 'modules/constants.js';
+} from '@/modules/constants.js';
 import {
 	camelCaseToWords,
 	ucfirst
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 import {
 	renderIdToEvalUrl,
 	renderDateCell,
 	renderDateRangeCell,
 	renderTrainingLevel
-} from 'modules/datatable-utils.js';
+} from '@/modules/datatable-utils.js';
 import {
 	createRadarScaleCallback,
 	tableHeader,
 	fullWidthTable,
 	borderedStripedTable,
 	createResponseLegend
-} from 'modules/report-utils.js';
+} from '@/modules/report-utils.js';
 
 export default {
 	props: {

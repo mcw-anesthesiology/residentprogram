@@ -38,12 +38,12 @@
 </template>
 
 <script>
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
-import ValidatedFormGroup from 'vue-components/ValidatedFormGroup.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
 import snarkdown from 'snarkdown';
 
-import { checkboxQuestion as validate } from 'modules/questionnaire/validate.js';
+import { checkboxQuestion as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	model: {

@@ -7,7 +7,7 @@
 <script>
 import moment from 'moment';
 
-import { renderDate, renderDateTime } from 'modules/date-utils.js';
+import { renderDate, renderDateTime } from '@/modules/date-utils.js';
 
 export default {
 	props: {

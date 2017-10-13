@@ -65,9 +65,9 @@
 import snarkdown from 'snarkdown';
 
 import FormReaderQuestionOption from './FormReaderQuestionOption.vue';
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
-import { ucfirst } from 'modules/utils.js';
+import { ucfirst } from '@/modules/utils.js';
 
 export default {
 	props: {

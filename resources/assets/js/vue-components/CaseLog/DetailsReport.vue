@@ -7,7 +7,7 @@ import {
 	generateCaseLogDetailsReport,
 	generateCaseLogDetailsReportCharts,
 	generateCaseLogLocationReportTable
-} from 'modules/case-log-details-schema.js';
+} from '@/modules/case-log-details-schema.js';
 
 export default {
 	props: {

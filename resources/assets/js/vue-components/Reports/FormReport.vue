@@ -180,22 +180,22 @@ import {
 	getResponseValue,
 	getResponseValues,
 	generateScoresReportCsv
-} from 'modules/reports/form-report.js';
+} from '@/modules/reports/form-report.js';
 
 import {
 	average,
 	standardDeviation
-} from 'modules/math-utils.js';
+} from '@/modules/math-utils.js';
 import {
 	getFetchHeaders,
 	jsonOrThrow,
 	fetchFormGroups
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 import {
 	isoDateStringObject,
 	currentQuarter,
 	renderDateRange
-} from 'modules/date-utils.js';
+} from '@/modules/date-utils.js';
 import {
 	downloadCsv,
 	tableHeader,
@@ -204,7 +204,7 @@ import {
 	borderedStripedTable,
 	CUSTOM_OPTION_VALUES,
 	DISREGARD_OPTION
-} from 'modules/report-utils.js';
+} from '@/modules/report-utils.js';
 import {
 	renderDateCell,
 	createDateCell,
@@ -213,7 +213,7 @@ import {
 	renderDateRangeCell,
 	createDateRangeCell,
 	renderEvaluationStatus
-} from 'modules/datatable-utils.js';
+} from '@/modules/datatable-utils.js';
 
 export default {
 	props: {

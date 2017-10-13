@@ -62,8 +62,8 @@
 </template>
 
 <script>
-import AlertList from 'vue-components/AlertList.vue';
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import AlertList from '@/vue-components/AlertList.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import Ajv from 'ajv';
 
@@ -71,7 +71,7 @@ import {
 	ucfirst,
 	ucfirstWords,
 	jsonOrThrow
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 
 export default {
 	props: {

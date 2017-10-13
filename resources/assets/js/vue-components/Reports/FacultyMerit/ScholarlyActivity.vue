@@ -21,12 +21,12 @@
 </template>
 
 <script>
-import DataTable from 'vue-components/DataTable.vue';
+import DataTable from '@/vue-components/DataTable.vue';
 import UsersWithMeritReport from './UsersWithMeritReport.vue';
-import UserWithScholarlyActivityListItem from 'vue-components/MeritCompensation/UserWithScholarlyActivityListItem.vue';
+import UserWithScholarlyActivityListItem from '@/vue-components/MeritCompensation/UserWithScholarlyActivityListItem.vue';
 
-import { getScholarlyActivity } from 'modules/merits/faculty-merit/index.js';
-import { isoDateString } from 'modules/date-utils.js';
+import { getScholarlyActivity } from '@/modules/merits/faculty-merit/index.js';
+import { isoDateString } from '@/modules/date-utils.js';
 
 export default {
 	extends: UsersWithMeritReport,

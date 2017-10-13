@@ -49,10 +49,10 @@
 
 <script>
 import ListItem from './Item.vue';
-import VueFlatpickr from 'vue-flatpickr';
+import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 import 'flatpickr/dist/flatpickr.css';
 
-import { lectureListItem as validate } from 'modules/questionnaire/validate.js';
+import { lectureListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,

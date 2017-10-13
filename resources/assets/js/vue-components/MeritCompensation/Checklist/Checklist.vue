@@ -54,11 +54,11 @@
 import ChecklistSection from './Section.vue';
 import SectionErrors from './SectionErrors.vue';
 import ChecklistErrors from './ChecklistErrors.vue';
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
-import QuestionnairePager from 'vue-components/Questionnaire/Pager.vue';
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
+import QuestionnairePager from '@/vue-components/Questionnaire/Pager.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
-import { checklistIsValid } from 'modules/merit-utils.js';
+import { checklistIsValid } from '@/modules/merit-utils.js';
 
 export default {
 	props: {

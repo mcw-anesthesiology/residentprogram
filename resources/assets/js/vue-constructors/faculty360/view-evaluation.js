@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-import FormReader from 'vue-components/FormReader/FormReader.vue';
+import FormReader from '@/vue-components/FormReader/FormReader.vue';
 
 export default function createFaculty360ViewEvaluation(el, propsData) {
 	return new Vue({

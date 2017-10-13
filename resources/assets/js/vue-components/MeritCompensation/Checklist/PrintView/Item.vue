@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import PrintViewQuestion from 'vue-components/Questionnaire/PrintView/Question/Question.vue';
+import PrintViewQuestion from '@/vue-components/Questionnaire/PrintView/Question/Question.vue';
 
 import snarkdown from 'snarkdown';
 

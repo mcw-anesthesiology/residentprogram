@@ -117,12 +117,12 @@
 <script>
 import FormBuilderOption from './FormBuilderOption.vue';
 
-import AlertList from 'vue-components/AlertList.vue';
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
-import SelectTwo from 'vue-components/SelectTwo.vue';
+import AlertList from '@/vue-components/AlertList.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
+import SelectTwo from '@/vue-components/SelectTwo.vue';
 
-import { STANDARD_OPTIONS } from 'modules/constants.js';
-import { sortSelect2Objects } from 'modules/utils.js';
+import { STANDARD_OPTIONS } from '@/modules/constants.js';
+import { sortSelect2Objects } from '@/modules/utils.js';
 
 export default {
 	props: {

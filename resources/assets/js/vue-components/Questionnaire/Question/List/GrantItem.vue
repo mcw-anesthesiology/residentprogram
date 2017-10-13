@@ -38,7 +38,7 @@
 <script>
 import ListItem from './Item.vue';
 
-import { grantListItem as validate } from 'modules/questionnaire/validate.js';
+import { grantListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,

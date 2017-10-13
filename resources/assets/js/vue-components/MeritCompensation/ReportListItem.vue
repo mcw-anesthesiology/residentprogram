@@ -77,13 +77,13 @@
 </template>
 
 <script>
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
-import ConfirmationYesNo from 'vue-components/ConfirmationYesNo.vue';
-import RichDateRange from 'vue-components/RichDateRange.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
+import ConfirmationYesNo from '@/vue-components/ConfirmationYesNo.vue';
+import RichDateRange from '@/vue-components/RichDateRange.vue';
 
-import { getFetchHeaders, okOrThrow, ucfirst } from 'modules/utils.js';
-import { getEvaluationStatusLabel } from 'modules/datatable-utils.js';
-import { getCheckedItemCount } from 'modules/merit-utils.js';
+import { getFetchHeaders, okOrThrow, ucfirst } from '@/modules/utils.js';
+import { getEvaluationStatusLabel } from '@/modules/datatable-utils.js';
+import { getCheckedItemCount } from '@/modules/merit-utils.js';
 
 export default {
 	props: {

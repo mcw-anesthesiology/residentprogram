@@ -32,8 +32,8 @@
 <script>
 import download from 'downloadjs';
 
-import { csvHeader } from 'modules/report-utils.js';
-import { escapeCsv, sortIgnoreCase } from 'modules/utils.js';
+import { csvHeader } from '@/modules/report-utils.js';
+import { escapeCsv, sortIgnoreCase } from '@/modules/utils.js';
 
 export default {
 	props: {

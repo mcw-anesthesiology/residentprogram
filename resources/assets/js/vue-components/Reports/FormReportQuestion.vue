@@ -187,7 +187,7 @@
 </template>
 
 <script>
-import FormReaderQuestionOption from 'vue-components/FormReader/FormReaderQuestionOption.vue';
+import FormReaderQuestionOption from '@/vue-components/FormReader/FormReaderQuestionOption.vue';
 import FormReportQuestionOptionStats from './FormReportQuestionOptionStats.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import ShowHideButton from '../ShowHideButton.vue';
@@ -202,11 +202,11 @@ import {
 	getResponseValues,
 	getResponseValue,
 	shouldDisregardOption
-} from 'modules/reports/form-report.js';
+} from '@/modules/reports/form-report.js';
 
-import { CHART_COLORS } from 'modules/constants.js';
-import { average, standardDeviation } from 'modules/math-utils.js';
-import { camelCaseToWords, ucfirst } from 'modules/utils.js';
+import { CHART_COLORS } from '@/modules/constants.js';
+import { average, standardDeviation } from '@/modules/math-utils.js';
+import { camelCaseToWords, ucfirst } from '@/modules/utils.js';
 
 export default {
 	props: {

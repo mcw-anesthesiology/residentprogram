@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { fetchConfig, okOrThrow, simpleErrorAlert } from 'modules/utils.js';
+import { fetchConfig, okOrThrow, simpleErrorAlert } from '@/modules/utils.js';
 
 export default {
 	props: {

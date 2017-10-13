@@ -1,11 +1,11 @@
 import Vue from 'vue';
 
-import HasAlerts from 'vue-mixins/HasAlerts.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import EditAlumni from 'vue-components/Alumni/Edit.vue';
-import AlumniSubscription from 'vue-components/Alumni/Subscription.vue';
+import EditAlumni from '@/vue-components/Alumni/Edit.vue';
+import AlumniSubscription from '@/vue-components/Alumni/Subscription.vue';
 
-import { getFetchHeaders, jsonOrThrow } from 'modules/utils.js';
+import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
 
 export function createAlumni(el, propsData) {
 	return new Vue({

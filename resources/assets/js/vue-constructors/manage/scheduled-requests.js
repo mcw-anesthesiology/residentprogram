@@ -1,19 +1,19 @@
 import Vue from 'vue';
 
-import HasAlerts from 'vue-mixins/HasAlerts.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import ComponentList from 'vue-components/ComponentList.vue';
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
-import RichDate from 'vue-components/RichDate.vue';
-import RichDateRange from 'vue-components/RichDateRange.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
+import RichDate from '@/vue-components/RichDate.vue';
+import RichDateRange from '@/vue-components/RichDateRange.vue';
 
-import { renderDateRange } from 'modules/date-utils.js';
+import { renderDateRange } from '@/modules/date-utils.js';
 import {
 	getFetchHeaders,
 	okOrThrow,
 	jsonOrThrow,
 	sortPropDates
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 
 export default function createManageScheduledRequests(el, propsData) {
 	return new Vue({

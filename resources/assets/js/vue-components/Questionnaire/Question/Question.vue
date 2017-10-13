@@ -21,6 +21,10 @@ export default {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		conditionMet: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -31,12 +35,17 @@ export default {
 
 		let questionComponent = `${type}-question`;
 
+		let style = {};
+		if (this.question.condition && !this.conditionMet)
+			style.display = 'none';
+
 		return h(questionComponent, {
 			props: {
 				readonly: this.readonly,
 				showErrors: this.showErrors,
 				...this.question
 			},
+			style,
 			on: {
 				input: question => {
 					this.$emit('input', question);

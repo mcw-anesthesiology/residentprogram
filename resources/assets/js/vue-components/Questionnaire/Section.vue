@@ -1,16 +1,8 @@
 <script>
 import QuestionnaireInstruction from './Instruction.vue';
+import QuestionnaireQuestion from './Question/Question.vue';
 
-import TextQuestion from './Question/Text.vue';
-import NumberQuestion from './Question/Number.vue';
-import CheckboxQuestion from './Question/Checkbox.vue';
-import RadioQuestion from './Question/Radio.vue';
-import ListQuestion from './Question/List/List.vue';
-
-import {
-	isQuestion,
-	getQuestionConditionChecker
-} from 'modules/questionnaire/index.js';
+import { getQuestionConditionChecker } from '@/modules/questionnaire/index.js';
 
 export default {
 	name: 'questionnaire-section',
@@ -45,18 +37,16 @@ export default {
 	render(h) {
 		const validItems = this.items.filter(validItem);
 		const questionConditionMet = getQuestionConditionChecker(validItems);
-		const activeItems = validItems.filter(item =>
-			!isQuestion(item) || questionConditionMet(item)
-		);
 
-		const items = activeItems.map((item, index) => {
+		const items = validItems.map((item, index) => {
 			let componentName = item.type === 'instruction'
 				? 'questionnaire-instruction'
-				: `question-${item.type}`;
+				: 'questionnaire-question';
 
 			return h(componentName, {
 				props: {
 					readonly: this.readonly,
+					conditionMet: questionConditionMet(item),
 					...item
 				},
 				on: {
@@ -82,11 +72,7 @@ export default {
 
 	components: {
 		QuestionnaireInstruction,
-		TextQuestion,
-		NumberQuestion,
-		CheckboxQuestion,
-		RadioQuestion,
-		ListQuestion
+		QuestionnaireQuestion
 	}
 };
 
