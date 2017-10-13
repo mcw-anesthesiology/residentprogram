@@ -61,7 +61,7 @@ export default {
 		});
 
 		if (this.title)
-			items.unshift(h('h1', this.title));
+			items.unshift(h('h2', this.title));
 
 		return h('section', {
 			class: {

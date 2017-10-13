@@ -27644,7 +27644,7 @@ if (false) {
 			});
 		});
 
-		if (this.title) items.unshift(h('h1', this.title));
+		if (this.title) items.unshift(h('h2', this.title));
 
 		return h('section', {
 			class: {
@@ -27676,7 +27676,7 @@ function validItem(item) {
 /* unused harmony export getQuestionsIdMap */
 /* unused harmony export questionMatchesValue */
 /* unused harmony export getRadioCheckboxValues */
-
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function getQuestionConditionChecker(questions) {
 	var questionIdMap = getQuestionsIdMap(questions);
@@ -27688,8 +27688,35 @@ function getQuestionConditionChecker(questions) {
 }
 
 function getQuestions(questionnaire) {
-	// $FlowFixMe: This is right I promise
-	return questionnaire.items.filter(isQuestion);
+	var questions = [];
+
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
+
+	try {
+		for (var _iterator = questionnaire.sections[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var section = _step.value;
+
+			// $FlowFixMe: This is right but I can't prove it
+			questions.push.apply(questions, _toConsumableArray(section.items.filter(isQuestion)));
+		}
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
+	}
+
+	return questions;
 }
 
 function isQuestion(item) {
@@ -27703,27 +27730,27 @@ function getQuestionnaireIdMap(questionnaire) {
 function getQuestionsIdMap(questions) {
 	var map = new Map();
 
-	var _iteratorNormalCompletion = true;
-	var _didIteratorError = false;
-	var _iteratorError = undefined;
+	var _iteratorNormalCompletion2 = true;
+	var _didIteratorError2 = false;
+	var _iteratorError2 = undefined;
 
 	try {
-		for (var _iterator = questions[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-			var question = _step.value;
+		for (var _iterator2 = questions[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+			var question = _step2.value;
 
 			if (question.id && !map.has(question.id)) map.set(question.id, question);
 		}
 	} catch (err) {
-		_didIteratorError = true;
-		_iteratorError = err;
+		_didIteratorError2 = true;
+		_iteratorError2 = err;
 	} finally {
 		try {
-			if (!_iteratorNormalCompletion && _iterator.return) {
-				_iterator.return();
+			if (!_iteratorNormalCompletion2 && _iterator2.return) {
+				_iterator2.return();
 			}
 		} finally {
-			if (_didIteratorError) {
-				throw _iteratorError;
+			if (_didIteratorError2) {
+				throw _iteratorError2;
 			}
 		}
 	}
