@@ -70,7 +70,8 @@ import Ajv from 'ajv';
 import {
 	ucfirst,
 	ucfirstWords,
-	jsonOrThrow
+	jsonOrThrow,
+	fetchConfig
 } from '@/modules/utils.js';
 
 export default {
@@ -146,7 +147,11 @@ export default {
 		ucfirst,
 		ucfirstWords,
 		fetchSchemas() {
-			Promise.all(this.schemaUrls.map(url => fetch(url).then(jsonOrThrow))).then(schemas => {
+			Promise.all(
+				this.schemaUrls.map(url => fetch(url, {
+					...fetchConfig()
+				}).then(jsonOrThrow))
+			).then(schemas => {
 				const ajv = new Ajv({
 					allErrors: true
 				});

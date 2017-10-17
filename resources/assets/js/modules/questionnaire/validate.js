@@ -1,9 +1,14 @@
 /* @flow */
 
+import {
+	getSelectValue
+} from './index.js';
+
 import type {
 	QuestionnaireQuestion,
 	QuestionnaireTextQuestion,
 	QuestionnaireNumberQuestion,
+	QuestionnaireSelectQuestion,
 	QuestionnaireCheckboxQuestion,
 	QuestionnaireRadioQuestion,
 	QuestionnaireListQuestion,
@@ -74,7 +79,7 @@ export function numberQuestion(question: QuestionnaireNumberQuestion): Validatio
 	let valid = true;
 	const errors: ValidationErrors = new Map();
 
-	if (question.required && !question.value == null) {
+	if (question.required && question.value == null) {
 		valid = false;
 		errors.set('value', 'Please complete the question');
 	}
@@ -94,6 +99,23 @@ export function numberQuestion(question: QuestionnaireNumberQuestion): Validatio
 	if (valid && question.max && value > question.max) {
 		valid = false;
 		errors.set('value', `Value must be less than max (${question.max})`);
+	}
+
+	return {
+		valid,
+		errors
+	};
+}
+
+export function selectQuestion(question: QuestionnaireSelectQuestion): Validation {
+	let valid = true;
+	const errors: ValidationErrors = new Map();
+
+	const value = getSelectValue(question);
+
+	if (question.required && value == null) {
+		valid = false;
+		errors.set('value', 'Please complete the question');
 	}
 
 	return {

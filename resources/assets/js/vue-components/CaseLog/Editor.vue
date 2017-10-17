@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<queestionnaire-questionnaire :title="title"
+	<div class="container body-block">
+		<questionnaire-questionnaire :title="title"
 			:sections="sections"
 			@input="handleInput"/>
 	</div>
@@ -19,8 +19,12 @@ export default {
 
 	data() {
 		return {
-			title: this.detailsSchema.title || '',
-			sections: this.detailsSchema.sections
+			title: this.detailsSchema.schema
+				? this.detailsSchema.schema.title || ''
+				: '',
+			sections: this.detailsSchema.schema
+				? this.detailsSchema.schema.sections || []
+				: []
 		};
 	},
 
@@ -29,7 +33,7 @@ export default {
 	},
 
 	methods: {
-		handleInput(sections) {
+		handleInput({sections}) {
 			this.sections = sections;
 		}
 	},

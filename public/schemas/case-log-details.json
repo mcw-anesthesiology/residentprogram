@@ -1,5 +1,0 @@
-{
-	"$id": "https://www.residentprogram.com/schemas/case-log-details.json#",
-	"title": "Case Log Details Schema",
-	"$ref": "https://www.residentprogram.com/schemas/questionnaire.json"
-}
