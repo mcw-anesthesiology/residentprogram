@@ -15,6 +15,15 @@
 		}]
 	],
 	"plugins": [
+		["module-resolver", {
+			"alias": {
+				"vue-flatpickr": "@jacobmischka/vue-flatpickr",
+				"@": "./resources/assets/js"
+			},
+			"extensions": [
+				".vue"
+			]
+		}],
 		"syntax-dynamic-import",
 		["transform-object-rest-spread", {
 			"useBuiltIns": true
@@ -34,43 +43,11 @@
 				}]
 			],
 			"plugins": [
-				["module-resolver", {
-					"alias": {
-						"vue-flatpickr": "@jacobmischka/vue-flatpickr",
-						"@": "@"
-					}
-				}],
 				"dynamic-import-node",
 				["transform-object-rest-spread", {
 					"useBuiltIns": true
 				}],
 				"transform-vue-jsx"
-			]
-		},
-		"development": {
-			"plugins": [
-				["module-resolver", {
-					"alias": {
-						"vue-flatpickr": "@jacobmischka/vue-flatpickr",
-						"@": "./resources/assets/js"
-					},
-					"extensions": [
-						".vue"
-					]
-				}]
-			]
-		},
-		"production": {
-			"plugins": [
-				["module-resolver", {
-					"alias": {
-						"vue-flatpickr": "@jacobmischka/vue-flatpickr",
-						"@": "./resources/assets/js"
-					},
-					"extensions": [
-						".vue"
-					]
-				}]
 			]
 		}
 	}

@@ -12,7 +12,8 @@ export type Questionnaire = {
 
 export type QuestionnaireSection = {
 	title?: string,
-	items: Array<QuestionnaireQuestion | QuestionnaireInstruction>
+	items: Array<QuestionnaireQuestion | QuestionnaireInstruction>,
+	condition?: QuestionnaireCondition
 };
 
 export type QuestionnaireQuestion =
@@ -29,10 +30,10 @@ type QuestionnaireQuestionBase = {
 	required?: boolean,
 	required?: boolean,
 	scoring?: ValueScoringDefinition,
-	condition?: QuestionnaireQuestionCondition
+	condition?: QuestionnaireCondition
 };
 
-export type QuestionnaireQuestionCondition = {
+export type QuestionnaireCondition = {
 	questionId: string,
 	questionValue: QuestionnaireQuestionValue
 };
@@ -188,14 +189,14 @@ export type QuestionnaireInstruction = {
 	text: string
 };
 
-export function getQuestionConditionChecker(questions: Array<QuestionnaireQuestion>):
-		(string, QuestionnaireQuestionValue) => boolean {
+export function getConditionChecker(questions: Array<QuestionnaireQuestion>):
+		(QuestionnaireCondition) => boolean {
 	const questionIdMap = getQuestionsIdMap(questions);
-	return (questionId, questionValue) =>
-		questionIdMap.has(questionId) && questionMatchesValue(
+	return (condition: QuestionnaireCondition) =>
+		questionIdMap.has(condition.questionId) && questionMatchesValue(
 			// $FlowFixMe: Okay flow I tested has right above here can you read
-			(questionIdMap.get(questionId): QuestionnaireQuestion),
-			questionValue
+			(questionIdMap.get(condition.questionId): QuestionnaireQuestion),
+			condition.questionValue
 		);
 }
 

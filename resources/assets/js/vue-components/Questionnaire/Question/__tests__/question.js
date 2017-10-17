@@ -1,8 +1,8 @@
 import { mount } from 'vue-test-utils';
 
 import Question from '../Question.vue';
-import questionWithCondition from './question-with-condition.json';
-import questionWithoutCondition from './question-without-condition.json';
+import questionWithCondition from './questions/with-condition.json';
+import questionWithoutCondition from './questions/without-condition.json';
 
 describe('Question', () => {
 	test('Displays none when has unmet condition', () => {

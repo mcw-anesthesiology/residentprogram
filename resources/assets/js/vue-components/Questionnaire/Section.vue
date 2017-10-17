@@ -2,8 +2,6 @@
 import QuestionnaireInstruction from './Instruction.vue';
 import QuestionnaireQuestion from './Question/Question.vue';
 
-import { getQuestionConditionChecker } from '@/modules/questionnaire/index.js';
-
 export default {
 	name: 'questionnaire-section',
 	model: {
@@ -31,23 +29,29 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		conditionChecker: {
+			type: Function,
+			required: false
 		}
 	},
 
 	render(h) {
 		const validItems = this.items.filter(validItem);
-		const questionConditionMet = getQuestionConditionChecker(validItems);
 
 		const items = validItems.map((item, index) => {
 			let componentName = item.type === 'instruction'
 				? 'questionnaire-instruction'
 				: 'questionnaire-question';
+			let props = componentName === 'questionnaire-question'
+				? {question: item}
+				: {...item};
 
 			return h(componentName, {
 				props: {
 					readonly: this.readonly,
-					conditionMet: questionConditionMet(item),
-					...item
+					conditionMet: item.condition && this.conditionChecker(item.condition),
+					...props
 				},
 				on: {
 					input: item => {
@@ -65,7 +69,8 @@ export default {
 
 		return h('section', {
 			class: {
-				page: this.page
+				page: this.page,
+				'questionnaire-section': true
 			}
 		}, items);
 	},
