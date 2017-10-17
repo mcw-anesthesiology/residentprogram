@@ -12,19 +12,6 @@
 @section('blockless-body')
 <div class="container body-block">
 	<h1>Case Log</h1>
-	<div class="row">
-		<div class="col-md-4 col-md-offset-8">
-			<label class="containing-label" v-cloak>
-				Report on
-				<select class="form-control" id="case-log-details-report-name">
-					<option v-for="subsection of subsections">
-						@{{ subsection.name }}
-					</option>
-				</select>
-			</label>
-		</div>
-	</div>
-	<section id="case-log-stats-container"></section>
 
 	<component-list v-if="isAdmin"
 			:fields="caseLogFields"

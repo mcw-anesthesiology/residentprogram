@@ -1,9 +1,14 @@
 /* @flow */
 
+import {
+	getSelectValue
+} from './index.js';
+
 import type {
 	QuestionnaireQuestion,
 	QuestionnaireTextQuestion,
 	QuestionnaireNumberQuestion,
+	QuestionnaireSelectQuestion,
 	QuestionnaireCheckboxQuestion,
 	QuestionnaireRadioQuestion,
 	QuestionnaireListQuestion
@@ -78,6 +83,8 @@ export function scoreQuestion(question: QuestionnaireQuestion): Score {
 			return textQuestion(question);
 		case 'number':
 			return numberQuestion(question);
+		case 'select':
+			return selectQuestion(question);
 		case 'checkbox':
 			return checkboxQuestion(question);
 		case 'radio':
@@ -106,6 +113,19 @@ export function numberQuestion(question: QuestionnaireNumberQuestion): Score {
 	if (question.scoring && question.value) {
 		score.set(question.scoring.category,
 			computeScore(question.scoring, question.value));
+	}
+
+	return score;
+}
+
+export function selectQuestion(question: QuestionnaireSelectQuestion): Score {
+	const score: Score = new Map();
+
+	if (question.scoring) {
+		const value = getSelectValue(question);
+		if (typeof value === 'number')
+			score.set(question.scoring.category,
+				computeScore(question.scoring, value));
 	}
 
 	return score;

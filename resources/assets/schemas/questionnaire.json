@@ -78,7 +78,10 @@
 						"scoring": {
 							"$ref": "#/definitions/scoringDefinition"
 						}
-					}
+					},
+					"required": [
+						"text"
+					]
 				},
 				{
 					"oneOf": [
@@ -118,6 +121,40 @@
 						"type",
 						"text"
 					]
+				},
+				"select": {
+					"title": "Select question",
+					"type": "object",
+					"properties": {
+						"type": {"const": "select"},
+						"placeholder": {"type": "string"},
+						"options": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/question/definitions/select/definitions/option"
+							}
+						}
+					},
+					"definitions": {
+						"option": {
+							"title": "Select option",
+							"type": "object",
+							"properties": {
+								"text": {"type": "string"},
+								"value": {
+									"oneOf": [
+										{"type": "string"},
+										{"type": "number"}
+									]
+								},
+								"selected": {"type": "boolean"}
+							},
+							"required": [
+								"text",
+								"value"
+							]
+						}
+					}
 				},
 				"checkbox": {
 					"title": "Checkbox question",

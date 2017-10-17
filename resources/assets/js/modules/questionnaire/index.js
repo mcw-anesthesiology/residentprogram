@@ -19,6 +19,7 @@ export type QuestionnaireSection = {
 export type QuestionnaireQuestion =
 	| QuestionnaireTextQuestion
 	| QuestionnaireNumberQuestion
+	| QuestionnaireSelectQuestion
 	| QuestionnaireCheckboxQuestion
 	| QuestionnaireRadioQuestion
 	| QuestionnaireListQuestion;
@@ -52,6 +53,18 @@ export type QuestionnaireNumberQuestion = QuestionnaireQuestionBase & {
 	min?: number,
 	max?: number,
 	value?: number
+};
+
+export type QuestionnaireSelectQuestion = QuestionnaireQuestionBase & {
+	type: 'select',
+	placeholder?: ?string,
+	options: Array<QuestionnaireSelectOption>
+};
+
+export type QuestionnaireSelectOption = {
+	text: string,
+	value: string | number,
+	selected?: ?boolean
 };
 
 export type QuestionnaireCheckboxQuestion = QuestionnaireQuestionBase & {
@@ -217,6 +230,7 @@ export function isQuestion(item: QuestionnaireQuestion | QuestionnaireInstructio
 	return [
 		'text',
 		'number',
+		'select',
 		'checkbox',
 		'radio',
 		'list'
@@ -262,9 +276,22 @@ export function questionMatchesValue(
 			)
 				return true;
 			break;
+		case 'select': {
+			(question: QuestionnaireSelectQuestion);
+			let selectValue = getSelectValue(question);
+			if (
+				(typeof value === 'boolean' && selectValue)
+				|| (
+					(typeof value === 'string' || typeof value === 'number')
+					&& value === selectValue
+				)
+			)
+				return true;
+			break;
+		}
 		case 'checkbox':
 		case 'radio': {
-			(question: QuestionnaireCheckboxQuestion | QuestionnaireRadioQuestion);
+			question = (question: QuestionnaireCheckboxQuestion | QuestionnaireRadioQuestion);
 			let values = getRadioCheckboxValues(question);
 			if (
 				(typeof value === 'boolean' && values.length > 0)
@@ -284,6 +311,13 @@ export function questionMatchesValue(
 	}
 
 	return false;
+}
+
+export function getSelectValue(question: QuestionnaireSelectQuestion): ?string | ?number {
+	const selectedOption = question.options.find(option => option.selected);
+	return selectedOption
+		? selectedOption.value
+		: null;
 }
 
 export function getRadioCheckboxValues(
