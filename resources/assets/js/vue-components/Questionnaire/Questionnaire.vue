@@ -1,13 +1,23 @@
 <template>
-	<div>
-		{{ title }}
-		<questionnaire-section v-for="(section, index) of sections" :key="index"
-			:items="section.items" />
+	<div class="questionnaire">
+		<h1>{{ title }}</h1>
+		<div class="questionnaire-sections">
+			<questionnaire-section v-for="(section, index) of sections" :key="index"
+				v-show="!section.condition || conditionChecker(section.condition)"
+				:items="section.items"
+				:condition-checker="conditionChecker"
+				@input="handleInput(index, arguments[0])" />
+		</div>
 	</div>
 </template>
 
 <script>
 import QuestionnaireSection from './Section.vue';
+
+import {
+	getQuestions,
+	getConditionChecker
+} from '@/modules/questionnaire/index.js';
 
 export default {
 	props: {
@@ -22,6 +32,24 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		}
+	},
+
+	computed: {
+		questions() {
+			return getQuestions(this);
+		},
+		conditionChecker() {
+			return getConditionChecker(this.questions);
+		}
+	},
+
+	methods: {
+		handleInput(index, section) {
+			let sections = this.sections.slice();
+			sections[index] = Object.assign({}, sections[index], section);
+
+			this.$emit('input', {sections});
 		}
 	},
 

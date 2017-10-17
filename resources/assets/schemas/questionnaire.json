@@ -1,5 +1,20 @@
 {
 	"$id": "https://www.residentprogram.com/schemas/questionnaire.json#",
+	"title": "Questionnaire",
+	"type": "object",
+	"properties": {
+		"title": {"type": "string"},
+		"sections": {
+			"type": "array",
+			"sections": {
+				"$ref": "#/definitions/section"
+			}
+		}
+	},
+	"required": [
+		"title",
+		"sections"
+	],
 	"definitions": {
 		"scoringDefinition": {
 			"title": "Scoring definition",
@@ -13,12 +28,39 @@
 				"category"
 			]
 		},
+		"condition": {
+			"type": "object",
+			"properties": {
+				"questionId": {
+					"type": "string"
+				},
+				"questionValue": {
+					"type": ["boolean", "string", "number"]
+				}
+			},
+			"required": [
+				"questionId",
+				"questionValue"
+			]
+		},
 		"section": {
 			"title": "Section",
 			"type": "object",
 			"properties": {
-				"type": "section"
-			}
+				"title": {"type": "string"},
+				"items": {
+					"type": "array",
+					"items": {
+						"oneOf": [
+							{"$ref": "#/definitions/question"},
+							{"$ref": "#/definitions/instruction"}
+						]
+					}
+				}
+			},
+			"required": [
+				"items"
+			]
 		},
 		"question": {
 			"title": "Question",
@@ -31,15 +73,7 @@
 						"description": {"type": "string"},
 						"required": {"type": "boolean"},
 						"condition": {
-							"type": "object",
-							"properties": {
-								"questionId": {
-									"type": "string"
-								},
-								"questionValue": {
-									"type": ["boolean", "string", "number"]
-								}
-							}
+							"$ref": "#/definitions/condition"
 						},
 						"scoring": {
 							"$ref": "#/definitions/scoringDefinition"
