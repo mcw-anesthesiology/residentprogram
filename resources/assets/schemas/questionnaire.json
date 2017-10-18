@@ -48,6 +48,12 @@
 			"type": "object",
 			"properties": {
 				"title": {"type": "string"},
+				"direction": {
+					"enum": [
+						"vertical",
+						"horizontal"
+					]
+				},
 				"items": {
 					"type": "array",
 					"items": {

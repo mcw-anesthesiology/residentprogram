@@ -122,10 +122,11 @@ export function selectQuestion(question: QuestionnaireSelectQuestion): Score {
 	const score: Score = new Map();
 
 	if (question.scoring) {
+		const scoring: ScoringDefinition = question.scoring;
 		const value = getSelectValue(question);
 		if (typeof value === 'number')
-			score.set(question.scoring.category,
-				computeScore(question.scoring, value));
+			score.set(scoring.category,
+				computeScore(scoring, value));
 	}
 
 	return score;

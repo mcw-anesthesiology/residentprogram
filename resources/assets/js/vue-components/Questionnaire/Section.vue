@@ -2,6 +2,8 @@
 import QuestionnaireInstruction from './Instruction.vue';
 import QuestionnaireQuestion from './Question/Question.vue';
 
+import { isValidItem } from '@/modules/questionnaire/index.js';
+
 export default {
 	name: 'questionnaire-section',
 	model: {
@@ -26,6 +28,16 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		direction: {
+			type: String,
+			default: 'vertical',
+			validator(direction) {
+				return [
+					'vertical',
+					'horizontal'
+				].includes(direction);
+			}
+		},
 		readonly: {
 			type: Boolean,
 			default: false
@@ -37,7 +49,7 @@ export default {
 	},
 
 	render(h) {
-		const validItems = this.items.filter(validItem);
+		const validItems = this.items.filter(isValidItem);
 
 		const items = validItems.map((item, index) => {
 			let componentName = item.type === 'instruction'
@@ -70,7 +82,8 @@ export default {
 		return h('section', {
 			class: {
 				page: this.page,
-				'questionnaire-section': true
+				'questionnaire-section': true,
+				'direction-horizontal': this.direction === 'horizontal'
 			}
 		}, items);
 	},
@@ -80,16 +93,13 @@ export default {
 		QuestionnaireQuestion
 	}
 };
-
-function validItem(item) {
-	return item.type && [
-		'instruction',
-		'text',
-		'textarea',
-		'number',
-		'checkbox',
-		'radio',
-		'list'
-	].includes(item.type);
-}
 </script>
+
+<style scoped>
+	.questionnaire-section.direction-horizontal {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-around;
+	}
+</style>

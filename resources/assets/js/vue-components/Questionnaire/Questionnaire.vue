@@ -4,7 +4,7 @@
 		<div class="questionnaire-sections">
 			<questionnaire-section v-for="(section, index) of sections" :key="index"
 				v-show="!section.condition || conditionChecker(section.condition)"
-				:items="section.items"
+				v-bind="section"
 				:condition-checker="conditionChecker"
 				@input="handleInput(index, arguments[0])" />
 		</div>
