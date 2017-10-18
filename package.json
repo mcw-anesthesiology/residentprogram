@@ -28,7 +28,8 @@
     "lint": "eslint resources/assets/js --ext .js,.vue && flow",
     "test": "run-s test:*",
     "test:backend": "./vendor/bin/phpunit",
-    "test:frontend": "jest"
+    "test:frontend": "jest",
+    "ui-test": "webpack-dev-server --config webpack.ui-tester.config.js"
   },
   "browserslist": [
     "> 1%",
@@ -103,6 +104,7 @@
     "gulp-file-contents-to-json": "^0.2.1",
     "gulp-merge-json": "^1.0.0",
     "gulp-size": "^2.1.0",
+    "html-webpack-plugin": "^2.30.1",
     "jest": "^21.2.1",
     "jest-vue": "^0.8.1",
     "laravel-elixir": "^6.0.0-15",

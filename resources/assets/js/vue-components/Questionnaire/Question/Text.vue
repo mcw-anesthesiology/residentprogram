@@ -1,5 +1,8 @@
 <template>
-	<validated-form-group :errors="validation.errors" prop="value">
+	<validated-form-group class="text-question"
+			:errors="validation.errors"
+			:show-errors="showErrors"
+			prop="value">
 		<label class="containing-label" :class="{'has-warning': (required && !value)}"
 				:title="description">
 			{{ text }}
@@ -53,6 +56,10 @@ export default {
 			default: false
 		},
 		readonly: {
+			type: Boolean,
+			default: false
+		},
+		showErrors: {
 			type: Boolean,
 			default: false
 		}

@@ -1,19 +1,28 @@
 <template>
-	<validated-form-group class="number-question"
+	<validated-form-group class="select-question"
 			:errors="validation.errors"
 			:show-errors="showErrors"
-			prop="value">
+			prop="options">
 		<label class="containing-label" :title="description">
 			{{ text }}
-			<input type="number" class="form-control"
-				:min="min" :max="max" :value="value" :readonly="readonly"
-				@input="onInput" />
+			<select class="form-control" :disabled="readonly"
+					@change="handleSelect">
+				<option value="">{{ placeholder }}</option>
+				<option v-for="(option, index) of options" :key="index"
+						:value="option.value"
+						:selected="option.selected">
+					{{ option.text }}
+				</option>
+			</select>
 		</label>
-		<show-hide-button v-if="description" v-model="show.description">
+
+		<show-hide-button v-if="description"
+				class="btn-default"
+				v-model="show.description">
 			description
 		</show-hide-button>
-		<div v-if="description" v-show="show.description"
-			v-html="markedUpDescription">
+		<div v-if="description" v-show="show.description">
+			{{ markedUpDescription }}
 		</div>
 	</validated-form-group>
 </template>
@@ -24,43 +33,31 @@ import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
 import snarkdown from 'snarkdown';
 
-import { numberQuestion as validate } from '@/modules/questionnaire/validate.js';
+import { selectQuestion as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	props: {
 		type: {
 			type: String,
 			validator(type) {
-				return type === 'number';
+				return type === 'select';
 			}
 		},
 		text: {
 			type: String,
 			required: true
 		},
+		placeholder: {
+			type: String,
+			default: 'Please select an option'
+		},
 		description: {
 			type: String,
 			required: false
 		},
-		placeholder: {
-			type: String,
-			required: false
-		},
-		min: {
-			type: Number,
-			required: false
-		},
-		max: {
-			type: Number,
-			required: false
-		},
-		properties: {
+		options: {
 			type: Array,
-			required: false
-		},
-		value: {
-			type: Number,
-			default: null
+			required: true
 		},
 		required: {
 			type: Boolean,
@@ -75,6 +72,7 @@ export default {
 			default: false
 		}
 	},
+
 	data() {
 		return {
 			show: {
@@ -94,9 +92,15 @@ export default {
 	},
 
 	methods: {
-		onInput(event) {
-			// FIXME: Firefox sends a 0 for non-numbers for some reason
-			this.$emit('input', {value: Number(event.target.value)});
+		handleSelect(event) {
+			const value = event.target.value;
+			const options = this.options.map(option => {
+				option = Object.assign({}, option);
+				option.selected = (option.value == value);
+
+				return option;
+			});
+			this.$emit('input', {options});
 		}
 	},
 
