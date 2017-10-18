@@ -1,8 +1,10 @@
 <template>
 	<div class="container body-block">
-		<questionnaire-questionnaire :title="title"
-			:sections="sections"
-			@input="handleInput"/>
+		<div class="case-log-editor">
+			<questionnaire-questionnaire :title="title"
+				:sections="sections"
+				@input="handleInput"/>
+		</div>
 	</div>
 </template>
 
@@ -43,3 +45,16 @@ export default {
 	}
 };
 </script>
+
+<style>
+	.case-log-editor .questionnaire-section {
+		margin: 2em 0;
+		padding: 1em;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		border-radius: 4px;
+	}
+
+	.case-log-editor .checkbox-question {
+		font-size: 1em;
+	}
+</style>

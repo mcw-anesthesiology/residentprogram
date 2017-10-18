@@ -13,6 +13,7 @@ export type Questionnaire = {
 export type QuestionnaireSection = {
 	title?: string,
 	items: Array<QuestionnaireQuestion | QuestionnaireInstruction>,
+	direction?: 'vertical' | 'horizontal',
 	condition?: QuestionnaireCondition
 };
 
@@ -224,8 +225,17 @@ export function getQuestions(questionnaire: Questionnaire)
 	return questions;
 }
 
-export function isQuestion(item: QuestionnaireQuestion | QuestionnaireInstruction)
-		: boolean {
+export function isValidItem(item: {type: string}): boolean {
+	return Boolean(
+		(item.type && typeof item.type === 'string')
+		&& (
+			item.type === 'instruction'
+			|| isQuestion(item)
+		)
+	);
+}
+
+export function isQuestion(item: {type: string}) : boolean {
 	return [
 		'text',
 		'number',

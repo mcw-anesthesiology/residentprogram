@@ -12236,6 +12236,7 @@ if (false) {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = getConditionChecker;
 /* harmony export (immutable) */ __webpack_exports__["b"] = getQuestions;
+/* harmony export (immutable) */ __webpack_exports__["d"] = isValidItem;
 /* unused harmony export isQuestion */
 /* unused harmony export getQuestionnaireIdMap */
 /* unused harmony export getQuestionsIdMap */
@@ -12283,6 +12284,10 @@ function getQuestions(questionnaire) {
 	}
 
 	return questions;
+}
+
+function isValidItem(item) {
+	return Boolean(item.type && typeof item.type === 'string' && (item.type === 'instruction' || isQuestion(item)));
 }
 
 function isQuestion(item) {
