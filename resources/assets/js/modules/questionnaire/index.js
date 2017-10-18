@@ -29,7 +29,6 @@ type QuestionnaireQuestionBase = {
 	text: string,
 	description?: string,
 	required?: boolean,
-	required?: boolean,
 	scoring?: ValueScoringDefinition,
 	condition?: QuestionnaireCondition
 };

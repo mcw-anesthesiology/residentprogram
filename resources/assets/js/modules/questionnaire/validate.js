@@ -115,7 +115,7 @@ export function selectQuestion(question: QuestionnaireSelectQuestion): Validatio
 
 	if (question.required && value == null) {
 		valid = false;
-		errors.set('value', 'Please complete the question');
+		errors.set('options', 'Please complete the question');
 	}
 
 	return {

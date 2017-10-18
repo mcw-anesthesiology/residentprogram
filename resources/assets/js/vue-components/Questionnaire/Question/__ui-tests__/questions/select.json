@@ -1,0 +1,16 @@
+{
+	"type": "select",
+	"text": "Select question",
+	"description": "A select question with a description",
+	"required": true,
+	"options": [
+		{
+			"text": "Option 1",
+			"value": 1
+		},
+		{
+			"text": "Option 2",
+			"value": 2
+		}
+	]
+}

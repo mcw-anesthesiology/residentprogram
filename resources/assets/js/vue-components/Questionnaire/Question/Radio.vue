@@ -1,6 +1,8 @@
 <template>
 	<validated-form-group class="radio-question"
-			:errors="validation.errors" prop="options">
+			:errors="validation.errors"
+			:show-errors="showErrors"
+			prop="options">
 		<fieldset :title="description">
 			<legend class="control-label">
 				{{ text }}
@@ -73,6 +75,10 @@ export default {
 			default: false
 		},
 		readonly: {
+			type: Boolean,
+			default: false
+		},
+		showErrors: {
 			type: Boolean,
 			default: false
 		}

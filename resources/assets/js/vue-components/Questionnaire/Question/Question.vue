@@ -1,6 +1,7 @@
 <script>
 import TextQuestion from './Text.vue';
 import NumberQuestion from './Number.vue';
+import SelectQuestion from './Select.vue';
 import CheckboxQuestion from './Checkbox.vue';
 import RadioQuestion from './Radio.vue';
 import ListQuestion from './List/List.vue';
@@ -57,6 +58,7 @@ export default {
 	components: {
 		TextQuestion,
 		NumberQuestion,
+		SelectQuestion,
 		CheckboxQuestion,
 		RadioQuestion,
 		ListQuestion
