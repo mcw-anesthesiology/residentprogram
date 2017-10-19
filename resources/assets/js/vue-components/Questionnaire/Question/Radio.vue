@@ -30,6 +30,12 @@
 			</div>
 		</fieldset>
 
+		<button type="button" v-if="!required"
+				class="btn btn-sm btn-default"
+				@click="resetValue">
+			Clear response
+		</button>
+
 		<show-hide-button v-if="description" v-model="show.description">
 			description
 		</show-hide-button>
@@ -102,6 +108,7 @@ export default {
 	},
 
 	methods: {
+		snarkdown,
 		handleCheck(index) {
 			let options = this.options.map((option, i) => {
 				let newOption = Object.assign({}, option);
@@ -113,13 +120,15 @@ export default {
 
 			this.$emit('input', {options});
 		},
+		resetValue() {
+			this.handleCheck(-1);
+		},
 		handleEditableOptionInput(index, value) {
 			let options = Array.slice(this.options);
 			options[index] = Object.assign({}, options[index], {text: value, value});
 
 			this.$emit('input', {options});
-		},
-		snarkdown
+		}
 	},
 
 	components: {

@@ -1,18 +1,27 @@
 <template>
-	<div class="questionnaire">
-		<h1>{{ title }}</h1>
+	<section class="questionnaire">
+		<h1>{{ formTitle }}</h1>
 		<div class="questionnaire-sections">
 			<questionnaire-section v-for="(section, index) of sections" :key="index"
 				v-show="!section.condition || conditionChecker(section.condition)"
 				v-bind="section"
 				:condition-checker="conditionChecker"
+				:show-errors="showErrors"
 				@input="handleInput(index, arguments[0])" />
 		</div>
-	</div>
+
+		<div>
+			<show-hide-button class="btn-default" v-model="showErrors">
+				error messages
+				<template slot="glyph"></template>
+			</show-hide-button>
+		</div>
+	</section>
 </template>
 
 <script>
 import QuestionnaireSection from './Section.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import {
 	getQuestions,
@@ -21,9 +30,9 @@ import {
 
 export default {
 	props: {
-		title: {
+		formTitle: {
 			type: String,
-			required: true
+			default: ''
 		},
 		sections: {
 			type: Array,
@@ -33,6 +42,12 @@ export default {
 			type: Boolean,
 			default: false
 		}
+	},
+
+	data() {
+		return {
+			showErrors: false
+		};
 	},
 
 	computed: {
@@ -54,7 +69,8 @@ export default {
 	},
 
 	components: {
-		QuestionnaireSection
+		QuestionnaireSection,
+		ShowHideButton
 	}
 };
 </script>

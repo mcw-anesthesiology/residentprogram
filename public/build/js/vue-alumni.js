@@ -2367,7 +2367,7 @@ if (true) module.exports = flatpickr;
 
 /***/ }),
 
-/***/ 130:
+/***/ 131:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2436,7 +2436,7 @@ if (true) module.exports = flatpickr;
 
 /***/ }),
 
-/***/ 131:
+/***/ 132:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2479,8 +2479,8 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ConfirmationButton_vue__ = __webpack_require__(130);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4aea83c8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ConfirmationButton_vue__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ConfirmationButton_vue__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4aea83c8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ConfirmationButton_vue__ = __webpack_require__(132);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -3921,7 +3921,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 818:
+/***/ 822:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3931,7 +3931,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_Alumni_Edit_vue__ = __webpack_require__(301);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Alumni_Subscription_vue__ = __webpack_require__(819);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Alumni_Subscription_vue__ = __webpack_require__(823);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(1);
 
 
@@ -4011,12 +4011,12 @@ function createAlumni(el, propsData) {
 
 /***/ }),
 
-/***/ 819:
+/***/ 823:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Subscription_vue__ = __webpack_require__(820);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8e5d72ae_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Subscription_vue__ = __webpack_require__(821);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Subscription_vue__ = __webpack_require__(824);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8e5d72ae_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Subscription_vue__ = __webpack_require__(825);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -4063,7 +4063,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 820:
+/***/ 824:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4147,7 +4147,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 821:
+/***/ 825:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4218,6 +4218,6 @@ if (false) {
 
 /***/ })
 
-},[818]);
+},[822]);
 });
 //# sourceMappingURL=vue-alumni.js.map

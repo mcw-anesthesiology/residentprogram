@@ -101,7 +101,8 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 6 */
+/* 6 */,
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(17),
@@ -135,7 +136,7 @@ module.exports = baseGetTag;
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 /**
@@ -170,110 +171,7 @@ module.exports = isObjectLike;
 
 
 /***/ }),
-/* 8 */,
-/* 9 */,
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var listCacheClear = __webpack_require__(58),
-    listCacheDelete = __webpack_require__(59),
-    listCacheGet = __webpack_require__(60),
-    listCacheHas = __webpack_require__(61),
-    listCacheSet = __webpack_require__(62);
-
-/**
- * Creates an list cache object.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */
-function ListCache(entries) {
-  var index = -1,
-      length = entries == null ? 0 : entries.length;
-
-  this.clear();
-  while (++index < length) {
-    var entry = entries[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-// Add methods to `ListCache`.
-ListCache.prototype.clear = listCacheClear;
-ListCache.prototype['delete'] = listCacheDelete;
-ListCache.prototype.get = listCacheGet;
-ListCache.prototype.has = listCacheHas;
-ListCache.prototype.set = listCacheSet;
-
-module.exports = ListCache;
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var eq = __webpack_require__(28);
-
-/**
- * Gets the index at which the `key` is found in `array` of key-value pairs.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {*} key The key to search for.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function assocIndexOf(array, key) {
-  var length = array.length;
-  while (length--) {
-    if (eq(array[length][0], key)) {
-      return length;
-    }
-  }
-  return -1;
-}
-
-module.exports = assocIndexOf;
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var getNative = __webpack_require__(4);
-
-/* Built-in method references that are verified to be native. */
-var nativeCreate = getNative(Object, 'create');
-
-module.exports = nativeCreate;
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isKeyable = __webpack_require__(82);
-
-/**
- * Gets the data for `map`.
- *
- * @private
- * @param {Object} map The map to query.
- * @param {string} key The reference key.
- * @returns {*} Returns the map data.
- */
-function getMapData(map, key) {
-  var data = map.__data__;
-  return isKeyable(key)
-    ? data[typeof key == 'string' ? 'string' : 'hash']
-    : data.map;
-}
-
-module.exports = getMapData;
-
-
-/***/ }),
-/* 14 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -328,6 +226,108 @@ if (false) {(function () {
 
 
 /***/ }),
+/* 10 */,
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var listCacheClear = __webpack_require__(58),
+    listCacheDelete = __webpack_require__(59),
+    listCacheGet = __webpack_require__(60),
+    listCacheHas = __webpack_require__(61),
+    listCacheSet = __webpack_require__(62);
+
+/**
+ * Creates an list cache object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function ListCache(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+// Add methods to `ListCache`.
+ListCache.prototype.clear = listCacheClear;
+ListCache.prototype['delete'] = listCacheDelete;
+ListCache.prototype.get = listCacheGet;
+ListCache.prototype.has = listCacheHas;
+ListCache.prototype.set = listCacheSet;
+
+module.exports = ListCache;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var eq = __webpack_require__(28);
+
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+
+module.exports = assocIndexOf;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var getNative = __webpack_require__(4);
+
+/* Built-in method references that are verified to be native. */
+var nativeCreate = getNative(Object, 'create');
+
+module.exports = nativeCreate;
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isKeyable = __webpack_require__(82);
+
+/**
+ * Gets the data for `map`.
+ *
+ * @private
+ * @param {Object} map The map to query.
+ * @param {string} key The reference key.
+ * @returns {*} Returns the map data.
+ */
+function getMapData(map, key) {
+  var data = map.__data__;
+  return isKeyable(key)
+    ? data[typeof key == 'string' ? 'string' : 'hash']
+    : data.map;
+}
+
+module.exports = getMapData;
+
+
+/***/ }),
 /* 15 */,
 /* 16 */,
 /* 17 */
@@ -378,8 +378,8 @@ module.exports = isArray;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ConfirmationButton_vue__ = __webpack_require__(130);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4aea83c8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ConfirmationButton_vue__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ConfirmationButton_vue__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4aea83c8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ConfirmationButton_vue__ = __webpack_require__(132);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -440,7 +440,8 @@ module.exports = Map;
 /***/ }),
 /* 21 */,
 /* 22 */,
-/* 23 */
+/* 23 */,
+/* 24 */
 /***/ (function(module, exports) {
 
 /**
@@ -477,7 +478,6 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 24 */,
 /* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -581,8 +581,8 @@ module.exports = eq;
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(6),
-    isObject = __webpack_require__(23);
+var baseGetTag = __webpack_require__(7),
+    isObject = __webpack_require__(24);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -1373,7 +1373,7 @@ module.exports = isEqual;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsEqualDeep = __webpack_require__(56),
-    isObjectLike = __webpack_require__(7);
+    isObjectLike = __webpack_require__(8);
 
 /**
  * The base implementation of `_.isEqual` which supports partial comparisons
@@ -1495,7 +1495,7 @@ module.exports = baseIsEqualDeep;
 /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ListCache = __webpack_require__(10),
+var ListCache = __webpack_require__(11),
     stackClear = __webpack_require__(63),
     stackDelete = __webpack_require__(64),
     stackGet = __webpack_require__(65),
@@ -1547,7 +1547,7 @@ module.exports = listCacheClear;
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(11);
+var assocIndexOf = __webpack_require__(12);
 
 /** Used for built-in method references. */
 var arrayProto = Array.prototype;
@@ -1588,7 +1588,7 @@ module.exports = listCacheDelete;
 /* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(11);
+var assocIndexOf = __webpack_require__(12);
 
 /**
  * Gets the list cache value for `key`.
@@ -1613,7 +1613,7 @@ module.exports = listCacheGet;
 /* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(11);
+var assocIndexOf = __webpack_require__(12);
 
 /**
  * Checks if a list cache value for `key` exists.
@@ -1635,7 +1635,7 @@ module.exports = listCacheHas;
 /* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(11);
+var assocIndexOf = __webpack_require__(12);
 
 /**
  * Sets the list cache `key` to `value`.
@@ -1667,7 +1667,7 @@ module.exports = listCacheSet;
 /* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ListCache = __webpack_require__(10);
+var ListCache = __webpack_require__(11);
 
 /**
  * Removes all key-value entries from the stack.
@@ -1752,7 +1752,7 @@ module.exports = stackHas;
 /* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ListCache = __webpack_require__(10),
+var ListCache = __webpack_require__(11),
     Map = __webpack_require__(20),
     MapCache = __webpack_require__(32);
 
@@ -1794,7 +1794,7 @@ module.exports = stackSet;
 
 var isFunction = __webpack_require__(29),
     isMasked = __webpack_require__(71),
-    isObject = __webpack_require__(23),
+    isObject = __webpack_require__(24),
     toSource = __webpack_require__(31);
 
 /**
@@ -1983,7 +1983,7 @@ module.exports = getValue;
 /***/ (function(module, exports, __webpack_require__) {
 
 var Hash = __webpack_require__(75),
-    ListCache = __webpack_require__(10),
+    ListCache = __webpack_require__(11),
     Map = __webpack_require__(20);
 
 /**
@@ -2047,7 +2047,7 @@ module.exports = Hash;
 /* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(12);
+var nativeCreate = __webpack_require__(13);
 
 /**
  * Removes all key-value entries from the hash.
@@ -2091,7 +2091,7 @@ module.exports = hashDelete;
 /* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(12);
+var nativeCreate = __webpack_require__(13);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -2127,7 +2127,7 @@ module.exports = hashGet;
 /* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(12);
+var nativeCreate = __webpack_require__(13);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -2156,7 +2156,7 @@ module.exports = hashHas;
 /* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(12);
+var nativeCreate = __webpack_require__(13);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -2185,7 +2185,7 @@ module.exports = hashSet;
 /* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(13);
+var getMapData = __webpack_require__(14);
 
 /**
  * Removes `key` and its value from the map.
@@ -2230,7 +2230,7 @@ module.exports = isKeyable;
 /* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(13);
+var getMapData = __webpack_require__(14);
 
 /**
  * Gets the map value for `key`.
@@ -2252,7 +2252,7 @@ module.exports = mapCacheGet;
 /* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(13);
+var getMapData = __webpack_require__(14);
 
 /**
  * Checks if a map value for `key` exists.
@@ -2274,7 +2274,7 @@ module.exports = mapCacheHas;
 /* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(13);
+var getMapData = __webpack_require__(14);
 
 /**
  * Sets the map `key` to `value`.
@@ -2996,7 +2996,7 @@ module.exports = baseTimes;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsArguments = __webpack_require__(106),
-    isObjectLike = __webpack_require__(7);
+    isObjectLike = __webpack_require__(8);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -3037,8 +3037,8 @@ module.exports = isArguments;
 /* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(6),
-    isObjectLike = __webpack_require__(7);
+var baseGetTag = __webpack_require__(7),
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]';
@@ -3113,9 +3113,9 @@ module.exports = isIndex;
 /* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(6),
+var baseGetTag = __webpack_require__(7),
     isLength = __webpack_require__(36),
-    isObjectLike = __webpack_require__(7);
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -3365,7 +3365,7 @@ var DataView = __webpack_require__(118),
     Promise = __webpack_require__(119),
     Set = __webpack_require__(120),
     WeakMap = __webpack_require__(121),
-    baseGetTag = __webpack_require__(6),
+    baseGetTag = __webpack_require__(7),
     toSource = __webpack_require__(31);
 
 /** `Object#toString` result references. */
@@ -3629,7 +3629,8 @@ if (false) {
 /* 127 */,
 /* 128 */,
 /* 129 */,
-/* 130 */
+/* 130 */,
+/* 131 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3697,7 +3698,7 @@ if (false) {
 });
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3735,7 +3736,6 @@ if (false) {
 }
 
 /***/ }),
-/* 132 */,
 /* 133 */,
 /* 134 */,
 /* 135 */,
@@ -3845,7 +3845,7 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue__ = __webpack_require__(177);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue__ = __webpack_require__(180);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ConfirmationButton_vue__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(1);
 //
@@ -6159,7 +6159,11 @@ if (false) {
 /* 511 */,
 /* 512 */,
 /* 513 */,
-/* 514 */
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6225,6 +6229,6 @@ function createFormBuilder(el, propsData) {
 }
 
 /***/ })
-],[514]);
+],[518]);
 });
 //# sourceMappingURL=vue-form-builder.js.map

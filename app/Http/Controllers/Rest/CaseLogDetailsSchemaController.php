@@ -4,10 +4,6 @@ namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
 
-use JsonSchema\SchemaStorage;
-use JsonSchema\Validator;
-use JsonSchema\Constraints\Factory;
-
 use App\CaseLogDetailsSchema;
 
 class CaseLogDetailsSchemaController extends RestController
@@ -37,24 +33,7 @@ class CaseLogDetailsSchemaController extends RestController
 			->orderBy('version', 'desc')->firstOrFail();
 		$newVersion = $oldSchema->version + 1;
 
-		$schemaPrefix = 'https://www.residentprogram.com/schemas';
-		$primarySchema = 'case-log-details';
-		$additionalSchemas = [
-			'questionnaire'
-		];
-		$schemas = array_merge([$primarySchema], $additionalSchemas);
-
-		$schemaStorage = new SchemaStorage();
-		foreach ($schemas as $schema) {
-			$schemaStorage->addSchema(
-				"{$schemaPrefix}/{$schema}.json",
-				getSchemaContents($schema)
-			);
-		}
-
-		$validator = new Validator(new Factory($schemaStorage));
-		$validator->check($input["schema"], getSchemaContents($primarySchema));
-		if(!$validator->isValid())
+		if(!CaseLogDetailsSchema::validateToSchema($input['schema']))
 			throw new \Exception("Details do not match schema");
 
 		$schema = new CaseLogDetailsSchema($input);
@@ -76,10 +55,4 @@ class CaseLogDetailsSchemaController extends RestController
 			return back();
 	}
 
-}
-
-function getSchemaContents($schema) {
-	return json_decode(file_get_contents(resource_path(
-		"assets/schemas/{$schema}.json"
-	)));
 }

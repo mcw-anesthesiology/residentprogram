@@ -10,45 +10,6 @@
 })(this, function() {
 return webpackJsonp([7],{
 
-/***/ 10:
-/***/ (function(module, exports, __webpack_require__) {
-
-var listCacheClear = __webpack_require__(58),
-    listCacheDelete = __webpack_require__(59),
-    listCacheGet = __webpack_require__(60),
-    listCacheHas = __webpack_require__(61),
-    listCacheSet = __webpack_require__(62);
-
-/**
- * Creates an list cache object.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */
-function ListCache(entries) {
-  var index = -1,
-      length = entries == null ? 0 : entries.length;
-
-  this.clear();
-  while (++index < length) {
-    var entry = entries[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-// Add methods to `ListCache`.
-ListCache.prototype.clear = listCacheClear;
-ListCache.prototype['delete'] = listCacheDelete;
-ListCache.prototype.get = listCacheGet;
-ListCache.prototype.has = listCacheHas;
-ListCache.prototype.set = listCacheSet;
-
-module.exports = ListCache;
-
-
-/***/ }),
-
 /***/ 100:
 /***/ (function(module, exports) {
 
@@ -242,7 +203,7 @@ module.exports = baseTimes;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsArguments = __webpack_require__(106),
-    isObjectLike = __webpack_require__(7);
+    isObjectLike = __webpack_require__(8);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -284,8 +245,8 @@ module.exports = isArguments;
 /***/ 106:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(6),
-    isObjectLike = __webpack_require__(7);
+var baseGetTag = __webpack_require__(7),
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]';
@@ -363,9 +324,9 @@ module.exports = isIndex;
 /***/ 109:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(6),
+var baseGetTag = __webpack_require__(7),
     isLength = __webpack_require__(36),
-    isObjectLike = __webpack_require__(7);
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -430,27 +391,38 @@ module.exports = baseIsTypedArray;
 /***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
-var eq = __webpack_require__(28);
+var listCacheClear = __webpack_require__(58),
+    listCacheDelete = __webpack_require__(59),
+    listCacheGet = __webpack_require__(60),
+    listCacheHas = __webpack_require__(61),
+    listCacheSet = __webpack_require__(62);
 
 /**
- * Gets the index at which the `key` is found in `array` of key-value pairs.
+ * Creates an list cache object.
  *
  * @private
- * @param {Array} array The array to inspect.
- * @param {*} key The key to search for.
- * @returns {number} Returns the index of the matched value, else `-1`.
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
  */
-function assocIndexOf(array, key) {
-  var length = array.length;
-  while (length--) {
-    if (eq(array[length][0], key)) {
-      return length;
-    }
+function ListCache(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
   }
-  return -1;
 }
 
-module.exports = assocIndexOf;
+// Add methods to `ListCache`.
+ListCache.prototype.clear = listCacheClear;
+ListCache.prototype['delete'] = listCacheDelete;
+ListCache.prototype.get = listCacheGet;
+ListCache.prototype.has = listCacheHas;
+ListCache.prototype.set = listCacheSet;
+
+module.exports = ListCache;
 
 
 /***/ }),
@@ -651,7 +623,7 @@ var DataView = __webpack_require__(118),
     Promise = __webpack_require__(119),
     Set = __webpack_require__(120),
     WeakMap = __webpack_require__(121),
-    baseGetTag = __webpack_require__(6),
+    baseGetTag = __webpack_require__(7),
     toSource = __webpack_require__(31);
 
 /** `Object#toString` result references. */
@@ -739,12 +711,27 @@ module.exports = Promise;
 /***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(4);
+var eq = __webpack_require__(28);
 
-/* Built-in method references that are verified to be native. */
-var nativeCreate = getNative(Object, 'create');
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
 
-module.exports = nativeCreate;
+module.exports = assocIndexOf;
 
 
 /***/ }),
@@ -3192,7 +3179,7 @@ if (true) module.exports = flatpickr;
 
 /***/ }),
 
-/***/ 128:
+/***/ 129:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -3202,38 +3189,26 @@ if (true) module.exports = flatpickr;
 /***/ 13:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isKeyable = __webpack_require__(82);
+var getNative = __webpack_require__(4);
 
-/**
- * Gets the data for `map`.
- *
- * @private
- * @param {Object} map The map to query.
- * @param {string} key The reference key.
- * @returns {*} Returns the map data.
- */
-function getMapData(map, key) {
-  var data = map.__data__;
-  return isKeyable(key)
-    ? data[typeof key == 'string' ? 'string' : 'hash']
-    : data.map;
-}
+/* Built-in method references that are verified to be native. */
+var nativeCreate = getNative(Object, 'create');
 
-module.exports = getMapData;
+module.exports = nativeCreate;
 
 
 /***/ }),
 
-/***/ 132:
+/***/ 133:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_StartEndDate_vue__ = __webpack_require__(145);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7d00f708_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_StartEndDate_vue__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_StartEndDate_vue__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7d00f708_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_StartEndDate_vue__ = __webpack_require__(147);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(144)
+  __webpack_require__(145)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -3597,12 +3572,37 @@ if (false) {
 
 /***/ }),
 
-/***/ 141:
+/***/ 14:
+/***/ (function(module, exports, __webpack_require__) {
+
+var isKeyable = __webpack_require__(82);
+
+/**
+ * Gets the data for `map`.
+ *
+ * @private
+ * @param {Object} map The map to query.
+ * @param {string} key The reference key.
+ * @returns {*} Returns the map data.
+ */
+function getMapData(map, key) {
+  var data = map.__data__;
+  return isKeyable(key)
+    ? data[typeof key == 'string' ? 'string' : 'hash']
+    : data.map;
+}
+
+module.exports = getMapData;
+
+
+/***/ }),
+
+/***/ 142:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AcademicYearSelector_vue__ = __webpack_require__(163);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_672cba10_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AcademicYearSelector_vue__ = __webpack_require__(164);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AcademicYearSelector_vue__ = __webpack_require__(164);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_672cba10_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AcademicYearSelector_vue__ = __webpack_require__(165);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -3649,22 +3649,22 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 144:
+/***/ 145:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 145:
+/***/ 146:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(10);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -3831,7 +3831,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
-/***/ 146:
+/***/ 147:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3944,14 +3944,14 @@ if (false) {
 
 /***/ }),
 
-/***/ 163:
+/***/ 164:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SelectTwo_vue__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__ = __webpack_require__(10);
 //
 //
 //
@@ -4065,7 +4065,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 164:
+/***/ 165:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4191,12 +4191,12 @@ module.exports = Map;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(132);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(133);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(210);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_localforage__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(10);
 //
 //
 //
@@ -6775,7 +6775,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 23:
+/***/ 24:
 /***/ (function(module, exports) {
 
 /**
@@ -6916,8 +6916,8 @@ module.exports = eq;
 /***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(6),
-    isObject = __webpack_require__(23);
+var baseGetTag = __webpack_require__(7),
+    isObject = __webpack_require__(24);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -6961,8 +6961,8 @@ module.exports = isFunction;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(641);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_cb631b42_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(642);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(645);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_cb631b42_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(646);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -8445,7 +8445,7 @@ module.exports = isEqual;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsEqualDeep = __webpack_require__(56),
-    isObjectLike = __webpack_require__(7);
+    isObjectLike = __webpack_require__(8);
 
 /**
  * The base implementation of `_.isEqual` which supports partial comparisons
@@ -8569,7 +8569,7 @@ module.exports = baseIsEqualDeep;
 /***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
-var ListCache = __webpack_require__(10),
+var ListCache = __webpack_require__(11),
     stackClear = __webpack_require__(63),
     stackDelete = __webpack_require__(64),
     stackGet = __webpack_require__(65),
@@ -8623,7 +8623,7 @@ module.exports = listCacheClear;
 /***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(11);
+var assocIndexOf = __webpack_require__(12);
 
 /** Used for built-in method references. */
 var arrayProto = Array.prototype;
@@ -8662,45 +8662,10 @@ module.exports = listCacheDelete;
 
 /***/ }),
 
-/***/ 6:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__(17),
-    getRawTag = __webpack_require__(69),
-    objectToString = __webpack_require__(70);
-
-/** `Object#toString` result references. */
-var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]';
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * The base implementation of `getTag` without fallbacks for buggy environments.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-  if (value == null) {
-    return value === undefined ? undefinedTag : nullTag;
-  }
-  return (symToStringTag && symToStringTag in Object(value))
-    ? getRawTag(value)
-    : objectToString(value);
-}
-
-module.exports = baseGetTag;
-
-
-/***/ }),
-
 /***/ 60:
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(11);
+var assocIndexOf = __webpack_require__(12);
 
 /**
  * Gets the list cache value for `key`.
@@ -8726,7 +8691,7 @@ module.exports = listCacheGet;
 /***/ 61:
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(11);
+var assocIndexOf = __webpack_require__(12);
 
 /**
  * Checks if a list cache value for `key` exists.
@@ -8749,7 +8714,7 @@ module.exports = listCacheHas;
 /***/ 62:
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(11);
+var assocIndexOf = __webpack_require__(12);
 
 /**
  * Sets the list cache `key` to `value`.
@@ -8782,7 +8747,7 @@ module.exports = listCacheSet;
 /***/ 63:
 /***/ (function(module, exports, __webpack_require__) {
 
-var ListCache = __webpack_require__(10);
+var ListCache = __webpack_require__(11);
 
 /**
  * Removes all key-value entries from the stack.
@@ -8801,26 +8766,26 @@ module.exports = stackClear;
 
 /***/ }),
 
-/***/ 634:
+/***/ 638:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__admin_js__ = __webpack_require__(635);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__admin_js__ = __webpack_require__(639);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAdminDashboard", function() { return __WEBPACK_IMPORTED_MODULE_0__admin_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__resident_js__ = __webpack_require__(636);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__resident_js__ = __webpack_require__(640);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createResidentDashboard", function() { return __WEBPACK_IMPORTED_MODULE_1__resident_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__faculty_js__ = __webpack_require__(637);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__faculty_js__ = __webpack_require__(641);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_2__faculty_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__staff_js__ = __webpack_require__(638);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__staff_js__ = __webpack_require__(642);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createStaffDashboard", function() { return __WEBPACK_IMPORTED_MODULE_3__staff_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_js__ = __webpack_require__(639);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_js__ = __webpack_require__(643);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAPPDashboard", function() { return __WEBPACK_IMPORTED_MODULE_4__app_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__faculty_admin_js__ = __webpack_require__(640);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__faculty_admin_js__ = __webpack_require__(644);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAdminFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_5__faculty_admin_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__faculty_anonymous_js__ = __webpack_require__(643);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__faculty_anonymous_js__ = __webpack_require__(647);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAnonymousFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_6__faculty_anonymous_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__faculty_faculty_js__ = __webpack_require__(644);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__faculty_faculty_js__ = __webpack_require__(648);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFacultyFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_7__faculty_faculty_js__["a"]; });
 
 
@@ -8833,7 +8798,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 635:
+/***/ 639:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9135,7 +9100,32 @@ function createAdminDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 636:
+/***/ 64:
+/***/ (function(module, exports) {
+
+/**
+ * Removes `key` and its value from the stack.
+ *
+ * @private
+ * @name delete
+ * @memberOf Stack
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function stackDelete(key) {
+  var data = this.__data__,
+      result = data['delete'](key);
+
+  this.size = data.size;
+  return result;
+}
+
+module.exports = stackDelete;
+
+
+/***/ }),
+
+/***/ 640:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9352,7 +9342,7 @@ function createResidentDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 637:
+/***/ 641:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9564,7 +9554,7 @@ function createFacultyDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 638:
+/***/ 642:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9743,7 +9733,7 @@ function createStaffDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 639:
+/***/ 643:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9849,32 +9839,7 @@ function createAPPDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 64:
-/***/ (function(module, exports) {
-
-/**
- * Removes `key` and its value from the stack.
- *
- * @private
- * @name delete
- * @memberOf Stack
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function stackDelete(key) {
-  var data = this.__data__,
-      result = data['delete'](key);
-
-  this.size = data.size;
-  return result;
-}
-
-module.exports = stackDelete;
-
-
-/***/ }),
-
-/***/ 640:
+/***/ 644:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9949,14 +9914,14 @@ function createAdminFacultyDashboard(el) {
 
 /***/ }),
 
-/***/ 641:
+/***/ 645:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__EvaluationDataTable_vue__ = __webpack_require__(134);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__DataTable_vue__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AcademicYearSelector_vue__ = __webpack_require__(141);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AcademicYearSelector_vue__ = __webpack_require__(142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(10);
 //
 //
 //
@@ -10007,7 +9972,7 @@ function createAdminFacultyDashboard(el) {
 
 /***/ }),
 
-/***/ 642:
+/***/ 646:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10075,7 +10040,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 643:
+/***/ 647:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10179,7 +10144,7 @@ function createAnonymousFacultyDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 644:
+/***/ 648:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10328,7 +10293,7 @@ module.exports = stackHas;
 /***/ 67:
 /***/ (function(module, exports, __webpack_require__) {
 
-var ListCache = __webpack_require__(10),
+var ListCache = __webpack_require__(11),
     Map = __webpack_require__(20),
     MapCache = __webpack_require__(32);
 
@@ -10371,7 +10336,7 @@ module.exports = stackSet;
 
 var isFunction = __webpack_require__(29),
     isMasked = __webpack_require__(71),
-    isObject = __webpack_require__(23),
+    isObject = __webpack_require__(24),
     toSource = __webpack_require__(31);
 
 /**
@@ -10474,37 +10439,36 @@ module.exports = getRawTag;
 /***/ }),
 
 /***/ 7:
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var Symbol = __webpack_require__(17),
+    getRawTag = __webpack_require__(69),
+    objectToString = __webpack_require__(70);
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
 
 /**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
+ * The base implementation of `getTag` without fallbacks for buggy environments.
  *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
  */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
 }
 
-module.exports = isObjectLike;
+module.exports = baseGetTag;
 
 
 /***/ }),
@@ -10602,7 +10566,7 @@ module.exports = getValue;
 /***/ (function(module, exports, __webpack_require__) {
 
 var Hash = __webpack_require__(75),
-    ListCache = __webpack_require__(10),
+    ListCache = __webpack_require__(11),
     Map = __webpack_require__(20);
 
 /**
@@ -10668,7 +10632,7 @@ module.exports = Hash;
 /***/ 76:
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(12);
+var nativeCreate = __webpack_require__(13);
 
 /**
  * Removes all key-value entries from the hash.
@@ -10714,7 +10678,7 @@ module.exports = hashDelete;
 /***/ 78:
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(12);
+var nativeCreate = __webpack_require__(13);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -10751,7 +10715,7 @@ module.exports = hashGet;
 /***/ 79:
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(12);
+var nativeCreate = __webpack_require__(13);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -10778,10 +10742,46 @@ module.exports = hashHas;
 
 /***/ }),
 
+/***/ 8:
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+
+/***/ }),
+
 /***/ 80:
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(12);
+var nativeCreate = __webpack_require__(13);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -10811,7 +10811,7 @@ module.exports = hashSet;
 /***/ 81:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(13);
+var getMapData = __webpack_require__(14);
 
 /**
  * Removes `key` and its value from the map.
@@ -10858,7 +10858,7 @@ module.exports = isKeyable;
 /***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(13);
+var getMapData = __webpack_require__(14);
 
 /**
  * Gets the map value for `key`.
@@ -10881,7 +10881,7 @@ module.exports = mapCacheGet;
 /***/ 84:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(13);
+var getMapData = __webpack_require__(14);
 
 /**
  * Checks if a map value for `key` exists.
@@ -10904,7 +10904,7 @@ module.exports = mapCacheHas;
 /***/ 85:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(13);
+var getMapData = __webpack_require__(14);
 
 /**
  * Sets the map `key` to `value`.
@@ -11453,6 +11453,6 @@ module.exports = getSymbols;
 
 /***/ })
 
-},[634]);
+},[638]);
 });
 //# sourceMappingURL=vue-dashboard.js.map

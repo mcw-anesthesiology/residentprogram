@@ -5,7 +5,7 @@
 		<form ref="addLogForm" role="form" method="post" action="/case_logs"
 				@submit="addCaseLog">
 
-			<h3>{{ title }}</h3>
+			<h3>{{ formTitle }}</h3>
 
 			<section class="case-info">
 				<div class="row">
@@ -67,7 +67,7 @@ import { getFetchHeaders, okOrThrow, simpleErrorAlert } from '@/modules/utils.js
 
 export default {
 	props: {
-		title: {
+		formTitle: {
 			type: String,
 			default: ''
 		},
