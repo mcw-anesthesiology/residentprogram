@@ -1015,6 +1015,10 @@ legend[data-v-2186235b] {
 	justify-content: space-around;
 }
 
+.question-description {
+	color: rgba(0, 0, 0, 0.65);
+}
+
 .case-log-editor .questionnaire-section {
 	margin: 2em 0;
 	padding: 1em;
@@ -1023,10 +1027,6 @@ legend[data-v-2186235b] {
 }
 .case-log-editor .checkbox-question {
 	font-size: 1em;
-}
-
-.question-description {
-	color: rgba(0, 0, 0, 0.65);
 }
 
 /*# sourceMappingURL=vue-case-log.css.map*/

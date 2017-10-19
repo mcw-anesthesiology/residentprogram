@@ -7,6 +7,7 @@
 				v-bind="section"
 				:condition-checker="conditionChecker"
 				:show-errors="showErrors"
+				:readonly="readonly"
 				@input="handleInput(index, arguments[0])" />
 		</div>
 
