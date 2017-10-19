@@ -71,7 +71,7 @@ export default {
 			type: String,
 			default: ''
 		},
-		detailsSchema: {
+		schema: {
 			type: Object,
 			required: true
 		},
@@ -83,7 +83,7 @@ export default {
 
 	mounted() {
 		renderCaseLogDetailsSchema(
-			this.detailsSchema.schema,
+			this.schema,
 			undefined,
 			this.$refs.detailsContainer
 		);

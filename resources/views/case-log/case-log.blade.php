@@ -62,9 +62,11 @@
 	@if($canLog)
 	<component v-if="show.addCaseLog" :is="editorComponent"
 		form-title="RAAPS"
-		:details-schema="detailsSchema"
+		:schema="detailsSchema.schema"
+		:details-schema-id="detailsSchema.id"
 		:locations="locations"
 		@alert="alerts.push(arguments[0])"
+		@close="show.addCaseLog = false"
 		@submit="handleEditorSubmit">
 	</component>
 	@endif

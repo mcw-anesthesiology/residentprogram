@@ -5,50 +5,18 @@
 
 			<h3>{{ formTitle }}</h3>
 
-			<section class="case-info">
-				<div class="row">
-					<div class="col-md-4">
-						<div class="form-group">
-							<label class="containing-label">
-								Location
-								<select class="form-control" v-model="location" required>
-									<option v-for="loc of locations"
-											:value="loc.id">
-										{{ loc.name }}
-									</option>
-								</select>
-							</label>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label class="containing-label">
-								Case Date
-								<vue-flatpickr class="form-control appear-not-readonly"
-									v-model="caseDate" required>
-								</vue-flatpickr>
-							</label>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-							<label class="containing-label">
-								Comments
-								<textarea class="form-control" v-model="comment"
-									required>
-								</textarea>
-							</label>
-						</div>
-					</div>
-				</div>
-			</section>
-
-
-			<questionnaire-questionnaire
+			<case-log-form
+				:form-title="formTitle"
+				:locations="locations"
 				:sections="sections"
-				@input="handleInput" />
+				:location="location"
+				:case-date="caseDate"
+				:comments="comments"
+				:readonly="readonly"
+				@location-input="location = arguments[0]"
+				@case-date-input="caseDate = arguments[0]"
+				@comments-input="comments = arguments[0]"
+				@questionnaire-input="handleInput" />
 
 			<div class="text-center">
 				<button type="button" class="btn btn-default"
@@ -64,8 +32,7 @@
 </template>
 
 <script>
-import VueFlatpickr from '@jacobmischka/vue-flatpickr';
-import QuestionnaireQuestionnaire from '../Questionnaire/Questionnaire.vue';
+import CaseLogForm from './Form.vue';
 
 import { fetchConfig, okOrThrow, simpleErrorAlert } from '@/modules/utils.js';
 import { isoDateString } from '@/modules/date-utils.js';
@@ -76,13 +43,21 @@ export default {
 			type: String,
 			required: false
 		},
-		detailsSchema: {
+		schema: {
 			type: Object,
+			required: true
+		},
+		detailsSchemaId: {
+			type: Number,
 			required: true
 		},
 		locations: {
 			type: Array,
 			required: true
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -90,13 +65,13 @@ export default {
 		return {
 			location: null,
 			caseDate: isoDateString(new Date()),
-			comment: '',
+			comments: '',
 
-			schemaTitle: this.detailsSchema.schema
-				? this.detailsSchema.schema.title || ''
+			schemaTitle: this.schema
+				? this.schema.title || ''
 				: '',
-			sections: this.detailsSchema.schema
-				? this.detailsSchema.schema.sections || []
+			sections: this.schema
+				? this.schema.sections || []
 				: []
 		};
 	},
@@ -118,8 +93,8 @@ export default {
 				body: JSON.stringify({
 					location_id: this.location,
 					case_date: this.caseDate,
-					comment: this.comment,
-					details_schema_id: this.detailsSchema.id,
+					comment: this.comments,
+					details_schema_id: this.detailsSchemaId,
 					details: {
 						title: this.schemaTitle,
 						sections: this.sections
@@ -135,8 +110,7 @@ export default {
 	},
 
 	components: {
-		VueFlatpickr,
-		QuestionnaireQuestionnaire
+		CaseLogForm
 	}
 };
 </script>

@@ -96,6 +96,9 @@ export default {
 			const value = event.target.value;
 			const options = this.options.map(option => {
 				option = Object.assign({}, option);
+
+				// Because html values are always strings
+				// eslint-disable-next-line eqeqeq
 				option.selected = (option.value == value);
 
 				return option;

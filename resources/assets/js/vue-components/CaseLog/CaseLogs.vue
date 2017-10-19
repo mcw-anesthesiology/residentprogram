@@ -17,11 +17,12 @@
 			:data="caseLogs">
 		</data-table>
 
-		<case-log-details v-if="detailsCaseLog"
+		<component :is="detailsComponent"
+			v-if="detailsCaseLog"
 			:case-log="detailsCaseLog"
 			:locations="locations"
 			@close="closeCaseLog">
-		</case-log-details>
+		</component>
 	</div>
 </template>
 
@@ -32,9 +33,10 @@ import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import DataTable from '@/vue-components/DataTable.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
-import CaseLogDetails from '@/vue-components/CaseLog/Details.vue';
-import CaseLogDetailsReport from '@/vue-components/CaseLog/DetailsReport.vue';
-import CaseLogDetailsSchema from '@/vue-components/CaseLog/DetailsSchema.vue';
+import CaseLogViewer from './Viewer.vue';
+
+import CaseLogDetailsV1 from './V1/Details.vue';
+import CaseLogDetailsReportV1 from './V1/DetailsReport.vue';
 
 import { renderDateCell, createDateCell } from '@/modules/datatable-utils.js';
 import { getFetchHeaders, okOrThrow } from '@/modules/utils.js';
@@ -65,6 +67,16 @@ export default {
 	},
 
 	computed: {
+		detailsComponent() {
+			try {
+				if (this.detailsCaseLog.details_schema.case_log_version === 2)
+					return 'CaseLogViewer';
+			} catch (e) {
+				console.error(e);
+			}
+
+			return 'CaseLogDetailsV1';
+		},
 		thead() {
 			return [[
 				'#',
@@ -180,9 +192,11 @@ export default {
 	components: {
 		DataTable,
 		ShowHideButton,
-		CaseLogDetails,
-		CaseLogDetailsReport,
-		CaseLogDetailsSchema
+		CaseLogViewer,
+
+		CaseLogDetailsV1,
+		CaseLogDetailsReportV1,
+
 	}
 };
 </script>
