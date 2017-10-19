@@ -19708,7 +19708,7 @@ var render = function() {
                 _vm._v(" "),
                 option.editable
                   ? _c("input", {
-                      staticClass: "form-control",
+                      staticClass: "form-control editable-option-text",
                       attrs: { type: "text", placholder: "Other" },
                       domProps: { value: option.text },
                       on: {

@@ -11,7 +11,7 @@
 				@input="handleInput(index, arguments[0])" />
 		</div>
 
-		<div>
+		<div v-if="!readonly">
 			<show-hide-button class="btn-default" v-model="showErrors">
 				error messages
 				<template slot="glyph"></template>

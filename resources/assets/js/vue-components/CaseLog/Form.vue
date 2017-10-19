@@ -40,7 +40,7 @@
 						<label class="containing-label">
 							Comments
 							<textarea class="form-control" :value="comments"
-								:readonly="readonly" required
+								:readonly="readonly"
 								@input="$emit('comments-input', $event.target.value)">
 							</textarea>
 						</label>

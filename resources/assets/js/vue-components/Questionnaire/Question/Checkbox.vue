@@ -14,7 +14,7 @@
 						@change="handleCheck(index)" />
 
 					<input type="text" v-if="option.editable"
-						class="form-control"
+						class="form-control editable-option-text"
 						:value="option.text"
 						placholder="Other"
 						@click="handleCheck(index)"
@@ -142,5 +142,10 @@ export default {
 
 	.options label {
 		padding: 1em;
+	}
+
+	.editable-option-text {
+		display: inline-block;
+		width: auto;
 	}
 </style>

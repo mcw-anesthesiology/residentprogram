@@ -1066,6 +1066,10 @@ legend[data-v-098680db] {
 .options label[data-v-098680db] {
 	padding: 1em;
 }
+.editable-option-text[data-v-098680db] {
+	display: inline-block;
+	width: auto;
+}
 
 .radio-question[data-v-3b7f8513] {
 	font-size: 1.25em;
