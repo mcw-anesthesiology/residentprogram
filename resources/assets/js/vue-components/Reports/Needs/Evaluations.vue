@@ -38,7 +38,7 @@
 
 		<section>
 			<component-list :items="trainees" :fields="traineeFields">
-				<template scope="item">
+				<template slot-scope="item">
 					<evaluation-list-item :user="item" />
 				</template>
 			</component-list>

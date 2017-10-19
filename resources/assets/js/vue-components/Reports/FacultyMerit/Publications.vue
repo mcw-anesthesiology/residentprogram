@@ -22,7 +22,7 @@
 					:paginate="false"
 					reloadable
 					@reload="fetchUsersWithMerits">
-				<template scope="meritUser">
+				<template slot-scope="meritUser">
 					<user-with-merit-publications-list-item
 						v-bind="meritUser" />
 				</template>

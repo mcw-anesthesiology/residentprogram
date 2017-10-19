@@ -45,7 +45,7 @@
 			<h2 class="sub-heading">Alumni</h2>
 			<component-list :items="alumni" :fields="alumniFields"
 					reloadable @reload="fetchAlumni">
-				<template scope="alum">
+				<template slot-scope="alum">
 					<alumni-list-item :alum="alum"
 						@email="emailAlum(alum)"
 						@edit="editAlum(alum)"

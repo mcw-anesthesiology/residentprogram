@@ -18,7 +18,7 @@
 		<div v-if="report" class="container body-block">
 			<section>
 				<component-list :items="report" :fields="userFields">
-					<template scope="item">
+					<template slot-scope="item">
 						<evaluation-list-item :user="item"
 							evals="evaluator_evaluations" />
 					</template>
