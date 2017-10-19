@@ -21,7 +21,9 @@
 				"@": "./resources/assets/js"
 			},
 			"extensions": [
-				".vue"
+				".js",
+				".vue",
+				".mjs"
 			]
 		}],
 		"syntax-dynamic-import",

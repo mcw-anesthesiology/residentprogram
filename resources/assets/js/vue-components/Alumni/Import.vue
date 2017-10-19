@@ -22,7 +22,7 @@
 					<h4>Residents</h4>
 					<component-list :items="residents"
 							:fields="['full_name', 'training_level']">
-						<template scope="user">
+						<template slot-scope="user">
 							<div class="row import-user-row">
 								<label class="containing-label">
 									<div class="col-sm-1">
@@ -68,7 +68,7 @@
 					<h4>Fellows</h4>
 					<component-list :items="fellows"
 							:fields="['full_name', 'secondary_training_level']">
-						<template scope="user">
+						<template slot-scope="user">
 							<div class="row import-user-row">
 								<label class="containing-label">
 									<div class="col-sm-1">
@@ -113,7 +113,7 @@
 				<div class="col-sm-8 col-sm-offset-2">
 					<h4>Faculty</h4>
 					<component-list :items="faculty" :fields="['full_name']">
-						<template scope="user">
+						<template slot-scope="user">
 							<div class="row import-user-row">
 								<label class="containing-label">
 									<div class="col-sm-1 col-sm-offset-2">

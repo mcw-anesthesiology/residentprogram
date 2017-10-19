@@ -4,7 +4,7 @@
 		<questionnaire-pager :pages="pages" :readonly="readonly"
 				:checklist-validator="checklistIsValid"
 				@submit="handleSubmit">
-			<template slot="header" scope="pager">
+			<template slot="header" slot-scope="pager">
 				<div class="text-right">
 					<show-hide-button class="btn btn-info btn-sm"
 							v-model="show.errors">
@@ -16,7 +16,7 @@
 					:pages="pager.pages"
 					@navigate="pager.goToPage" />
 			</template>
-			<template scope="pager">
+			<template slot-scope="pager">
 				<section-errors v-if="show.errors" :page="pager.page" />
 				<transition :name="`checklist-pager-${pager.lastChange}`">
 					<checklist-section :key="`page-${pager.pageNum}`"
