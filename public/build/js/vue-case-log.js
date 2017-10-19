@@ -8061,7 +8061,7 @@ var render = function() {
                 _vm._v(" "),
                 option.editable
                   ? _c("input", {
-                      staticClass: "form-control",
+                      staticClass: "form-control editable-option-text",
                       attrs: { type: "text", placholder: "Other" },
                       domProps: { value: option.text },
                       on: {
@@ -17163,30 +17163,32 @@ var render = function() {
       })
     ),
     _vm._v(" "),
-    _c(
-      "div",
-      [
-        _c(
-          "show-hide-button",
-          {
-            staticClass: "btn-default",
-            model: {
-              value: _vm.showErrors,
-              callback: function($$v) {
-                _vm.showErrors = $$v
-              },
-              expression: "showErrors"
-            }
-          },
+    !_vm.readonly
+      ? _c(
+          "div",
           [
-            _vm._v("\n\t\t\terror messages\n\t\t\t"),
-            _c("template", { attrs: { slot: "glyph" }, slot: "glyph" })
+            _c(
+              "show-hide-button",
+              {
+                staticClass: "btn-default",
+                model: {
+                  value: _vm.showErrors,
+                  callback: function($$v) {
+                    _vm.showErrors = $$v
+                  },
+                  expression: "showErrors"
+                }
+              },
+              [
+                _vm._v("\n\t\t\terror messages\n\t\t\t"),
+                _c("template", { attrs: { slot: "glyph" }, slot: "glyph" })
+              ],
+              2
+            )
           ],
-          2
+          1
         )
-      ],
-      1
-    )
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -17280,7 +17282,7 @@ var render = function() {
                 _vm._v("\n\t\t\t\t\t\tComments\n\t\t\t\t\t\t"),
                 _c("textarea", {
                   staticClass: "form-control",
-                  attrs: { readonly: _vm.readonly, required: "" },
+                  attrs: { readonly: _vm.readonly },
                   domProps: { value: _vm.comments },
                   on: {
                     input: function($event) {
