@@ -3,6 +3,26 @@
 namespace App\Helpers;
 
 class QuestionnaireValidation {
+	static function questionnaireIsValid($questionnaire) {
+		foreach ($questionnaire['sections'] as $section) {
+			if (!self::sectionIsValid($section))
+				return false;
+		}
+
+		return true;
+	}
+
+	static function sectionIsValid($section) {
+		foreach ($section['items'] as $item) {
+			if ($item['type'] != 'instruction') {
+				if (!self::questionIsValid($item))
+					return false;
+			}
+		}
+
+		return true;
+	}
+
 	static function questionIsValid($question) {
 		if ($question['type'] != 'list' && empty($question['required'])) {
 			return true;
@@ -38,7 +58,7 @@ class QuestionnaireValidation {
 				}
 				break;
 			case 'list':
-				return listQuestionIsValid($question);
+				return self::listQuestionIsValid($question);
 		}
 
 		return true;
@@ -58,7 +78,7 @@ class QuestionnaireValidation {
 				}
 			}
 
-			if (!listItemIsValid($listItem)) {
+			if (!self::listItemIsValid($listItem)) {
 				return false;
 			}
 		}

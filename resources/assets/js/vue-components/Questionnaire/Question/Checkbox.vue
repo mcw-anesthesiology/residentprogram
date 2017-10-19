@@ -102,6 +102,7 @@ export default {
 	},
 
 	methods: {
+		snarkdown,
 		handleCheck(index) {
 			let options = Array.slice(this.options);
 			options[index] = Object.assign({}, options[index], {
@@ -115,8 +116,7 @@ export default {
 			options[index] = Object.assign({}, options[index], {text: value, value});
 
 			this.$emit('input', {options});
-		},
-		snarkdown
+		}
 	},
 
 	components: {
