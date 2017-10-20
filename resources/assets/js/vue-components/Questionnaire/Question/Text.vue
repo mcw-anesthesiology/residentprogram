@@ -2,9 +2,9 @@
 	<validated-form-group class="text-question"
 			:errors="validation.errors"
 			:show-errors="showErrors"
+			:invalid-class="helpClass"
 			prop="value">
-		<label class="containing-label" :class="{'has-warning': (required && !value)}"
-				:title="description">
+		<label class="containing-label control-label" :title="description">
 			{{ text }}
 			<textarea class="form-control"
 				:value="value" :readonly="readonly"
@@ -62,6 +62,10 @@ export default {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data() {

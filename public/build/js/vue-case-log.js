@@ -6922,6 +6922,10 @@ if (false) {(function () {
 			type: Boolean,
 			default: false
 		},
+		helpClass: {
+			type: String,
+			required: false
+		},
 		conditionMet: {
 			type: Boolean,
 			default: false
@@ -6941,7 +6945,8 @@ if (false) {(function () {
 		return h(questionComponent, {
 			props: Object.assign({
 				readonly: this.readonly,
-				showErrors: this.showErrors
+				showErrors: this.showErrors,
+				helpClass: this.helpClass
 			}, this.question),
 			style: style,
 			on: {
@@ -7089,6 +7094,10 @@ if (false) {(function () {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data: function data() {
@@ -7218,6 +7227,7 @@ var render = function() {
       attrs: {
         errors: _vm.validation.errors,
         "show-errors": _vm.showErrors,
+        "invalid-class": _vm.helpClass,
         prop: "value"
       }
     },
@@ -7225,8 +7235,7 @@ var render = function() {
       _c(
         "label",
         {
-          staticClass: "containing-label",
-          class: { "has-warning": _vm.required && !_vm.value },
+          staticClass: "containing-label control-label",
           attrs: { title: _vm.description }
         },
         [
@@ -7366,6 +7375,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 
@@ -7421,6 +7431,10 @@ if (false) {(function () {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data: function data() {
@@ -7471,13 +7485,17 @@ var render = function() {
       attrs: {
         errors: _vm.validation.errors,
         "show-errors": _vm.showErrors,
+        "invalid-class": _vm.helpClass,
         prop: "value"
       }
     },
     [
       _c(
         "label",
-        { staticClass: "containing-label", attrs: { title: _vm.description } },
+        {
+          staticClass: "containing-label control-label",
+          attrs: { title: _vm.description }
+        },
         [
           _vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t\t"),
           _c("input", {
@@ -7629,6 +7647,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 
@@ -7672,6 +7691,10 @@ if (false) {(function () {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 
@@ -7732,13 +7755,17 @@ var render = function() {
       attrs: {
         errors: _vm.validation.errors,
         "show-errors": _vm.showErrors,
+        "invalid-class": _vm.helpClass,
         prop: "options"
       }
     },
     [
       _c(
         "label",
-        { staticClass: "containing-label", attrs: { title: _vm.description } },
+        {
+          staticClass: "containing-label control-label",
+          attrs: { title: _vm.description }
+        },
         [
           _vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t\t"),
           _c(
@@ -7931,6 +7958,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 
 
@@ -7973,6 +8003,10 @@ if (false) {(function () {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data: function data() {
@@ -8034,12 +8068,15 @@ var render = function() {
       attrs: {
         errors: _vm.validation.errors,
         "show-errors": _vm.showErrors,
+        "invalid-class": _vm.helpClass,
         prop: "options"
       }
     },
     [
       _c("fieldset", { attrs: { title: _vm.description } }, [
-        _c("legend", [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")]),
+        _c("legend", { staticClass: "control-label" }, [
+          _vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")
+        ]),
         _vm._v(" "),
         _c(
           "div",
@@ -8047,7 +8084,10 @@ var render = function() {
           _vm._l(_vm.options, function(option, index) {
             return _c(
               "label",
-              { attrs: { title: option.description } },
+              {
+                staticClass: "control-label",
+                attrs: { title: option.description }
+              },
               [
                 _c("input", {
                   attrs: { type: "checkbox", disabled: _vm.readonly },
@@ -8264,6 +8304,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 
 
@@ -8306,6 +8349,10 @@ if (false) {(function () {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data: function data() {
@@ -8373,6 +8420,7 @@ var render = function() {
       attrs: {
         errors: _vm.validation.errors,
         "show-errors": _vm.showErrors,
+        "invalid-class": _vm.helpClass,
         prop: "options"
       }
     },
@@ -8388,7 +8436,10 @@ var render = function() {
           _vm._l(_vm.options, function(option, index) {
             return _c(
               "label",
-              { attrs: { title: option.description } },
+              {
+                staticClass: "control-label",
+                attrs: { title: option.description }
+              },
               [
                 _c("input", {
                   attrs: { type: "radio", disabled: _vm.readonly },
@@ -8596,6 +8647,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 
@@ -8655,6 +8707,10 @@ if (false) {(function () {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data: function data() {
@@ -8820,6 +8876,10 @@ if (false) {(function () {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 
@@ -8833,7 +8893,8 @@ if (false) {(function () {
 			return h(itemComponent, {
 				props: Object.assign({
 					readonly: _this.readonly,
-					showErrors: _this.showErrors
+					showErrors: _this.showErrors,
+					helpClass: _this.helpClass
 				}, item),
 				on: {
 					input: function input(item) {
@@ -8975,6 +9036,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 
 
@@ -9073,6 +9137,10 @@ if (false) {(function () {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 
@@ -9169,7 +9237,14 @@ var render = function() {
     [
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "text" } },
+        {
+          attrs: {
+            prop: "text",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("textarea", {
             staticClass: "form-control",
@@ -9301,6 +9376,18 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -9379,7 +9466,14 @@ var render = function() {
     [
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "title" } },
+        {
+          attrs: {
+            prop: "title",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tTitle of publication\n\t\t\t"),
@@ -9399,7 +9493,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "author" } },
+        {
+          attrs: {
+            prop: "author",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tPrimary author(s)\n\t\t\t"),
@@ -9419,7 +9520,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "link" } },
+        {
+          attrs: {
+            prop: "link",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tLink (PubMed, MCW FCD, etc.)\n\t\t\t"),
@@ -9439,7 +9547,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "role" } },
+        {
+          attrs: {
+            prop: "role",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tYour role on the project\n\t\t\t"),
@@ -9562,6 +9677,12 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -9633,7 +9754,14 @@ var render = function() {
     [
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "name" } },
+        {
+          attrs: {
+            prop: "name",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tCommittee name\n\t\t\t"),
@@ -9653,7 +9781,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "role" } },
+        {
+          attrs: {
+            prop: "role",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("fieldset", [
             _c("legend", [_vm._v("\n\t\t\t\tYour role\n\t\t\t")])
@@ -9802,6 +9937,21 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -9877,7 +10027,14 @@ var render = function() {
     [
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "title" } },
+        {
+          attrs: {
+            prop: "title",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tStudy title\n\t\t\t"),
@@ -9897,7 +10054,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "role" } },
+        {
+          attrs: {
+            prop: "role",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tYour role in study\n\t\t\t"),
@@ -9917,7 +10081,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "yearInitiated" } },
+        {
+          attrs: {
+            prop: "yearInitiated",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tYear initiated\n\t\t\t"),
@@ -9937,7 +10108,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "approvalNumber" } },
+        {
+          attrs: {
+            prop: "approvalNumber",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tApproval number (IRB / ACUC)\n\t\t\t"),
@@ -9957,7 +10135,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "progress" } },
+        {
+          attrs: {
+            prop: "progress",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tProgress\n\t\t\t"),
@@ -10086,6 +10271,14 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -10154,7 +10347,14 @@ var render = function() {
       _vm.type === "grantOther"
         ? _c(
             "validated-form-group",
-            { attrs: { errors: _vm.validation.errors, prop: "agency" } },
+            {
+              attrs: {
+                prop: "agency",
+                errors: _vm.validation.errors,
+                "show-errors": _vm.showErrors,
+                "invalid-class": _vm.helpClass
+              }
+            },
             [
               _c("label", { staticClass: "containing-label" }, [
                 _vm._v("\n\t\t\tFunding agency\n\t\t\t"),
@@ -10175,7 +10375,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "project" } },
+        {
+          attrs: {
+            prop: "project",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tProject\n\t\t\t"),
@@ -10195,7 +10402,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "amount" } },
+        {
+          attrs: {
+            prop: "amount",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tFunding amount\n\t\t\t"),
@@ -10316,6 +10530,12 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -10379,7 +10599,14 @@ var render = function() {
     [
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "board" } },
+        {
+          attrs: {
+            prop: "board",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tBoard\n\t\t\t"),
@@ -10399,7 +10626,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "specialty" } },
+        {
+          attrs: {
+            prop: "specialty",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tSpecialty\n\t\t\t"),
@@ -10548,6 +10782,12 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -10642,7 +10882,14 @@ var render = function() {
     [
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "journal" } },
+        {
+          attrs: {
+            prop: "journal",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tJournal\n\t\t\t"),
@@ -10662,7 +10909,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "role" } },
+        {
+          attrs: {
+            prop: "role",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("fieldset", { staticClass: "radio-question" }, [
             _c("legend", [_vm._v("\n\t\t\t\tRole\n\t\t\t")]),
@@ -10832,6 +11086,12 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -10905,7 +11165,14 @@ var render = function() {
     [
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "work" } },
+        {
+          attrs: {
+            prop: "work",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\t" + _vm._s(_vm.workLabel) + "\n\t\t\t"),
@@ -10925,7 +11192,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "reviews" } },
+        {
+          attrs: {
+            prop: "reviews",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\t" + _vm._s(_vm.reviewsLabel) + "\n\t\t\t"),
@@ -11080,6 +11354,14 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11184,7 +11466,14 @@ var render = function() {
     [
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.errors, prop: "title" } },
+        {
+          attrs: {
+            prop: "title",
+            errors: _vm.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\tLecture title\n\t\t\t"),
@@ -11204,7 +11493,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.errors, prop: "date" } },
+        {
+          attrs: {
+            prop: "date",
+            errors: _vm.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c(
             "label",
@@ -11320,7 +11616,14 @@ var render = function() {
       _vm.type !== "audienceLecture"
         ? _c(
             "validated-form-group",
-            { attrs: { errors: _vm.errors, prop: "audience" } },
+            {
+              attrs: {
+                prop: "audience",
+                errors: _vm.errors,
+                "show-errors": _vm.showErrors,
+                "invalid-class": _vm.helpClass
+              }
+            },
             [
               _c("label", { staticClass: "containing-label" }, [
                 _vm._v(
@@ -11447,6 +11750,11 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -11520,7 +11828,14 @@ var render = function() {
     [
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "mentee" } },
+        {
+          attrs: {
+            prop: "mentee",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\t" + _vm._s(_vm.menteeLabel) + "\n\t\t\t"),
@@ -11549,7 +11864,14 @@ var render = function() {
       _vm.type !== "subjectMentorship"
         ? _c(
             "validated-form-group",
-            { attrs: { errors: _vm.validation.errors, prop: "subject" } },
+            {
+              attrs: {
+                prop: "subject",
+                errors: _vm.validation.errors,
+                "show-errors": _vm.showErrors,
+                "invalid-class": _vm.helpClass
+              }
+            },
             [
               _c("label", { staticClass: "containing-label" }, [
                 _vm._v("\n\t\t\t" + _vm._s(_vm.subjectLabel) + "\n\t\t\t"),
@@ -11650,6 +11972,12 @@ if (false) {(function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_questionnaire_validate_js__ = __webpack_require__(6);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -11955,7 +12283,14 @@ var render = function() {
     [
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "description" } },
+        {
+          attrs: {
+            prop: "description",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\t" + _vm._s(_vm.descriptionLabel) + "\n\t\t\t"),
@@ -11975,7 +12310,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "validated-form-group",
-        { attrs: { errors: _vm.validation.errors, prop: "hours" } },
+        {
+          attrs: {
+            prop: "hours",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
         [
           _c("label", { staticClass: "containing-label" }, [
             _vm._v("\n\t\t\t" + _vm._s(_vm.hoursLabel) + "\n\t\t\t"),
@@ -12058,7 +12400,8 @@ var render = function() {
               ordered: _vm.ordered,
               items: _vm.items,
               readonly: _vm.readonly,
-              "show-errors": _vm.showErrors
+              "show-errors": _vm.showErrors,
+              "help-class": _vm.helpClass
             },
             on: { change: _vm.onChange }
           }),
@@ -15132,6 +15475,10 @@ if (false) {
 			type: Boolean,
 			default: false
 		},
+		helpClass: {
+			type: String,
+			required: false
+		},
 		showErrors: {
 			type: Boolean,
 			default: false
@@ -15155,6 +15502,7 @@ if (false) {
 				props: Object.assign({
 					readonly: _this.readonly,
 					showErrors: _this.showErrors,
+					helpClass: _this.helpClass,
 					conditionMet: item.condition && _this.conditionChecker(item.condition)
 				}, props),
 				on: {
@@ -17058,6 +17406,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 
@@ -17077,6 +17426,10 @@ if (false) {(function () {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 
@@ -17147,7 +17500,8 @@ var render = function() {
               attrs: {
                 "condition-checker": _vm.conditionChecker,
                 "show-errors": _vm.showErrors,
-                readonly: _vm.readonly
+                readonly: _vm.readonly,
+                "help-class": _vm.helpClass
               },
               on: {
                 input: function($event) {

@@ -18,6 +18,7 @@
 				:items="items"
 				:readonly="readonly"
 				:show-errors="showErrors"
+				:help-class="helpClass"
 				@change="onChange" />
 
 			<button v-if="!readonly" type="button" class="btn btn-sm btn-info"
@@ -108,6 +109,10 @@ export default {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data() {

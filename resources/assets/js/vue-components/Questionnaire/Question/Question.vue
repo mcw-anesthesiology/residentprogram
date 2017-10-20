@@ -23,6 +23,10 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		helpClass: {
+			type: String,
+			required: false
+		},
 		conditionMet: {
 			type: Boolean,
 			default: false
@@ -44,6 +48,7 @@ export default {
 			props: {
 				readonly: this.readonly,
 				showErrors: this.showErrors,
+				helpClass: this.helpClass,
 				...this.question
 			},
 			style,

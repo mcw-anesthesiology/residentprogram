@@ -2,8 +2,9 @@
 	<validated-form-group class="number-question"
 			:errors="validation.errors"
 			:show-errors="showErrors"
+			:invalid-class="helpClass"
 			prop="value">
-		<label class="containing-label" :title="description">
+		<label class="containing-label control-label" :title="description">
 			{{ text }}
 			<input type="number" class="form-control"
 				:min="min" :max="max" :value="value" :readonly="readonly"
@@ -73,6 +74,10 @@ export default {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data() {

@@ -28,6 +28,10 @@ export default {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 
@@ -41,6 +45,7 @@ export default {
 				props: {
 					readonly: this.readonly,
 					showErrors: this.showErrors,
+					helpClass: this.helpClass,
 					...item
 				},
 				on: {

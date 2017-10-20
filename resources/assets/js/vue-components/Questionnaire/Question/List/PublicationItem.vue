@@ -3,7 +3,10 @@
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
 			@remove="$emit('remove')">
-		<validated-form-group :errors="validation.errors" prop="title">
+		<validated-form-group prop="title"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Title of publication
 				<textarea class="form-control"
@@ -12,7 +15,10 @@
 				</textarea>
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="author">
+		<validated-form-group prop="author"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Primary author(s)
 				<textarea class="form-control"
@@ -21,7 +27,10 @@
 				</textarea>
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="link">
+		<validated-form-group prop="link"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Link (PubMed, MCW FCD, etc.)
 				<input type="text" class="form-control"
@@ -29,7 +38,10 @@
 					@input="$emit('input', {link: $event.target.value})" />
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="role">
+		<validated-form-group prop="role"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Your role on the project
 				<textarea class="form-control"

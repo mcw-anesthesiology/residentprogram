@@ -3,7 +3,10 @@
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
 			@remove="$emit('remove')">
-		<validated-form-group :errors="validation.errors" prop="mentee">
+		<validated-form-group prop="mentee"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				{{ menteeLabel }}
 				<input type="text" class="form-control"
@@ -14,8 +17,10 @@
 				Please enter the mentee / trainee name or remove this list item
 			</span>
 		</validated-form-group>
-		<validated-form-group v-if="type !== 'subjectMentorship'"
-				:errors="validation.errors" prop="subject">
+		<validated-form-group v-if="type !== 'subjectMentorship'" prop="subject"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				{{ subjectLabel }}
 				<textarea class="form-control"
