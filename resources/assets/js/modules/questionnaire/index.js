@@ -202,8 +202,10 @@ export type QuestionnaireInstruction = {
 	text: string
 };
 
-export function getConditionChecker(questions: Array<QuestionnaireQuestion>):
-		(QuestionnaireCondition) => boolean {
+export type ConditionChecker = (QuestionnaireCondition) => boolean;
+
+export function getConditionChecker(questions: Array<QuestionnaireQuestion>)
+		: ConditionChecker {
 	const questionIdMap = getQuestionsIdMap(questions);
 	return (condition: QuestionnaireCondition) =>
 		questionIdMap.has(condition.questionId) && questionMatchesValue(

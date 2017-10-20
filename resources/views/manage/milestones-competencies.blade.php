@@ -46,7 +46,7 @@
 		</div>
 		<div class="panel-body">
 			<ordering-list v-model="orderedMilestones" :items="milestones">
-				<template scope="milestone">
+				<template slot-scope="milestone">
 					<div>
 						<template v-if="milestone.training_level">
 							<b>
@@ -96,7 +96,7 @@
 		</div>
 		<div class="panel-body">
 			<ordering-list v-model="orderedCompetencies" :items="competencies">
-				<template scope="competency">
+				<template slot-scope="competency">
 					@{{ competency.title }}
 				</template>
 			</ordering-list>

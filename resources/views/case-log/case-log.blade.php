@@ -17,7 +17,7 @@
 			:fields="caseLogFields"
 			:items="groupedCaseLogs"
 			v-cloak>
-		<template scope="user">
+		<template slot-scope="user">
 			<li>
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -65,6 +65,7 @@
 		:schema="detailsSchema.schema"
 		:details-schema-id="detailsSchema.id"
 		:locations="locations"
+		help-class="is-required"
 		@alert="alerts.push(arguments[0])"
 		@close="show.addCaseLog = false"
 		@submit="handleEditorSubmit">

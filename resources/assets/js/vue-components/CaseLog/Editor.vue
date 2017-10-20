@@ -13,6 +13,7 @@
 				:case-date="caseDate"
 				:comments="comments"
 				:readonly="readonly"
+				:help-class="helpClass"
 				@location-input="location = arguments[0]"
 				@case-date-input="caseDate = arguments[0]"
 				@comments-input="comments = arguments[0]"
@@ -58,6 +59,10 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 
