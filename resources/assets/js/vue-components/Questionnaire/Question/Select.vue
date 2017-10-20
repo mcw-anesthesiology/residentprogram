@@ -2,8 +2,9 @@
 	<validated-form-group class="select-question"
 			:errors="validation.errors"
 			:show-errors="showErrors"
+			:invalid-class="helpClass"
 			prop="options">
-		<label class="containing-label" :title="description">
+		<label class="containing-label control-label" :title="description">
 			{{ text }}
 			<select class="form-control" :disabled="readonly"
 					@change="handleSelect">
@@ -70,6 +71,10 @@ export default {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 

@@ -3,7 +3,10 @@
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
 			@remove="$emit('remove')">
-		<validated-form-group :errors="errors" prop="title">
+		<validated-form-group prop="title"
+				:errors="errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Lecture title
 				<textarea class="form-control"
@@ -12,7 +15,10 @@
 				</textarea>
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="errors" prop="date">
+		<validated-form-group prop="date"
+				:errors="errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Lecture date
 				<input v-if="dateUnknown" type="text" class="form-control"
@@ -34,8 +40,10 @@
 				</label>
 			</div>
 		</validated-form-group>
-		<validated-form-group v-if="type !== 'audienceLecture'"
-				:errors="errors" prop="audience">
+		<validated-form-group v-if="type !== 'audienceLecture'" prop="audience"
+				:errors="errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Lecture audience (department, society, group, location, etc.)
 				<textarea class="form-control"

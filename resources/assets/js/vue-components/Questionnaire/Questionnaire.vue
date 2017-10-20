@@ -8,6 +8,7 @@
 				:condition-checker="conditionChecker"
 				:show-errors="showErrors"
 				:readonly="readonly"
+				:help-class="helpClass"
 				@input="handleInput(index, arguments[0])" />
 		</div>
 
@@ -42,6 +43,10 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 

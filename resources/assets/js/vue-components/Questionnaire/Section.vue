@@ -42,6 +42,10 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		helpClass: {
+			type: String,
+			required: false
+		},
 		showErrors: {
 			type: Boolean,
 			default: false
@@ -67,6 +71,7 @@ export default {
 				props: {
 					readonly: this.readonly,
 					showErrors: this.showErrors,
+					helpClass: this.helpClass,
 					conditionMet: item.condition && this.conditionChecker(item.condition),
 					...props
 				},

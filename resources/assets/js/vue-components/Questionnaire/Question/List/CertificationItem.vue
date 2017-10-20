@@ -3,7 +3,10 @@
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
 			@remove="$emit('remove')">
-		<validated-form-group :errors="validation.errors" prop="board">
+		<validated-form-group prop="board"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Board
 				<input type="text" class="form-control"
@@ -11,7 +14,10 @@
 					@input="$emit('input', {board: $event.target.value})" />
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="specialty">
+		<validated-form-group prop="specialty"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Specialty
 				<textarea class="form-control"

@@ -2,13 +2,16 @@
 	<validated-form-group class="checkbox-question"
 			:errors="validation.errors"
 			:show-errors="showErrors"
+			:invalid-class="helpClass"
 			prop="options">
 		<fieldset :title="description">
-			<legend>
+			<legend class="control-label">
 				{{ text }}
 			</legend>
 			<div class="options">
-				<label v-for="(option, index) of options" :title="option.description">
+				<label v-for="(option, index) of options"
+						class="control-label"
+						:title="option.description">
 					<input type="checkbox" :value="option.value"
 						:checked="option.checked" :disabled="readonly"
 						@change="handleCheck(index)" />
@@ -81,6 +84,10 @@ export default {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data() {
