@@ -1,10 +1,18 @@
 /* @flow */
 
+// This has to manually be kept in sync with server-side implementation
+// in app/Helpers/QuestionnaireValidation.php
+
 import {
-	getSelectValue
+	isQuestion,
+	getSelectValue,
+	getQuestions,
+	getConditionChecker
 } from './index.js';
 
 import type {
+	Questionnaire,
+	QuestionnaireSection,
 	QuestionnaireQuestion,
 	QuestionnaireTextQuestion,
 	QuestionnaireNumberQuestion,
@@ -23,8 +31,19 @@ import type {
 	QuestionnaireReviewListItem,
 	QuestionnaireLectureListItem,
 	QuestionnaireMentorshipListItem,
-	QuestionnaireProjectListItem
+	QuestionnaireProjectListItem,
+	ConditionChecker
 } from './index.js';
+
+export type QuestionnaireValidation = {
+	valid: boolean,
+	errors: QuestionnaireValidationErrors
+};
+
+export type SectionValidation = {
+	valid: boolean,
+	errors: SectionValidationErrors
+};
 
 export type Validation = {
 	valid: boolean,
@@ -32,7 +51,58 @@ export type Validation = {
 };
 
 // TODO: Consider making not a map so multiple errors can be returned per prop
+export type QuestionnaireValidationErrors = Map<number, SectionValidationErrors>;
+export type SectionValidationErrors = Map<number, ValidationErrors>;
 export type ValidationErrors = Map<string, string>;
+
+export function questionnaire(thisQuestionnaire: Questionnaire): QuestionnaireValidation {
+	let valid = true;
+	const errors: QuestionnaireValidationErrors = new Map();
+
+	const meetsCondition = getConditionChecker(getQuestions(thisQuestionnaire));
+
+	for (const [index, thisSection] of thisQuestionnaire.sections.entries()) {
+		if (!thisSection.condition || meetsCondition(thisSection.condition)) {
+			const sectionValidation = section(thisSection);
+			if (!sectionValidation.valid) {
+				valid = false;
+				errors.set(index, sectionValidation.errors);
+			}
+		}
+	}
+
+	return {
+		valid,
+		errors
+	};
+}
+
+export function section(
+	thisSection: QuestionnaireSection,
+	meetsCondition?: ConditionChecker = getConditionChecker(
+		/* $FlowFixMe This is right I promise */
+		thisSection.items.filter(isQuestion)
+	)
+): SectionValidation {
+	let valid = true;
+	const errors: SectionValidationErrors = new Map();
+
+	// $FlowFixMe This is right I promise
+	for (const [index, item] of thisSection.items.filter(isQuestion).entries()) {
+		if (!item.condition || meetsCondition(item.condition)) {
+			const questionValidation = question(item);
+			if (!questionValidation.valid) {
+				valid = false;
+				errors.set(index, questionValidation.errors);
+			}
+		}
+	}
+
+	return {
+		valid,
+		errors
+	};
+}
 
 export function question(question: QuestionnaireQuestion): Validation {
 	let valid = true;
@@ -49,6 +119,8 @@ export function question(question: QuestionnaireQuestion): Validation {
 			return textQuestion(question);
 		case 'number':
 			return numberQuestion(question);
+		case 'select':
+			return selectQuestion(question);
 		case 'checkbox':
 			return checkboxQuestion(question);
 		case 'radio':

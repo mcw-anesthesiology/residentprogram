@@ -36,7 +36,7 @@
 				:paginate="false"
 				reloadable
 				@reload="fetchLocations">
-			<template scope="location">
+			<template slot-scope="location">
 				<div class="row component-list-item">
 					<div class="col-sm-2">
 						<small>#</small>

@@ -69,7 +69,7 @@
 				default-sort-by="id" default-sort-order="desc"
 				reloadable
 				@reload="fetchForms">
-			<template scope="form">
+			<template slot-scope="form">
 				<div class="faculty360-form-list-item row">
 					<div class="col-sm-1">
 						<small>#</small>
@@ -200,7 +200,7 @@
 				default-sort-order="desc"
 				reloadable
 				@reload="fetchEvaluations">
-			<template scope="evaluation">
+			<template slot-scope="evaluation">
 				<div class="faculty360-evaluation-list-item row"
 						@click="viewEvaluation(evaluation, $event)">
 					<div class="col-sm-1">

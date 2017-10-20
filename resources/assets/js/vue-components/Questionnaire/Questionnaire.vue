@@ -12,23 +12,27 @@
 				@input="handleInput(index, arguments[0])" />
 		</div>
 
-		<div v-if="!readonly">
+		<bootstrap-alert v-if="!readonly && !validation.valid"
+				type="info">
 			<show-hide-button class="btn-default" v-model="showErrors">
 				error messages
 				<template slot="glyph"></template>
 			</show-hide-button>
-		</div>
+		</bootstrap-alert>
 	</section>
 </template>
 
 <script>
 import QuestionnaireSection from './Section.vue';
+import BootstrapAlert from '@/vue-components/BootstrapAlert.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import {
 	getQuestions,
 	getConditionChecker
 } from '@/modules/questionnaire/index.js';
+
+import { questionnaire as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	props: {
@@ -62,6 +66,9 @@ export default {
 		},
 		conditionChecker() {
 			return getConditionChecker(this.questions);
+		},
+		validation() {
+			return validate(this);
 		}
 	},
 
@@ -76,6 +83,7 @@ export default {
 
 	components: {
 		QuestionnaireSection,
+		BootstrapAlert,
 		ShowHideButton
 	}
 };

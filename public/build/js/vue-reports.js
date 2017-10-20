@@ -386,16 +386,18 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (immutable) */ __webpack_exports__["l"] = questionnaire;
+/* unused harmony export section */
 /* harmony export (immutable) */ __webpack_exports__["k"] = question;
-/* harmony export (immutable) */ __webpack_exports__["q"] = textQuestion;
+/* harmony export (immutable) */ __webpack_exports__["r"] = textQuestion;
 /* harmony export (immutable) */ __webpack_exports__["h"] = numberQuestion;
-/* harmony export (immutable) */ __webpack_exports__["n"] = selectQuestion;
-/* harmony export (immutable) */ __webpack_exports__["l"] = radioQuestion;
+/* harmony export (immutable) */ __webpack_exports__["o"] = selectQuestion;
+/* harmony export (immutable) */ __webpack_exports__["m"] = radioQuestion;
 /* harmony export (immutable) */ __webpack_exports__["b"] = checkboxQuestion;
 /* unused harmony export radioCheckboxQuestion */
 /* unused harmony export listQuestion */
 /* unused harmony export listItem */
-/* harmony export (immutable) */ __webpack_exports__["p"] = textListItem;
+/* harmony export (immutable) */ __webpack_exports__["q"] = textListItem;
 /* harmony export (immutable) */ __webpack_exports__["j"] = publicationListItem;
 /* harmony export (immutable) */ __webpack_exports__["a"] = certificationListItem;
 /* harmony export (immutable) */ __webpack_exports__["c"] = committeeListItem;
@@ -403,16 +405,118 @@ if (false) {(function () {
 /* harmony export (immutable) */ __webpack_exports__["e"] = grantListItem;
 /* harmony export (immutable) */ __webpack_exports__["f"] = lectureListItem;
 /* harmony export (immutable) */ __webpack_exports__["g"] = mentorshipListItem;
-/* harmony export (immutable) */ __webpack_exports__["m"] = reviewListItem;
-/* harmony export (immutable) */ __webpack_exports__["o"] = studyListItem;
+/* harmony export (immutable) */ __webpack_exports__["n"] = reviewListItem;
+/* harmony export (immutable) */ __webpack_exports__["p"] = studyListItem;
 /* harmony export (immutable) */ __webpack_exports__["i"] = projectListItem;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_js__ = __webpack_require__(140);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+// This has to manually be kept in sync with server-side implementation
+// in app/Helpers/QuestionnaireValidation.php
 
 
 
 // TODO: Consider making not a map so multiple errors can be returned per prop
 
+
+function questionnaire(thisQuestionnaire) {
+	var valid = true;
+	var errors = new Map();
+
+	var meetsCondition = Object(__WEBPACK_IMPORTED_MODULE_0__index_js__["a" /* getConditionChecker */])(Object(__WEBPACK_IMPORTED_MODULE_0__index_js__["b" /* getQuestions */])(thisQuestionnaire));
+
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
+
+	try {
+		for (var _iterator = thisQuestionnaire.sections.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var _ref = _step.value;
+
+			var _ref2 = _slicedToArray(_ref, 2);
+
+			var index = _ref2[0];
+			var thisSection = _ref2[1];
+
+			if (!thisSection.condition || meetsCondition(thisSection.condition)) {
+				var sectionValidation = section(thisSection);
+				if (!sectionValidation.valid) {
+					valid = false;
+					errors.set(index, sectionValidation.errors);
+				}
+			}
+		}
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
+	}
+
+	return {
+		valid: valid,
+		errors: errors
+	};
+}
+
+function section(thisSection) {
+	var meetsCondition = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Object(__WEBPACK_IMPORTED_MODULE_0__index_js__["a" /* getConditionChecker */])(
+	/* $FlowFixMe This is right I promise */
+	thisSection.items.filter(__WEBPACK_IMPORTED_MODULE_0__index_js__["d" /* isQuestion */]));
+
+	var valid = true;
+	var errors = new Map();
+
+	// $FlowFixMe This is right I promise
+	var _iteratorNormalCompletion2 = true;
+	var _didIteratorError2 = false;
+	var _iteratorError2 = undefined;
+
+	try {
+		for (var _iterator2 = thisSection.items.filter(__WEBPACK_IMPORTED_MODULE_0__index_js__["d" /* isQuestion */]).entries()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+			var _ref3 = _step2.value;
+
+			var _ref4 = _slicedToArray(_ref3, 2);
+
+			var index = _ref4[0];
+			var item = _ref4[1];
+
+			if (!item.condition || meetsCondition(item.condition)) {
+				var questionValidation = question(item);
+				if (!questionValidation.valid) {
+					valid = false;
+					errors.set(index, questionValidation.errors);
+				}
+			}
+		}
+	} catch (err) {
+		_didIteratorError2 = true;
+		_iteratorError2 = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion2 && _iterator2.return) {
+				_iterator2.return();
+			}
+		} finally {
+			if (_didIteratorError2) {
+				throw _iteratorError2;
+			}
+		}
+	}
+
+	return {
+		valid: valid,
+		errors: errors
+	};
+}
 
 function question(question) {
 	var valid = true;
@@ -428,6 +532,8 @@ function question(question) {
 			return textQuestion(question);
 		case 'number':
 			return numberQuestion(question);
+		case 'select':
+			return selectQuestion(question);
 		case 'checkbox':
 			return checkboxQuestion(question);
 		case 'radio':
@@ -517,27 +623,27 @@ function radioCheckboxQuestion(question) {
 
 	if (question.required) {
 		var optionChecked = false;
-		var _iteratorNormalCompletion = true;
-		var _didIteratorError = false;
-		var _iteratorError = undefined;
+		var _iteratorNormalCompletion3 = true;
+		var _didIteratorError3 = false;
+		var _iteratorError3 = undefined;
 
 		try {
-			for (var _iterator = question.options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-				var option = _step.value;
+			for (var _iterator3 = question.options[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+				var option = _step3.value;
 
 				if (option.checked) optionChecked = true;
 			}
 		} catch (err) {
-			_didIteratorError = true;
-			_iteratorError = err;
+			_didIteratorError3 = true;
+			_iteratorError3 = err;
 		} finally {
 			try {
-				if (!_iteratorNormalCompletion && _iterator.return) {
-					_iterator.return();
+				if (!_iteratorNormalCompletion3 && _iterator3.return) {
+					_iterator3.return();
 				}
 			} finally {
-				if (_didIteratorError) {
-					throw _iteratorError;
+				if (_didIteratorError3) {
+					throw _iteratorError3;
 				}
 			}
 		}
@@ -564,32 +670,32 @@ function listQuestion(list) {
 	}
 
 	if (valid) {
-		var _iteratorNormalCompletion2 = true;
-		var _didIteratorError2 = false;
-		var _iteratorError2 = undefined;
+		var _iteratorNormalCompletion4 = true;
+		var _didIteratorError4 = false;
+		var _iteratorError4 = undefined;
 
 		try {
-			for (var _iterator2 = list.items.entries()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-				var _ref = _step2.value;
+			for (var _iterator4 = list.items.entries()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+				var _ref5 = _step4.value;
 
-				var _ref2 = _slicedToArray(_ref, 2);
+				var _ref6 = _slicedToArray(_ref5, 2);
 
-				var index = _ref2[0];
-				var item = _ref2[1];
+				var index = _ref6[0];
+				var item = _ref6[1];
 
 				if ('itemProps' in list) {
-					var _iteratorNormalCompletion3 = true;
-					var _didIteratorError3 = false;
-					var _iteratorError3 = undefined;
+					var _iteratorNormalCompletion5 = true;
+					var _didIteratorError5 = false;
+					var _iteratorError5 = undefined;
 
 					try {
-						for (var _iterator3 = Object.entries(list.itemProps)[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-							var _ref3 = _step3.value;
+						for (var _iterator5 = Object.entries(list.itemProps)[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+							var _ref7 = _step5.value;
 
-							var _ref4 = _slicedToArray(_ref3, 2);
+							var _ref8 = _slicedToArray(_ref7, 2);
 
-							var key = _ref4[0];
-							var value = _ref4[1];
+							var key = _ref8[0];
+							var value = _ref8[1];
 
 							if (item[key] !== value) {
 								valid = false;
@@ -598,16 +704,16 @@ function listQuestion(list) {
 							}
 						}
 					} catch (err) {
-						_didIteratorError3 = true;
-						_iteratorError3 = err;
+						_didIteratorError5 = true;
+						_iteratorError5 = err;
 					} finally {
 						try {
-							if (!_iteratorNormalCompletion3 && _iterator3.return) {
-								_iterator3.return();
+							if (!_iteratorNormalCompletion5 && _iterator5.return) {
+								_iterator5.return();
 							}
 						} finally {
-							if (_didIteratorError3) {
-								throw _iteratorError3;
+							if (_didIteratorError5) {
+								throw _iteratorError5;
 							}
 						}
 					}
@@ -617,33 +723,33 @@ function listQuestion(list) {
 					var listItemValidation = listItem(item);
 					if (!listItemValidation.valid) {
 						valid = false;
-						var _iteratorNormalCompletion4 = true;
-						var _didIteratorError4 = false;
-						var _iteratorError4 = undefined;
+						var _iteratorNormalCompletion6 = true;
+						var _didIteratorError6 = false;
+						var _iteratorError6 = undefined;
 
 						try {
-							for (var _iterator4 = listItemValidation.errors.entries()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-								var _ref5 = _step4.value;
+							for (var _iterator6 = listItemValidation.errors.entries()[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+								var _ref9 = _step6.value;
 
-								var _ref6 = _slicedToArray(_ref5, 2);
+								var _ref10 = _slicedToArray(_ref9, 2);
 
-								var itemKey = _ref6[0];
-								var itemVal = _ref6[1];
+								var itemKey = _ref10[0];
+								var itemVal = _ref10[1];
 
 								// This string interp thing kinda stinks
 								errors.set('item[' + index + '][' + itemKey + ']', itemVal);
 							}
 						} catch (err) {
-							_didIteratorError4 = true;
-							_iteratorError4 = err;
+							_didIteratorError6 = true;
+							_iteratorError6 = err;
 						} finally {
 							try {
-								if (!_iteratorNormalCompletion4 && _iterator4.return) {
-									_iterator4.return();
+								if (!_iteratorNormalCompletion6 && _iterator6.return) {
+									_iterator6.return();
 								}
 							} finally {
-								if (_didIteratorError4) {
-									throw _iteratorError4;
+								if (_didIteratorError6) {
+									throw _iteratorError6;
 								}
 							}
 						}
@@ -651,16 +757,16 @@ function listQuestion(list) {
 				}
 			}
 		} catch (err) {
-			_didIteratorError2 = true;
-			_iteratorError2 = err;
+			_didIteratorError4 = true;
+			_iteratorError4 = err;
 		} finally {
 			try {
-				if (!_iteratorNormalCompletion2 && _iterator2.return) {
-					_iterator2.return();
+				if (!_iteratorNormalCompletion4 && _iterator4.return) {
+					_iterator4.return();
 				}
 			} finally {
-				if (_didIteratorError2) {
-					throw _iteratorError2;
+				if (_didIteratorError4) {
+					throw _iteratorError4;
 				}
 			}
 		}
@@ -709,18 +815,18 @@ function requiredListItem(item, requiredMap) {
 	var valid = true;
 	var errors = new Map();
 
-	var _iteratorNormalCompletion5 = true;
-	var _didIteratorError5 = false;
-	var _iteratorError5 = undefined;
+	var _iteratorNormalCompletion7 = true;
+	var _didIteratorError7 = false;
+	var _iteratorError7 = undefined;
 
 	try {
-		for (var _iterator5 = requiredMap.entries()[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-			var _ref7 = _step5.value;
+		for (var _iterator7 = requiredMap.entries()[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+			var _ref11 = _step7.value;
 
-			var _ref8 = _slicedToArray(_ref7, 2);
+			var _ref12 = _slicedToArray(_ref11, 2);
 
-			var prop = _ref8[0];
-			var str = _ref8[1];
+			var prop = _ref12[0];
+			var str = _ref12[1];
 
 			if (!item[prop]) {
 				valid = false;
@@ -728,16 +834,16 @@ function requiredListItem(item, requiredMap) {
 			}
 		}
 	} catch (err) {
-		_didIteratorError5 = true;
-		_iteratorError5 = err;
+		_didIteratorError7 = true;
+		_iteratorError7 = err;
 	} finally {
 		try {
-			if (!_iteratorNormalCompletion5 && _iterator5.return) {
-				_iterator5.return();
+			if (!_iteratorNormalCompletion7 && _iterator7.return) {
+				_iterator7.return();
 			}
 		} finally {
-			if (_didIteratorError5) {
-				throw _iteratorError5;
+			if (_didIteratorError7) {
+				throw _iteratorError7;
 			}
 		}
 	}
@@ -7801,8 +7907,8 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = getConditionChecker;
 /* harmony export (immutable) */ __webpack_exports__["b"] = getQuestions;
-/* harmony export (immutable) */ __webpack_exports__["d"] = isValidItem;
-/* unused harmony export isQuestion */
+/* harmony export (immutable) */ __webpack_exports__["e"] = isValidItem;
+/* harmony export (immutable) */ __webpack_exports__["d"] = isQuestion;
 /* unused harmony export getQuestionnaireIdMap */
 /* unused harmony export getQuestionsIdMap */
 /* unused harmony export questionMatchesValue */
