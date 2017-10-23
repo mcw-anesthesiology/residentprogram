@@ -487,6 +487,13 @@ select-two {
 	opacity: 1;
 }
 
+/* Don't let <input type="hidden" /> break first .input-group control */
+
+.input-group input[type="hidden"]:first-child + .form-control {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
 .is-required .help-block,
 .is-required .control-label,
 .is-required .radio,

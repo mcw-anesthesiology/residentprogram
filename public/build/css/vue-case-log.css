@@ -17,6 +17,10 @@ button[data-v-38459c74] {
 		display: none;
 }
 }
+
+.form-horizontal[data-v-7d00f708] {
+	overflow-x: hidden;
+}
 .flatpickr-calendar {
   background: transparent;
   overflow: hidden;

@@ -8179,6 +8179,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -8209,6 +8229,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 				return _ref = {}, _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CUSTOM, null), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CURRENT_QUARTER, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["currentQuarter"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].LAST_QUARTER, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["lastQuarter"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CURRENT_SEMESTER, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["currentSemester"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].LAST_SEMESTER, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["lastSemester"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CURRENT_YEAR, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["currentYear"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].LAST_YEAR, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["lastYear"]()), _ref;
 			}
+		},
+		clearable: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data: function data() {
@@ -8377,17 +8401,52 @@ var render = function() {
           { staticClass: "containing-label" },
           [
             _vm._v("\n\t\t\t\tStart Date\n\t\t\t\t"),
-            _c("vue-flatpickr", {
-              staticClass: "form-control",
-              attrs: { options: _vm.flatpickrOptions },
-              model: {
-                value: _vm.startDate,
-                callback: function($$v) {
-                  _vm.startDate = $$v
-                },
-                expression: "startDate"
-              }
-            })
+            _vm.clearable
+              ? _c(
+                  "div",
+                  { staticClass: "input-group" },
+                  [
+                    _c("vue-flatpickr", {
+                      staticClass: "form-control",
+                      attrs: { options: _vm.flatpickrOptions },
+                      model: {
+                        value: _vm.startDate,
+                        callback: function($$v) {
+                          _vm.startDate = $$v
+                        },
+                        expression: "startDate"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "input-group-btn" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-default",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.startDate = null
+                            }
+                          }
+                        },
+                        [_vm._v("\n\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t")]
+                      )
+                    ])
+                  ],
+                  1
+                )
+              : _c("vue-flatpickr", {
+                  staticClass: "form-control",
+                  attrs: { options: _vm.flatpickrOptions },
+                  model: {
+                    value: _vm.startDate,
+                    callback: function($$v) {
+                      _vm.startDate = $$v
+                    },
+                    expression: "startDate"
+                  }
+                })
           ],
           1
         )
@@ -8399,17 +8458,52 @@ var render = function() {
           { staticClass: "containing-label" },
           [
             _vm._v("\n\t\t\t\tEnd Date\n\t\t\t\t"),
-            _c("vue-flatpickr", {
-              staticClass: "form-control",
-              attrs: { options: _vm.flatpickrOptions },
-              model: {
-                value: _vm.endDate,
-                callback: function($$v) {
-                  _vm.endDate = $$v
-                },
-                expression: "endDate"
-              }
-            })
+            _vm.clearable
+              ? _c(
+                  "div",
+                  { staticClass: "input-group" },
+                  [
+                    _c("vue-flatpickr", {
+                      staticClass: "form-control",
+                      attrs: { options: _vm.flatpickrOptions },
+                      model: {
+                        value: _vm.endDate,
+                        callback: function($$v) {
+                          _vm.endDate = $$v
+                        },
+                        expression: "endDate"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "input-group-btn" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-default",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.endDate = null
+                            }
+                          }
+                        },
+                        [_vm._v("\n\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t")]
+                      )
+                    ])
+                  ],
+                  1
+                )
+              : _c("vue-flatpickr", {
+                  staticClass: "form-control",
+                  attrs: { options: _vm.flatpickrOptions },
+                  model: {
+                    value: _vm.endDate,
+                    callback: function($$v) {
+                      _vm.endDate = $$v
+                    },
+                    expression: "endDate"
+                  }
+                })
           ],
           1
         )

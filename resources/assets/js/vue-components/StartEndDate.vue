@@ -14,14 +14,34 @@
 			<div class="col-sm-6 col-md-4">
 				<label class="containing-label">
 					Start Date
-					<vue-flatpickr class="form-control"
+					<div v-if="clearable" class="input-group">
+						<vue-flatpickr class="form-control"
+							:options="flatpickrOptions" v-model="startDate" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default"
+									@click="startDate = null">
+								Clear
+							</button>
+						</span>
+					</div>
+					<vue-flatpickr v-else class="form-control"
 						:options="flatpickrOptions" v-model="startDate" />
 				</label>
 			</div>
 			<div class="col-sm-6 col-md-4">
 				<label class="containing-label">
 					End Date
-					<vue-flatpickr class="form-control"
+					<div v-if="clearable" class="input-group">
+						<vue-flatpickr class="form-control"
+							:options="flatpickrOptions" v-model="endDate" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default"
+									@click="endDate = null">
+								Clear
+							</button>
+						</span>
+					</div>
+					<vue-flatpickr v-else class="form-control"
 						:options="flatpickrOptions" v-model="endDate" />
 				</label>
 			</div>
@@ -65,6 +85,10 @@ export default {
 					[dateUtils.DATE_RANGES.LAST_YEAR]: dateUtils.lastYear()
 				};
 			}
+		},
+		clearable: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data(){
