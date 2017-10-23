@@ -324,6 +324,31 @@ export function questionMatchesValue(
 	return false;
 }
 
+export function walkQuestionnaireQuestions(
+	questionnaire: Questionnaire,
+	questionCallback?: (
+		QuestionnaireQuestion,
+		?QuestionnaireSection
+	) => QuestionnaireQuestion
+): Questionnaire {
+
+	const newQuestionnaire: Questionnaire = Object.assign({}, questionnaire);
+
+	newQuestionnaire.sections = questionnaire.sections.map(section => {
+		const newSection: QuestionnaireSection = Object.assign({}, section);
+		newSection.items = section.items.map(item =>
+			// $FlowFixMe
+			(questionCallback && isQuestion(item)) // $FlowFixMe
+				? questionCallback(item, newSection) // $FlowFixMe
+				: Object.assign({}, item)
+		);
+
+		return newSection;
+	});
+
+	return newQuestionnaire;
+}
+
 export function getSelectValue(question: QuestionnaireSelectQuestion): ?string | ?number {
 	const selectedOption = question.options.find(option => option.selected);
 	return selectedOption

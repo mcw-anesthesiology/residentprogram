@@ -7912,6 +7912,7 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 /* unused harmony export getQuestionnaireIdMap */
 /* unused harmony export getQuestionsIdMap */
 /* unused harmony export questionMatchesValue */
+/* harmony export (immutable) */ __webpack_exports__["f"] = walkQuestionnaireQuestions;
 /* harmony export (immutable) */ __webpack_exports__["c"] = getSelectValue;
 /* unused harmony export getRadioCheckboxValues */
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -8032,6 +8033,27 @@ function questionMatchesValue(question, value) {
 	}
 
 	return false;
+}
+
+function walkQuestionnaireQuestions(questionnaire, questionCallback) {
+
+	var newQuestionnaire = Object.assign({}, questionnaire);
+
+	newQuestionnaire.sections = questionnaire.sections.map(function (section) {
+		var newSection = Object.assign({}, section);
+		newSection.items = section.items.map(function (item) {
+			return (
+				// $FlowFixMe
+				questionCallback && isQuestion(item) ? // $FlowFixMe
+				questionCallback(item, newSection) // $FlowFixMe
+				: Object.assign({}, item)
+			);
+		});
+
+		return newSection;
+	});
+
+	return newQuestionnaire;
 }
 
 function getSelectValue(question) {

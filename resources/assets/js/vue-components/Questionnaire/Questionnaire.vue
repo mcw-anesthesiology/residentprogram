@@ -31,7 +31,7 @@ import {
 	getQuestions,
 	getConditionChecker
 } from '@/modules/questionnaire/index.js';
-
+import { resetUnmetQuestions } from '@/modules/questionnaire/reset.js';
 import { questionnaire as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
@@ -77,7 +77,7 @@ export default {
 			let sections = this.sections.slice();
 			sections[index] = Object.assign({}, sections[index], section);
 
-			this.$emit('input', {sections});
+			this.$emit('input', resetUnmetQuestions({sections}));
 		}
 	},
 
