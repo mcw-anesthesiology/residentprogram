@@ -33,6 +33,8 @@
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 import 'flatpickr/dist/flatpickr.css';
 
+import moment from 'moment';
+
 import { camelCaseToWords } from '@/modules/utils.js';
 import * as dateUtils from '@/modules/date-utils.js';
 
@@ -77,9 +79,17 @@ export default {
 	},
 	computed: {
 		dates(){
+			const startDate = this.startDate && moment(this.startDate).isValid()
+				? this.startDate
+				: null;
+
+			const endDate = this.endDate && moment(this.endDate).isValid()
+				? this.endDate
+				: null;
+
 			return {
-				startDate: this.startDate,
-				endDate: this.endDate
+				startDate,
+				endDate
 			};
 		},
 		dateRanges(){
