@@ -7961,6 +7961,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 
@@ -8030,6 +8031,8 @@ if (false) {(function () {
 	methods: {
 		snarkdown: __WEBPACK_IMPORTED_MODULE_2_snarkdown__["a" /* default */],
 		handleCheck: function handleCheck(index) {
+			if (this.readonly) return;
+
 			var options = Array.slice(this.options);
 			options[index] = Object.assign({}, options[index], {
 				checked: !options[index].checked
@@ -8038,6 +8041,8 @@ if (false) {(function () {
 			this.$emit('input', { options: options });
 		},
 		handleEditableOptionInput: function handleEditableOptionInput(index, value) {
+			if (this.readonly) return;
+
 			var options = Array.slice(this.options);
 			options[index] = Object.assign({}, options[index], { text: value, value: value });
 
@@ -8102,7 +8107,11 @@ var render = function() {
                 option.editable
                   ? _c("input", {
                       staticClass: "form-control editable-option-text",
-                      attrs: { type: "text", placholder: "Other" },
+                      attrs: {
+                        type: "text",
+                        readonly: _vm.readonly,
+                        placholder: "Other"
+                      },
                       domProps: { value: option.text },
                       on: {
                         click: function($event) {
@@ -8307,6 +8316,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 
@@ -8376,6 +8386,8 @@ if (false) {(function () {
 	methods: {
 		snarkdown: __WEBPACK_IMPORTED_MODULE_2_snarkdown__["a" /* default */],
 		handleCheck: function handleCheck(index) {
+			if (this.readonly) return;
+
 			var options = this.options.map(function (option, i) {
 				var newOption = Object.assign({}, option);
 
@@ -8390,6 +8402,8 @@ if (false) {(function () {
 			this.handleCheck(-1);
 		},
 		handleEditableOptionInput: function handleEditableOptionInput(index, value) {
+			if (this.readonly) return;
+
 			var options = Array.slice(this.options);
 			options[index] = Object.assign({}, options[index], { text: value, value: value });
 
@@ -8454,7 +8468,11 @@ var render = function() {
                 option.editable
                   ? _c("input", {
                       staticClass: "form-control editable-option-text",
-                      attrs: { type: "text", placholder: "Other" },
+                      attrs: {
+                        type: "text",
+                        readonly: _vm.readonly,
+                        placholder: "Other"
+                      },
                       domProps: { value: option.text },
                       on: {
                         click: function($event) {
