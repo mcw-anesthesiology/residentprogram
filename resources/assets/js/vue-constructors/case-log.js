@@ -6,6 +6,7 @@ import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
 import ComponentList from '@/vue-components/ComponentList.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+import StartEndDate from '@/vue-components/StartEndDate.vue';
 
 import CaseLogs from '@/vue-components/CaseLog/CaseLogs.vue';
 import CaseLogEditor from '@/vue-components/CaseLog/Editor.vue';
@@ -17,6 +18,7 @@ import {
 	jsonOrThrow,
 	userIsType
 } from '@/modules/utils.js';
+import { currentQuarter, isoDateStringObject } from '@/modules/date-utils.js';
 
 export function createCaseLog(el, propsData) {
 	return new Vue({
@@ -41,6 +43,7 @@ export function createCaseLog(el, propsData) {
 		propsData,
 		data() {
 			return {
+				dates: isoDateStringObject(currentQuarter()),
 				caseLogs: [],
 				show: {
 					charts: false,
@@ -98,15 +101,31 @@ export function createCaseLog(el, propsData) {
 			this.fetchCaseLogs();
 		},
 
+		watch: {
+			dates() {
+				this.fetchCaseLogs();
+			}
+		},
+
 		methods: {
 			fetchCaseLogs() {
-				let query = $.param({
+				const params = {
 					with: {
 						location: ['name'],
 						user: ['full_name'],
 						detailsSchema: true
 					}
-				});
+				};
+
+				if (this.dates.startDate || this.dates.endDate) {
+					params.case_date = [];
+					if (this.dates.startDate)
+						params.case_date.push(['>=', this.dates.startDate]);
+					if (this.dates.endDate)
+						params.case_date.push(['<=', this.dates.endDate]);
+				}
+
+				let query = $.param(params);
 
 				fetch(`/case_logs?${query}`, {
 					headers: getFetchHeaders(),
@@ -153,6 +172,7 @@ export function createCaseLog(el, propsData) {
 		components: {
 			ComponentList,
 			ShowHideButton,
+			StartEndDate,
 			CaseLogs,
 			VueFlatpickr,
 			CaseLogEditor,

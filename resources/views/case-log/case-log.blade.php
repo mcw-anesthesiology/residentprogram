@@ -13,6 +13,8 @@
 <div class="container body-block">
 	<h1>Case Log</h1>
 
+	<start-end-date v-model="dates" all-time clearable></start-end-date>
+
 	<component-list v-if="isAdmin"
 			:fields="caseLogFields"
 			:items="groupedCaseLogs"

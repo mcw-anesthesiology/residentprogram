@@ -2,12 +2,12 @@
 	<div>
 		<fieldset>
 			<legend>Evaluation Date filter</legend>
-			<start-end-date v-model="dates" :allTime="true" />
+			<start-end-date v-model="dates" all-time />
 		</fieldset>
 
 		<data-table :id="id" :striped="striped" :bordered="bordered"
 				:thead="thead" :config="datedConfig" :data="data"
-				:exportable="exportable" :exportFilename="exportFilename">
+				:exportable="exportable" :export-filename="exportFilename">
 			<slot></slot>
 		</data-table>
 	</div>
