@@ -37,6 +37,14 @@ export default {
 			validator(value){
 				return Object.values(dateUtils.DATE_RANGES).includes(value);
 			}
+		},
+		startProp: {
+			type: String,
+			default: 'evaluation_date_start'
+		},
+		endProp: {
+			type: String,
+			default: 'evaluation_date_end'
 		}
 	},
 	data(){
@@ -82,11 +90,11 @@ export default {
 
 
 			if(this.dates.endDate)
-				config.ajax.data.evaluation_date_start = [
+				config.ajax.data[this.startProp] = [
 					'<=', dateUtils.isoDateString(this.dates.endDate)
 				];
 			if(this.dates.startDate)
-				config.ajax.data.evaluation_date_end = [
+				config.ajax.data[this.endProp] = [
 					'>=', dateUtils.isoDateString(this.dates.startDate)
 				];
 
