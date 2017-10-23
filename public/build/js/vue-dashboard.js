@@ -3205,9 +3205,9 @@ if (false) {(function () {
 			var header = Object(__WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__["f" /* csvHeader */])(this.thead);
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* escapeCsv */])(cell.toString());
+					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["B" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["C" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -3571,7 +3571,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.endDate = dates.endDate;
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["b" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__["a" /* default */]
@@ -7197,7 +7197,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["C" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["D" /* sortNumbers */]);
 
 	var _iteratorNormalCompletion = true;
 	var _didIteratorError = false;
@@ -8629,7 +8629,7 @@ function createAdminDashboard(el, propsData) {
 
 			fetch('/flagged_evaluations?' + $.param(flaggedEvalsBody), {
 				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
 			}).then(function (response) {
 				if (response.ok) return response.json();else throw new Error(response.type);
@@ -8654,7 +8654,7 @@ function createAdminDashboard(el, propsData) {
 					var flaggedEvalId = $(event.target).data('id');
 					fetch('/flagged_evaluations/' + flaggedEvalId, {
 						method: 'POST', // DELETE
-						headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["n" /* getFetchHeaders */])(),
+						headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["o" /* getFetchHeaders */])(),
 						credentials: 'same-origin',
 						body: JSON.stringify({
 							_method: 'DELETE'

@@ -1319,7 +1319,7 @@ if (false) {(function () {
 		var _this = this;
 
 		if (this.showMilestonesCompetencies) {
-			Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["i" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+			Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["j" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
 				_this.groupedMilestones = milestoneGroups;
 			}).catch(function (err) {
 				console.error(err);
@@ -1367,7 +1367,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["I" /* ucfirst */],
 		addInstruction: function addInstruction() {
 			this.items.push({
 				type: 'instruction',
@@ -2087,7 +2087,7 @@ module.exports = isArray;
 					id: competency.id,
 					text: competency.title
 				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["G" /* sortSelect2Objects */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* sortSelect2Objects */]);
 		}
 	},
 	methods: {
@@ -4219,7 +4219,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["H" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["I" /* ucfirst */],
 		resetOptions: function resetOptions() {
 			if (this.readonly) return;
 
@@ -6027,7 +6027,7 @@ function createFaculty360Request(el, propsData) {
 			},
 			sortedFaculty: function sortedFaculty() {
 				var faculty = this.faculty.slice();
-				faculty.sort(Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["E" /* sortPropIgnoreCase */])('full_name'));
+				faculty.sort(Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["F" /* sortPropIgnoreCase */])('full_name'));
 
 				return faculty;
 			}
@@ -6044,7 +6044,7 @@ function createFaculty360Request(el, propsData) {
 
 				fetch('/faculty360/evaluations', {
 					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						subject_id: this.facultyId,
@@ -6065,7 +6065,7 @@ function createFaculty360Request(el, propsData) {
 					if (response.hash) window.location = '/faculty360/evaluate/' + response.hash;
 				}).catch(function (err) {
 					console.error(err);
-					_this.alerts.push(Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* errorToAlert */])(err));
+					_this.alerts.push(Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["d" /* errorToAlert */])(err));
 				});
 			}
 		},
@@ -6114,10 +6114,10 @@ function createFaculty360CreateForm(el) {
 
 				fetch('/faculty360/forms', {
 					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(form)
-				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["t" /* jsonOrThrow */]).then(function (response) {
+				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["u" /* jsonOrThrow */]).then(function (response) {
 					_this.newFormId = response.id;
 					_this.redirectTimeout = window.setTimeout(function () {
 						window.location = '/faculty360/forms/' + response.id + '/view';
@@ -6240,13 +6240,13 @@ function createFaculty360Evaluate(el, propsData) {
 
 				fetch('/faculty360/evaluations/' + this.evaluation.hash + '/save', {
 					method: 'POST', // PATCH
-					headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
 						contents: form.contents
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["t" /* jsonOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["u" /* jsonOrThrow */]).then(function () {
 					_this.alerts.push({
 						type: 'success',
 						text: 'Progress saved successfully!'
@@ -6264,13 +6264,13 @@ function createFaculty360Evaluate(el, propsData) {
 
 				fetch('/faculty360/evaluations/' + this.evaluation.hash + '/submit', {
 					method: 'POST', // PATCH
-					headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
 						contents: form.contents
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["t" /* jsonOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["u" /* jsonOrThrow */]).then(function () {
 					_this2.submitSuccessful = true;
 				}).catch(function (err) {
 					console.error(err);

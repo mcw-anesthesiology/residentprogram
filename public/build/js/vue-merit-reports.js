@@ -1750,7 +1750,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["C" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["D" /* sortNumbers */]);
 
 	var _iteratorNormalCompletion = true;
 	var _didIteratorError = false;
@@ -2699,9 +2699,9 @@ function fetchAllMeritReports() {
 
 	return fetch('/merits?' + query, {
 		method: 'GET',
-		headers: Object(__WEBPACK_IMPORTED_MODULE_2__utils_js__["n" /* getFetchHeaders */])(),
+		headers: Object(__WEBPACK_IMPORTED_MODULE_2__utils_js__["o" /* getFetchHeaders */])(),
 		credentials: 'same-origin'
-	}).then(__WEBPACK_IMPORTED_MODULE_2__utils_js__["t" /* jsonOrThrow */]);
+	}).then(__WEBPACK_IMPORTED_MODULE_2__utils_js__["u" /* jsonOrThrow */]);
 }
 
 /***/ }),
@@ -7635,7 +7635,10 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 /* harmony export (immutable) */ __webpack_exports__["f"] = walkQuestionnaireQuestions;
 /* harmony export (immutable) */ __webpack_exports__["c"] = getSelectValue;
 /* unused harmony export getRadioCheckboxValues */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(1);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+
 
 function getConditionChecker(questions) {
 	var questionIdMap = getQuestionsIdMap(questions);
@@ -7725,17 +7728,17 @@ function questionMatchesValue(question, value) {
 	switch (question.type) {
 		case 'text':
 			question;
-			if (typeof value === 'boolean' && question.value || typeof value === 'string' && value === question.value) return true;
+			if (question.value && (typeof value === 'boolean' && value || typeof value === 'string' && value === question.value || Array.isArray(value) && value.includes(question.value))) return true;
 			break;
 		case 'number':
 			question;
-			if (typeof value === 'boolean' && question.value || typeof value === 'number' && value === question.value) return true;
+			if (question.value && (typeof value === 'boolean' && value || typeof value === 'number' && value === question.value || Array.isArray(value) && value.includes(question.value))) return true;
 			break;
 		case 'select':
 			{
 				question;
 				var selectValue = getSelectValue(question);
-				if (typeof value === 'boolean' && selectValue || (typeof value === 'string' || typeof value === 'number') && value === selectValue) return true;
+				if (selectValue && (typeof value === 'boolean' && value || (typeof value === 'string' || typeof value === 'number') && value === selectValue || Array.isArray(value) && value.includes(selectValue))) return true;
 				break;
 			}
 		case 'checkbox':
@@ -7743,7 +7746,7 @@ function questionMatchesValue(question, value) {
 			{
 				question = question;
 				var values = getRadioCheckboxValues(question);
-				if (typeof value === 'boolean' && values.length > 0 || (typeof value === 'string' || typeof value === 'number') && values.includes(value)) return true;
+				if (values.length > 0 && (typeof value === 'boolean' && value || (typeof value === 'string' || typeof value === 'number') && values.includes(value) || Array.isArray(value) && Object(__WEBPACK_IMPORTED_MODULE_0__utils_js__["b" /* arraysIntersect */])(value, values))) return true;
 				break;
 			}
 		case 'list':
@@ -8140,7 +8143,7 @@ if (false) {(function () {
 		renderFieldName: function renderFieldName(field) {
 			if (field === 'id') return 'ID';
 
-			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["y" /* snakeCaseToWords */])(field);
+			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["z" /* snakeCaseToWords */])(field);
 		}
 	},
 	components: {
@@ -21498,7 +21501,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["H" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["I" /* ucfirst */]
 	},
 
 	components: {
@@ -22603,7 +22606,7 @@ var _predefinedRoles = ['editor-in-chief', 'associate-editor', 'executive-editor
 	},
 
 	methods: {
-		kebabCaseToWords: __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["u" /* kebabCaseToWords */],
+		kebabCaseToWords: __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["v" /* kebabCaseToWords */],
 		handleCheck: function handleCheck(event) {
 			if (this.readonly) return;
 
@@ -27523,9 +27526,9 @@ function createMeritReportsHub(el, propsData) {
 
 				return fetch('/merit-forms', {
 					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["t" /* jsonOrThrow */]).then(function (meritForms) {
+				}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["u" /* jsonOrThrow */]).then(function (meritForms) {
 					_this2.meritForms = meritForms;
 				}).catch(function (err) {
 					console.error(err);
@@ -27543,7 +27546,7 @@ function createMeritReportsHub(el, propsData) {
 
 				fetch('/merits', {
 					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						user_id: this.user.id,
@@ -27553,7 +27556,7 @@ function createMeritReportsHub(el, propsData) {
 						report: JSON.parse(form.form),
 						status: 'pending'
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["t" /* jsonOrThrow */]).then(function (merit) {
+				}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["u" /* jsonOrThrow */]).then(function (merit) {
 					_this3.fetchAllMeritReports();
 					_this3.viewReport(merit.id);
 				}).catch(function (err) {
@@ -27911,7 +27914,7 @@ if (false) {(function () {
 
 	computed: {
 		userIsAdmin: function userIsAdmin() {
-			return Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["s" /* isAdmin */])(this.currentUser);
+			return Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["t" /* isAdmin */])(this.currentUser);
 		},
 		readonly: function readonly() {
 			return !['pending', 'open for editing'].includes(this.status);
@@ -28005,10 +28008,10 @@ if (false) {(function () {
 
 			return fetch('/merits/' + meritReport.id, {
 				method: 'POST', // PATCH
-				headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(meritReport)
-			}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 				_this3.savingSuccessful = true;
 				_this3.saving = false;
 			}).catch(function (err) {
@@ -31572,7 +31575,7 @@ if (false) {
 
 	computed: {
 		currentUserIsAdminOrSupervisor: function currentUserIsAdminOrSupervisor() {
-			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["s" /* isAdmin */])(this.user) || Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["K" /* usesFeature */])(this.user, 'FACULTY_MERIT');
+			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["t" /* isAdmin */])(this.user) || Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["L" /* usesFeature */])(this.user, 'FACULTY_MERIT');
 		}
 	},
 
@@ -31584,9 +31587,9 @@ if (false) {
 
 			fetch('/merits/by-user', {
 				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["t" /* jsonOrThrow */]).then(function (usersWithReports) {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["u" /* jsonOrThrow */]).then(function (usersWithReports) {
 				_this.usersWithReports = usersWithReports;
 			}).catch(function (err) {
 				console.error(err);
@@ -31929,7 +31932,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["H" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["I" /* ucfirst */],
 		openForEditing: function openForEditing() {
 			if (this.user.type !== 'admin' || this.status !== 'complete') return;
 
@@ -31963,12 +31966,12 @@ if (false) {(function () {
 
 			fetch('/merits/' + this.id, {
 				method: 'POST', // PATCH
-				headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(Object.assign(changes, {
 					_method: 'PATCH'
 				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 				_this.$emit('change');
 			}).catch(function (err) {
 				console.error(err);
@@ -33417,7 +33420,7 @@ if (false) {(function () {
 						[h(
 							'b',
 							null,
-							[Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["H" /* ucfirst */])(Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["b" /* camelCaseToWords */])(prop)), ': ']
+							[Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["I" /* ucfirst */])(Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["c" /* camelCaseToWords */])(prop)), ': ']
 						), item[prop]]
 					);
 				})]

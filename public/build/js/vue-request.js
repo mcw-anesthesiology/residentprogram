@@ -3205,9 +3205,9 @@ if (false) {(function () {
 			var header = Object(__WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__["f" /* csvHeader */])(this.thead);
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* escapeCsv */])(cell.toString());
+					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["B" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["C" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -3519,7 +3519,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.endDate = dates.endDate;
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["b" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__["a" /* default */]
@@ -6871,7 +6871,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["C" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["D" /* sortNumbers */]);
 
 	var _iteratorNormalCompletion = true;
 	var _didIteratorError = false;
@@ -8062,10 +8062,10 @@ function createRequest(el, propsData) {
 				});
 			},
 			evaluatorOptions: function evaluatorOptions() {
-				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["q" /* groupUsers */])(this.evaluators[0]);
+				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["r" /* groupUsers */])(this.evaluators[0]);
 			},
 			subjectOptions: function subjectOptions() {
-				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["q" /* groupUsers */])(this.subjects[0]);
+				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["r" /* groupUsers */])(this.subjects[0]);
 			},
 			subjectForms: function subjectForms() {
 				var forms = this.forms;
@@ -8080,7 +8080,7 @@ function createRequest(el, propsData) {
 				return forms;
 			},
 			formOptions: function formOptions() {
-				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* groupForms */])(this.subjectForms);
+				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["p" /* groupForms */])(this.subjectForms);
 			},
 			evaluationDate: function evaluationDate() {
 				if (this.useCustomEvaluationDate && this.customEvaluationDate) {

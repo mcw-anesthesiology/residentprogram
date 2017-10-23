@@ -1926,7 +1926,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["C" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["D" /* sortNumbers */]);
 
 	var _iteratorNormalCompletion = true;
 	var _didIteratorError = false;
@@ -2929,9 +2929,9 @@ function fetchAllMeritReports() {
 
 	return fetch('/merits?' + query, {
 		method: 'GET',
-		headers: Object(__WEBPACK_IMPORTED_MODULE_2__utils_js__["n" /* getFetchHeaders */])(),
+		headers: Object(__WEBPACK_IMPORTED_MODULE_2__utils_js__["o" /* getFetchHeaders */])(),
 		credentials: 'same-origin'
-	}).then(__WEBPACK_IMPORTED_MODULE_2__utils_js__["t" /* jsonOrThrow */]);
+	}).then(__WEBPACK_IMPORTED_MODULE_2__utils_js__["u" /* jsonOrThrow */]);
 }
 
 /***/ }),
@@ -7726,9 +7726,9 @@ if (false) {(function () {
 			var header = Object(__WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__["f" /* csvHeader */])(this.thead);
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* escapeCsv */])(cell.toString());
+					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["B" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["C" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -7915,7 +7915,10 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 /* harmony export (immutable) */ __webpack_exports__["f"] = walkQuestionnaireQuestions;
 /* harmony export (immutable) */ __webpack_exports__["c"] = getSelectValue;
 /* unused harmony export getRadioCheckboxValues */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(1);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+
 
 function getConditionChecker(questions) {
 	var questionIdMap = getQuestionsIdMap(questions);
@@ -8005,17 +8008,17 @@ function questionMatchesValue(question, value) {
 	switch (question.type) {
 		case 'text':
 			question;
-			if (typeof value === 'boolean' && question.value || typeof value === 'string' && value === question.value) return true;
+			if (question.value && (typeof value === 'boolean' && value || typeof value === 'string' && value === question.value || Array.isArray(value) && value.includes(question.value))) return true;
 			break;
 		case 'number':
 			question;
-			if (typeof value === 'boolean' && question.value || typeof value === 'number' && value === question.value) return true;
+			if (question.value && (typeof value === 'boolean' && value || typeof value === 'number' && value === question.value || Array.isArray(value) && value.includes(question.value))) return true;
 			break;
 		case 'select':
 			{
 				question;
 				var selectValue = getSelectValue(question);
-				if (typeof value === 'boolean' && selectValue || (typeof value === 'string' || typeof value === 'number') && value === selectValue) return true;
+				if (selectValue && (typeof value === 'boolean' && value || (typeof value === 'string' || typeof value === 'number') && value === selectValue || Array.isArray(value) && value.includes(selectValue))) return true;
 				break;
 			}
 		case 'checkbox':
@@ -8023,7 +8026,7 @@ function questionMatchesValue(question, value) {
 			{
 				question = question;
 				var values = getRadioCheckboxValues(question);
-				if (typeof value === 'boolean' && values.length > 0 || (typeof value === 'string' || typeof value === 'number') && values.includes(value)) return true;
+				if (values.length > 0 && (typeof value === 'boolean' && value || (typeof value === 'string' || typeof value === 'number') && values.includes(value) || Array.isArray(value) && Object(__WEBPACK_IMPORTED_MODULE_0__utils_js__["b" /* arraysIntersect */])(value, values))) return true;
 				break;
 			}
 		case 'list':
@@ -8298,7 +8301,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.endDate = dates.endDate;
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["b" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__["a" /* default */]
@@ -8655,7 +8658,7 @@ if (false) {
 		renderFieldName: function renderFieldName(field) {
 			if (field === 'id') return 'ID';
 
-			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["y" /* snakeCaseToWords */])(field);
+			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["z" /* snakeCaseToWords */])(field);
 		}
 	},
 	components: {
@@ -20515,7 +20518,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			subject: this.defaultSubject,
 			body: {
 				markdown: this.defaultBodyMarkdown,
-				html: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
+				html: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
 			},
 			editorType: 'medium',
 
@@ -20535,7 +20538,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			return ['medium', 'markdown'];
 		},
 		groupedPossibleRecipients: function groupedPossibleRecipients() {
-			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["q" /* groupUsers */])(this.possibleRecipients);
+			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* groupUsers */])(this.possibleRecipients);
 		},
 		toDisplayValue: function toDisplayValue() {
 			if (this.possibleRecipients || Array.isArray(this.to)) return (this.to ? this.to.length : '0') + ' recipients';
@@ -20552,7 +20555,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 		defaultBody: function defaultBody() {
 			return {
 				markdown: this.defaultBodyMarkdown,
-				html: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
+				html: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
 			};
 		}
 	},
@@ -20617,7 +20620,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 
 			fetch(this.target, {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
 			}).then(function (response) {
@@ -20659,7 +20662,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			});
 		},
 
-		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["I" /* ucfirst */]
 	},
 	components: {
 		AlertList: __WEBPACK_IMPORTED_MODULE_1__AlertList_vue__["a" /* default */],
@@ -27127,7 +27130,7 @@ if (false) {(function () {
 		this.editor.subscribe('editableInput', __WEBPACK_IMPORTED_MODULE_3_lodash_debounce___default()(function () {
 			var html = _this.editor.getContent();
 
-			_this.$emit('input', Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* htmlLabelReplacements */])(html, _this.replacements));
+			_this.$emit('input', Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* htmlLabelReplacements */])(html, _this.replacements));
 		}, 500));
 
 		this.$refs.container.querySelector('.medium-editor-element').classList.add('form-control');
@@ -37773,14 +37776,14 @@ if (false) {(function () {
 			return ['trainee', 'faculty', 'form', 'needs-evaluations', 'pending-requests', 'faculty-merit'];
 		},
 		groupedUsers: function groupedUsers() {
-			return Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["q" /* groupUsers */])(this.users);
+			return Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["r" /* groupUsers */])(this.users);
 		}
 	},
 
 	created: function created() {
 		var _this = this;
 
-		Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["l" /* fetchUsers */])().then(function (users) {
+		Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["m" /* fetchUsers */])().then(function (users) {
 			_this.users = users;
 		}).catch(function (err) {
 			console.error(err);
@@ -37789,7 +37792,7 @@ if (false) {(function () {
 
 
 	methods: {
-		kebabCaseToWords: __WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["u" /* kebabCaseToWords */]
+		kebabCaseToWords: __WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["v" /* kebabCaseToWords */]
 	}
 });
 
@@ -38138,7 +38141,7 @@ if (false) {(function () {
 	mounted: function mounted() {
 		var _this = this;
 
-		Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["j" /* fetchMilestones */])().then(function (milestones) {
+		Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["k" /* fetchMilestones */])().then(function (milestones) {
 			_this.milestones = milestones;
 		}).catch(function (err) {
 			console.error(err);
@@ -38148,7 +38151,7 @@ if (false) {(function () {
 			});
 		});
 
-		Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["e" /* fetchCompetencies */])().then(function (competencies) {
+		Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["f" /* fetchCompetencies */])().then(function (competencies) {
 			_this.competencies = competencies;
 		}).catch(function (err) {
 			console.error(err);
@@ -38169,7 +38172,7 @@ if (false) {(function () {
 
 	computed: {
 		milestoneGroups: function milestoneGroups() {
-			return Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["p" /* groupMilestones */])(this.milestones);
+			return Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["q" /* groupMilestones */])(this.milestones);
 		},
 		filteredUsers: function filteredUsers() {
 			var _this2 = this;
@@ -38221,7 +38224,7 @@ if (false) {(function () {
 
 			fetch('/report/aggregate', {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -38243,12 +38246,12 @@ if (false) {(function () {
 
 			fetch('/report/stats/trainee/trainee', {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(Object.assign({}, this.dates, {
 					trainingLevel: this.currentTrainingLevel
 				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["t" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["u" /* jsonOrThrow */]).then(function (stats) {
 				_this4.subjectStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -38256,12 +38259,12 @@ if (false) {(function () {
 
 			fetch('/report/stats/faculty/trainee', {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(Object.assign({}, this.dates, {
 					trainingLevel: this.currentTrainingLevel
 				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["t" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["u" /* jsonOrThrow */]).then(function (stats) {
 				_this4.evaluatorStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -38740,8 +38743,8 @@ if (false) {(function () {
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* camelCaseToWords */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* ucfirst */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* camelCaseToWords */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["I" /* ucfirst */]
 	},
 	components: {
 		BootstrapButtonInput: __WEBPACK_IMPORTED_MODULE_1__BootstrapButtonInput_vue__["a" /* default */],
@@ -41832,8 +41835,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* camelCaseToWords */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["H" /* ucfirst */],
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["c" /* camelCaseToWords */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["I" /* ucfirst */],
 		renderDateCell: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["i" /* renderDateCell */],
 		saveCharts: function saveCharts() {
 			if (this.$refs.competencyChart && this.$refs.competencyChart.chart) __WEBPACK_IMPORTED_MODULE_1_downloadjs___default()(this.$refs.competencyChart.chart.toBase64Image(), 'Competencies chart - ' + this.report.subjects[this.subjectId] + ' - ' + new Date().toLocaleString() + '.png');
@@ -42727,7 +42730,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["b" /* camelCaseToWords */],
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["c" /* camelCaseToWords */],
 		exportPdf: function exportPdf() {
 			var _this = this;
 
@@ -42762,7 +42765,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.ratiosThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.ratiosData.sort(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["E" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.ratiosThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.ratiosData.sort(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["F" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -42774,7 +42777,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.noRequestsThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.noRequestsData.sort(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["E" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.noRequestsThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.noRequestsData.sort(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["F" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -42786,7 +42789,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.noneCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.noneCompletedData.sort(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["E" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.noneCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.noneCompletedData.sort(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["F" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -42798,7 +42801,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.lastCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.lastCompletedData.sort(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["E" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.lastCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.lastCompletedData.sort(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["F" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -42812,7 +42815,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 						headerRows: 1,
 						body: JSON.parse(JSON.stringify([_this.averageCompletionTimesThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.averageCompletionTimesData.map(function (obj) {
 							return [obj.name, obj.time];
-						}).sort(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["E" /* sortPropIgnoreCase */])(0))))))
+						}).sort(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["F" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -43865,10 +43868,10 @@ if (false) {(function () {
 
 			fetch('/report/stats/trainee/faculty', {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(this.dates)
-			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["t" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["u" /* jsonOrThrow */]).then(function (stats) {
 				_this.evaluatorStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -43880,10 +43883,10 @@ if (false) {(function () {
 
 			fetch('/report/stats/faculty/faculty', {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(this.dates)
-			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["t" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["u" /* jsonOrThrow */]).then(function (stats) {
 				_this.subjectStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -44402,7 +44405,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 	created: function created() {
 		var _this3 = this;
 
-		Object(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["g" /* fetchFormGroups */])().then(function (groupedForms) {
+		Object(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["h" /* fetchFormGroups */])().then(function (groupedForms) {
 			_this3.groupedForms = groupedForms;
 		}).catch(function (err) {
 			_this3.alerts.push({
@@ -44443,7 +44446,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			fetch('/report/form', {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -44482,9 +44485,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			fetch('/evaluations?' + query, {
 				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["t" /* jsonOrThrow */]).then(function (subjectEvals) {
+			}).then(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["u" /* jsonOrThrow */]).then(function (subjectEvals) {
 				_this6.subjectEvals = subjectEvals;
 			}).catch(function (err) {
 				console.error(err);
@@ -45376,9 +45379,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["b" /* camelCaseToWords */],
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["c" /* camelCaseToWords */],
 		snarkdown: __WEBPACK_IMPORTED_MODULE_6_snarkdown__["a" /* default */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["H" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["I" /* ucfirst */],
 		round: __WEBPACK_IMPORTED_MODULE_5_lodash_round___default.a,
 		shouldDisregardValue: function shouldDisregardValue(value) {
 			return Object(__WEBPACK_IMPORTED_MODULE_7__modules_reports_form_report_js__["e" /* shouldDisregardOption */])(value, this.disregardOption);
@@ -47135,7 +47138,7 @@ if (false) {(function () {
 
 			fetch('/report/needs/evaluations', {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -47154,7 +47157,7 @@ if (false) {(function () {
 
 			fetch('/report/needs/competencies', {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -47172,7 +47175,7 @@ if (false) {(function () {
 
 			fetch('/report/needs/milestones', {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -47186,7 +47189,7 @@ if (false) {(function () {
 			});
 		},
 
-		groupUsers: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["q" /* groupUsers */]
+		groupUsers: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* groupUsers */]
 	},
 
 	components: {
@@ -47373,7 +47376,7 @@ if (false) {(function () {
 		}
 	},
 	methods: {
-		groupUsers: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["q" /* groupUsers */],
+		groupUsers: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["r" /* groupUsers */],
 		getPossibleRecipient: function getPossibleRecipient(id) {
 			return this.trainees.find(function (user) {
 				return user.id === Number(id);
@@ -47541,7 +47544,7 @@ if (false) {(function () {
 	},
 	methods: {
 		renderTrainingLevel: __WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__["s" /* renderTrainingLevel */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["H" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["I" /* ucfirst */]
 	},
 	components: {
 		EvaluationDetailsListItem: __WEBPACK_IMPORTED_MODULE_0__EvaluationDetailsListItem_vue__["a" /* default */],
@@ -48483,7 +48486,7 @@ if (false) {(function () {
 
 			fetch('/report/pending-requests', {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -48700,7 +48703,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		kebabCaseToWords: __WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["u" /* kebabCaseToWords */]
+		kebabCaseToWords: __WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["v" /* kebabCaseToWords */]
 	}
 });
 
@@ -48985,9 +48988,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			var q = $.param(this.dates);
 
 			fetch('/merits/by-user?' + q, {
-				headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["t" /* jsonOrThrow */]).then(function (usersWithMerits) {
+			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["u" /* jsonOrThrow */]).then(function (usersWithMerits) {
 				_this.usersWithMerits = usersWithMerits;
 			}).catch(function (err) {
 				console.error(err);

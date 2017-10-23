@@ -2731,10 +2731,10 @@ if (false) {(function () {
 
 			fetch(this.saveUrl, {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
-			}).then(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 				_this.$emit('reload');
 			}).catch(function (err) {
 				console.error(err);
@@ -3729,9 +3729,9 @@ function createAlumni(el, propsData) {
 
 				fetch('/alumni/hash/' + this.hash, {
 					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["t" /* jsonOrThrow */]).then(function (alum) {
+				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["u" /* jsonOrThrow */]).then(function (alum) {
 					_this.alum = alum;
 					_this.alerts.push({
 						type: 'success',
@@ -3875,13 +3875,13 @@ if (false) {(function () {
 
 			fetch(this.saveUrl, {
 				method: 'POST', // PATCH
-				headers: Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					_method: 'PATCH',
 					do_not_contact: !this.alum.do_not_contact
 				})
-			}).then(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 				_this.$emit('reload');
 			}).catch(function (err) {
 				console.error(err);
