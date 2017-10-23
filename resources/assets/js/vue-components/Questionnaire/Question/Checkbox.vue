@@ -20,7 +20,7 @@
 						class="form-control editable-option-text"
 						:value="option.text"
 						:readonly="readonly"
-						placholder="Other"
+						placeholder="Other"
 						@click="handleCheck(index)"
 						@input="handleEditableOptionInput(index, $event.target.value)" />
 					<template v-else>

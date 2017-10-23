@@ -1,0 +1,15 @@
+{
+	"type": "select",
+	"text": "Select question",
+	"options": [
+		{
+			"text": "Option 1",
+			"value": 1,
+			"selected": true
+		},
+		{
+			"text": "Option 2",
+			"value": 2
+		}
+	]
+}

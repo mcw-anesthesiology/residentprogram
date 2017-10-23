@@ -2775,6 +2775,7 @@ module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"
 /* unused harmony export getQuestionnaireIdMap */
 /* unused harmony export getQuestionsIdMap */
 /* unused harmony export questionMatchesValue */
+/* harmony export (immutable) */ __webpack_exports__["f"] = walkQuestionnaireQuestions;
 /* harmony export (immutable) */ __webpack_exports__["c"] = getSelectValue;
 /* unused harmony export getRadioCheckboxValues */
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -2895,6 +2896,27 @@ function questionMatchesValue(question, value) {
 	}
 
 	return false;
+}
+
+function walkQuestionnaireQuestions(questionnaire, questionCallback) {
+
+	var newQuestionnaire = Object.assign({}, questionnaire);
+
+	newQuestionnaire.sections = questionnaire.sections.map(function (section) {
+		var newSection = Object.assign({}, section);
+		newSection.items = section.items.map(function (item) {
+			return (
+				// $FlowFixMe
+				questionCallback && isQuestion(item) ? // $FlowFixMe
+				questionCallback(item, newSection) // $FlowFixMe
+				: Object.assign({}, item)
+			);
+		});
+
+		return newSection;
+	});
+
+	return newQuestionnaire;
 }
 
 function getSelectValue(question) {
@@ -8110,7 +8132,7 @@ var render = function() {
                       attrs: {
                         type: "text",
                         readonly: _vm.readonly,
-                        placholder: "Other"
+                        placeholder: "Other"
                       },
                       domProps: { value: option.text },
                       on: {
@@ -8265,7 +8287,8 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ValidatedFormGroup_vue__ = __webpack_require__(127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_snarkdown__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_questionnaire_validate_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_questionnaire_reset_js__ = __webpack_require__(855);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_questionnaire_validate_js__ = __webpack_require__(6);
 //
 //
 //
@@ -8317,6 +8340,7 @@ if (false) {(function () {
 //
 //
 //
+
 
 
 
@@ -8379,7 +8403,7 @@ if (false) {(function () {
 			if (this.description) return Object(__WEBPACK_IMPORTED_MODULE_2_snarkdown__["a" /* default */])(this.description);
 		},
 		validation: function validation() {
-			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_questionnaire_validate_js__["m" /* radioQuestion */])(this);
+			return Object(__WEBPACK_IMPORTED_MODULE_4__modules_questionnaire_validate_js__["m" /* radioQuestion */])(this);
 		}
 	},
 
@@ -8399,7 +8423,12 @@ if (false) {(function () {
 			this.$emit('input', { options: options });
 		},
 		resetValue: function resetValue() {
-			this.handleCheck(-1);
+			if (this.readonly) return;
+
+			this.$emit('input', Object(__WEBPACK_IMPORTED_MODULE_3__modules_questionnaire_reset_js__["a" /* resetQuestion */])({
+				type: 'radio',
+				options: this.options
+			}));
 		},
 		handleEditableOptionInput: function handleEditableOptionInput(index, value) {
 			if (this.readonly) return;
@@ -8471,7 +8500,7 @@ var render = function() {
                       attrs: {
                         type: "text",
                         readonly: _vm.readonly,
-                        placholder: "Other"
+                        placeholder: "Other"
                       },
                       domProps: { value: option.text },
                       on: {
@@ -17514,7 +17543,8 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapAlert_vue__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShowHideButton_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_questionnaire_index_js__ = __webpack_require__(140);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_questionnaire_validate_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_questionnaire_reset_js__ = __webpack_require__(855);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_questionnaire_validate_js__ = __webpack_require__(6);
 //
 //
 //
@@ -17583,7 +17613,7 @@ if (false) {(function () {
 			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_questionnaire_index_js__["a" /* getConditionChecker */])(this.questions);
 		},
 		validation: function validation() {
-			return Object(__WEBPACK_IMPORTED_MODULE_4__modules_questionnaire_validate_js__["l" /* questionnaire */])(this);
+			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_questionnaire_validate_js__["l" /* questionnaire */])(this);
 		}
 	},
 
@@ -17592,7 +17622,7 @@ if (false) {(function () {
 			var sections = this.sections.slice();
 			sections[index] = Object.assign({}, sections[index], section);
 
-			this.$emit('input', { sections: sections });
+			this.$emit('input', Object(__WEBPACK_IMPORTED_MODULE_4__modules_questionnaire_reset_js__["b" /* resetUnmetQuestions */])({ sections: sections }));
 		}
 	},
 
@@ -18940,6 +18970,96 @@ if (false) {
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-b77c743e", esExports)
   }
+}
+
+/***/ }),
+
+/***/ 855:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = resetQuestion;
+/* harmony export (immutable) */ __webpack_exports__["b"] = resetUnmetQuestions;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index_js__ = __webpack_require__(140);
+
+
+function resetQuestion(question) {
+	switch (question.type) {
+		case 'text':
+			return resetTextQuestion(question);
+		case 'number':
+			return resetNumberQuestion(question);
+		case 'select':
+			return resetSelectQuestion(question);
+		case 'checkbox':
+			return resetCheckboxQuestion(question);
+		case 'radio':
+			return resetRadioQuestion(question);
+		case 'list':
+			return resetListQuestion(question);
+	}
+}
+
+function resetTextQuestion(question) {
+	var newQuestion = Object.assign({}, question);
+	delete newQuestion.value;
+	return newQuestion;
+}
+
+function resetNumberQuestion(question) {
+	var newQuestion = Object.assign({}, question);
+	delete newQuestion.value;
+	return newQuestion;
+}
+
+function resetSelectQuestion(question) {
+	var newQuestion = Object.assign({}, question);
+	newQuestion.options = newQuestion.options.map(function (option) {
+		var newOption = Object.assign({}, option);
+		delete newOption.selected;
+		return newOption;
+	});
+	return newQuestion;
+}
+
+function resetCheckboxQuestion(question) {
+	return resetRadioCheckboxQuestion(question);
+}
+
+function resetRadioQuestion(question) {
+	return resetRadioCheckboxQuestion(question);
+}
+
+function resetRadioCheckboxQuestion(question) {
+	var newQuestion = Object.assign({}, question);
+	newQuestion.options = newQuestion.options.map(function (option) {
+		var newOption = Object.assign({}, option);
+		delete newOption.checked;
+
+		if (newOption.editable) {
+			newOption.text = '';
+			newOption.value = '';
+		}
+
+		return newOption;
+	});
+	return newQuestion;
+}
+
+function resetListQuestion(question) {
+	var newQuestion = Object.assign({}, question);
+	newQuestion.items = [];
+	return newQuestion;
+}
+
+function resetUnmetQuestions(questionnaire) {
+	var checker = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Object(__WEBPACK_IMPORTED_MODULE_0__index_js__["a" /* getConditionChecker */])(Object(__WEBPACK_IMPORTED_MODULE_0__index_js__["b" /* getQuestions */])(questionnaire));
+
+	var resetter = function resetter(question, section) {
+		return section.condition && !checker(section.condition) || question.condition && !checker(question.condition) ? resetQuestion(question) : question;
+	};
+
+	return Object(__WEBPACK_IMPORTED_MODULE_0__index_js__["f" /* walkQuestionnaireQuestions */])(questionnaire, resetter);
 }
 
 /***/ })

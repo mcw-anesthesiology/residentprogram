@@ -20,7 +20,7 @@
 						class="form-control editable-option-text"
 						:value="option.text"
 						:readonly="readonly"
-						placholder="Other"
+						placeholder="Other"
 						@click="handleCheck(index)"
 						@input="handleEditableOptionInput(index, $event.target.value)" />
 					<template v-else>
@@ -55,6 +55,7 @@ import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
 import snarkdown from 'snarkdown';
 
+import { resetQuestion } from '@/modules/questionnaire/reset.js';
 import { radioQuestion as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
@@ -132,7 +133,13 @@ export default {
 			this.$emit('input', {options});
 		},
 		resetValue() {
-			this.handleCheck(-1);
+			if (this.readonly)
+				return;
+
+			this.$emit('input', resetQuestion({
+				type: 'radio',
+				options: this.options
+			}));
 		},
 		handleEditableOptionInput(index, value) {
 			if (this.readonly)

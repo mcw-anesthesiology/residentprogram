@@ -1,0 +1,11 @@
+{
+	"type": "list",
+	"listType": "text",
+	"text": "List question",
+	"items": [
+		{
+			"type": "text",
+			"text": "Okay"
+		}
+	]
+}

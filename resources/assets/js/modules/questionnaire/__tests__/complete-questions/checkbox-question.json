@@ -1,0 +1,21 @@
+{
+	"type": "checkbox",
+	"text": "Checkbox question",
+	"options": [
+		{
+			"text": "Option 1",
+			"value": 1,
+			"checked": true
+		},
+		{
+			"text": "Option 2",
+			"value": 2,
+			"checked": true
+		},
+		{
+			"text": "Option 3",
+			"value": 3,
+			"checked": false
+		}
+	]
+}
