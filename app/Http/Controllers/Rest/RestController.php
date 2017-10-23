@@ -65,19 +65,24 @@ class RestController extends Controller
 
 		foreach($request->intersect($this->attributes) as $name => $value){
 			if(is_array($value)){
-				if(count($value) == 2 && in_array($value[0], [
-					'>',
-					'<',
-					'=',
-					'>=',
-					'<=',
-					'!='
-				]))
-					$query->where($name, $value[0], $value[1]);
-				else
-					$query->whereIn($name, $value);
-			}
-			else {
+				if (!is_array($value[0])) {
+					$value = [$value];
+				}
+
+				foreach($value as $valueEntry) {
+					if(count($valueEntry) == 2 && in_array($valueEntry[0], [
+						'>',
+						'<',
+						'=',
+						'>=',
+						'<=',
+						'!='
+					]))
+						$query->where($name, $valueEntry[0], $valueEntry[1]);
+					else
+						$query->whereIn($name, $valueEntry);
+				}
+			} else {
 				$query->where($name, $value);
 			}
 		}
