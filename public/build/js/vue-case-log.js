@@ -2492,6 +2492,62 @@ if (false) {
 
 /***/ }),
 
+/***/ 133:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_StartEndDate_vue__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7d00f708_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_StartEndDate_vue__ = __webpack_require__(147);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(145)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-7d00f708"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_StartEndDate_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7d00f708_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_StartEndDate_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/StartEndDate.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7d00f708", Component.options)
+  } else {
+    hotAPI.reload("data-v-7d00f708", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+
 /***/ 135:
 /***/ (function(module, exports) {
 
@@ -2935,6 +2991,403 @@ function getRadioCheckboxValues(question) {
 	}).map(function (option) {
 		return option.value;
 	});
+}
+
+/***/ }),
+
+/***/ 145:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 146:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css__ = __webpack_require__(129);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(10);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		value: {
+			type: Object,
+			required: true
+		},
+		hideDates: {
+			type: Boolean,
+			default: false
+		},
+		allTime: {
+			type: Boolean,
+			default: false
+		},
+		ranges: {
+			type: Object,
+			default: function _default() {
+				var _ref;
+
+				return _ref = {}, _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CUSTOM, null), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CURRENT_QUARTER, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["currentQuarter"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].LAST_QUARTER, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["lastQuarter"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CURRENT_SEMESTER, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["currentSemester"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].LAST_SEMESTER, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["lastSemester"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CURRENT_YEAR, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["currentYear"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].LAST_YEAR, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["lastYear"]()), _ref;
+			}
+		},
+		clearable: {
+			type: Boolean,
+			default: false
+		}
+	},
+	data: function data() {
+		return {
+			startDate: this.value.startDate,
+			endDate: this.value.endDate,
+			dateRange: __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CUSTOM
+		};
+	},
+	created: function created() {
+		this.matchDateRangeWithValue();
+	},
+
+	computed: {
+		dates: function dates() {
+			var startDate = this.startDate && __WEBPACK_IMPORTED_MODULE_2_moment___default()(this.startDate).isValid() ? this.startDate : null;
+
+			var endDate = this.endDate && __WEBPACK_IMPORTED_MODULE_2_moment___default()(this.endDate).isValid() ? this.endDate : null;
+
+			return {
+				startDate: startDate,
+				endDate: endDate
+			};
+		},
+		dateRanges: function dateRanges() {
+			var ranges = Object.assign({}, this.ranges);
+			if (this.allTime && !ranges[__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].ALL_TIME]) ranges[__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].ALL_TIME] = __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["allTime"]();else delete ranges[__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].ALL_TIME];
+
+			return ranges;
+		},
+		flatpickrOptions: function flatpickrOptions() {
+			return {
+				altInput: true,
+				altInputClass: 'form-control appear-not-readonly',
+				altFormat: 'M j, Y'
+			};
+		}
+	},
+	watch: {
+		dates: function dates(_dates) {
+			this.$emit('input', _dates);
+		},
+		value: function value(_value) {
+			this.matchDateRangeWithValue();
+			this.startDate = _value.startDate;
+			this.endDate = _value.endDate;
+		},
+		dateRange: function dateRange(_dateRange) {
+			if (_dateRange === __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].ALL_TIME) this.setDate(__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["allTime"]());
+
+			if (_dateRange !== __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CUSTOM && this.dateRanges[_dateRange] && !__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["datesEqual"](this.value, this.dateRanges[_dateRange])) this.setDate(this.dateRanges[_dateRange]);
+		}
+	},
+	methods: {
+		matchDateRangeWithValue: function matchDateRangeWithValue() {
+			var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.value;
+
+			if (this.allTime && !value.startDate && !value.endDate) {
+				this.dateRange = __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].ALL_TIME;
+				return;
+			}
+
+			if (this.dateRange && this.dateRange !== __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CUSTOM && this.dateRanges[this.dateRange] && __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["datesEqual"](value, this.dateRanges[this.dateRange])) return;
+
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = Object.values(__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"])[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var range = _step.value;
+
+					if (this.dateRanges[range] && __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["datesEqual"](value, this.dateRanges[range])) {
+						this.dateRange = range;
+						return;
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			this.dateRange = __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CUSTOM;
+		},
+		setDate: function setDate(dates) {
+			dates = __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateStringObject"](dates);
+			this.startDate = dates.startDate;
+			this.endDate = dates.endDate;
+		},
+
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* camelCaseToWords */]
+	},
+	components: {
+		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__["a" /* default */]
+	}
+});
+
+/***/ }),
+
+/***/ 147:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { ref: "container", staticClass: "form-horizontal" }, [
+    _c("div", { staticClass: "form-group" }, [
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("label", { staticClass: "containing-label" }, [
+          _vm._v("\n\t\t\t\tDate Range\n\t\t\t\t"),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.dateRange,
+                  expression: "dateRange"
+                }
+              ],
+              staticClass: "form-control",
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.dateRange = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(_vm.dateRanges, function(range, name) {
+              return _c("option", { domProps: { value: name } }, [
+                _vm._v(
+                  "\n\t\t\t\t\t\t" +
+                    _vm._s(_vm.camelCaseToWords(name)) +
+                    "\n\t\t\t\t\t"
+                )
+              ])
+            })
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-6 col-md-4" }, [
+        _c(
+          "label",
+          { staticClass: "containing-label" },
+          [
+            _vm._v("\n\t\t\t\tStart Date\n\t\t\t\t"),
+            _vm.clearable
+              ? _c(
+                  "div",
+                  { staticClass: "input-group" },
+                  [
+                    _c("vue-flatpickr", {
+                      staticClass: "form-control",
+                      attrs: { options: _vm.flatpickrOptions },
+                      model: {
+                        value: _vm.startDate,
+                        callback: function($$v) {
+                          _vm.startDate = $$v
+                        },
+                        expression: "startDate"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "input-group-btn" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-default",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.startDate = null
+                            }
+                          }
+                        },
+                        [_vm._v("\n\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t")]
+                      )
+                    ])
+                  ],
+                  1
+                )
+              : _c("vue-flatpickr", {
+                  staticClass: "form-control",
+                  attrs: { options: _vm.flatpickrOptions },
+                  model: {
+                    value: _vm.startDate,
+                    callback: function($$v) {
+                      _vm.startDate = $$v
+                    },
+                    expression: "startDate"
+                  }
+                })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-6 col-md-4" }, [
+        _c(
+          "label",
+          { staticClass: "containing-label" },
+          [
+            _vm._v("\n\t\t\t\tEnd Date\n\t\t\t\t"),
+            _vm.clearable
+              ? _c(
+                  "div",
+                  { staticClass: "input-group" },
+                  [
+                    _c("vue-flatpickr", {
+                      staticClass: "form-control",
+                      attrs: { options: _vm.flatpickrOptions },
+                      model: {
+                        value: _vm.endDate,
+                        callback: function($$v) {
+                          _vm.endDate = $$v
+                        },
+                        expression: "endDate"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "input-group-btn" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-default",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.endDate = null
+                            }
+                          }
+                        },
+                        [_vm._v("\n\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t")]
+                      )
+                    ])
+                  ],
+                  1
+                )
+              : _c("vue-flatpickr", {
+                  staticClass: "form-control",
+                  attrs: { options: _vm.flatpickrOptions },
+                  model: {
+                    value: _vm.endDate,
+                    callback: function($$v) {
+                      _vm.endDate = $$v
+                    },
+                    expression: "endDate"
+                  }
+                })
+          ],
+          1
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7d00f708", esExports)
+  }
 }
 
 /***/ }),
@@ -16789,10 +17242,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_mixins_HasAlerts_js__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_ComponentList_vue__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_ShowHideButton_vue__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__vue_components_CaseLog_CaseLogs_vue__ = __webpack_require__(830);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__vue_components_CaseLog_Editor_vue__ = __webpack_require__(848);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__vue_components_CaseLog_V1_Editor_vue__ = __webpack_require__(852);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__vue_components_StartEndDate_vue__ = __webpack_require__(133);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__vue_components_CaseLog_CaseLogs_vue__ = __webpack_require__(830);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__vue_components_CaseLog_Editor_vue__ = __webpack_require__(848);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__vue_components_CaseLog_V1_Editor_vue__ = __webpack_require__(852);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__modules_date_utils_js__ = __webpack_require__(10);
+
+
 
 
 
@@ -16829,6 +17286,7 @@ function createCaseLog(el, propsData) {
 		propsData: propsData,
 		data: function data() {
 			return {
+				dates: Object(__WEBPACK_IMPORTED_MODULE_11__modules_date_utils_js__["isoDateStringObject"])(Object(__WEBPACK_IMPORTED_MODULE_11__modules_date_utils_js__["currentQuarter"])()),
 				caseLogs: [],
 				show: {
 					charts: false,
@@ -16896,7 +17354,7 @@ function createCaseLog(el, propsData) {
 				return subsections;
 			},
 			isAdmin: function isAdmin() {
-				return Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["K" /* userIsType */])(this.user, 'admin');
+				return Object(__WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["K" /* userIsType */])(this.user, 'admin');
 			},
 			caseLogFields: function caseLogFields() {
 				return ['full_name'];
@@ -16946,22 +17404,36 @@ function createCaseLog(el, propsData) {
 		},
 
 
+		watch: {
+			dates: function dates() {
+				this.fetchCaseLogs();
+			}
+		},
+
 		methods: {
 			fetchCaseLogs: function fetchCaseLogs() {
 				var _this = this;
 
-				var query = $.param({
+				var params = {
 					with: {
 						location: ['name'],
 						user: ['full_name'],
 						detailsSchema: true
 					}
-				});
+				};
+
+				if (this.dates.startDate || this.dates.endDate) {
+					params.case_date = [];
+					if (this.dates.startDate) params.case_date.push(['>=', this.dates.startDate]);
+					if (this.dates.endDate) params.case_date.push(['<=', this.dates.endDate]);
+				}
+
+				var query = $.param(params);
 
 				fetch('/case_logs?' + query, {
-					headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["o" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["u" /* jsonOrThrow */]).then(function (caseLogs) {
+				}).then(__WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["u" /* jsonOrThrow */]).then(function (caseLogs) {
 					_this.caseLogs = caseLogs;
 				}).catch(function (err) {
 					console.error(err);
@@ -16976,12 +17448,12 @@ function createCaseLog(el, propsData) {
 
 				fetch('/case_logs/' + caseLogId, {
 					method: 'POST', // DELETE
-					headers: Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["o" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'DELETE'
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["x" /* okOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_10__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 					_this2.removeCaseLog(caseLogId);
 				}).catch(function (err) {
 					console.error(err);
@@ -17005,10 +17477,11 @@ function createCaseLog(el, propsData) {
 		components: {
 			ComponentList: __WEBPACK_IMPORTED_MODULE_4__vue_components_ComponentList_vue__["a" /* default */],
 			ShowHideButton: __WEBPACK_IMPORTED_MODULE_5__vue_components_ShowHideButton_vue__["a" /* default */],
-			CaseLogs: __WEBPACK_IMPORTED_MODULE_6__vue_components_CaseLog_CaseLogs_vue__["a" /* default */],
+			StartEndDate: __WEBPACK_IMPORTED_MODULE_6__vue_components_StartEndDate_vue__["a" /* default */],
+			CaseLogs: __WEBPACK_IMPORTED_MODULE_7__vue_components_CaseLog_CaseLogs_vue__["a" /* default */],
 			VueFlatpickr: __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr__["a" /* default */],
-			CaseLogEditor: __WEBPACK_IMPORTED_MODULE_7__vue_components_CaseLog_Editor_vue__["a" /* default */],
-			CaseLogEditorV1: __WEBPACK_IMPORTED_MODULE_8__vue_components_CaseLog_V1_Editor_vue__["a" /* default */]
+			CaseLogEditor: __WEBPACK_IMPORTED_MODULE_8__vue_components_CaseLog_Editor_vue__["a" /* default */],
+			CaseLogEditorV1: __WEBPACK_IMPORTED_MODULE_9__vue_components_CaseLog_V1_Editor_vue__["a" /* default */]
 		}
 	});
 }
