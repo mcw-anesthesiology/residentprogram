@@ -19,6 +19,7 @@
 					<input type="text" v-if="option.editable"
 						class="form-control editable-option-text"
 						:value="option.text"
+						:readonly="readonly"
 						placholder="Other"
 						@click="handleCheck(index)"
 						@input="handleEditableOptionInput(index, $event.target.value)" />
@@ -117,6 +118,9 @@ export default {
 	methods: {
 		snarkdown,
 		handleCheck(index) {
+			if (this.readonly)
+				return;
+
 			let options = this.options.map((option, i) => {
 				let newOption = Object.assign({}, option);
 
@@ -131,6 +135,9 @@ export default {
 			this.handleCheck(-1);
 		},
 		handleEditableOptionInput(index, value) {
+			if (this.readonly)
+				return;
+
 			let options = Array.slice(this.options);
 			options[index] = Object.assign({}, options[index], {text: value, value});
 
