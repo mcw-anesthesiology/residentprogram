@@ -1449,7 +1449,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["C" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["D" /* sortNumbers */]);
 
 	var _iteratorNormalCompletion = true;
 	var _didIteratorError = false;
@@ -7143,9 +7143,9 @@ if (false) {(function () {
 			var header = Object(__WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__["f" /* csvHeader */])(this.thead);
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* escapeCsv */])(cell.toString());
+					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["B" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["C" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -7599,7 +7599,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.endDate = dates.endDate;
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["b" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__["a" /* default */]
@@ -7956,7 +7956,7 @@ if (false) {
 		renderFieldName: function renderFieldName(field) {
 			if (field === 'id') return 'ID';
 
-			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["y" /* snakeCaseToWords */])(field);
+			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["z" /* snakeCaseToWords */])(field);
 		}
 	},
 	components: {
@@ -14755,7 +14755,7 @@ if (false) {(function () {
 		var _this = this;
 
 		if (this.showMilestonesCompetencies) {
-			Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["i" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+			Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["j" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
 				_this.groupedMilestones = milestoneGroups;
 			}).catch(function (err) {
 				console.error(err);
@@ -14803,7 +14803,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["I" /* ucfirst */],
 		addInstruction: function addInstruction() {
 			this.items.push({
 				type: 'instruction',
@@ -15484,7 +15484,7 @@ if (false) {(function () {
 					id: competency.id,
 					text: competency.title
 				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["G" /* sortSelect2Objects */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* sortSelect2Objects */]);
 		}
 	},
 	methods: {
@@ -23954,7 +23954,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			subject: this.defaultSubject,
 			body: {
 				markdown: this.defaultBodyMarkdown,
-				html: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
+				html: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
 			},
 			editorType: 'medium',
 
@@ -23974,7 +23974,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			return ['medium', 'markdown'];
 		},
 		groupedPossibleRecipients: function groupedPossibleRecipients() {
-			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["q" /* groupUsers */])(this.possibleRecipients);
+			return Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* groupUsers */])(this.possibleRecipients);
 		},
 		toDisplayValue: function toDisplayValue() {
 			if (this.possibleRecipients || Array.isArray(this.to)) return (this.to ? this.to.length : '0') + ' recipients';
@@ -23991,7 +23991,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 		defaultBody: function defaultBody() {
 			return {
 				markdown: this.defaultBodyMarkdown,
-				html: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
+				html: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
 			};
 		}
 	},
@@ -24056,7 +24056,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 
 			fetch(this.target, {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
 			}).then(function (response) {
@@ -24098,7 +24098,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			});
 		},
 
-		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["I" /* ucfirst */]
 	},
 	components: {
 		AlertList: __WEBPACK_IMPORTED_MODULE_1__AlertList_vue__["a" /* default */],
@@ -30566,7 +30566,7 @@ if (false) {(function () {
 		this.editor.subscribe('editableInput', __WEBPACK_IMPORTED_MODULE_3_lodash_debounce___default()(function () {
 			var html = _this.editor.getContent();
 
-			_this.$emit('input', Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* htmlLabelReplacements */])(html, _this.replacements));
+			_this.$emit('input', Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["s" /* htmlLabelReplacements */])(html, _this.replacements));
 		}, 500));
 
 		this.$refs.container.querySelector('.medium-editor-element').classList.add('form-control');
@@ -39856,10 +39856,10 @@ if (false) {(function () {
 
 			fetch(this.saveUrl, {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
-			}).then(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 				_this.$emit('reload');
 			}).catch(function (err) {
 				console.error(err);
@@ -41201,7 +41201,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["H" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["I" /* ucfirst */],
 		resetOptions: function resetOptions() {
 			if (this.readonly) return;
 
@@ -43330,9 +43330,9 @@ if (false) {(function () {
 
 			fetch('/alumni', {
 				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["t" /* jsonOrThrow */]).then(function (alumni) {
+			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["u" /* jsonOrThrow */]).then(function (alumni) {
 				_this.alumni = alumni;
 			}).catch(function (err) {
 				console.error(err);
@@ -43371,12 +43371,12 @@ if (false) {(function () {
 
 			fetch('/alumni/' + alum.id, {
 				method: 'POST', // DELETE
-				headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					_method: 'DELETE'
 				})
-			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 				_this2.fetchAlumni();
 			}).catch(function (err) {
 				console.error(err);
@@ -44307,9 +44307,9 @@ if (false) {(function () {
 
 			fetch('/users?' + query, {
 				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (users) {
+			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["u" /* jsonOrThrow */]).then(function (users) {
 				_this4.residents = users;
 			}).catch(function (err) {
 				console.error(err);
@@ -44329,9 +44329,9 @@ if (false) {(function () {
 
 			fetch('/users?' + query, {
 				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (users) {
+			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["u" /* jsonOrThrow */]).then(function (users) {
 				_this5.fellows = users;
 			}).catch(function (err) {
 				console.error(err);
@@ -44350,9 +44350,9 @@ if (false) {(function () {
 
 			fetch('/users?' + query, {
 				method: 'GET',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (users) {
+			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["u" /* jsonOrThrow */]).then(function (users) {
 				_this6.faculty = users;
 			}).catch(function (err) {
 				console.error(err);
@@ -44367,13 +44367,13 @@ if (false) {(function () {
 
 			fetch('/alumni/import/users', {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					users: this.usersToImport,
 					graduation_date: this.graduationDate
 				})
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (response) {
+			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["u" /* jsonOrThrow */]).then(function (response) {
 				if (response.successes && response.successes.length > 0) {
 					var lis = response.successes.map(function (userId) {
 						var user = _this7.selectedUsers.find(function (user) {
@@ -45050,7 +45050,7 @@ function createManageCaseLogs(el, propsData) {
 			fetchLocations: function fetchLocations() {
 				var _this = this;
 
-				fetch('/locations', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["f" /* fetchConfig */])())).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["t" /* jsonOrThrow */]).then(function (locations) {
+				fetch('/locations', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["g" /* fetchConfig */])())).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["u" /* jsonOrThrow */]).then(function (locations) {
 					_this.locations = locations;
 				}).catch(function (err) {
 					console.error(err);
@@ -45073,30 +45073,30 @@ function createManageCaseLogs(el, propsData) {
 			deleteLocation: function deleteLocation(location) {
 				var _this2 = this;
 
-				fetch('/locations/' + location.id, Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["f" /* fetchConfig */])(), {
+				fetch('/locations/' + location.id, Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["g" /* fetchConfig */])(), {
 					method: 'POST', // DELETE
 					body: JSON.stringify({
 						_method: 'DELETE'
 					})
-				})).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+				})).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 					_this2.fetchLocations();
 				}).catch(function (err) {
 					console.error(err);
-					_this2.alerts.push(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["x" /* simpleErrorAlert */])('There was a problem deleting the location'));
+					_this2.alerts.push(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["y" /* simpleErrorAlert */])('There was a problem deleting the location'));
 				});
 			},
 			handleSchemaSubmit: function handleSchemaSubmit(detailsType, schema) {
 				var _this3 = this;
 
-				fetch('/case_log_details_schemas', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["f" /* fetchConfig */])(), {
+				fetch('/case_log_details_schemas', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["g" /* fetchConfig */])(), {
 					method: 'POST',
 					body: JSON.stringify({
 						details_type: detailsType,
 						schema: schema
 					})
-				})).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["w" /* okOrThrow */]).then(function () {}).catch(function (err) {
+				})).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["x" /* okOrThrow */]).then(function () {}).catch(function (err) {
 					console.error(err);
-					_this3.alerts.push(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["x" /* simpleErrorAlert */])('There was a problem updating the schema'));
+					_this3.alerts.push(Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["y" /* simpleErrorAlert */])('There was a problem updating the schema'));
 				});
 			}
 		},
@@ -45263,13 +45263,13 @@ function createManageCaseLogs(el, propsData) {
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["H" /* ucfirst */],
-		ucfirstWords: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["I" /* ucfirstWords */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["I" /* ucfirst */],
+		ucfirstWords: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["J" /* ucfirstWords */],
 		fetchSchemas: function fetchSchemas() {
 			var _this = this;
 
 			Promise.all(this.schemaUrls.map(function (url) {
-				return fetch(url, Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["f" /* fetchConfig */])())).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["t" /* jsonOrThrow */]);
+				return fetch(url, Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["g" /* fetchConfig */])())).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["u" /* jsonOrThrow */]);
 			})).then(function (schemas) {
 				var ajv = new __WEBPACK_IMPORTED_MODULE_2_ajv___default.a({
 					allErrors: true
@@ -50116,14 +50116,14 @@ if (false) {(function () {
 
 			if (this.editing) body._method = 'PATCH';
 
-			fetch(url, Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["f" /* fetchConfig */])(), {
+			fetch(url, Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["g" /* fetchConfig */])(), {
 				method: 'POST', // maybe PATCH
 				body: JSON.stringify(body)
-			})).then(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+			})).then(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 				_this.$emit('submit');
 			}).catch(function (err) {
 				console.error(err);
-				_this.$emit('alert', Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["x" /* simpleErrorAlert */])('There was a problem saving the location'));
+				_this.$emit('alert', Object(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["y" /* simpleErrorAlert */])('There was a problem saving the location'));
 			});
 		}
 	}
@@ -50294,7 +50294,7 @@ function createManageEvaluations(el, propsData) {
 									visBtnType = 'btn-default';
 									break;
 							}
-							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["H" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["H" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
+							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["I" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["I" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
 						} }, { data: null, orderable: false, render: function render(evaluation) {
 							var buttonClass = void 0,
 							    buttonType = void 0,
@@ -50433,7 +50433,7 @@ function createManageFaculty360(el) {
 		},
 
 		methods: {
-			ucfirst: __WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["H" /* ucfirst */],
+			ucfirst: __WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["I" /* ucfirst */],
 			renderDateTime: __WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDateTime"],
 			renderDateRange: __WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDateRange"],
 			getEvaluationStatusLabel: __WEBPACK_IMPORTED_MODULE_11__modules_datatable_utils_js__["f" /* getEvaluationStatusLabel */],
@@ -50442,9 +50442,9 @@ function createManageFaculty360(el) {
 
 				fetch('/faculty360/forms', {
 					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["t" /* jsonOrThrow */]).then(function (forms) {
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["u" /* jsonOrThrow */]).then(function (forms) {
 					_this.forms = forms;
 				}).catch(function (err) {
 					console.error(err);
@@ -50468,9 +50468,9 @@ function createManageFaculty360(el) {
 
 				fetch('/faculty360/evaluations?' + query, {
 					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["t" /* jsonOrThrow */]).then(function (evals) {
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["u" /* jsonOrThrow */]).then(function (evals) {
 					_this2.evaluations = evals;
 				}).catch(function (err) {
 					console.error(err);
@@ -50487,13 +50487,13 @@ function createManageFaculty360(el) {
 
 				fetch('/faculty360/forms/' + form.id, {
 					method: 'POST', // PATCH
-					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
 						status: newStatus
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 					_this3.fetchForms();
 				}).catch(function (err) {
 					console.error(err);
@@ -50512,13 +50512,13 @@ function createManageFaculty360(el) {
 
 				fetch('/faculty360/evaluations/' + evaluation.id, {
 					method: 'POST', // PATCH
-					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
 						status: newStatus
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 					_this4.fetchEvaluations();
 				}).catch(function (err) {
 					console.error(err);
@@ -50535,9 +50535,9 @@ function createManageFaculty360(el) {
 
 				fetch('/faculty360/evaluations/' + evaluation.id + '/send-new', {
 					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 					_this5.alerts.push({
 						type: 'success',
 						text: 'New link sent successfully!'
@@ -50560,10 +50560,10 @@ function createManageFaculty360(el) {
 
 				fetch('/faculty360/forms', {
 					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(form)
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["t" /* jsonOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["u" /* jsonOrThrow */]).then(function () {
 					_this6.show.createForm = false;
 					_this6.fetchForms();
 				}).catch(function (err) {
@@ -50704,9 +50704,9 @@ function createManageMerit(el, propsData) {
 
 				fetch('/merit-forms', {
 					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["t" /* jsonOrThrow */]).then(function (meritForms) {
+				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["u" /* jsonOrThrow */]).then(function (meritForms) {
 					_this.meritForms = meritForms;
 				}).catch(function (err) {
 					console.error(err);
@@ -50721,7 +50721,7 @@ function createManageMerit(el, propsData) {
 
 				fetch('/setting/' + reportTypeFormsKey, {
 					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
 				}).then(function (response) {
 					if (response.ok) return response.json();
@@ -50764,7 +50764,7 @@ function createManageMerit(el, propsData) {
 
 				fetch('/merit-forms', {
 					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(merit)
 				}).then(function (response) {
@@ -50789,7 +50789,7 @@ function createManageMerit(el, propsData) {
 				formRemovalPromises = forms.map(function (form) {
 					return fetch('/merit-forms/' + form.id, {
 						method: 'POST', // DELETE
-						headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+						headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* getFetchHeaders */])(),
 						credentials: 'same-origin',
 						body: JSON.stringify({
 							_method: 'DELETE'
@@ -50802,7 +50802,7 @@ function createManageMerit(el, propsData) {
 
 							if (Number(_form.id) === Number(_form)) reportTypeRemovalPromises.push(fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
 								method: 'POST', // DELETE
-								headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+								headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* getFetchHeaders */])(),
 								credentials: 'same-origin',
 								body: JSON.stringify({
 									_method: 'DELETE'
@@ -50837,7 +50837,7 @@ function createManageMerit(el, propsData) {
 
 				fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
 					method: 'POST', // PATCH
-					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
@@ -50860,7 +50860,7 @@ function createManageMerit(el, propsData) {
 
 				fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
 					method: 'POST', // DELETE
-					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'DELETE'
@@ -51200,17 +51200,17 @@ function createManageMilestonesCompetencies(el, propsData) {
 			competencies: function competencies(_competencies) {
 				this.orderedCompetencies = _competencies.filter(function (competency) {
 					return competency.order != null;
-				}).sort(Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["F" /* sortPropNumbers */])('order'));
+				}).sort(Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["G" /* sortPropNumbers */])('order'));
 			},
 			milestones: function milestones(_milestones) {
 				this.orderedMilestones = _milestones.filter(function (milestone) {
 					return milestone.order != null;
-				}).sort(Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["F" /* sortPropNumbers */])('order'));
+				}).sort(Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["G" /* sortPropNumbers */])('order'));
 			}
 		},
 
 		methods: {
-			ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* ucfirst */],
+			ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["I" /* ucfirst */],
 			fetchMilestones: function fetchMilestones() {
 				var _this = this;
 
@@ -51222,9 +51222,9 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 				return fetch('/milestones?' + query, {
 					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (milestones) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["u" /* jsonOrThrow */]).then(function (milestones) {
 					_this.milestones = milestones;
 				}).catch(function (err) {
 					console.error(err);
@@ -51245,9 +51245,9 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 				return fetch('/competencies?' + query, {
 					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (competencies) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["u" /* jsonOrThrow */]).then(function (competencies) {
 					_this2.competencies = competencies;
 				}).catch(function (err) {
 					console.error(err);
@@ -51269,13 +51269,13 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 				fetch('/milestones/order', {
 					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
 						orderMap: orderMap
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (results) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["u" /* jsonOrThrow */]).then(function (results) {
 					if (results.success && results.success.length === _this3.orderedMilestones.length) _this3.milestoneAlerts.push({
 						type: 'success',
 						text: 'All orders saved successfully'
@@ -51305,13 +51305,13 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 				fetch('/competencies/order', {
 					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
 						orderMap: orderMap
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* jsonOrThrow */]).then(function (results) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["u" /* jsonOrThrow */]).then(function (results) {
 					if (results.success && results.success.length === _this4.orderedCompetencies.length) _this4.competencyAlerts.push({
 						type: 'success',
 						text: 'All orders saved successfully'
@@ -51793,7 +51793,7 @@ function createManageScheduledRequests(el, propsData) {
 				};
 			},
 			scheduledRequestSortFunctions: function scheduledRequestSortFunctions() {
-				return new Map([['evaluation_date', Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["D" /* sortPropDates */])('evaluation_date_start')], ['request_date', Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["D" /* sortPropDates */])('request_date')]]);
+				return new Map([['evaluation_date', Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["E" /* sortPropDates */])('evaluation_date_start')], ['request_date', Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["E" /* sortPropDates */])('request_date')]]);
 			}
 		},
 
@@ -51811,9 +51811,9 @@ function createManageScheduledRequests(el, propsData) {
 				});
 
 				fetch('/scheduled-requests?' + query, {
-					headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["t" /* jsonOrThrow */]).then(function (scheduledRequests) {
+				}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["u" /* jsonOrThrow */]).then(function (scheduledRequests) {
 					_this.scheduledRequests = scheduledRequests;
 				}).catch(function (err) {
 					console.error(err);
@@ -51828,12 +51828,12 @@ function createManageScheduledRequests(el, propsData) {
 
 				fetch('/scheduled-requests/' + scheduledRequest.id, {
 					method: 'POST', // DELETE,
-					headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'DELETE'
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["w" /* okOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["x" /* okOrThrow */]).then(function () {
 					_this2.scheduledRequests = _this2.scheduledRequests.filter(function (request) {
 						return request.id !== scheduledRequest.id;
 					});

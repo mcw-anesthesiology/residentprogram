@@ -62,43 +62,49 @@ class QuestionnaireValidation {
 	static function questionMatchesValue($question, $value) {
 		switch ($question['type']) {
 			case 'text':
-				if (
-					(is_bool($value) && $question['value'])
+				if (!empty($question['value']) && (
+					(is_bool($value) && $value)
 					|| (is_string($value) && $value === $question['value'])
-				)
+					|| (is_array($value) && in_array($question['value'], $value))
+				))
 					return true;
 				break;
 			case 'number':
-				if (
-					(is_bool($value) && $question['value'])
+				if (!empty($question['value']) && (
+					(is_bool($value) && $value)
 					|| (is_numeric($value) && $value === $question['value'])
-				)
+					|| (is_array($value) && in_array($question['value'], $value))
+				))
 					return true;
 				break;
 			case 'select':
 				$selectValue = self::getSelectValue($question);
-				if (
-					(is_bool($value) && $selectValue)
+				if (!empty($selectValue) && (
+					(is_bool($value) && $value)
 					|| (
 						(is_string($value) || is_numeric($value))
 						&& $value === $selectValue
 					)
-				)
+					|| (is_array($value) && in_array($selectValue, $value))
+				))
 					return true;
 				break;
 			case 'checkbox':
 			case 'radio':
 				$values = self::getRadioCheckboxValues($question);
-				if (
-					(is_bool($value) && count($values) > 0)
+				if (!empty($values) && (
+					(is_bool($value) && $value)
 					|| (
 						(is_string($value) || is_numeric($value))
 						&& in_array($value, $values)
 					)
-				)
+					|| (is_array($value) && !empty(array_intersect($values, $value)))
+				))
 					return true;
 				break;
 			case 'list':
+				if (is_bool($value) && $value && !empty($question['items']))
+					return true;
 				break;
 		}
 

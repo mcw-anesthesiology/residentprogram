@@ -4014,7 +4014,7 @@ if (false) {(function () {
 		var _this = this;
 
 		if (this.showMilestonesCompetencies) {
-			Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["i" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+			Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["j" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
 				_this.groupedMilestones = milestoneGroups;
 			}).catch(function (err) {
 				console.error(err);
@@ -4062,7 +4062,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["I" /* ucfirst */],
 		addInstruction: function addInstruction() {
 			this.items.push({
 				type: 'instruction',
@@ -4743,7 +4743,7 @@ if (false) {(function () {
 					id: competency.id,
 					text: competency.title
 				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["G" /* sortSelect2Objects */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["H" /* sortSelect2Objects */]);
 		}
 	},
 	methods: {
@@ -6207,7 +6207,7 @@ function createFormBuilder(el, propsData) {
 
 				fetch('/forms', {
 					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["n" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["o" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(form)
 				}).then(function (response) {

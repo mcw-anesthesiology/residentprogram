@@ -547,3 +547,12 @@ export function usesFeature(user: User, feature: string) {
 
 	return false;
 }
+
+export function arraysIntersect(arr1: Array<any>, arr2: Array<any>): boolean {
+	for (const item of arr1) {
+		if (arr2.includes(item))
+			return true;
+	}
+
+	return false;
+}

@@ -372,7 +372,7 @@ if (false) {(function () {
 			if (this.showDescriptions.hasOwnProperty(type)) this.showDescriptions[type] = !this.showDescriptions[type];
 		},
 		ucfirst: function ucfirst(str) {
-			return Object(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["H" /* ucfirst */])(str);
+			return Object(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["I" /* ucfirst */])(str);
 		}
 	},
 	components: {

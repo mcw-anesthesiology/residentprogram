@@ -1,5 +1,7 @@
 /* @flow */
 
+import { arraysIntersect } from '@/modules/utils.js';
+
 import type {
 	ScoringDefinition,
 	ValueScoringDefinition
@@ -39,7 +41,11 @@ export type QuestionnaireCondition = {
 	questionValue: QuestionnaireQuestionValue
 };
 
-export type QuestionnaireQuestionValue = boolean | string | number;
+export type QuestionnaireQuestionValue =
+	| boolean
+	| string
+	| number
+	| Array<string | number>;
 
 export type QuestionnaireTextQuestion = QuestionnaireQuestionBase & {
 	type: 'text' | 'textarea',
@@ -273,30 +279,33 @@ export function questionMatchesValue(
 	switch (question.type) {
 		case 'text':
 			(question: QuestionnaireTextQuestion);
-			if (
-				(typeof value === 'boolean' && question.value)
+			if (question.value && (
+				(typeof value === 'boolean' && value)
 				|| (typeof value === 'string' && value === question.value)
-			)
+				|| (Array.isArray(value) && value.includes(question.value))
+			))
 				return true;
 			break;
 		case 'number':
 			(question: QuestionnaireNumberQuestion);
-			if (
-				(typeof value === 'boolean' && question.value)
+			if (question.value && (
+				(typeof value === 'boolean' && value)
 				|| (typeof value === 'number' && value === question.value)
-			)
+				|| (Array.isArray(value) && value.includes(question.value))
+			))
 				return true;
 			break;
 		case 'select': {
 			(question: QuestionnaireSelectQuestion);
 			let selectValue = getSelectValue(question);
-			if (
-				(typeof value === 'boolean' && selectValue)
+			if (selectValue && (
+				(typeof value === 'boolean' && value)
 				|| (
 					(typeof value === 'string' || typeof value === 'number')
 					&& value === selectValue
 				)
-			)
+				|| (Array.isArray(value) && value.includes(selectValue))
+			))
 				return true;
 			break;
 		}
@@ -304,13 +313,14 @@ export function questionMatchesValue(
 		case 'radio': {
 			question = (question: QuestionnaireCheckboxQuestion | QuestionnaireRadioQuestion);
 			let values = getRadioCheckboxValues(question);
-			if (
-				(typeof value === 'boolean' && values.length > 0)
+			if (values.length > 0 && (
+				(typeof value === 'boolean' && value)
 				|| (
 					(typeof value === 'string' || typeof value === 'number')
 					&& values.includes(value)
 				)
-			)
+				|| (Array.isArray(value) && arraysIntersect(value, values))
+			))
 				return true;
 			break;
 		}
