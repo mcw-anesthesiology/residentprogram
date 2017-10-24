@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<case-log-details-report v-if="show.charts"
-				:case-logs="caseLogs">
+		<case-log-details-report v-if="show.chart"
+				:case-logs="v2CaseLogs">
 		</case-log-details-report>
 
 		<div class="text-center">
-			<show-hide-button class="btn btn-info" v-model="show.charts">
-				charts
+			<show-hide-button class="btn btn-info" v-model="show.chart">
+				chart
 				<template slot="glyph"></template>
 			</show-hide-button>
 		</div>
@@ -34,6 +34,7 @@ import DataTable from '@/vue-components/DataTable.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import CaseLogViewer from './Viewer.vue';
+import CaseLogDetailsReport from './DetailsReport.vue';
 
 import CaseLogDetailsV1 from './V1/Details.vue';
 import CaseLogDetailsReportV1 from './V1/DetailsReport.vue';
@@ -61,7 +62,7 @@ export default {
 			detailsCaseLog: null,
 
 			show: {
-				charts: false
+				chart: false
 			}
 		};
 	},
@@ -76,6 +77,10 @@ export default {
 			}
 
 			return 'CaseLogDetailsV1';
+		},
+		v2CaseLogs() {
+			return this.caseLogs
+				.filter(caseLog => caseLog.details_schema.case_log_version === 2);
 		},
 		thead() {
 			return [[
@@ -193,6 +198,7 @@ export default {
 		DataTable,
 		ShowHideButton,
 		CaseLogViewer,
+		CaseLogDetailsReport,
 
 		CaseLogDetailsV1,
 		CaseLogDetailsReportV1,

@@ -61,6 +61,7 @@
     "moment": "^2.14.1",
     "pdfmake": "^0.1.28",
     "raf": "^3.3.2",
+    "randomcolor": "^0.5.3",
     "require-dir": "^0.3.2",
     "snarkdown": "^1.2.2",
     "striptags": "^3.1.0",

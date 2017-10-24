@@ -359,11 +359,101 @@ export function walkQuestionnaireQuestions(
 	return newQuestionnaire;
 }
 
+export function getValue(question: QuestionnaireQuestion): ?string | ?number {
+	switch (question.type) {
+		case 'text':
+		case 'number':
+			return question.value;
+		case 'select':
+			return getSelectValue(question);
+		case 'checkbox':
+		case 'radio': {
+			const values = getRadioCheckboxValues(question);
+			if (values.length === 1)
+				return values[0];
+			if (values.length > 1)
+				throw new RangeError('Question has multiple responses, use getValues');
+
+			break;
+		}
+		case 'list':
+			throw new TypeError('Cannot currently get value of list questions');
+	}
+}
+
+export function getValues(question: QuestionnaireQuestion): Array<string | number> {
+	switch (question.type) {
+		case 'text':
+		case 'number':
+		case 'select': {
+			const value = getValue(question);
+			if (value)
+				return [value];
+
+			break;
+		}
+		case 'checkbox':
+		case 'radio':
+			return getRadioCheckboxValues(question);
+		case 'list':
+			throw new TypeError('Cannot currently get values for list questions');
+	}
+
+	return [];
+}
+
+export function getResponse(question: QuestionnaireQuestion): ?string {
+	switch (question.type) {
+		case 'text':
+		case 'number': {
+			const value = getValue(question);
+			if (value && typeof value !== 'string')
+				return `${value}`;
+
+			break;
+		}
+		case 'select':
+			return getSelectResponse(question);
+		case 'radio':
+		case 'checkbox': {
+			const responses = getRadioCheckboxResponses(question);
+			if (responses.length === 1)
+				return responses[0];
+			if (responses.length > 1)
+				throw new RangeError('Question has multiple responses, use getResponses');
+
+			break;
+		}
+		case 'list':
+			throw new TypeError('Cannot currently get responses for list questions');
+	}
+}
+
+export function getResponses(question: QuestionnaireQuestion): Array<string> {
+	switch (question.type) {
+		case 'text':
+		case 'number':
+		case 'select': {
+			const response = getResponse(question);
+			if (response)
+				return [response];
+
+			break;
+		}
+		case 'radio':
+		case 'checkbox':
+			return getRadioCheckboxResponses(question);
+		case 'list':
+			throw new TypeError('Cannot currently get responses for list questions');
+	}
+
+	return [];
+}
+
 export function getSelectValue(question: QuestionnaireSelectQuestion): ?string | ?number {
 	const selectedOption = question.options.find(option => option.selected);
-	return selectedOption
-		? selectedOption.value
-		: null;
+	if (selectedOption)
+		return selectedOption.value;
 }
 
 export function getRadioCheckboxValues(
@@ -372,4 +462,18 @@ export function getRadioCheckboxValues(
 	return question.options
 		.filter(option => option.checked)
 		.map(option => option.value);
+}
+
+export function getSelectResponse(question: QuestionnaireSelectQuestion): ?string {
+	const selectedOption = question.options.find(option => option.selected);
+	if (selectedOption)
+		return selectedOption.text;
+}
+
+export function getRadioCheckboxResponses(
+	question: QuestionnaireRadioQuestion | QuestionnaireCheckboxQuestion
+): Array<string> {
+	return question.options
+		.filter(option => option.checked)
+		.map(option => option.text);
 }

@@ -1027,6 +1027,27 @@ legend[data-v-2186235b] {
 	color: rgba(0, 0, 0, 0.65);
 }
 
+.controls[data-v-4a5f0c54] {
+	display: flex;
+	justify-content: flex-end;
+}
+.controls .containing-label[data-v-4a5f0c54] {
+	width: auto;
+}
+.chart-container[data-v-4a5f0c54] {
+	display: flex;
+	flex-wrap: wrap;
+}
+.color-square[data-v-4a5f0c54] {
+	display: inline-block;
+	width: 1.5em;
+	height: 1.5em;
+	vertical-align: middle;
+}
+.table-striped > tfoot[data-v-4a5f0c54] {
+	border-top: 2px solid #ddd;
+}
+
 .case-log-editor .questionnaire-section {
 	margin: 2em 0;
 	padding: 1em;
