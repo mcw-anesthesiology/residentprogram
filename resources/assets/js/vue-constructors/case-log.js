@@ -59,16 +59,6 @@ export function createCaseLog(el, propsData) {
 
 				return 'CaseLogEditorV1';
 			},
-			subsections() {
-				let subsections = [];
-				for (let schema of this.detailsSchema.schema) {
-					for (let subsection of schema.subsections) {
-						subsections.push(subsection);
-					}
-				}
-
-				return subsections;
-			},
 			isAdmin() {
 				return userIsType(this.user, 'admin');
 			},

@@ -19808,7 +19808,482 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 488:
+/***/ 489:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 491:
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module) {// randomColor by David Merfield under the CC0 license
+// https://github.com/davidmerfield/randomColor/
+
+;(function(root, factory) {
+
+  // Support CommonJS
+  if (true) {
+    var randomColor = factory();
+
+    // Support NodeJS & Component, which allow module.exports to be a function
+    if (typeof module === 'object' && module && module.exports) {
+      exports = module.exports = randomColor;
+    }
+
+    // Support CommonJS 1.1.1 spec
+    exports.randomColor = randomColor;
+
+  // Support AMD
+  } else if (typeof define === 'function' && define.amd) {
+    define([], factory);
+
+  // Support vanilla script loading
+  } else {
+    root.randomColor = factory();
+  }
+
+}(this, function() {
+
+  // Seed to get repeatable colors
+  var seed = null;
+
+  // Shared color dictionary
+  var colorDictionary = {};
+
+  // Populate the color dictionary
+  loadColorBounds();
+
+  var randomColor = function (options) {
+
+    options = options || {};
+
+    // Check if there is a seed and ensure it's an
+    // integer. Otherwise, reset the seed value.
+    if (options.seed !== undefined && options.seed !== null && options.seed === parseInt(options.seed, 10)) {
+      seed = options.seed;
+
+    // A string was passed as a seed
+    } else if (typeof options.seed === 'string') {
+      seed = stringToInteger(options.seed);
+
+    // Something was passed as a seed but it wasn't an integer or string
+    } else if (options.seed !== undefined && options.seed !== null) {
+      throw new TypeError('The seed value must be an integer or string');
+
+    // No seed, reset the value outside.
+    } else {
+      seed = null;
+    }
+
+    var H,S,B;
+
+    // Check if we need to generate multiple colors
+    if (options.count !== null && options.count !== undefined) {
+
+      var totalColors = options.count,
+          colors = [];
+
+      options.count = null;
+
+      while (totalColors > colors.length) {
+
+        // Since we're generating multiple colors,
+        // incremement the seed. Otherwise we'd just
+        // generate the same color each time...
+        if (seed && options.seed) options.seed += 1;
+
+        colors.push(randomColor(options));
+      }
+
+      options.count = totalColors;
+
+      return colors;
+    }
+
+    // First we pick a hue (H)
+    H = pickHue(options);
+
+    // Then use H to determine saturation (S)
+    S = pickSaturation(H, options);
+
+    // Then use S and H to determine brightness (B).
+    B = pickBrightness(H, S, options);
+
+    // Then we return the HSB color in the desired format
+    return setFormat([H,S,B], options);
+  };
+
+  function pickHue (options) {
+
+    var hueRange = getHueRange(options.hue),
+        hue = randomWithin(hueRange);
+
+    // Instead of storing red as two seperate ranges,
+    // we group them, using negative numbers
+    if (hue < 0) {hue = 360 + hue;}
+
+    return hue;
+
+  }
+
+  function pickSaturation (hue, options) {
+
+    if (options.hue === 'monochrome') {
+      return 0;
+    }
+
+    if (options.luminosity === 'random') {
+      return randomWithin([0,100]);
+    }
+
+    var saturationRange = getSaturationRange(hue);
+
+    var sMin = saturationRange[0],
+        sMax = saturationRange[1];
+
+    switch (options.luminosity) {
+
+      case 'bright':
+        sMin = 55;
+        break;
+
+      case 'dark':
+        sMin = sMax - 10;
+        break;
+
+      case 'light':
+        sMax = 55;
+        break;
+   }
+
+    return randomWithin([sMin, sMax]);
+
+  }
+
+  function pickBrightness (H, S, options) {
+
+    var bMin = getMinimumBrightness(H, S),
+        bMax = 100;
+
+    switch (options.luminosity) {
+
+      case 'dark':
+        bMax = bMin + 20;
+        break;
+
+      case 'light':
+        bMin = (bMax + bMin)/2;
+        break;
+
+      case 'random':
+        bMin = 0;
+        bMax = 100;
+        break;
+    }
+
+    return randomWithin([bMin, bMax]);
+  }
+
+  function setFormat (hsv, options) {
+
+    switch (options.format) {
+
+      case 'hsvArray':
+        return hsv;
+
+      case 'hslArray':
+        return HSVtoHSL(hsv);
+
+      case 'hsl':
+        var hsl = HSVtoHSL(hsv);
+        return 'hsl('+hsl[0]+', '+hsl[1]+'%, '+hsl[2]+'%)';
+
+      case 'hsla':
+        var hslColor = HSVtoHSL(hsv);
+        var alpha = options.alpha || Math.random();
+        return 'hsla('+hslColor[0]+', '+hslColor[1]+'%, '+hslColor[2]+'%, ' + alpha + ')';
+
+      case 'rgbArray':
+        return HSVtoRGB(hsv);
+
+      case 'rgb':
+        var rgb = HSVtoRGB(hsv);
+        return 'rgb(' + rgb.join(', ') + ')';
+
+      case 'rgba':
+        var rgbColor = HSVtoRGB(hsv);
+        var alpha = options.alpha || Math.random();
+        return 'rgba(' + rgbColor.join(', ') + ', ' + alpha + ')';
+
+      default:
+        return HSVtoHex(hsv);
+    }
+
+  }
+
+  function getMinimumBrightness(H, S) {
+
+    var lowerBounds = getColorInfo(H).lowerBounds;
+
+    for (var i = 0; i < lowerBounds.length - 1; i++) {
+
+      var s1 = lowerBounds[i][0],
+          v1 = lowerBounds[i][1];
+
+      var s2 = lowerBounds[i+1][0],
+          v2 = lowerBounds[i+1][1];
+
+      if (S >= s1 && S <= s2) {
+
+         var m = (v2 - v1)/(s2 - s1),
+             b = v1 - m*s1;
+
+         return m*S + b;
+      }
+
+    }
+
+    return 0;
+  }
+
+  function getHueRange (colorInput) {
+
+    if (typeof parseInt(colorInput) === 'number') {
+
+      var number = parseInt(colorInput);
+
+      if (number < 360 && number > 0) {
+        return [number, number];
+      }
+
+    }
+
+    if (typeof colorInput === 'string') {
+
+      if (colorDictionary[colorInput]) {
+        var color = colorDictionary[colorInput];
+        if (color.hueRange) {return color.hueRange;}
+      } else if (colorInput.match(/^#?([0-9A-F]{3}|[0-9A-F]{6})$/i)) {
+        var hue = HexToHSB(colorInput)[0];
+        return [ hue, hue ];
+      }
+    }
+
+    return [0,360];
+
+  }
+
+  function getSaturationRange (hue) {
+    return getColorInfo(hue).saturationRange;
+  }
+
+  function getColorInfo (hue) {
+
+    // Maps red colors to make picking hue easier
+    if (hue >= 334 && hue <= 360) {
+      hue-= 360;
+    }
+
+    for (var colorName in colorDictionary) {
+       var color = colorDictionary[colorName];
+       if (color.hueRange &&
+           hue >= color.hueRange[0] &&
+           hue <= color.hueRange[1]) {
+          return colorDictionary[colorName];
+       }
+    } return 'Color not found';
+  }
+
+  function randomWithin (range) {
+    if (seed === null) {
+      return Math.floor(range[0] + Math.random()*(range[1] + 1 - range[0]));
+    } else {
+      //Seeded random algorithm from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
+      var max = range[1] || 1;
+      var min = range[0] || 0;
+      seed = (seed * 9301 + 49297) % 233280;
+      var rnd = seed / 233280.0;
+      return Math.floor(min + rnd * (max - min));
+    }
+  }
+
+  function HSVtoHex (hsv){
+
+    var rgb = HSVtoRGB(hsv);
+
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? '0' + hex : hex;
+    }
+
+    var hex = '#' + componentToHex(rgb[0]) + componentToHex(rgb[1]) + componentToHex(rgb[2]);
+
+    return hex;
+
+  }
+
+  function defineColor (name, hueRange, lowerBounds) {
+
+    var sMin = lowerBounds[0][0],
+        sMax = lowerBounds[lowerBounds.length - 1][0],
+
+        bMin = lowerBounds[lowerBounds.length - 1][1],
+        bMax = lowerBounds[0][1];
+
+    colorDictionary[name] = {
+      hueRange: hueRange,
+      lowerBounds: lowerBounds,
+      saturationRange: [sMin, sMax],
+      brightnessRange: [bMin, bMax]
+    };
+
+  }
+
+  function loadColorBounds () {
+
+    defineColor(
+      'monochrome',
+      null,
+      [[0,0],[100,0]]
+    );
+
+    defineColor(
+      'red',
+      [-26,18],
+      [[20,100],[30,92],[40,89],[50,85],[60,78],[70,70],[80,60],[90,55],[100,50]]
+    );
+
+    defineColor(
+      'orange',
+      [19,46],
+      [[20,100],[30,93],[40,88],[50,86],[60,85],[70,70],[100,70]]
+    );
+
+    defineColor(
+      'yellow',
+      [47,62],
+      [[25,100],[40,94],[50,89],[60,86],[70,84],[80,82],[90,80],[100,75]]
+    );
+
+    defineColor(
+      'green',
+      [63,178],
+      [[30,100],[40,90],[50,85],[60,81],[70,74],[80,64],[90,50],[100,40]]
+    );
+
+    defineColor(
+      'blue',
+      [179, 257],
+      [[20,100],[30,86],[40,80],[50,74],[60,60],[70,52],[80,44],[90,39],[100,35]]
+    );
+
+    defineColor(
+      'purple',
+      [258, 282],
+      [[20,100],[30,87],[40,79],[50,70],[60,65],[70,59],[80,52],[90,45],[100,42]]
+    );
+
+    defineColor(
+      'pink',
+      [283, 334],
+      [[20,100],[30,90],[40,86],[60,84],[80,80],[90,75],[100,73]]
+    );
+
+  }
+
+  function HSVtoRGB (hsv) {
+
+    // this doesn't work for the values of 0 and 360
+    // here's the hacky fix
+    var h = hsv[0];
+    if (h === 0) {h = 1;}
+    if (h === 360) {h = 359;}
+
+    // Rebase the h,s,v values
+    h = h/360;
+    var s = hsv[1]/100,
+        v = hsv[2]/100;
+
+    var h_i = Math.floor(h*6),
+      f = h * 6 - h_i,
+      p = v * (1 - s),
+      q = v * (1 - f*s),
+      t = v * (1 - (1 - f)*s),
+      r = 256,
+      g = 256,
+      b = 256;
+
+    switch(h_i) {
+      case 0: r = v; g = t; b = p;  break;
+      case 1: r = q; g = v; b = p;  break;
+      case 2: r = p; g = v; b = t;  break;
+      case 3: r = p; g = q; b = v;  break;
+      case 4: r = t; g = p; b = v;  break;
+      case 5: r = v; g = p; b = q;  break;
+    }
+
+    var result = [Math.floor(r*255), Math.floor(g*255), Math.floor(b*255)];
+    return result;
+  }
+
+  function HexToHSB (hex) {
+    hex = hex.replace(/^#/, '');
+    hex = hex.length === 3 ? hex.replace(/(.)/g, '$1$1') : hex;
+
+    var red = parseInt(hex.substr(0, 2), 16) / 255,
+          green = parseInt(hex.substr(2, 2), 16) / 255,
+          blue = parseInt(hex.substr(4, 2), 16) / 255;
+
+    var cMax = Math.max(red, green, blue),
+          delta = cMax - Math.min(red, green, blue),
+          saturation = cMax ? (delta / cMax) : 0;
+
+    switch (cMax) {
+      case red: return [ 60 * (((green - blue) / delta) % 6) || 0, saturation, cMax ];
+      case green: return [ 60 * (((blue - red) / delta) + 2) || 0, saturation, cMax ];
+      case blue: return [ 60 * (((red - green) / delta) + 4) || 0, saturation, cMax ];
+    }
+  }
+
+  function HSVtoHSL (hsv) {
+    var h = hsv[0],
+      s = hsv[1]/100,
+      v = hsv[2]/100,
+      k = (2-s)*v;
+
+    return [
+      h,
+      Math.round(s*v / (k<1 ? k : 2-k) * 10000) / 100,
+      k/2 * 100
+    ];
+  }
+
+  function stringToInteger (string) {
+    var total = 0
+    for (var i = 0; i !== string.length; i++) {
+      if (total >= Number.MAX_SAFE_INTEGER) break;
+      total += string.charCodeAt(i)
+    }
+    return total
+  }
+
+  return randomColor;
+}));
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(39)(module)))
+
+/***/ }),
+
+/***/ 492:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 498:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20632,7 +21107,7 @@ function getPeripheralCategory(peripheralBlockadeSite) {
 
 	return 'Other';
 }
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/vue-components/CaseLog/DetailsReport.vue
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/vue-components/CaseLog/Summary.vue
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 //
@@ -20701,7 +21176,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 
 
-/* harmony default export */ var DetailsReport = ({
+/* harmony default export */ var Summary = ({
 	props: {
 		caseLogs: {
 			type: Array,
@@ -21075,8 +21550,8 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 		ChartjsChart: ChartjsChart["a" /* default */]
 	}
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-4a5f0c54","hasScoped":true,"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/vue-components/CaseLog/DetailsReport.vue
-var DetailsReport_render = function() {
+// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-72bdc534","hasScoped":true,"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/vue-components/CaseLog/Summary.vue
+var Summary_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -21200,7 +21675,7 @@ var DetailsReport_render = function() {
     ])
   ])
 }
-var DetailsReport_staticRenderFns = [
+var Summary_staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -21214,44 +21689,44 @@ var DetailsReport_staticRenderFns = [
     ])
   }
 ]
-DetailsReport_render._withStripped = true
-var DetailsReport_esExports = { render: DetailsReport_render, staticRenderFns: DetailsReport_staticRenderFns }
-/* harmony default export */ var CaseLog_DetailsReport = (DetailsReport_esExports);
+Summary_render._withStripped = true
+var Summary_esExports = { render: Summary_render, staticRenderFns: Summary_staticRenderFns }
+/* harmony default export */ var CaseLog_Summary = (Summary_esExports);
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-4a5f0c54", DetailsReport_esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-72bdc534", Summary_esExports)
   }
 }
-// CONCATENATED MODULE: ./resources/assets/js/vue-components/CaseLog/DetailsReport.vue
-var DetailsReport_disposed = false
-function DetailsReport_injectStyle (ssrContext) {
-  if (DetailsReport_disposed) return
-  __webpack_require__(490)
+// CONCATENATED MODULE: ./resources/assets/js/vue-components/CaseLog/Summary.vue
+var Summary_disposed = false
+function Summary_injectStyle (ssrContext) {
+  if (Summary_disposed) return
+  __webpack_require__(499)
 }
-var DetailsReport_normalizeComponent = __webpack_require__(0)
+var Summary_normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
 /* template functional */
-  var DetailsReport___vue_template_functional__ = false
+  var Summary___vue_template_functional__ = false
 /* styles */
-var DetailsReport___vue_styles__ = DetailsReport_injectStyle
+var Summary___vue_styles__ = Summary_injectStyle
 /* scopeId */
-var DetailsReport___vue_scopeId__ = "data-v-4a5f0c54"
+var Summary___vue_scopeId__ = "data-v-72bdc534"
 /* moduleIdentifier (server only) */
-var DetailsReport___vue_module_identifier__ = null
-var DetailsReport_Component = DetailsReport_normalizeComponent(
-  DetailsReport,
-  CaseLog_DetailsReport,
-  DetailsReport___vue_template_functional__,
-  DetailsReport___vue_styles__,
-  DetailsReport___vue_scopeId__,
-  DetailsReport___vue_module_identifier__
+var Summary___vue_module_identifier__ = null
+var Summary_Component = Summary_normalizeComponent(
+  Summary,
+  CaseLog_Summary,
+  Summary___vue_template_functional__,
+  Summary___vue_styles__,
+  Summary___vue_scopeId__,
+  Summary___vue_module_identifier__
 )
-DetailsReport_Component.options.__file = "resources/assets/js/vue-components/CaseLog/DetailsReport.vue"
-if (DetailsReport_Component.esModule && Object.keys(DetailsReport_Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+Summary_Component.options.__file = "resources/assets/js/vue-components/CaseLog/Summary.vue"
+if (Summary_Component.esModule && Object.keys(Summary_Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -21260,16 +21735,16 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4a5f0c54", DetailsReport_Component.options)
+    hotAPI.createRecord("data-v-72bdc534", Summary_Component.options)
   } else {
-    hotAPI.reload("data-v-4a5f0c54", DetailsReport_Component.options)
+    hotAPI.reload("data-v-72bdc534", Summary_Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
-    DetailsReport_disposed = true
+    Summary_disposed = true
   })
 })()}
 
-/* harmony default export */ var vue_components_CaseLog_DetailsReport = (DetailsReport_Component.exports);
+/* harmony default export */ var vue_components_CaseLog_Summary = (Summary_Component.exports);
 
 // EXTERNAL MODULE: external "moment"
 var external__moment_ = __webpack_require__(16);
@@ -21545,10 +22020,22 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
-/* harmony default export */ var V1_DetailsReport = ({
+/* harmony default export */ var DetailsReport = ({
 	props: {
 		caseLogs: {
 			type: Array,
@@ -21558,70 +22045,183 @@ if (false) {(function () {
 
 	data: function data() {
 		return {
+			reportName: null,
 			charts: {}
 		};
 	},
+
+
+	computed: {
+		schema: function schema() {
+			var schema = this.caseLogs.find(function (log) {
+				return log.details_schema;
+			});
+			if (schema) return schema.schema;
+
+			return [];
+		},
+		subsections: function subsections() {
+			var subsections = [];
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = this.schema[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var schema = _step.value;
+					var _iteratorNormalCompletion2 = true;
+					var _didIteratorError2 = false;
+					var _iteratorError2 = undefined;
+
+					try {
+						for (var _iterator2 = schema.subsections[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+							var subsection = _step2.value;
+
+							subsections.push(subsection);
+						}
+					} catch (err) {
+						_didIteratorError2 = true;
+						_iteratorError2 = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion2 && _iterator2.return) {
+								_iterator2.return();
+							}
+						} finally {
+							if (_didIteratorError2) {
+								throw _iteratorError2;
+							}
+						}
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return subsections;
+		}
+	},
+
 	mounted: function mounted() {
 		this.renderReport();
-		$('#case-log-details-report-name').change(this.renderReport);
 	},
 
 
+	watch: {
+		reportName: function reportName() {
+			this.renderReport();
+		}
+	},
+
 	methods: {
 		renderReport: function renderReport() {
-			var name = $('#case-log-details-report-name').val();
+			var name = this.reportName;
 			var report = Object(case_log_details_schema["b" /* generateCaseLogDetailsReport */])(this.caseLogs);
 			this.charts = Object(case_log_details_schema["c" /* generateCaseLogDetailsReportCharts */])(report, name, this.$refs.statsContainer, this.charts);
 			Object(case_log_details_schema["d" /* generateCaseLogLocationReportTable */])(report, name, this.$refs.statsContainer);
 		}
-	},
-
-	destroyed: function destroyed() {
-		$('#case-log-details-report-name').off('change', this.renderReport);
 	}
 });
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-6c3e61d2","hasScoped":false,"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/vue-components/CaseLog/V1/DetailsReport.vue
-var V1_DetailsReport_render = function() {
+var DetailsReport_render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { ref: "statsContainer" })
+  return _c("div", [
+    _c("label", { staticClass: "containing-label" }, [
+      _vm._v("\n\t\tReport on\n\t\t"),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.reportName,
+              expression: "reportName"
+            }
+          ],
+          staticClass: "form-control",
+          on: {
+            change: function($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.reportName = $event.target.multiple
+                ? $$selectedVal
+                : $$selectedVal[0]
+            }
+          }
+        },
+        [
+          _c("option", { domProps: { value: null } }, [
+            _vm._v("Please select a report")
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.subsections, function(subsection) {
+            return _c("option", { key: subsection.name }, [
+              _vm._v("\n\t\t\t\t" + _vm._s(subsection.name) + "\n\t\t\t")
+            ])
+          })
+        ],
+        2
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { ref: "statsContainer" })
+  ])
 }
-var V1_DetailsReport_staticRenderFns = []
-V1_DetailsReport_render._withStripped = true
-var V1_DetailsReport_esExports = { render: V1_DetailsReport_render, staticRenderFns: V1_DetailsReport_staticRenderFns }
-/* harmony default export */ var CaseLog_V1_DetailsReport = (V1_DetailsReport_esExports);
+var DetailsReport_staticRenderFns = []
+DetailsReport_render._withStripped = true
+var DetailsReport_esExports = { render: DetailsReport_render, staticRenderFns: DetailsReport_staticRenderFns }
+/* harmony default export */ var V1_DetailsReport = (DetailsReport_esExports);
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6c3e61d2", V1_DetailsReport_esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-6c3e61d2", DetailsReport_esExports)
   }
 }
 // CONCATENATED MODULE: ./resources/assets/js/vue-components/CaseLog/V1/DetailsReport.vue
-var V1_DetailsReport_disposed = false
-var V1_DetailsReport_normalizeComponent = __webpack_require__(0)
+var DetailsReport_disposed = false
+var DetailsReport_normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
 /* template functional */
-  var V1_DetailsReport___vue_template_functional__ = false
+  var DetailsReport___vue_template_functional__ = false
 /* styles */
-var V1_DetailsReport___vue_styles__ = null
+var DetailsReport___vue_styles__ = null
 /* scopeId */
-var V1_DetailsReport___vue_scopeId__ = null
+var DetailsReport___vue_scopeId__ = null
 /* moduleIdentifier (server only) */
-var V1_DetailsReport___vue_module_identifier__ = null
-var V1_DetailsReport_Component = V1_DetailsReport_normalizeComponent(
+var DetailsReport___vue_module_identifier__ = null
+var DetailsReport_Component = DetailsReport_normalizeComponent(
+  DetailsReport,
   V1_DetailsReport,
-  CaseLog_V1_DetailsReport,
-  V1_DetailsReport___vue_template_functional__,
-  V1_DetailsReport___vue_styles__,
-  V1_DetailsReport___vue_scopeId__,
-  V1_DetailsReport___vue_module_identifier__
+  DetailsReport___vue_template_functional__,
+  DetailsReport___vue_styles__,
+  DetailsReport___vue_scopeId__,
+  DetailsReport___vue_module_identifier__
 )
-V1_DetailsReport_Component.options.__file = "resources/assets/js/vue-components/CaseLog/V1/DetailsReport.vue"
-if (V1_DetailsReport_Component.esModule && Object.keys(V1_DetailsReport_Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+DetailsReport_Component.options.__file = "resources/assets/js/vue-components/CaseLog/V1/DetailsReport.vue"
+if (DetailsReport_Component.esModule && Object.keys(DetailsReport_Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -21630,16 +22230,16 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6c3e61d2", V1_DetailsReport_Component.options)
+    hotAPI.createRecord("data-v-6c3e61d2", DetailsReport_Component.options)
   } else {
-    hotAPI.reload("data-v-6c3e61d2", V1_DetailsReport_Component.options)
+    hotAPI.reload("data-v-6c3e61d2", DetailsReport_Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
-    V1_DetailsReport_disposed = true
+    DetailsReport_disposed = true
   })
 })()}
 
-/* harmony default export */ var vue_components_CaseLog_V1_DetailsReport = (V1_DetailsReport_Component.exports);
+/* harmony default export */ var CaseLog_V1_DetailsReport = (DetailsReport_Component.exports);
 
 // EXTERNAL MODULE: ./resources/assets/js/modules/datatable-utils.js
 var datatable_utils = __webpack_require__(26);
@@ -21648,6 +22248,12 @@ var datatable_utils = __webpack_require__(26);
 var utils = __webpack_require__(1);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/vue-components/CaseLog/CaseLogs.vue
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -21712,21 +22318,29 @@ var utils = __webpack_require__(1);
 			detailsCaseLog: null,
 
 			show: {
-				chart: false
+				summary: false
 			}
 		};
 	},
 
 
 	computed: {
-		detailsComponent: function detailsComponent() {
+		caseLogVersion: function caseLogVersion() {
 			try {
-				if (this.detailsCaseLog.details_schema.case_log_version === 2) return 'CaseLogViewer';
+				return this.detailsCaseLog.details_schema.case_log_version;
 			} catch (e) {
 				console.error(e);
 			}
 
-			return 'CaseLogDetailsV1';
+			return 1;
+		},
+		detailsComponent: function detailsComponent() {
+			return this.caseLogVersion === 2 ? 'CaseLogViewer' : 'CaseLogDetailsV1';
+		},
+		v1CaseLogs: function v1CaseLogs() {
+			return this.caseLogs.filter(function (caseLog) {
+				return caseLog.details_schema.case_log_version !== 2;
+			});
 		},
 		v2CaseLogs: function v2CaseLogs() {
 			return this.caseLogs.filter(function (caseLog) {
@@ -21819,10 +22433,10 @@ var utils = __webpack_require__(1);
 		DataTable: DataTable["a" /* default */],
 		ShowHideButton: ShowHideButton["a" /* default */],
 		CaseLogViewer: vue_components_CaseLog_Viewer,
-		CaseLogDetailsReport: vue_components_CaseLog_DetailsReport,
+		CaseLogSummary: vue_components_CaseLog_Summary,
 
 		CaseLogDetailsV1: CaseLog_V1_Details,
-		CaseLogDetailsReportV1: vue_components_CaseLog_V1_DetailsReport
+		CaseLogSummaryV1: CaseLog_V1_DetailsReport
 
 	}
 });
@@ -21834,10 +22448,25 @@ var CaseLogs_render = function() {
   return _c(
     "div",
     [
-      _vm.show.chart
-        ? _c("case-log-details-report", {
-            attrs: { "case-logs": _vm.v2CaseLogs }
-          })
+      _vm.show.summary
+        ? _c(
+            "div",
+            { staticClass: "summary-container" },
+            [
+              _vm.v2CaseLogs && _vm.v2CaseLogs.length > 0
+                ? _c("case-log-summary", {
+                    attrs: { "case-logs": _vm.v2CaseLogs }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.v1CaseLogs && _vm.v1CaseLogs.length > 0
+                ? _c("case-log-summary-v1", {
+                    attrs: { "case-logs": _vm.v1CaseLogs }
+                  })
+                : _vm._e()
+            ],
+            1
+          )
         : _vm._e(),
       _vm._v(" "),
       _c(
@@ -21849,11 +22478,11 @@ var CaseLogs_render = function() {
             {
               staticClass: "btn btn-info",
               model: {
-                value: _vm.show.chart,
+                value: _vm.show.summary,
                 callback: function($$v) {
-                  _vm.$set(_vm.show, "chart", $$v)
+                  _vm.$set(_vm.show, "summary", $$v)
                 },
-                expression: "show.chart"
+                expression: "show.summary"
               }
             },
             [
@@ -22522,39 +23151,32 @@ function createCaseLog(el, propsData) {
 
 				return 'CaseLogEditorV1';
 			},
-			subsections: function subsections() {
-				var subsections = [];
+			isAdmin: function isAdmin() {
+				return Object(utils["K" /* userIsType */])(this.user, 'admin');
+			},
+			caseLogFields: function caseLogFields() {
+				return ['full_name'];
+			},
+			groupedCaseLogs: function groupedCaseLogs() {
+				if (!this.caseLogs || this.caseLogs.length < 1) return [];
+
+				var groupedCaseLogs = new Map();
+
 				var _iteratorNormalCompletion = true;
 				var _didIteratorError = false;
 				var _iteratorError = undefined;
 
 				try {
-					for (var _iterator = this.detailsSchema.schema[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-						var schema = _step.value;
-						var _iteratorNormalCompletion2 = true;
-						var _didIteratorError2 = false;
-						var _iteratorError2 = undefined;
+					for (var _iterator = this.caseLogs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var caseLog = _step.value;
 
-						try {
-							for (var _iterator2 = schema.subsections[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-								var subsection = _step2.value;
-
-								subsections.push(subsection);
-							}
-						} catch (err) {
-							_didIteratorError2 = true;
-							_iteratorError2 = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion2 && _iterator2.return) {
-									_iterator2.return();
-								}
-							} finally {
-								if (_didIteratorError2) {
-									throw _iteratorError2;
-								}
-							}
+						var user = groupedCaseLogs.get(caseLog.user.id);
+						if (!user) {
+							user = Object.assign(caseLog.user);
+							user.caseLogs = [];
 						}
+						user.caseLogs.push(caseLog);
+						groupedCaseLogs.set(user.id, user);
 					}
 				} catch (err) {
 					_didIteratorError = true;
@@ -22567,50 +23189,6 @@ function createCaseLog(el, propsData) {
 					} finally {
 						if (_didIteratorError) {
 							throw _iteratorError;
-						}
-					}
-				}
-
-				return subsections;
-			},
-			isAdmin: function isAdmin() {
-				return Object(utils["K" /* userIsType */])(this.user, 'admin');
-			},
-			caseLogFields: function caseLogFields() {
-				return ['full_name'];
-			},
-			groupedCaseLogs: function groupedCaseLogs() {
-				if (!this.caseLogs || this.caseLogs.length < 1) return [];
-
-				var groupedCaseLogs = new Map();
-
-				var _iteratorNormalCompletion3 = true;
-				var _didIteratorError3 = false;
-				var _iteratorError3 = undefined;
-
-				try {
-					for (var _iterator3 = this.caseLogs[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-						var caseLog = _step3.value;
-
-						var user = groupedCaseLogs.get(caseLog.user.id);
-						if (!user) {
-							user = Object.assign(caseLog.user);
-							user.caseLogs = [];
-						}
-						user.caseLogs.push(caseLog);
-						groupedCaseLogs.set(user.id, user);
-					}
-				} catch (err) {
-					_didIteratorError3 = true;
-					_iteratorError3 = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion3 && _iterator3.return) {
-							_iterator3.return();
-						}
-					} finally {
-						if (_didIteratorError3) {
-							throw _iteratorError3;
 						}
 					}
 				}
@@ -22708,482 +23286,7 @@ function createCaseLog(el, propsData) {
 
 /***/ }),
 
-/***/ 489:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 490:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 491:
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(module) {// randomColor by David Merfield under the CC0 license
-// https://github.com/davidmerfield/randomColor/
-
-;(function(root, factory) {
-
-  // Support CommonJS
-  if (true) {
-    var randomColor = factory();
-
-    // Support NodeJS & Component, which allow module.exports to be a function
-    if (typeof module === 'object' && module && module.exports) {
-      exports = module.exports = randomColor;
-    }
-
-    // Support CommonJS 1.1.1 spec
-    exports.randomColor = randomColor;
-
-  // Support AMD
-  } else if (typeof define === 'function' && define.amd) {
-    define([], factory);
-
-  // Support vanilla script loading
-  } else {
-    root.randomColor = factory();
-  }
-
-}(this, function() {
-
-  // Seed to get repeatable colors
-  var seed = null;
-
-  // Shared color dictionary
-  var colorDictionary = {};
-
-  // Populate the color dictionary
-  loadColorBounds();
-
-  var randomColor = function (options) {
-
-    options = options || {};
-
-    // Check if there is a seed and ensure it's an
-    // integer. Otherwise, reset the seed value.
-    if (options.seed !== undefined && options.seed !== null && options.seed === parseInt(options.seed, 10)) {
-      seed = options.seed;
-
-    // A string was passed as a seed
-    } else if (typeof options.seed === 'string') {
-      seed = stringToInteger(options.seed);
-
-    // Something was passed as a seed but it wasn't an integer or string
-    } else if (options.seed !== undefined && options.seed !== null) {
-      throw new TypeError('The seed value must be an integer or string');
-
-    // No seed, reset the value outside.
-    } else {
-      seed = null;
-    }
-
-    var H,S,B;
-
-    // Check if we need to generate multiple colors
-    if (options.count !== null && options.count !== undefined) {
-
-      var totalColors = options.count,
-          colors = [];
-
-      options.count = null;
-
-      while (totalColors > colors.length) {
-
-        // Since we're generating multiple colors,
-        // incremement the seed. Otherwise we'd just
-        // generate the same color each time...
-        if (seed && options.seed) options.seed += 1;
-
-        colors.push(randomColor(options));
-      }
-
-      options.count = totalColors;
-
-      return colors;
-    }
-
-    // First we pick a hue (H)
-    H = pickHue(options);
-
-    // Then use H to determine saturation (S)
-    S = pickSaturation(H, options);
-
-    // Then use S and H to determine brightness (B).
-    B = pickBrightness(H, S, options);
-
-    // Then we return the HSB color in the desired format
-    return setFormat([H,S,B], options);
-  };
-
-  function pickHue (options) {
-
-    var hueRange = getHueRange(options.hue),
-        hue = randomWithin(hueRange);
-
-    // Instead of storing red as two seperate ranges,
-    // we group them, using negative numbers
-    if (hue < 0) {hue = 360 + hue;}
-
-    return hue;
-
-  }
-
-  function pickSaturation (hue, options) {
-
-    if (options.hue === 'monochrome') {
-      return 0;
-    }
-
-    if (options.luminosity === 'random') {
-      return randomWithin([0,100]);
-    }
-
-    var saturationRange = getSaturationRange(hue);
-
-    var sMin = saturationRange[0],
-        sMax = saturationRange[1];
-
-    switch (options.luminosity) {
-
-      case 'bright':
-        sMin = 55;
-        break;
-
-      case 'dark':
-        sMin = sMax - 10;
-        break;
-
-      case 'light':
-        sMax = 55;
-        break;
-   }
-
-    return randomWithin([sMin, sMax]);
-
-  }
-
-  function pickBrightness (H, S, options) {
-
-    var bMin = getMinimumBrightness(H, S),
-        bMax = 100;
-
-    switch (options.luminosity) {
-
-      case 'dark':
-        bMax = bMin + 20;
-        break;
-
-      case 'light':
-        bMin = (bMax + bMin)/2;
-        break;
-
-      case 'random':
-        bMin = 0;
-        bMax = 100;
-        break;
-    }
-
-    return randomWithin([bMin, bMax]);
-  }
-
-  function setFormat (hsv, options) {
-
-    switch (options.format) {
-
-      case 'hsvArray':
-        return hsv;
-
-      case 'hslArray':
-        return HSVtoHSL(hsv);
-
-      case 'hsl':
-        var hsl = HSVtoHSL(hsv);
-        return 'hsl('+hsl[0]+', '+hsl[1]+'%, '+hsl[2]+'%)';
-
-      case 'hsla':
-        var hslColor = HSVtoHSL(hsv);
-        var alpha = options.alpha || Math.random();
-        return 'hsla('+hslColor[0]+', '+hslColor[1]+'%, '+hslColor[2]+'%, ' + alpha + ')';
-
-      case 'rgbArray':
-        return HSVtoRGB(hsv);
-
-      case 'rgb':
-        var rgb = HSVtoRGB(hsv);
-        return 'rgb(' + rgb.join(', ') + ')';
-
-      case 'rgba':
-        var rgbColor = HSVtoRGB(hsv);
-        var alpha = options.alpha || Math.random();
-        return 'rgba(' + rgbColor.join(', ') + ', ' + alpha + ')';
-
-      default:
-        return HSVtoHex(hsv);
-    }
-
-  }
-
-  function getMinimumBrightness(H, S) {
-
-    var lowerBounds = getColorInfo(H).lowerBounds;
-
-    for (var i = 0; i < lowerBounds.length - 1; i++) {
-
-      var s1 = lowerBounds[i][0],
-          v1 = lowerBounds[i][1];
-
-      var s2 = lowerBounds[i+1][0],
-          v2 = lowerBounds[i+1][1];
-
-      if (S >= s1 && S <= s2) {
-
-         var m = (v2 - v1)/(s2 - s1),
-             b = v1 - m*s1;
-
-         return m*S + b;
-      }
-
-    }
-
-    return 0;
-  }
-
-  function getHueRange (colorInput) {
-
-    if (typeof parseInt(colorInput) === 'number') {
-
-      var number = parseInt(colorInput);
-
-      if (number < 360 && number > 0) {
-        return [number, number];
-      }
-
-    }
-
-    if (typeof colorInput === 'string') {
-
-      if (colorDictionary[colorInput]) {
-        var color = colorDictionary[colorInput];
-        if (color.hueRange) {return color.hueRange;}
-      } else if (colorInput.match(/^#?([0-9A-F]{3}|[0-9A-F]{6})$/i)) {
-        var hue = HexToHSB(colorInput)[0];
-        return [ hue, hue ];
-      }
-    }
-
-    return [0,360];
-
-  }
-
-  function getSaturationRange (hue) {
-    return getColorInfo(hue).saturationRange;
-  }
-
-  function getColorInfo (hue) {
-
-    // Maps red colors to make picking hue easier
-    if (hue >= 334 && hue <= 360) {
-      hue-= 360;
-    }
-
-    for (var colorName in colorDictionary) {
-       var color = colorDictionary[colorName];
-       if (color.hueRange &&
-           hue >= color.hueRange[0] &&
-           hue <= color.hueRange[1]) {
-          return colorDictionary[colorName];
-       }
-    } return 'Color not found';
-  }
-
-  function randomWithin (range) {
-    if (seed === null) {
-      return Math.floor(range[0] + Math.random()*(range[1] + 1 - range[0]));
-    } else {
-      //Seeded random algorithm from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
-      var max = range[1] || 1;
-      var min = range[0] || 0;
-      seed = (seed * 9301 + 49297) % 233280;
-      var rnd = seed / 233280.0;
-      return Math.floor(min + rnd * (max - min));
-    }
-  }
-
-  function HSVtoHex (hsv){
-
-    var rgb = HSVtoRGB(hsv);
-
-    function componentToHex(c) {
-        var hex = c.toString(16);
-        return hex.length == 1 ? '0' + hex : hex;
-    }
-
-    var hex = '#' + componentToHex(rgb[0]) + componentToHex(rgb[1]) + componentToHex(rgb[2]);
-
-    return hex;
-
-  }
-
-  function defineColor (name, hueRange, lowerBounds) {
-
-    var sMin = lowerBounds[0][0],
-        sMax = lowerBounds[lowerBounds.length - 1][0],
-
-        bMin = lowerBounds[lowerBounds.length - 1][1],
-        bMax = lowerBounds[0][1];
-
-    colorDictionary[name] = {
-      hueRange: hueRange,
-      lowerBounds: lowerBounds,
-      saturationRange: [sMin, sMax],
-      brightnessRange: [bMin, bMax]
-    };
-
-  }
-
-  function loadColorBounds () {
-
-    defineColor(
-      'monochrome',
-      null,
-      [[0,0],[100,0]]
-    );
-
-    defineColor(
-      'red',
-      [-26,18],
-      [[20,100],[30,92],[40,89],[50,85],[60,78],[70,70],[80,60],[90,55],[100,50]]
-    );
-
-    defineColor(
-      'orange',
-      [19,46],
-      [[20,100],[30,93],[40,88],[50,86],[60,85],[70,70],[100,70]]
-    );
-
-    defineColor(
-      'yellow',
-      [47,62],
-      [[25,100],[40,94],[50,89],[60,86],[70,84],[80,82],[90,80],[100,75]]
-    );
-
-    defineColor(
-      'green',
-      [63,178],
-      [[30,100],[40,90],[50,85],[60,81],[70,74],[80,64],[90,50],[100,40]]
-    );
-
-    defineColor(
-      'blue',
-      [179, 257],
-      [[20,100],[30,86],[40,80],[50,74],[60,60],[70,52],[80,44],[90,39],[100,35]]
-    );
-
-    defineColor(
-      'purple',
-      [258, 282],
-      [[20,100],[30,87],[40,79],[50,70],[60,65],[70,59],[80,52],[90,45],[100,42]]
-    );
-
-    defineColor(
-      'pink',
-      [283, 334],
-      [[20,100],[30,90],[40,86],[60,84],[80,80],[90,75],[100,73]]
-    );
-
-  }
-
-  function HSVtoRGB (hsv) {
-
-    // this doesn't work for the values of 0 and 360
-    // here's the hacky fix
-    var h = hsv[0];
-    if (h === 0) {h = 1;}
-    if (h === 360) {h = 359;}
-
-    // Rebase the h,s,v values
-    h = h/360;
-    var s = hsv[1]/100,
-        v = hsv[2]/100;
-
-    var h_i = Math.floor(h*6),
-      f = h * 6 - h_i,
-      p = v * (1 - s),
-      q = v * (1 - f*s),
-      t = v * (1 - (1 - f)*s),
-      r = 256,
-      g = 256,
-      b = 256;
-
-    switch(h_i) {
-      case 0: r = v; g = t; b = p;  break;
-      case 1: r = q; g = v; b = p;  break;
-      case 2: r = p; g = v; b = t;  break;
-      case 3: r = p; g = q; b = v;  break;
-      case 4: r = t; g = p; b = v;  break;
-      case 5: r = v; g = p; b = q;  break;
-    }
-
-    var result = [Math.floor(r*255), Math.floor(g*255), Math.floor(b*255)];
-    return result;
-  }
-
-  function HexToHSB (hex) {
-    hex = hex.replace(/^#/, '');
-    hex = hex.length === 3 ? hex.replace(/(.)/g, '$1$1') : hex;
-
-    var red = parseInt(hex.substr(0, 2), 16) / 255,
-          green = parseInt(hex.substr(2, 2), 16) / 255,
-          blue = parseInt(hex.substr(4, 2), 16) / 255;
-
-    var cMax = Math.max(red, green, blue),
-          delta = cMax - Math.min(red, green, blue),
-          saturation = cMax ? (delta / cMax) : 0;
-
-    switch (cMax) {
-      case red: return [ 60 * (((green - blue) / delta) % 6) || 0, saturation, cMax ];
-      case green: return [ 60 * (((blue - red) / delta) + 2) || 0, saturation, cMax ];
-      case blue: return [ 60 * (((red - green) / delta) + 4) || 0, saturation, cMax ];
-    }
-  }
-
-  function HSVtoHSL (hsv) {
-    var h = hsv[0],
-      s = hsv[1]/100,
-      v = hsv[2]/100,
-      k = (2-s)*v;
-
-    return [
-      h,
-      Math.round(s*v / (k<1 ? k : 2-k) * 10000) / 100,
-      k/2 * 100
-    ];
-  }
-
-  function stringToInteger (string) {
-    var total = 0
-    for (var i = 0; i !== string.length; i++) {
-      if (total >= Number.MAX_SAFE_INTEGER) break;
-      total += string.charCodeAt(i)
-    }
-    return total
-  }
-
-  return randomColor;
-}));
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(39)(module)))
-
-/***/ }),
-
-/***/ 492:
+/***/ 499:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -23978,6 +24081,6 @@ if (false) {(function () {
 
 /***/ })
 
-},[488]);
+},[498]);
 });
 //# sourceMappingURL=vue-case-log.js.map

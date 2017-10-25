@@ -1,11 +1,17 @@
 <template>
 	<div>
-		<case-log-details-report v-if="show.chart"
-				:case-logs="v2CaseLogs">
-		</case-log-details-report>
+		<div v-if="show.summary" class="summary-container">
+			<case-log-summary v-if="v2CaseLogs && v2CaseLogs.length > 0"
+					:case-logs="v2CaseLogs">
+			</case-log-summary>
+
+			<case-log-summary-v1 v-if="v1CaseLogs && v1CaseLogs.length > 0"
+					:case-logs="v1CaseLogs">
+			</case-log-summary-v1>
+		</div>
 
 		<div class="text-center">
-			<show-hide-button class="btn btn-info" v-model="show.chart">
+			<show-hide-button class="btn btn-info" v-model="show.summary">
 				chart
 				<template slot="glyph"></template>
 			</show-hide-button>
@@ -34,10 +40,10 @@ import DataTable from '@/vue-components/DataTable.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import CaseLogViewer from './Viewer.vue';
-import CaseLogDetailsReport from './DetailsReport.vue';
+import CaseLogSummary from './Summary.vue';
 
 import CaseLogDetailsV1 from './V1/Details.vue';
-import CaseLogDetailsReportV1 from './V1/DetailsReport.vue';
+import CaseLogSummaryV1 from './V1/DetailsReport.vue';
 
 import { renderDateCell, createDateCell } from '@/modules/datatable-utils.js';
 import { getFetchHeaders, okOrThrow } from '@/modules/utils.js';
@@ -62,21 +68,29 @@ export default {
 			detailsCaseLog: null,
 
 			show: {
-				chart: false
+				summary: false
 			}
 		};
 	},
 
 	computed: {
-		detailsComponent() {
+		caseLogVersion() {
 			try {
-				if (this.detailsCaseLog.details_schema.case_log_version === 2)
-					return 'CaseLogViewer';
+				return this.detailsCaseLog.details_schema.case_log_version;
 			} catch (e) {
 				console.error(e);
 			}
 
-			return 'CaseLogDetailsV1';
+			return 1;
+		},
+		detailsComponent() {
+			return this.caseLogVersion === 2
+				? 'CaseLogViewer'
+				: 'CaseLogDetailsV1';
+		},
+		v1CaseLogs() {
+			return this.caseLogs
+				.filter(caseLog => caseLog.details_schema.case_log_version !== 2);
 		},
 		v2CaseLogs() {
 			return this.caseLogs
@@ -198,10 +212,10 @@ export default {
 		DataTable,
 		ShowHideButton,
 		CaseLogViewer,
-		CaseLogDetailsReport,
+		CaseLogSummary,
 
 		CaseLogDetailsV1,
-		CaseLogDetailsReportV1,
+		CaseLogSummaryV1,
 
 	}
 };
