@@ -72,7 +72,7 @@
 				default-sort-order="desc"
 				reloadable
 				@reload="fetchAllMeritReports">
-			<template scope="item">
+			<template slot-scope="item">
 				<merit-report-list-item v-bind="item"
 					@click="viewReport"
 					@summary="viewReportSummary"

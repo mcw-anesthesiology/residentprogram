@@ -4,11 +4,6 @@ namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
 
-use JsonSchema\RefResolver;
-use JsonSchema\Uri\UriRetriever;
-use JsonSchema\Uri\UriResolver;
-use JsonSchema\Validator;
-
 use App\CaseLogDetailsSchema;
 
 class CaseLogDetailsSchemaController extends RestController
@@ -18,7 +13,7 @@ class CaseLogDetailsSchemaController extends RestController
 		$this->middleware([
 			'auth',
 			'type:admin',
-			'site-feature.case_log'
+			'site-feature:case_log'
 		]);
 	}
 
@@ -34,15 +29,17 @@ class CaseLogDetailsSchemaController extends RestController
 		$input = $request->all();
 		$input["schema"] = json_decode($input["schema"]);
 
-		$schemaPath = resource_path("assets/schemas/case-log-details.json");
-		$refResolver = new RefResolver(new UriRetriever(), new UriResolver());
-		$schema = $refResolver->resolve("file://" . realpath($schemaPath));
-		$validator = new Validator();
-		$validator->check($input["schema"], $schema);
-		if(!$validator->isValid())
+		$oldSchema = CaseLogDetailsSchema::where('details_type', $input['details_type'])
+			->orderBy('version', 'desc')->firstOrFail();
+		$newVersion = $oldSchema->version + 1;
+
+		if(!CaseLogDetailsSchema::validateToSchema($input['schema']))
 			throw new \Exception("Details do not match schema");
 
-		CaseLogDetailsSchema::create($input);
+		$schema = new CaseLogDetailsSchema($input);
+		$schema->case_log_version = 2;
+		$schema->version = $newVersion;
+		$schema->save();
 		if($request->ajax())
 			return "success";
 		else

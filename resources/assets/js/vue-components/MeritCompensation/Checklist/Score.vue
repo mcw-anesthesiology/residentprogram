@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { scoreChecklist } from 'modules/merits/scoring.js';
+import { scoreChecklist } from '@/modules/merits/scoring.js';
 
 export default {
 	props: {

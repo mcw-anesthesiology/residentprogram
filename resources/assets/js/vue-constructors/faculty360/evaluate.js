@@ -1,14 +1,14 @@
 import Vue from 'vue';
 
-import AlertList from 'vue-components/AlertList.vue';
-import FormReader from 'vue-components/FormReader/FormReader.vue';
+import AlertList from '@/vue-components/AlertList.vue';
+import FormReader from '@/vue-components/FormReader/FormReader.vue';
 
 import {
 	getFetchHeaders,
 	jsonOrThrow
-} from 'modules/utils.js';
-import { processQuestionTemplates } from 'modules/evaluation-utils.js';
-import { ADMIN_EMAIL } from 'modules/constants.js';
+} from '@/modules/utils.js';
+import { processQuestionTemplates } from '@/modules/evaluation-utils.js';
+import { ADMIN_EMAIL } from '@/modules/constants.js';
 
 const questionTemplates = new Map([
 	['{{ subject_name }}', evaluation => evaluation.subject.full_name],

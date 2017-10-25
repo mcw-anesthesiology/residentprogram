@@ -24,7 +24,12 @@
 				</label>
 			</div>
 			<json-schema-editor :past-values="pastMeritForms"
-				schema-url="/schemas/merit-report.json" name="merit form"
+				schema-id="https://www.residentprogram.com/schemas/merit-report.json"
+				:schema-urls="[
+					'/schemas/merit-report.json',
+					'/schemas/questionnaire.json'
+				]"
+				name="merit form"
 				@submit="handleMeritSubmit"
 				@close="merit = null"></json-schema-editor>
 		</div>

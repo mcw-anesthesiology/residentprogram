@@ -1,6 +1,7 @@
 <script>
 import TextQuestion from './Text.vue';
 import NumberQuestion from './Number.vue';
+import SelectQuestion from './Select.vue';
 import CheckboxQuestion from './Checkbox.vue';
 import RadioQuestion from './Radio.vue';
 import ListQuestion from './List/List.vue';
@@ -21,6 +22,14 @@ export default {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
+		},
+		conditionMet: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -31,12 +40,18 @@ export default {
 
 		let questionComponent = `${type}-question`;
 
+		let style = {};
+		if (this.question.condition && !this.conditionMet)
+			style.display = 'none';
+
 		return h(questionComponent, {
 			props: {
 				readonly: this.readonly,
 				showErrors: this.showErrors,
+				helpClass: this.helpClass,
 				...this.question
 			},
+			style,
 			on: {
 				input: question => {
 					this.$emit('input', question);
@@ -48,6 +63,7 @@ export default {
 	components: {
 		TextQuestion,
 		NumberQuestion,
+		SelectQuestion,
 		CheckboxQuestion,
 		RadioQuestion,
 		ListQuestion

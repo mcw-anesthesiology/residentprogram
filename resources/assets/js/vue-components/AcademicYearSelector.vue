@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import SelectTwo from 'vue-components/SelectTwo.vue';
+import SelectTwo from '@/vue-components/SelectTwo.vue';
 
 import moment from 'moment';
 
@@ -17,7 +17,7 @@ import {
 	isoDateString,
 	isoDateStringObject,
 	renderDateRange
-} from 'modules/date-utils.js';
+} from '@/modules/date-utils.js';
 
 export default {
 	props: {

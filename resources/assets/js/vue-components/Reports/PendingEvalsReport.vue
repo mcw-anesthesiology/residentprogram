@@ -18,7 +18,7 @@
 		<div v-if="report" class="container body-block">
 			<section>
 				<component-list :items="report" :fields="userFields">
-					<template scope="item">
+					<template slot-scope="item">
 						<evaluation-list-item :user="item"
 							evals="evaluator_evaluations" />
 					</template>
@@ -34,8 +34,8 @@ import StartEndDate from '../StartEndDate.vue';
 import AlertList from '../AlertList.vue';
 import ComponentList from '../ComponentList.vue';
 
-import { getFetchHeaders } from 'modules/utils.js';
-import { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';
+import { getFetchHeaders } from '@/modules/utils.js';
+import { isoDateStringObject, currentQuarter } from '@/modules/date-utils.js';
 
 export default {
 	data(){

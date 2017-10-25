@@ -8,7 +8,7 @@
 <script>
 import ChecklistSection from './Section.vue';
 
-import { itemIsChecked } from 'modules/merit-utils.js';
+import { itemIsChecked } from '@/modules/merit-utils.js';
 
 export default {
 	props: {

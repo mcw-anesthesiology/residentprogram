@@ -1,9 +1,9 @@
 import Vue from 'vue';
 
-import AlertList from 'vue-components/AlertList.vue';
-import FormBuilder from 'vue-components/FormBuilder/FormBuilder.vue';
+import AlertList from '@/vue-components/AlertList.vue';
+import FormBuilder from '@/vue-components/FormBuilder/FormBuilder.vue';
 
-import { getFetchHeaders } from 'modules/utils.js';
+import { getFetchHeaders } from '@/modules/utils.js';
 
 export function createFormBuilder(el, propsData){
 	return new Vue({

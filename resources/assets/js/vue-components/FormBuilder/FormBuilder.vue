@@ -114,7 +114,7 @@ import AlertList from '../AlertList.vue';
 import ShowHideButton from '../ShowHideButton.vue';
 import ConfirmationButton from '../ConfirmationButton.vue';
 
-import { ucfirst, fetchMilestoneGroups } from 'modules/utils.js';
+import { ucfirst, fetchMilestoneGroups } from '@/modules/utils.js';
 
 export default {
 	props: {

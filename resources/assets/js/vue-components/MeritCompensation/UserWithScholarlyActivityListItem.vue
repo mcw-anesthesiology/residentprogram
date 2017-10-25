@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { getScholarlyActivity } from 'modules/merits/faculty-merit/index.js';
+import { getScholarlyActivity } from '@/modules/merits/faculty-merit/index.js';
 
 export default {
 	props: {

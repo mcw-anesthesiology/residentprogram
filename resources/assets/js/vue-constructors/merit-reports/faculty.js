@@ -1,10 +1,10 @@
-import ComponentList from 'vue-components/ComponentList.vue';
-import MeritCompensationReport from 'vue-components/MeritCompensation/Report.vue';
-import MeritReportListItem from 'vue-components/MeritCompensation/ReportListItem.vue';
-import RichDateRange from 'vue-components/RichDateRange.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
+import MeritCompensationReport from '@/vue-components/MeritCompensation/Report.vue';
+import MeritReportListItem from '@/vue-components/MeritCompensation/ReportListItem.vue';
+import RichDateRange from '@/vue-components/RichDateRange.vue';
 
-import { datesEqual } from 'modules/date-utils.js';
-import { getCurrentYearlyMeritDateRange } from 'modules/merit-utils.js';
+import { datesEqual } from '@/modules/date-utils.js';
+import { getCurrentYearlyMeritDateRange } from '@/modules/merit-utils.js';
 
 export default {
 	props: {

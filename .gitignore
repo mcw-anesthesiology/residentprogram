@@ -5,3 +5,5 @@ Homestead.yaml
 .env*
 /.vagrant
 public/build/js/stats.json
+/public/ui-tester.html
+/public/ui-tester.js

@@ -1,13 +1,13 @@
 import Vue from 'vue';
 
-import AlertList from 'vue-components/AlertList.vue';
-import SelectTwo from 'vue-components/SelectTwo.vue';
+import AlertList from '@/vue-components/AlertList.vue';
+import SelectTwo from '@/vue-components/SelectTwo.vue';
 
 import {
 	getFetchHeaders,
 	sortPropIgnoreCase,
 	errorToAlert
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 
 export default function createFaculty360Request(el, propsData) {
 	return new Vue({

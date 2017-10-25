@@ -18,6 +18,7 @@
 				:items="items"
 				:readonly="readonly"
 				:show-errors="showErrors"
+				:help-class="helpClass"
 				@change="onChange" />
 
 			<button v-if="!readonly" type="button" class="btn btn-sm btn-info"
@@ -37,8 +38,8 @@
 
 <script>
 import ListItems from './Items.vue';
-import BootstrapAlert from 'vue-components/BootstrapAlert.vue';
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import BootstrapAlert from '@/vue-components/BootstrapAlert.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import snarkdown from 'snarkdown';
 
@@ -108,6 +109,10 @@ export default {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data() {

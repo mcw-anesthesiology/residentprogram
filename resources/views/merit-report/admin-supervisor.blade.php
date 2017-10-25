@@ -7,7 +7,7 @@
 					:paginate="false"
 					reloadable
 					@reload="handleReload">
-				<template scope="reportUser">
+				<template slot-scope="reportUser">
 					<user-with-merit-report-list-item v-bind="reportUser"
 						:user="user"
 						@change="handleReload"

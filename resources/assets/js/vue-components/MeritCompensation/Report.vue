@@ -88,13 +88,13 @@ import moment from 'moment';
 
 import MeritCompensationChecklist from './Checklist/Checklist.vue';
 
-import AcademicYearSelector from 'vue-components/AcademicYearSelector.vue';
-import LoadingButton from 'vue-components/LoadingButton.vue';
-import RichDateRange from 'vue-components/RichDateRange.vue';
+import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
+import LoadingButton from '@/vue-components/LoadingButton.vue';
+import RichDateRange from '@/vue-components/RichDateRange.vue';
 
-import { isoDateString } from 'modules/date-utils.js';
-import { getCheckedItemCount } from 'modules/merit-utils.js';
-import { isAdmin, getFetchHeaders, okOrThrow } from 'modules/utils.js';
+import { isoDateString } from '@/modules/date-utils.js';
+import { getCheckedItemCount } from '@/modules/merit-utils.js';
+import { isAdmin, getFetchHeaders, okOrThrow } from '@/modules/utils.js';
 
 export default {
 	props: {

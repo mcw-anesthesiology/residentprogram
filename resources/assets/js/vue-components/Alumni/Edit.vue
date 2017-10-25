@@ -190,12 +190,12 @@
 <script>
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 
 import {
 	okOrThrow,
 	getFetchHeaders
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 
 export default {
 	props: {

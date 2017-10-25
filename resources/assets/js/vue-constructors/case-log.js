@@ -2,19 +2,23 @@ import Vue from 'vue';
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 import 'flatpickr/dist/flatpickr.css';
 
-import HasAlerts from 'vue-mixins/HasAlerts.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import ComponentList from 'vue-components/ComponentList.vue';
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+import StartEndDate from '@/vue-components/StartEndDate.vue';
 
-import CaseLogs from 'vue-components/CaseLog/CaseLogs.vue';
+import CaseLogs from '@/vue-components/CaseLog/CaseLogs.vue';
+import CaseLogEditor from '@/vue-components/CaseLog/Editor.vue';
+import CaseLogEditorV1 from '@/vue-components/CaseLog/V1/Editor.vue';
 
 import {
 	getFetchHeaders,
 	okOrThrow,
 	jsonOrThrow,
 	userIsType
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
+import { currentQuarter, isoDateStringObject } from '@/modules/date-utils.js';
 
 export function createCaseLog(el, propsData) {
 	return new Vue({
@@ -39,6 +43,7 @@ export function createCaseLog(el, propsData) {
 		propsData,
 		data() {
 			return {
+				dates: isoDateStringObject(currentQuarter()),
 				caseLogs: [],
 				show: {
 					charts: false,
@@ -48,15 +53,11 @@ export function createCaseLog(el, propsData) {
 		},
 
 		computed: {
-			subsections() {
-				let subsections = [];
-				for (let schema of this.detailsSchema.schema) {
-					for (let subsection of schema.subsections) {
-						subsections.push(subsection);
-					}
-				}
+			editorComponent() {
+				if (this.detailsSchema.case_log_version === 2)
+					return 'CaseLogEditor';
 
-				return subsections;
+				return 'CaseLogEditorV1';
 			},
 			isAdmin() {
 				return userIsType(this.user, 'admin');
@@ -90,15 +91,31 @@ export function createCaseLog(el, propsData) {
 			this.fetchCaseLogs();
 		},
 
+		watch: {
+			dates() {
+				this.fetchCaseLogs();
+			}
+		},
+
 		methods: {
 			fetchCaseLogs() {
-				let query = $.param({
+				const params = {
 					with: {
 						location: ['name'],
 						user: ['full_name'],
 						detailsSchema: true
 					}
-				});
+				};
+
+				if (this.dates.startDate || this.dates.endDate) {
+					params.case_date = [];
+					if (this.dates.startDate)
+						params.case_date.push(['>=', this.dates.startDate]);
+					if (this.dates.endDate)
+						params.case_date.push(['<=', this.dates.endDate]);
+				}
+
+				let query = $.param(params);
 
 				fetch(`/case_logs?${query}`, {
 					headers: getFetchHeaders(),
@@ -136,34 +153,20 @@ export function createCaseLog(el, propsData) {
 					caseLog.id !== id
 				);
 			},
-			addCaseLog(event) {
-				event.preventDefault();
-
-				let body = new FormData(this.$refs.addLogForm);
-				fetch('/case_logs', {
-					method: 'POST',
-					headers: getFetchHeaders({contentType: null}),
-					credentials: 'same-origin',
-					body
-				}).then(okOrThrow).then(() => {
-					this.$refs.addLogForm.reset();
-					this.show.addCaseLog = false;
-					this.fetchCaseLogs();
-				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem adding the case log entry'
-					});
-				});
+			handleEditorSubmit() {
+				this.show.addCaseLog = false;
+				this.fetchCaseLogs();
 			}
 		},
 
 		components: {
 			ComponentList,
 			ShowHideButton,
+			StartEndDate,
 			CaseLogs,
-			VueFlatpickr
+			VueFlatpickr,
+			CaseLogEditor,
+			CaseLogEditorV1
 		}
 	});
 }

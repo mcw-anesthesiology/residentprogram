@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { renderCaseLogDetailsSchema } from 'modules/case-log-details-schema.js';
+import { renderCaseLogDetailsSchema } from '@/modules/case-log-details-schema.js';
 
 export default {
 	props: {

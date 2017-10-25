@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { kebabCaseToWords } from 'modules/utils.js';
+import { kebabCaseToWords } from '@/modules/utils.js';
 
 export default {
 	props: {

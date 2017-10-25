@@ -51,12 +51,12 @@ import moment from 'moment';
 import MeritCompensationSummaryChecklist from './Checklist/Summary/Checklist.vue';
 import MeritCompensationScore from './Checklist/Score.vue';
 
-import AcademicYearSelector from 'vue-components/AcademicYearSelector.vue';
-import LoadingButton from 'vue-components/LoadingButton.vue';
-import RichDateRange from 'vue-components/RichDateRange.vue';
+import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
+import LoadingButton from '@/vue-components/LoadingButton.vue';
+import RichDateRange from '@/vue-components/RichDateRange.vue';
 
-import { isoDateString } from 'modules/date-utils.js';
-import { getCheckedItemCount } from 'modules/merit-utils.js';
+import { isoDateString } from '@/modules/date-utils.js';
+import { getCheckedItemCount } from '@/modules/merit-utils.js';
 
 export default {
 	props: {

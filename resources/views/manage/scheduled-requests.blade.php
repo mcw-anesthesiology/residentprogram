@@ -14,7 +14,7 @@
 				:sort-functions="scheduledRequestSortFunctions"
 				reloadable
 				@reload="fetchScheduledRequests">
-			<template scope="scheduledRequest">
+			<template slot-scope="scheduledRequest">
 				<div class="row component-list-item">
 					<div class="col-sm-1">
 						<small>#</small>

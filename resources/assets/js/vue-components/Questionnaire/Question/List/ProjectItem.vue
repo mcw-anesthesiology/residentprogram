@@ -3,7 +3,10 @@
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
 			@remove="$emit('remove')">
-		<validated-form-group :errors="validation.errors" prop="description">
+		<validated-form-group prop="description"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				{{ descriptionLabel }}
 				<textarea class="form-control"
@@ -12,7 +15,10 @@
 				</textarea>
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="hours">
+		<validated-form-group prop="hours"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				{{ hoursLabel }}
 				<input type="number" class="form-control"
@@ -26,7 +32,7 @@
 <script>
 import ListItem from './Item.vue';
 
-import { projectListItem as validate } from 'modules/questionnaire/validate.js';
+import { projectListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,

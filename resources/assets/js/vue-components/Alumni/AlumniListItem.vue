@@ -47,10 +47,10 @@
 <script>
 import moment from 'moment';
 
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
-import RichDate from 'vue-components/RichDate.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
+import RichDate from '@/vue-components/RichDate.vue';
 
-import { PLACEHOLDER_USER_IMAGE_PATH } from 'modules/constants.js';
+import { PLACEHOLDER_USER_IMAGE_PATH } from '@/modules/constants.js';
 
 export default {
 	props: {

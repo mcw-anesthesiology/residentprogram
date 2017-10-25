@@ -44,15 +44,20 @@ class CaseLogController extends Controller {
 
 	public function manage(Request $request){
 		$schemas = CaseLogDetailsSchema::all()->groupBy("details_type")
-			->sortByDesc("version")->transform(function($typeSchemas){
-				return $typeSchemas->keyBy("version");
+			->transform(function($typeSchemas){
+				return $typeSchemas->sortByDesc('version')->values()
+					->map(function($schema) {
+						// Add JSON version of schema as form
+						$schema['form'] = json_encode($schema['schema'], JSON_PRETTY_PRINT);
+						return $schema;
+					})->toArray();
 			});
 		$newVersions = $schemas->map(function($schemas){
-			return $schemas->max("version") + 1;
+			return collect($schemas)->max("version") + 1;
 		});
 
 		$data = compact("schemas", "newVersions");
 
-		return view("manage.case-log.all", $data);
+		return view("manage.case-log", $data);
 	}
 }

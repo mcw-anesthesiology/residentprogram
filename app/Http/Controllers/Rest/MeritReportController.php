@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 use App\MeritReport;
 use App\User;
 
+use App\Helpers\QuestionnaireValidation;
+
 use Auth;
 use Log;
 
-class MeritReportController extends RestController
-{
+class MeritReportController extends RestController {
     protected $relationships = [
         'user',
         'form'
@@ -31,8 +32,7 @@ class MeritReportController extends RestController
 
     protected $model = \App\MeritReport::class;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
 		$this->middleware('site-feature:faculty_merit');
         $this->middleware('type:admin')->only('destroy');
@@ -114,8 +114,7 @@ class MeritReportController extends RestController
         })->only('printView');
     }
 
-    public function byUser(Request $request)
-    {
+    public function byUser(Request $request) {
         $datedMerits = function ($query) use ($request) {
             if ($request->has('startDate')) {
                 $query = $query->where('period_end', '>=', $request->input('startDate'));
@@ -132,8 +131,7 @@ class MeritReportController extends RestController
             ->orderBy('last_name', 'asc')->get();
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $merit = MeritReport::create($request->all());
 
         return $request->ajax()
@@ -141,8 +139,7 @@ class MeritReportController extends RestController
             : back();
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $report = MeritReport::findOrFail($id);
 
         $revision = [
@@ -171,16 +168,14 @@ class MeritReportController extends RestController
             : back();
     }
 
-    public function printView(Request $request, $id)
-    {
+    public function printView(Request $request, $id) {
         $report = MeritReport::with('user')->findOrFail($id);
         $data = compact('report');
 
         return view('merit-report.print-view', $data);
     }
 
-    protected static function reportIsValid($form)
-    {
+    protected static function reportIsValid($form) {
         if (empty($form['pages'])) {
             return false;
         }
@@ -194,8 +189,7 @@ class MeritReportController extends RestController
         return true;
     }
 
-    protected static function sectionIsValid($section)
-    {
+    protected static function sectionIsValid($section) {
         if (!key_exists('items', $section) || empty($section['items'])) {
             return true;
         }
@@ -218,150 +212,15 @@ class MeritReportController extends RestController
         return true;
     }
 
-    protected static function itemIsValid($item)
-    {
+    protected static function itemIsValid($item) {
         if (empty($item['checked']) || !key_exists('questions', $item) || empty($item['questions'])) {
             return true;
         }
 
         foreach ($item['questions'] as $question) {
-            if (!self::questionIsValid($question)) {
+            if (!QuestionnaireValidation::questionIsValid($question)) {
                 return false;
             }
-        }
-
-        return true;
-    }
-
-    protected static function questionIsValid($question)
-    {
-        if ($question['type'] != 'list' && empty($question['required'])) {
-            return true;
-        }
-
-        switch ($question['type']) {
-            case 'text':
-                if (empty($question['value'])) {
-                    return false;
-                }
-                break;
-            case 'number':
-                if (!key_exists('value', $question)) {
-                    return false;
-                }
-                if (!empty($question['min']) && $question['value'] < $question['min']) {
-                    return false;
-                }
-                if (!empty($question['max']) && $question['value'] > $question['max']) {
-                    return false;
-                }
-                break;
-            case 'checkbox':
-            case 'radio':
-                $optionChecked = false;
-                foreach ($question['options'] as $option) {
-                    if (!empty($option['checked'])) {
-                        $optionChecked = true;
-                    }
-                }
-                if (!$optionChecked) {
-                    return false;
-                }
-                break;
-            case 'list':
-                return self::listQuestionIsValid($question);
-        }
-
-        return true;
-    }
-
-    protected static function listQuestionIsValid($list)
-    {
-        if (!key_exists('items', $list) || empty($list['items'])) {
-            return false;
-        }
-
-        foreach ($list['items'] as $listItem) {
-            if (key_exists('itemProps', $list)) {
-                foreach ($list['itemProps'] as $key => $value) {
-                    if ($listItem[$key] != $value) {
-                        return false;
-                    }
-                }
-            }
-
-            if (!self::listItemIsValid($listItem)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    protected static function listItemIsValid($listItem)
-    {
-        switch ($listItem['type']) {
-            case 'text':
-                if (empty($listItem['text'])) {
-                    return false;
-                }
-                break;
-            case 'publication':
-                if (empty($listItem['title']) || empty($listItem['role'])) {
-                    return false;
-                }
-                break;
-            case 'committee':
-                if (empty($listItem['name']) || empty($listItem['role'])) {
-                    return false;
-                }
-                break;
-            case 'study':
-                if (empty($listItem['title'])
-                    || empty($listItem['role'])
-                    || empty($listItem['yearInitiated'])
-                    || empty($listItem['approvalNumber'])
-                    || empty($listItem['progress'])
-                ) {
-                    return false;
-                }
-                break;
-            case 'grant':
-            case 'grantOther':
-                if (empty($listItem['agency'])
-                    || empty($listItem['project'])
-                    || !key_exists('amount', $listItem)
-                ) {
-                    return false;
-                }
-                break;
-            case 'certification':
-                if (empty($listItem['board']) || empty($listItem['specialty'])) {
-                    return false;
-                }
-                break;
-            case 'editorialBoard':
-                if (empty($listItem['journal']) || empty($listItem['role'])) {
-                    return false;
-                }
-                break;
-            case 'review':
-                if (empty($listItem['work']) || empty($listItem['reviews'])) {
-                    return false;
-                }
-                break;
-            case 'lecture':
-            case 'audienceLecture':
-                if (empty($listItem['title']) || empty($listItem['date']) || empty($listItem['audience'])) {
-                    return false;
-                }
-                break;
-            case 'mentorship':
-            case 'subjectMentorship':
-                if (empty($listItem['mentee']) || empty($listItem['subject'])) {
-                    return false;
-                }
-                break;
         }
 
         return true;

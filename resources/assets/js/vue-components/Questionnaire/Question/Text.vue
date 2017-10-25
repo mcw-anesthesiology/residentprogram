@@ -1,7 +1,10 @@
 <template>
-	<validated-form-group :errors="validation.errors" prop="value">
-		<label class="containing-label" :class="{'has-warning': (required && !value)}"
-				:title="description">
+	<validated-form-group class="text-question"
+			:errors="validation.errors"
+			:show-errors="showErrors"
+			:invalid-class="helpClass"
+			prop="value">
+		<label class="containing-label control-label" :title="description">
 			{{ text }}
 			<textarea class="form-control"
 				:value="value" :readonly="readonly"
@@ -17,12 +20,12 @@
 </template>
 
 <script>
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
-import ValidatedFormGroup from 'vue-components/ValidatedFormGroup.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
 import snarkdown from 'snarkdown';
 
-import { textQuestion as validate } from 'modules/questionnaire/validate.js';
+import { textQuestion as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	props: {
@@ -55,6 +58,14 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		showErrors: {
+			type: Boolean,
+			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data() {

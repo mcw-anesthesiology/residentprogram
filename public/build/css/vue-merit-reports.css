@@ -1066,6 +1066,10 @@ legend[data-v-098680db] {
 .options label[data-v-098680db] {
 	padding: 1em;
 }
+.editable-option-text[data-v-098680db] {
+	display: inline-block;
+	width: auto;
+}
 
 .radio-question[data-v-3b7f8513] {
 	font-size: 1.25em;
@@ -1152,6 +1156,13 @@ legend[data-v-2186235b] {
 
 .instruction-block p {
 	margin-bottom: 1.5em;
+}
+
+.questionnaire-section.direction-horizontal[data-v-6c066414] {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
 }
 
 .alert[data-v-5ee8df1c] {

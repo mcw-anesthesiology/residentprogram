@@ -1,8 +1,8 @@
 import Vue from 'vue';
 
-import HasAlerts from 'vue-mixins/HasAlerts.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import EvaluationDataTable from 'vue-components/EvaluationDataTable.vue';
+import EvaluationDataTable from '@/vue-components/EvaluationDataTable.vue';
 
 import {
 	renderEvaluatorEvalUrl,
@@ -11,7 +11,7 @@ import {
 	createDateTimeCell,
 	renderDateRangeCell,
 	createDateRangeCell
-} from 'modules/datatable-utils.js';
+} from '@/modules/datatable-utils.js';
 
 export default function createResidentDashboard(el, propsData){
 

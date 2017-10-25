@@ -18,7 +18,7 @@
 		"yangqi/htmldom": "dev-master",
         "michelf/php-markdown": "^1.6",
         "turkeyfried/us-state-lists": "^1.0",
-        "justinrainbow/json-schema": "^2.0",
+        "justinrainbow/json-schema": "^5.2.5",
         "jenssegers/rollbar": "^1.5",
         "vinkla/hashids": "^2.4",
         "pusher/pusher-php-server": "~2.0"

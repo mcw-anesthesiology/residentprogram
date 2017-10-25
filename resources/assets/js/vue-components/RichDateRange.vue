@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { renderDateRange } from 'modules/date-utils.js';
+import { renderDateRange } from '@/modules/date-utils.js';
 
 export default {
 	props: {

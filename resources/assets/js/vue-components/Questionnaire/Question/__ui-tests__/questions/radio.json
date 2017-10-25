@@ -1,0 +1,20 @@
+{
+	"type": "radio",
+	"text": "Radio question",
+	"description": "A radio question with a description",
+	"options": [
+		{
+			"text": "Option 1",
+			"value": 1
+		},
+		{
+			"text": "Option 2",
+			"value": 2
+		},
+		{
+			"text": "",
+			"value": "",
+			"editable": true
+		}
+	]
+}

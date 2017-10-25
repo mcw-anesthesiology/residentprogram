@@ -3,7 +3,10 @@
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
 			@remove="$emit('remove')">
-		<validated-form-group :errors="validation.errors" prop="title">
+		<validated-form-group prop="title"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Study title
 				<textarea class="form-control"
@@ -12,7 +15,10 @@
 				</textarea>
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="role">
+		<validated-form-group prop="role"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Your role in study
 				<textarea class="form-control"
@@ -21,7 +27,10 @@
 				</textarea>
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="yearInitiated">
+		<validated-form-group prop="yearInitiated"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Year initiated
 				<input type="text" class="form-control"
@@ -29,7 +38,10 @@
 					@input="$emit('input', {yearInitiated: $event.target.value})" />
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="approvalNumber">
+		<validated-form-group prop="approvalNumber"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Approval number (IRB / ACUC)
 				<input type="text" class="form-control"
@@ -37,7 +49,10 @@
 					@input="$emit('input', {approvalNumber: $event.target.value})" />
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="progress">
+		<validated-form-group prop="progress"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Progress
 				<textarea class="form-control"
@@ -52,7 +67,7 @@
 <script>
 import ListItem from './Item.vue';
 
-import { studyListItem as validate } from 'modules/questionnaire/validate.js';
+import { studyListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,

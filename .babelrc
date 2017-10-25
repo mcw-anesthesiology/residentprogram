@@ -14,37 +14,43 @@
 			"modules": false
 		}]
 	],
-	"env": {
-		"test": {
-			"presets": [
-				["env", {
-					"targets": {
-						"node": "current"
-					},
-					"useBuiltIns": true,
-					"debug": false,
-					"modules": false
-				}]
-			],
-			"plugins": [
-				"transform-es2015-modules-commonjs",
-				"dynamic-import-node"
-			]
-		}
-	},
 	"plugins": [
 		["module-resolver", {
-			"root": [
-				"./resources/assets/js"
-			],
 			"alias": {
-				"vue-flatpickr": "@jacobmischka/vue-flatpickr"
-			}
+				"vue-flatpickr": "@jacobmischka/vue-flatpickr",
+				"@": "./resources/assets/js"
+			},
+			"extensions": [
+				".js",
+				".vue",
+				".mjs"
+			]
 		}],
 		"syntax-dynamic-import",
 		["transform-object-rest-spread", {
 			"useBuiltIns": true
 		}],
 		"transform-vue-jsx"
-	]
+	],
+	"env": {
+		"test": {
+			"presets": [
+				"flow",
+				["env", {
+					"targets": {
+						"node": "current"
+					},
+					"useBuiltIns": true,
+					"debug": false
+				}]
+			],
+			"plugins": [
+				"dynamic-import-node",
+				["transform-object-rest-spread", {
+					"useBuiltIns": true
+				}],
+				"transform-vue-jsx"
+			]
+		}
+	}
 }

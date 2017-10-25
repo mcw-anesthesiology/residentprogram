@@ -1,6 +1,10 @@
 <template>
-	<validated-form-group :errors="validation.errors" prop="value">
-		<label class="containing-label" :title="description">
+	<validated-form-group class="number-question"
+			:errors="validation.errors"
+			:show-errors="showErrors"
+			:invalid-class="helpClass"
+			prop="value">
+		<label class="containing-label control-label" :title="description">
 			{{ text }}
 			<input type="number" class="form-control"
 				:min="min" :max="max" :value="value" :readonly="readonly"
@@ -16,12 +20,12 @@
 </template>
 
 <script>
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
-import ValidatedFormGroup from 'vue-components/ValidatedFormGroup.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
 import snarkdown from 'snarkdown';
 
-import { numberQuestion as validate } from 'modules/questionnaire/validate.js';
+import { numberQuestion as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	props: {
@@ -66,6 +70,14 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		showErrors: {
+			type: Boolean,
+			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data() {

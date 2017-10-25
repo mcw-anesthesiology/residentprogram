@@ -24,7 +24,7 @@ import debounce from 'lodash/debounce';
 
 import ReplacementList from './ReplacementList.vue';
 
-import { htmlLabelReplacements } from 'modules/utils.js';
+import { htmlLabelReplacements } from '@/modules/utils.js';
 
 export default {
 	props: {

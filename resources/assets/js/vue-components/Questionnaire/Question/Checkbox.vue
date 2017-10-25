@@ -1,20 +1,26 @@
 <template>
 	<validated-form-group class="checkbox-question"
-			:errors="validation.errors" prop="options">
+			:errors="validation.errors"
+			:show-errors="showErrors"
+			:invalid-class="helpClass"
+			prop="options">
 		<fieldset :title="description">
-			<legend>
+			<legend class="control-label">
 				{{ text }}
 			</legend>
 			<div class="options">
-				<label v-for="(option, index) of options" :title="option.description">
+				<label v-for="(option, index) of options"
+						class="control-label"
+						:title="option.description">
 					<input type="checkbox" :value="option.value"
 						:checked="option.checked" :disabled="readonly"
 						@change="handleCheck(index)" />
 
 					<input type="text" v-if="option.editable"
-						class="form-control"
+						class="form-control editable-option-text"
 						:value="option.text"
-						placholder="Other"
+						:readonly="readonly"
+						placeholder="Other"
 						@click="handleCheck(index)"
 						@input="handleEditableOptionInput(index, $event.target.value)" />
 					<template v-else>
@@ -38,12 +44,12 @@
 </template>
 
 <script>
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
-import ValidatedFormGroup from 'vue-components/ValidatedFormGroup.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
 import snarkdown from 'snarkdown';
 
-import { checkboxQuestion as validate } from 'modules/questionnaire/validate.js';
+import { checkboxQuestion as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	model: {
@@ -75,6 +81,14 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		showErrors: {
+			type: Boolean,
+			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data() {
@@ -96,7 +110,11 @@ export default {
 	},
 
 	methods: {
+		snarkdown,
 		handleCheck(index) {
+			if (this.readonly)
+				return;
+
 			let options = Array.slice(this.options);
 			options[index] = Object.assign({}, options[index], {
 				checked: !options[index].checked
@@ -105,12 +123,14 @@ export default {
 			this.$emit('input', {options});
 		},
 		handleEditableOptionInput(index, value) {
+			if (this.readonly)
+				return;
+
 			let options = Array.slice(this.options);
 			options[index] = Object.assign({}, options[index], {text: value, value});
 
 			this.$emit('input', {options});
-		},
-		snarkdown
+		}
 	},
 
 	components: {
@@ -136,5 +156,10 @@ export default {
 
 	.options label {
 		padding: 1em;
+	}
+
+	.editable-option-text {
+		display: inline-block;
+		width: auto;
 	}
 </style>
