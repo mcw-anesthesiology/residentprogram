@@ -47,7 +47,7 @@
 			</section>
 
 
-			<input type="hidden" name="details_schema_id" :value="detailsSchema.id" />
+			<input type="hidden" name="details_schema_id" :value="detailsSchemaId" />
 			<section ref="detailsContainer" class="case-details"></section>
 
 			<button type="submit" class="btn btn-primary center-block">
@@ -77,6 +77,10 @@ export default {
 		},
 		locations: {
 			type: Array,
+			required: true
+		},
+		detailsSchemaId: {
+			type: Number,
 			required: true
 		}
 	},

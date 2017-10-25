@@ -54,7 +54,7 @@ export function createCaseLog(el, propsData) {
 
 		computed: {
 			editorComponent() {
-				if (this.detailsSchema.case_log_version === 2)
+				if (Number(this.detailsSchema.case_log_version) === 2)
 					return 'CaseLogEditor';
 
 				return 'CaseLogEditorV1';
