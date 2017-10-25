@@ -1027,24 +1027,24 @@ legend[data-v-2186235b] {
 	color: rgba(0, 0, 0, 0.65);
 }
 
-.controls[data-v-4a5f0c54] {
+.controls[data-v-72bdc534] {
 	display: flex;
 	justify-content: flex-end;
 }
-.controls .containing-label[data-v-4a5f0c54] {
+.controls .containing-label[data-v-72bdc534] {
 	width: auto;
 }
-.chart-container[data-v-4a5f0c54] {
+.chart-container[data-v-72bdc534] {
 	display: flex;
 	flex-wrap: wrap;
 }
-.color-square[data-v-4a5f0c54] {
+.color-square[data-v-72bdc534] {
 	display: inline-block;
 	width: 1.5em;
 	height: 1.5em;
 	vertical-align: middle;
 }
-.table-striped > tfoot[data-v-4a5f0c54] {
+.table-striped > tfoot[data-v-72bdc534] {
 	border-top: 2px solid #ddd;
 }
 
