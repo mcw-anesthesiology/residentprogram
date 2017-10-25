@@ -59,7 +59,6 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new webpack.optimize.ModuleConcatenationPlugin(),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'vue-deps',
 			chunks: [
