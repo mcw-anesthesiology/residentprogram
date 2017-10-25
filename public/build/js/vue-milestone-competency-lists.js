@@ -8,35 +8,19 @@
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function() {
-return webpackJsonp([13],{
+return webpackJsonp([12],{
 
-/***/ 116:
+/***/ 123:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 421:
+/***/ 124:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-// EXTERNAL MODULE: ./node_modules/vue/dist/vue.common.js
-var vue_common = __webpack_require__(17);
-var vue_common_default = /*#__PURE__*/__webpack_require__.n(vue_common);
-
-// EXTERNAL MODULE: ./resources/assets/js/vue-components/ShowHideButton.vue + 2 modules
-var ShowHideButton = __webpack_require__(8);
-
-// EXTERNAL MODULE: ./resources/assets/js/modules/utils.js
-var utils = __webpack_require__(1);
-
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/vue-components/MilestoneCompetencyQuestionLists.vue
-//
-//
-//
 //
 //
 //
@@ -61,189 +45,78 @@ var utils = __webpack_require__(1);
 //
 //
 
-
-
-
-
-/* harmony default export */ var MilestoneCompetencyQuestionLists = ({
-	props: ['milestones', 'competencies'],
-	computed: {
-		groups: function groups() {
-			return {
-				'milestones': this.milestones,
-				'competencies': this.competencies
-			};
-		}
-	},
-	data: function data() {
-		return {
-			showLists: false,
-			showDescriptions: {
-				milestones: false,
-				competencies: false
-			}
-		};
-	},
-
-	methods: {
-		toggleLists: function toggleLists() {
-			this.showLists = !this.showLists;
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		value: {
+			type: Boolean,
+			required: true
 		},
-		toggleDescriptions: function toggleDescriptions(type) {
-			if (this.showDescriptions.hasOwnProperty(type)) this.showDescriptions[type] = !this.showDescriptions[type];
-		},
-		ucfirst: function ucfirst(str) {
-			return Object(utils["I" /* ucfirst */])(str);
+		text: {
+			type: String,
+			required: false
 		}
-	},
-	components: {
-		ShowHideButton: ShowHideButton["a" /* default */]
 	}
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-6b55c4f7","hasScoped":true,"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/vue-components/MilestoneCompetencyQuestionLists.vue
-var MilestoneCompetencyQuestionLists_render = function() {
+
+/***/ }),
+
+/***/ 125:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "button",
     {
-      directives: [
-        {
-          name: "show",
-          rawName: "v-show",
-          value: _vm.showLists,
-          expression: "showLists"
+      staticClass: "btn",
+      attrs: { type: "button" },
+      on: {
+        click: function($event) {
+          _vm.$emit("input", !_vm.value)
         }
-      ],
-      staticClass: "milestone-competency-question-lists row"
+      }
     },
-    _vm._l(_vm.groups, function(group, groupName) {
-      return _c("div", { staticClass: "col-sm-6" }, [
-        _c("div", { staticClass: "panel panel-info milestones-panel" }, [
-          _c(
-            "div",
-            { staticClass: "panel-heading" },
-            [
-              _c("h4", { staticClass: "panel-title" }, [
-                _vm._v(
-                  "\n\t\t\t\t\t" + _vm._s(_vm.ucfirst(groupName)) + "\n\t\t\t\t"
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "show-hide-button",
-                {
-                  staticClass: "description-button btn btn-info btn-xs",
-                  model: {
-                    value: _vm.showDescriptions[groupName],
-                    callback: function($$v) {
-                      _vm.$set(_vm.showDescriptions, groupName, $$v)
-                    },
-                    expression: "showDescriptions[groupName]"
-                  }
-                },
-                [_vm._v("\n\t\t\t\t\tdescriptions\n\t\t\t\t")]
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "ul",
-            { staticClass: "list-group" },
-            _vm._l(group, function(item) {
-              return _c("li", { staticClass: "list-group-item" }, [
-                _c("b", [_vm._v(_vm._s(item.title))]),
-                _vm._v(" "),
-                _c(
-                  "span",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.showDescriptions[groupName],
-                        expression: "showDescriptions[groupName]"
-                      }
-                    ]
-                  },
-                  [
-                    _vm._v(
-                      "\n\t\t\t\t\t\t— " +
-                        _vm._s(item.description) +
-                        "\n\t\t\t\t\t"
-                    )
-                  ]
-                )
-              ])
-            })
-          )
-        ])
+    [
+      _vm._t("left-glyph"),
+      _vm._v(" "),
+      _vm.value
+        ? _vm._t("true", [_vm._v("\n\t\tHide\n\t")])
+        : _vm._t("false", [_vm._v("\n\t\tShow\n\t")]),
+      _vm._v(" "),
+      _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]),
+      _vm._v(" "),
+      _vm._t("glyph", [
+        _c("span", { staticClass: "glyphicon glyphicon-triangle-bottom" })
       ])
-    })
+    ],
+    2
   )
 }
 var staticRenderFns = []
-MilestoneCompetencyQuestionLists_render._withStripped = true
-var esExports = { render: MilestoneCompetencyQuestionLists_render, staticRenderFns: staticRenderFns }
-/* harmony default export */ var vue_components_MilestoneCompetencyQuestionLists = (esExports);
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6b55c4f7", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-38459c74", esExports)
   }
 }
-// CONCATENATED MODULE: ./resources/assets/js/vue-components/MilestoneCompetencyQuestionLists.vue
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(422)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
 
-/* template */
+/***/ }),
 
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-6b55c4f7"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  MilestoneCompetencyQuestionLists,
-  vue_components_MilestoneCompetencyQuestionLists,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/vue-components/MilestoneCompetencyQuestionLists.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+/***/ 635:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6b55c4f7", Component.options)
-  } else {
-    hotAPI.reload("data-v-6b55c4f7", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ var js_vue_components_MilestoneCompetencyQuestionLists = (Component.exports);
-
-// CONCATENATED MODULE: ./resources/assets/js/vue-constructors/milestone-competency-lists.js
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["renderMilestoneCompetencyLists"] = renderMilestoneCompetencyLists;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_MilestoneCompetencyQuestionLists_vue__ = __webpack_require__(636);
 
 
 
@@ -346,10 +219,10 @@ function renderMilestoneCompetencyLists(milestoneQuestions, competencyQuestions)
 	var vms = {};
 
 	var _loop = function _loop(_questionId3) {
-		vms[_questionId3] = new vue_common_default.a({
+		vms[_questionId3] = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 			el: containers[_questionId3],
 			render: function render(h) {
-				return h(js_vue_components_MilestoneCompetencyQuestionLists, {
+				return h(__WEBPACK_IMPORTED_MODULE_1__vue_components_MilestoneCompetencyQuestionLists_vue__["a" /* default */], {
 					props: {
 						milestones: questionMilestonesCompetencies[_questionId3].milestones,
 						competencies: questionMilestonesCompetencies[_questionId3].competencies
@@ -371,102 +244,254 @@ function renderMilestoneCompetencyLists(milestoneQuestions, competencyQuestions)
 
 /***/ }),
 
-/***/ 422:
+/***/ 636:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_MilestoneCompetencyQuestionLists_vue__ = __webpack_require__(638);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6b55c4f7_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_MilestoneCompetencyQuestionLists_vue__ = __webpack_require__(639);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(637)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-6b55c4f7"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_MilestoneCompetencyQuestionLists_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6b55c4f7_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_MilestoneCompetencyQuestionLists_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/MilestoneCompetencyQuestionLists.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6b55c4f7", Component.options)
+  } else {
+    hotAPI.reload("data-v-6b55c4f7", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+
+/***/ 637:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 8:
+/***/ 638:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__ = __webpack_require__(1);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/vue-components/ShowHideButton.vue
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
-/* harmony default export */ var ShowHideButton = ({
-	props: {
-		value: {
-			type: Boolean,
-			required: true
-		},
-		text: {
-			type: String,
-			required: false
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: ['milestones', 'competencies'],
+	computed: {
+		groups: function groups() {
+			return {
+				'milestones': this.milestones,
+				'competencies': this.competencies
+			};
 		}
+	},
+	data: function data() {
+		return {
+			showLists: false,
+			showDescriptions: {
+				milestones: false,
+				competencies: false
+			}
+		};
+	},
+
+	methods: {
+		toggleLists: function toggleLists() {
+			this.showLists = !this.showLists;
+		},
+		toggleDescriptions: function toggleDescriptions(type) {
+			if (this.showDescriptions.hasOwnProperty(type)) this.showDescriptions[type] = !this.showDescriptions[type];
+		},
+		ucfirst: function ucfirst(str) {
+			return Object(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["I" /* ucfirst */])(str);
+		}
+	},
+	components: {
+		ShowHideButton: __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__["a" /* default */]
 	}
 });
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-38459c74","hasScoped":true,"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/vue-components/ShowHideButton.vue
+
+/***/ }),
+
+/***/ 639:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "button",
+    "div",
     {
-      staticClass: "btn",
-      attrs: { type: "button" },
-      on: {
-        click: function($event) {
-          _vm.$emit("input", !_vm.value)
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showLists,
+          expression: "showLists"
         }
-      }
+      ],
+      staticClass: "milestone-competency-question-lists row"
     },
-    [
-      _vm._t("left-glyph"),
-      _vm._v(" "),
-      _vm.value
-        ? _vm._t("true", [_vm._v("\n\t\tHide\n\t")])
-        : _vm._t("false", [_vm._v("\n\t\tShow\n\t")]),
-      _vm._v(" "),
-      _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]),
-      _vm._v(" "),
-      _vm._t("glyph", [
-        _c("span", { staticClass: "glyphicon glyphicon-triangle-bottom" })
+    _vm._l(_vm.groups, function(group, groupName) {
+      return _c("div", { staticClass: "col-sm-6" }, [
+        _c("div", { staticClass: "panel panel-info milestones-panel" }, [
+          _c(
+            "div",
+            { staticClass: "panel-heading" },
+            [
+              _c("h4", { staticClass: "panel-title" }, [
+                _vm._v(
+                  "\n\t\t\t\t\t" + _vm._s(_vm.ucfirst(groupName)) + "\n\t\t\t\t"
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "show-hide-button",
+                {
+                  staticClass: "description-button btn btn-info btn-xs",
+                  model: {
+                    value: _vm.showDescriptions[groupName],
+                    callback: function($$v) {
+                      _vm.$set(_vm.showDescriptions, groupName, $$v)
+                    },
+                    expression: "showDescriptions[groupName]"
+                  }
+                },
+                [_vm._v("\n\t\t\t\t\tdescriptions\n\t\t\t\t")]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "ul",
+            { staticClass: "list-group" },
+            _vm._l(group, function(item) {
+              return _c("li", { staticClass: "list-group-item" }, [
+                _c("b", [_vm._v(_vm._s(item.title))]),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.showDescriptions[groupName],
+                        expression: "showDescriptions[groupName]"
+                      }
+                    ]
+                  },
+                  [
+                    _vm._v(
+                      "\n\t\t\t\t\t\t— " +
+                        _vm._s(item.description) +
+                        "\n\t\t\t\t\t"
+                    )
+                  ]
+                )
+              ])
+            })
+          )
+        ])
       ])
-    ],
-    2
+    })
   )
 }
 var staticRenderFns = []
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ var vue_components_ShowHideButton = (esExports);
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-38459c74", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-6b55c4f7", esExports)
   }
 }
-// CONCATENATED MODULE: ./resources/assets/js/vue-components/ShowHideButton.vue
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ShowHideButton_vue__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_38459c74_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ShowHideButton_vue__ = __webpack_require__(125);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(116)
+  __webpack_require__(123)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -482,8 +507,8 @@ var __vue_scopeId__ = "data-v-38459c74"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  ShowHideButton,
-  vue_components_ShowHideButton,
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_ShowHideButton_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_38459c74_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_ShowHideButton_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -508,11 +533,11 @@ if (false) {(function () {
   })
 })()}
 
-/* harmony default export */ var js_vue_components_ShowHideButton = __webpack_exports__["a"] = (Component.exports);
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
 
 
 /***/ })
 
-},[421]);
+},[635]);
 });
 //# sourceMappingURL=vue-milestone-competency-lists.js.map

@@ -51,11 +51,12 @@ export function datesEqual(
 		&& dates1.endDate === dates2.endDate;
 }
 
-export function renderDate(date: DateLike) {
-	return date ? moment(date).format('MMMM Y') : '';
+export function renderDate(date: DateLike, explicit: boolean = false): string {
+	const format = explicit ? 'll' : 'MMMM Y';
+	return date ? moment(date).format(format) : '';
 }
 
-export function renderDateTime(date: DateLike) {
+export function renderDateTime(date: DateLike): string {
 	return date ? moment(date).calendar() : '';
 }
 
