@@ -10,10 +10,9 @@
   "private": true,
   "scripts": {
     "start": "yarn watch",
-    "build": "run-s schemas build:webpack wait build:gulp",
+    "build": "run-s build:webpack wait build:gulp",
     "build:webpack": "NODE_ENV=production webpack -p",
     "build:gulp": "gulp --production",
-    "schemas": "rm -f public/schemas/* ; cp resources/assets/schemas/* public/schemas/",
     "watch": "run-p watch:*",
     "watch:webpack": "webpack --progress --colors --watch",
     "watch:gulp": "DISABLE_NOTIFIER=true gulp watch",
