@@ -1,6 +1,9 @@
 <template>
 	<div class="panel panel-default">
 		<div class="panel-heading">
+			<span class="panel-title">
+				Case logs summary
+			</span>
 			<div class="controls">
 				<label class="containing-label">
 					Summary type
@@ -23,7 +26,8 @@
 					<thead>
 						<tr>
 							<th>Response</th>
-							<th>Count</th>
+							<th>Times selected</th>
+							<th>Percentage</th>
 						</tr>
 					</thead>
 					<tbody v-if="currentSummaryCountsValues">
@@ -36,18 +40,45 @@
 								{{ response }}
 							</td>
 							<td>{{ count }}</td>
+							<td>{{ (100 * (count / caseLogs.length)).toFixed() }}%</td>
 						</tr>
 					</tbody>
 					<tfoot>
 						<tr>
 							<th>Total responses</th>
 							<td>{{ currentTotalCount }}</td>
+							<td></td>
 						</tr>
 						<tr>
 							<th>Total cases</th>
-							<td>{{ this.caseLogs.length }}</td>
+							<td>{{ caseLogs.length }}</td>
+							<td></td>
 						</tr>
 					</tfoot>
+				</table>
+			</div>
+		</div>
+		<div class="panel-footer">
+			<show-hide-button class="btn-info" v-model="show.list">
+				cases included in summary
+			</show-hide-button>
+
+			<div v-show="show.list" class="table-container">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Location</th>
+							<th>Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="caseLog of caseLogs" :key="caseLog.id">
+							<td>{{ caseLog.id }}</td>
+							<td>{{ caseLog.location.name }}</td>
+							<td>{{ renderDate(caseLog.case_date, true) }}</td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		</div>
@@ -58,8 +89,10 @@
 import Color from 'color';
 
 import ChartjsChart from '@/vue-components/ChartjsChart.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import { getColors } from '@/modules/chart-utils.js';
+import { renderDate } from '@/modules/date-utils.js';
 import { ADDITIONAL_SUMMARY_NAMES, getAdditionalSummaryMaps } from '@/modules/case-logs/raaps.js';
 
 import {
@@ -78,7 +111,10 @@ export default {
 
 	data() {
 		return {
-			currentSummary: null
+			currentSummary: null,
+			show: {
+				list: false
+			}
 		};
 	},
 
@@ -238,8 +274,13 @@ export default {
 		}
 	},
 
+	methods: {
+		renderDate
+	},
+
 	components: {
-		ChartjsChart
+		ChartjsChart,
+		ShowHideButton
 	}
 };
 </script>
@@ -268,5 +309,20 @@ export default {
 
 	.table-striped > tfoot {
 		border-top: 2px solid #ddd;
+	}
+
+	.panel-footer {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: flex-start;
+	}
+
+	.panel-footer .btn {
+		margin: 0.5em;
+	}
+
+	.panel-footer .table-container {
+		flex-grow: 1;
 	}
 </style>

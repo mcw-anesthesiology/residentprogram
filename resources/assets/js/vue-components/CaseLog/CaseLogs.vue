@@ -1,20 +1,24 @@
 <template>
 	<div>
-		<div v-if="show.summary" class="summary-container">
-			<case-log-summary v-if="v2CaseLogs && v2CaseLogs.length > 0"
-					:case-logs="v2CaseLogs">
-			</case-log-summary>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="text-right">
+					<show-hide-button class="btn btn-info" v-model="show.summary">
+						summary
+						<template slot="glyph"></template>
+					</show-hide-button>
+				</div>
+			</div>
 
-			<case-log-summary-v1 v-if="v1CaseLogs && v1CaseLogs.length > 0"
-					:case-logs="v1CaseLogs">
-			</case-log-summary-v1>
-		</div>
+			<div v-show="show.summary" class="panel-body">
+				<case-log-summary v-if="v2CaseLogs && v2CaseLogs.length > 0"
+						:case-logs="v2CaseLogs">
+				</case-log-summary>
 
-		<div class="text-center">
-			<show-hide-button class="btn btn-info" v-model="show.summary">
-				chart
-				<template slot="glyph"></template>
-			</show-hide-button>
+				<case-log-summary-v1 v-if="v1CaseLogs && v1CaseLogs.length > 0"
+						:case-logs="v1CaseLogs">
+				</case-log-summary-v1>
+			</div>
 		</div>
 
 		<data-table
