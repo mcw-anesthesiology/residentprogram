@@ -43,6 +43,10 @@
 							<th>Total responses</th>
 							<td>{{ currentTotalCount }}</td>
 						</tr>
+						<tr>
+							<th>Total cases</th>
+							<td>{{ this.caseLogs.length }}</td>
+						</tr>
 					</tfoot>
 				</table>
 			</div>
@@ -51,6 +55,8 @@
 </template>
 
 <script>
+import Color from 'color';
+
 import ChartjsChart from '@/vue-components/ChartjsChart.vue';
 
 import { getColors } from '@/modules/chart-utils.js';
@@ -90,6 +96,11 @@ export default {
 		summaries() {
 			const map = new Map();
 
+			for (const [id, text] of ADDITIONAL_SUMMARY_NAMES.entries()) {
+				if (this.additionalSummaries.has(id) && !map.has(id))
+					map.set(id, text);
+			}
+
 			for (const questionnaire of this.caseLogs.map(log => log.details)) {
 				walkQuestionnaireQuestions(questionnaire, (question, section) => {
 					if (question.id && this.responses.has(question.id)) {
@@ -102,11 +113,6 @@ export default {
 						}
 					}
 				});
-			}
-
-			for (const [id, text] of ADDITIONAL_SUMMARY_NAMES.entries()) {
-				if (this.additionalSummaries.has(id) && !map.has(id))
-					map.set(id, text);
 			}
 
 			return Array.from(map.entries()).map(([id, text]) => ({id, text}));
@@ -224,7 +230,7 @@ export default {
 				datasets: [{
 					label: this.currentSummary.text,
 					backgroundColor: colors,
-					borderColor: colors,
+					borderColor: colors.map(color => Color(color).darken(0.1)),
 					data: counts
 				}],
 				labels: responses
