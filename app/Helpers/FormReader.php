@@ -49,9 +49,11 @@ class FormReader{
 					$questionHasDescriptions = true;
 
 				if ($questionType == "checkbox")
-					$result .= "<div class='question-option {$questionName}'><label><span title='{$description}'><input type='checkbox' name='{$questionName}[]' value='{$attrs["value"]}' {$required} /><br />";
+					$result .= "<div class='question-option {$questionName}'><label><span title='{$description}'>"
+						. "<input type='checkbox' name='{$questionName}[]' value='{$attrs["value"]}' /><br />";
 				else
-					$result .= "<div class='question-option {$questionName}'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' {$required} /><br />";
+					$result .= "<div class='question-option {$questionName}'><label><span title='{$description}'>"
+						. "<input type='radio' name='{$questionName}' value='{$attrs["value"]}' {$required} /><br />";
 			}
 		} elseif ($name == "text") {
 				$result .= "<div class='question-header panel-heading'><h3 class='question-title panel-title'><b>".strtoupper($questionName).": </b>";
