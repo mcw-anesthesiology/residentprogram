@@ -1,0 +1,26 @@
+{
+	"title": "Questionnaire",
+	"sections": [
+		{
+			"items": [
+				{
+					"type": "text",
+					"id": "id",
+					"value": "Some text"
+				}
+			]
+		},
+		{
+			"items": [
+				{
+					"type": "instruction",
+					"text": "Hey"
+				}
+			],
+			"condition": {
+				"questionId": "id",
+				"questionValue": true
+			}
+		}
+	]
+}

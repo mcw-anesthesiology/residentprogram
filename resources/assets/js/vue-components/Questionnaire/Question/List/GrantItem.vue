@@ -3,8 +3,10 @@
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
 			@remove="$emit('remove')">
-		<validated-form-group v-if="type === 'grantOther'"
-				:errors="validation.errors" prop="agency">
+		<validated-form-group v-if="type === 'grantOther'" prop="agency"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Funding agency
 				<input type="text" class="form-control"
@@ -12,7 +14,10 @@
 					@input="$emit('input', {agency: $event.target.value})" />
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="project">
+		<validated-form-group prop="project"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Project
 				<textarea class="form-control"
@@ -21,7 +26,10 @@
 				</textarea>
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="amount">
+		<validated-form-group prop="amount"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Funding amount
 				<div class="input-group">
@@ -38,7 +46,7 @@
 <script>
 import ListItem from './Item.vue';
 
-import { grantListItem as validate } from 'modules/questionnaire/validate.js';
+import { grantListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,

@@ -61,8 +61,8 @@
 <script>
 import moment from 'moment';
 
-import { renderEvaluationStatus } from 'modules/datatable-utils.js';
-import { renderDateRange } from 'modules/date-utils.js';
+import { renderEvaluationStatus } from '@/modules/datatable-utils.js';
+import { renderDateRange } from '@/modules/date-utils.js';
 
 export default {
 	props: {

@@ -1,0 +1,6 @@
+{
+	"type": "number",
+	"text": "Number question",
+	"value": 2,
+	"min": 1
+}

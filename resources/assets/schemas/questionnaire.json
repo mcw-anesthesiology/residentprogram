@@ -1,17 +1,19 @@
 {
-	"$id": "https://www.residentprogram.com/schemas/merit-report.json#",
-	"title": "Merit Report Checklist",
+	"$id": "https://www.residentprogram.com/schemas/questionnaire.json#",
+	"title": "Questionnaire",
 	"type": "object",
 	"properties": {
-		"pages": {
+		"title": {"type": "string"},
+		"sections": {
 			"type": "array",
-			"items": {
+			"sections": {
 				"$ref": "#/definitions/section"
 			}
 		}
 	},
 	"required": [
-		"pages"
+		"title",
+		"sections"
 	],
 	"definitions": {
 		"scoringDefinition": {
@@ -26,62 +28,76 @@
 				"category"
 			]
 		},
+		"condition": {
+			"type": "object",
+			"properties": {
+				"questionId": {
+					"type": "string"
+				},
+				"questionValue": {
+					"type": ["boolean", "string", "number"]
+				}
+			},
+			"required": [
+				"questionId",
+				"questionValue"
+			]
+		},
 		"section": {
 			"title": "Section",
 			"type": "object",
 			"properties": {
-				"type": {"const": "section"},
 				"title": {"type": "string"},
+				"direction": {
+					"enum": [
+						"vertical",
+						"horizontal"
+					]
+				},
 				"items": {
 					"type": "array",
 					"items": {
 						"oneOf": [
-							{"$ref": "#/definitions/section"},
-							{"$ref": "#/definitions/item"},
+							{"$ref": "#/definitions/question"},
 							{"$ref": "#/definitions/instruction"}
 						]
 					}
 				}
 			},
-			"required": ["type", "items"]
-		},
-		"instruction": {
-			"title": "Instruction block",
-			"type": "object",
-			"properties": {
-				"type": {"const": "instruction"},
-				"text": {"type": "string"}
-			}
-		},
-		"item": {
-			"title": "Checklist item",
-			"type": "object",
-			"properties": {
-				"type": {"const": "item"},
-				"text": {"type": "string"},
-				"checked": {"type": "boolean"},
-				"subjectReadonly": {"type": "boolean"},
-				"questions": {
-					"type": "array",
-					"items": {
-						"$ref": "#/definitions/question"
-					}
-				},
-				"scoring": {
-					"$ref": "#/definitions/scoringDefinition"
-				}
-			},
-			"required": ["type", "text"]
+			"required": [
+				"items"
+			]
 		},
 		"question": {
 			"title": "Question",
 			"type": "object",
-			"oneOf": [
-				{"$ref": "#/definitions/question/definitions/text"},
-				{"$ref": "#/definitions/question/definitions/number"},
-				{"$ref": "#/definitions/question/definitions/checkbox"},
-				{"$ref": "#/definitions/question/definitions/radio"},
-				{"$ref": "#/definitions/question/definitions/list"}
+			"allOf": [
+				{
+					"properties": {
+						"id": {"type": "string"},
+						"text": {"type": "string"},
+						"description": {"type": "string"},
+						"required": {"type": "boolean"},
+						"condition": {
+							"$ref": "#/definitions/condition"
+						},
+						"scoring": {
+							"$ref": "#/definitions/scoringDefinition"
+						}
+					},
+					"required": [
+						"text"
+					]
+				},
+				{
+					"oneOf": [
+						{"$ref": "#/definitions/question/definitions/text"},
+						{"$ref": "#/definitions/question/definitions/number"},
+						{"$ref": "#/definitions/question/definitions/checkbox"},
+						{"$ref": "#/definitions/question/definitions/radio"},
+						{"$ref": "#/definitions/question/definitions/list"}
+					]
+				}
 			],
 			"definitions": {
 				"text": {
@@ -89,14 +105,8 @@
 					"type": "object",
 					"properties": {
 						"type": {"enum": ["text", "textarea"]},
-						"text": {"type": "string"},
-						"description": {"type": "string"},
 						"placeholder": {"type": "string"},
-						"value": {"type": "string"},
-						"required": {"type": "boolean"},
-						"scoring": {
-							"$ref": "#/definitions/scoringDefinition"
-						}
+						"value": {"type": "string"}
 					},
 					"required": [
 						"type",
@@ -108,59 +118,64 @@
 					"type": "object",
 					"properties": {
 						"type": {"const": "number"},
-						"text": {"type": "string"},
-						"description": {"type": "string"},
 						"placeholder": {"type": "string"},
 						"min": {"type": "number"},
 						"max": {"type": "number"},
-						"value": {"type": "number"},
-						"required": {"type": "boolean"},
-						"scoring": {
-							"$ref": "#/definitions/scoringDefinition"
-						}
+						"value": {"type": "number"}
 					},
 					"required": [
 						"type",
 						"text"
 					]
 				},
+				"select": {
+					"title": "Select question",
+					"type": "object",
+					"properties": {
+						"type": {"const": "select"},
+						"placeholder": {"type": "string"},
+						"options": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/question/definitions/select/definitions/option"
+							}
+						}
+					},
+					"definitions": {
+						"option": {
+							"title": "Select option",
+							"type": "object",
+							"properties": {
+								"text": {"type": "string"},
+								"value": {
+									"oneOf": [
+										{"type": "string"},
+										{"type": "number"}
+									]
+								},
+								"selected": {"type": "boolean"}
+							},
+							"required": [
+								"text",
+								"value"
+							]
+						}
+					}
+				},
 				"checkbox": {
 					"title": "Checkbox question",
 					"type": "object",
 					"properties": {
 						"type": {"const": "checkbox"},
-						"text": {"type": "string"},
-						"description": {"type": "string"},
-						"required": {"type": "boolean"},
 						"options": {
 							"type": "array",
 							"items": {
-								"type": "object",
-								"properties": {
-									"text": {"type": "string"},
-									"description": {"type": "string"},
-									"value": {
-										"oneOf": [
-											{"type": "string"},
-											{"type": "number"}
-										]
-									},
-									"editable": {"type": "boolean"},
-									"checked": {"type": "boolean"}
-								},
-								"required": [
-									"text",
-									"value"
-								]
+								"$ref": "#/definitions/question/definitions/option"
 							}
-						},
-						"scoring": {
-							"$ref": "#/definitions/scoringDefinition"
 						}
 					},
 					"required": [
 						"type",
-						"text",
 						"options"
 					]
 				},
@@ -169,39 +184,35 @@
 					"type": "object",
 					"properties": {
 						"type": {"const": "radio"},
-						"text": {"type": "string"},
-						"description": {"type": "string"},
-						"required": {"type": "boolean"},
 						"options": {
 							"type": "array",
 							"items": {
-								"type": "object",
-								"properties": {
-									"text": {"type": "string"},
-									"description": {"type": "string"},
-									"value": {
-										"oneOf": [
-											{"type": "string"},
-											{"type": "number"}
-										]
-									},
-									"editable": {"type": "boolean"},
-									"checked": {"type": "boolean"}
-								},
-								"required": [
-									"text",
-									"value"
-								]
+								"$ref": "#/definitions/question/definitions/option"
 							}
-						},
-						"scoring": {
-							"$ref": "#/definitions/scoringDefinition"
 						}
 					},
 					"required": [
 						"type",
-						"text",
 						"options"
+					]
+				},
+				"option": {
+					"type": "object",
+					"properties": {
+						"text": {"type": "string"},
+						"description": {"type": "string"},
+						"value": {
+							"oneOf": [
+								{"type": "string"},
+								{"type": "number"}
+							]
+						},
+						"editable": {"type": "boolean"},
+						"checked": {"type": "boolean"}
+					},
+					"required": [
+						"text",
+						"value"
 					]
 				},
 				"list": {
@@ -242,12 +253,10 @@
 									{"$ref": "#/definitions/question/definitions/list/definitions/editorialBoard"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/review"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/lecture"},
-									{"$ref": "#/definitions/question/definitions/list/definitions/mentorship"}
+									{"$ref": "#/definitions/question/definitions/list/definitions/mentorship"},
+									{"$ref": "#/definitions/question/definitions/list/definitions/project"}
 								]
 							}
-						},
-						"scoring": {
-							"$ref": "#/definitions/scoringDefinition"
 						}
 					},
 					"required": [
@@ -263,7 +272,8 @@
 								"text": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"text"
 							]
 						},
 						"publication": {
@@ -277,7 +287,9 @@
 								"role": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"title",
+								"role"
 							]
 						},
 						"committee": {
@@ -289,7 +301,9 @@
 								"role": {"enum": ["chair", "member"]}
 							},
 							"required": [
-								"type"
+								"type",
+								"name",
+								"role"
 							]
 						},
 						"study": {
@@ -304,7 +318,12 @@
 								"progress": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"title",
+								"role",
+								"yearInitiated",
+								"approvalNumber",
+								"progress"
 							]
 						},
 						"grant": {
@@ -317,7 +336,10 @@
 								"amount": {"type": "number"}
 							},
 							"required": [
-								"type"
+								"type",
+								"agency",
+								"project",
+								"amount"
 							]
 						},
 						"certification": {
@@ -329,7 +351,9 @@
 								"specialty": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"board",
+								"specialty"
 							]
 						},
 						"editorialBoard": {
@@ -341,7 +365,9 @@
 								"role": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"journal",
+								"role"
 							]
 						},
 						"review": {
@@ -353,7 +379,9 @@
 								"reviews": {"type": "number"}
 							},
 							"required": [
-								"type"
+								"type",
+								"work",
+								"reviews"
 							]
 						},
 						"lecture": {
@@ -369,7 +397,10 @@
 								"audience": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"title",
+								"date",
+								"audience"
 							]
 						},
 						"mentorship": {
@@ -381,7 +412,23 @@
 								"subject": {"type": "string"}
 							},
 							"required": [
-								"type"
+								"type",
+								"mentee",
+								"subject"
+							]
+						},
+						"project": {
+							"title": "Generic project list item",
+							"type": "object",
+							"properties": {
+								"type": {"const": "project"},
+								"description": {"type": "string"},
+								"hours": {"type": "number"}
+							},
+							"required": [
+								"type",
+								"description",
+								"hours"
 							]
 						}
 					}

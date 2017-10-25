@@ -11,7 +11,7 @@
 								:field-accessors="meritReportFieldAccessors"
 								:paginate="false"
 								default-sort-order="desc">
-							<template scope="item">
+							<template slot-scope="item">
 								<merit-report-list-item v-bind="item"
 									:user="user"
 									@click="handleReportClick"
@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import HasAlerts from 'vue-mixins/HasAlerts.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import ComponentList from 'vue-components/ComponentList.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
 import MeritReportListItem from './ReportListItem.vue';
 
 export default {

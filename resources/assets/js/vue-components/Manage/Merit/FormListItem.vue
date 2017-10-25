@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 
 export default {
 	props: {

@@ -201,6 +201,15 @@ export function getFetchHeaders(
 	return headers;
 }
 
+export function fetchConfig(
+	options: {contentType?: string} = {}
+): {headers: Headers, credentials: 'same-origin'} {
+	return {
+		headers: getFetchHeaders(options),
+		credentials: 'same-origin'
+	};
+}
+
 export function getCsrfToken(): ?string {
 	let tokenMeta = document.querySelector('meta[name="csrf-token"]');
 
@@ -489,10 +498,34 @@ export function htmlLabelReplacements(html: string, replacements: Array<string>)
 	return html;
 }
 
-export function errorToAlert(err: Error) {
+export type BootstrapAlertItem = BootstrapAlertTextItem | BootstrapAlertHtmlItem;
+
+type BootstrapAlertBaseItem = {
+	type?: 'info' | 'success' | 'warning' | 'error' | 'danger',
+	dismissable?: boolean
+};
+
+export type BootstrapAlertHtmlItem = {
+	...BootstrapAlertBaseItem,
+	html: string
+};
+
+export type BootstrapAlertTextItem = {
+	...BootstrapAlertBaseItem,
+	text: string
+};
+
+export function errorToAlert(err: Error): BootstrapAlertItem {
 	return {
 		type: 'error',
 		html: `<strong>Error:</strong> ${err.message}`
+	};
+}
+
+export function simpleErrorAlert(message: string): BootstrapAlertItem {
+	return {
+		type: 'error',
+		html: `<strong>Error:</strong> ${message}`
 	};
 }
 
@@ -510,6 +543,15 @@ export function usesFeature(user: User, feature: string) {
 			if (userFeature.feature === feature)
 				return true;
 		}
+	}
+
+	return false;
+}
+
+export function arraysIntersect(arr1: Array<any>, arr2: Array<any>): boolean {
+	for (const item of arr1) {
+		if (arr2.includes(item))
+			return true;
 	}
 
 	return false;

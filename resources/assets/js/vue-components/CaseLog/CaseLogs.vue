@@ -1,14 +1,24 @@
 <template>
 	<div>
-		<case-log-details-report v-if="show.charts"
-				:case-logs="caseLogs">
-		</case-log-details-report>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="text-right">
+					<show-hide-button class="btn btn-info" v-model="show.summary">
+						summary
+						<template slot="glyph"></template>
+					</show-hide-button>
+				</div>
+			</div>
 
-		<div class="text-center">
-			<show-hide-button class="btn btn-info" v-model="show.charts">
-				charts
-				<template slot="glyph"></template>
-			</show-hide-button>
+			<div v-show="show.summary" class="panel-body">
+				<case-log-summary v-if="v2CaseLogs && v2CaseLogs.length > 0"
+						:case-logs="v2CaseLogs">
+				</case-log-summary>
+
+				<case-log-summary-v1 v-if="v1CaseLogs && v1CaseLogs.length > 0"
+						:case-logs="v1CaseLogs">
+				</case-log-summary-v1>
+			</div>
 		</div>
 
 		<data-table
@@ -17,27 +27,30 @@
 			:data="caseLogs">
 		</data-table>
 
-		<case-log-details v-if="detailsCaseLog"
+		<component :is="detailsComponent"
+			v-if="detailsCaseLog"
 			:case-log="detailsCaseLog"
 			:locations="locations"
 			@close="closeCaseLog">
-		</case-log-details>
+		</component>
 	</div>
 </template>
 
 <script>
 import Vue from 'vue';
 
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
-import DataTable from 'vue-components/DataTable.vue';
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
+import DataTable from '@/vue-components/DataTable.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
-import CaseLogDetails from 'vue-components/CaseLog/Details.vue';
-import CaseLogDetailsReport from 'vue-components/CaseLog/DetailsReport.vue';
-import CaseLogDetailsSchema from 'vue-components/CaseLog/DetailsSchema.vue';
+import CaseLogViewer from './Viewer.vue';
+import CaseLogSummary from './Summary.vue';
 
-import { renderDateCell, createDateCell } from 'modules/datatable-utils.js';
-import { getFetchHeaders, okOrThrow } from 'modules/utils.js';
+import CaseLogDetailsV1 from './V1/Details.vue';
+import CaseLogSummaryV1 from './V1/DetailsReport.vue';
+
+import { renderDateCell, createDateCell } from '@/modules/datatable-utils.js';
+import { getFetchHeaders, okOrThrow } from '@/modules/utils.js';
 
 export default {
 	props: {
@@ -59,12 +72,34 @@ export default {
 			detailsCaseLog: null,
 
 			show: {
-				charts: false
+				summary: false
 			}
 		};
 	},
 
 	computed: {
+		caseLogVersion() {
+			try {
+				return this.detailsCaseLog.details_schema.case_log_version;
+			} catch (e) {
+				console.error(e);
+			}
+
+			return 1;
+		},
+		detailsComponent() {
+			return this.caseLogVersion === 2
+				? 'CaseLogViewer'
+				: 'CaseLogDetailsV1';
+		},
+		v1CaseLogs() {
+			return this.caseLogs
+				.filter(caseLog => caseLog.details_schema.case_log_version !== 2);
+		},
+		v2CaseLogs() {
+			return this.caseLogs
+				.filter(caseLog => caseLog.details_schema.case_log_version === 2);
+		},
 		thead() {
 			return [[
 				'#',
@@ -180,9 +215,12 @@ export default {
 	components: {
 		DataTable,
 		ShowHideButton,
-		CaseLogDetails,
-		CaseLogDetailsReport,
-		CaseLogDetailsSchema
+		CaseLogViewer,
+		CaseLogSummary,
+
+		CaseLogDetailsV1,
+		CaseLogSummaryV1,
+
 	}
 };
 </script>

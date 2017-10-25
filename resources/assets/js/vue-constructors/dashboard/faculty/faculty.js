@@ -1,13 +1,13 @@
 import Vue from 'vue';
 
-import AlertList from 'vue-components/AlertList.vue';
-import AcademicYearEvaluationDataTable from 'vue-components/AcademicYearEvaluationDataTable.vue';
+import AlertList from '@/vue-components/AlertList.vue';
+import AcademicYearEvaluationDataTable from '@/vue-components/AcademicYearEvaluationDataTable.vue';
 
 import {
 	renderSubjectEvalUrl,
 	renderDateRangeCell,
 	createDateRangeCell
-} from 'modules/datatable-utils.js';
+} from '@/modules/datatable-utils.js';
 
 export default function createFacultyFacultyDashboard(el, propsData){
 

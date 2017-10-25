@@ -23,7 +23,7 @@ import {
 	kebabCaseToWords,
 	fetchUsers,
 	groupUsers
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 
 export default {
 	data(){

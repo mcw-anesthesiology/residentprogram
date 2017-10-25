@@ -22,7 +22,7 @@
 					:paginate="false"
 					reloadable
 					@reload="fetchUsersWithMerits">
-				<template scope="meritUser">
+				<template slot-scope="meritUser">
 					<user-with-merit-publications-list-item
 						v-bind="meritUser" />
 				</template>
@@ -32,16 +32,16 @@
 </template>
 
 <script>
-import ComponentList from 'vue-components/ComponentList.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
 
 import UsersWithMeritReport from './UsersWithMeritReport.vue';
-import UserWithMeritPublicationsListItem from 'vue-components/MeritCompensation/UserWithMeritPublicationsListItem.vue';
+import UserWithMeritPublicationsListItem from '@/vue-components/MeritCompensation/UserWithMeritPublicationsListItem.vue';
 
 import {
 	getAllPublicationTypes,
 	getFacultyPublicationsByType
-} from 'modules/merits/faculty-merit/index.js';
-import { downloadCsv } from 'modules/report-utils.js';
+} from '@/modules/merits/faculty-merit/index.js';
+import { downloadCsv } from '@/modules/report-utils.js';
 
 export default {
 	extends: UsersWithMeritReport,

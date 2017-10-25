@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import BootstrapAlert from 'vue-components/BootstrapAlert.vue';
-import { section as validate, flattenErrors } from 'modules/merits/validate.js';
+import BootstrapAlert from '@/vue-components/BootstrapAlert.vue';
+import { section as validate, flattenErrors } from '@/modules/merits/validate.js';
 
-import { getHeaderHeight } from 'modules/dom-utils.js';
+import { getHeaderHeight } from '@/modules/dom-utils.js';
 
 export default {
 	props: {

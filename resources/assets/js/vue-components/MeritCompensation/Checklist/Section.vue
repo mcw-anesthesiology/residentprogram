@@ -1,7 +1,7 @@
 <script>
 import ChecklistItem from './Item.vue';
-import QuestionnaireInstruction from 'vue-components/Questionnaire/Instruction.vue';
-import QuestionnaireSection from 'vue-components/Questionnaire/Section.vue';
+import QuestionnaireInstruction from '@/vue-components/Questionnaire/Instruction.vue';
+import QuestionnaireSection from '@/vue-components/Questionnaire/Section.vue';
 
 export default {
 	extends: QuestionnaireSection,

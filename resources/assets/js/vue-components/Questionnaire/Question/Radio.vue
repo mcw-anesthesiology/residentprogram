@@ -1,12 +1,17 @@
 <template>
 	<validated-form-group class="radio-question"
-			:errors="validation.errors" prop="options">
+			:errors="validation.errors"
+			:show-errors="showErrors"
+			:invalid-class="helpClass"
+			prop="options">
 		<fieldset :title="description">
 			<legend class="control-label">
 				{{ text }}
 			</legend>
 			<div class="options">
-				<label v-for="(option, index) of options" :title="option.description">
+				<label v-for="(option, index) of options"
+						class="control-label"
+						:title="option.description">
 					<input type="radio" :value="option.value"
 						:checked="option.checked" :disabled="readonly"
 						@change="handleCheck(index)" />
@@ -14,7 +19,8 @@
 					<input type="text" v-if="option.editable"
 						class="form-control editable-option-text"
 						:value="option.text"
-						placholder="Other"
+						:readonly="readonly"
+						placeholder="Other"
 						@click="handleCheck(index)"
 						@input="handleEditableOptionInput(index, $event.target.value)" />
 					<template v-else>
@@ -28,6 +34,12 @@
 			</div>
 		</fieldset>
 
+		<button type="button" v-if="!required"
+				class="btn btn-sm btn-default"
+				@click="resetValue">
+			Clear response
+		</button>
+
 		<show-hide-button v-if="description" v-model="show.description">
 			description
 		</show-hide-button>
@@ -38,12 +50,13 @@
 </template>
 
 <script>
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
-import ValidatedFormGroup from 'vue-components/ValidatedFormGroup.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
 import snarkdown from 'snarkdown';
 
-import { radioQuestion as validate } from 'modules/questionnaire/validate.js';
+import { resetQuestion } from '@/modules/questionnaire/reset.js';
+import { radioQuestion as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	model: {
@@ -75,6 +88,14 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		showErrors: {
+			type: Boolean,
+			default: false
+		},
+		helpClass: {
+			type: String,
+			required: false
 		}
 	},
 	data() {
@@ -96,7 +117,11 @@ export default {
 	},
 
 	methods: {
+		snarkdown,
 		handleCheck(index) {
+			if (this.readonly)
+				return;
+
 			let options = this.options.map((option, i) => {
 				let newOption = Object.assign({}, option);
 
@@ -107,13 +132,24 @@ export default {
 
 			this.$emit('input', {options});
 		},
+		resetValue() {
+			if (this.readonly)
+				return;
+
+			this.$emit('input', resetQuestion({
+				type: 'radio',
+				options: this.options
+			}));
+		},
 		handleEditableOptionInput(index, value) {
+			if (this.readonly)
+				return;
+
 			let options = Array.slice(this.options);
 			options[index] = Object.assign({}, options[index], {text: value, value});
 
 			this.$emit('input', {options});
-		},
-		snarkdown
+		}
 	},
 
 	components: {

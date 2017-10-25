@@ -5,6 +5,7 @@
 		</h2>
 		<template v-for="(item, index) of contents.items">
 			<form-reader-question v-if="item.type === 'question'"
+				:key="index"
 				v-bind="item"
 				:readonly="readonly"
 				@input="handleInput(index, arguments[0])" />

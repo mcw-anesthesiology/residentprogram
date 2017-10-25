@@ -8,37 +8,77 @@
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function() {
-return webpackJsonp([9],{
+return webpackJsonp([10],{
 
 /***/ 10:
-/***/ (function(module, exports, __webpack_require__) {
-
-var eq = __webpack_require__(25);
+/***/ (function(module, exports) {
 
 /**
- * Gets the index at which the `key` is found in `array` of key-value pairs.
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
  *
- * @private
- * @param {Array} array The array to inspect.
- * @param {*} key The key to search for.
- * @returns {number} Returns the index of the matched value, else `-1`.
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
  */
-function assocIndexOf(array, key) {
-  var length = array.length;
-  while (length--) {
-    if (eq(array[length][0], key)) {
-      return length;
-    }
-  }
-  return -1;
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
 }
 
-module.exports = assocIndexOf;
+module.exports = isObjectLike;
 
 
 /***/ }),
 
 /***/ 100:
+/***/ (function(module, exports) {
+
+/**
+ * A specialized version of `_.filter` for arrays without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {Array} Returns the new filtered array.
+ */
+function arrayFilter(array, predicate) {
+  var index = -1,
+      length = array == null ? 0 : array.length,
+      resIndex = 0,
+      result = [];
+
+  while (++index < length) {
+    var value = array[index];
+    if (predicate(value, index, array)) {
+      result[resIndex++] = value;
+    }
+  }
+  return result;
+}
+
+module.exports = arrayFilter;
+
+
+/***/ }),
+
+/***/ 101:
 /***/ (function(module, exports) {
 
 /**
@@ -68,12 +108,12 @@ module.exports = stubArray;
 
 /***/ }),
 
-/***/ 101:
+/***/ 102:
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayLikeKeys = __webpack_require__(102),
-    baseKeys = __webpack_require__(111),
-    isArrayLike = __webpack_require__(115);
+var arrayLikeKeys = __webpack_require__(103),
+    baseKeys = __webpack_require__(112),
+    isArrayLike = __webpack_require__(116);
 
 /**
  * Creates an array of the own enumerable property names of `object`.
@@ -112,15 +152,15 @@ module.exports = keys;
 
 /***/ }),
 
-/***/ 102:
+/***/ 103:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseTimes = __webpack_require__(103),
-    isArguments = __webpack_require__(104),
-    isArray = __webpack_require__(17),
-    isBuffer = __webpack_require__(31),
-    isIndex = __webpack_require__(107),
-    isTypedArray = __webpack_require__(32);
+var baseTimes = __webpack_require__(104),
+    isArguments = __webpack_require__(105),
+    isArray = __webpack_require__(19),
+    isBuffer = __webpack_require__(34),
+    isIndex = __webpack_require__(108),
+    isTypedArray = __webpack_require__(35);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -168,7 +208,7 @@ module.exports = arrayLikeKeys;
 
 /***/ }),
 
-/***/ 103:
+/***/ 104:
 /***/ (function(module, exports) {
 
 /**
@@ -195,11 +235,11 @@ module.exports = baseTimes;
 
 /***/ }),
 
-/***/ 104:
+/***/ 105:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsArguments = __webpack_require__(105),
-    isObjectLike = __webpack_require__(7);
+var baseIsArguments = __webpack_require__(106),
+    isObjectLike = __webpack_require__(10);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -238,11 +278,11 @@ module.exports = isArguments;
 
 /***/ }),
 
-/***/ 105:
+/***/ 106:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(6),
-    isObjectLike = __webpack_require__(7);
+var baseGetTag = __webpack_require__(9),
+    isObjectLike = __webpack_require__(10);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]';
@@ -263,7 +303,7 @@ module.exports = baseIsArguments;
 
 /***/ }),
 
-/***/ 106:
+/***/ 107:
 /***/ (function(module, exports) {
 
 /**
@@ -288,7 +328,7 @@ module.exports = stubFalse;
 
 /***/ }),
 
-/***/ 107:
+/***/ 108:
 /***/ (function(module, exports) {
 
 /** Used as references for various `Number` constants. */
@@ -317,12 +357,12 @@ module.exports = isIndex;
 
 /***/ }),
 
-/***/ 108:
+/***/ 109:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(6),
-    isLength = __webpack_require__(33),
-    isObjectLike = __webpack_require__(7);
+var baseGetTag = __webpack_require__(9),
+    isLength = __webpack_require__(36),
+    isObjectLike = __webpack_require__(10);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -384,7 +424,46 @@ module.exports = baseIsTypedArray;
 
 /***/ }),
 
-/***/ 109:
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
+var listCacheClear = __webpack_require__(58),
+    listCacheDelete = __webpack_require__(59),
+    listCacheGet = __webpack_require__(60),
+    listCacheHas = __webpack_require__(61),
+    listCacheSet = __webpack_require__(62);
+
+/**
+ * Creates an list cache object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function ListCache(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+// Add methods to `ListCache`.
+ListCache.prototype.clear = listCacheClear;
+ListCache.prototype['delete'] = listCacheDelete;
+ListCache.prototype.get = listCacheGet;
+ListCache.prototype.has = listCacheHas;
+ListCache.prototype.set = listCacheSet;
+
+module.exports = ListCache;
+
+
+/***/ }),
+
+/***/ 110:
 /***/ (function(module, exports) {
 
 /**
@@ -405,23 +484,10 @@ module.exports = baseUnary;
 
 /***/ }),
 
-/***/ 11:
+/***/ 111:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(4);
-
-/* Built-in method references that are verified to be native. */
-var nativeCreate = getNative(Object, 'create');
-
-module.exports = nativeCreate;
-
-
-/***/ }),
-
-/***/ 110:
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(27);
+/* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(30);
 
 /** Detect free variable `exports`. */
 var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
@@ -444,15 +510,15 @@ var nodeUtil = (function() {
 
 module.exports = nodeUtil;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module)))
 
 /***/ }),
 
-/***/ 111:
+/***/ 112:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isPrototype = __webpack_require__(112),
-    nativeKeys = __webpack_require__(113);
+var isPrototype = __webpack_require__(113),
+    nativeKeys = __webpack_require__(114);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -485,7 +551,7 @@ module.exports = baseKeys;
 
 /***/ }),
 
-/***/ 112:
+/***/ 113:
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -510,10 +576,10 @@ module.exports = isPrototype;
 
 /***/ }),
 
-/***/ 113:
+/***/ 114:
 /***/ (function(module, exports, __webpack_require__) {
 
-var overArg = __webpack_require__(114);
+var overArg = __webpack_require__(115);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeKeys = overArg(Object.keys, Object);
@@ -523,7 +589,7 @@ module.exports = nativeKeys;
 
 /***/ }),
 
-/***/ 114:
+/***/ 115:
 /***/ (function(module, exports) {
 
 /**
@@ -545,11 +611,11 @@ module.exports = overArg;
 
 /***/ }),
 
-/***/ 115:
+/***/ 116:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(26),
-    isLength = __webpack_require__(33);
+var isFunction = __webpack_require__(29),
+    isLength = __webpack_require__(36);
 
 /**
  * Checks if `value` is array-like. A value is considered array-like if it's
@@ -585,16 +651,16 @@ module.exports = isArrayLike;
 
 /***/ }),
 
-/***/ 116:
+/***/ 117:
 /***/ (function(module, exports, __webpack_require__) {
 
-var DataView = __webpack_require__(117),
-    Map = __webpack_require__(18),
-    Promise = __webpack_require__(118),
-    Set = __webpack_require__(119),
-    WeakMap = __webpack_require__(120),
-    baseGetTag = __webpack_require__(6),
-    toSource = __webpack_require__(28);
+var DataView = __webpack_require__(118),
+    Map = __webpack_require__(21),
+    Promise = __webpack_require__(119),
+    Set = __webpack_require__(120),
+    WeakMap = __webpack_require__(121),
+    baseGetTag = __webpack_require__(9),
+    toSource = __webpack_require__(31);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]',
@@ -650,7 +716,7 @@ module.exports = getTag;
 
 /***/ }),
 
-/***/ 117:
+/***/ 118:
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(4),
@@ -664,7 +730,7 @@ module.exports = DataView;
 
 /***/ }),
 
-/***/ 118:
+/***/ 119:
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(4),
@@ -678,7 +744,35 @@ module.exports = Promise;
 
 /***/ }),
 
-/***/ 119:
+/***/ 12:
+/***/ (function(module, exports, __webpack_require__) {
+
+var eq = __webpack_require__(28);
+
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+
+module.exports = assocIndexOf;
+
+
+/***/ }),
+
+/***/ 120:
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(4),
@@ -692,32 +786,7 @@ module.exports = Set;
 
 /***/ }),
 
-/***/ 12:
-/***/ (function(module, exports, __webpack_require__) {
-
-var isKeyable = __webpack_require__(81);
-
-/**
- * Gets the data for `map`.
- *
- * @private
- * @param {Object} map The map to query.
- * @param {string} key The reference key.
- * @returns {*} Returns the map data.
- */
-function getMapData(map, key) {
-  var data = map.__data__;
-  return isKeyable(key)
-    ? data[typeof key == 'string' ? 'string' : 'hash']
-    : data.map;
-}
-
-module.exports = getMapData;
-
-
-/***/ }),
-
-/***/ 120:
+/***/ 121:
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(4),
@@ -731,7 +800,7 @@ module.exports = WeakMap;
 
 /***/ }),
 
-/***/ 121:
+/***/ 122:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -783,2385 +852,30 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2434126b", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-2434126b", esExports)
   }
 }
 
 /***/ }),
 
-/***/ 125:
-/***/ (function(module, exports, __webpack_require__) {
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-/*! flatpickr v3.0.6, @license MIT */
-function FlatpickrInstance(element, config) {
-	var self = this;
-
-	self._ = {};
-	self._.afterDayAnim = afterDayAnim;
-	self._bind = bind;
-	self._compareDates = compareDates;
-	self._setHoursFromDate = setHoursFromDate;
-	self.changeMonth = changeMonth;
-	self.changeYear = changeYear;
-	self.clear = clear;
-	self.close = close;
-	self._createElement = createElement;
-	self.destroy = destroy;
-	self.isEnabled = isEnabled;
-	self.jumpToDate = jumpToDate;
-	self.open = open;
-	self.redraw = redraw;
-	self.set = set;
-	self.setDate = setDate;
-	self.toggle = toggle;
-
-	function init() {
-		self.element = self.input = element;
-		self.instanceConfig = config || {};
-		self.parseDate = FlatpickrInstance.prototype.parseDate.bind(self);
-		self.formatDate = FlatpickrInstance.prototype.formatDate.bind(self);
-
-		setupFormats();
-		parseConfig();
-		setupLocale();
-		setupInputs();
-		setupDates();
-		setupHelperFunctions();
-
-		self.isOpen = false;
-
-		self.isMobile = !self.config.disableMobile && !self.config.inline && self.config.mode === "single" && !self.config.disable.length && !self.config.enable.length && !self.config.weekNumbers && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-		if (!self.isMobile) build();
-
-		bindEvents();
-
-		if (self.selectedDates.length || self.config.noCalendar) {
-			if (self.config.enableTime) {
-				setHoursFromDate(self.config.noCalendar ? self.latestSelectedDateObj || self.config.minDate : null);
-			}
-			updateValue(false);
-		}
-
-		self.showTimeInput = self.selectedDates.length > 0 || self.config.noCalendar;
-
-		if (self.config.weekNumbers) {
-			self.calendarContainer.style.width = self.daysContainer.offsetWidth + self.weekWrapper.offsetWidth + "px";
-		}
-
-		if (!self.isMobile) positionCalendar();
-
-		triggerEvent("Ready");
-	}
-
-	/**
-  * Binds a function to the current flatpickr instance
-  * @param {Function} fn the function
-  * @return {Function} the function bound to the instance
-  */
-	function bindToInstance(fn) {
-		return fn.bind(self);
-	}
-
-	/**
-  * The handler for all events targeting the time inputs
-  * @param {Event} e the event - "input", "wheel", "increment", etc
-  */
-	function updateTime(e) {
-		if (self.config.noCalendar && !self.selectedDates.length)
-			// picking time only
-			self.selectedDates = [self.now];
-
-		timeWrapper(e);
-
-		if (!self.selectedDates.length) return;
-
-		if (!self.minDateHasTime || e.type !== "input" || e.target.value.length >= 2) {
-			setHoursFromInputs();
-			updateValue();
-		} else {
-			setTimeout(function () {
-				setHoursFromInputs();
-				updateValue();
-			}, 1000);
-		}
-	}
-
-	/**
-  * Syncs the selected date object time with user's time input
-  */
-	function setHoursFromInputs() {
-		if (!self.config.enableTime) return;
-
-		var hours = (parseInt(self.hourElement.value, 10) || 0) % (self.amPM ? 12 : 24),
-		    minutes = (parseInt(self.minuteElement.value, 10) || 0) % 60,
-		    seconds = self.config.enableSeconds ? (parseInt(self.secondElement.value, 10) || 0) % 60 : 0;
-
-		if (self.amPM !== undefined) hours = hours % 12 + 12 * (self.amPM.textContent === "PM");
-
-		if (self.minDateHasTime && compareDates(self.latestSelectedDateObj, self.config.minDate) === 0) {
-
-			hours = Math.max(hours, self.config.minDate.getHours());
-			if (hours === self.config.minDate.getHours()) minutes = Math.max(minutes, self.config.minDate.getMinutes());
-		}
-
-		if (self.maxDateHasTime && compareDates(self.latestSelectedDateObj, self.config.maxDate) === 0) {
-			hours = Math.min(hours, self.config.maxDate.getHours());
-			if (hours === self.config.maxDate.getHours()) minutes = Math.min(minutes, self.config.maxDate.getMinutes());
-		}
-
-		setHours(hours, minutes, seconds);
-	}
-
-	/**
-  * Syncs time input values with a date
-  * @param {Date} dateObj the date to sync with
-  */
-	function setHoursFromDate(dateObj) {
-		var date = dateObj || self.latestSelectedDateObj;
-
-		if (date) setHours(date.getHours(), date.getMinutes(), date.getSeconds());
-	}
-
-	/**
-  * Sets the hours, minutes, and optionally seconds
-  * of the latest selected date object and the
-  * corresponding time inputs
-  * @param {Number} hours the hour. whether its military
-  *                 or am-pm gets inferred from config
-  * @param {Number} minutes the minutes
-  * @param {Number} seconds the seconds (optional)
-  */
-	function setHours(hours, minutes, seconds) {
-		if (self.selectedDates.length) {
-			self.latestSelectedDateObj.setHours(hours % 24, minutes, seconds || 0, 0);
-		}
-
-		if (!self.config.enableTime || self.isMobile) return;
-
-		self.hourElement.value = self.pad(!self.config.time_24hr ? (12 + hours) % 12 + 12 * (hours % 12 === 0) : hours);
-
-		self.minuteElement.value = self.pad(minutes);
-
-		if (!self.config.time_24hr) self.amPM.textContent = hours >= 12 ? "PM" : "AM";
-
-		if (self.config.enableSeconds === true) self.secondElement.value = self.pad(seconds);
-	}
-
-	/**
-  * Handles the year input and incrementing events
-  * @param {Event} event the keyup or increment event
-  */
-	function onYearInput(event) {
-		var year = event.target.value;
-		if (event.delta) year = (parseInt(year) + event.delta).toString();
-
-		if (year.length === 4 || event.key === "Enter") {
-			self.currentYearElement.blur();
-			if (!/[^\d]/.test(year)) changeYear(year);
-		}
-	}
-
-	/**
-  * Essentially addEventListener + tracking
-  * @param {Element} element the element to addEventListener to
-  * @param {String} event the event name
-  * @param {Function} handler the event handler
-  */
-	function bind(element, event, handler) {
-		if (event instanceof Array) return event.forEach(function (ev) {
-			return bind(element, ev, handler);
-		});
-
-		if (element instanceof Array) return element.forEach(function (el) {
-			return bind(el, event, handler);
-		});
-
-		element.addEventListener(event, handler);
-		self._handlers.push({ element: element, event: event, handler: handler });
-	}
-
-	/**
-  * A mousedown handler which mimics click.
-  * Minimizes latency, since we don't need to wait for mouseup in most cases.
-  * Also, avoids handling right clicks.
-  *
-  * @param {Function} handler the event handler
-  */
-	function onClick(handler) {
-		return function (evt) {
-			return evt.which === 1 && handler(evt);
-		};
-	}
-
-	/**
-  * Adds all the necessary event listeners
-  */
-	function bindEvents() {
-		self._handlers = [];
-		self._animationLoop = [];
-		if (self.config.wrap) {
-			["open", "close", "toggle", "clear"].forEach(function (evt) {
-				Array.prototype.forEach.call(self.element.querySelectorAll("[data-" + evt + "]"), function (el) {
-					return bind(el, "mousedown", onClick(self[evt]));
-				});
-			});
-		}
-
-		if (self.isMobile) return setupMobile();
-
-		self.debouncedResize = debounce(onResize, 50);
-		self.triggerChange = function () {
-			triggerEvent("Change");
-		};
-		self.debouncedChange = debounce(self.triggerChange, 300);
-
-		if (self.config.mode === "range" && self.daysContainer) bind(self.daysContainer, "mouseover", function (e) {
-			return onMouseOver(e.target);
-		});
-
-		bind(window.document.body, "keydown", onKeyDown);
-
-		if (!self.config.static) bind(self._input, "keydown", onKeyDown);
-
-		if (!self.config.inline && !self.config.static) bind(window, "resize", self.debouncedResize);
-
-		if (window.ontouchstart !== undefined) bind(window.document, "touchstart", documentClick);
-
-		bind(window.document, "mousedown", onClick(documentClick));
-		bind(self._input, "blur", documentClick);
-
-		if (self.config.clickOpens === true) {
-			bind(self._input, "focus", self.open);
-			bind(self._input, "mousedown", onClick(self.open));
-		}
-
-		if (!self.config.noCalendar) {
-			self.monthNav.addEventListener("wheel", function (e) {
-				return e.preventDefault();
-			});
-			bind(self.monthNav, "wheel", debounce(onMonthNavScroll, 10));
-			bind(self.monthNav, "mousedown", onClick(onMonthNavClick));
-
-			bind(self.monthNav, ["keyup", "increment"], onYearInput);
-			bind(self.daysContainer, "mousedown", onClick(selectDate));
-
-			if (self.config.animate) {
-				bind(self.daysContainer, ["webkitAnimationEnd", "animationend"], animateDays);
-				bind(self.monthNav, ["webkitAnimationEnd", "animationend"], animateMonths);
-			}
-		}
-
-		if (self.config.enableTime) {
-			var selText = function selText(e) {
-				return e.target.select();
-			};
-			bind(self.timeContainer, ["wheel", "input", "increment"], updateTime);
-			bind(self.timeContainer, "mousedown", onClick(timeIncrement));
-
-			bind(self.timeContainer, ["wheel", "increment"], self.debouncedChange);
-			bind(self.timeContainer, "input", self.triggerChange);
-
-			bind([self.hourElement, self.minuteElement], "focus", selText);
-
-			if (self.secondElement !== undefined) bind(self.secondElement, "focus", function () {
-				return self.secondElement.select();
-			});
-
-			if (self.amPM !== undefined) {
-				bind(self.amPM, "mousedown", onClick(function (e) {
-					updateTime(e);
-					self.triggerChange(e);
-				}));
-			}
-		}
-	}
-
-	function processPostDayAnimation() {
-		for (var i = self._animationLoop.length; i--;) {
-			self._animationLoop[i]();
-			self._animationLoop.splice(i, 1);
-		}
-	}
-
-	/**
-  * Removes the day container that slided out of view
-  * @param {Event} e the animation event
-  */
-	function animateDays(e) {
-		if (self.daysContainer.childNodes.length > 1) {
-			switch (e.animationName) {
-				case "fpSlideLeft":
-					self.daysContainer.lastChild.classList.remove("slideLeftNew");
-					self.daysContainer.removeChild(self.daysContainer.firstChild);
-					self.days = self.daysContainer.firstChild;
-					processPostDayAnimation();
-
-					break;
-
-				case "fpSlideRight":
-					self.daysContainer.firstChild.classList.remove("slideRightNew");
-					self.daysContainer.removeChild(self.daysContainer.lastChild);
-					self.days = self.daysContainer.firstChild;
-					processPostDayAnimation();
-
-					break;
-
-				default:
-					break;
-			}
-		}
-	}
-
-	/**
-  * Removes the month element that animated out of view
-  * @param {Event} e the animation event
-  */
-	function animateMonths(e) {
-		switch (e.animationName) {
-			case "fpSlideLeftNew":
-			case "fpSlideRightNew":
-				self.navigationCurrentMonth.classList.remove("slideLeftNew");
-				self.navigationCurrentMonth.classList.remove("slideRightNew");
-				var nav = self.navigationCurrentMonth;
-
-				while (nav.nextSibling && /curr/.test(nav.nextSibling.className)) {
-					self.monthNav.removeChild(nav.nextSibling);
-				}while (nav.previousSibling && /curr/.test(nav.previousSibling.className)) {
-					self.monthNav.removeChild(nav.previousSibling);
-				}self.oldCurMonth = null;
-				break;
-		}
-	}
-
-	/**
-  * Set the calendar view to a particular date.
-  * @param {Date} jumpDate the date to set the view to
-  */
-	function jumpToDate(jumpDate) {
-		jumpDate = jumpDate ? self.parseDate(jumpDate) : self.latestSelectedDateObj || (self.config.minDate > self.now ? self.config.minDate : self.config.maxDate && self.config.maxDate < self.now ? self.config.maxDate : self.now);
-
-		try {
-			self.currentYear = jumpDate.getFullYear();
-			self.currentMonth = jumpDate.getMonth();
-		} catch (e) {
-			/* istanbul ignore next */
-			console.error(e.stack);
-			/* istanbul ignore next */
-			console.warn("Invalid date supplied: " + jumpDate);
-		}
-
-		self.redraw();
-	}
-
-	/**
-  * The up/down arrow handler for time inputs
-  * @param {Event} e the click event
-  */
-	function timeIncrement(e) {
-		if (~e.target.className.indexOf("arrow")) incrementNumInput(e, e.target.classList.contains("arrowUp") ? 1 : -1);
-	}
-
-	/**
-  * Increments/decrements the value of input associ-
-  * ated with the up/down arrow by dispatching an
-  * "increment" event on the input.
-  *
-  * @param {Event} e the click event
-  * @param {Number} delta the diff (usually 1 or -1)
-  * @param {Element} inputElem the input element
-  */
-	function incrementNumInput(e, delta, inputElem) {
-		var input = inputElem || e.target.parentNode.childNodes[0];
-		var event = createEvent("increment");
-		event.delta = delta;
-		input.dispatchEvent(event);
-	}
-
-	function createNumberInput(inputClassName) {
-		var wrapper = createElement("div", "numInputWrapper"),
-		    numInput = createElement("input", "numInput " + inputClassName),
-		    arrowUp = createElement("span", "arrowUp"),
-		    arrowDown = createElement("span", "arrowDown");
-
-		numInput.type = "text";
-		numInput.pattern = "\\d*";
-
-		wrapper.appendChild(numInput);
-		wrapper.appendChild(arrowUp);
-		wrapper.appendChild(arrowDown);
-
-		return wrapper;
-	}
-
-	function build() {
-		var fragment = window.document.createDocumentFragment();
-		self.calendarContainer = createElement("div", "flatpickr-calendar");
-		self.calendarContainer.tabIndex = -1;
-
-		if (!self.config.noCalendar) {
-			fragment.appendChild(buildMonthNav());
-			self.innerContainer = createElement("div", "flatpickr-innerContainer");
-
-			if (self.config.weekNumbers) self.innerContainer.appendChild(buildWeeks());
-
-			self.rContainer = createElement("div", "flatpickr-rContainer");
-			self.rContainer.appendChild(buildWeekdays());
-
-			if (!self.daysContainer) {
-				self.daysContainer = createElement("div", "flatpickr-days");
-				self.daysContainer.tabIndex = -1;
-			}
-
-			buildDays();
-			self.rContainer.appendChild(self.daysContainer);
-
-			self.innerContainer.appendChild(self.rContainer);
-			fragment.appendChild(self.innerContainer);
-		}
-
-		if (self.config.enableTime) fragment.appendChild(buildTime());
-
-		toggleClass(self.calendarContainer, "rangeMode", self.config.mode === "range");
-		toggleClass(self.calendarContainer, "animate", self.config.animate);
-
-		self.calendarContainer.appendChild(fragment);
-
-		var customAppend = self.config.appendTo && self.config.appendTo.nodeType;
-
-		if (self.config.inline || self.config.static) {
-			self.calendarContainer.classList.add(self.config.inline ? "inline" : "static");
-
-			if (self.config.inline && !customAppend) {
-				return self.element.parentNode.insertBefore(self.calendarContainer, self._input.nextSibling);
-			}
-
-			if (self.config.static) {
-				var wrapper = createElement("div", "flatpickr-wrapper");
-				self.element.parentNode.insertBefore(wrapper, self.element);
-				wrapper.appendChild(self.element);
-
-				if (self.altInput) wrapper.appendChild(self.altInput);
-
-				wrapper.appendChild(self.calendarContainer);
-				return;
-			}
-		}
-
-		(customAppend ? self.config.appendTo : window.document.body).appendChild(self.calendarContainer);
-	}
-
-	function createDay(className, date, dayNumber, i) {
-		var dateIsEnabled = isEnabled(date, true),
-		    dayElement = createElement("span", "flatpickr-day " + className, date.getDate());
-
-		dayElement.dateObj = date;
-		dayElement.$i = i;
-		dayElement.setAttribute("aria-label", self.formatDate(date, self.config.ariaDateFormat));
-
-		if (compareDates(date, self.now) === 0) {
-			self.todayDateElem = dayElement;
-			dayElement.classList.add("today");
-		}
-
-		if (dateIsEnabled) {
-			dayElement.tabIndex = -1;
-			if (isDateSelected(date)) {
-				dayElement.classList.add("selected");
-				self.selectedDateElem = dayElement;
-				if (self.config.mode === "range") {
-					toggleClass(dayElement, "startRange", compareDates(date, self.selectedDates[0]) === 0);
-
-					toggleClass(dayElement, "endRange", compareDates(date, self.selectedDates[1]) === 0);
-				}
-			}
-		} else {
-			dayElement.classList.add("disabled");
-			if (self.selectedDates[0] && date > self.minRangeDate && date < self.selectedDates[0]) self.minRangeDate = date;else if (self.selectedDates[0] && date < self.maxRangeDate && date > self.selectedDates[0]) self.maxRangeDate = date;
-		}
-
-		if (self.config.mode === "range") {
-			if (isDateInRange(date) && !isDateSelected(date)) dayElement.classList.add("inRange");
-
-			if (self.selectedDates.length === 1 && (date < self.minRangeDate || date > self.maxRangeDate)) dayElement.classList.add("notAllowed");
-		}
-
-		if (self.config.weekNumbers && className !== "prevMonthDay" && dayNumber % 7 === 1) {
-			self.weekNumbers.insertAdjacentHTML("beforeend", "<span class='disabled flatpickr-day'>" + self.config.getWeek(date) + "</span>");
-		}
-
-		triggerEvent("DayCreate", dayElement);
-
-		return dayElement;
-	}
-
-	function focusOnDay(currentIndex, offset) {
-		var newIndex = currentIndex + offset || 0,
-		    targetNode = currentIndex !== undefined ? self.days.childNodes[newIndex] : self.selectedDateElem || self.todayDateElem || self.days.childNodes[0],
-		    focus = function focus() {
-			targetNode = targetNode || self.days.childNodes[newIndex];
-			targetNode.focus();
-
-			if (self.config.mode === "range") onMouseOver(targetNode);
-		};
-
-		if (targetNode === undefined && offset !== 0) {
-			if (offset > 0) {
-				self.changeMonth(1);
-				newIndex = newIndex % 42;
-			} else if (offset < 0) {
-				self.changeMonth(-1);
-				newIndex += 42;
-			}
-
-			return afterDayAnim(focus);
-		}
-
-		focus();
-	}
-
-	function afterDayAnim(fn) {
-		if (self.config.animate === true) return self._animationLoop.push(fn);
-		fn();
-	}
-
-	function buildDays(delta) {
-		var firstOfMonth = (new Date(self.currentYear, self.currentMonth, 1).getDay() - self.l10n.firstDayOfWeek + 7) % 7,
-		    isRangeMode = self.config.mode === "range";
-
-		self.prevMonthDays = self.utils.getDaysinMonth((self.currentMonth - 1 + 12) % 12);
-		self.selectedDateElem = undefined;
-		self.todayDateElem = undefined;
-
-		var daysInMonth = self.utils.getDaysinMonth(),
-		    days = window.document.createDocumentFragment();
-
-		var dayNumber = self.prevMonthDays + 1 - firstOfMonth,
-		    dayIndex = 0;
-
-		if (self.config.weekNumbers && self.weekNumbers.firstChild) self.weekNumbers.textContent = "";
-
-		if (isRangeMode) {
-			// const dateLimits = self.config.enable.length || self.config.disable.length || self.config.mixDate || self.config.maxDate;
-			self.minRangeDate = new Date(self.currentYear, self.currentMonth - 1, dayNumber);
-			self.maxRangeDate = new Date(self.currentYear, self.currentMonth + 1, (42 - firstOfMonth) % daysInMonth);
-		}
-
-		// prepend days from the ending of previous month
-		for (; dayNumber <= self.prevMonthDays; dayNumber++, dayIndex++) {
-			days.appendChild(createDay("prevMonthDay", new Date(self.currentYear, self.currentMonth - 1, dayNumber), dayNumber, dayIndex));
-		}
-
-		// Start at 1 since there is no 0th day
-		for (dayNumber = 1; dayNumber <= daysInMonth; dayNumber++, dayIndex++) {
-			days.appendChild(createDay("", new Date(self.currentYear, self.currentMonth, dayNumber), dayNumber, dayIndex));
-		}
-
-		// append days from the next month
-		for (var dayNum = daysInMonth + 1; dayNum <= 42 - firstOfMonth; dayNum++, dayIndex++) {
-			days.appendChild(createDay("nextMonthDay", new Date(self.currentYear, self.currentMonth + 1, dayNum % daysInMonth), dayNum, dayIndex));
-		}
-
-		if (isRangeMode && self.selectedDates.length === 1 && days.childNodes[0]) {
-			self._hidePrevMonthArrow = self._hidePrevMonthArrow || self.minRangeDate > days.childNodes[0].dateObj;
-
-			self._hideNextMonthArrow = self._hideNextMonthArrow || self.maxRangeDate < new Date(self.currentYear, self.currentMonth + 1, 1);
-		} else updateNavigationCurrentMonth();
-
-		var dayContainer = createElement("div", "dayContainer");
-		dayContainer.appendChild(days);
-
-		if (!self.config.animate || delta === undefined) clearNode(self.daysContainer);else {
-			while (self.daysContainer.childNodes.length > 1) {
-				self.daysContainer.removeChild(self.daysContainer.firstChild);
-			}
-		}
-
-		if (delta >= 0) self.daysContainer.appendChild(dayContainer);else self.daysContainer.insertBefore(dayContainer, self.daysContainer.firstChild);
-
-		self.days = self.daysContainer.firstChild;
-		return self.daysContainer;
-	}
-
-	function clearNode(node) {
-		while (node.firstChild) {
-			node.removeChild(node.firstChild);
-		}
-	}
-
-	function buildMonthNav() {
-		var monthNavFragment = window.document.createDocumentFragment();
-		self.monthNav = createElement("div", "flatpickr-month");
-
-		self.prevMonthNav = createElement("span", "flatpickr-prev-month");
-		self.prevMonthNav.innerHTML = self.config.prevArrow;
-
-		self.currentMonthElement = createElement("span", "cur-month");
-		self.currentMonthElement.title = self.l10n.scrollTitle;
-
-		var yearInput = createNumberInput("cur-year");
-		self.currentYearElement = yearInput.childNodes[0];
-		self.currentYearElement.title = self.l10n.scrollTitle;
-
-		if (self.config.minDate) self.currentYearElement.min = self.config.minDate.getFullYear();
-
-		if (self.config.maxDate) {
-			self.currentYearElement.max = self.config.maxDate.getFullYear();
-
-			self.currentYearElement.disabled = self.config.minDate && self.config.minDate.getFullYear() === self.config.maxDate.getFullYear();
-		}
-
-		self.nextMonthNav = createElement("span", "flatpickr-next-month");
-		self.nextMonthNav.innerHTML = self.config.nextArrow;
-
-		self.navigationCurrentMonth = createElement("span", "flatpickr-current-month");
-		self.navigationCurrentMonth.appendChild(self.currentMonthElement);
-		self.navigationCurrentMonth.appendChild(yearInput);
-
-		monthNavFragment.appendChild(self.prevMonthNav);
-		monthNavFragment.appendChild(self.navigationCurrentMonth);
-		monthNavFragment.appendChild(self.nextMonthNav);
-		self.monthNav.appendChild(monthNavFragment);
-
-		Object.defineProperty(self, "_hidePrevMonthArrow", {
-			get: function get() {
-				return this.__hidePrevMonthArrow;
-			},
-			set: function set(bool) {
-				if (this.__hidePrevMonthArrow !== bool) self.prevMonthNav.style.display = bool ? "none" : "block";
-				this.__hidePrevMonthArrow = bool;
-			}
-		});
-
-		Object.defineProperty(self, "_hideNextMonthArrow", {
-			get: function get() {
-				return this.__hideNextMonthArrow;
-			},
-			set: function set(bool) {
-				if (this.__hideNextMonthArrow !== bool) self.nextMonthNav.style.display = bool ? "none" : "block";
-				this.__hideNextMonthArrow = bool;
-			}
-		});
-
-		updateNavigationCurrentMonth();
-
-		return self.monthNav;
-	}
-
-	function buildTime() {
-		self.calendarContainer.classList.add("hasTime");
-		if (self.config.noCalendar) self.calendarContainer.classList.add("noCalendar");
-		self.timeContainer = createElement("div", "flatpickr-time");
-		self.timeContainer.tabIndex = -1;
-		var separator = createElement("span", "flatpickr-time-separator", ":");
-
-		var hourInput = createNumberInput("flatpickr-hour");
-		self.hourElement = hourInput.childNodes[0];
-
-		var minuteInput = createNumberInput("flatpickr-minute");
-		self.minuteElement = minuteInput.childNodes[0];
-
-		self.hourElement.tabIndex = self.minuteElement.tabIndex = -1;
-
-		self.hourElement.value = self.pad(self.latestSelectedDateObj ? self.latestSelectedDateObj.getHours() : self.config.defaultHour % (self.time_24hr ? 24 : 12));
-
-		self.minuteElement.value = self.pad(self.latestSelectedDateObj ? self.latestSelectedDateObj.getMinutes() : self.config.defaultMinute);
-
-		self.hourElement.step = self.config.hourIncrement;
-		self.minuteElement.step = self.config.minuteIncrement;
-
-		self.hourElement.min = self.config.time_24hr ? 0 : 1;
-		self.hourElement.max = self.config.time_24hr ? 23 : 12;
-
-		self.minuteElement.min = 0;
-		self.minuteElement.max = 59;
-
-		self.hourElement.title = self.minuteElement.title = self.l10n.scrollTitle;
-
-		self.timeContainer.appendChild(hourInput);
-		self.timeContainer.appendChild(separator);
-		self.timeContainer.appendChild(minuteInput);
-
-		if (self.config.time_24hr) self.timeContainer.classList.add("time24hr");
-
-		if (self.config.enableSeconds) {
-			self.timeContainer.classList.add("hasSeconds");
-
-			var secondInput = createNumberInput("flatpickr-second");
-			self.secondElement = secondInput.childNodes[0];
-
-			self.secondElement.value = self.pad(self.latestSelectedDateObj ? self.latestSelectedDateObj.getSeconds() : self.config.defaultSeconds);
-
-			self.secondElement.step = self.minuteElement.step;
-			self.secondElement.min = self.minuteElement.min;
-			self.secondElement.max = self.minuteElement.max;
-
-			self.timeContainer.appendChild(createElement("span", "flatpickr-time-separator", ":"));
-			self.timeContainer.appendChild(secondInput);
-		}
-
-		if (!self.config.time_24hr) {
-			// add self.amPM if appropriate
-			self.amPM = createElement("span", "flatpickr-am-pm", ["AM", "PM"][(self.latestSelectedDateObj ? self.hourElement.value : self.config.defaultHour) > 11 | 0]);
-			self.amPM.title = self.l10n.toggleTitle;
-			self.amPM.tabIndex = -1;
-			self.timeContainer.appendChild(self.amPM);
-		}
-
-		return self.timeContainer;
-	}
-
-	function buildWeekdays() {
-		if (!self.weekdayContainer) self.weekdayContainer = createElement("div", "flatpickr-weekdays");
-
-		var firstDayOfWeek = self.l10n.firstDayOfWeek;
-		var weekdays = self.l10n.weekdays.shorthand.slice();
-
-		if (firstDayOfWeek > 0 && firstDayOfWeek < weekdays.length) {
-			weekdays = [].concat(weekdays.splice(firstDayOfWeek, weekdays.length), weekdays.splice(0, firstDayOfWeek));
-		}
-
-		self.weekdayContainer.innerHTML = "\n\t\t<span class=flatpickr-weekday>\n\t\t\t" + weekdays.join("</span><span class=flatpickr-weekday>") + "\n\t\t</span>\n\t\t";
-
-		return self.weekdayContainer;
-	}
-
-	/* istanbul ignore next */
-	function buildWeeks() {
-		self.calendarContainer.classList.add("hasWeeks");
-		self.weekWrapper = createElement("div", "flatpickr-weekwrapper");
-		self.weekWrapper.appendChild(createElement("span", "flatpickr-weekday", self.l10n.weekAbbreviation));
-		self.weekNumbers = createElement("div", "flatpickr-weeks");
-		self.weekWrapper.appendChild(self.weekNumbers);
-
-		return self.weekWrapper;
-	}
-
-	function changeMonth(value, is_offset, animate) {
-		is_offset = is_offset === undefined || is_offset;
-		var delta = is_offset ? value : value - self.currentMonth;
-		var skipAnimations = !self.config.animate || animate === false;
-
-		if (delta < 0 && self._hidePrevMonthArrow || delta > 0 && self._hideNextMonthArrow) return;
-
-		self.currentMonth += delta;
-
-		if (self.currentMonth < 0 || self.currentMonth > 11) {
-			self.currentYear += self.currentMonth > 11 ? 1 : -1;
-			self.currentMonth = (self.currentMonth + 12) % 12;
-
-			triggerEvent("YearChange");
-		}
-
-		buildDays(!skipAnimations ? delta : undefined);
-
-		if (skipAnimations) {
-			triggerEvent("MonthChange");
-			return updateNavigationCurrentMonth();
-		}
-
-		// remove possible remnants from clicking too fast
-		var nav = self.navigationCurrentMonth;
-		if (delta < 0) {
-			while (nav.nextSibling && /curr/.test(nav.nextSibling.className)) {
-				self.monthNav.removeChild(nav.nextSibling);
-			}
-		} else if (delta > 0) {
-			while (nav.previousSibling && /curr/.test(nav.previousSibling.className)) {
-				self.monthNav.removeChild(nav.previousSibling);
-			}
-		}
-
-		self.oldCurMonth = self.navigationCurrentMonth;
-
-		self.navigationCurrentMonth = self.monthNav.insertBefore(self.oldCurMonth.cloneNode(true), delta > 0 ? self.oldCurMonth.nextSibling : self.oldCurMonth);
-
-		if (delta > 0) {
-			self.daysContainer.firstChild.classList.add("slideLeft");
-			self.daysContainer.lastChild.classList.add("slideLeftNew");
-
-			self.oldCurMonth.classList.add("slideLeft");
-			self.navigationCurrentMonth.classList.add("slideLeftNew");
-		} else if (delta < 0) {
-			self.daysContainer.firstChild.classList.add("slideRightNew");
-			self.daysContainer.lastChild.classList.add("slideRight");
-
-			self.oldCurMonth.classList.add("slideRight");
-			self.navigationCurrentMonth.classList.add("slideRightNew");
-		}
-
-		self.currentMonthElement = self.navigationCurrentMonth.firstChild;
-		self.currentYearElement = self.navigationCurrentMonth.lastChild.childNodes[0];
-
-		updateNavigationCurrentMonth();
-		self.oldCurMonth.firstChild.textContent = self.utils.monthToStr(self.currentMonth - delta);
-
-		triggerEvent("MonthChange");
-
-		if (document.activeElement && document.activeElement.$i) {
-			var index = document.activeElement.$i;
-			afterDayAnim(function () {
-				focusOnDay(index, 0);
-			});
-		}
-	}
-
-	function clear(triggerChangeEvent) {
-		self.input.value = "";
-
-		if (self.altInput) self.altInput.value = "";
-
-		if (self.mobileInput) self.mobileInput.value = "";
-
-		self.selectedDates = [];
-		self.latestSelectedDateObj = undefined;
-		self.showTimeInput = false;
-
-		self.redraw();
-
-		if (triggerChangeEvent !== false)
-			// triggerChangeEvent is true (default) or an Event
-			triggerEvent("Change");
-	}
-
-	function close() {
-		self.isOpen = false;
-
-		if (!self.isMobile) {
-			self.calendarContainer.classList.remove("open");
-			self._input.classList.remove("active");
-		}
-
-		triggerEvent("Close");
-	}
-
-	function destroy() {
-		if (self.config !== undefined) triggerEvent("Destroy");
-
-		for (var i = self._handlers.length; i--;) {
-			var h = self._handlers[i];
-			h.element.removeEventListener(h.event, h.handler);
-		}
-
-		self._handlers = [];
-
-		if (self.mobileInput) {
-			if (self.mobileInput.parentNode) self.mobileInput.parentNode.removeChild(self.mobileInput);
-			self.mobileInput = null;
-		} else if (self.calendarContainer && self.calendarContainer.parentNode) self.calendarContainer.parentNode.removeChild(self.calendarContainer);
-
-		if (self.altInput) {
-			self.input.type = "text";
-			if (self.altInput.parentNode) self.altInput.parentNode.removeChild(self.altInput);
-			delete self.altInput;
-		}
-
-		if (self.input) {
-			self.input.type = self.input._type;
-			self.input.classList.remove("flatpickr-input");
-			self.input.removeAttribute("readonly");
-			self.input.value = "";
-		}
-
-		["_showTimeInput", "latestSelectedDateObj", "_hideNextMonthArrow", "_hidePrevMonthArrow", "__hideNextMonthArrow", "__hidePrevMonthArrow", "isMobile", "isOpen", "selectedDateElem", "minDateHasTime", "maxDateHasTime", "days", "daysContainer", "_input", "_positionElement", "innerContainer", "rContainer", "monthNav", "todayDateElem", "calendarContainer", "weekdayContainer", "prevMonthNav", "nextMonthNav", "currentMonthElement", "currentYearElement", "navigationCurrentMonth", "selectedDateElem", "config"].forEach(function (k) {
-			try {
-				delete self[k];
-			} catch (e) {}
-		});
-	}
-
-	function isCalendarElem(elem) {
-		if (self.config.appendTo && self.config.appendTo.contains(elem)) return true;
-
-		return self.calendarContainer.contains(elem);
-	}
-
-	function documentClick(e) {
-		if (self.isOpen && !self.config.inline) {
-			var isCalendarElement = isCalendarElem(e.target);
-			var isInput = e.target === self.input || e.target === self.altInput || self.element.contains(e.target) ||
-			// web components
-			e.path && e.path.indexOf && (~e.path.indexOf(self.input) || ~e.path.indexOf(self.altInput));
-
-			var lostFocus = e.type === "blur" ? isInput && e.relatedTarget && !isCalendarElem(e.relatedTarget) : !isInput && !isCalendarElement;
-
-			if (lostFocus && self.config.ignoredFocusElements.indexOf(e.target) === -1) {
-				self.close();
-
-				if (self.config.mode === "range" && self.selectedDates.length === 1) {
-					self.clear(false);
-					self.redraw();
-				}
-			}
-		}
-	}
-
-	function changeYear(newYear) {
-		if (!newYear || self.currentYearElement.min && newYear < self.currentYearElement.min || self.currentYearElement.max && newYear > self.currentYearElement.max) return;
-
-		var newYearNum = parseInt(newYear, 10),
-		    isNewYear = self.currentYear !== newYearNum;
-
-		self.currentYear = newYearNum || self.currentYear;
-
-		if (self.config.maxDate && self.currentYear === self.config.maxDate.getFullYear()) {
-			self.currentMonth = Math.min(self.config.maxDate.getMonth(), self.currentMonth);
-		} else if (self.config.minDate && self.currentYear === self.config.minDate.getFullYear()) {
-			self.currentMonth = Math.max(self.config.minDate.getMonth(), self.currentMonth);
-		}
-
-		if (isNewYear) {
-			self.redraw();
-			triggerEvent("YearChange");
-		}
-	}
-
-	function isEnabled(date, timeless) {
-		if (self.config.minDate && compareDates(date, self.config.minDate, timeless !== undefined ? timeless : !self.minDateHasTime) < 0 || self.config.maxDate && compareDates(date, self.config.maxDate, timeless !== undefined ? timeless : !self.maxDateHasTime) > 0) return false;
-
-		if (!self.config.enable.length && !self.config.disable.length) return true;
-
-		var dateToCheck = self.parseDate(date, null, true); // timeless
-
-		var bool = self.config.enable.length > 0,
-		    array = bool ? self.config.enable : self.config.disable;
-
-		for (var i = 0, d; i < array.length; i++) {
-			d = array[i];
-
-			if (d instanceof Function && d(dateToCheck)) // disabled by function
-				return bool;else if (d instanceof Date && d.getTime() === dateToCheck.getTime())
-				// disabled by date
-				return bool;else if (typeof d === "string" && self.parseDate(d, null, true).getTime() === dateToCheck.getTime())
-				// disabled by date string
-				return bool;else if ( // disabled by range
-			(typeof d === "undefined" ? "undefined" : _typeof(d)) === "object" && d.from && d.to && dateToCheck >= d.from && dateToCheck <= d.to) return bool;
-		}
-
-		return !bool;
-	}
-
-	function onKeyDown(e) {
-		var isInput = e.target === self._input;
-		var calendarElem = isCalendarElem(e.target);
-		var allowInput = self.config.allowInput;
-		var allowKeydown = self.isOpen && (!allowInput || !isInput);
-		var allowInlineKeydown = self.config.inline && isInput && !allowInput;
-
-		if (e.key === "Enter" && allowInput && isInput) {
-			self.setDate(self._input.value, true, e.target === self.altInput ? self.config.altFormat : self.config.dateFormat);
-			return e.target.blur();
-		} else if (calendarElem || allowKeydown || allowInlineKeydown) {
-			var isTimeObj = self.timeContainer && self.timeContainer.contains(e.target);
-			switch (e.key) {
-				case "Enter":
-					if (isTimeObj) updateValue();else selectDate(e);
-
-					break;
-
-				case "Escape":
-					// escape
-					e.preventDefault();
-					self.close();
-					break;
-
-				case "Backspace":
-				case "Delete":
-					if (!self.config.allowInput) self.clear();
-					break;
-
-				case "ArrowLeft":
-				case "ArrowRight":
-					if (!isTimeObj) {
-						e.preventDefault();
-
-						if (self.daysContainer) {
-							var _delta = e.key === "ArrowRight" ? 1 : -1;
-
-							if (!e.ctrlKey) focusOnDay(e.target.$i, _delta);else changeMonth(_delta, true);
-						} else if (self.config.enableTime && !isTimeObj) self.hourElement.focus();
-					}
-
-					break;
-
-				case "ArrowUp":
-				case "ArrowDown":
-					e.preventDefault();
-					var delta = e.key === "ArrowDown" ? 1 : -1;
-
-					if (self.daysContainer) {
-						if (e.ctrlKey) {
-							changeYear(self.currentYear - delta);
-							focusOnDay(e.target.$i, 0);
-						} else if (!isTimeObj) focusOnDay(e.target.$i, delta * 7);
-					} else if (self.config.enableTime) {
-						if (!isTimeObj) self.hourElement.focus();
-						updateTime(e);
-						self.debouncedChange();
-					}
-
-					break;
-
-				case "Tab":
-					if (e.target === self.hourElement) {
-						e.preventDefault();
-						self.minuteElement.select();
-					} else if (e.target === self.minuteElement && (self.secondElement || self.amPM)) {
-						e.preventDefault();
-						(self.secondElement || self.amPM).focus();
-					} else if (e.target === self.secondElement) {
-						e.preventDefault();
-						self.amPM.focus();
-					}
-
-					break;
-
-				case "a":
-					if (e.target === self.amPM) {
-						self.amPM.textContent = "AM";
-						setHoursFromInputs();
-						updateValue();
-					}
-					break;
-
-				case "p":
-					if (e.target === self.amPM) {
-						self.amPM.textContent = "PM";
-						setHoursFromInputs();
-						updateValue();
-					}
-					break;
-
-				default:
-					break;
-
-			}
-
-			triggerEvent("KeyDown", e);
-		}
-	}
-
-	function onMouseOver(elem) {
-		if (self.selectedDates.length !== 1 || !elem.classList.contains("flatpickr-day")) return;
-
-		var hoverDate = elem.dateObj,
-		    initialDate = self.parseDate(self.selectedDates[0], null, true),
-		    rangeStartDate = Math.min(hoverDate.getTime(), self.selectedDates[0].getTime()),
-		    rangeEndDate = Math.max(hoverDate.getTime(), self.selectedDates[0].getTime()),
-		    containsDisabled = false;
-
-		for (var t = rangeStartDate; t < rangeEndDate; t += self.utils.duration.DAY) {
-			if (!isEnabled(new Date(t))) {
-				containsDisabled = true;
-				break;
-			}
-		}
-
-		var _loop = function _loop(timestamp, i) {
-			var outOfRange = timestamp < self.minRangeDate.getTime() || timestamp > self.maxRangeDate.getTime(),
-			    dayElem = self.days.childNodes[i];
-
-			if (outOfRange) {
-				self.days.childNodes[i].classList.add("notAllowed");
-				["inRange", "startRange", "endRange"].forEach(function (c) {
-					dayElem.classList.remove(c);
-				});
-				return "continue";
-			} else if (containsDisabled && !outOfRange) return "continue";
-
-			["startRange", "inRange", "endRange", "notAllowed"].forEach(function (c) {
-				dayElem.classList.remove(c);
-			});
-
-			var minRangeDate = Math.max(self.minRangeDate.getTime(), rangeStartDate),
-			    maxRangeDate = Math.min(self.maxRangeDate.getTime(), rangeEndDate);
-
-			elem.classList.add(hoverDate < self.selectedDates[0] ? "startRange" : "endRange");
-
-			if (initialDate < hoverDate && timestamp === initialDate.getTime()) dayElem.classList.add("startRange");else if (initialDate > hoverDate && timestamp === initialDate.getTime()) dayElem.classList.add("endRange");
-
-			if (timestamp >= minRangeDate && timestamp <= maxRangeDate) dayElem.classList.add("inRange");
-		};
-
-		for (var timestamp = self.days.childNodes[0].dateObj.getTime(), i = 0; i < 42; i++, timestamp += self.utils.duration.DAY) {
-			var _ret = _loop(timestamp, i);
-
-			if (_ret === "continue") continue;
-		}
-	}
-
-	function onResize() {
-		if (self.isOpen && !self.config.static && !self.config.inline) positionCalendar();
-	}
-
-	function open(e, positionElement) {
-		if (self.isMobile) {
-			if (e) {
-				e.preventDefault();
-				e.target.blur();
-			}
-
-			setTimeout(function () {
-				self.mobileInput.click();
-			}, 0);
-
-			triggerEvent("Open");
-			return;
-		}
-
-		if (self.isOpen || self._input.disabled || self.config.inline) return;
-
-		self.isOpen = true;
-		self.calendarContainer.classList.add("open");
-		positionCalendar(positionElement);
-		self._input.classList.add("active");
-
-		triggerEvent("Open");
-	}
-
-	function minMaxDateSetter(type) {
-		return function (date) {
-			var dateObj = self.config["_" + type + "Date"] = self.parseDate(date);
-
-			var inverseDateObj = self.config["_" + (type === "min" ? "max" : "min") + "Date"];
-			var isValidDate = date && dateObj instanceof Date;
-
-			if (isValidDate) {
-				self[type + "DateHasTime"] = dateObj.getHours() || dateObj.getMinutes() || dateObj.getSeconds();
-			}
-
-			if (self.selectedDates) {
-				self.selectedDates = self.selectedDates.filter(function (d) {
-					return isEnabled(d);
-				});
-				if (!self.selectedDates.length && type === "min") setHoursFromDate(dateObj);
-				updateValue();
-			}
-
-			if (self.daysContainer) {
-				redraw();
-
-				if (isValidDate) self.currentYearElement[type] = dateObj.getFullYear();else self.currentYearElement.removeAttribute(type);
-
-				self.currentYearElement.disabled = inverseDateObj && dateObj && inverseDateObj.getFullYear() === dateObj.getFullYear();
-			}
-		};
-	}
-
-	function parseConfig() {
-		var boolOpts = ["wrap", "weekNumbers", "allowInput", "clickOpens", "time_24hr", "enableTime", "noCalendar", "altInput", "shorthandCurrentMonth", "inline", "static", "enableSeconds", "disableMobile"];
-
-		var hooks = ["onChange", "onClose", "onDayCreate", "onDestroy", "onKeyDown", "onMonthChange", "onOpen", "onParseConfig", "onReady", "onValueUpdate", "onYearChange"];
-
-		self.config = Object.create(flatpickr.defaultConfig);
-
-		var userConfig = _extends({}, self.instanceConfig, JSON.parse(JSON.stringify(self.element.dataset || {})));
-
-		self.config.parseDate = userConfig.parseDate;
-		self.config.formatDate = userConfig.formatDate;
-
-		Object.defineProperty(self.config, "enable", {
-			get: function get() {
-				return self.config._enable || [];
-			},
-			set: function set(dates) {
-				return self.config._enable = parseDateRules(dates);
-			}
-		});
-
-		Object.defineProperty(self.config, "disable", {
-			get: function get() {
-				return self.config._disable || [];
-			},
-			set: function set(dates) {
-				return self.config._disable = parseDateRules(dates);
-			}
-		});
-
-		_extends(self.config, userConfig);
-
-		if (!userConfig.dateFormat && userConfig.enableTime) {
-			self.config.dateFormat = self.config.noCalendar ? "H:i" + (self.config.enableSeconds ? ":S" : "") : flatpickr.defaultConfig.dateFormat + " H:i" + (self.config.enableSeconds ? ":S" : "");
-		}
-
-		if (userConfig.altInput && userConfig.enableTime && !userConfig.altFormat) {
-			self.config.altFormat = self.config.noCalendar ? "h:i" + (self.config.enableSeconds ? ":S K" : " K") : flatpickr.defaultConfig.altFormat + (" h:i" + (self.config.enableSeconds ? ":S" : "") + " K");
-		}
-
-		Object.defineProperty(self.config, "minDate", {
-			get: function get() {
-				return this._minDate;
-			},
-			set: minMaxDateSetter("min")
-		});
-
-		Object.defineProperty(self.config, "maxDate", {
-			get: function get() {
-				return this._maxDate;
-			},
-			set: minMaxDateSetter("max")
-		});
-
-		self.config.minDate = userConfig.minDate;
-		self.config.maxDate = userConfig.maxDate;
-
-		for (var i = 0; i < boolOpts.length; i++) {
-			self.config[boolOpts[i]] = self.config[boolOpts[i]] === true || self.config[boolOpts[i]] === "true";
-		}for (var _i = hooks.length; _i--;) {
-			if (self.config[hooks[_i]] !== undefined) {
-				self.config[hooks[_i]] = arrayify(self.config[hooks[_i]] || []).map(bindToInstance);
-			}
-		}
-
-		for (var _i2 = 0; _i2 < self.config.plugins.length; _i2++) {
-			var pluginConf = self.config.plugins[_i2](self) || {};
-			for (var key in pluginConf) {
-
-				if (self.config[key] instanceof Array || ~hooks.indexOf(key)) {
-					self.config[key] = arrayify(pluginConf[key]).map(bindToInstance).concat(self.config[key]);
-				} else if (typeof userConfig[key] === "undefined") self.config[key] = pluginConf[key];
-			}
-		}
-
-		triggerEvent("ParseConfig");
-	}
-
-	function setupLocale() {
-		if (_typeof(self.config.locale) !== "object" && typeof flatpickr.l10ns[self.config.locale] === "undefined") console.warn("flatpickr: invalid locale " + self.config.locale);
-
-		self.l10n = _extends(Object.create(flatpickr.l10ns.default), _typeof(self.config.locale) === "object" ? self.config.locale : self.config.locale !== "default" ? flatpickr.l10ns[self.config.locale] || {} : {});
-	}
-
-	function positionCalendar() {
-		var positionElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : self._positionElement;
-
-		if (self.calendarContainer === undefined) return;
-
-		var calendarHeight = self.calendarContainer.offsetHeight,
-		    calendarWidth = self.calendarContainer.offsetWidth,
-		    configPos = self.config.position,
-		    inputBounds = positionElement.getBoundingClientRect(),
-		    distanceFromBottom = window.innerHeight - inputBounds.bottom,
-		    showOnTop = configPos === "above" || configPos !== "below" && distanceFromBottom < calendarHeight && inputBounds.top > calendarHeight;
-
-		var top = window.pageYOffset + inputBounds.top + (!showOnTop ? positionElement.offsetHeight + 2 : -calendarHeight - 2);
-
-		toggleClass(self.calendarContainer, "arrowTop", !showOnTop);
-		toggleClass(self.calendarContainer, "arrowBottom", showOnTop);
-
-		if (self.config.inline) return;
-
-		var left = window.pageXOffset + inputBounds.left;
-		var right = window.document.body.offsetWidth - inputBounds.right;
-		var rightMost = left + calendarWidth > window.document.body.offsetWidth;
-
-		toggleClass(self.calendarContainer, "rightMost", rightMost);
-
-		if (self.config.static) return;
-
-		self.calendarContainer.style.top = top + "px";
-
-		if (!rightMost) {
-			self.calendarContainer.style.left = left + "px";
-			self.calendarContainer.style.right = "auto";
-		} else {
-			self.calendarContainer.style.left = "auto";
-			self.calendarContainer.style.right = right + "px";
-		}
-	}
-
-	function redraw() {
-		if (self.config.noCalendar || self.isMobile) return;
-
-		buildWeekdays();
-		updateNavigationCurrentMonth();
-		buildDays();
-	}
-
-	function selectDate(e) {
-		e.preventDefault();
-		e.stopPropagation();
-
-		if (!e.target.classList.contains("flatpickr-day") || e.target.classList.contains("disabled") || e.target.classList.contains("notAllowed")) return;
-
-		var selectedDate = self.latestSelectedDateObj = new Date(e.target.dateObj.getTime());
-
-		var shouldChangeMonth = selectedDate.getMonth() !== self.currentMonth && self.config.mode !== "range";
-
-		self.selectedDateElem = e.target;
-
-		if (self.config.mode === "single") self.selectedDates = [selectedDate];else if (self.config.mode === "multiple") {
-			var selectedIndex = isDateSelected(selectedDate);
-			if (selectedIndex) self.selectedDates.splice(selectedIndex, 1);else self.selectedDates.push(selectedDate);
-		} else if (self.config.mode === "range") {
-			if (self.selectedDates.length === 2) self.clear();
-
-			self.selectedDates.push(selectedDate);
-
-			// unless selecting same date twice, sort ascendingly
-			if (compareDates(selectedDate, self.selectedDates[0], true) !== 0) self.selectedDates.sort(function (a, b) {
-				return a.getTime() - b.getTime();
-			});
-		}
-
-		setHoursFromInputs();
-
-		if (shouldChangeMonth) {
-			var isNewYear = self.currentYear !== selectedDate.getFullYear();
-			self.currentYear = selectedDate.getFullYear();
-			self.currentMonth = selectedDate.getMonth();
-
-			if (isNewYear) triggerEvent("YearChange");
-
-			triggerEvent("MonthChange");
-		}
-
-		buildDays();
-
-		if (self.minDateHasTime && self.config.enableTime && compareDates(selectedDate, self.config.minDate) === 0) setHoursFromDate(self.config.minDate);
-
-		updateValue();
-
-		if (self.config.enableTime) setTimeout(function () {
-			return self.showTimeInput = true;
-		}, 50);
-
-		if (self.config.mode === "range") {
-			if (self.selectedDates.length === 1) {
-				onMouseOver(e.target);
-
-				self._hidePrevMonthArrow = self._hidePrevMonthArrow || self.minRangeDate > self.days.childNodes[0].dateObj;
-
-				self._hideNextMonthArrow = self._hideNextMonthArrow || self.maxRangeDate < new Date(self.currentYear, self.currentMonth + 1, 1);
-			} else updateNavigationCurrentMonth();
-		}
-
-		triggerEvent("Change");
-
-		// maintain focus
-		if (!shouldChangeMonth) focusOnDay(e.target.$i, 0);else afterDayAnim(function () {
-			return self.selectedDateElem && self.selectedDateElem.focus();
-		});
-
-		if (self.config.enableTime) setTimeout(function () {
-			return self.hourElement.select();
-		}, 451);
-
-		if (self.config.closeOnSelect) {
-			var single = self.config.mode === "single" && !self.config.enableTime;
-			var range = self.config.mode === "range" && self.selectedDates.length === 2 && !self.config.enableTime;
-
-			if (single || range) self.close();
-		}
-	}
-
-	function set(option, value) {
-		if (option !== null && (typeof option === "undefined" ? "undefined" : _typeof(option)) === "object") _extends(self.config, option);else self.config[option] = value;
-
-		self.redraw();
-		jumpToDate();
-	}
-
-	function setSelectedDate(inputDate, format) {
-		if (inputDate instanceof Array) self.selectedDates = inputDate.map(function (d) {
-			return self.parseDate(d, format);
-		});else if (inputDate instanceof Date || !isNaN(inputDate)) self.selectedDates = [self.parseDate(inputDate, format)];else if (inputDate && inputDate.substring) {
-			switch (self.config.mode) {
-				case "single":
-					self.selectedDates = [self.parseDate(inputDate, format)];
-					break;
-
-				case "multiple":
-					self.selectedDates = inputDate.split("; ").map(function (date) {
-						return self.parseDate(date, format);
-					});
-					break;
-
-				case "range":
-					self.selectedDates = inputDate.split(self.l10n.rangeSeparator).map(function (date) {
-						return self.parseDate(date, format);
-					});
-
-					break;
-
-				default:
-					break;
-			}
-		}
-
-		self.selectedDates = self.selectedDates.filter(function (d) {
-			return d instanceof Date && isEnabled(d, false);
-		});
-
-		self.selectedDates.sort(function (a, b) {
-			return a.getTime() - b.getTime();
-		});
-	}
-
-	function setDate(date, triggerChange, format) {
-		if (date !== 0 && !date) return self.clear(triggerChange);
-
-		setSelectedDate(date, format);
-
-		self.showTimeInput = self.selectedDates.length > 0;
-		self.latestSelectedDateObj = self.selectedDates[0];
-
-		self.redraw();
-		jumpToDate();
-
-		setHoursFromDate();
-		updateValue(triggerChange);
-
-		if (triggerChange) triggerEvent("Change");
-	}
-
-	function parseDateRules(arr) {
-		for (var i = arr.length; i--;) {
-			if (typeof arr[i] === "string" || +arr[i]) arr[i] = self.parseDate(arr[i], null, true);else if (arr[i] && arr[i].from && arr[i].to) {
-				arr[i].from = self.parseDate(arr[i].from);
-				arr[i].to = self.parseDate(arr[i].to);
-			}
-		}
-
-		return arr.filter(function (x) {
-			return x;
-		}); // remove falsy values
-	}
-
-	function setupDates() {
-		self.selectedDates = [];
-		self.now = new Date();
-
-		var preloadedDate = self.config.defaultDate || self.input.value;
-		if (preloadedDate) setSelectedDate(preloadedDate, self.config.dateFormat);
-
-		var initialDate = self.selectedDates.length ? self.selectedDates[0] : self.config.minDate && self.config.minDate.getTime() > self.now ? self.config.minDate : self.config.maxDate && self.config.maxDate.getTime() < self.now ? self.config.maxDate : self.now;
-
-		self.currentYear = initialDate.getFullYear();
-		self.currentMonth = initialDate.getMonth();
-
-		if (self.selectedDates.length) self.latestSelectedDateObj = self.selectedDates[0];
-
-		self.minDateHasTime = self.config.minDate && (self.config.minDate.getHours() || self.config.minDate.getMinutes() || self.config.minDate.getSeconds());
-
-		self.maxDateHasTime = self.config.maxDate && (self.config.maxDate.getHours() || self.config.maxDate.getMinutes() || self.config.maxDate.getSeconds());
-
-		Object.defineProperty(self, "latestSelectedDateObj", {
-			get: function get() {
-				return self._selectedDateObj || self.selectedDates[self.selectedDates.length - 1];
-			},
-			set: function set(date) {
-				self._selectedDateObj = date;
-			}
-		});
-
-		if (!self.isMobile) {
-			Object.defineProperty(self, "showTimeInput", {
-				get: function get() {
-					return self._showTimeInput;
-				},
-				set: function set(bool) {
-					self._showTimeInput = bool;
-					if (self.calendarContainer) toggleClass(self.calendarContainer, "showTimeInput", bool);
-					positionCalendar();
-				}
-			});
-		}
-	}
-
-	function setupHelperFunctions() {
-		self.utils = {
-			duration: {
-				DAY: 86400000
-			},
-			getDaysinMonth: function getDaysinMonth(month, yr) {
-				month = typeof month === "undefined" ? self.currentMonth : month;
-
-				yr = typeof yr === "undefined" ? self.currentYear : yr;
-
-				if (month === 1 && (yr % 4 === 0 && yr % 100 !== 0 || yr % 400 === 0)) return 29;
-
-				return self.l10n.daysInMonth[month];
-			},
-			monthToStr: function monthToStr(monthNumber, shorthand) {
-				shorthand = typeof shorthand === "undefined" ? self.config.shorthandCurrentMonth : shorthand;
-
-				return self.l10n.months[(shorthand ? "short" : "long") + "hand"][monthNumber];
-			}
-		};
-	}
-
-	/* istanbul ignore next */
-	function setupFormats() {
-		self.formats = Object.create(FlatpickrInstance.prototype.formats);
-		["D", "F", "J", "M", "W", "l"].forEach(function (f) {
-			self.formats[f] = FlatpickrInstance.prototype.formats[f].bind(self);
-		});
-
-		self.revFormat.F = FlatpickrInstance.prototype.revFormat.F.bind(self);
-		self.revFormat.M = FlatpickrInstance.prototype.revFormat.M.bind(self);
-	}
-
-	function setupInputs() {
-		self.input = self.config.wrap ? self.element.querySelector("[data-input]") : self.element;
-
-		/* istanbul ignore next */
-		if (!self.input) return console.warn("Error: invalid input element specified", self.input);
-
-		self.input._type = self.input.type;
-		self.input.type = "text";
-
-		self.input.classList.add("flatpickr-input");
-		self._input = self.input;
-
-		if (self.config.altInput) {
-			// replicate self.element
-			self.altInput = createElement(self.input.nodeName, self.input.className + " " + self.config.altInputClass);
-			self._input = self.altInput;
-			self.altInput.placeholder = self.input.placeholder;
-			self.altInput.disabled = self.input.disabled;
-			self.altInput.required = self.input.required;
-			self.altInput.type = "text";
-			self.input.type = "hidden";
-
-			if (!self.config.static && self.input.parentNode) self.input.parentNode.insertBefore(self.altInput, self.input.nextSibling);
-		}
-
-		if (!self.config.allowInput) self._input.setAttribute("readonly", "readonly");
-
-		self._positionElement = self.config.positionElement || self._input;
-	}
-
-	function setupMobile() {
-		var inputType = self.config.enableTime ? self.config.noCalendar ? "time" : "datetime-local" : "date";
-
-		self.mobileInput = createElement("input", self.input.className + " flatpickr-mobile");
-		self.mobileInput.step = self.input.getAttribute("step") || "any";
-		self.mobileInput.tabIndex = 1;
-		self.mobileInput.type = inputType;
-		self.mobileInput.disabled = self.input.disabled;
-		self.mobileInput.placeholder = self.input.placeholder;
-
-		self.mobileFormatStr = inputType === "datetime-local" ? "Y-m-d\\TH:i:S" : inputType === "date" ? "Y-m-d" : "H:i:S";
-
-		if (self.selectedDates.length) {
-			self.mobileInput.defaultValue = self.mobileInput.value = self.formatDate(self.selectedDates[0], self.mobileFormatStr);
-		}
-
-		if (self.config.minDate) self.mobileInput.min = self.formatDate(self.config.minDate, "Y-m-d");
-
-		if (self.config.maxDate) self.mobileInput.max = self.formatDate(self.config.maxDate, "Y-m-d");
-
-		self.input.type = "hidden";
-		if (self.config.altInput) self.altInput.type = "hidden";
-
-		try {
-			self.input.parentNode.insertBefore(self.mobileInput, self.input.nextSibling);
-		} catch (e) {
-			//
-		}
-
-		self.mobileInput.addEventListener("change", function (e) {
-			self.setDate(e.target.value, false, self.mobileFormatStr);
-			triggerEvent("Change");
-			triggerEvent("Close");
-		});
-	}
-
-	function toggle() {
-		if (self.isOpen) return self.close();
-		self.open();
-	}
-
-	function triggerEvent(event, data) {
-		var hooks = self.config["on" + event];
-
-		if (hooks !== undefined && hooks.length > 0) {
-			for (var i = 0; hooks[i] && i < hooks.length; i++) {
-				hooks[i](self.selectedDates, self.input.value, self, data);
-			}
-		}
-
-		if (event === "Change") {
-			self.input.dispatchEvent(createEvent("change"));
-
-			// many front-end frameworks bind to the input event
-			self.input.dispatchEvent(createEvent("input"));
-		}
-	}
-
-	/**
-  * Creates an Event, normalized across browsers
-  * @param {String} name the event name, e.g. "click"
-  * @return {Event} the created event
-  */
-	function createEvent(name) {
-		if (self._supportsEvents) return new Event(name, { bubbles: true });
-
-		self._[name + "Event"] = document.createEvent("Event");
-		self._[name + "Event"].initEvent(name, true, true);
-		return self._[name + "Event"];
-	}
-
-	function isDateSelected(date) {
-		for (var i = 0; i < self.selectedDates.length; i++) {
-			if (compareDates(self.selectedDates[i], date) === 0) return "" + i;
-		}
-
-		return false;
-	}
-
-	function isDateInRange(date) {
-		if (self.config.mode !== "range" || self.selectedDates.length < 2) return false;
-		return compareDates(date, self.selectedDates[0]) >= 0 && compareDates(date, self.selectedDates[1]) <= 0;
-	}
-
-	function updateNavigationCurrentMonth() {
-		if (self.config.noCalendar || self.isMobile || !self.monthNav) return;
-
-		self.currentMonthElement.textContent = self.utils.monthToStr(self.currentMonth) + " ";
-		self.currentYearElement.value = self.currentYear;
-
-		self._hidePrevMonthArrow = self.config.minDate && (self.currentYear === self.config.minDate.getFullYear() ? self.currentMonth <= self.config.minDate.getMonth() : self.currentYear < self.config.minDate.getFullYear());
-
-		self._hideNextMonthArrow = self.config.maxDate && (self.currentYear === self.config.maxDate.getFullYear() ? self.currentMonth + 1 > self.config.maxDate.getMonth() : self.currentYear > self.config.maxDate.getFullYear());
-	}
-
-	/**
-  * Updates the values of inputs associated with the calendar
-  * @return {void}
-  */
-	function updateValue(triggerChange) {
-		if (!self.selectedDates.length) return self.clear(triggerChange);
-
-		if (self.isMobile) {
-			self.mobileInput.value = self.selectedDates.length ? self.formatDate(self.latestSelectedDateObj, self.mobileFormatStr) : "";
-		}
-
-		var joinChar = self.config.mode !== "range" ? "; " : self.l10n.rangeSeparator;
-
-		self.input.value = self.selectedDates.map(function (dObj) {
-			return self.formatDate(dObj, self.config.dateFormat);
-		}).join(joinChar);
-
-		if (self.config.altInput) {
-			self.altInput.value = self.selectedDates.map(function (dObj) {
-				return self.formatDate(dObj, self.config.altFormat);
-			}).join(joinChar);
-		}
-
-		if (triggerChange !== false) triggerEvent("ValueUpdate");
-	}
-
-	function mouseDelta(e) {
-		return Math.max(-1, Math.min(1, e.wheelDelta || -e.deltaY));
-	}
-
-	function onMonthNavScroll(e) {
-		e.preventDefault();
-		var isYear = self.currentYearElement.parentNode.contains(e.target);
-
-		if (e.target === self.currentMonthElement || isYear) {
-
-			var delta = mouseDelta(e);
-
-			if (isYear) {
-				changeYear(self.currentYear + delta);
-				e.target.value = self.currentYear;
-			} else self.changeMonth(delta, true, false);
-		}
-	}
-
-	function onMonthNavClick(e) {
-		var isPrevMonth = self.prevMonthNav.contains(e.target);
-		var isNextMonth = self.nextMonthNav.contains(e.target);
-
-		if (isPrevMonth || isNextMonth) changeMonth(isPrevMonth ? -1 : 1);else if (e.target === self.currentYearElement) {
-			e.preventDefault();
-			self.currentYearElement.select();
-		} else if (e.target.className === "arrowUp") self.changeYear(self.currentYear + 1);else if (e.target.className === "arrowDown") self.changeYear(self.currentYear - 1);
-	}
-
-	/**
-  * Creates an HTMLElement with given tag, class, and textual content
-  * @param {String} tag the HTML tag
-  * @param {String} className the new element's class name
-  * @param {String} content The new element's text content
-  * @return {HTMLElement} the created HTML element
-  */
-	function createElement(tag, className, content) {
-		var e = window.document.createElement(tag);
-		className = className || "";
-		content = content || "";
-
-		e.className = className;
-
-		if (content !== undefined) e.textContent = content;
-
-		return e;
-	}
-
-	function arrayify(obj) {
-		if (obj instanceof Array) return obj;
-		return [obj];
-	}
-
-	function toggleClass(elem, className, bool) {
-		if (bool) return elem.classList.add(className);
-		elem.classList.remove(className);
-	}
-
-	/* istanbul ignore next */
-	function debounce(func, wait, immediate) {
-		var timeout = void 0;
-		return function () {
-			var context = this,
-			    args = arguments;
-			clearTimeout(timeout);
-			timeout = setTimeout(function () {
-				timeout = null;
-				if (!immediate) func.apply(context, args);
-			}, wait);
-			if (immediate && !timeout) func.apply(context, args);
-		};
-	}
-
-	/**
-  * Compute the difference in dates, measured in ms
-  * @param {Date} date1
-  * @param {Date} date2
-  * @param {Boolean} timeless whether to reset times of both dates to 00:00
-  * @return {Number} the difference in ms
-  */
-	function compareDates(date1, date2, timeless) {
-		if (!(date1 instanceof Date) || !(date2 instanceof Date)) return false;
-
-		if (timeless !== false) {
-			return new Date(date1.getTime()).setHours(0, 0, 0, 0) - new Date(date2.getTime()).setHours(0, 0, 0, 0);
-		}
-
-		return date1.getTime() - date2.getTime();
-	}
-
-	function timeWrapper(e) {
-		e.preventDefault();
-
-		var isKeyDown = e.type === "keydown",
-		    isWheel = e.type === "wheel",
-		    isIncrement = e.type === "increment",
-		    input = e.target;
-
-		if (self.amPM && e.target === self.amPM) return e.target.textContent = ["AM", "PM"][e.target.textContent === "AM" | 0];
-
-		var min = Number(input.min),
-		    max = Number(input.max),
-		    step = Number(input.step),
-		    curValue = parseInt(input.value, 10),
-		    delta = e.delta || (!isKeyDown ? Math.max(-1, Math.min(1, e.wheelDelta || -e.deltaY)) || 0 : e.which === 38 ? 1 : -1);
-
-		var newValue = curValue + step * delta;
-
-		if (typeof input.value !== "undefined" && input.value.length === 2) {
-			var isHourElem = input === self.hourElement,
-			    isMinuteElem = input === self.minuteElement;
-
-			if (newValue < min) {
-				newValue = max + newValue + !isHourElem + (isHourElem && !self.amPM);
-
-				if (isMinuteElem) incrementNumInput(null, -1, self.hourElement);
-			} else if (newValue > max) {
-				newValue = input === self.hourElement ? newValue - max - !self.amPM : min;
-
-				if (isMinuteElem) incrementNumInput(null, 1, self.hourElement);
-			}
-
-			if (self.amPM && isHourElem && (step === 1 ? newValue + curValue === 23 : Math.abs(newValue - curValue) > step)) self.amPM.textContent = self.amPM.textContent === "PM" ? "AM" : "PM";
-
-			input.value = self.pad(newValue);
-		}
-	}
-
-	init();
-	return self;
-}
-
-FlatpickrInstance.prototype = {
-	formats: {
-		// get the date in UTC
-		Z: function Z(date) {
-			return date.toISOString();
-		},
-
-		// weekday name, short, e.g. Thu
-		D: function D(date) {
-			return this.l10n.weekdays.shorthand[this.formats.w(date)];
-		},
-
-		// full month name e.g. January
-		F: function F(date) {
-			return this.utils.monthToStr(this.formats.n(date) - 1, false);
-		},
-
-		// padded hour 1-12
-		G: function G(date) {
-			return FlatpickrInstance.prototype.pad(FlatpickrInstance.prototype.formats.h(date));
-		},
-
-		// hours with leading zero e.g. 03
-		H: function H(date) {
-			return FlatpickrInstance.prototype.pad(date.getHours());
-		},
-
-		// day (1-30) with ordinal suffix e.g. 1st, 2nd
-		J: function J(date) {
-			return date.getDate() + this.l10n.ordinal(date.getDate());
-		},
-
-		// AM/PM
-		K: function K(date) {
-			return date.getHours() > 11 ? "PM" : "AM";
-		},
-
-		// shorthand month e.g. Jan, Sep, Oct, etc
-		M: function M(date) {
-			return this.utils.monthToStr(date.getMonth(), true);
-		},
-
-		// seconds 00-59
-		S: function S(date) {
-			return FlatpickrInstance.prototype.pad(date.getSeconds());
-		},
-
-		// unix timestamp
-		U: function U(date) {
-			return date.getTime() / 1000;
-		},
-
-		W: function W(date) {
-			return this.config.getWeek(date);
-		},
-
-		// full year e.g. 2016
-		Y: function Y(date) {
-			return date.getFullYear();
-		},
-
-		// day in month, padded (01-30)
-		d: function d(date) {
-			return FlatpickrInstance.prototype.pad(date.getDate());
-		},
-
-		// hour from 1-12 (am/pm)
-		h: function h(date) {
-			return date.getHours() % 12 ? date.getHours() % 12 : 12;
-		},
-
-		// minutes, padded with leading zero e.g. 09
-		i: function i(date) {
-			return FlatpickrInstance.prototype.pad(date.getMinutes());
-		},
-
-		// day in month (1-30)
-		j: function j(date) {
-			return date.getDate();
-		},
-
-		// weekday name, full, e.g. Thursday
-		l: function l(date) {
-			return this.l10n.weekdays.longhand[date.getDay()];
-		},
-
-		// padded month number (01-12)
-		m: function m(date) {
-			return FlatpickrInstance.prototype.pad(date.getMonth() + 1);
-		},
-
-		// the month number (1-12)
-		n: function n(date) {
-			return date.getMonth() + 1;
-		},
-
-		// seconds 0-59
-		s: function s(date) {
-			return date.getSeconds();
-		},
-
-		// number of the day of the week
-		w: function w(date) {
-			return date.getDay();
-		},
-
-		// last two digits of year e.g. 16 for 2016
-		y: function y(date) {
-			return String(date.getFullYear()).substring(2);
-		}
-	},
-
-	/**
-  * Formats a given Date object into a string based on supplied format
-  * @param {Date} dateObj the date object
-  * @param {String} frmt a string composed of formatting tokens e.g. "Y-m-d"
-  * @return {String} The textual representation of the date e.g. 2017-02-03
-  */
-	formatDate: function formatDate(dateObj, frmt) {
-		var _this = this;
-
-		if (this.config !== undefined && this.config.formatDate !== undefined) return this.config.formatDate(dateObj, frmt);
-
-		return frmt.split("").map(function (c, i, arr) {
-			return _this.formats[c] && arr[i - 1] !== "\\" ? _this.formats[c](dateObj) : c !== "\\" ? c : "";
-		}).join("");
-	},
-
-
-	revFormat: {
-		D: function D() {},
-		F: function F(dateObj, monthName) {
-			dateObj.setMonth(this.l10n.months.longhand.indexOf(monthName));
-		},
-		G: function G(dateObj, hour) {
-			dateObj.setHours(parseFloat(hour));
-		},
-		H: function H(dateObj, hour) {
-			dateObj.setHours(parseFloat(hour));
-		},
-		J: function J(dateObj, day) {
-			dateObj.setDate(parseFloat(day));
-		},
-		K: function K(dateObj, amPM) {
-			var hours = dateObj.getHours();
-
-			if (hours !== 12) dateObj.setHours(hours % 12 + 12 * /pm/i.test(amPM));
-		},
-		M: function M(dateObj, shortMonth) {
-			dateObj.setMonth(this.l10n.months.shorthand.indexOf(shortMonth));
-		},
-		S: function S(dateObj, seconds) {
-			dateObj.setSeconds(seconds);
-		},
-		U: function U(dateObj, unixSeconds) {
-			return new Date(parseFloat(unixSeconds) * 1000);
-		},
-
-		W: function W(dateObj, weekNumber) {
-			weekNumber = parseInt(weekNumber);
-			return new Date(dateObj.getFullYear(), 0, 2 + (weekNumber - 1) * 7, 0, 0, 0, 0, 0);
-		},
-		Y: function Y(dateObj, year) {
-			dateObj.setFullYear(year);
-		},
-		Z: function Z(dateObj, ISODate) {
-			return new Date(ISODate);
-		},
-
-		d: function d(dateObj, day) {
-			dateObj.setDate(parseFloat(day));
-		},
-		h: function h(dateObj, hour) {
-			dateObj.setHours(parseFloat(hour));
-		},
-		i: function i(dateObj, minutes) {
-			dateObj.setMinutes(parseFloat(minutes));
-		},
-		j: function j(dateObj, day) {
-			dateObj.setDate(parseFloat(day));
-		},
-		l: function l() {},
-		m: function m(dateObj, month) {
-			dateObj.setMonth(parseFloat(month) - 1);
-		},
-		n: function n(dateObj, month) {
-			dateObj.setMonth(parseFloat(month) - 1);
-		},
-		s: function s(dateObj, seconds) {
-			dateObj.setSeconds(parseFloat(seconds));
-		},
-		w: function w() {},
-		y: function y(dateObj, year) {
-			dateObj.setFullYear(2000 + parseFloat(year));
-		}
-	},
-
-	tokenRegex: {
-		D: "(\\w+)",
-		F: "(\\w+)",
-		G: "(\\d\\d|\\d)",
-		H: "(\\d\\d|\\d)",
-		J: "(\\d\\d|\\d)\\w+",
-		K: "(am|AM|Am|aM|pm|PM|Pm|pM)",
-		M: "(\\w+)",
-		S: "(\\d\\d|\\d)",
-		U: "(.+)",
-		W: "(\\d\\d|\\d)",
-		Y: "(\\d{4})",
-		Z: "(.+)",
-		d: "(\\d\\d|\\d)",
-		h: "(\\d\\d|\\d)",
-		i: "(\\d\\d|\\d)",
-		j: "(\\d\\d|\\d)",
-		l: "(\\w+)",
-		m: "(\\d\\d|\\d)",
-		n: "(\\d\\d|\\d)",
-		s: "(\\d\\d|\\d)",
-		w: "(\\d\\d|\\d)",
-		y: "(\\d{2})"
-	},
-
-	pad: function pad(number) {
-		return ("0" + number).slice(-2);
-	},
-
-	/**
-  * Parses a date(+time) string into a Date object
-  * @param {String} date the date string, e.g. 2017-02-03 14:45
-  * @param {String} givenFormat the date format, e.g. Y-m-d H:i
-  * @param {Boolean} timeless whether to reset the time of Date object
-  * @return {Date} the parsed Date object
-  */
-	parseDate: function parseDate(date, givenFormat, timeless) {
-		var _this2 = this;
-
-		if (date !== 0 && !date) return null;
-
-		var date_orig = date;
-
-		if (date instanceof Date) date = new Date(date.getTime()); // create a copy
-
-		else if (date.toFixed !== undefined) // timestamp
-				date = new Date(date);else {
-				// date string
-				var format = givenFormat || (this.config || flatpickr.defaultConfig).dateFormat;
-				date = String(date).trim();
-
-				if (date === "today") {
-					date = new Date();
-					timeless = true;
-				} else if (/Z$/.test(date) || /GMT$/.test(date)) // datestrings w/ timezone
-					date = new Date(date);else if (this.config && this.config.parseDate) date = this.config.parseDate(date, format);else {
-					(function () {
-						var parsedDate = !_this2.config || !_this2.config.noCalendar ? new Date(new Date().getFullYear(), 0, 1, 0, 0, 0, 0) : new Date(new Date().setHours(0, 0, 0, 0));
-
-						var matched = void 0,
-						    ops = [];
-
-						for (var i = 0, matchIndex = 0, regexStr = ""; i < format.length; i++) {
-							var token = format[i];
-							var isBackSlash = token === "\\";
-							var escaped = format[i - 1] === "\\" || isBackSlash;
-
-							if (_this2.tokenRegex[token] && !escaped) {
-								regexStr += _this2.tokenRegex[token];
-								var match = new RegExp(regexStr).exec(date);
-								if (match && (matched = true)) {
-									ops[token !== "Y" ? "push" : "unshift"]({
-										fn: _this2.revFormat[token],
-										val: match[++matchIndex]
-									});
-								}
-							} else if (!isBackSlash) regexStr += "."; // don't really care
-
-							ops.forEach(function (_ref) {
-								var fn = _ref.fn,
-								    val = _ref.val;
-								return parsedDate = fn(parsedDate, val) || parsedDate;
-							});
-						}
-
-						date = matched ? parsedDate : null;
-					})();
-				}
-			}
-
-		/* istanbul ignore next */
-		if (!(date instanceof Date)) {
-			console.warn("flatpickr: invalid date " + date_orig);
-			console.info(this.element);
-			return null;
-		}
-
-		if (timeless === true) date.setHours(0, 0, 0, 0);
-
-		return date;
-	}
-};
-
-/* istanbul ignore next */
-function _flatpickr(nodeList, config) {
-	var nodes = Array.prototype.slice.call(nodeList); // static list
-	var instances = [];
-	for (var i = 0; i < nodes.length; i++) {
-		try {
-			if (nodes[i].getAttribute("data-fp-omit") !== null) continue;
-
-			if (nodes[i]._flatpickr) {
-				nodes[i]._flatpickr.destroy();
-				nodes[i]._flatpickr = null;
-			}
-
-			nodes[i]._flatpickr = new FlatpickrInstance(nodes[i], config || {});
-			instances.push(nodes[i]._flatpickr);
-		} catch (e) {
-			console.warn(e, e.stack);
-		}
-	}
-
-	return instances.length === 1 ? instances[0] : instances;
-}
-
-/* istanbul ignore next */
-if (typeof HTMLElement !== "undefined") {
-	// browser env
-	HTMLCollection.prototype.flatpickr = NodeList.prototype.flatpickr = function (config) {
-		return _flatpickr(this, config);
-	};
-
-	HTMLElement.prototype.flatpickr = function (config) {
-		return _flatpickr([this], config);
-	};
-}
-
-/* istanbul ignore next */
-function flatpickr(selector, config) {
-	if (selector instanceof NodeList) return _flatpickr(selector, config);else if (!(selector instanceof HTMLElement)) return _flatpickr(window.document.querySelectorAll(selector), config);
-
-	return _flatpickr([selector], config);
-}
-
-/* istanbul ignore next */
-flatpickr.defaultConfig = FlatpickrInstance.defaultConfig = {
-	mode: "single",
-
-	position: "auto",
-
-	animate: typeof window !== "undefined" && window.navigator.userAgent.indexOf("MSIE") === -1,
-
-	// wrap: see https://chmln.github.io/flatpickr/examples/#flatpickr-external-elements
-	wrap: false,
-
-	// enables week numbers
-	weekNumbers: false,
-
-	// allow manual datetime input
-	allowInput: false,
-
-	/*
- 	clicking on input opens the date(time)picker.
- 	disable if you wish to open the calendar manually with .open()
- */
-	clickOpens: true,
-
-	/*
- 	closes calendar after date selection,
- 	unless 'mode' is 'multiple' or enableTime is true
- */
-	closeOnSelect: true,
-
-	// display time picker in 24 hour mode
-	time_24hr: false,
-
-	// enables the time picker functionality
-	enableTime: false,
-
-	// noCalendar: true will hide the calendar. use for a time picker along w/ enableTime
-	noCalendar: false,
-
-	// more date format chars at https://chmln.github.io/flatpickr/#dateformat
-	dateFormat: "Y-m-d",
-
-	// date format used in aria-label for days
-	ariaDateFormat: "F j, Y",
-
-	// altInput - see https://chmln.github.io/flatpickr/#altinput
-	altInput: false,
-
-	// the created altInput element will have this class.
-	altInputClass: "form-control input",
-
-	// same as dateFormat, but for altInput
-	altFormat: "F j, Y", // defaults to e.g. June 10, 2016
-
-	// defaultDate - either a datestring or a date object. used for datetimepicker"s initial value
-	defaultDate: null,
-
-	// the minimum date that user can pick (inclusive)
-	minDate: null,
-
-	// the maximum date that user can pick (inclusive)
-	maxDate: null,
-
-	// dateparser that transforms a given string to a date object
-	parseDate: null,
-
-	// dateformatter that transforms a given date object to a string, according to passed format
-	formatDate: null,
-
-	getWeek: function getWeek(givenDate) {
-		var date = new Date(givenDate.getTime());
-		var onejan = new Date(date.getFullYear(), 0, 1);
-		return Math.ceil(((date - onejan) / 86400000 + onejan.getDay() + 1) / 7);
-	},
-
-
-	// see https://chmln.github.io/flatpickr/#disable
-	enable: [],
-
-	// see https://chmln.github.io/flatpickr/#disable
-	disable: [],
-
-	// display the short version of month names - e.g. Sep instead of September
-	shorthandCurrentMonth: false,
-
-	// displays calendar inline. see https://chmln.github.io/flatpickr/#inline-calendar
-	inline: false,
-
-	// position calendar inside wrapper and next to the input element
-	// leave at false unless you know what you"re doing
-	"static": false,
-
-	// DOM node to append the calendar to in *static* mode
-	appendTo: null,
-
-	// code for previous/next icons. this is where you put your custom icon code e.g. fontawesome
-	prevArrow: "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 17 17'><g></g><path d='M5.207 8.471l7.146 7.147-0.707 0.707-7.853-7.854 7.854-7.853 0.707 0.707-7.147 7.146z' /></svg>",
-	nextArrow: "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 17 17'><g></g><path d='M13.207 8.472l-7.854 7.854-0.707-0.707 7.146-7.146-7.146-7.148 0.707-0.707 7.854 7.854z' /></svg>",
-
-	// enables seconds in the time picker
-	enableSeconds: false,
-
-	// step size used when scrolling/incrementing the hour element
-	hourIncrement: 1,
-
-	// step size used when scrolling/incrementing the minute element
-	minuteIncrement: 5,
-
-	// initial value in the hour element
-	defaultHour: 12,
-
-	// initial value in the minute element
-	defaultMinute: 0,
-
-	// initial value in the seconds element
-	defaultSeconds: 0,
-
-	// disable native mobile datetime input support
-	disableMobile: false,
-
-	// default locale
-	locale: "default",
-
-	plugins: [],
-
-	ignoredFocusElements: [],
-
-	// called every time calendar is closed
-	onClose: undefined, // function (dateObj, dateStr) {}
-
-	// onChange callback when user selects a date or time
-	onChange: undefined, // function (dateObj, dateStr) {}
-
-	// called for every day element
-	onDayCreate: undefined,
-
-	// called every time the month is changed
-	onMonthChange: undefined,
-
-	// called every time calendar is opened
-	onOpen: undefined, // function (dateObj, dateStr) {}
-
-	// called after the configuration has been parsed
-	onParseConfig: undefined,
-
-	// called after calendar is ready
-	onReady: undefined, // function (dateObj, dateStr) {}
-
-	// called after input value updated
-	onValueUpdate: undefined,
-
-	// called every time the year is changed
-	onYearChange: undefined,
-
-	onKeyDown: undefined,
-
-	onDestroy: undefined
-};
-
-/* istanbul ignore next */
-flatpickr.l10ns = {
-	en: {
-		weekdays: {
-			shorthand: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-			longhand: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-		},
-		months: {
-			shorthand: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-			longhand: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-		},
-		daysInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-		firstDayOfWeek: 0,
-		ordinal: function ordinal(nth) {
-			var s = nth % 100;
-			if (s > 3 && s < 21) return "th";
-			switch (s % 10) {
-				case 1:
-					return "st";
-				case 2:
-					return "nd";
-				case 3:
-					return "rd";
-				default:
-					return "th";
-			}
-		},
-		rangeSeparator: " to ",
-		weekAbbreviation: "Wk",
-		scrollTitle: "Scroll to increment",
-		toggleTitle: "Click to toggle"
-	}
-};
-
-flatpickr.l10ns.default = Object.create(flatpickr.l10ns.en);
-flatpickr.localize = function (l10n) {
-	return _extends(flatpickr.l10ns.default, l10n || {});
-};
-flatpickr.setDefaults = function (config) {
-	return _extends(flatpickr.defaultConfig, config || {});
-};
-
-/* istanbul ignore next */
-if (typeof jQuery !== "undefined") {
-	jQuery.fn.flatpickr = function (config) {
-		return _flatpickr(this, config);
-	};
-}
-
-Date.prototype.fp_incr = function (days) {
-	return new Date(this.getFullYear(), this.getMonth(), this.getDate() + parseInt(days, 10));
-};
-
-if (true) module.exports = flatpickr;
-
-/***/ }),
-
-/***/ 129:
+/***/ 126:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_StartEndDate_vue__ = __webpack_require__(142);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7d00f708_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_StartEndDate_vue__ = __webpack_require__(143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_StartEndDate_vue__ = __webpack_require__(141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7d00f708_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_StartEndDate_vue__ = __webpack_require__(142);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(141)
+  __webpack_require__(140)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
@@ -3169,15 +883,15 @@ var __vue_scopeId__ = "data-v-7d00f708"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_StartEndDate_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7d00f708_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_StartEndDate_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_StartEndDate_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7d00f708_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_StartEndDate_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/StartEndDate.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] StartEndDate.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -3189,7 +903,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-7d00f708", Component.options)
   } else {
     hotAPI.reload("data-v-7d00f708", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -3200,25 +914,2146 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 130:
+/***/ 127:
+/***/ (function(module, exports, __webpack_require__) {
+
+/* flatpickr v3.1.4, @license MIT */
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.flatpickr = factory());
+}(this, (function () { 'use strict';
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+
+
+var __assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+    return t;
+};
+
+function compareDates(date1, date2, timeless) {
+    if (timeless !== false) {
+        return (new Date(date1.getTime()).setHours(0, 0, 0, 0) -
+            new Date(date2.getTime()).setHours(0, 0, 0, 0));
+    }
+    return date1.getTime() - date2.getTime();
+}
+var monthToStr = function (monthNumber, shorthand, locale) { return locale.months[shorthand ? "shorthand" : "longhand"][monthNumber]; };
+var getWeek = function (givenDate) {
+    var onejan = new Date(givenDate.getFullYear(), 0, 1);
+    return Math.ceil(((givenDate.getTime() - onejan.getTime()) / 86400000 +
+        onejan.getDay() +
+        1) /
+        7);
+};
+var duration = {
+    DAY: 86400000,
+};
+
+var defaults = {
+    _disable: [],
+    _enable: [],
+    allowInput: false,
+    altFormat: "F j, Y",
+    altInput: false,
+    altInputClass: "form-control input",
+    animate: window && window.navigator.userAgent.indexOf("MSIE") === -1,
+    ariaDateFormat: "F j, Y",
+    clickOpens: true,
+    closeOnSelect: true,
+    conjunction: ", ",
+    dateFormat: "Y-m-d",
+    defaultHour: 12,
+    defaultMinute: 0,
+    defaultSeconds: 0,
+    disable: [],
+    disableMobile: false,
+    enable: [],
+    enableSeconds: false,
+    enableTime: false,
+    getWeek: getWeek,
+    hourIncrement: 1,
+    ignoredFocusElements: [],
+    inline: false,
+    locale: "default",
+    minuteIncrement: 5,
+    mode: "single",
+    nextArrow: "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 17 17'><g></g><path d='M13.207 8.472l-7.854 7.854-0.707-0.707 7.146-7.146-7.146-7.148 0.707-0.707 7.854 7.854z' /></svg>",
+    noCalendar: false,
+    onChange: [],
+    onClose: [],
+    onDayCreate: [],
+    onDestroy: [],
+    onKeyDown: [],
+    onMonthChange: [],
+    onOpen: [],
+    onParseConfig: [],
+    onReady: [],
+    onValueUpdate: [],
+    onYearChange: [],
+    plugins: [],
+    position: "auto",
+    positionElement: undefined,
+    prevArrow: "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 17 17'><g></g><path d='M5.207 8.471l7.146 7.147-0.707 0.707-7.853-7.854 7.854-7.853 0.707 0.707-7.147 7.146z' /></svg>",
+    shorthandCurrentMonth: false,
+    static: false,
+    time_24hr: false,
+    weekNumbers: false,
+    wrap: false,
+};
+
+var english = {
+    weekdays: {
+        shorthand: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        longhand: [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+        ],
+    },
+    months: {
+        shorthand: [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ],
+        longhand: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ],
+    },
+    daysInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+    firstDayOfWeek: 0,
+    ordinal: function (nth) {
+        var s = nth % 100;
+        if (s > 3 && s < 21)
+            return "th";
+        switch (s % 10) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    },
+    rangeSeparator: " to ",
+    weekAbbreviation: "Wk",
+    scrollTitle: "Scroll to increment",
+    toggleTitle: "Click to toggle",
+    amPM: ["AM", "PM"],
+};
+
+var pad = function (number) { return ("0" + number).slice(-2); };
+var int = function (bool) { return (bool === true ? 1 : 0); };
+function debounce(func, wait, immediate) {
+    if (immediate === void 0) { immediate = false; }
+    var timeout;
+    return function () {
+        var context = this, args = arguments;
+        timeout !== null && clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            timeout = null;
+            if (!immediate)
+                func.apply(context, args);
+        }, wait);
+        if (immediate && !timeout)
+            func.apply(context, args);
+    };
+}
+var arrayify = function (obj) {
+    return obj instanceof Array ? obj : [obj];
+};
+function mouseDelta(e) {
+    var delta = e.wheelDelta || -e.deltaY;
+    return delta >= 0 ? 1 : -1;
+}
+
+function toggleClass(elem, className, bool) {
+    if (bool === true)
+        return elem.classList.add(className);
+    elem.classList.remove(className);
+}
+function createElement(tag, className, content) {
+    var e = window.document.createElement(tag);
+    className = className || "";
+    content = content || "";
+    e.className = className;
+    if (content !== undefined)
+        e.textContent = content;
+    return e;
+}
+function clearNode(node) {
+    while (node.firstChild)
+        node.removeChild(node.firstChild);
+}
+function findParent(node, condition) {
+    if (condition(node))
+        return node;
+    else if (node.parentNode)
+        return findParent(node.parentNode, condition);
+    return undefined;
+}
+function createNumberInput(inputClassName) {
+    var wrapper = createElement("div", "numInputWrapper"), numInput = createElement("input", "numInput " + inputClassName), arrowUp = createElement("span", "arrowUp"), arrowDown = createElement("span", "arrowDown");
+    numInput.type = "text";
+    numInput.pattern = "\\d*";
+    wrapper.appendChild(numInput);
+    wrapper.appendChild(arrowUp);
+    wrapper.appendChild(arrowDown);
+    return wrapper;
+}
+
+var do_nothing = function () { return undefined; };
+var revFormat = {
+    D: do_nothing,
+    F: function (dateObj, monthName, locale) {
+        dateObj.setMonth(locale.months.longhand.indexOf(monthName));
+    },
+    G: function (dateObj, hour) {
+        dateObj.setHours(parseFloat(hour));
+    },
+    H: function (dateObj, hour) {
+        dateObj.setHours(parseFloat(hour));
+    },
+    J: function (dateObj, day) {
+        dateObj.setDate(parseFloat(day));
+    },
+    K: function (dateObj, amPM) {
+        dateObj.setHours(dateObj.getHours() % 12 + 12 * int(/pm/i.test(amPM)));
+    },
+    M: function (dateObj, shortMonth, locale) {
+        dateObj.setMonth(locale.months.shorthand.indexOf(shortMonth));
+    },
+    S: function (dateObj, seconds) {
+        dateObj.setSeconds(parseFloat(seconds));
+    },
+    U: function (_, unixSeconds) { return new Date(parseFloat(unixSeconds) * 1000); },
+    W: function (dateObj, weekNum) {
+        var weekNumber = parseInt(weekNum);
+        return new Date(dateObj.getFullYear(), 0, 2 + (weekNumber - 1) * 7, 0, 0, 0, 0);
+    },
+    Y: function (dateObj, year) {
+        dateObj.setFullYear(parseFloat(year));
+    },
+    Z: function (_, ISODate) { return new Date(ISODate); },
+    d: function (dateObj, day) {
+        dateObj.setDate(parseFloat(day));
+    },
+    h: function (dateObj, hour) {
+        dateObj.setHours(parseFloat(hour));
+    },
+    i: function (dateObj, minutes) {
+        dateObj.setMinutes(parseFloat(minutes));
+    },
+    j: function (dateObj, day) {
+        dateObj.setDate(parseFloat(day));
+    },
+    l: do_nothing,
+    m: function (dateObj, month) {
+        dateObj.setMonth(parseFloat(month) - 1);
+    },
+    n: function (dateObj, month) {
+        dateObj.setMonth(parseFloat(month) - 1);
+    },
+    s: function (dateObj, seconds) {
+        dateObj.setSeconds(parseFloat(seconds));
+    },
+    w: do_nothing,
+    y: function (dateObj, year) {
+        dateObj.setFullYear(2000 + parseFloat(year));
+    },
+};
+var tokenRegex = {
+    D: "(\\w+)",
+    F: "(\\w+)",
+    G: "(\\d\\d|\\d)",
+    H: "(\\d\\d|\\d)",
+    J: "(\\d\\d|\\d)\\w+",
+    K: "(am|AM|Am|aM|pm|PM|Pm|pM)",
+    M: "(\\w+)",
+    S: "(\\d\\d|\\d)",
+    U: "(.+)",
+    W: "(\\d\\d|\\d)",
+    Y: "(\\d{4})",
+    Z: "(.+)",
+    d: "(\\d\\d|\\d)",
+    h: "(\\d\\d|\\d)",
+    i: "(\\d\\d|\\d)",
+    j: "(\\d\\d|\\d)",
+    l: "(\\w+)",
+    m: "(\\d\\d|\\d)",
+    n: "(\\d\\d|\\d)",
+    s: "(\\d\\d|\\d)",
+    w: "(\\d\\d|\\d)",
+    y: "(\\d{2})",
+};
+var formats = {
+    Z: function (date) { return date.toISOString(); },
+    D: function (date, locale, options) {
+        return locale.weekdays.shorthand[formats.w(date, locale, options)];
+    },
+    F: function (date, locale, options) {
+        return monthToStr(formats.n(date, locale, options) - 1, false, locale);
+    },
+    G: function (date, locale, options) {
+        return pad(formats.h(date, locale, options));
+    },
+    H: function (date) { return pad(date.getHours()); },
+    J: function (date, locale) {
+        return locale.ordinal !== undefined
+            ? date.getDate() + locale.ordinal(date.getDate())
+            : date.getDate();
+    },
+    K: function (date) { return (date.getHours() > 11 ? "PM" : "AM"); },
+    M: function (date, locale) {
+        return monthToStr(date.getMonth(), true, locale);
+    },
+    S: function (date) { return pad(date.getSeconds()); },
+    U: function (date) { return date.getTime() / 1000; },
+    W: function (date, _, options) {
+        return options.getWeek(date);
+    },
+    Y: function (date) { return date.getFullYear(); },
+    d: function (date) { return pad(date.getDate()); },
+    h: function (date) { return (date.getHours() % 12 ? date.getHours() % 12 : 12); },
+    i: function (date) { return pad(date.getMinutes()); },
+    j: function (date) { return date.getDate(); },
+    l: function (date, locale) {
+        return locale.weekdays.longhand[date.getDay()];
+    },
+    m: function (date) { return pad(date.getMonth() + 1); },
+    n: function (date) { return date.getMonth() + 1; },
+    s: function (date) { return date.getSeconds(); },
+    w: function (date) { return date.getDay(); },
+    y: function (date) { return String(date.getFullYear()).substring(2); },
+};
+
+function FlatpickrInstance(element, instanceConfig) {
+    var self = {};
+    self.parseDate = parseDate;
+    self.formatDate = formatDate;
+    self._animationLoop = [];
+    self._handlers = [];
+    self._bind = bind;
+    self._setHoursFromDate = setHoursFromDate;
+    self.changeMonth = changeMonth;
+    self.changeYear = changeYear;
+    self.clear = clear;
+    self.close = close;
+    self._createElement = createElement;
+    self.destroy = destroy;
+    self.isEnabled = isEnabled;
+    self.jumpToDate = jumpToDate;
+    self.open = open;
+    self.redraw = redraw;
+    self.set = set;
+    self.setDate = setDate;
+    self.toggle = toggle;
+    function setupHelperFunctions() {
+        self.utils = {
+            getDaysInMonth: function (month, yr) {
+                if (month === void 0) { month = self.currentMonth; }
+                if (yr === void 0) { yr = self.currentYear; }
+                if (month === 1 && ((yr % 4 === 0 && yr % 100 !== 0) || yr % 400 === 0))
+                    return 29;
+                return self.l10n.daysInMonth[month];
+            },
+        };
+    }
+    function init() {
+        self.element = self.input = element;
+        self.isOpen = false;
+        parseConfig();
+        setupLocale();
+        setupInputs();
+        setupDates();
+        setupHelperFunctions();
+        if (!self.isMobile)
+            build();
+        bindEvents();
+        if (self.selectedDates.length || self.config.noCalendar) {
+            if (self.config.enableTime) {
+                setHoursFromDate(self.config.noCalendar
+                    ? self.latestSelectedDateObj || self.config.minDate
+                    : undefined);
+            }
+            updateValue(false);
+        }
+        self.showTimeInput =
+            self.selectedDates.length > 0 || self.config.noCalendar;
+        if (self.weekWrapper !== undefined && self.daysContainer !== undefined) {
+            self.calendarContainer.style.width =
+                self.daysContainer.offsetWidth + self.weekWrapper.offsetWidth + "px";
+        }
+        if (!self.isMobile)
+            positionCalendar();
+        triggerEvent("onReady");
+    }
+    function bindToInstance(fn) {
+        return fn.bind(self);
+    }
+    function updateTime(e) {
+        if (self.config.noCalendar && !self.selectedDates.length) {
+            self.setDate(new Date().setHours(self.config.defaultHour, self.config.defaultMinute, self.config.defaultSeconds), false);
+            setHoursFromInputs();
+            updateValue();
+        }
+        timeWrapper(e);
+        if (self.selectedDates.length === 0)
+            return;
+        if (!self.minDateHasTime ||
+            e.type !== "input" ||
+            e.target.value.length >= 2) {
+            setHoursFromInputs();
+            updateValue();
+        }
+        else {
+            setTimeout(function () {
+                setHoursFromInputs();
+                updateValue();
+            }, 1000);
+        }
+    }
+    function ampm2military(hour, amPM) {
+        return hour % 12 + 12 * int(amPM === "PM");
+    }
+    function military2ampm(hour) {
+        switch (hour % 24) {
+            case 0:
+            case 12:
+                return 12;
+            default:
+                return hour % 12;
+        }
+    }
+    function setHoursFromInputs() {
+        if (self.hourElement === undefined || self.minuteElement === undefined)
+            return;
+        var hours = (parseInt(self.hourElement.value.slice(-2), 10) || 0) % 24, minutes = (parseInt(self.minuteElement.value, 10) || 0) % 60, seconds = self.secondElement !== undefined
+            ? (parseInt(self.secondElement.value, 10) || 0) % 60
+            : 0;
+        if (self.amPM !== undefined)
+            hours = ampm2military(hours, self.amPM.textContent);
+        if (self.config.minDate &&
+            self.minDateHasTime &&
+            self.latestSelectedDateObj &&
+            compareDates(self.latestSelectedDateObj, self.config.minDate) === 0) {
+            hours = Math.max(hours, self.config.minDate.getHours());
+            if (hours === self.config.minDate.getHours())
+                minutes = Math.max(minutes, self.config.minDate.getMinutes());
+        }
+        if (self.config.maxDate &&
+            self.maxDateHasTime &&
+            self.latestSelectedDateObj &&
+            compareDates(self.latestSelectedDateObj, self.config.maxDate) === 0) {
+            hours = Math.min(hours, self.config.maxDate.getHours());
+            if (hours === self.config.maxDate.getHours())
+                minutes = Math.min(minutes, self.config.maxDate.getMinutes());
+        }
+        setHours(hours, minutes, seconds);
+    }
+    function setHoursFromDate(dateObj) {
+        var date = dateObj || self.latestSelectedDateObj;
+        if (date)
+            setHours(date.getHours(), date.getMinutes(), date.getSeconds());
+    }
+    function setHours(hours, minutes, seconds) {
+        if (self.latestSelectedDateObj !== undefined) {
+            self.latestSelectedDateObj.setHours(hours % 24, minutes, seconds || 0, 0);
+        }
+        if (!self.hourElement || !self.minuteElement || self.isMobile)
+            return;
+        self.hourElement.value = pad(!self.config.time_24hr
+            ? (12 + hours) % 12 + 12 * int(hours % 12 === 0)
+            : hours);
+        self.minuteElement.value = pad(minutes);
+        if (self.amPM !== undefined)
+            self.amPM.textContent = hours >= 12 ? "PM" : "AM";
+        if (self.secondElement !== undefined)
+            self.secondElement.value = pad(seconds);
+    }
+    function onYearInput(event) {
+        var year = parseInt(event.target.value) + (event.delta || 0);
+        if (year.toString().length === 4 || event.key === "Enter") {
+            self.currentYearElement.blur();
+            if (!/[^\d]/.test(year.toString()))
+                changeYear(year);
+        }
+    }
+    function bind(element, event, handler) {
+        if (event instanceof Array)
+            return event.forEach(function (ev) { return bind(element, ev, handler); });
+        if (element instanceof Array)
+            return element.forEach(function (el) { return bind(el, event, handler); });
+        element.addEventListener(event, handler);
+        self._handlers.push({ element: element, event: event, handler: handler });
+    }
+    function onClick(handler) {
+        return function (evt) { return evt.which === 1 && handler(evt); };
+    }
+    function triggerChange() {
+        triggerEvent("onChange");
+    }
+    function bindEvents() {
+        if (self.config.wrap) {
+            ["open", "close", "toggle", "clear"].forEach(function (evt) {
+                Array.prototype.forEach.call(self.element.querySelectorAll("[data-" + evt + "]"), function (el) {
+                    return bind(el, "click", self[evt]);
+                });
+            });
+        }
+        if (self.isMobile) {
+            setupMobile();
+            return;
+        }
+        var debouncedResize = debounce(onResize, 50);
+        self._debouncedChange = debounce(triggerChange, 300);
+        if (self.config.mode === "range" && self.daysContainer)
+            bind(self.daysContainer, "mouseover", function (e) {
+                return onMouseOver(e.target);
+            });
+        bind(window.document.body, "keydown", onKeyDown);
+        if (!self.config.static)
+            bind(self._input, "keydown", onKeyDown);
+        if (!self.config.inline && !self.config.static)
+            bind(window, "resize", debouncedResize);
+        if (window.ontouchstart !== undefined)
+            bind(window.document.body, "touchstart", documentClick);
+        bind(window.document.body, "mousedown", onClick(documentClick));
+        bind(self._input, "blur", documentClick);
+        if (self.config.clickOpens === true) {
+            bind(self._input, "focus", self.open);
+            bind(self._input, "mousedown", onClick(self.open));
+        }
+        if (self.daysContainer !== undefined) {
+            self.monthNav.addEventListener("wheel", function (e) { return e.preventDefault(); });
+            bind(self.monthNav, "wheel", debounce(onMonthNavScroll, 10));
+            bind(self.monthNav, "mousedown", onClick(onMonthNavClick));
+            bind(self.monthNav, ["keyup", "increment"], onYearInput);
+            bind(self.daysContainer, "mousedown", onClick(selectDate));
+            if (self.config.animate) {
+                bind(self.daysContainer, ["webkitAnimationEnd", "animationend"], animateDays);
+                bind(self.monthNav, ["webkitAnimationEnd", "animationend"], animateMonths);
+            }
+        }
+        if (self.timeContainer !== undefined &&
+            self.minuteElement !== undefined &&
+            self.hourElement !== undefined) {
+            var selText = function (e) {
+                return e.target.select();
+            };
+            bind(self.timeContainer, ["wheel", "input", "increment"], updateTime);
+            bind(self.timeContainer, "mousedown", onClick(timeIncrement));
+            bind(self.timeContainer, ["wheel", "increment"], self._debouncedChange);
+            bind(self.timeContainer, "input", triggerChange);
+            bind([self.hourElement, self.minuteElement], ["focus", "click"], selText);
+            if (self.secondElement !== undefined)
+                bind(self.secondElement, "focus", function () { return self.secondElement && self.secondElement.select(); });
+            if (self.amPM !== undefined) {
+                bind(self.amPM, "mousedown", onClick(function (e) {
+                    updateTime(e);
+                    triggerChange();
+                }));
+            }
+        }
+    }
+    function processPostDayAnimation() {
+        self._animationLoop.forEach(function (f) { return f(); });
+        self._animationLoop = [];
+    }
+    function animateDays(e) {
+        if (self.daysContainer && self.daysContainer.childNodes.length > 1) {
+            switch (e.animationName) {
+                case "fpSlideLeft":
+                    self.daysContainer.lastChild &&
+                        self.daysContainer.lastChild.classList.remove("slideLeftNew");
+                    self.daysContainer.removeChild(self.daysContainer
+                        .firstChild);
+                    self.days = self.daysContainer.firstChild;
+                    processPostDayAnimation();
+                    break;
+                case "fpSlideRight":
+                    self.daysContainer.firstChild &&
+                        self.daysContainer.firstChild.classList.remove("slideRightNew");
+                    self.daysContainer.removeChild(self.daysContainer
+                        .lastChild);
+                    self.days = self.daysContainer.firstChild;
+                    processPostDayAnimation();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    function animateMonths(e) {
+        switch (e.animationName) {
+            case "fpSlideLeftNew":
+            case "fpSlideRightNew":
+                self.navigationCurrentMonth.classList.remove("slideLeftNew");
+                self.navigationCurrentMonth.classList.remove("slideRightNew");
+                var nav = self.navigationCurrentMonth;
+                while (nav.nextSibling &&
+                    /curr/.test(nav.nextSibling.className))
+                    self.monthNav.removeChild(nav.nextSibling);
+                while (nav.previousSibling &&
+                    /curr/.test(nav.previousSibling.className))
+                    self.monthNav.removeChild(nav.previousSibling);
+                self.oldCurMonth = undefined;
+                break;
+        }
+    }
+    function jumpToDate(jumpDate) {
+        var jumpTo = jumpDate !== undefined
+            ? parseDate(jumpDate)
+            : self.latestSelectedDateObj ||
+                (self.config.minDate && self.config.minDate > self.now
+                    ? self.config.minDate
+                    : self.config.maxDate && self.config.maxDate < self.now
+                        ? self.config.maxDate
+                        : self.now);
+        try {
+            if (jumpTo !== undefined) {
+                self.currentYear = jumpTo.getFullYear();
+                self.currentMonth = jumpTo.getMonth();
+            }
+        }
+        catch (e) {
+            console.error(e.stack);
+            console.warn("Invalid date supplied: " + jumpTo);
+        }
+        self.redraw();
+    }
+    function timeIncrement(e) {
+        if (~e.target.className.indexOf("arrow"))
+            incrementNumInput(e, e.target.classList.contains("arrowUp") ? 1 : -1);
+    }
+    function incrementNumInput(e, delta, inputElem) {
+        var target = e && e.target;
+        var input = inputElem ||
+            (target && target.parentNode && target.parentNode.firstChild);
+        var event = createEvent("increment");
+        event.delta = delta;
+        input && input.dispatchEvent(event);
+    }
+    function build() {
+        var fragment = window.document.createDocumentFragment();
+        self.calendarContainer = createElement("div", "flatpickr-calendar");
+        self.calendarContainer.tabIndex = -1;
+        if (!self.config.noCalendar) {
+            fragment.appendChild(buildMonthNav());
+            self.innerContainer = createElement("div", "flatpickr-innerContainer");
+            if (self.config.weekNumbers) {
+                var _a = buildWeeks(), weekWrapper = _a.weekWrapper, weekNumbers = _a.weekNumbers;
+                self.innerContainer.appendChild(weekWrapper);
+                self.weekNumbers = weekNumbers;
+                self.weekWrapper = weekWrapper;
+            }
+            self.rContainer = createElement("div", "flatpickr-rContainer");
+            self.rContainer.appendChild(buildWeekdays());
+            if (!self.daysContainer) {
+                self.daysContainer = createElement("div", "flatpickr-days");
+                self.daysContainer.tabIndex = -1;
+            }
+            buildDays();
+            self.rContainer.appendChild(self.daysContainer);
+            self.innerContainer.appendChild(self.rContainer);
+            fragment.appendChild(self.innerContainer);
+        }
+        if (self.config.enableTime) {
+            fragment.appendChild(buildTime());
+        }
+        toggleClass(self.calendarContainer, "rangeMode", self.config.mode === "range");
+        toggleClass(self.calendarContainer, "animate", self.config.animate);
+        self.calendarContainer.appendChild(fragment);
+        var customAppend = self.config.appendTo !== undefined && self.config.appendTo.nodeType;
+        if (self.config.inline || self.config.static) {
+            self.calendarContainer.classList.add(self.config.inline ? "inline" : "static");
+            if (self.config.inline && !customAppend && self.element.parentNode) {
+                self.element.parentNode.insertBefore(self.calendarContainer, self._input.nextSibling);
+            }
+            if (self.config.static) {
+                var wrapper = createElement("div", "flatpickr-wrapper");
+                if (self.element.parentNode)
+                    self.element.parentNode.insertBefore(wrapper, self.element);
+                wrapper.appendChild(self.element);
+                if (self.altInput)
+                    wrapper.appendChild(self.altInput);
+                wrapper.appendChild(self.calendarContainer);
+            }
+        }
+        if (!self.config.static && !self.config.inline)
+            (self.config.appendTo !== undefined
+                ? self.config.appendTo
+                : window.document.body).appendChild(self.calendarContainer);
+    }
+    function createDay(className, date, dayNumber, i) {
+        var dateIsEnabled = isEnabled(date, true), dayElement = createElement("span", "flatpickr-day " + className, date.getDate().toString());
+        dayElement.dateObj = date;
+        dayElement.$i = i;
+        dayElement.setAttribute("aria-label", self.formatDate(date, self.config.ariaDateFormat));
+        if (compareDates(date, self.now) === 0) {
+            self.todayDateElem = dayElement;
+            dayElement.classList.add("today");
+        }
+        if (dateIsEnabled) {
+            dayElement.tabIndex = -1;
+            if (isDateSelected(date)) {
+                dayElement.classList.add("selected");
+                self.selectedDateElem = dayElement;
+                if (self.config.mode === "range") {
+                    toggleClass(dayElement, "startRange", self.selectedDates[0] &&
+                        compareDates(date, self.selectedDates[0]) === 0);
+                    toggleClass(dayElement, "endRange", self.selectedDates[1] &&
+                        compareDates(date, self.selectedDates[1]) === 0);
+                }
+            }
+        }
+        else {
+            dayElement.classList.add("disabled");
+            if (self.selectedDates[0] &&
+                self.minRangeDate &&
+                date > self.minRangeDate &&
+                date < self.selectedDates[0])
+                self.minRangeDate = date;
+            else if (self.selectedDates[0] &&
+                self.maxRangeDate &&
+                date < self.maxRangeDate &&
+                date > self.selectedDates[0])
+                self.maxRangeDate = date;
+        }
+        if (self.config.mode === "range") {
+            if (isDateInRange(date) && !isDateSelected(date))
+                dayElement.classList.add("inRange");
+            if (self.selectedDates.length === 1 &&
+                self.minRangeDate !== undefined &&
+                self.maxRangeDate !== undefined &&
+                (date < self.minRangeDate || date > self.maxRangeDate))
+                dayElement.classList.add("notAllowed");
+        }
+        if (self.weekNumbers &&
+            className !== "prevMonthDay" &&
+            dayNumber % 7 === 1) {
+            self.weekNumbers.insertAdjacentHTML("beforeend", "<span class='disabled flatpickr-day'>" +
+                self.config.getWeek(date) +
+                "</span>");
+        }
+        triggerEvent("onDayCreate", dayElement);
+        return dayElement;
+    }
+    function focusOnDay(currentIndex, offset) {
+        var newIndex = currentIndex + offset || 0, targetNode = (currentIndex !== undefined
+            ? self.days.childNodes[newIndex]
+            : self.selectedDateElem ||
+                self.todayDateElem ||
+                self.days.childNodes[0]);
+        var focus = function () {
+            targetNode = targetNode || self.days.childNodes[newIndex];
+            targetNode.focus();
+            if (self.config.mode === "range")
+                onMouseOver(targetNode);
+        };
+        if (targetNode === undefined && offset !== 0) {
+            if (offset > 0) {
+                self.changeMonth(1, true, undefined, true);
+                newIndex = newIndex % 42;
+            }
+            else if (offset < 0) {
+                self.changeMonth(-1, true, undefined, true);
+                newIndex += 42;
+            }
+            return afterDayAnim(focus);
+        }
+        focus();
+    }
+    function afterDayAnim(fn) {
+        self.config.animate === true ? self._animationLoop.push(fn) : fn();
+    }
+    function buildDays(delta) {
+        if (self.daysContainer === undefined) {
+            return;
+        }
+        var firstOfMonth = (new Date(self.currentYear, self.currentMonth, 1).getDay() -
+            self.l10n.firstDayOfWeek +
+            7) %
+            7, isRangeMode = self.config.mode === "range";
+        var prevMonthDays = self.utils.getDaysInMonth((self.currentMonth - 1 + 12) % 12);
+        var daysInMonth = self.utils.getDaysInMonth(), days = window.document.createDocumentFragment();
+        var dayNumber = prevMonthDays + 1 - firstOfMonth, dayIndex = 0;
+        if (self.weekNumbers && self.weekNumbers.firstChild)
+            self.weekNumbers.textContent = "";
+        if (isRangeMode) {
+            self.minRangeDate = new Date(self.currentYear, self.currentMonth - 1, dayNumber);
+            self.maxRangeDate = new Date(self.currentYear, self.currentMonth + 1, (42 - firstOfMonth) % daysInMonth);
+        }
+        for (; dayNumber <= prevMonthDays; dayNumber++, dayIndex++) {
+            days.appendChild(createDay("prevMonthDay", new Date(self.currentYear, self.currentMonth - 1, dayNumber), dayNumber, dayIndex));
+        }
+        for (dayNumber = 1; dayNumber <= daysInMonth; dayNumber++, dayIndex++) {
+            days.appendChild(createDay("", new Date(self.currentYear, self.currentMonth, dayNumber), dayNumber, dayIndex));
+        }
+        for (var dayNum = daysInMonth + 1; dayNum <= 42 - firstOfMonth; dayNum++, dayIndex++) {
+            days.appendChild(createDay("nextMonthDay", new Date(self.currentYear, self.currentMonth + 1, dayNum % daysInMonth), dayNum, dayIndex));
+        }
+        if (isRangeMode && self.selectedDates.length === 1 && days.childNodes[0]) {
+            self._hidePrevMonthArrow =
+                self._hidePrevMonthArrow ||
+                    (!!self.minRangeDate &&
+                        self.minRangeDate > days.childNodes[0].dateObj);
+            self._hideNextMonthArrow =
+                self._hideNextMonthArrow ||
+                    (!!self.maxRangeDate &&
+                        self.maxRangeDate <
+                            new Date(self.currentYear, self.currentMonth + 1, 1));
+        }
+        else
+            updateNavigationCurrentMonth();
+        var dayContainer = createElement("div", "dayContainer");
+        dayContainer.appendChild(days);
+        if (!self.config.animate || delta === undefined)
+            clearNode(self.daysContainer);
+        else {
+            while (self.daysContainer.childNodes.length > 1)
+                self.daysContainer.removeChild(self.daysContainer.firstChild);
+        }
+        if (delta && delta >= 0)
+            self.daysContainer.appendChild(dayContainer);
+        else
+            self.daysContainer.insertBefore(dayContainer, self.daysContainer.firstChild);
+        self.days = self.daysContainer.childNodes[0];
+    }
+    function buildMonthNav() {
+        var monthNavFragment = window.document.createDocumentFragment();
+        self.monthNav = createElement("div", "flatpickr-month");
+        self.prevMonthNav = createElement("span", "flatpickr-prev-month");
+        self.prevMonthNav.innerHTML = self.config.prevArrow;
+        self.currentMonthElement = createElement("span", "cur-month");
+        self.currentMonthElement.title = self.l10n.scrollTitle;
+        var yearInput = createNumberInput("cur-year");
+        self.currentYearElement = yearInput.childNodes[0];
+        self.currentYearElement.title = self.l10n.scrollTitle;
+        if (self.config.minDate)
+            self.currentYearElement.min = self.config.minDate
+                .getFullYear()
+                .toString();
+        if (self.config.maxDate) {
+            self.currentYearElement.max = self.config.maxDate
+                .getFullYear()
+                .toString();
+            self.currentYearElement.disabled =
+                !!self.config.minDate &&
+                    self.config.minDate.getFullYear() === self.config.maxDate.getFullYear();
+        }
+        self.nextMonthNav = createElement("span", "flatpickr-next-month");
+        self.nextMonthNav.innerHTML = self.config.nextArrow;
+        self.navigationCurrentMonth = createElement("span", "flatpickr-current-month");
+        self.navigationCurrentMonth.appendChild(self.currentMonthElement);
+        self.navigationCurrentMonth.appendChild(yearInput);
+        monthNavFragment.appendChild(self.prevMonthNav);
+        monthNavFragment.appendChild(self.navigationCurrentMonth);
+        monthNavFragment.appendChild(self.nextMonthNav);
+        self.monthNav.appendChild(monthNavFragment);
+        Object.defineProperty(self, "_hidePrevMonthArrow", {
+            get: function () { return self.__hidePrevMonthArrow; },
+            set: function (bool) {
+                if (self.__hidePrevMonthArrow !== bool)
+                    self.prevMonthNav.style.display = bool ? "none" : "block";
+                self.__hidePrevMonthArrow = bool;
+            },
+        });
+        Object.defineProperty(self, "_hideNextMonthArrow", {
+            get: function () { return self.__hideNextMonthArrow; },
+            set: function (bool) {
+                if (self.__hideNextMonthArrow !== bool)
+                    self.nextMonthNav.style.display = bool ? "none" : "block";
+                self.__hideNextMonthArrow = bool;
+            },
+        });
+        updateNavigationCurrentMonth();
+        return self.monthNav;
+    }
+    function buildTime() {
+        self.calendarContainer.classList.add("hasTime");
+        if (self.config.noCalendar)
+            self.calendarContainer.classList.add("noCalendar");
+        self.timeContainer = createElement("div", "flatpickr-time");
+        self.timeContainer.tabIndex = -1;
+        var separator = createElement("span", "flatpickr-time-separator", ":");
+        var hourInput = createNumberInput("flatpickr-hour");
+        self.hourElement = hourInput.childNodes[0];
+        var minuteInput = createNumberInput("flatpickr-minute");
+        self.minuteElement = minuteInput.childNodes[0];
+        self.hourElement.tabIndex = self.minuteElement.tabIndex = -1;
+        self.hourElement.value = pad(self.latestSelectedDateObj
+            ? self.latestSelectedDateObj.getHours()
+            : self.config.time_24hr
+                ? self.config.defaultHour
+                : military2ampm(self.config.defaultHour));
+        self.minuteElement.value = pad(self.latestSelectedDateObj
+            ? self.latestSelectedDateObj.getMinutes()
+            : self.config.defaultMinute);
+        self.hourElement.step = self.config.hourIncrement.toString();
+        self.minuteElement.step = self.config.minuteIncrement.toString();
+        self.hourElement.min = self.config.time_24hr ? "0" : "1";
+        self.hourElement.max = self.config.time_24hr ? "23" : "12";
+        self.minuteElement.min = "0";
+        self.minuteElement.max = "59";
+        self.hourElement.title = self.minuteElement.title = self.l10n.scrollTitle;
+        self.timeContainer.appendChild(hourInput);
+        self.timeContainer.appendChild(separator);
+        self.timeContainer.appendChild(minuteInput);
+        if (self.config.time_24hr)
+            self.timeContainer.classList.add("time24hr");
+        if (self.config.enableSeconds) {
+            self.timeContainer.classList.add("hasSeconds");
+            var secondInput = createNumberInput("flatpickr-second");
+            self.secondElement = secondInput.childNodes[0];
+            self.secondElement.value = pad(self.latestSelectedDateObj
+                ? self.latestSelectedDateObj.getSeconds()
+                : self.config.defaultSeconds);
+            self.secondElement.step = self.minuteElement.step;
+            self.secondElement.min = self.minuteElement.min;
+            self.secondElement.max = self.minuteElement.max;
+            self.timeContainer.appendChild(createElement("span", "flatpickr-time-separator", ":"));
+            self.timeContainer.appendChild(secondInput);
+        }
+        if (!self.config.time_24hr) {
+            self.amPM = createElement("span", "flatpickr-am-pm", self.l10n.amPM[int((self.latestSelectedDateObj
+                ? self.hourElement.value
+                : self.config.defaultHour) > 11)]);
+            self.amPM.title = self.l10n.toggleTitle;
+            self.amPM.tabIndex = -1;
+            self.timeContainer.appendChild(self.amPM);
+        }
+        return self.timeContainer;
+    }
+    function buildWeekdays() {
+        if (!self.weekdayContainer)
+            self.weekdayContainer = createElement("div", "flatpickr-weekdays");
+        var firstDayOfWeek = self.l10n.firstDayOfWeek;
+        var weekdays = self.l10n.weekdays.shorthand.slice();
+        if (firstDayOfWeek > 0 && firstDayOfWeek < weekdays.length) {
+            weekdays = weekdays.splice(firstDayOfWeek, weekdays.length).concat(weekdays.splice(0, firstDayOfWeek));
+        }
+        self.weekdayContainer.innerHTML = "\n    <span class=flatpickr-weekday>\n      " + weekdays.join("</span><span class=flatpickr-weekday>") + "\n    </span>\n    ";
+        return self.weekdayContainer;
+    }
+    function buildWeeks() {
+        self.calendarContainer.classList.add("hasWeeks");
+        var weekWrapper = createElement("div", "flatpickr-weekwrapper");
+        weekWrapper.appendChild(createElement("span", "flatpickr-weekday", self.l10n.weekAbbreviation));
+        var weekNumbers = createElement("div", "flatpickr-weeks");
+        weekWrapper.appendChild(weekNumbers);
+        return {
+            weekWrapper: weekWrapper,
+            weekNumbers: weekNumbers,
+        };
+    }
+    function changeMonth(value, is_offset, animate, from_keyboard) {
+        if (is_offset === void 0) { is_offset = true; }
+        if (animate === void 0) { animate = self.config.animate; }
+        if (from_keyboard === void 0) { from_keyboard = false; }
+        var delta = is_offset ? value : value - self.currentMonth;
+        if ((delta < 0 && self._hidePrevMonthArrow) ||
+            (delta > 0 && self._hideNextMonthArrow))
+            return;
+        self.currentMonth += delta;
+        if (self.currentMonth < 0 || self.currentMonth > 11) {
+            self.currentYear += self.currentMonth > 11 ? 1 : -1;
+            self.currentMonth = (self.currentMonth + 12) % 12;
+            triggerEvent("onYearChange");
+        }
+        buildDays(animate ? delta : undefined);
+        if (!animate) {
+            triggerEvent("onMonthChange");
+            return updateNavigationCurrentMonth();
+        }
+        var nav = self.navigationCurrentMonth;
+        if (delta < 0) {
+            while (nav.nextSibling &&
+                /curr/.test(nav.nextSibling.className))
+                self.monthNav.removeChild(nav.nextSibling);
+        }
+        else if (delta > 0) {
+            while (nav.previousSibling &&
+                /curr/.test(nav.previousSibling.className))
+                self.monthNav.removeChild(nav.previousSibling);
+        }
+        self.oldCurMonth = self.navigationCurrentMonth;
+        self.navigationCurrentMonth = self.monthNav.insertBefore(self.oldCurMonth.cloneNode(true), delta > 0 ? self.oldCurMonth.nextSibling : self.oldCurMonth);
+        var daysContainer = self.daysContainer;
+        if (daysContainer.firstChild && daysContainer.lastChild) {
+            if (delta > 0) {
+                daysContainer.firstChild.classList.add("slideLeft");
+                daysContainer.lastChild.classList.add("slideLeftNew");
+                self.oldCurMonth.classList.add("slideLeft");
+                self.navigationCurrentMonth.classList.add("slideLeftNew");
+            }
+            else if (delta < 0) {
+                daysContainer.firstChild.classList.add("slideRightNew");
+                daysContainer.lastChild.classList.add("slideRight");
+                self.oldCurMonth.classList.add("slideRight");
+                self.navigationCurrentMonth.classList.add("slideRightNew");
+            }
+        }
+        self.currentMonthElement = self.navigationCurrentMonth
+            .firstChild;
+        self.currentYearElement = self.navigationCurrentMonth.lastChild
+            .childNodes[0];
+        updateNavigationCurrentMonth();
+        if (self.oldCurMonth.firstChild)
+            self.oldCurMonth.firstChild.textContent = monthToStr(self.currentMonth - delta, self.config.shorthandCurrentMonth, self.l10n);
+        triggerEvent("onMonthChange");
+        if (from_keyboard &&
+            document.activeElement &&
+            document.activeElement.$i) {
+            var index_1 = document.activeElement.$i;
+            afterDayAnim(function () {
+                focusOnDay(index_1, 0);
+            });
+        }
+    }
+    function clear(triggerChangeEvent) {
+        if (triggerChangeEvent === void 0) { triggerChangeEvent = true; }
+        self.input.value = "";
+        if (self.altInput)
+            self.altInput.value = "";
+        if (self.mobileInput)
+            self.mobileInput.value = "";
+        self.selectedDates = [];
+        self.latestSelectedDateObj = undefined;
+        self.showTimeInput = false;
+        self.redraw();
+        if (triggerChangeEvent === true)
+            triggerEvent("onChange");
+    }
+    function close() {
+        self.isOpen = false;
+        if (!self.isMobile) {
+            self.calendarContainer.classList.remove("open");
+            self._input.classList.remove("active");
+        }
+        triggerEvent("onClose");
+    }
+    function destroy() {
+        if (self.config !== undefined)
+            triggerEvent("onDestroy");
+        for (var i = self._handlers.length; i--;) {
+            var h = self._handlers[i];
+            h.element.removeEventListener(h.event, h.handler);
+        }
+        self._handlers = [];
+        if (self.mobileInput) {
+            if (self.mobileInput.parentNode)
+                self.mobileInput.parentNode.removeChild(self.mobileInput);
+            self.mobileInput = undefined;
+        }
+        else if (self.calendarContainer && self.calendarContainer.parentNode)
+            self.calendarContainer.parentNode.removeChild(self.calendarContainer);
+        if (self.altInput) {
+            self.input.type = "text";
+            if (self.altInput.parentNode)
+                self.altInput.parentNode.removeChild(self.altInput);
+            delete self.altInput;
+        }
+        if (self.input) {
+            self.input.type = self.input._type;
+            self.input.classList.remove("flatpickr-input");
+            self.input.removeAttribute("readonly");
+            self.input.value = "";
+        }
+        [
+            "_showTimeInput",
+            "latestSelectedDateObj",
+            "_hideNextMonthArrow",
+            "_hidePrevMonthArrow",
+            "__hideNextMonthArrow",
+            "__hidePrevMonthArrow",
+            "isMobile",
+            "isOpen",
+            "selectedDateElem",
+            "minDateHasTime",
+            "maxDateHasTime",
+            "days",
+            "daysContainer",
+            "_input",
+            "_positionElement",
+            "innerContainer",
+            "rContainer",
+            "monthNav",
+            "todayDateElem",
+            "calendarContainer",
+            "weekdayContainer",
+            "prevMonthNav",
+            "nextMonthNav",
+            "currentMonthElement",
+            "currentYearElement",
+            "navigationCurrentMonth",
+            "selectedDateElem",
+            "config",
+        ].forEach(function (k) {
+            try {
+                delete self[k];
+            }
+            catch (_) { }
+        });
+    }
+    function isCalendarElem(elem) {
+        if (self.config.appendTo && self.config.appendTo.contains(elem))
+            return true;
+        return self.calendarContainer.contains(elem);
+    }
+    function documentClick(e) {
+        if (self.isOpen && !self.config.inline) {
+            var isCalendarElement = isCalendarElem(e.target);
+            var isInput = e.target === self.input ||
+                e.target === self.altInput ||
+                self.element.contains(e.target) ||
+                (e.path &&
+                    e.path.indexOf &&
+                    (~e.path.indexOf(self.input) ||
+                        ~e.path.indexOf(self.altInput)));
+            var lostFocus = e.type === "blur"
+                ? isInput &&
+                    e.relatedTarget &&
+                    !isCalendarElem(e.relatedTarget)
+                : !isInput && !isCalendarElement;
+            if (lostFocus &&
+                self.config.ignoredFocusElements.indexOf(e.target) === -1) {
+                self.close();
+                if (self.config.mode === "range" && self.selectedDates.length === 1) {
+                    self.clear(false);
+                    self.redraw();
+                }
+            }
+        }
+    }
+    function changeYear(newYear) {
+        if (!newYear ||
+            (self.currentYearElement.min &&
+                newYear < parseInt(self.currentYearElement.min)) ||
+            (self.currentYearElement.max &&
+                newYear > parseInt(self.currentYearElement.max)))
+            return;
+        var newYearNum = newYear, isNewYear = self.currentYear !== newYearNum;
+        self.currentYear = newYearNum || self.currentYear;
+        if (self.config.maxDate &&
+            self.currentYear === self.config.maxDate.getFullYear()) {
+            self.currentMonth = Math.min(self.config.maxDate.getMonth(), self.currentMonth);
+        }
+        else if (self.config.minDate &&
+            self.currentYear === self.config.minDate.getFullYear()) {
+            self.currentMonth = Math.max(self.config.minDate.getMonth(), self.currentMonth);
+        }
+        if (isNewYear) {
+            self.redraw();
+            triggerEvent("onYearChange");
+        }
+    }
+    function isEnabled(date, timeless) {
+        if (timeless === void 0) { timeless = true; }
+        var dateToCheck = self.parseDate(date, undefined, timeless);
+        if ((self.config.minDate &&
+            dateToCheck &&
+            compareDates(dateToCheck, self.config.minDate, timeless !== undefined ? timeless : !self.minDateHasTime) < 0) ||
+            (self.config.maxDate &&
+                dateToCheck &&
+                compareDates(dateToCheck, self.config.maxDate, timeless !== undefined ? timeless : !self.maxDateHasTime) > 0))
+            return false;
+        if (!self.config.enable.length && !self.config.disable.length)
+            return true;
+        if (dateToCheck === undefined)
+            return false;
+        var bool = self.config.enable.length > 0, array = bool ? self.config.enable : self.config.disable;
+        for (var i = 0, d = void 0; i < array.length; i++) {
+            d = array[i];
+            if (typeof d === "function" &&
+                d(dateToCheck))
+                return bool;
+            else if (d instanceof Date &&
+                dateToCheck !== undefined &&
+                d.getTime() === dateToCheck.getTime())
+                return bool;
+            else if (typeof d === "string" && dateToCheck !== undefined) {
+                var parsed = self.parseDate(d, undefined, true);
+                return parsed && parsed.getTime() === dateToCheck.getTime()
+                    ? bool
+                    : !bool;
+            }
+            else if (typeof d === "object" &&
+                dateToCheck !== undefined &&
+                d.from &&
+                d.to &&
+                dateToCheck.getTime() >= d.from.getTime() &&
+                dateToCheck.getTime() <= d.to.getTime())
+                return bool;
+        }
+        return !bool;
+    }
+    function onKeyDown(e) {
+        var isInput = e.target === self._input;
+        var calendarElem = isCalendarElem(e.target);
+        var allowInput = self.config.allowInput;
+        var allowKeydown = self.isOpen && (!allowInput || !isInput);
+        var allowInlineKeydown = self.config.inline && isInput && !allowInput;
+        if (e.key === "Enter" && isInput) {
+            if (allowInput) {
+                self.setDate(self._input.value, true, e.target === self.altInput
+                    ? self.config.altFormat
+                    : self.config.dateFormat);
+                return e.target.blur();
+            }
+            else
+                self.open();
+        }
+        else if (calendarElem || allowKeydown || allowInlineKeydown) {
+            var isTimeObj = !!self.timeContainer &&
+                self.timeContainer.contains(e.target);
+            switch (e.key) {
+                case "Enter":
+                    if (isTimeObj)
+                        updateValue();
+                    else
+                        selectDate(e);
+                    break;
+                case "Escape":
+                    e.preventDefault();
+                    self.close();
+                    break;
+                case "Backspace":
+                case "Delete":
+                    if (isInput && !self.config.allowInput)
+                        self.clear();
+                    break;
+                case "ArrowLeft":
+                case "ArrowRight":
+                    if (!isTimeObj) {
+                        e.preventDefault();
+                        if (self.daysContainer) {
+                            var delta_1 = e.key === "ArrowRight" ? 1 : -1;
+                            if (!e.ctrlKey)
+                                focusOnDay(e.target.$i, delta_1);
+                            else
+                                changeMonth(delta_1, true, undefined, true);
+                        }
+                    }
+                    else if (self.hourElement)
+                        self.hourElement.focus();
+                    break;
+                case "ArrowUp":
+                case "ArrowDown":
+                    e.preventDefault();
+                    var delta = e.key === "ArrowDown" ? 1 : -1;
+                    if (self.daysContainer && e.target.$i !== undefined) {
+                        if (e.ctrlKey) {
+                            changeYear(self.currentYear - delta);
+                            focusOnDay(e.target.$i, 0);
+                        }
+                        else if (!isTimeObj)
+                            focusOnDay(e.target.$i, delta * 7);
+                    }
+                    else if (self.config.enableTime) {
+                        if (!isTimeObj && self.hourElement)
+                            self.hourElement.focus();
+                        updateTime(e);
+                        self._debouncedChange();
+                    }
+                    break;
+                case "Tab":
+                    if (e.target === self.hourElement) {
+                        e.preventDefault();
+                        self.minuteElement.select();
+                    }
+                    else if (e.target === self.minuteElement &&
+                        (self.secondElement || self.amPM)) {
+                        e.preventDefault();
+                        if (self.secondElement !== undefined)
+                            self.secondElement.focus();
+                        else if (self.amPM !== undefined)
+                            self.amPM.focus();
+                    }
+                    else if (e.target === self.secondElement && self.amPM) {
+                        e.preventDefault();
+                        self.amPM.focus();
+                    }
+                    break;
+                case "a":
+                    if (self.amPM !== undefined && e.target === self.amPM) {
+                        self.amPM.textContent = "AM";
+                        setHoursFromInputs();
+                        updateValue();
+                    }
+                    break;
+                case "p":
+                    if (self.amPM !== undefined && e.target === self.amPM) {
+                        self.amPM.textContent = "PM";
+                        setHoursFromInputs();
+                        updateValue();
+                    }
+                    break;
+                default:
+                    break;
+            }
+            triggerEvent("onKeyDown", e);
+        }
+    }
+    function onMouseOver(elem) {
+        if (self.selectedDates.length !== 1 ||
+            !elem.classList.contains("flatpickr-day") ||
+            self.minRangeDate === undefined ||
+            self.maxRangeDate === undefined)
+            return;
+        var hoverDate = elem.dateObj, initialDate = self.parseDate(self.selectedDates[0], undefined, true), rangeStartDate = Math.min(hoverDate.getTime(), self.selectedDates[0].getTime()), rangeEndDate = Math.max(hoverDate.getTime(), self.selectedDates[0].getTime()), containsDisabled = false;
+        for (var t = rangeStartDate; t < rangeEndDate; t += duration.DAY) {
+            if (!isEnabled(new Date(t))) {
+                containsDisabled = true;
+                break;
+            }
+        }
+        var _loop_1 = function (timestamp, i) {
+            var outOfRange = timestamp < self.minRangeDate.getTime() ||
+                timestamp > self.maxRangeDate.getTime(), dayElem = self.days.childNodes[i];
+            if (outOfRange) {
+                dayElem.classList.add("notAllowed");
+                ["inRange", "startRange", "endRange"].forEach(function (c) {
+                    dayElem.classList.remove(c);
+                });
+                return "continue";
+            }
+            else if (containsDisabled && !outOfRange)
+                return "continue";
+            ["startRange", "inRange", "endRange", "notAllowed"].forEach(function (c) {
+                dayElem.classList.remove(c);
+            });
+            var minRangeDate = Math.max(self.minRangeDate.getTime(), rangeStartDate), maxRangeDate = Math.min(self.maxRangeDate.getTime(), rangeEndDate);
+            elem.classList.add(hoverDate < self.selectedDates[0] ? "startRange" : "endRange");
+            if (initialDate < hoverDate && timestamp === initialDate.getTime())
+                dayElem.classList.add("startRange");
+            else if (initialDate > hoverDate && timestamp === initialDate.getTime())
+                dayElem.classList.add("endRange");
+            if (timestamp >= minRangeDate && timestamp <= maxRangeDate)
+                dayElem.classList.add("inRange");
+        };
+        for (var timestamp = self.days.childNodes[0].dateObj.getTime(), i = 0; i < 42; i++, timestamp += duration.DAY) {
+            _loop_1(timestamp, i);
+        }
+    }
+    function onResize() {
+        if (self.isOpen && !self.config.static && !self.config.inline)
+            positionCalendar();
+    }
+    function open(e, positionElement) {
+        if (positionElement === void 0) { positionElement = self._input; }
+        if (self.isMobile) {
+            if (e) {
+                e.preventDefault();
+                e.target && e.target.blur();
+            }
+            setTimeout(function () {
+                self.mobileInput !== undefined && self.mobileInput.click();
+            }, 0);
+            triggerEvent("onOpen");
+            return;
+        }
+        if (self.isOpen || self._input.disabled || self.config.inline)
+            return;
+        self.isOpen = true;
+        self.calendarContainer.classList.add("open");
+        positionCalendar(positionElement);
+        self._input.classList.add("active");
+        triggerEvent("onOpen");
+    }
+    function minMaxDateSetter(type) {
+        return function (date) {
+            var dateObj = (self.config["_" + type + "Date"] = self.parseDate(date));
+            var inverseDateObj = self.config["_" + (type === "min" ? "max" : "min") + "Date"];
+            if (dateObj !== undefined) {
+                self[type === "min" ? "minDateHasTime" : "maxDateHasTime"] =
+                    dateObj.getHours() > 0 ||
+                        dateObj.getMinutes() > 0 ||
+                        dateObj.getSeconds() > 0;
+            }
+            if (self.selectedDates) {
+                self.selectedDates = self.selectedDates.filter(function (d) { return isEnabled(d); });
+                if (!self.selectedDates.length && type === "min")
+                    setHoursFromDate(dateObj);
+                updateValue();
+            }
+            if (self.daysContainer) {
+                redraw();
+                if (dateObj !== undefined)
+                    self.currentYearElement[type] = dateObj.getFullYear().toString();
+                else
+                    self.currentYearElement.removeAttribute(type);
+                self.currentYearElement.disabled =
+                    !!inverseDateObj &&
+                        dateObj !== undefined &&
+                        inverseDateObj.getFullYear() === dateObj.getFullYear();
+            }
+        };
+    }
+    function parseConfig() {
+        var boolOpts = [
+            "wrap",
+            "weekNumbers",
+            "allowInput",
+            "clickOpens",
+            "time_24hr",
+            "enableTime",
+            "noCalendar",
+            "altInput",
+            "shorthandCurrentMonth",
+            "inline",
+            "static",
+            "enableSeconds",
+            "disableMobile",
+        ];
+        var hooks = [
+            "onChange",
+            "onClose",
+            "onDayCreate",
+            "onDestroy",
+            "onKeyDown",
+            "onMonthChange",
+            "onOpen",
+            "onParseConfig",
+            "onReady",
+            "onValueUpdate",
+            "onYearChange",
+        ];
+        self.config = __assign({}, flatpickr.defaultConfig);
+        var userConfig = __assign({}, instanceConfig, JSON.parse(JSON.stringify(element.dataset || {})));
+        var formats$$1 = {};
+        Object.defineProperty(self.config, "enable", {
+            get: function () { return self.config._enable || []; },
+            set: function (dates) {
+                self.config._enable = parseDateRules(dates);
+            },
+        });
+        Object.defineProperty(self.config, "disable", {
+            get: function () { return self.config._disable || []; },
+            set: function (dates) {
+                self.config._disable = parseDateRules(dates);
+            },
+        });
+        if (!userConfig.dateFormat && userConfig.enableTime) {
+            formats$$1.dateFormat = userConfig.noCalendar
+                ? "H:i" + (userConfig.enableSeconds ? ":S" : "")
+                : flatpickr.defaultConfig.dateFormat +
+                    " H:i" +
+                    (userConfig.enableSeconds ? ":S" : "");
+        }
+        if (userConfig.altInput && userConfig.enableTime && !userConfig.altFormat) {
+            formats$$1.altFormat = userConfig.noCalendar
+                ? "h:i" + (userConfig.enableSeconds ? ":S K" : " K")
+                : flatpickr.defaultConfig.altFormat +
+                    (" h:i" + (userConfig.enableSeconds ? ":S" : "") + " K");
+        }
+        Object.defineProperty(self.config, "minDate", {
+            get: function () { return self.config._minDate; },
+            set: minMaxDateSetter("min"),
+        });
+        Object.defineProperty(self.config, "maxDate", {
+            get: function () { return self.config._maxDate; },
+            set: minMaxDateSetter("max"),
+        });
+        Object.assign(self.config, formats$$1, userConfig);
+        for (var i = 0; i < boolOpts.length; i++)
+            self.config[boolOpts[i]] =
+                self.config[boolOpts[i]] === true ||
+                    self.config[boolOpts[i]] === "true";
+        for (var i = hooks.length; i--;) {
+            if (self.config[hooks[i]] !== undefined) {
+                self.config[hooks[i]] = arrayify(self.config[hooks[i]] || []).map(bindToInstance);
+            }
+        }
+        for (var i = 0; i < self.config.plugins.length; i++) {
+            var pluginConf = self.config.plugins[i](self) || {};
+            for (var key in pluginConf) {
+                if (~hooks.indexOf(key)) {
+                    self.config[key] = arrayify(pluginConf[key])
+                        .map(bindToInstance)
+                        .concat(self.config[key]);
+                }
+                else if (typeof userConfig[key] === "undefined")
+                    self.config[key] = pluginConf[key];
+            }
+        }
+        self.isMobile =
+            !self.config.disableMobile &&
+                !self.config.inline &&
+                self.config.mode === "single" &&
+                !self.config.disable.length &&
+                !self.config.enable.length &&
+                !self.config.weekNumbers &&
+                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        triggerEvent("onParseConfig");
+    }
+    function setupLocale() {
+        if (typeof self.config.locale !== "object" &&
+            typeof flatpickr.l10ns[self.config.locale] === "undefined")
+            console.warn("flatpickr: invalid locale " + self.config.locale);
+        self.l10n = __assign({}, flatpickr.l10ns.default, typeof self.config.locale === "object"
+            ? self.config.locale
+            : self.config.locale !== "default"
+                ? flatpickr.l10ns[self.config.locale]
+                : undefined);
+    }
+    function positionCalendar(positionElement) {
+        if (positionElement === void 0) { positionElement = self._positionElement; }
+        if (self.calendarContainer === undefined)
+            return;
+        var calendarHeight = self.calendarContainer.offsetHeight, calendarWidth = self.calendarContainer.offsetWidth, configPos = self.config.position, inputBounds = positionElement.getBoundingClientRect(), distanceFromBottom = window.innerHeight - inputBounds.bottom, showOnTop = configPos === "above" ||
+            (configPos !== "below" &&
+                distanceFromBottom < calendarHeight &&
+                inputBounds.top > calendarHeight);
+        var top = window.pageYOffset +
+            inputBounds.top +
+            (!showOnTop ? positionElement.offsetHeight + 2 : -calendarHeight - 2);
+        toggleClass(self.calendarContainer, "arrowTop", !showOnTop);
+        toggleClass(self.calendarContainer, "arrowBottom", showOnTop);
+        if (self.config.inline)
+            return;
+        var left = window.pageXOffset + inputBounds.left;
+        var right = window.document.body.offsetWidth - inputBounds.right;
+        var rightMost = left + calendarWidth > window.document.body.offsetWidth;
+        toggleClass(self.calendarContainer, "rightMost", rightMost);
+        if (self.config.static)
+            return;
+        self.calendarContainer.style.top = top + "px";
+        if (!rightMost) {
+            self.calendarContainer.style.left = left + "px";
+            self.calendarContainer.style.right = "auto";
+        }
+        else {
+            self.calendarContainer.style.left = "auto";
+            self.calendarContainer.style.right = right + "px";
+        }
+    }
+    function redraw() {
+        if (self.config.noCalendar || self.isMobile)
+            return;
+        buildWeekdays();
+        updateNavigationCurrentMonth();
+        buildDays();
+    }
+    function selectDate(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var isSelectable = function (day) {
+            return day.classList &&
+                day.classList.contains("flatpickr-day") &&
+                !day.classList.contains("disabled") &&
+                !day.classList.contains("notAllowed");
+        };
+        var t = findParent(e.target, isSelectable);
+        if (t === undefined)
+            return;
+        var target = t;
+        var selectedDate = (self.latestSelectedDateObj = new Date(target.dateObj.getTime()));
+        var shouldChangeMonth = selectedDate.getMonth() !== self.currentMonth &&
+            self.config.mode !== "range";
+        self.selectedDateElem = target;
+        if (self.config.mode === "single")
+            self.selectedDates = [selectedDate];
+        else if (self.config.mode === "multiple") {
+            var selectedIndex = isDateSelected(selectedDate);
+            if (selectedIndex)
+                self.selectedDates.splice(parseInt(selectedIndex), 1);
+            else
+                self.selectedDates.push(selectedDate);
+        }
+        else if (self.config.mode === "range") {
+            if (self.selectedDates.length === 2)
+                self.clear();
+            self.selectedDates.push(selectedDate);
+            if (compareDates(selectedDate, self.selectedDates[0], true) !== 0)
+                self.selectedDates.sort(function (a, b) { return a.getTime() - b.getTime(); });
+        }
+        setHoursFromInputs();
+        if (shouldChangeMonth) {
+            var isNewYear = self.currentYear !== selectedDate.getFullYear();
+            self.currentYear = selectedDate.getFullYear();
+            self.currentMonth = selectedDate.getMonth();
+            if (isNewYear)
+                triggerEvent("onYearChange");
+            triggerEvent("onMonthChange");
+        }
+        buildDays();
+        if (self.config.minDate &&
+            self.minDateHasTime &&
+            self.config.enableTime &&
+            compareDates(selectedDate, self.config.minDate) === 0)
+            setHoursFromDate(self.config.minDate);
+        updateValue();
+        if (self.config.enableTime)
+            setTimeout(function () { return (self.showTimeInput = true); }, 50);
+        if (self.config.mode === "range") {
+            if (self.selectedDates.length === 1) {
+                onMouseOver(target);
+                self._hidePrevMonthArrow =
+                    self._hidePrevMonthArrow ||
+                        (self.minRangeDate !== undefined &&
+                            self.minRangeDate >
+                                self.days.childNodes[0].dateObj);
+                self._hideNextMonthArrow =
+                    self._hideNextMonthArrow ||
+                        (self.maxRangeDate !== undefined &&
+                            self.maxRangeDate <
+                                new Date(self.currentYear, self.currentMonth + 1, 1));
+            }
+            else
+                updateNavigationCurrentMonth();
+        }
+        triggerEvent("onChange");
+        if (!shouldChangeMonth)
+            focusOnDay(target.$i, 0);
+        else
+            afterDayAnim(function () { return self.selectedDateElem && self.selectedDateElem.focus(); });
+        if (self.hourElement !== undefined)
+            setTimeout(function () { return self.hourElement !== undefined && self.hourElement.select(); }, 451);
+        if (self.config.closeOnSelect) {
+            var single = self.config.mode === "single" && !self.config.enableTime;
+            var range = self.config.mode === "range" &&
+                self.selectedDates.length === 2 &&
+                !self.config.enableTime;
+            if (single || range)
+                self.close();
+        }
+    }
+    function set(option, value) {
+        if (option !== null && typeof option === "object")
+            Object.assign(self.config, option);
+        else
+            self.config[option] = value;
+        self.redraw();
+        jumpToDate();
+    }
+    function setSelectedDate(inputDate, format) {
+        var dates = [];
+        if (inputDate instanceof Array)
+            dates = inputDate.map(function (d) { return self.parseDate(d, format); });
+        else if (inputDate instanceof Date || typeof inputDate === "number")
+            dates = [self.parseDate(inputDate, format)];
+        else if (typeof inputDate === "string") {
+            switch (self.config.mode) {
+                case "single":
+                    dates = [self.parseDate(inputDate, format)];
+                    break;
+                case "multiple":
+                    dates = inputDate
+                        .split("; ")
+                        .map(function (date) { return self.parseDate(date, format); });
+                    break;
+                case "range":
+                    dates = inputDate
+                        .split(self.l10n.rangeSeparator)
+                        .map(function (date) { return self.parseDate(date, format); });
+                    break;
+                default:
+                    break;
+            }
+        }
+        self.selectedDates = dates.filter(function (d) { return d instanceof Date && isEnabled(d, false); });
+        self.selectedDates.sort(function (a, b) { return a.getTime() - b.getTime(); });
+    }
+    function setDate(date, triggerChange, format) {
+        if (triggerChange === void 0) { triggerChange = false; }
+        if (format === void 0) { format = undefined; }
+        if (date !== 0 && !date)
+            return self.clear(triggerChange);
+        setSelectedDate(date, format);
+        self.showTimeInput = self.selectedDates.length > 0;
+        self.latestSelectedDateObj = self.selectedDates[0];
+        self.redraw();
+        jumpToDate();
+        setHoursFromDate();
+        updateValue(triggerChange);
+        if (triggerChange)
+            triggerEvent("onChange");
+    }
+    function parseDateRules(arr) {
+        return arr
+            .map(function (rule) {
+            if (typeof rule === "string" ||
+                typeof rule === "number" ||
+                rule instanceof Date) {
+                return self.parseDate(rule, undefined, true);
+            }
+            else if (rule &&
+                typeof rule === "object" &&
+                rule.from &&
+                rule.to)
+                return {
+                    from: self.parseDate(rule.from, undefined),
+                    to: self.parseDate(rule.to, undefined),
+                };
+            return rule;
+        })
+            .filter(function (x) { return x; });
+    }
+    function setupDates() {
+        self.selectedDates = [];
+        self.now = new Date();
+        var preloadedDate = self.config.defaultDate || self.input.value;
+        if (preloadedDate)
+            setSelectedDate(preloadedDate, self.config.dateFormat);
+        var initialDate = self.selectedDates.length
+            ? self.selectedDates[0]
+            : self.config.minDate &&
+                self.config.minDate.getTime() > self.now.getTime()
+                ? self.config.minDate
+                : self.config.maxDate &&
+                    self.config.maxDate.getTime() < self.now.getTime()
+                    ? self.config.maxDate
+                    : self.now;
+        self.currentYear = initialDate.getFullYear();
+        self.currentMonth = initialDate.getMonth();
+        if (self.selectedDates.length)
+            self.latestSelectedDateObj = self.selectedDates[0];
+        self.minDateHasTime =
+            !!self.config.minDate &&
+                (self.config.minDate.getHours() > 0 ||
+                    self.config.minDate.getMinutes() > 0 ||
+                    self.config.minDate.getSeconds() > 0);
+        self.maxDateHasTime =
+            !!self.config.maxDate &&
+                (self.config.maxDate.getHours() > 0 ||
+                    self.config.maxDate.getMinutes() > 0 ||
+                    self.config.maxDate.getSeconds() > 0);
+        Object.defineProperty(self, "showTimeInput", {
+            get: function () { return self._showTimeInput; },
+            set: function (bool) {
+                self._showTimeInput = bool;
+                if (self.calendarContainer)
+                    toggleClass(self.calendarContainer, "showTimeInput", bool);
+                positionCalendar();
+            },
+        });
+    }
+    function formatDate(dateObj, frmt) {
+        if (self.config !== undefined && self.config.formatDate !== undefined)
+            return self.config.formatDate(dateObj, frmt);
+        return frmt
+            .split("")
+            .map(function (c, i, arr) {
+            return formats[c] && arr[i - 1] !== "\\"
+                ? formats[c](dateObj, self.l10n, self.config)
+                : c !== "\\" ? c : "";
+        })
+            .join("");
+    }
+    function parseDate(date, givenFormat, timeless) {
+        if (date !== 0 && !date)
+            return undefined;
+        var parsedDate;
+        var date_orig = date;
+        if (date instanceof Date)
+            parsedDate = new Date(date.getTime());
+        else if (typeof date !== "string" &&
+            date.toFixed !== undefined)
+            parsedDate = new Date(date);
+        else if (typeof date === "string") {
+            var format = givenFormat || (self.config || flatpickr.defaultConfig).dateFormat;
+            var datestr = String(date).trim();
+            if (datestr === "today") {
+                parsedDate = new Date();
+                timeless = true;
+            }
+            else if (/Z$/.test(datestr) ||
+                /GMT$/.test(datestr))
+                parsedDate = new Date(date);
+            else if (self.config && self.config.parseDate)
+                parsedDate = self.config.parseDate(date, format);
+            else {
+                parsedDate =
+                    !self.config || !self.config.noCalendar
+                        ? new Date(new Date().getFullYear(), 0, 1, 0, 0, 0, 0)
+                        : new Date(new Date().setHours(0, 0, 0, 0));
+                var matched = void 0, ops = [];
+                for (var i = 0, matchIndex = 0, regexStr = ""; i < format.length; i++) {
+                    var token = format[i];
+                    var isBackSlash = token === "\\";
+                    var escaped = format[i - 1] === "\\" || isBackSlash;
+                    if (tokenRegex[token] && !escaped) {
+                        regexStr += tokenRegex[token];
+                        var match = new RegExp(regexStr).exec(date);
+                        if (match && (matched = true)) {
+                            ops[token !== "Y" ? "push" : "unshift"]({
+                                fn: revFormat[token],
+                                val: match[++matchIndex],
+                            });
+                        }
+                    }
+                    else if (!isBackSlash)
+                        regexStr += ".";
+                    ops.forEach(function (_a) {
+                        var fn = _a.fn, val = _a.val;
+                        return (parsedDate =
+                            fn(parsedDate, val, self.l10n) || parsedDate);
+                    });
+                }
+                parsedDate = matched ? parsedDate : undefined;
+            }
+        }
+        if (!(parsedDate instanceof Date)) {
+            console.warn("flatpickr: invalid date " + date_orig);
+            console.info(self.element);
+            return undefined;
+        }
+        if (timeless === true)
+            parsedDate.setHours(0, 0, 0, 0);
+        return parsedDate;
+    }
+    function setupInputs() {
+        self.input = self.config.wrap
+            ? element.querySelector("[data-input]")
+            : element;
+        if (!self.input) {
+            console.warn("Error: invalid input element specified", self.input);
+            return;
+        }
+        self.input._type = self.input.type;
+        self.input.type = "text";
+        self.input.classList.add("flatpickr-input");
+        self._input = self.input;
+        if (self.config.altInput) {
+            self.altInput = createElement(self.input.nodeName, self.input.className + " " + self.config.altInputClass);
+            self._input = self.altInput;
+            self.altInput.placeholder = self.input.placeholder;
+            self.altInput.disabled = self.input.disabled;
+            self.altInput.required = self.input.required;
+            self.altInput.type = "text";
+            self.input.type = "hidden";
+            if (!self.config.static && self.input.parentNode)
+                self.input.parentNode.insertBefore(self.altInput, self.input.nextSibling);
+        }
+        if (!self.config.allowInput)
+            self._input.setAttribute("readonly", "readonly");
+        self._positionElement = self.config.positionElement || self._input;
+    }
+    function setupMobile() {
+        var inputType = self.config.enableTime
+            ? self.config.noCalendar ? "time" : "datetime-local"
+            : "date";
+        self.mobileInput = createElement("input", self.input.className + " flatpickr-mobile");
+        self.mobileInput.step = self.input.getAttribute("step") || "any";
+        self.mobileInput.tabIndex = 1;
+        self.mobileInput.type = inputType;
+        self.mobileInput.disabled = self.input.disabled;
+        self.mobileInput.placeholder = self.input.placeholder;
+        self.mobileFormatStr =
+            inputType === "datetime-local"
+                ? "Y-m-d\\TH:i:S"
+                : inputType === "date" ? "Y-m-d" : "H:i:S";
+        if (self.selectedDates.length) {
+            self.mobileInput.defaultValue = self.mobileInput.value = self.formatDate(self.selectedDates[0], self.mobileFormatStr);
+        }
+        if (self.config.minDate)
+            self.mobileInput.min = self.formatDate(self.config.minDate, "Y-m-d");
+        if (self.config.maxDate)
+            self.mobileInput.max = self.formatDate(self.config.maxDate, "Y-m-d");
+        self.input.type = "hidden";
+        if (self.altInput !== undefined)
+            self.altInput.type = "hidden";
+        try {
+            if (self.input.parentNode)
+                self.input.parentNode.insertBefore(self.mobileInput, self.input.nextSibling);
+        }
+        catch (_a) { }
+        self.mobileInput.addEventListener("change", function (e) {
+            self.setDate(e.target.value, false, self.mobileFormatStr);
+            triggerEvent("onChange");
+            triggerEvent("onClose");
+        });
+    }
+    function toggle() {
+        if (self.isOpen)
+            return self.close();
+        self.open();
+    }
+    function triggerEvent(event, data) {
+        var hooks = self.config[event];
+        if (hooks !== undefined && hooks.length > 0) {
+            for (var i = 0; hooks[i] && i < hooks.length; i++)
+                hooks[i](self.selectedDates, self.input.value, self, data);
+        }
+        if (event === "onChange") {
+            self.input.dispatchEvent(createEvent("change"));
+            self.input.dispatchEvent(createEvent("input"));
+        }
+    }
+    function createEvent(name) {
+        var e = document.createEvent("Event");
+        e.initEvent(name, true, true);
+        return e;
+    }
+    function isDateSelected(date) {
+        for (var i = 0; i < self.selectedDates.length; i++) {
+            if (compareDates(self.selectedDates[i], date) === 0)
+                return "" + i;
+        }
+        return false;
+    }
+    function isDateInRange(date) {
+        if (self.config.mode !== "range" || self.selectedDates.length < 2)
+            return false;
+        return (compareDates(date, self.selectedDates[0]) >= 0 &&
+            compareDates(date, self.selectedDates[1]) <= 0);
+    }
+    function updateNavigationCurrentMonth() {
+        if (self.config.noCalendar || self.isMobile || !self.monthNav)
+            return;
+        self.currentMonthElement.textContent =
+            monthToStr(self.currentMonth, self.config.shorthandCurrentMonth, self.l10n) + " ";
+        self.currentYearElement.value = self.currentYear.toString();
+        self._hidePrevMonthArrow =
+            self.config.minDate !== undefined &&
+                (self.currentYear === self.config.minDate.getFullYear()
+                    ? self.currentMonth <= self.config.minDate.getMonth()
+                    : self.currentYear < self.config.minDate.getFullYear());
+        self._hideNextMonthArrow =
+            self.config.maxDate !== undefined &&
+                (self.currentYear === self.config.maxDate.getFullYear()
+                    ? self.currentMonth + 1 > self.config.maxDate.getMonth()
+                    : self.currentYear > self.config.maxDate.getFullYear());
+    }
+    function updateValue(triggerChange) {
+        if (triggerChange === void 0) { triggerChange = true; }
+        if (!self.selectedDates.length)
+            return self.clear(triggerChange);
+        if (self.mobileInput !== undefined && self.mobileFormatStr) {
+            self.mobileInput.value =
+                self.latestSelectedDateObj !== undefined
+                    ? self.formatDate(self.latestSelectedDateObj, self.mobileFormatStr)
+                    : "";
+        }
+        var joinChar = self.config.mode !== "range"
+            ? self.config.conjunction
+            : self.l10n.rangeSeparator;
+        self.input.value = self.selectedDates
+            .map(function (dObj) { return self.formatDate(dObj, self.config.dateFormat); })
+            .join(joinChar);
+        if (self.altInput !== undefined) {
+            self.altInput.value = self.selectedDates
+                .map(function (dObj) { return self.formatDate(dObj, self.config.altFormat); })
+                .join(joinChar);
+        }
+        if (triggerChange !== false)
+            triggerEvent("onValueUpdate");
+    }
+    function onMonthNavScroll(e) {
+        e.preventDefault();
+        var isYear = self.currentYearElement.parentNode &&
+            self.currentYearElement.parentNode.contains(e.target);
+        if (e.target === self.currentMonthElement || isYear) {
+            var delta = mouseDelta(e);
+            if (isYear) {
+                changeYear(self.currentYear + delta);
+                e.target.value = self.currentYear.toString();
+            }
+            else
+                self.changeMonth(delta, true, false);
+        }
+    }
+    function onMonthNavClick(e) {
+        var isPrevMonth = self.prevMonthNav.contains(e.target);
+        var isNextMonth = self.nextMonthNav.contains(e.target);
+        if (isPrevMonth || isNextMonth)
+            changeMonth(isPrevMonth ? -1 : 1);
+        else if (e.target === self.currentYearElement) {
+            e.preventDefault();
+            self.currentYearElement.select();
+        }
+        else if (e.target.className === "arrowUp")
+            self.changeYear(self.currentYear + 1);
+        else if (e.target.className === "arrowDown")
+            self.changeYear(self.currentYear - 1);
+    }
+    function timeWrapper(e) {
+        e.preventDefault();
+        var isKeyDown = e.type === "keydown", input = e.target;
+        if (self.amPM !== undefined && e.target === self.amPM)
+            self.amPM.textContent =
+                self.l10n.amPM[self.amPM.textContent === "AM" ? 1 : 0];
+        var min = Number(input.min), max = Number(input.max), step = Number(input.step), curValue = parseInt(input.value, 10), delta = e.delta ||
+            (isKeyDown
+                ? e.which === 38 ? 1 : -1
+                : Math.max(-1, Math.min(1, e.wheelDelta || -e.deltaY)) || 0);
+        var newValue = curValue + step * delta;
+        if (typeof input.value !== "undefined" && input.value.length === 2) {
+            var isHourElem = input === self.hourElement, isMinuteElem = input === self.minuteElement;
+            if (newValue < min) {
+                newValue =
+                    max +
+                        newValue +
+                        int(!isHourElem) +
+                        (int(isHourElem) && int(!self.amPM));
+                if (isMinuteElem)
+                    incrementNumInput(undefined, -1, self.hourElement);
+            }
+            else if (newValue > max) {
+                newValue =
+                    input === self.hourElement ? newValue - max - int(!self.amPM) : min;
+                if (isMinuteElem)
+                    incrementNumInput(undefined, 1, self.hourElement);
+            }
+            if (self.amPM &&
+                isHourElem &&
+                (step === 1
+                    ? newValue + curValue === 23
+                    : Math.abs(newValue - curValue) > step))
+                self.amPM.textContent = self.amPM.textContent === "PM" ? "AM" : "PM";
+            input.value = pad(newValue);
+        }
+    }
+    init();
+    return self;
+}
+function _flatpickr(nodeList, config) {
+    var nodes = Array.prototype.slice.call(nodeList);
+    var instances = [];
+    for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        try {
+            if (node.getAttribute("data-fp-omit") !== null)
+                continue;
+            if (node._flatpickr !== undefined) {
+                node._flatpickr.destroy();
+                node._flatpickr = undefined;
+            }
+            node._flatpickr = FlatpickrInstance(node, config || {});
+            instances.push(node._flatpickr);
+        }
+        catch (e) {
+            console.warn(e, e.stack);
+        }
+    }
+    return instances.length === 1 ? instances[0] : instances;
+}
+if (typeof HTMLElement !== "undefined") {
+    HTMLCollection.prototype.flatpickr = NodeList.prototype.flatpickr = function (config) {
+        return _flatpickr(this, config);
+    };
+    HTMLElement.prototype.flatpickr = function (config) {
+        return _flatpickr([this], config);
+    };
+}
+var flatpickr;
+flatpickr = function (selector, config) {
+    if (selector instanceof NodeList)
+        return _flatpickr(selector, config);
+    else if (typeof selector === "string")
+        return _flatpickr(window.document.querySelectorAll(selector), config);
+    return _flatpickr([selector], config);
+};
+window.flatpickr = flatpickr;
+flatpickr.defaultConfig = defaults;
+flatpickr.l10ns = {
+    en: __assign({}, english),
+    default: __assign({}, english),
+};
+flatpickr.localize = function (l10n) {
+    flatpickr.l10ns.default = __assign({}, flatpickr.l10ns.default, l10n);
+};
+flatpickr.setDefaults = function (config) {
+    flatpickr.defaultConfig = __assign({}, flatpickr.defaultConfig, config);
+};
+if (typeof jQuery !== "undefined") {
+    jQuery.fn.flatpickr = function (config) {
+        return _flatpickr(this, config);
+    };
+}
+Date.prototype.fp_incr = function (days) {
+    return new Date(this.getFullYear(), this.getMonth(), this.getDate() + (typeof days === "string" ? parseInt(days, 10) : days));
+};
+var flatpickr$1 = flatpickr;
+
+return flatpickr$1;
+
+})));
+
+
+/***/ }),
+
+/***/ 128:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 131:
+/***/ 13:
+/***/ (function(module, exports, __webpack_require__) {
+
+var getNative = __webpack_require__(4);
+
+/* Built-in method references that are verified to be native. */
+var nativeCreate = getNative(Object, 'create');
+
+module.exports = nativeCreate;
+
+
+/***/ }),
+
+/***/ 135:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_EvaluationDataTable_vue__ = __webpack_require__(205);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c24d553a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_EvaluationDataTable_vue__ = __webpack_require__(207);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_EvaluationDataTable_vue__ = __webpack_require__(213);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c24d553a_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_EvaluationDataTable_vue__ = __webpack_require__(215);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -3226,15 +3061,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_EvaluationDataTable_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c24d553a_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_EvaluationDataTable_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_EvaluationDataTable_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c24d553a_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_EvaluationDataTable_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/EvaluationDataTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] EvaluationDataTable.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -3246,7 +3081,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-c24d553a", Component.options)
   } else {
     hotAPI.reload("data-v-c24d553a", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -3257,20 +3092,20 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 132:
+/***/ 136:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 133:
+/***/ 137:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_downloadjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
 //
 //
@@ -3406,9 +3241,9 @@ if (false) {(function () {
 			var header = Object(__WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__["f" /* csvHeader */])(this.thead);
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* escapeCsv */])(cell.toString());
+					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["z" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["C" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -3431,7 +3266,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 134:
+/***/ 138:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3516,28 +3351,55 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4d4c1aff", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-4d4c1aff", esExports)
   }
 }
 
 /***/ }),
 
-/***/ 141:
+/***/ 14:
+/***/ (function(module, exports, __webpack_require__) {
+
+var isKeyable = __webpack_require__(82);
+
+/**
+ * Gets the data for `map`.
+ *
+ * @private
+ * @param {Object} map The map to query.
+ * @param {string} key The reference key.
+ * @returns {*} Returns the map data.
+ */
+function getMapData(map, key) {
+  var data = map.__data__;
+  return isKeyable(key)
+    ? data[typeof key == 'string' ? 'string' : 'hash']
+    : data.map;
+}
+
+module.exports = getMapData;
+
+
+/***/ }),
+
+/***/ 140:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 142:
+/***/ 141:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css__ = __webpack_require__(128);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_flatpickr_dist_flatpickr_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(6);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -3571,6 +3433,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -3597,15 +3481,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			default: function _default() {
 				var _ref;
 
-				return _ref = {}, _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].CUSTOM, null), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].CURRENT_QUARTER, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["currentQuarter"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].LAST_QUARTER, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["lastQuarter"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].CURRENT_SEMESTER, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["currentSemester"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].LAST_SEMESTER, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["lastSemester"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].CURRENT_YEAR, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["currentYear"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].LAST_YEAR, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["lastYear"]()), _ref;
+				return _ref = {}, _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CUSTOM, null), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CURRENT_QUARTER, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["currentQuarter"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].LAST_QUARTER, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["lastQuarter"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CURRENT_SEMESTER, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["currentSemester"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].LAST_SEMESTER, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["lastSemester"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CURRENT_YEAR, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["currentYear"]()), _defineProperty(_ref, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].LAST_YEAR, __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["lastYear"]()), _ref;
 			}
+		},
+		clearable: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data: function data() {
 		return {
 			startDate: this.value.startDate,
 			endDate: this.value.endDate,
-			dateRange: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].CUSTOM
+			dateRange: __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CUSTOM
 		};
 	},
 	created: function created() {
@@ -3614,14 +3502,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 	computed: {
 		dates: function dates() {
+			var startDate = this.startDate && __WEBPACK_IMPORTED_MODULE_2_moment___default()(this.startDate).isValid() ? this.startDate : null;
+
+			var endDate = this.endDate && __WEBPACK_IMPORTED_MODULE_2_moment___default()(this.endDate).isValid() ? this.endDate : null;
+
 			return {
-				startDate: this.startDate,
-				endDate: this.endDate
+				startDate: startDate,
+				endDate: endDate
 			};
 		},
 		dateRanges: function dateRanges() {
 			var ranges = Object.assign({}, this.ranges);
-			if (this.allTime && !ranges[__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].ALL_TIME]) ranges[__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].ALL_TIME] = __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["allTime"]();else delete ranges[__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].ALL_TIME];
+			if (this.allTime && !ranges[__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].ALL_TIME]) ranges[__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].ALL_TIME] = __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["allTime"]();else delete ranges[__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].ALL_TIME];
 
 			return ranges;
 		},
@@ -3643,9 +3535,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.endDate = _value.endDate;
 		},
 		dateRange: function dateRange(_dateRange) {
-			if (_dateRange === __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].ALL_TIME) this.setDate(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["allTime"]());
+			if (_dateRange === __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].ALL_TIME) this.setDate(__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["allTime"]());
 
-			if (_dateRange !== __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].CUSTOM && this.dateRanges[_dateRange] && !__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["datesEqual"](this.value, this.dateRanges[_dateRange])) this.setDate(this.dateRanges[_dateRange]);
+			if (_dateRange !== __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CUSTOM && this.dateRanges[_dateRange] && !__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["datesEqual"](this.value, this.dateRanges[_dateRange])) this.setDate(this.dateRanges[_dateRange]);
 		}
 	},
 	methods: {
@@ -3653,21 +3545,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.value;
 
 			if (this.allTime && !value.startDate && !value.endDate) {
-				this.dateRange = __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].ALL_TIME;
+				this.dateRange = __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].ALL_TIME;
 				return;
 			}
 
-			if (this.dateRange && this.dateRange !== __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].CUSTOM && this.dateRanges[this.dateRange] && __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["datesEqual"](value, this.dateRanges[this.dateRange])) return;
+			if (this.dateRange && this.dateRange !== __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CUSTOM && this.dateRanges[this.dateRange] && __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["datesEqual"](value, this.dateRanges[this.dateRange])) return;
 
 			var _iteratorNormalCompletion = true;
 			var _didIteratorError = false;
 			var _iteratorError = undefined;
 
 			try {
-				for (var _iterator = Object.values(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"])[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				for (var _iterator = Object.values(__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"])[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 					var range = _step.value;
 
-					if (this.dateRanges[range] && __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["datesEqual"](value, this.dateRanges[range])) {
+					if (this.dateRanges[range] && __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["datesEqual"](value, this.dateRanges[range])) {
 						this.dateRange = range;
 						return;
 					}
@@ -3687,15 +3579,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				}
 			}
 
-			this.dateRange = __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].CUSTOM;
+			this.dateRange = __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CUSTOM;
 		},
 		setDate: function setDate(dates) {
-			dates = __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["isoDateStringObject"](dates);
+			dates = __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateStringObject"](dates);
 			this.startDate = dates.startDate;
 			this.endDate = dates.endDate;
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["b" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__["a" /* default */]
@@ -3704,7 +3596,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
-/***/ 143:
+/***/ 142:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3764,17 +3656,52 @@ var render = function() {
           { staticClass: "containing-label" },
           [
             _vm._v("\n\t\t\t\tStart Date\n\t\t\t\t"),
-            _c("vue-flatpickr", {
-              staticClass: "form-control",
-              attrs: { options: _vm.flatpickrOptions },
-              model: {
-                value: _vm.startDate,
-                callback: function($$v) {
-                  _vm.startDate = $$v
-                },
-                expression: "startDate"
-              }
-            })
+            _vm.clearable
+              ? _c(
+                  "div",
+                  { staticClass: "input-group" },
+                  [
+                    _c("vue-flatpickr", {
+                      staticClass: "form-control",
+                      attrs: { options: _vm.flatpickrOptions },
+                      model: {
+                        value: _vm.startDate,
+                        callback: function($$v) {
+                          _vm.startDate = $$v
+                        },
+                        expression: "startDate"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "input-group-btn" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-default",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.startDate = null
+                            }
+                          }
+                        },
+                        [_vm._v("\n\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t")]
+                      )
+                    ])
+                  ],
+                  1
+                )
+              : _c("vue-flatpickr", {
+                  staticClass: "form-control",
+                  attrs: { options: _vm.flatpickrOptions },
+                  model: {
+                    value: _vm.startDate,
+                    callback: function($$v) {
+                      _vm.startDate = $$v
+                    },
+                    expression: "startDate"
+                  }
+                })
           ],
           1
         )
@@ -3786,17 +3713,52 @@ var render = function() {
           { staticClass: "containing-label" },
           [
             _vm._v("\n\t\t\t\tEnd Date\n\t\t\t\t"),
-            _c("vue-flatpickr", {
-              staticClass: "form-control",
-              attrs: { options: _vm.flatpickrOptions },
-              model: {
-                value: _vm.endDate,
-                callback: function($$v) {
-                  _vm.endDate = $$v
-                },
-                expression: "endDate"
-              }
-            })
+            _vm.clearable
+              ? _c(
+                  "div",
+                  { staticClass: "input-group" },
+                  [
+                    _c("vue-flatpickr", {
+                      staticClass: "form-control",
+                      attrs: { options: _vm.flatpickrOptions },
+                      model: {
+                        value: _vm.endDate,
+                        callback: function($$v) {
+                          _vm.endDate = $$v
+                        },
+                        expression: "endDate"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "input-group-btn" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-default",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.endDate = null
+                            }
+                          }
+                        },
+                        [_vm._v("\n\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t")]
+                      )
+                    ])
+                  ],
+                  1
+                )
+              : _c("vue-flatpickr", {
+                  staticClass: "form-control",
+                  attrs: { options: _vm.flatpickrOptions },
+                  model: {
+                    value: _vm.endDate,
+                    callback: function($$v) {
+                      _vm.endDate = $$v
+                    },
+                    expression: "endDate"
+                  }
+                })
           ],
           1
         )
@@ -3811,13 +3773,13 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-7d00f708", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-7d00f708", esExports)
   }
 }
 
 /***/ }),
 
-/***/ 16:
+/***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
 var root = __webpack_require__(2);
@@ -3830,7 +3792,7 @@ module.exports = Symbol;
 
 /***/ }),
 
-/***/ 17:
+/***/ 19:
 /***/ (function(module, exports) {
 
 /**
@@ -3863,7 +3825,23 @@ module.exports = isArray;
 
 /***/ }),
 
-/***/ 18:
+/***/ 2:
+/***/ (function(module, exports, __webpack_require__) {
+
+var freeGlobal = __webpack_require__(30);
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+module.exports = root;
+
+
+/***/ }),
+
+/***/ 21:
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(4),
@@ -3877,33 +3855,17 @@ module.exports = Map;
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports, __webpack_require__) {
-
-var freeGlobal = __webpack_require__(27);
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-module.exports = root;
-
-
-/***/ }),
-
-/***/ 205:
+/***/ 213:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(129);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(206);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(214);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_localforage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(6);
 //
 //
 //
@@ -3943,6 +3905,14 @@ window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
 			validator: function validator(value) {
 				return Object.values(__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"]).includes(value);
 			}
+		},
+		startProp: {
+			type: String,
+			default: 'evaluation_date_start'
+		},
+		endProp: {
+			type: String,
+			default: 'evaluation_date_end'
 		}
 	},
 	data: function data() {
@@ -3985,8 +3955,8 @@ window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
 				ajax: JSON.parse(JSON.stringify(this.evaluationConfig.ajax))
 			});
 
-			if (this.dates.endDate) config.ajax.data.evaluation_date_start = ['<=', __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateString"](this.dates.endDate)];
-			if (this.dates.startDate) config.ajax.data.evaluation_date_end = ['>=', __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateString"](this.dates.startDate)];
+			if (this.dates.endDate) config.ajax.data[this.startProp] = ['<=', __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateString"](this.dates.endDate)];
+			if (this.dates.startDate) config.ajax.data[this.endProp] = ['>=', __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateString"](this.dates.startDate)];
 
 			return config;
 		}
@@ -4011,12 +3981,12 @@ window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
 
 /***/ }),
 
-/***/ 206:
+/***/ 214:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var require;var require;/*!
     localForage -- Offline Storage, Improved
-    Version 1.5.0
+    Version 1.5.2
     https://localforage.github.io/localForage
     (c) 2013-2017 Mozilla, Apache License 2.0
 */
@@ -4381,7 +4351,9 @@ function getIDB() {
         if (typeof msIndexedDB !== 'undefined') {
             return msIndexedDB;
         }
-    } catch (e) {}
+    } catch (e) {
+        return;
+    }
 }
 
 var idb = getIDB();
@@ -4406,19 +4378,9 @@ function isIndexedDBValid() {
         return (!isSafari || hasFetch) && typeof indexedDB !== 'undefined' &&
         // some outdated implementations of IDB that appear on Samsung
         // and HTC Android devices <4.4 are missing IDBKeyRange
+        // See: https://github.com/mozilla/localForage/issues/128
+        // See: https://github.com/mozilla/localForage/issues/272
         typeof IDBKeyRange !== 'undefined';
-    } catch (e) {
-        return false;
-    }
-}
-
-function isWebSQLValid() {
-    return typeof openDatabase === 'function';
-}
-
-function isLocalStorageValid() {
-    try {
-        return typeof localStorage !== 'undefined' && 'setItem' in localStorage && localStorage.setItem;
     } catch (e) {
         return false;
     }
@@ -4478,6 +4440,16 @@ function executeTwoCallbacks(promise, callback, errorCallback) {
     }
 }
 
+function normalizeKey(key) {
+    // Cast the key to a string, as that's all we can set as a key.
+    if (typeof key !== 'string') {
+        console.warn(key + ' used as a key, but it is not a string.');
+        key = String(key);
+    }
+
+    return key;
+}
+
 // Some code originally from async_storage.js in
 // [Gaia](https://github.com/mozilla-b2g/gaia).
 
@@ -4485,6 +4457,10 @@ var DETECT_BLOB_SUPPORT_STORE = 'local-forage-detect-blob-support';
 var supportsBlobs;
 var dbContexts;
 var toString = Object.prototype.toString;
+
+// Transaction Modes
+var READ_ONLY = 'readonly';
+var READ_WRITE = 'readwrite';
 
 // Transform a binary string to an array buffer, because otherwise
 // weird stuff happens when you try to work with the binary string directly.
@@ -4518,7 +4494,7 @@ function _binStringToArrayBuffer(bin) {
 //
 function _checkBlobSupportWithoutCaching(idb) {
     return new Promise$1(function (resolve) {
-        var txn = idb.transaction(DETECT_BLOB_SUPPORT_STORE, 'readwrite');
+        var txn = idb.transaction(DETECT_BLOB_SUPPORT_STORE, READ_WRITE);
         var blob = createBlob(['']);
         txn.objectStore(DETECT_BLOB_SUPPORT_STORE).put(blob, 'key');
 
@@ -4585,6 +4561,19 @@ function _advanceReadiness(dbInfo) {
     // chain of promises).
     if (deferredOperation) {
         deferredOperation.resolve();
+    }
+}
+
+function _rejectReadiness(dbInfo, err) {
+    var dbContext = dbContexts[dbInfo.name];
+
+    // Dequeue a deferred operation.
+    var deferredOperation = dbContext.deferredOperations.pop();
+
+    // Reject its promise (which is part of the database readiness
+    // chain of promises).
+    if (deferredOperation) {
+        deferredOperation.reject(err);
     }
 }
 
@@ -4730,6 +4719,51 @@ function _fullyReady(callback) {
     return promise;
 }
 
+// Try to establish a new db connection to replace the
+// current one which is broken (i.e. experiencing
+// InvalidStateError while creating a transaction).
+function _tryReconnect(dbInfo) {
+    _deferReadiness(dbInfo);
+
+    var dbContext = dbContexts[dbInfo.name];
+    var forages = dbContext.forages;
+
+    for (var i = 0; i < forages.length; i++) {
+        if (forages[i]._dbInfo.db) {
+            forages[i]._dbInfo.db.close();
+            forages[i]._dbInfo.db = null;
+        }
+    }
+
+    return _getConnection(dbInfo, false).then(function (db) {
+        for (var j = 0; j < forages.length; j++) {
+            forages[j]._dbInfo.db = db;
+        }
+    })["catch"](function (err) {
+        _rejectReadiness(dbInfo, err);
+        throw err;
+    });
+}
+
+// FF doesn't like Promises (micro-tasks) and IDDB store operations,
+// so we have to do it with callbacks
+function createTransaction(dbInfo, mode, callback) {
+    try {
+        var tx = dbInfo.db.transaction(dbInfo.storeName, mode);
+        callback(null, tx);
+    } catch (err) {
+        if (!dbInfo.db || err.name === 'InvalidStateError') {
+            return _tryReconnect(dbInfo).then(function () {
+
+                var tx = dbInfo.db.transaction(dbInfo.storeName, mode);
+                callback(null, tx);
+            });
+        }
+
+        callback(err);
+    }
+}
+
 // Open the IndexedDB database (automatically creates one if one didn't
 // previously exist), using any options set in the config.
 function _initStorage(options) {
@@ -4828,32 +4862,37 @@ function _initStorage(options) {
 function getItem(key, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var store = dbInfo.db.transaction(dbInfo.storeName, 'readonly').objectStore(dbInfo.storeName);
-            var req = store.get(key);
-
-            req.onsuccess = function () {
-                var value = req.result;
-                if (value === undefined) {
-                    value = null;
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
                 }
-                if (_isEncodedBlob(value)) {
-                    value = _decodeBlob(value);
-                }
-                resolve(value);
-            };
 
-            req.onerror = function () {
-                reject(req.error);
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.get(key);
+
+                    req.onsuccess = function () {
+                        var value = req.result;
+                        if (value === undefined) {
+                            value = null;
+                        }
+                        if (_isEncodedBlob(value)) {
+                            value = _decodeBlob(value);
+                        }
+                        resolve(value);
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -4867,35 +4906,46 @@ function iterate(iterator, callback) {
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var store = dbInfo.db.transaction(dbInfo.storeName, 'readonly').objectStore(dbInfo.storeName);
-
-            var req = store.openCursor();
-            var iterationNumber = 1;
-
-            req.onsuccess = function () {
-                var cursor = req.result;
-
-                if (cursor) {
-                    var value = cursor.value;
-                    if (_isEncodedBlob(value)) {
-                        value = _decodeBlob(value);
-                    }
-                    var result = iterator(value, cursor.key, iterationNumber++);
-
-                    if (result !== void 0) {
-                        resolve(result);
-                    } else {
-                        cursor["continue"]();
-                    }
-                } else {
-                    resolve();
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
                 }
-            };
 
-            req.onerror = function () {
-                reject(req.error);
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.openCursor();
+                    var iterationNumber = 1;
+
+                    req.onsuccess = function () {
+                        var cursor = req.result;
+
+                        if (cursor) {
+                            var value = cursor.value;
+                            if (_isEncodedBlob(value)) {
+                                value = _decodeBlob(value);
+                            }
+                            var result = iterator(value, cursor.key, iterationNumber++);
+
+                            // when the iterator callback retuns any
+                            // (non-`undefined`) value, then we stop
+                            // the iteration immediately
+                            if (result !== void 0) {
+                                resolve(result);
+                            } else {
+                                cursor["continue"]();
+                            }
+                        } else {
+                            resolve();
+                        }
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -4907,11 +4957,7 @@ function iterate(iterator, callback) {
 function setItem(key, value, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = new Promise$1(function (resolve, reject) {
         var dbInfo;
@@ -4927,35 +4973,44 @@ function setItem(key, value, callback) {
             }
             return value;
         }).then(function (value) {
-            var transaction = dbInfo.db.transaction(dbInfo.storeName, 'readwrite');
-            var store = transaction.objectStore(dbInfo.storeName);
-            var req = store.put(value, key);
-
-            // The reason we don't _save_ null is because IE 10 does
-            // not support saving the `null` type in IndexedDB. How
-            // ironic, given the bug below!
-            // See: https://github.com/mozilla/localForage/issues/161
-            if (value === null) {
-                value = undefined;
-            }
-
-            transaction.oncomplete = function () {
-                // Cast to undefined so the value passed to
-                // callback/promise is the same as what one would get out
-                // of `getItem()` later. This leads to some weirdness
-                // (setItem('foo', undefined) will return `null`), but
-                // it's not my fault localStorage is our baseline and that
-                // it's weird.
-                if (value === undefined) {
-                    value = null;
+            createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
+                if (err) {
+                    return reject(err);
                 }
 
-                resolve(value);
-            };
-            transaction.onabort = transaction.onerror = function () {
-                var err = req.error ? req.error : req.transaction.error;
-                reject(err);
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.put(value, key);
+
+                    // The reason we don't _save_ null is because IE 10 does
+                    // not support saving the `null` type in IndexedDB. How
+                    // ironic, given the bug below!
+                    // See: https://github.com/mozilla/localForage/issues/161
+                    if (value === null) {
+                        value = undefined;
+                    }
+
+                    transaction.oncomplete = function () {
+                        // Cast to undefined so the value passed to
+                        // callback/promise is the same as what one would get out
+                        // of `getItem()` later. This leads to some weirdness
+                        // (setItem('foo', undefined) will return `null`), but
+                        // it's not my fault localStorage is our baseline and that
+                        // it's weird.
+                        if (value === undefined) {
+                            value = null;
+                        }
+
+                        resolve(value);
+                    };
+                    transaction.onabort = transaction.onerror = function () {
+                        var err = req.error ? req.error : req.transaction.error;
+                        reject(err);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -4966,38 +5021,41 @@ function setItem(key, value, callback) {
 function removeItem(key, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var transaction = dbInfo.db.transaction(dbInfo.storeName, 'readwrite');
-            var store = transaction.objectStore(dbInfo.storeName);
+            createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
 
-            // We use a Grunt task to make this safe for IE and some
-            // versions of Android (including those used by Cordova).
-            // Normally IE won't like `.delete()` and will insist on
-            // using `['delete']()`, but we have a build step that
-            // fixes this for us now.
-            var req = store["delete"](key);
-            transaction.oncomplete = function () {
-                resolve();
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    // We use a Grunt task to make this safe for IE and some
+                    // versions of Android (including those used by Cordova).
+                    // Normally IE won't like `.delete()` and will insist on
+                    // using `['delete']()`, but we have a build step that
+                    // fixes this for us now.
+                    var req = store["delete"](key);
+                    transaction.oncomplete = function () {
+                        resolve();
+                    };
 
-            transaction.onerror = function () {
-                reject(req.error);
-            };
+                    transaction.onerror = function () {
+                        reject(req.error);
+                    };
 
-            // The request will be also be aborted if we've exceeded our storage
-            // space.
-            transaction.onabort = function () {
-                var err = req.error ? req.error : req.transaction.error;
-                reject(err);
-            };
+                    // The request will be also be aborted if we've exceeded our storage
+                    // space.
+                    transaction.onabort = function () {
+                        var err = req.error ? req.error : req.transaction.error;
+                        reject(err);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -5010,19 +5068,27 @@ function clear(callback) {
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var transaction = dbInfo.db.transaction(dbInfo.storeName, 'readwrite');
-            var store = transaction.objectStore(dbInfo.storeName);
-            var req = store.clear();
+            createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
 
-            transaction.oncomplete = function () {
-                resolve();
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.clear();
 
-            transaction.onabort = transaction.onerror = function () {
-                var err = req.error ? req.error : req.transaction.error;
-                reject(err);
-            };
+                    transaction.oncomplete = function () {
+                        resolve();
+                    };
+
+                    transaction.onabort = transaction.onerror = function () {
+                        var err = req.error ? req.error : req.transaction.error;
+                        reject(err);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -5035,17 +5101,26 @@ function length(callback) {
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var store = dbInfo.db.transaction(dbInfo.storeName, 'readonly').objectStore(dbInfo.storeName);
-            var req = store.count();
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
+                }
 
-            req.onsuccess = function () {
-                resolve(req.result);
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.count();
 
-            req.onerror = function () {
-                reject(req.error);
-            };
+                    req.onsuccess = function () {
+                        resolve(req.result);
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -5064,40 +5139,49 @@ function key(n, callback) {
         }
 
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var store = dbInfo.db.transaction(dbInfo.storeName, 'readonly').objectStore(dbInfo.storeName);
-
-            var advanced = false;
-            var req = store.openCursor();
-            req.onsuccess = function () {
-                var cursor = req.result;
-                if (!cursor) {
-                    // this means there weren't enough keys
-                    resolve(null);
-
-                    return;
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
                 }
 
-                if (n === 0) {
-                    // We have the first key, return it if that's what they
-                    // wanted.
-                    resolve(cursor.key);
-                } else {
-                    if (!advanced) {
-                        // Otherwise, ask the cursor to skip ahead n
-                        // records.
-                        advanced = true;
-                        cursor.advance(n);
-                    } else {
-                        // When we get here, we've got the nth key.
-                        resolve(cursor.key);
-                    }
-                }
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var advanced = false;
+                    var req = store.openCursor();
 
-            req.onerror = function () {
-                reject(req.error);
-            };
+                    req.onsuccess = function () {
+                        var cursor = req.result;
+                        if (!cursor) {
+                            // this means there weren't enough keys
+                            resolve(null);
+
+                            return;
+                        }
+
+                        if (n === 0) {
+                            // We have the first key, return it if that's what they
+                            // wanted.
+                            resolve(cursor.key);
+                        } else {
+                            if (!advanced) {
+                                // Otherwise, ask the cursor to skip ahead n
+                                // records.
+                                advanced = true;
+                                cursor.advance(n);
+                            } else {
+                                // When we get here, we've got the nth key.
+                                resolve(cursor.key);
+                            }
+                        }
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -5110,27 +5194,35 @@ function keys(callback) {
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
-            var dbInfo = self._dbInfo;
-            var store = dbInfo.db.transaction(dbInfo.storeName, 'readonly').objectStore(dbInfo.storeName);
-
-            var req = store.openCursor();
-            var keys = [];
-
-            req.onsuccess = function () {
-                var cursor = req.result;
-
-                if (!cursor) {
-                    resolve(keys);
-                    return;
+            createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                if (err) {
+                    return reject(err);
                 }
 
-                keys.push(cursor.key);
-                cursor["continue"]();
-            };
+                try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.openCursor();
+                    var keys = [];
 
-            req.onerror = function () {
-                reject(req.error);
-            };
+                    req.onsuccess = function () {
+                        var cursor = req.result;
+
+                        if (!cursor) {
+                            resolve(keys);
+                            return;
+                        }
+
+                        keys.push(cursor.key);
+                        cursor["continue"]();
+                    };
+
+                    req.onerror = function () {
+                        reject(req.error);
+                    };
+                } catch (e) {
+                    reject(e);
+                }
+            });
         })["catch"](reject);
     });
 
@@ -5141,6 +5233,7 @@ function keys(callback) {
 var asyncStorage = {
     _driver: 'asyncStorage',
     _initStorage: _initStorage,
+    _support: isIndexedDBValid(),
     iterate: iterate,
     getItem: getItem,
     setItem: setItem,
@@ -5150,6 +5243,10 @@ var asyncStorage = {
     key: key,
     keys: keys
 };
+
+function isWebSQLValid() {
+    return typeof openDatabase === 'function';
+}
 
 // Sadly, the best way to save binary data in WebSQL/localStorage is serializing
 // it to Base64, so this is how we store it to prevent very strange errors with less
@@ -5426,11 +5523,7 @@ function _initStorage$1(options) {
 function getItem$1(key, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
@@ -5505,11 +5598,7 @@ function iterate$1(iterator, callback) {
 function _setItem(key, value, callback, retriesLeft) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
@@ -5568,11 +5657,7 @@ function setItem$1(key, value, callback) {
 function removeItem$1(key, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = new Promise$1(function (resolve, reject) {
         self.ready().then(function () {
@@ -5581,7 +5666,6 @@ function removeItem$1(key, callback) {
                 t.executeSql('DELETE FROM ' + dbInfo.storeName + ' WHERE key = ?', [key], function () {
                     resolve();
                 }, function (t, error) {
-
                     reject(error);
                 });
             });
@@ -5629,7 +5713,6 @@ function length$1(callback) {
 
                     resolve(result);
                 }, function (t, error) {
-
                     reject(error);
                 });
             });
@@ -5684,7 +5767,6 @@ function keys$1(callback) {
 
                     resolve(keys);
                 }, function (t, error) {
-
                     reject(error);
                 });
             });
@@ -5698,6 +5780,7 @@ function keys$1(callback) {
 var webSQLStorage = {
     _driver: 'webSQLStorage',
     _initStorage: _initStorage$1,
+    _support: isWebSQLValid(),
     iterate: iterate$1,
     getItem: getItem$1,
     setItem: setItem$1,
@@ -5707,6 +5790,14 @@ var webSQLStorage = {
     key: key$1,
     keys: keys$1
 };
+
+function isLocalStorageValid() {
+    try {
+        return typeof localStorage !== 'undefined' && 'setItem' in localStorage && typeof localStorage.setItem === 'function';
+    } catch (e) {
+        return false;
+    }
+}
 
 // Config the localStorage backend, using options set in the config.
 function _initStorage$2(options) {
@@ -5756,11 +5847,7 @@ function clear$2(callback) {
 function getItem$2(key, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = self.ready().then(function () {
         var dbInfo = self._dbInfo;
@@ -5885,11 +5972,7 @@ function length$2(callback) {
 function removeItem$2(key, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = self.ready().then(function () {
         var dbInfo = self._dbInfo;
@@ -5907,11 +5990,7 @@ function removeItem$2(key, callback) {
 function setItem$2(key, value, callback) {
     var self = this;
 
-    // Cast the key to a string, as that's all we can set as a key.
-    if (typeof key !== 'string') {
-        console.warn(key + ' used as a key, but it is not a string.');
-        key = String(key);
-    }
+    key = normalizeKey(key);
 
     var promise = self.ready().then(function () {
         // Convert undefined values to null.
@@ -5952,7 +6031,7 @@ function setItem$2(key, value, callback) {
 var localStorageWrapper = {
     _driver: 'localStorageWrapper',
     _initStorage: _initStorage$2,
-    // Default API, from Gaia/localStorage.
+    _support: isLocalStorageValid(),
     iterate: iterate$2,
     getItem: getItem$2,
     setItem: setItem$2,
@@ -5963,17 +6042,23 @@ var localStorageWrapper = {
     keys: keys$2
 };
 
-// Custom drivers are stored here when `defineDriver()` is called.
-// They are shared across all instances of localForage.
-var CustomDrivers = {};
-
-var DriverType = {
-    INDEXEDDB: 'asyncStorage',
-    LOCALSTORAGE: 'localStorageWrapper',
-    WEBSQL: 'webSQLStorage'
+var isArray = Array.isArray || function (arg) {
+    return Object.prototype.toString.call(arg) === '[object Array]';
 };
 
-var DefaultDriverOrder = [DriverType.INDEXEDDB, DriverType.WEBSQL, DriverType.LOCALSTORAGE];
+// Drivers are stored here when `defineDriver()` is called.
+// They are shared across all instances of localForage.
+var DefinedDrivers = {};
+
+var DriverSupport = {};
+
+var DefaultDrivers = {
+    INDEXEDDB: asyncStorage,
+    WEBSQL: webSQLStorage,
+    LOCALSTORAGE: localStorageWrapper
+};
+
+var DefaultDriverOrder = [DefaultDrivers.INDEXEDDB._driver, DefaultDrivers.WEBSQL._driver, DefaultDrivers.LOCALSTORAGE._driver];
 
 var LibraryMethods = ['clear', 'getItem', 'iterate', 'key', 'keys', 'length', 'removeItem', 'setItem'];
 
@@ -5986,22 +6071,6 @@ var DefaultConfig = {
     size: 4980736,
     storeName: 'keyvaluepairs',
     version: 1.0
-};
-
-var driverSupport = {};
-// Check to see if IndexedDB is available and if it is the latest
-// implementation; it's our preferred backend library. We use "_spec_test"
-// as the name of the database because it's not the one we'll operate on,
-// but it's useful to make sure its using the right spec.
-// See: https://github.com/mozilla/localForage/issues/128
-driverSupport[DriverType.INDEXEDDB] = isIndexedDBValid();
-
-driverSupport[DriverType.WEBSQL] = isWebSQLValid();
-
-driverSupport[DriverType.LOCALSTORAGE] = isLocalStorageValid();
-
-var isArray = Array.isArray || function (arg) {
-    return Object.prototype.toString.call(arg) === '[object Array]';
 };
 
 function callWhenReady(localForageInstance, libraryMethod) {
@@ -6018,12 +6087,12 @@ function extend() {
         var arg = arguments[i];
 
         if (arg) {
-            for (var key in arg) {
-                if (arg.hasOwnProperty(key)) {
-                    if (isArray(arg[key])) {
-                        arguments[0][key] = arg[key].slice();
+            for (var _key in arg) {
+                if (arg.hasOwnProperty(_key)) {
+                    if (isArray(arg[_key])) {
+                        arguments[0][_key] = arg[_key].slice();
                     } else {
-                        arguments[0][key] = arg[key];
+                        arguments[0][_key] = arg[_key];
                     }
                 }
             }
@@ -6033,23 +6102,24 @@ function extend() {
     return arguments[0];
 }
 
-function isLibraryDriver(driverName) {
-    for (var driver in DriverType) {
-        if (DriverType.hasOwnProperty(driver) && DriverType[driver] === driverName) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 var LocalForage = function () {
     function LocalForage(options) {
         _classCallCheck(this, LocalForage);
 
-        this.INDEXEDDB = DriverType.INDEXEDDB;
-        this.LOCALSTORAGE = DriverType.LOCALSTORAGE;
-        this.WEBSQL = DriverType.WEBSQL;
+        for (var driverTypeKey in DefaultDrivers) {
+            if (DefaultDrivers.hasOwnProperty(driverTypeKey)) {
+                var driver = DefaultDrivers[driverTypeKey];
+                var driverName = driver._driver;
+                this[driverTypeKey] = driverName;
+
+                if (!DefinedDrivers[driverName]) {
+                    // we don't need to wait for the promise,
+                    // since the default drivers can be defined
+                    // in a blocking manner
+                    this.defineDriver(driver);
+                }
+            }
+        }
 
         this._defaultConfig = extend({}, DefaultConfig);
         this._config = extend({}, this._defaultConfig, options);
@@ -6076,7 +6146,7 @@ var LocalForage = function () {
             // If localforage is ready and fully initialized, we can't set
             // any new configuration values. Instead, we return an error.
             if (this._ready) {
-                return new Error("Can't call config() after localforage " + 'has been used.');
+                return new Error('Can\'t call config() after localforage ' + 'has been used.');
             }
 
             for (var i in options) {
@@ -6114,7 +6184,6 @@ var LocalForage = function () {
             try {
                 var driverName = driverObject._driver;
                 var complianceError = new Error('Custom driver not compliant; see ' + 'https://mozilla.github.io/localForage/#definedriver');
-                var namingError = new Error('Custom driver name already in use: ' + driverObject._driver);
 
                 // A driver name should be defined and not overlap with the
                 // library-defined, default drivers.
@@ -6122,34 +6191,37 @@ var LocalForage = function () {
                     reject(complianceError);
                     return;
                 }
-                if (isLibraryDriver(driverObject._driver)) {
-                    reject(namingError);
-                    return;
-                }
 
-                var customDriverMethods = LibraryMethods.concat('_initStorage');
-                for (var i = 0; i < customDriverMethods.length; i++) {
-                    var customDriverMethod = customDriverMethods[i];
+                var driverMethods = LibraryMethods.concat('_initStorage');
+                for (var i = 0, len = driverMethods.length; i < len; i++) {
+                    var customDriverMethod = driverMethods[i];
                     if (!customDriverMethod || !driverObject[customDriverMethod] || typeof driverObject[customDriverMethod] !== 'function') {
                         reject(complianceError);
                         return;
                     }
                 }
 
-                var supportPromise = Promise$1.resolve(true);
+                var setDriverSupport = function setDriverSupport(support) {
+                    if (DefinedDrivers[driverName]) {
+                        console.info('Redefining LocalForage driver: ' + driverName);
+                    }
+                    DefinedDrivers[driverName] = driverObject;
+                    DriverSupport[driverName] = support;
+                    // don't use a then, so that we can define
+                    // drivers that have simple _support methods
+                    // in a blocking manner
+                    resolve();
+                };
+
                 if ('_support' in driverObject) {
                     if (driverObject._support && typeof driverObject._support === 'function') {
-                        supportPromise = driverObject._support();
+                        driverObject._support().then(setDriverSupport, reject);
                     } else {
-                        supportPromise = Promise$1.resolve(!!driverObject._support);
+                        setDriverSupport(!!driverObject._support);
                     }
+                } else {
+                    setDriverSupport(true);
                 }
-
-                supportPromise.then(function (supportResult) {
-                    driverSupport[driverName] = supportResult;
-                    CustomDrivers[driverName] = driverObject;
-                    resolve();
-                }, reject);
             } catch (e) {
                 reject(e);
             }
@@ -6164,23 +6236,8 @@ var LocalForage = function () {
     };
 
     LocalForage.prototype.getDriver = function getDriver(driverName, callback, errorCallback) {
-        var self = this;
-        var getDriverPromise = Promise$1.resolve().then(function () {
-            if (isLibraryDriver(driverName)) {
-                switch (driverName) {
-                    case self.INDEXEDDB:
-                        return asyncStorage;
-                    case self.LOCALSTORAGE:
-                        return localStorageWrapper;
-                    case self.WEBSQL:
-                        return webSQLStorage;
-                }
-            } else if (CustomDrivers[driverName]) {
-                return CustomDrivers[driverName];
-            } else {
-                throw new Error('Driver not found.');
-            }
-        });
+        var getDriverPromise = DefinedDrivers[driverName] ? Promise$1.resolve(DefinedDrivers[driverName]) : Promise$1.reject(new Error('Driver not found.'));
+
         executeTwoCallbacks(getDriverPromise, callback, errorCallback);
         return getDriverPromise;
     };
@@ -6282,7 +6339,7 @@ var LocalForage = function () {
     };
 
     LocalForage.prototype.supports = function supports(driverName) {
-        return !!driverSupport[driverName];
+        return !!DriverSupport[driverName];
     };
 
     LocalForage.prototype._extend = function _extend(libraryMethodsAndProperties) {
@@ -6305,7 +6362,7 @@ var LocalForage = function () {
         // corresponding driver method until localForage is ready. These stubs
         // will be replaced by the driver methods as soon as the driver is
         // loaded, so there is no performance impact.
-        for (var i = 0; i < LibraryMethods.length; i++) {
+        for (var i = 0, len = LibraryMethods.length; i < len; i++) {
             callWhenReady(this, LibraryMethods[i]);
         }
     };
@@ -6331,7 +6388,7 @@ module.exports = localforage_js;
 
 /***/ }),
 
-/***/ 207:
+/***/ 215:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6348,7 +6405,7 @@ var render = function() {
           _c("legend", [_vm._v("Evaluation Date filter")]),
           _vm._v(" "),
           _c("start-end-date", {
-            attrs: { allTime: true },
+            attrs: { "all-time": "" },
             model: {
               value: _vm.dates,
               callback: function($$v) {
@@ -6372,7 +6429,7 @@ var render = function() {
             config: _vm.datedConfig,
             data: _vm.data,
             exportable: _vm.exportable,
-            exportFilename: _vm.exportFilename
+            "export-filename": _vm.exportFilename
           }
         },
         [_vm._t("default")],
@@ -6389,13 +6446,13 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-c24d553a", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-c24d553a", esExports)
   }
 }
 
 /***/ }),
 
-/***/ 22:
+/***/ 24:
 /***/ (function(module, exports) {
 
 /**
@@ -6433,7 +6490,7 @@ module.exports = isObject;
 
 /***/ }),
 
-/***/ 25:
+/***/ 28:
 /***/ (function(module, exports) {
 
 /**
@@ -6477,11 +6534,11 @@ module.exports = eq;
 
 /***/ }),
 
-/***/ 26:
+/***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(6),
-    isObject = __webpack_require__(22);
+var baseGetTag = __webpack_require__(9),
+    isObject = __webpack_require__(24);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -6521,7 +6578,7 @@ module.exports = isFunction;
 
 /***/ }),
 
-/***/ 27:
+/***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -6533,7 +6590,7 @@ module.exports = freeGlobal;
 
 /***/ }),
 
-/***/ 28:
+/***/ 31:
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -6566,14 +6623,14 @@ module.exports = toSource;
 
 /***/ }),
 
-/***/ 29:
+/***/ 32:
 /***/ (function(module, exports, __webpack_require__) {
 
-var mapCacheClear = __webpack_require__(73),
-    mapCacheDelete = __webpack_require__(80),
-    mapCacheGet = __webpack_require__(82),
-    mapCacheHas = __webpack_require__(83),
-    mapCacheSet = __webpack_require__(84);
+var mapCacheClear = __webpack_require__(74),
+    mapCacheDelete = __webpack_require__(81),
+    mapCacheGet = __webpack_require__(83),
+    mapCacheHas = __webpack_require__(84),
+    mapCacheSet = __webpack_require__(85);
 
 /**
  * Creates a map cache object to store key-value pairs.
@@ -6605,12 +6662,12 @@ module.exports = MapCache;
 
 /***/ }),
 
-/***/ 30:
+/***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
-var SetCache = __webpack_require__(85),
-    arraySome = __webpack_require__(88),
-    cacheHas = __webpack_require__(89);
+var SetCache = __webpack_require__(86),
+    arraySome = __webpack_require__(89),
+    cacheHas = __webpack_require__(90);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -6695,11 +6752,11 @@ module.exports = equalArrays;
 
 /***/ }),
 
-/***/ 31:
+/***/ 34:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(2),
-    stubFalse = __webpack_require__(106);
+    stubFalse = __webpack_require__(107);
 
 /** Detect free variable `exports`. */
 var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
@@ -6737,16 +6794,16 @@ var isBuffer = nativeIsBuffer || stubFalse;
 
 module.exports = isBuffer;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module)))
 
 /***/ }),
 
-/***/ 32:
+/***/ 35:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsTypedArray = __webpack_require__(108),
-    baseUnary = __webpack_require__(109),
-    nodeUtil = __webpack_require__(110);
+var baseIsTypedArray = __webpack_require__(109),
+    baseUnary = __webpack_require__(110),
+    nodeUtil = __webpack_require__(111);
 
 /* Node.js helper references. */
 var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
@@ -6775,7 +6832,7 @@ module.exports = isTypedArray;
 
 /***/ }),
 
-/***/ 33:
+/***/ 36:
 /***/ (function(module, exports) {
 
 /** Used as references for various `Number` constants. */
@@ -6817,18 +6874,161 @@ module.exports = isLength;
 
 /***/ }),
 
-/***/ 34:
+/***/ 37:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SelectTwo_vue__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2434126b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_SelectTwo_vue__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flatpickr__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flatpickr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_flatpickr__);
+
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var hooks = new Set(['onChange', 'onOpen', 'onClose', 'onMonthChange', 'onYearChange', 'onReady', 'onValueUpdate', 'onDayCreate']);
+
+var VueFlatpickr$1 = { render: function render() {
+		var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('input', { attrs: { "type": "text", "placeholder": _vm.placeholder }, domProps: { "value": _vm.value } });
+	}, staticRenderFns: [],
+	props: {
+		placeholder: {
+			type: String,
+			default: ''
+		},
+		options: {
+			type: Object,
+			default: function _default() {
+				return {};
+			}
+		},
+		value: {
+			type: String,
+			default: ''
+		}
+	},
+	data: function data() {
+		return {
+			fp: null
+		};
+	},
+
+
+	computed: {
+		hookedOptions: function hookedOptions() {
+			return this.addHooks(this.options);
+		}
+	},
+
+	watch: {
+		value: function value(val) {
+			this.fp.setDate(val);
+		},
+		hookedOptions: function hookedOptions(options) {
+			for (var _ref in Object.entries(options)) {
+				var _ref2 = _slicedToArray(_ref, 2);
+
+				var key = _ref2[0];
+				var val = _ref2[1];
+
+				this.fp.set(key, val);
+			}
+		}
+	},
+
+	mounted: function mounted() {
+		var self = this;
+		var origOnValUpdate = this.hookedOptions.onValueUpdate;
+		this.fp = new __WEBPACK_IMPORTED_MODULE_0_flatpickr___default.a(this.$el, Object.assign(this.hookedOptions, {
+			onValueUpdate: function onValueUpdate() {
+				self.onInput(self.$el.value);
+				if (typeof origOnValUpdate === 'function') {
+					origOnValUpdate();
+				}
+			}
+		}));
+		this.$emit('FlatpickrRef', this.fp);
+	},
+	destroyed: function destroyed() {
+		this.fp.destroy();
+		this.fp = null;
+	},
+
+
+	methods: {
+		onInput: function onInput(e) {
+			typeof e === 'string' ? this.$emit('input', e) : this.$emit('input', e.target.value);
+		},
+		addHooks: function addHooks(options) {
+			var _this = this;
+
+			options = Object.assign({}, options);
+
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				var _loop = function _loop() {
+					var hook = _step.value;
+
+					var firer = function firer(selectedDates, dateStr, instance) {
+						_this.$emit(stripOn(hook), [selectedDates, dateStr, instance]);
+					};
+
+					if (hook in options) {
+						if (!Array.isArray(options[hook])) options[hook] = [options[hook]];
+
+						options[hook].push(firer);
+					} else {
+						options[hook] = [firer];
+					}
+				};
+
+				for (var _iterator = hooks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					_loop();
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return options;
+		}
+	}
+};
+
+function stripOn(hook) {
+	return hook.charAt(2).toLowerCase() + hook.substring(3);
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (VueFlatpickr$1);
+
+
+/***/ }),
+
+/***/ 38:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_SelectTwo_vue__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2434126b_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_SelectTwo_vue__ = __webpack_require__(122);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
 /* template */
 
+/* template functional */
+  var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = null
 /* scopeId */
@@ -6836,15 +7036,15 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SelectTwo_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2434126b_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_SelectTwo_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_SelectTwo_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2434126b_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_SelectTwo_vue__["a" /* default */],
+  __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "resources/assets/js/vue-components/SelectTwo.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -6856,7 +7056,7 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-2434126b", Component.options)
   } else {
     hotAPI.reload("data-v-2434126b", Component.options)
-  }
+' + '  }
   module.hot.dispose(function (data) {
     disposed = true
   })
@@ -6867,7 +7067,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 35:
+/***/ 39:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6885,7 +7085,7 @@ if (false) {(function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return sortFunctions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CUSTOM_OPTION_VALUES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DISREGARD_OPTION; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_downloadjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_js__ = __webpack_require__(1);
 
@@ -6958,7 +7158,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["A" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["D" /* sortNumbers */]);
 
 	var _iteratorNormalCompletion = true;
 	var _didIteratorError = false;
@@ -7074,65 +7274,11 @@ var DISREGARD_OPTION = new Map([['faculty', {
 
 /***/ }),
 
-/***/ 39:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DataTable_vue__ = __webpack_require__(133);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4d4c1aff_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_DataTable_vue__ = __webpack_require__(134);
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(132)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-4d4c1aff"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DataTable_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4d4c1aff_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_DataTable_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/vue-components/DataTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] DataTable.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4d4c1aff", Component.options)
-  } else {
-    hotAPI.reload("data-v-4d4c1aff", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-
 /***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsNative = __webpack_require__(67),
-    getValue = __webpack_require__(72);
+var baseIsNative = __webpack_require__(68),
+    getValue = __webpack_require__(73);
 
 /**
  * Gets the native function at `key` of `object`.
@@ -7152,7 +7298,63 @@ module.exports = getNative;
 
 /***/ }),
 
-/***/ 40:
+/***/ 42:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_DataTable_vue__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4d4c1aff_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_DataTable_vue__ = __webpack_require__(138);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(136)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-4d4c1aff"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_DataTable_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4d4c1aff_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_DataTable_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/DataTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4d4c1aff", Component.options)
+  } else {
+    hotAPI.reload("data-v-4d4c1aff", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+
+/***/ 43:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//download.js v4.2, by dandavis; 2008-2016. [MIT] see http://danml.com/download.html for tests/usage
@@ -7329,152 +7531,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 42:
+/***/ 53:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flatpickr__ = __webpack_require__(125);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flatpickr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_flatpickr__);
-
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var hooks = new Set(['onChange', 'onOpen', 'onClose', 'onMonthChange', 'onYearChange', 'onReady', 'onValueUpdate', 'onDayCreate']);
-
-var VueFlatpickr$1 = { render: function render() {
-		var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('input', { attrs: { "type": "text", "placeholder": _vm.placeholder }, domProps: { "value": _vm.value } });
-	}, staticRenderFns: [],
-	props: {
-		placeholder: {
-			type: String,
-			default: ''
-		},
-		options: {
-			type: Object,
-			default: function _default() {
-				return {};
-			}
-		},
-		value: {
-			type: String,
-			default: ''
-		}
-	},
-	data: function data() {
-		return {
-			fp: null
-		};
-	},
-
-
-	computed: {
-		hookedOptions: function hookedOptions() {
-			return this.addHooks(this.options);
-		}
-	},
-
-	watch: {
-		value: function value(val) {
-			this.fp.setDate(val);
-		},
-		hookedOptions: function hookedOptions(options) {
-			for (var _ref in Object.entries(options)) {
-				var _ref2 = _slicedToArray(_ref, 2);
-
-				var key = _ref2[0];
-				var val = _ref2[1];
-
-				this.fp.set(key, val);
-			}
-		}
-	},
-
-	mounted: function mounted() {
-		var self = this;
-		var origOnValUpdate = this.hookedOptions.onValueUpdate;
-		this.fp = new __WEBPACK_IMPORTED_MODULE_0_flatpickr___default.a(this.$el, Object.assign(this.hookedOptions, {
-			onValueUpdate: function onValueUpdate() {
-				self.onInput(self.$el.value);
-				if (typeof origOnValUpdate === 'function') {
-					origOnValUpdate();
-				}
-			}
-		}));
-		this.$emit('FlatpickrRef', this.fp);
-	},
-	destroyed: function destroyed() {
-		this.fp.destroy();
-		this.fp = null;
-	},
-
-
-	methods: {
-		onInput: function onInput(e) {
-			typeof e === 'string' ? this.$emit('input', e) : this.$emit('input', e.target.value);
-		},
-		addHooks: function addHooks(options) {
-			var _this = this;
-
-			options = Object.assign({}, options);
-
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				var _loop = function _loop() {
-					var hook = _step.value;
-
-					var firer = function firer(selectedDates, dateStr, instance) {
-						_this.$emit(stripOn(hook), [selectedDates, dateStr, instance]);
-					};
-
-					if (hook in options) {
-						if (!Array.isArray(options[hook])) options[hook] = [options[hook]];
-
-						options[hook].push(firer);
-					} else {
-						options[hook] = [firer];
-					}
-				};
-
-				for (var _iterator = hooks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					_loop();
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			return options;
-		}
-	}
-};
-
-function stripOn(hook) {
-	return hook.charAt(2).toLowerCase() + hook.substring(3);
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (VueFlatpickr$1);
-
-
-/***/ }),
-
-/***/ 52:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_isEqual__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_isEqual__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_isEqual___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_isEqual__);
 //
 //
@@ -7644,10 +7705,10 @@ function stripOn(hook) {
 
 /***/ }),
 
-/***/ 53:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsEqual = __webpack_require__(54);
+var baseIsEqual = __webpack_require__(55);
 
 /**
  * Performs a deep comparison between two values to determine if they are
@@ -7686,11 +7747,11 @@ module.exports = isEqual;
 
 /***/ }),
 
-/***/ 54:
+/***/ 55:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsEqualDeep = __webpack_require__(55),
-    isObjectLike = __webpack_require__(7);
+var baseIsEqualDeep = __webpack_require__(56),
+    isObjectLike = __webpack_require__(10);
 
 /**
  * The base implementation of `_.isEqual` which supports partial comparisons
@@ -7721,24 +7782,339 @@ module.exports = baseIsEqual;
 
 /***/ }),
 
-/***/ 548:
+/***/ 56:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Stack = __webpack_require__(57),
+    equalArrays = __webpack_require__(33),
+    equalByTag = __webpack_require__(91),
+    equalObjects = __webpack_require__(95),
+    getTag = __webpack_require__(117),
+    isArray = __webpack_require__(19),
+    isBuffer = __webpack_require__(34),
+    isTypedArray = __webpack_require__(35);
+
+/** Used to compose bitmasks for value comparisons. */
+var COMPARE_PARTIAL_FLAG = 1;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * A specialized version of `baseIsEqual` for arrays and objects which performs
+ * deep comparisons and tracks traversed objects enabling objects with circular
+ * references to be compared.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} [stack] Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
+  var objIsArr = isArray(object),
+      othIsArr = isArray(other),
+      objTag = objIsArr ? arrayTag : getTag(object),
+      othTag = othIsArr ? arrayTag : getTag(other);
+
+  objTag = objTag == argsTag ? objectTag : objTag;
+  othTag = othTag == argsTag ? objectTag : othTag;
+
+  var objIsObj = objTag == objectTag,
+      othIsObj = othTag == objectTag,
+      isSameTag = objTag == othTag;
+
+  if (isSameTag && isBuffer(object)) {
+    if (!isBuffer(other)) {
+      return false;
+    }
+    objIsArr = true;
+    objIsObj = false;
+  }
+  if (isSameTag && !objIsObj) {
+    stack || (stack = new Stack);
+    return (objIsArr || isTypedArray(object))
+      ? equalArrays(object, other, bitmask, customizer, equalFunc, stack)
+      : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
+  }
+  if (!(bitmask & COMPARE_PARTIAL_FLAG)) {
+    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
+        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
+
+    if (objIsWrapped || othIsWrapped) {
+      var objUnwrapped = objIsWrapped ? object.value() : object,
+          othUnwrapped = othIsWrapped ? other.value() : other;
+
+      stack || (stack = new Stack);
+      return equalFunc(objUnwrapped, othUnwrapped, bitmask, customizer, stack);
+    }
+  }
+  if (!isSameTag) {
+    return false;
+  }
+  stack || (stack = new Stack);
+  return equalObjects(object, other, bitmask, customizer, equalFunc, stack);
+}
+
+module.exports = baseIsEqualDeep;
+
+
+/***/ }),
+
+/***/ 57:
+/***/ (function(module, exports, __webpack_require__) {
+
+var ListCache = __webpack_require__(11),
+    stackClear = __webpack_require__(63),
+    stackDelete = __webpack_require__(64),
+    stackGet = __webpack_require__(65),
+    stackHas = __webpack_require__(66),
+    stackSet = __webpack_require__(67);
+
+/**
+ * Creates a stack cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function Stack(entries) {
+  var data = this.__data__ = new ListCache(entries);
+  this.size = data.size;
+}
+
+// Add methods to `Stack`.
+Stack.prototype.clear = stackClear;
+Stack.prototype['delete'] = stackDelete;
+Stack.prototype.get = stackGet;
+Stack.prototype.has = stackHas;
+Stack.prototype.set = stackSet;
+
+module.exports = Stack;
+
+
+/***/ }),
+
+/***/ 58:
+/***/ (function(module, exports) {
+
+/**
+ * Removes all key-value entries from the list cache.
+ *
+ * @private
+ * @name clear
+ * @memberOf ListCache
+ */
+function listCacheClear() {
+  this.__data__ = [];
+  this.size = 0;
+}
+
+module.exports = listCacheClear;
+
+
+/***/ }),
+
+/***/ 59:
+/***/ (function(module, exports, __webpack_require__) {
+
+var assocIndexOf = __webpack_require__(12);
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype;
+
+/** Built-in value references. */
+var splice = arrayProto.splice;
+
+/**
+ * Removes `key` and its value from the list cache.
+ *
+ * @private
+ * @name delete
+ * @memberOf ListCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function listCacheDelete(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    return false;
+  }
+  var lastIndex = data.length - 1;
+  if (index == lastIndex) {
+    data.pop();
+  } else {
+    splice.call(data, index, 1);
+  }
+  --this.size;
+  return true;
+}
+
+module.exports = listCacheDelete;
+
+
+/***/ }),
+
+/***/ 60:
+/***/ (function(module, exports, __webpack_require__) {
+
+var assocIndexOf = __webpack_require__(12);
+
+/**
+ * Gets the list cache value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf ListCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function listCacheGet(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  return index < 0 ? undefined : data[index][1];
+}
+
+module.exports = listCacheGet;
+
+
+/***/ }),
+
+/***/ 61:
+/***/ (function(module, exports, __webpack_require__) {
+
+var assocIndexOf = __webpack_require__(12);
+
+/**
+ * Checks if a list cache value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf ListCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function listCacheHas(key) {
+  return assocIndexOf(this.__data__, key) > -1;
+}
+
+module.exports = listCacheHas;
+
+
+/***/ }),
+
+/***/ 62:
+/***/ (function(module, exports, __webpack_require__) {
+
+var assocIndexOf = __webpack_require__(12);
+
+/**
+ * Sets the list cache `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf ListCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the list cache instance.
+ */
+function listCacheSet(key, value) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    ++this.size;
+    data.push([key, value]);
+  } else {
+    data[index][1] = value;
+  }
+  return this;
+}
+
+module.exports = listCacheSet;
+
+
+/***/ }),
+
+/***/ 63:
+/***/ (function(module, exports, __webpack_require__) {
+
+var ListCache = __webpack_require__(11);
+
+/**
+ * Removes all key-value entries from the stack.
+ *
+ * @private
+ * @name clear
+ * @memberOf Stack
+ */
+function stackClear() {
+  this.__data__ = new ListCache;
+  this.size = 0;
+}
+
+module.exports = stackClear;
+
+
+/***/ }),
+
+/***/ 64:
+/***/ (function(module, exports) {
+
+/**
+ * Removes `key` and its value from the stack.
+ *
+ * @private
+ * @name delete
+ * @memberOf Stack
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function stackDelete(key) {
+  var data = this.__data__,
+      result = data['delete'](key);
+
+  this.size = data.size;
+  return result;
+}
+
+module.exports = stackDelete;
+
+
+/***/ }),
+
+/***/ 640:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["createRequest"] = createRequest;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__ = __webpack_require__(131);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_SelectTwo_vue__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_SelectTwo_vue__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_indefinite__ = __webpack_require__(549);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_indefinite__ = __webpack_require__(641);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_indefinite___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_indefinite__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__ = __webpack_require__(26);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 
@@ -7857,10 +8233,10 @@ function createRequest(el, propsData) {
 				});
 			},
 			evaluatorOptions: function evaluatorOptions() {
-				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["p" /* groupUsers */])(this.evaluators[0]);
+				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["r" /* groupUsers */])(this.evaluators[0]);
 			},
 			subjectOptions: function subjectOptions() {
-				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["p" /* groupUsers */])(this.subjects[0]);
+				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["r" /* groupUsers */])(this.subjects[0]);
 			},
 			subjectForms: function subjectForms() {
 				var forms = this.forms;
@@ -7875,7 +8251,7 @@ function createRequest(el, propsData) {
 				return forms;
 			},
 			formOptions: function formOptions() {
-				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["n" /* groupForms */])(this.subjectForms);
+				return Object(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["p" /* groupForms */])(this.subjectForms);
 			},
 			evaluationDate: function evaluationDate() {
 				if (this.useCustomEvaluationDate && this.customEvaluationDate) {
@@ -8131,7 +8507,7 @@ function getRequestType() {
 
 /***/ }),
 
-/***/ 549:
+/***/ 641:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {(function() {
@@ -8154,361 +8530,11 @@ function getRequestType() {
   }
 })();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module)))
 
 /***/ }),
 
-/***/ 55:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Stack = __webpack_require__(56),
-    equalArrays = __webpack_require__(30),
-    equalByTag = __webpack_require__(90),
-    equalObjects = __webpack_require__(94),
-    getTag = __webpack_require__(116),
-    isArray = __webpack_require__(17),
-    isBuffer = __webpack_require__(31),
-    isTypedArray = __webpack_require__(32);
-
-/** Used to compose bitmasks for value comparisons. */
-var COMPARE_PARTIAL_FLAG = 1;
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    objectTag = '[object Object]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * A specialized version of `baseIsEqual` for arrays and objects which performs
- * deep comparisons and tracks traversed objects enabling objects with circular
- * references to be compared.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
- * @param {Function} customizer The function to customize comparisons.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Object} [stack] Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
-  var objIsArr = isArray(object),
-      othIsArr = isArray(other),
-      objTag = objIsArr ? arrayTag : getTag(object),
-      othTag = othIsArr ? arrayTag : getTag(other);
-
-  objTag = objTag == argsTag ? objectTag : objTag;
-  othTag = othTag == argsTag ? objectTag : othTag;
-
-  var objIsObj = objTag == objectTag,
-      othIsObj = othTag == objectTag,
-      isSameTag = objTag == othTag;
-
-  if (isSameTag && isBuffer(object)) {
-    if (!isBuffer(other)) {
-      return false;
-    }
-    objIsArr = true;
-    objIsObj = false;
-  }
-  if (isSameTag && !objIsObj) {
-    stack || (stack = new Stack);
-    return (objIsArr || isTypedArray(object))
-      ? equalArrays(object, other, bitmask, customizer, equalFunc, stack)
-      : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
-  }
-  if (!(bitmask & COMPARE_PARTIAL_FLAG)) {
-    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
-        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
-
-    if (objIsWrapped || othIsWrapped) {
-      var objUnwrapped = objIsWrapped ? object.value() : object,
-          othUnwrapped = othIsWrapped ? other.value() : other;
-
-      stack || (stack = new Stack);
-      return equalFunc(objUnwrapped, othUnwrapped, bitmask, customizer, stack);
-    }
-  }
-  if (!isSameTag) {
-    return false;
-  }
-  stack || (stack = new Stack);
-  return equalObjects(object, other, bitmask, customizer, equalFunc, stack);
-}
-
-module.exports = baseIsEqualDeep;
-
-
-/***/ }),
-
-/***/ 56:
-/***/ (function(module, exports, __webpack_require__) {
-
-var ListCache = __webpack_require__(9),
-    stackClear = __webpack_require__(62),
-    stackDelete = __webpack_require__(63),
-    stackGet = __webpack_require__(64),
-    stackHas = __webpack_require__(65),
-    stackSet = __webpack_require__(66);
-
-/**
- * Creates a stack cache object to store key-value pairs.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */
-function Stack(entries) {
-  var data = this.__data__ = new ListCache(entries);
-  this.size = data.size;
-}
-
-// Add methods to `Stack`.
-Stack.prototype.clear = stackClear;
-Stack.prototype['delete'] = stackDelete;
-Stack.prototype.get = stackGet;
-Stack.prototype.has = stackHas;
-Stack.prototype.set = stackSet;
-
-module.exports = Stack;
-
-
-/***/ }),
-
-/***/ 57:
-/***/ (function(module, exports) {
-
-/**
- * Removes all key-value entries from the list cache.
- *
- * @private
- * @name clear
- * @memberOf ListCache
- */
-function listCacheClear() {
-  this.__data__ = [];
-  this.size = 0;
-}
-
-module.exports = listCacheClear;
-
-
-/***/ }),
-
-/***/ 58:
-/***/ (function(module, exports, __webpack_require__) {
-
-var assocIndexOf = __webpack_require__(10);
-
-/** Used for built-in method references. */
-var arrayProto = Array.prototype;
-
-/** Built-in value references. */
-var splice = arrayProto.splice;
-
-/**
- * Removes `key` and its value from the list cache.
- *
- * @private
- * @name delete
- * @memberOf ListCache
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function listCacheDelete(key) {
-  var data = this.__data__,
-      index = assocIndexOf(data, key);
-
-  if (index < 0) {
-    return false;
-  }
-  var lastIndex = data.length - 1;
-  if (index == lastIndex) {
-    data.pop();
-  } else {
-    splice.call(data, index, 1);
-  }
-  --this.size;
-  return true;
-}
-
-module.exports = listCacheDelete;
-
-
-/***/ }),
-
-/***/ 59:
-/***/ (function(module, exports, __webpack_require__) {
-
-var assocIndexOf = __webpack_require__(10);
-
-/**
- * Gets the list cache value for `key`.
- *
- * @private
- * @name get
- * @memberOf ListCache
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function listCacheGet(key) {
-  var data = this.__data__,
-      index = assocIndexOf(data, key);
-
-  return index < 0 ? undefined : data[index][1];
-}
-
-module.exports = listCacheGet;
-
-
-/***/ }),
-
-/***/ 6:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__(16),
-    getRawTag = __webpack_require__(68),
-    objectToString = __webpack_require__(69);
-
-/** `Object#toString` result references. */
-var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]';
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * The base implementation of `getTag` without fallbacks for buggy environments.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-  if (value == null) {
-    return value === undefined ? undefinedTag : nullTag;
-  }
-  return (symToStringTag && symToStringTag in Object(value))
-    ? getRawTag(value)
-    : objectToString(value);
-}
-
-module.exports = baseGetTag;
-
-
-/***/ }),
-
-/***/ 60:
-/***/ (function(module, exports, __webpack_require__) {
-
-var assocIndexOf = __webpack_require__(10);
-
-/**
- * Checks if a list cache value for `key` exists.
- *
- * @private
- * @name has
- * @memberOf ListCache
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function listCacheHas(key) {
-  return assocIndexOf(this.__data__, key) > -1;
-}
-
-module.exports = listCacheHas;
-
-
-/***/ }),
-
-/***/ 61:
-/***/ (function(module, exports, __webpack_require__) {
-
-var assocIndexOf = __webpack_require__(10);
-
-/**
- * Sets the list cache `key` to `value`.
- *
- * @private
- * @name set
- * @memberOf ListCache
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- * @returns {Object} Returns the list cache instance.
- */
-function listCacheSet(key, value) {
-  var data = this.__data__,
-      index = assocIndexOf(data, key);
-
-  if (index < 0) {
-    ++this.size;
-    data.push([key, value]);
-  } else {
-    data[index][1] = value;
-  }
-  return this;
-}
-
-module.exports = listCacheSet;
-
-
-/***/ }),
-
-/***/ 62:
-/***/ (function(module, exports, __webpack_require__) {
-
-var ListCache = __webpack_require__(9);
-
-/**
- * Removes all key-value entries from the stack.
- *
- * @private
- * @name clear
- * @memberOf Stack
- */
-function stackClear() {
-  this.__data__ = new ListCache;
-  this.size = 0;
-}
-
-module.exports = stackClear;
-
-
-/***/ }),
-
-/***/ 63:
-/***/ (function(module, exports) {
-
-/**
- * Removes `key` and its value from the stack.
- *
- * @private
- * @name delete
- * @memberOf Stack
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function stackDelete(key) {
-  var data = this.__data__,
-      result = data['delete'](key);
-
-  this.size = data.size;
-  return result;
-}
-
-module.exports = stackDelete;
-
-
-/***/ }),
-
-/***/ 64:
+/***/ 65:
 /***/ (function(module, exports) {
 
 /**
@@ -8529,7 +8555,7 @@ module.exports = stackGet;
 
 /***/ }),
 
-/***/ 65:
+/***/ 66:
 /***/ (function(module, exports) {
 
 /**
@@ -8550,12 +8576,12 @@ module.exports = stackHas;
 
 /***/ }),
 
-/***/ 66:
+/***/ 67:
 /***/ (function(module, exports, __webpack_require__) {
 
-var ListCache = __webpack_require__(9),
-    Map = __webpack_require__(18),
-    MapCache = __webpack_require__(29);
+var ListCache = __webpack_require__(11),
+    Map = __webpack_require__(21),
+    MapCache = __webpack_require__(32);
 
 /** Used as the size to enable large array optimizations. */
 var LARGE_ARRAY_SIZE = 200;
@@ -8591,13 +8617,13 @@ module.exports = stackSet;
 
 /***/ }),
 
-/***/ 67:
+/***/ 68:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(26),
-    isMasked = __webpack_require__(70),
-    isObject = __webpack_require__(22),
-    toSource = __webpack_require__(28);
+var isFunction = __webpack_require__(29),
+    isMasked = __webpack_require__(71),
+    isObject = __webpack_require__(24),
+    toSource = __webpack_require__(31);
 
 /**
  * Used to match `RegExp`
@@ -8645,10 +8671,10 @@ module.exports = baseIsNative;
 
 /***/ }),
 
-/***/ 68:
+/***/ 69:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(16);
+var Symbol = __webpack_require__(18);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -8698,7 +8724,7 @@ module.exports = getRawTag;
 
 /***/ }),
 
-/***/ 69:
+/***/ 70:
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -8727,46 +8753,10 @@ module.exports = objectToString;
 
 /***/ }),
 
-/***/ 7:
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-
-/***/ }),
-
-/***/ 70:
+/***/ 71:
 /***/ (function(module, exports, __webpack_require__) {
 
-var coreJsData = __webpack_require__(71);
+var coreJsData = __webpack_require__(72);
 
 /** Used to detect methods masquerading as native. */
 var maskSrcKey = (function() {
@@ -8790,7 +8780,7 @@ module.exports = isMasked;
 
 /***/ }),
 
-/***/ 71:
+/***/ 72:
 /***/ (function(module, exports, __webpack_require__) {
 
 var root = __webpack_require__(2);
@@ -8803,7 +8793,7 @@ module.exports = coreJsData;
 
 /***/ }),
 
-/***/ 72:
+/***/ 73:
 /***/ (function(module, exports) {
 
 /**
@@ -8823,12 +8813,12 @@ module.exports = getValue;
 
 /***/ }),
 
-/***/ 73:
+/***/ 74:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Hash = __webpack_require__(74),
-    ListCache = __webpack_require__(9),
-    Map = __webpack_require__(18);
+var Hash = __webpack_require__(75),
+    ListCache = __webpack_require__(11),
+    Map = __webpack_require__(21);
 
 /**
  * Removes all key-value entries from the map.
@@ -8851,14 +8841,14 @@ module.exports = mapCacheClear;
 
 /***/ }),
 
-/***/ 74:
+/***/ 75:
 /***/ (function(module, exports, __webpack_require__) {
 
-var hashClear = __webpack_require__(75),
-    hashDelete = __webpack_require__(76),
-    hashGet = __webpack_require__(77),
-    hashHas = __webpack_require__(78),
-    hashSet = __webpack_require__(79);
+var hashClear = __webpack_require__(76),
+    hashDelete = __webpack_require__(77),
+    hashGet = __webpack_require__(78),
+    hashHas = __webpack_require__(79),
+    hashSet = __webpack_require__(80);
 
 /**
  * Creates a hash object.
@@ -8890,10 +8880,10 @@ module.exports = Hash;
 
 /***/ }),
 
-/***/ 75:
+/***/ 76:
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(11);
+var nativeCreate = __webpack_require__(13);
 
 /**
  * Removes all key-value entries from the hash.
@@ -8912,7 +8902,7 @@ module.exports = hashClear;
 
 /***/ }),
 
-/***/ 76:
+/***/ 77:
 /***/ (function(module, exports) {
 
 /**
@@ -8936,10 +8926,10 @@ module.exports = hashDelete;
 
 /***/ }),
 
-/***/ 77:
+/***/ 78:
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(11);
+var nativeCreate = __webpack_require__(13);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -8973,10 +8963,10 @@ module.exports = hashGet;
 
 /***/ }),
 
-/***/ 78:
+/***/ 79:
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(11);
+var nativeCreate = __webpack_require__(13);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -9003,10 +8993,10 @@ module.exports = hashHas;
 
 /***/ }),
 
-/***/ 79:
+/***/ 80:
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(11);
+var nativeCreate = __webpack_require__(13);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -9033,10 +9023,10 @@ module.exports = hashSet;
 
 /***/ }),
 
-/***/ 80:
+/***/ 81:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(12);
+var getMapData = __webpack_require__(14);
 
 /**
  * Removes `key` and its value from the map.
@@ -9058,7 +9048,7 @@ module.exports = mapCacheDelete;
 
 /***/ }),
 
-/***/ 81:
+/***/ 82:
 /***/ (function(module, exports) {
 
 /**
@@ -9080,10 +9070,10 @@ module.exports = isKeyable;
 
 /***/ }),
 
-/***/ 82:
+/***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(12);
+var getMapData = __webpack_require__(14);
 
 /**
  * Gets the map value for `key`.
@@ -9103,10 +9093,10 @@ module.exports = mapCacheGet;
 
 /***/ }),
 
-/***/ 83:
+/***/ 84:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(12);
+var getMapData = __webpack_require__(14);
 
 /**
  * Checks if a map value for `key` exists.
@@ -9126,10 +9116,10 @@ module.exports = mapCacheHas;
 
 /***/ }),
 
-/***/ 84:
+/***/ 85:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(12);
+var getMapData = __webpack_require__(14);
 
 /**
  * Sets the map `key` to `value`.
@@ -9155,12 +9145,12 @@ module.exports = mapCacheSet;
 
 /***/ }),
 
-/***/ 85:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
-var MapCache = __webpack_require__(29),
-    setCacheAdd = __webpack_require__(86),
-    setCacheHas = __webpack_require__(87);
+var MapCache = __webpack_require__(32),
+    setCacheAdd = __webpack_require__(87),
+    setCacheHas = __webpack_require__(88);
 
 /**
  *
@@ -9189,7 +9179,7 @@ module.exports = SetCache;
 
 /***/ }),
 
-/***/ 86:
+/***/ 87:
 /***/ (function(module, exports) {
 
 /** Used to stand-in for `undefined` hash values. */
@@ -9215,7 +9205,7 @@ module.exports = setCacheAdd;
 
 /***/ }),
 
-/***/ 87:
+/***/ 88:
 /***/ (function(module, exports) {
 
 /**
@@ -9236,7 +9226,7 @@ module.exports = setCacheHas;
 
 /***/ }),
 
-/***/ 88:
+/***/ 89:
 /***/ (function(module, exports) {
 
 /**
@@ -9266,7 +9256,42 @@ module.exports = arraySome;
 
 /***/ }),
 
-/***/ 89:
+/***/ 9:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Symbol = __webpack_require__(18),
+    getRawTag = __webpack_require__(69),
+    objectToString = __webpack_require__(70);
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+module.exports = baseGetTag;
+
+
+/***/ }),
+
+/***/ 90:
 /***/ (function(module, exports) {
 
 /**
@@ -9286,54 +9311,15 @@ module.exports = cacheHas;
 
 /***/ }),
 
-/***/ 9:
+/***/ 91:
 /***/ (function(module, exports, __webpack_require__) {
 
-var listCacheClear = __webpack_require__(57),
-    listCacheDelete = __webpack_require__(58),
-    listCacheGet = __webpack_require__(59),
-    listCacheHas = __webpack_require__(60),
-    listCacheSet = __webpack_require__(61);
-
-/**
- * Creates an list cache object.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */
-function ListCache(entries) {
-  var index = -1,
-      length = entries == null ? 0 : entries.length;
-
-  this.clear();
-  while (++index < length) {
-    var entry = entries[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-// Add methods to `ListCache`.
-ListCache.prototype.clear = listCacheClear;
-ListCache.prototype['delete'] = listCacheDelete;
-ListCache.prototype.get = listCacheGet;
-ListCache.prototype.has = listCacheHas;
-ListCache.prototype.set = listCacheSet;
-
-module.exports = ListCache;
-
-
-/***/ }),
-
-/***/ 90:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__(16),
-    Uint8Array = __webpack_require__(91),
-    eq = __webpack_require__(25),
-    equalArrays = __webpack_require__(30),
-    mapToArray = __webpack_require__(92),
-    setToArray = __webpack_require__(93);
+var Symbol = __webpack_require__(18),
+    Uint8Array = __webpack_require__(92),
+    eq = __webpack_require__(28),
+    equalArrays = __webpack_require__(33),
+    mapToArray = __webpack_require__(93),
+    setToArray = __webpack_require__(94);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -9444,7 +9430,7 @@ module.exports = equalByTag;
 
 /***/ }),
 
-/***/ 91:
+/***/ 92:
 /***/ (function(module, exports, __webpack_require__) {
 
 var root = __webpack_require__(2);
@@ -9457,7 +9443,7 @@ module.exports = Uint8Array;
 
 /***/ }),
 
-/***/ 92:
+/***/ 93:
 /***/ (function(module, exports) {
 
 /**
@@ -9482,7 +9468,7 @@ module.exports = mapToArray;
 
 /***/ }),
 
-/***/ 93:
+/***/ 94:
 /***/ (function(module, exports) {
 
 /**
@@ -9507,10 +9493,10 @@ module.exports = setToArray;
 
 /***/ }),
 
-/***/ 94:
+/***/ 95:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getAllKeys = __webpack_require__(95);
+var getAllKeys = __webpack_require__(96);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1;
@@ -9603,12 +9589,12 @@ module.exports = equalObjects;
 
 /***/ }),
 
-/***/ 95:
+/***/ 96:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetAllKeys = __webpack_require__(96),
-    getSymbols = __webpack_require__(98),
-    keys = __webpack_require__(101);
+var baseGetAllKeys = __webpack_require__(97),
+    getSymbols = __webpack_require__(99),
+    keys = __webpack_require__(102);
 
 /**
  * Creates an array of own enumerable property names and symbols of `object`.
@@ -9626,11 +9612,11 @@ module.exports = getAllKeys;
 
 /***/ }),
 
-/***/ 96:
+/***/ 97:
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayPush = __webpack_require__(97),
-    isArray = __webpack_require__(17);
+var arrayPush = __webpack_require__(98),
+    isArray = __webpack_require__(19);
 
 /**
  * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
@@ -9653,7 +9639,7 @@ module.exports = baseGetAllKeys;
 
 /***/ }),
 
-/***/ 97:
+/***/ 98:
 /***/ (function(module, exports) {
 
 /**
@@ -9680,11 +9666,11 @@ module.exports = arrayPush;
 
 /***/ }),
 
-/***/ 98:
+/***/ 99:
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayFilter = __webpack_require__(99),
-    stubArray = __webpack_require__(100);
+var arrayFilter = __webpack_require__(100),
+    stubArray = __webpack_require__(101);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -9715,40 +9701,8 @@ var getSymbols = !nativeGetSymbols ? stubArray : function(object) {
 module.exports = getSymbols;
 
 
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, exports) {
-
-/**
- * A specialized version of `_.filter` for arrays without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} predicate The function invoked per iteration.
- * @returns {Array} Returns the new filtered array.
- */
-function arrayFilter(array, predicate) {
-  var index = -1,
-      length = array == null ? 0 : array.length,
-      resIndex = 0,
-      result = [];
-
-  while (++index < length) {
-    var value = array[index];
-    if (predicate(value, index, array)) {
-      result[resIndex++] = value;
-    }
-  }
-  return result;
-}
-
-module.exports = arrayFilter;
-
-
 /***/ })
 
-},[548]);
+},[640]);
 });
 //# sourceMappingURL=vue-request.js.map

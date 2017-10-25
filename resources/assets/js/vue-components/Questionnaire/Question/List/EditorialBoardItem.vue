@@ -3,7 +3,10 @@
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
 			@remove="$emit('remove')">
-		<validated-form-group :errors="validation.errors" prop="journal">
+		<validated-form-group prop="journal"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Journal
 				<input type="text" class="form-control"
@@ -11,7 +14,10 @@
 					@input="$emit('input', {journal: $event.target.value})" />
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="role">
+		<validated-form-group prop="role"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<fieldset class="radio-question">
 				<legend>
 					Role
@@ -46,8 +52,8 @@
 <script>
 import ListItem from './Item.vue';
 
-import { kebabCaseToWords } from 'modules/utils.js';
-import { editorialBoardListItem as validate } from 'modules/questionnaire/validate.js';
+import { kebabCaseToWords } from '@/modules/utils.js';
+import { editorialBoardListItem as validate } from '@/modules/questionnaire/validate.js';
 
 const predefinedRoles = [
 	'editor-in-chief',

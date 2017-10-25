@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import QuestionnaireQuestion from 'vue-components/Questionnaire/Question/Question.vue';
+import QuestionnaireQuestion from '@/vue-components/Questionnaire/Question/Question.vue';
 
 import snarkdown from 'snarkdown';
 

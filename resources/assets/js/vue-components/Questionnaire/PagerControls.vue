@@ -41,9 +41,9 @@
 </template>
 
 <script>
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
-import ProgressBullets from 'vue-components/ProgressBullets.vue';
-import BootstrapPopover from 'vue-components/BootstrapPopover.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
+import ProgressBullets from '@/vue-components/ProgressBullets.vue';
+import BootstrapPopover from '@/vue-components/BootstrapPopover.vue';
 
 export default {
 	props: {

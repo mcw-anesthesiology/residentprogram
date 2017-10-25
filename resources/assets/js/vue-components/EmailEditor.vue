@@ -117,7 +117,7 @@ import {
 	getFetchHeaders,
 	groupUsers,
 	htmlLabelReplacements
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 
 const md = new MarkdownIt();
 

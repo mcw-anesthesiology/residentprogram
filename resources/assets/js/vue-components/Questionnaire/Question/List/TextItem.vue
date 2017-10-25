@@ -3,7 +3,10 @@
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
 			@remove="$emit('remove')">
-		<validated-form-group :errors="validation.errors" prop="text">
+		<validated-form-group prop="text"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<textarea class="form-control"
 				:value="text" :readonly="readonly"
 				@input="$emit('input', {text: $event.target.value})">
@@ -15,7 +18,7 @@
 <script>
 import ListItem from './Item.vue';
 
-import { textListItem as validate } from 'modules/questionnaire/validate.js';
+import { textListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,

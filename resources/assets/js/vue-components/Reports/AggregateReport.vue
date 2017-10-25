@@ -73,11 +73,11 @@ import BootstrapButtonInput from '../BootstrapButtonInput.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
 
-import { CHART_COLORS } from 'modules/constants.js';
-import { camelCaseToWords, ucfirst } from 'modules/utils.js';
-import { renderTrainingLevel } from 'modules/datatable-utils.js';
-import { getAverageLevel } from 'modules/report-utils.js';
-import { isoDateString } from 'modules/date-utils.js';
+import { CHART_COLORS } from '@/modules/constants.js';
+import { camelCaseToWords, ucfirst } from '@/modules/utils.js';
+import { renderTrainingLevel } from '@/modules/datatable-utils.js';
+import { getAverageLevel } from '@/modules/report-utils.js';
+import { isoDateString } from '@/modules/date-utils.js';
 
 export default {
 	props: {

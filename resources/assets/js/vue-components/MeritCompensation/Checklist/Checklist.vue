@@ -4,7 +4,7 @@
 		<questionnaire-pager :pages="pages" :readonly="readonly"
 				:checklist-validator="checklistIsValid"
 				@submit="handleSubmit">
-			<template slot="header" scope="pager">
+			<template slot="header" slot-scope="pager">
 				<div class="text-right">
 					<show-hide-button class="btn btn-info btn-sm"
 							v-model="show.errors">
@@ -16,7 +16,7 @@
 					:pages="pager.pages"
 					@navigate="pager.goToPage" />
 			</template>
-			<template scope="pager">
+			<template slot-scope="pager">
 				<section-errors v-if="show.errors" :page="pager.page" />
 				<transition :name="`checklist-pager-${pager.lastChange}`">
 					<checklist-section :key="`page-${pager.pageNum}`"
@@ -54,11 +54,11 @@
 import ChecklistSection from './Section.vue';
 import SectionErrors from './SectionErrors.vue';
 import ChecklistErrors from './ChecklistErrors.vue';
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
-import QuestionnairePager from 'vue-components/Questionnaire/Pager.vue';
-import ShowHideButton from 'vue-components/ShowHideButton.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
+import QuestionnairePager from '@/vue-components/Questionnaire/Pager.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
-import { checklistIsValid } from 'modules/merit-utils.js';
+import { checklistIsValid } from '@/modules/merit-utils.js';
 
 export default {
 	props: {

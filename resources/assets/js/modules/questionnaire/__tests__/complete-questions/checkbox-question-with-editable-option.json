@@ -1,0 +1,12 @@
+{
+	"type": "checkbox",
+	"text": "Checkbox question with editable option",
+	"options": [
+		{
+			"text": "Something",
+			"value": "Something",
+			"editable": true,
+			"checked": true
+		}
+	]
+}

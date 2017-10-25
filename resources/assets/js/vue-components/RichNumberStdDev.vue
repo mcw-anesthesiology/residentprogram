@@ -5,7 +5,7 @@
 <script>
 import RichSignedNumber from './RichSignedNumber.vue';
 
-import { numberOfStandardDeviations } from 'modules/math-utils.js';
+import { numberOfStandardDeviations } from '@/modules/math-utils.js';
 
 export default {
 	props: {

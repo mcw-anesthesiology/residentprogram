@@ -1283,73 +1283,6 @@ aside[data-v-0409124b] {
 	font-size: 0.8em;
 }
 
-span[data-v-1443b082] {
-	cursor: help;
-}
-
-span[data-v-7a8a5f24] {
-	cursor: help;
-}
-
-h2[data-v-439e6c2c] {
-	margin-bottom: 2em;
-}
-.instruction-block[data-v-439e6c2c] {
-	font-size: 1.25em;
-	padding: 1.5em;
-}
-
-.list-group-item[data-v-d93fa1b2] {
-	cursor: pointer;
-}
-.list-group-item[data-v-d93fa1b2]:focus,
-.list-group-item[data-v-d93fa1b2]:hover {
-	color: #555;
-	background-color: #f5f5f5;
-}
-.list-group-item.active[data-v-d93fa1b2]:focus,
-.list-group-item.active[data-v-d93fa1b2]:hover {
-	color: white;
-	background-color: rgba(51, 123, 184, 0.85);
-}
-.item-controls[data-v-d93fa1b2] {
-	margin-top: 1em;
-	display: flex;
-	justify-content: space-between;
-}
-.item-controls .form-control[data-v-d93fa1b2] {
-	width: 5em;
-}
-.item-controls-buttons[data-v-d93fa1b2] {
-}
-
-textarea[data-v-227f018b] {
-	width: 100%;
-	height: 400px;
-	font-family: monospace;
-	white-space: pre;
-}
-
-.merit-form-list-item[data-v-3c839864] {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-	padding: 5px 0;
-}
-.merit-form-list-item[data-v-3c839864]:nth-child(even) {
-	background-color: rgba(0, 0, 0, 0.05);
-}
-small[data-v-3c839864] {
-	font-size: 0.75em;
-	color: rgba(0, 0, 0, 0.55);
-	display: block;
-}
-.name-cell[data-v-3c839864] {
-	position: relative;
-	bottom: 0;
-}
-.name[data-v-3c839864] {
-	font-size: 1.25em;
-}
-
 .alum-list-item[data-v-8313b90a] {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 	padding: 5px 0;
@@ -1373,6 +1306,10 @@ small[data-v-3c839864] {
 }
 .graduation-date-cell:hover .full-date[data-v-8313b90a] {
 	display: block;
+}
+
+span[data-v-1443b082] {
+	cursor: help;
 }
 
 .glyph-container[data-v-9ec25dd4] {
@@ -1407,6 +1344,69 @@ hr[data-v-9ec25dd4] {
 .selected-users-panel .panel-body[data-v-4e330431] {
 	max-height: 300px;
 	overflow-y: auto;
+}
+
+textarea[data-v-227f018b] {
+	width: 100%;
+	height: 400px;
+	font-family: monospace;
+	white-space: pre;
+}
+
+span[data-v-7a8a5f24] {
+	cursor: help;
+}
+
+h2[data-v-439e6c2c] {
+	margin-bottom: 2em;
+}
+.instruction-block[data-v-439e6c2c] {
+	font-size: 1.25em;
+	padding: 1.5em;
+}
+
+.merit-form-list-item[data-v-3c839864] {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+	padding: 5px 0;
+}
+.merit-form-list-item[data-v-3c839864]:nth-child(even) {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+small[data-v-3c839864] {
+	font-size: 0.75em;
+	color: rgba(0, 0, 0, 0.55);
+	display: block;
+}
+.name-cell[data-v-3c839864] {
+	position: relative;
+	bottom: 0;
+}
+.name[data-v-3c839864] {
+	font-size: 1.25em;
+}
+
+.list-group-item[data-v-d93fa1b2] {
+	cursor: pointer;
+}
+.list-group-item[data-v-d93fa1b2]:focus,
+.list-group-item[data-v-d93fa1b2]:hover {
+	color: #555;
+	background-color: #f5f5f5;
+}
+.list-group-item.active[data-v-d93fa1b2]:focus,
+.list-group-item.active[data-v-d93fa1b2]:hover {
+	color: white;
+	background-color: rgba(51, 123, 184, 0.85);
+}
+.item-controls[data-v-d93fa1b2] {
+	margin-top: 1em;
+	display: flex;
+	justify-content: space-between;
+}
+.item-controls .form-control[data-v-d93fa1b2] {
+	width: 5em;
+}
+.item-controls-buttons[data-v-d93fa1b2] {
 }
 
 /*# sourceMappingURL=vue-manage.css.map*/

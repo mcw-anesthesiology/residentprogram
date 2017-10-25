@@ -1,0 +1,25 @@
+{
+	"title": "Questionnaire with unmet but complete question",
+	"sections": [
+		{
+			"title": "",
+			"items": [
+				{
+					"type": "text",
+					"text": "Text question",
+					"id": "qid",
+					"value": "Ok"
+				},
+				{
+					"type": "text",
+					"text": "Conditional question",
+					"condition": {
+						"questionId": "qid",
+						"questionValue": "No"
+					},
+					"value": "A value"
+				}
+			]
+		}
+	]
+}

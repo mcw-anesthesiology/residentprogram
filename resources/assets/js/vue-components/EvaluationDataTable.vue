@@ -2,12 +2,12 @@
 	<div>
 		<fieldset>
 			<legend>Evaluation Date filter</legend>
-			<start-end-date v-model="dates" :allTime="true" />
+			<start-end-date v-model="dates" all-time />
 		</fieldset>
 
 		<data-table :id="id" :striped="striped" :bordered="bordered"
 				:thead="thead" :config="datedConfig" :data="data"
-				:exportable="exportable" :exportFilename="exportFilename">
+				:exportable="exportable" :export-filename="exportFilename">
 			<slot></slot>
 		</data-table>
 	</div>
@@ -20,7 +20,7 @@ import StartEndDate from './StartEndDate.vue';
 import * as localforage from 'localforage';
 import moment from 'moment';
 
-import * as dateUtils from 'modules/date-utils.js';
+import * as dateUtils from '@/modules/date-utils.js';
 
 window.localforage = localforage;
 
@@ -37,6 +37,14 @@ export default {
 			validator(value){
 				return Object.values(dateUtils.DATE_RANGES).includes(value);
 			}
+		},
+		startProp: {
+			type: String,
+			default: 'evaluation_date_start'
+		},
+		endProp: {
+			type: String,
+			default: 'evaluation_date_end'
 		}
 	},
 	data(){
@@ -82,11 +90,11 @@ export default {
 
 
 			if(this.dates.endDate)
-				config.ajax.data.evaluation_date_start = [
+				config.ajax.data[this.startProp] = [
 					'<=', dateUtils.isoDateString(this.dates.endDate)
 				];
 			if(this.dates.startDate)
-				config.ajax.data.evaluation_date_end = [
+				config.ajax.data[this.endProp] = [
 					'>=', dateUtils.isoDateString(this.dates.startDate)
 				];
 

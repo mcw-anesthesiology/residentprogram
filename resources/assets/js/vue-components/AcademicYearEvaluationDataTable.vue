@@ -23,7 +23,7 @@ import EvaluationDataTable from './EvaluationDataTable.vue';
 import DataTable from './DataTable.vue';
 import AcademicYearSelector from './AcademicYearSelector.vue';
 
-import { academicYearForDate } from 'modules/date-utils.js';
+import { academicYearForDate } from '@/modules/date-utils.js';
 
 export default {
 	extends: EvaluationDataTable,

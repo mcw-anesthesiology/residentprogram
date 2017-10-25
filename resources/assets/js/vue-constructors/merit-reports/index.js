@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import HasAlerts from 'vue-mixins/HasAlerts.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import MeritReportById from 'vue-components/MeritCompensation/ReportById.vue';
-import MeritSummaryById from 'vue-components/MeritCompensation/SummaryById.vue';
+import MeritReportById from '@/vue-components/MeritCompensation/ReportById.vue';
+import MeritSummaryById from '@/vue-components/MeritCompensation/SummaryById.vue';
 
 import AdminSupervisorMeritReportMixin from './admin-supervisor.js';
 import FacultyMeritReportMixin from './faculty.js';
@@ -15,8 +15,8 @@ import {
 	fetchAllMeritReports,
 	getYearlyFacultyMeritForm,
 	getCurrentYearlyMeritDateRange
-} from 'modules/merit-utils.js';
-import { getFetchHeaders, jsonOrThrow } from 'modules/utils.js';
+} from '@/modules/merit-utils.js';
+import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
 
 Vue.use(VueRouter);
 

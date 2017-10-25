@@ -1,0 +1,10 @@
+{
+	"type": "text",
+	"text": "Text question",
+	"value": "Some text",
+	"required": true,
+	"scoring": {
+		"category": "Text category",
+		"value": 10
+	}
+}

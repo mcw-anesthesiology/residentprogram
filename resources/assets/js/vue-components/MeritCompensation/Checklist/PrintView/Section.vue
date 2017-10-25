@@ -1,8 +1,8 @@
 <script>
 import PrintViewChecklistItem from './Item.vue';
-import QuestionnairePrintViewSection from 'vue-components/Questionnaire/PrintView/Section.vue';
+import QuestionnairePrintViewSection from '@/vue-components/Questionnaire/PrintView/Section.vue';
 
-import { itemIsChecked } from 'modules/merit-utils.js';
+import { itemIsChecked } from '@/modules/merit-utils.js';
 
 export default {
 	extends: QuestionnairePrintViewSection,

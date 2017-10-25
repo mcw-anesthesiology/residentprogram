@@ -1,34 +1,34 @@
 import Vue from 'vue';
 
-import AlertList from 'vue-components/AlertList.vue';
-import ComponentList from 'vue-components/ComponentList.vue';
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
-import DataTable from 'vue-components/DataTable.vue';
-import RichDate from 'vue-components/RichDate.vue';
-import RichDateRange from 'vue-components/RichDateRange.vue';
-import AcademicYearSelector from 'vue-components/AcademicYearSelector.vue';
+import AlertList from '@/vue-components/AlertList.vue';
+import ComponentList from '@/vue-components/ComponentList.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
+import DataTable from '@/vue-components/DataTable.vue';
+import RichDate from '@/vue-components/RichDate.vue';
+import RichDateRange from '@/vue-components/RichDateRange.vue';
+import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
 
-import FormBuilder from 'vue-components/FormBuilder/FormBuilder.vue';
-import FormReader from 'vue-components/FormReader/FormReader.vue';
+import FormBuilder from '@/vue-components/FormBuilder/FormBuilder.vue';
+import FormReader from '@/vue-components/FormReader/FormReader.vue';
 
 import moment from 'moment';
 
 import {
 	getEvaluationStatusLabel
-} from 'modules/datatable-utils.js';
+} from '@/modules/datatable-utils.js';
 import {
 	isoDateStringObject,
 	currentYear,
 	renderDate,
 	renderDateTime,
 	renderDateRange
-} from 'modules/date-utils.js';
+} from '@/modules/date-utils.js';
 import {
 	getFetchHeaders,
 	okOrThrow,
 	jsonOrThrow,
 	ucfirst
-} from 'modules/utils.js';
+} from '@/modules/utils.js';
 
 export default function createManageFaculty360(el) {
 	return new Vue({

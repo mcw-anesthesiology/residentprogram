@@ -1,5 +1,5 @@
 <script>
-import { ucfirst, camelCaseToWords } from 'modules/utils.js';
+import { ucfirst, camelCaseToWords } from '@/modules/utils.js';
 
 export default {
 	props: {

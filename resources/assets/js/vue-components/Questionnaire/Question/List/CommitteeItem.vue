@@ -3,7 +3,10 @@
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
 			@remove="$emit('remove')">
-		<validated-form-group :errors="validation.errors" prop="name">
+		<validated-form-group prop="name"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<label class="containing-label">
 				Committee name
 				<textarea class="form-control"
@@ -12,7 +15,10 @@
 				</textarea>
 			</label>
 		</validated-form-group>
-		<validated-form-group :errors="validation.errors" prop="role">
+		<validated-form-group prop="role"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
 			<fieldset>
 				<legend>
 					Your role
@@ -29,10 +35,10 @@
 </template>
 
 <script>
-import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 
-import { ucfirst } from 'modules/utils.js';
-import { committeeListItem as validate } from 'modules/questionnaire/validate.js';
+import { ucfirst } from '@/modules/utils.js';
+import { committeeListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	props: {
