@@ -8,9 +8,9 @@
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function(__WEBPACK_EXTERNAL_MODULE_16__) {
-return webpackJsonp([9],[
-/* 0 */,
-/* 1 */
+return webpackJsonp([9],{
+
+/***/ 1:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -605,755 +605,8 @@ function arraysIntersect(arr1, arr2) {
 }
 
 /***/ }),
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (immutable) */ __webpack_exports__["isoDateString"] = isoDateString;
-/* harmony export (immutable) */ __webpack_exports__["isoDateStringObject"] = isoDateStringObject;
-/* harmony export (immutable) */ __webpack_exports__["datesEqual"] = datesEqual;
-/* harmony export (immutable) */ __webpack_exports__["renderDate"] = renderDate;
-/* harmony export (immutable) */ __webpack_exports__["renderDateTime"] = renderDateTime;
-/* harmony export (immutable) */ __webpack_exports__["renderDateRange"] = renderDateRange;
-/* harmony export (immutable) */ __webpack_exports__["renderDateRangeExplicit"] = renderDateRangeExplicit;
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DATE_RANGES", function() { return DATE_RANGES; });
-/* harmony export (immutable) */ __webpack_exports__["currentQuarter"] = currentQuarter;
-/* harmony export (immutable) */ __webpack_exports__["lastQuarter"] = lastQuarter;
-/* harmony export (immutable) */ __webpack_exports__["currentSemester"] = currentSemester;
-/* harmony export (immutable) */ __webpack_exports__["lastSemester"] = lastSemester;
-/* harmony export (immutable) */ __webpack_exports__["currentYear"] = currentYear;
-/* harmony export (immutable) */ __webpack_exports__["lastYear"] = lastYear;
-/* harmony export (immutable) */ __webpack_exports__["allTime"] = allTime;
-/* harmony export (immutable) */ __webpack_exports__["academicYearForDate"] = academicYearForDate;
-/* harmony export (immutable) */ __webpack_exports__["quarterForDate"] = quarterForDate;
-/* harmony export (immutable) */ __webpack_exports__["monthForDate"] = monthForDate;
-/* harmony export (immutable) */ __webpack_exports__["quartersInAcademicYear"] = quartersInAcademicYear;
-/* harmony export (immutable) */ __webpack_exports__["monthsInAcademicYear"] = monthsInAcademicYear;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-
-
-function isoDateString(date) {
-	return __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('Y-MM-DD');
-}
-
-function isoDateStringObject(dates) {
-	var newDates = {};
-
-	var _iteratorNormalCompletion = true;
-	var _didIteratorError = false;
-	var _iteratorError = undefined;
-
-	try {
-		for (var _iterator = Object.entries(dates)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-			var _ref = _step.value;
-
-			var _ref2 = _slicedToArray(_ref, 2);
-
-			var key = _ref2[0];
-			var date = _ref2[1];
-
-			var dateString = isoDateString(date);
-			newDates[key] = dateString;
-		}
-	} catch (err) {
-		_didIteratorError = true;
-		_iteratorError = err;
-	} finally {
-		try {
-			if (!_iteratorNormalCompletion && _iterator.return) {
-				_iterator.return();
-			}
-		} finally {
-			if (_didIteratorError) {
-				throw _iteratorError;
-			}
-		}
-	}
-
-	return newDates;
-}
-
-function datesEqual(d1, d2) {
-	var dates1 = isoDateStringObject(d1);
-	var dates2 = isoDateStringObject(d2);
-
-	return dates1.startDate === dates2.startDate && dates1.endDate === dates2.endDate;
-}
-
-function renderDate(date) {
-	var explicit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-	var format = explicit ? 'll' : 'MMMM Y';
-	return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format(format) : '';
-}
-
-function renderDateTime(date) {
-	return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).calendar() : '';
-}
-
-function renderDateRange(startDate, endDate) {
-	var explicit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-	if (startDate === null && endDate === null) return 'All time';
-
-	var range = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).twix(endDate, { allDay: true });
-	return range.start().startOf('month') && range.end().endOf('month') && !explicit ? range.format({
-		dayFormat: '_',
-		monthFormat: 'MMMM'
-	}).replace(/\s+_/g, '') : range.format({
-		monthFormat: 'MMMM'
-	});
-}
-
-function renderDateRangeExplicit(startDate, endDate) {
-	return renderDateRange(startDate, endDate, true);
-}
-
-var DATE_RANGES = {
-	CUSTOM: 'custom',
-	CURRENT_QUARTER: 'currentQuarter',
-	LAST_QUARTER: 'lastQuarter',
-	CURRENT_SEMESTER: 'currentSemester',
-	LAST_SEMESTER: 'lastSemester',
-	CURRENT_YEAR: 'currentYear',
-	LAST_YEAR: 'lastYear',
-	ALL_TIME: 'allTime'
-};
-
-function currentQuarter() {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
-	while (startDate.month() % 3 !== 0) {
-		startDate.subtract(1, 'month');
-	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(2, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function lastQuarter() {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
-	while (startDate.month() % 3 !== 0) {
-		startDate.subtract(1, 'month');
-	}startDate.subtract(3, 'months');
-	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(2, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function currentSemester() {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
-	while (startDate.month() % 6 !== 0) {
-		startDate.subtract(1, 'month');
-	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(5, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function lastSemester() {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
-	while (startDate.month() % 6 !== 0) {
-		startDate.subtract(1, 'month');
-	}startDate.subtract(6, 'months');
-	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(5, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function currentYear() {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
-	while (startDate.month() !== 6) {
-		startDate.subtract(1, 'month');
-	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(11, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function lastYear() {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
-	while (startDate.month() !== 6) {
-		startDate.subtract(1, 'month');
-	}startDate.subtract(1, 'year');
-	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(11, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function allTime() {
-	return {
-		startDate: null,
-		endDate: null
-	};
-}
-
-function academicYearForDate(date) {
-	date = __WEBPACK_IMPORTED_MODULE_0_moment___default()(date);
-
-	var startYear = date.month() >= 6 ? // July
-	date.year() : date.year() - 1;
-
-	var startDate = {
-		year: startYear,
-		month: 6,
-		day: 1
-	};
-	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(1, 'year').subtract(1, 'day');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function quarterForDate(date) {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).startOf('month');
-	while (startDate.month() % 3 !== 0) {
-		startDate.subtract(1, 'month');
-	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(2, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function monthForDate(date) {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).startOf('month');
-	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function quartersInAcademicYear() {
-	var academicYear = academicYearForDate(new Date());
-	var date = __WEBPACK_IMPORTED_MODULE_0_moment___default()(academicYear.startDate);
-
-	var quarters = [];
-	while (date <= academicYear.endDate) {
-		quarters.push(quarterForDate(date));
-		date.add(3, 'months');
-	}
-
-	return quarters;
-}
-
-function monthsInAcademicYear() {
-	var academicYear = academicYearForDate(new Date());
-	var date = __WEBPACK_IMPORTED_MODULE_0_moment___default()(academicYear.startDate);
-
-	var months = [];
-	while (date <= academicYear.endDate) {
-		months.push(monthForDate(date));
-		date.add(1, 'month');
-	}
-
-	return months;
-}
-
-/***/ }),
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(223);
-module.exports.easing = __webpack_require__(484);
-module.exports.canvas = __webpack_require__(485);
-module.exports.options = __webpack_require__(486);
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_16__;
-
-/***/ }),
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var helpers = __webpack_require__(15);
-
-module.exports = {
-	/**
-	 * @private
-	 */
-	_set: function(scope, values) {
-		return helpers.merge(this[scope] || (this[scope] = {}), values);
-	}
-};
-
-
-/***/ }),
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["u"] = unlimitTableEvals;
-/* harmony export (immutable) */ __webpack_exports__["t"] = unlimitRestTableEvals;
-/* harmony export (immutable) */ __webpack_exports__["a"] = createDateCell;
-/* harmony export (immutable) */ __webpack_exports__["c"] = createDateTimeCell;
-/* harmony export (immutable) */ __webpack_exports__["b"] = createDateRangeCell;
-/* harmony export (immutable) */ __webpack_exports__["i"] = renderDateCell;
-/* harmony export (immutable) */ __webpack_exports__["k"] = renderDateTimeCell;
-/* harmony export (immutable) */ __webpack_exports__["j"] = renderDateRangeCell;
-/* harmony export (immutable) */ __webpack_exports__["h"] = renderAccountStatus;
-/* harmony export (immutable) */ __webpack_exports__["g"] = getEvaluationStatusLabelType;
-/* harmony export (immutable) */ __webpack_exports__["f"] = getEvaluationStatusLabel;
-/* harmony export (immutable) */ __webpack_exports__["l"] = renderEvaluationStatus;
-/* harmony export (immutable) */ __webpack_exports__["s"] = renderTrainingLevel;
-/* harmony export (immutable) */ __webpack_exports__["p"] = renderSecondaryTrainingLevel;
-/* harmony export (immutable) */ __webpack_exports__["n"] = renderIdToEvalUrl;
-/* harmony export (immutable) */ __webpack_exports__["r"] = renderSubjectEvalUrl;
-/* harmony export (immutable) */ __webpack_exports__["m"] = renderEvaluatorEvalUrl;
-/* harmony export (immutable) */ __webpack_exports__["o"] = renderNewTag;
-/* harmony export (immutable) */ __webpack_exports__["q"] = renderSubjectCell;
-/* harmony export (immutable) */ __webpack_exports__["d"] = createEditAndDeleteButtons;
-/* harmony export (immutable) */ __webpack_exports__["e"] = getDataAttributes;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(536);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_twix__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(6);
-
-
-
-
-
-
-
-function unlimitTableEvals() {
-	var dt = this.DataTable({
-		retrieve: true
-	});
-	var url = dt.ajax.url();
-	dt.ajax.url(url.substring(0, url.lastIndexOf('/'))).load().draw();
-}
-
-function unlimitRestTableEvals() {
-	var dt = this.DataTable({
-		retrieve: true
-	});
-	var url = dt.ajax.url();
-	dt.ajax.url(url.substring(0, url.lastIndexOf('?'))).load().draw();
-}
-
-function createDateCell(td, date) {
-	if (date && $(td).text() !== __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('ll')) $(td).attr('data-date-value', __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf()).addClass('table-date-cell');
-}
-
-function createDateTimeCell(td, date) {
-	if (date && $(td).text() !== __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('ll LT')) $(td).attr('data-date-value', __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf()).addClass('table-date-time-cell');
-}
-
-function createDateRangeCell(start, end) {
-
-	return function (td, obj) {
-		if (start in obj && end in obj) {
-			$(td).attr('data-date-range-value', Object(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateRange"])(obj[start], obj[end], true)).addClass('table-date-range-cell');
-		}
-	};
-}
-
-function renderDateCell(date, type) {
-	if (type === 'sort' || type === 'type') return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf() : '';
-
-	return Object(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDate"])(date);
-}
-
-function renderDateTimeCell(date, type) {
-	if (type === 'sort' || type === 'type') return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf() : '';
-
-	return Object(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateTime"])(date);
-}
-
-function renderDateRangeCell(start, end) {
-
-	return function (obj, type) {
-		if (type === 'sort' || type === 'type') return start in obj ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(obj[start]).valueOf() : '';
-
-		return start in obj && end in obj ? Object(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateRange"])(obj[start], obj[end]) : '';
-	};
-}
-
-function renderAccountStatus(status) {
-	var labelContext = void 0;
-	switch (status) {
-		case 'active':
-			labelContext = 'label-success';
-			break;
-		case 'inactive':
-			labelContext = 'label-danger';
-			break;
-		case 'pending':
-			labelContext = 'label-warning';
-			break;
-		default:
-			labelContext = 'label-default';
-			break;
-	}
-
-	return '<span class="label ' + labelContext + '">' + Object(__WEBPACK_IMPORTED_MODULE_3__utils_js__["I" /* ucfirst */])(status) + '</span>';
-}
-
-function getEvaluationStatusLabelType(status) {
-	switch (status) {
-		case 'complete':
-			return 'success';
-		case 'disabled':
-		case 'canceled by admin':
-		case 'canceled by faculty':
-		case 'canceled by resident':
-		case 'canceled by fellow':
-		case 'canceled by staff':
-			return 'danger';
-		case 'pending':
-			return 'warning';
-		case 'open for editing':
-			return 'info';
-		default:
-			return 'default';
-	}
-}
-
-function getEvaluationStatusLabel(status) {
-	return 'label-' + getEvaluationStatusLabelType(status);
-}
-
-function renderEvaluationStatus(status) {
-	return '<span class="label ' + getEvaluationStatusLabel(status) + '">\n\t\t\t' + Object(__WEBPACK_IMPORTED_MODULE_3__utils_js__["I" /* ucfirst */])(status) + '\n\t\t</span>';
-}
-
-function renderTrainingLevel(trainingLevel) {
-	if (trainingLevel) {
-		if (trainingLevel.indexOf("ca-") > -1) return trainingLevel.toUpperCase();else return Object(__WEBPACK_IMPORTED_MODULE_3__utils_js__["I" /* ucfirst */])(trainingLevel);
-	}
-
-	return '';
-}
-
-function renderSecondaryTrainingLevel(secondaryTrainingLevel) {
-	if (secondaryTrainingLevel) {
-		var allCaps = ['raaps'];
-		if (allCaps.indexOf(secondaryTrainingLevel) > -1) return secondaryTrainingLevel.toUpperCase();else return Object(__WEBPACK_IMPORTED_MODULE_3__utils_js__["I" /* ucfirst */])(secondaryTrainingLevel);
-	}
-
-	return '';
-}
-
-function renderIdToEvalUrl(id) {
-	return '<a href="/evaluation/' + id + '">' + id + '</a>';
-}
-
-function renderSubjectEvalUrl(url, type, evaluation) {
-	if (['sort', 'type'].includes(type)) {
-		if (evaluation.seen_by_subject_at) {
-			return evaluation.id;
-		} else {
-			if (typeof evaluation.id === 'number') return evaluation.id * __WEBPACK_IMPORTED_MODULE_2__constants_js__["j" /* UNSEEN_EVALUATION_PRIORITY */];else return '~' + evaluation.id;
-		}
-	}
-
-	if (evaluation.seen_by_subject_at) return url;else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["f" /* NEW_ITEM_TAG */] + ' ' + url;
-}
-
-function renderEvaluatorEvalUrl(url, type, evaluation) {
-	if (['sort', 'type'].includes(type)) {
-		if (evaluation.seen_by_evaluator_at) {
-			return evaluation.id;
-		} else {
-			if (typeof evaluation.id === 'number') return evaluation.id * __WEBPACK_IMPORTED_MODULE_2__constants_js__["j" /* UNSEEN_EVALUATION_PRIORITY */];else return '~' + evaluation.id;
-		}
-	}
-
-	if (evaluation.seen_by_evaluator_at) return url;else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["f" /* NEW_ITEM_TAG */] + ' ' + url;
-}
-
-function renderNewTag(type, evaluation) {
-	if (evaluation.seen_by_evaluator_at) return '';else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["f" /* NEW_ITEM_TAG */];
-}
-
-function renderSubjectCell(name, type, evaluation) {
-	if (type === 'display') return '<a href="/profile/' + evaluation.subject_id + '">' + name + '</a>';
-
-	return name;
-}
-
-function createEditAndDeleteButtons(thing, name) {
-	var dataAttributes = getDataAttributes(thing);
-
-	var editButton = '<button type="button" class="btn btn-xs btn-info edit-' + name + '-button" ' + dataAttributes + '><span class="glyphicon glyphicon-edit"></span> Edit</button>';
-
-	var deleteButton = '<button type="button" class="btn btn-xs btn-danger delete-' + name + '-button" ' + dataAttributes + '><span class="glyphicon glyphicon-remove"></span> Delete</button>';
-
-	return [editButton, deleteButton];
-}
-
-function getDataAttributes(thing) {
-	var excludes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-	var dataAttributes = '';
-	Object.getOwnPropertyNames(thing).forEach(function (propName) {
-		if (!excludes.includes(propName) && thing[propName] != null) dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
-	});
-
-	return dataAttributes;
-}
-
-/***/ }),
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */
-/***/ (function(module, exports) {
-
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADMIN_EMAIL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return NEW_ITEM_TAG; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return UNSEEN_EVALUATION_PRIORITY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return PLACEHOLDER_USER_IMAGE_PATH; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return STANDARD_OPTIONS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return RESIDENT_VALUE_MAP; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return FELLOWSHIP_VALUE_MAPS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return CHART_TYPES; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CHART_COLORS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return FEATURE_RELEASE_DATES; });
-var ADMIN_EMAIL = 'jmischka@mcw.edu';
-
-var NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
-
-var UNSEEN_EVALUATION_PRIORITY = 1000000;
-
-var PLACEHOLDER_USER_IMAGE_PATH = '/img/avatar.png';
-
-// FIXME: A lot of these should be configurable and saved instead of hardcoded
-var STANDARD_OPTIONS = {
-	RESIDENT: [{ value: 0, text: 'Not at CBY' }, { value: 1, text: '' }, { value: 2, text: 'CBY' }, { value: 3, text: '' }, { value: 4, text: 'CA-1' }, { value: 5, text: '' }, { value: 6, text: 'CA-2' }, { value: 7, text: '' }, { value: 8, text: 'CA-3' }, { value: 9, text: '' }, { value: 10, text: 'Attending' }],
-	FELLOW: [{ value: 0, text: 'Not at fellowship level' }, { value: 1, text: '' }, { value: 2, text: 'Fellow - 1' }, { value: 3, text: '' }, { value: 4, text: 'Fellow - 2' }, { value: 5, text: '' }, { value: 6, text: 'Fellow - 3' }, { value: 7, text: '' }, { value: 8, text: 'Fellow - 4' }, { value: 9, text: '' }, { value: 10, text: 'Fellow - 5' }],
-	FACULTY: [{ value: 'strongly-disagree', text: 'Strongly Disagree' }, { value: 'disagree', text: 'Disagree' }, { value: 'undecided', text: 'Undecided' }, { value: 'agree', text: 'Agree' }, { value: 'strongly-agree', text: 'Strongly Agree' }, { value: 'n-a', text: 'N/A' }]
-};
-
-var RESIDENT_VALUE_MAP = new Map([[2, 'CBY'], [4, 'CA-1'], [6, 'CA-2'], [8, 'CA-3'], [10, 'Attending']]);
-
-var FELLOWSHIP_VALUE_MAPS = new Map([[null, new Map([[0, 'Not yet at Resident Level'], [1, 'Resident Level'], [2, '1st Quarter Fellow'], [3, 'Mid-year Fellow'], [4, 'Advanced Fellow'], [5, 'Attending']])], ['Critical Care', new Map([[0, 'Unacceptable'], [3, 'Needs Improvement'], [5, 'Meets Expectations'], [7, 'Exceeds Expectations'], [10, 'Outstanding']])], ['Pediatric', new Map([[0, 'Bellow fellow level'], [3, 'Developing, Not consistent'], [5, 'Acceptable, Not yet secure'], [7, 'Secure, Consistent'], [10, 'Outstanding, Autonomous']])], ['Pain', new Map([[0, 'Not yet at Resident Level'], [1, 'Resident Level'], [2, '1st Quarter Fellow'], [3, 'Mid-year Fellow'], [4, 'Advanced Fellow'], [5, 'Attending']])], ['Cardio', new Map([[0, 'Unacceptable'], [3, 'Needs Improvement'], [5, 'Meets Expectations'], [7, 'Exceeds Expectations'], [10, 'Outstanding']])], ['OB', new Map([[0, 'Not at Fellowship Level'], [2, 'Fellow - 1'], [4, 'Fellow - 2'], [6, 'Fellow - 3'], [8, 'Fellow - 4'], [10, 'Fellow - 5']])]]);
-
-var CHART_TYPES = ['line', 'bar', 'horizontalBar', 'radar', 'polarArea', 'pie', 'doughnut', 'bubble'];
-
-var CHART_COLORS = {
-	AVERAGE: '#ffce56',
-	SUBJECT: '#ff6384',
-	OTHER: ['#7fdbff', '#2ecc40', '#ffdc00', '#f012be', '#0074d9', '#01ff70', '#ff851b', '#001f3f', '#3d9970', '#ff4136', '#85144b', '#39cccc', '#b10dc9']
-};
-
-var FEATURE_RELEASE_DATES = {
-	FACULTY_MERIT: '2016-07-01'
-};
-
-/***/ }),
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */,
-/* 123 */,
-/* 124 */,
-/* 125 */,
-/* 126 */,
-/* 127 */,
-/* 128 */,
-/* 129 */,
-/* 130 */,
-/* 131 */,
-/* 132 */
+/***/ 132:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1475,18 +728,8 @@ module.exports = Element;
 
 
 /***/ }),
-/* 133 */,
-/* 134 */,
-/* 135 */,
-/* 136 */,
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */,
-/* 141 */,
-/* 142 */,
-/* 143 */,
-/* 144 */
+
+/***/ 144:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1676,7 +919,8 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 145 */
+
+/***/ 145:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1690,33 +934,29 @@ module.exports.Rectangle = __webpack_require__(494);
 
 
 /***/ }),
-/* 146 */,
-/* 147 */,
-/* 148 */,
-/* 149 */,
-/* 150 */,
-/* 151 */,
-/* 152 */,
-/* 153 */,
-/* 154 */,
-/* 155 */,
-/* 156 */,
-/* 157 */,
-/* 158 */,
-/* 159 */,
-/* 160 */,
-/* 161 */,
-/* 162 */,
-/* 163 */,
-/* 164 */,
-/* 165 */,
-/* 166 */,
-/* 167 */,
-/* 168 */,
-/* 169 */,
-/* 170 */,
-/* 171 */,
-/* 172 */
+
+/***/ 15:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(223);
+module.exports.easing = __webpack_require__(484);
+module.exports.canvas = __webpack_require__(485);
+module.exports.options = __webpack_require__(486);
+
+
+/***/ }),
+
+/***/ 16:
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_16__;
+
+/***/ }),
+
+/***/ 172:
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
@@ -1726,7 +966,8 @@ module.exports = !__webpack_require__(233)(function () {
 
 
 /***/ }),
-/* 173 */
+
+/***/ 173:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1885,7 +1126,8 @@ module.exports = {
 
 
 /***/ }),
-/* 174 */
+
+/***/ 174:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2096,7 +1338,8 @@ module.exports = {
 
 
 /***/ }),
-/* 175 */
+
+/***/ 175:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2428,52 +1671,28 @@ exports.getDecimalPlaces = function getDecimalPlaces(number) {
 
 
 /***/ }),
-/* 176 */,
-/* 177 */,
-/* 178 */,
-/* 179 */,
-/* 180 */,
-/* 181 */,
-/* 182 */,
-/* 183 */,
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */,
-/* 188 */,
-/* 189 */,
-/* 190 */,
-/* 191 */,
-/* 192 */,
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */,
-/* 197 */,
-/* 198 */,
-/* 199 */,
-/* 200 */,
-/* 201 */,
-/* 202 */,
-/* 203 */,
-/* 204 */,
-/* 205 */,
-/* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
-/* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */
+
+/***/ 22:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var helpers = __webpack_require__(15);
+
+module.exports = {
+	/**
+	 * @private
+	 */
+	_set: function(scope, values) {
+		return helpers.merge(this[scope] || (this[scope] = {}), values);
+	}
+};
+
+
+/***/ }),
+
+/***/ 221:
 /***/ (function(module, exports) {
 
 var core = module.exports = { version: '2.5.1' };
@@ -2481,7 +1700,8 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
 /***/ }),
-/* 222 */
+
+/***/ 222:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2929,7 +2149,8 @@ function generateCaseLogLocationReportTable(report, name, container) {
 }
 
 /***/ }),
-/* 223 */
+
+/***/ 223:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3233,15 +2454,8 @@ helpers.getValueAtIndexOrDefault = helpers.valueAtIndexOrDefault;
 
 
 /***/ }),
-/* 224 */,
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */,
-/* 231 */,
-/* 232 */
+
+/***/ 232:
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -3250,7 +2464,8 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 233 */
+
+/***/ 233:
 /***/ (function(module, exports) {
 
 module.exports = function (exec) {
@@ -3263,7 +2478,8 @@ module.exports = function (exec) {
 
 
 /***/ }),
-/* 234 */
+
+/***/ 234:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -3347,7 +2563,8 @@ Chart.canvasHelpers = Chart.helpers.canvas;
 
 
 /***/ }),
-/* 235 */
+
+/***/ 235:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4086,7 +3303,8 @@ Url.prototype.parseHost = function() {
 
 
 /***/ }),
-/* 236 */
+
+/***/ 236:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -4625,196 +3843,284 @@ Url.prototype.parseHost = function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module), __webpack_require__(41)))
 
 /***/ }),
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */,
-/* 246 */,
-/* 247 */,
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */,
-/* 253 */,
-/* 254 */,
-/* 255 */,
-/* 256 */,
-/* 257 */,
-/* 258 */,
-/* 259 */,
-/* 260 */,
-/* 261 */,
-/* 262 */,
-/* 263 */,
-/* 264 */,
-/* 265 */,
-/* 266 */,
-/* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */,
-/* 271 */,
-/* 272 */,
-/* 273 */,
-/* 274 */,
-/* 275 */,
-/* 276 */,
-/* 277 */,
-/* 278 */,
-/* 279 */,
-/* 280 */,
-/* 281 */,
-/* 282 */,
-/* 283 */,
-/* 284 */,
-/* 285 */,
-/* 286 */,
-/* 287 */,
-/* 288 */,
-/* 289 */,
-/* 290 */,
-/* 291 */,
-/* 292 */,
-/* 293 */,
-/* 294 */,
-/* 295 */,
-/* 296 */,
-/* 297 */,
-/* 298 */,
-/* 299 */,
-/* 300 */,
-/* 301 */,
-/* 302 */,
-/* 303 */,
-/* 304 */,
-/* 305 */,
-/* 306 */,
-/* 307 */,
-/* 308 */,
-/* 309 */,
-/* 310 */,
-/* 311 */,
-/* 312 */,
-/* 313 */,
-/* 314 */,
-/* 315 */,
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */,
-/* 322 */,
-/* 323 */,
-/* 324 */,
-/* 325 */,
-/* 326 */,
-/* 327 */,
-/* 328 */,
-/* 329 */,
-/* 330 */,
-/* 331 */,
-/* 332 */,
-/* 333 */,
-/* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */,
-/* 339 */,
-/* 340 */,
-/* 341 */,
-/* 342 */,
-/* 343 */,
-/* 344 */,
-/* 345 */,
-/* 346 */,
-/* 347 */,
-/* 348 */,
-/* 349 */,
-/* 350 */,
-/* 351 */,
-/* 352 */,
-/* 353 */,
-/* 354 */,
-/* 355 */,
-/* 356 */,
-/* 357 */,
-/* 358 */,
-/* 359 */,
-/* 360 */,
-/* 361 */,
-/* 362 */,
-/* 363 */,
-/* 364 */,
-/* 365 */,
-/* 366 */,
-/* 367 */,
-/* 368 */,
-/* 369 */,
-/* 370 */,
-/* 371 */,
-/* 372 */,
-/* 373 */,
-/* 374 */,
-/* 375 */,
-/* 376 */,
-/* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */,
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */,
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */,
-/* 406 */,
-/* 407 */,
-/* 408 */,
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */,
-/* 414 */,
-/* 415 */,
-/* 416 */,
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */,
-/* 423 */,
-/* 424 */,
-/* 425 */,
-/* 426 */
+
+/***/ 26:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["u"] = unlimitTableEvals;
+/* harmony export (immutable) */ __webpack_exports__["t"] = unlimitRestTableEvals;
+/* harmony export (immutable) */ __webpack_exports__["a"] = createDateCell;
+/* harmony export (immutable) */ __webpack_exports__["c"] = createDateTimeCell;
+/* harmony export (immutable) */ __webpack_exports__["b"] = createDateRangeCell;
+/* harmony export (immutable) */ __webpack_exports__["i"] = renderDateCell;
+/* harmony export (immutable) */ __webpack_exports__["k"] = renderDateTimeCell;
+/* harmony export (immutable) */ __webpack_exports__["j"] = renderDateRangeCell;
+/* harmony export (immutable) */ __webpack_exports__["h"] = renderAccountStatus;
+/* harmony export (immutable) */ __webpack_exports__["g"] = getEvaluationStatusLabelType;
+/* harmony export (immutable) */ __webpack_exports__["f"] = getEvaluationStatusLabel;
+/* harmony export (immutable) */ __webpack_exports__["l"] = renderEvaluationStatus;
+/* harmony export (immutable) */ __webpack_exports__["s"] = renderTrainingLevel;
+/* harmony export (immutable) */ __webpack_exports__["p"] = renderSecondaryTrainingLevel;
+/* harmony export (immutable) */ __webpack_exports__["n"] = renderIdToEvalUrl;
+/* harmony export (immutable) */ __webpack_exports__["r"] = renderSubjectEvalUrl;
+/* harmony export (immutable) */ __webpack_exports__["m"] = renderEvaluatorEvalUrl;
+/* harmony export (immutable) */ __webpack_exports__["o"] = renderNewTag;
+/* harmony export (immutable) */ __webpack_exports__["q"] = renderSubjectCell;
+/* harmony export (immutable) */ __webpack_exports__["d"] = createEditAndDeleteButtons;
+/* harmony export (immutable) */ __webpack_exports__["e"] = getDataAttributes;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(536);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_twix__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(6);
+
+
+
+
+
+
+
+function unlimitTableEvals() {
+	var dt = this.DataTable({
+		retrieve: true
+	});
+	var url = dt.ajax.url();
+	dt.ajax.url(url.substring(0, url.lastIndexOf('/'))).load().draw();
+}
+
+function unlimitRestTableEvals() {
+	var dt = this.DataTable({
+		retrieve: true
+	});
+	var url = dt.ajax.url();
+	dt.ajax.url(url.substring(0, url.lastIndexOf('?'))).load().draw();
+}
+
+function createDateCell(td, date) {
+	if (date && $(td).text() !== __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('ll')) $(td).attr('data-date-value', __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf()).addClass('table-date-cell');
+}
+
+function createDateTimeCell(td, date) {
+	if (date && $(td).text() !== __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('ll LT')) $(td).attr('data-date-value', __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf()).addClass('table-date-time-cell');
+}
+
+function createDateRangeCell(start, end) {
+
+	return function (td, obj) {
+		if (start in obj && end in obj) {
+			$(td).attr('data-date-range-value', Object(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateRange"])(obj[start], obj[end], true)).addClass('table-date-range-cell');
+		}
+	};
+}
+
+function renderDateCell(date, type) {
+	if (type === 'sort' || type === 'type') return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf() : '';
+
+	return Object(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDate"])(date);
+}
+
+function renderDateTimeCell(date, type) {
+	if (type === 'sort' || type === 'type') return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf() : '';
+
+	return Object(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateTime"])(date);
+}
+
+function renderDateRangeCell(start, end) {
+
+	return function (obj, type) {
+		if (type === 'sort' || type === 'type') return start in obj ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(obj[start]).valueOf() : '';
+
+		return start in obj && end in obj ? Object(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateRange"])(obj[start], obj[end]) : '';
+	};
+}
+
+function renderAccountStatus(status) {
+	var labelContext = void 0;
+	switch (status) {
+		case 'active':
+			labelContext = 'label-success';
+			break;
+		case 'inactive':
+			labelContext = 'label-danger';
+			break;
+		case 'pending':
+			labelContext = 'label-warning';
+			break;
+		default:
+			labelContext = 'label-default';
+			break;
+	}
+
+	return '<span class="label ' + labelContext + '">' + Object(__WEBPACK_IMPORTED_MODULE_3__utils_js__["I" /* ucfirst */])(status) + '</span>';
+}
+
+function getEvaluationStatusLabelType(status) {
+	switch (status) {
+		case 'complete':
+			return 'success';
+		case 'disabled':
+		case 'canceled by admin':
+		case 'canceled by faculty':
+		case 'canceled by resident':
+		case 'canceled by fellow':
+		case 'canceled by staff':
+			return 'danger';
+		case 'pending':
+			return 'warning';
+		case 'open for editing':
+			return 'info';
+		default:
+			return 'default';
+	}
+}
+
+function getEvaluationStatusLabel(status) {
+	return 'label-' + getEvaluationStatusLabelType(status);
+}
+
+function renderEvaluationStatus(status) {
+	return '<span class="label ' + getEvaluationStatusLabel(status) + '">\n\t\t\t' + Object(__WEBPACK_IMPORTED_MODULE_3__utils_js__["I" /* ucfirst */])(status) + '\n\t\t</span>';
+}
+
+function renderTrainingLevel(trainingLevel) {
+	if (trainingLevel) {
+		if (trainingLevel.indexOf("ca-") > -1) return trainingLevel.toUpperCase();else return Object(__WEBPACK_IMPORTED_MODULE_3__utils_js__["I" /* ucfirst */])(trainingLevel);
+	}
+
+	return '';
+}
+
+function renderSecondaryTrainingLevel(secondaryTrainingLevel) {
+	if (secondaryTrainingLevel) {
+		var allCaps = ['raaps'];
+		if (allCaps.indexOf(secondaryTrainingLevel) > -1) return secondaryTrainingLevel.toUpperCase();else return Object(__WEBPACK_IMPORTED_MODULE_3__utils_js__["I" /* ucfirst */])(secondaryTrainingLevel);
+	}
+
+	return '';
+}
+
+function renderIdToEvalUrl(id) {
+	return '<a href="/evaluation/' + id + '">' + id + '</a>';
+}
+
+function renderSubjectEvalUrl(url, type, evaluation) {
+	if (['sort', 'type'].includes(type)) {
+		if (evaluation.seen_by_subject_at) {
+			return evaluation.id;
+		} else {
+			if (typeof evaluation.id === 'number') return evaluation.id * __WEBPACK_IMPORTED_MODULE_2__constants_js__["j" /* UNSEEN_EVALUATION_PRIORITY */];else return '~' + evaluation.id;
+		}
+	}
+
+	if (evaluation.seen_by_subject_at) return url;else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["f" /* NEW_ITEM_TAG */] + ' ' + url;
+}
+
+function renderEvaluatorEvalUrl(url, type, evaluation) {
+	if (['sort', 'type'].includes(type)) {
+		if (evaluation.seen_by_evaluator_at) {
+			return evaluation.id;
+		} else {
+			if (typeof evaluation.id === 'number') return evaluation.id * __WEBPACK_IMPORTED_MODULE_2__constants_js__["j" /* UNSEEN_EVALUATION_PRIORITY */];else return '~' + evaluation.id;
+		}
+	}
+
+	if (evaluation.seen_by_evaluator_at) return url;else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["f" /* NEW_ITEM_TAG */] + ' ' + url;
+}
+
+function renderNewTag(type, evaluation) {
+	if (evaluation.seen_by_evaluator_at) return '';else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["f" /* NEW_ITEM_TAG */];
+}
+
+function renderSubjectCell(name, type, evaluation) {
+	if (type === 'display') return '<a href="/profile/' + evaluation.subject_id + '">' + name + '</a>';
+
+	return name;
+}
+
+function createEditAndDeleteButtons(thing, name) {
+	var dataAttributes = getDataAttributes(thing);
+
+	var editButton = '<button type="button" class="btn btn-xs btn-info edit-' + name + '-button" ' + dataAttributes + '><span class="glyphicon glyphicon-edit"></span> Edit</button>';
+
+	var deleteButton = '<button type="button" class="btn btn-xs btn-danger delete-' + name + '-button" ' + dataAttributes + '><span class="glyphicon glyphicon-remove"></span> Delete</button>';
+
+	return [editButton, deleteButton];
+}
+
+function getDataAttributes(thing) {
+	var excludes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+	var dataAttributes = '';
+	Object.getOwnPropertyNames(thing).forEach(function (propName) {
+		if (!excludes.includes(propName) && thing[propName] != null) dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
+	});
+
+	return dataAttributes;
+}
+
+/***/ }),
+
+/***/ 40:
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+
+/***/ 41:
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 426:
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(427);
@@ -4881,7 +4187,8 @@ module.exports = $export;
 
 
 /***/ }),
-/* 427 */
+
+/***/ 427:
 /***/ (function(module, exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -4893,7 +4200,8 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
 
 /***/ }),
-/* 428 */
+
+/***/ 428:
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(468);
@@ -4915,7 +4223,8 @@ exports.f = __webpack_require__(172) ? Object.defineProperty : function definePr
 
 
 /***/ }),
-/* 429 */
+
+/***/ 429:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(172) && !__webpack_require__(233)(function () {
@@ -4924,7 +4233,8 @@ module.exports = !__webpack_require__(172) && !__webpack_require__(233)(function
 
 
 /***/ }),
-/* 430 */
+
+/***/ 430:
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
@@ -4942,7 +4252,8 @@ module.exports = function (it, S) {
 
 
 /***/ }),
-/* 431 */
+
+/***/ 431:
 /***/ (function(module, exports) {
 
 module.exports = function (bitmap, value) {
@@ -4956,7 +4267,8 @@ module.exports = function (bitmap, value) {
 
 
 /***/ }),
-/* 432 */
+
+/***/ 432:
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
@@ -4968,7 +4280,8 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 433 */
+
+/***/ 433:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
@@ -5459,7 +4772,8 @@ module.exports = Color;
 
 
 /***/ }),
-/* 434 */
+
+/***/ 434:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5796,7 +5110,8 @@ module.exports = {
 
 
 /***/ }),
-/* 435 */
+
+/***/ 435:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5877,28 +5192,55 @@ module.exports = helpers.extend({
 
 
 /***/ }),
-/* 436 */,
-/* 437 */,
-/* 438 */,
-/* 439 */,
-/* 440 */,
-/* 441 */,
-/* 442 */,
-/* 443 */,
-/* 444 */,
-/* 445 */,
-/* 446 */,
-/* 447 */,
-/* 448 */,
-/* 449 */,
-/* 450 */,
-/* 451 */,
-/* 452 */,
-/* 453 */,
-/* 454 */,
-/* 455 */,
-/* 456 */,
-/* 457 */
+
+/***/ 45:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADMIN_EMAIL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return NEW_ITEM_TAG; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return UNSEEN_EVALUATION_PRIORITY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return PLACEHOLDER_USER_IMAGE_PATH; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return STANDARD_OPTIONS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return RESIDENT_VALUE_MAP; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return FELLOWSHIP_VALUE_MAPS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return CHART_TYPES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CHART_COLORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return FEATURE_RELEASE_DATES; });
+var ADMIN_EMAIL = 'jmischka@mcw.edu';
+
+var NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
+
+var UNSEEN_EVALUATION_PRIORITY = 1000000;
+
+var PLACEHOLDER_USER_IMAGE_PATH = '/img/avatar.png';
+
+// FIXME: A lot of these should be configurable and saved instead of hardcoded
+var STANDARD_OPTIONS = {
+	RESIDENT: [{ value: 0, text: 'Not at CBY' }, { value: 1, text: '' }, { value: 2, text: 'CBY' }, { value: 3, text: '' }, { value: 4, text: 'CA-1' }, { value: 5, text: '' }, { value: 6, text: 'CA-2' }, { value: 7, text: '' }, { value: 8, text: 'CA-3' }, { value: 9, text: '' }, { value: 10, text: 'Attending' }],
+	FELLOW: [{ value: 0, text: 'Not at fellowship level' }, { value: 1, text: '' }, { value: 2, text: 'Fellow - 1' }, { value: 3, text: '' }, { value: 4, text: 'Fellow - 2' }, { value: 5, text: '' }, { value: 6, text: 'Fellow - 3' }, { value: 7, text: '' }, { value: 8, text: 'Fellow - 4' }, { value: 9, text: '' }, { value: 10, text: 'Fellow - 5' }],
+	FACULTY: [{ value: 'strongly-disagree', text: 'Strongly Disagree' }, { value: 'disagree', text: 'Disagree' }, { value: 'undecided', text: 'Undecided' }, { value: 'agree', text: 'Agree' }, { value: 'strongly-agree', text: 'Strongly Agree' }, { value: 'n-a', text: 'N/A' }]
+};
+
+var RESIDENT_VALUE_MAP = new Map([[2, 'CBY'], [4, 'CA-1'], [6, 'CA-2'], [8, 'CA-3'], [10, 'Attending']]);
+
+var FELLOWSHIP_VALUE_MAPS = new Map([[null, new Map([[0, 'Not yet at Resident Level'], [1, 'Resident Level'], [2, '1st Quarter Fellow'], [3, 'Mid-year Fellow'], [4, 'Advanced Fellow'], [5, 'Attending']])], ['Critical Care', new Map([[0, 'Unacceptable'], [3, 'Needs Improvement'], [5, 'Meets Expectations'], [7, 'Exceeds Expectations'], [10, 'Outstanding']])], ['Pediatric', new Map([[0, 'Bellow fellow level'], [3, 'Developing, Not consistent'], [5, 'Acceptable, Not yet secure'], [7, 'Secure, Consistent'], [10, 'Outstanding, Autonomous']])], ['Pain', new Map([[0, 'Not yet at Resident Level'], [1, 'Resident Level'], [2, '1st Quarter Fellow'], [3, 'Mid-year Fellow'], [4, 'Advanced Fellow'], [5, 'Attending']])], ['Cardio', new Map([[0, 'Unacceptable'], [3, 'Needs Improvement'], [5, 'Meets Expectations'], [7, 'Exceeds Expectations'], [10, 'Outstanding']])], ['OB', new Map([[0, 'Not at Fellowship Level'], [2, 'Fellow - 1'], [4, 'Fellow - 2'], [6, 'Fellow - 3'], [8, 'Fellow - 4'], [10, 'Fellow - 5']])]]);
+
+var CHART_TYPES = ['line', 'bar', 'horizontalBar', 'radar', 'polarArea', 'pie', 'doughnut', 'bubble'];
+
+var CHART_COLORS = {
+	AVERAGE: '#ffce56',
+	SUBJECT: '#ff6384',
+	OTHER: ['#7fdbff', '#2ecc40', '#ffdc00', '#f012be', '#0074d9', '#01ff70', '#ff851b', '#001f3f', '#3d9970', '#ff4136', '#85144b', '#39cccc', '#b10dc9']
+};
+
+var FEATURE_RELEASE_DATES = {
+	FACULTY_MERIT: '2016-07-01'
+};
+
+/***/ }),
+
+/***/ 457:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5977,7 +5319,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 458 */
+
+/***/ 458:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5987,12 +5330,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_dataset___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_element_dataset__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_raf_polyfill_js__ = __webpack_require__(480);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_raf_polyfill_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_raf_polyfill_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classlist_polyfill__ = __webpack_require__(864);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classlist_polyfill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_classlist_polyfill__);
+
 
 
 
 
 /***/ }),
-/* 459 */
+
+/***/ 459:
 /***/ (function(module, exports) {
 
 (function(self) {
@@ -6459,14 +5806,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 460 */
+
+/***/ 460:
 /***/ (function(module, exports, __webpack_require__) {
 
 var req = __webpack_require__(461);
 module.exports = (req['default'] || req).apply(req, [])
 
 /***/ }),
-/* 461 */
+
+/***/ 461:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6549,13 +5898,15 @@ function elementDatasetPolyfill() {
 
 
 /***/ }),
-/* 462 */
+
+/***/ 462:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(463), __esModule: true };
 
 /***/ }),
-/* 463 */
+
+/***/ 463:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(464);
@@ -6566,7 +5917,8 @@ module.exports = function defineProperty(it, key, desc) {
 
 
 /***/ }),
-/* 464 */
+
+/***/ 464:
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(426);
@@ -6575,7 +5927,8 @@ $export($export.S + $export.F * !__webpack_require__(172), 'Object', { definePro
 
 
 /***/ }),
-/* 465 */
+
+/***/ 465:
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
@@ -6601,7 +5954,8 @@ module.exports = function (fn, that, length) {
 
 
 /***/ }),
-/* 466 */
+
+/***/ 466:
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -6611,7 +5965,8 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 467 */
+
+/***/ 467:
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP = __webpack_require__(428);
@@ -6625,7 +5980,8 @@ module.exports = __webpack_require__(172) ? function (object, key, value) {
 
 
 /***/ }),
-/* 468 */
+
+/***/ 468:
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(232);
@@ -6636,7 +5992,8 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 469 */
+
+/***/ 469:
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(232);
@@ -6649,13 +6006,15 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 470 */
+
+/***/ 470:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(471), __esModule: true };
 
 /***/ }),
-/* 471 */
+
+/***/ 471:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(472);
@@ -6666,7 +6025,8 @@ module.exports = function getOwnPropertyDescriptor(it, key) {
 
 
 /***/ }),
-/* 472 */
+
+/***/ 472:
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
@@ -6681,7 +6041,8 @@ __webpack_require__(479)('getOwnPropertyDescriptor', function () {
 
 
 /***/ }),
-/* 473 */
+
+/***/ 473:
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
@@ -6693,7 +6054,8 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 
 /***/ }),
-/* 474 */
+
+/***/ 474:
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -6704,7 +6066,8 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 475 */
+
+/***/ 475:
 /***/ (function(module, exports) {
 
 // 7.2.1 RequireObjectCoercible(argument)
@@ -6715,7 +6078,8 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 476 */
+
+/***/ 476:
 /***/ (function(module, exports, __webpack_require__) {
 
 var pIE = __webpack_require__(477);
@@ -6737,14 +6101,16 @@ exports.f = __webpack_require__(172) ? gOPD : function getOwnPropertyDescriptor(
 
 
 /***/ }),
-/* 477 */
+
+/***/ 477:
 /***/ (function(module, exports) {
 
 exports.f = {}.propertyIsEnumerable;
 
 
 /***/ }),
-/* 478 */
+
+/***/ 478:
 /***/ (function(module, exports) {
 
 var hasOwnProperty = {}.hasOwnProperty;
@@ -6754,7 +6120,8 @@ module.exports = function (it, key) {
 
 
 /***/ }),
-/* 479 */
+
+/***/ 479:
 /***/ (function(module, exports, __webpack_require__) {
 
 // most Object methods by ES6 should accept primitives
@@ -6770,14 +6137,16 @@ module.exports = function (KEY, exec) {
 
 
 /***/ }),
-/* 480 */
+
+/***/ 480:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(481).polyfill()
 
 
 /***/ }),
-/* 481 */
+
+/***/ 481:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var now = __webpack_require__(482)
@@ -6859,7 +6228,8 @@ module.exports.polyfill = function(object) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
 
 /***/ }),
-/* 482 */
+
+/***/ 482:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {// Generated by CoffeeScript 1.12.2
@@ -6902,7 +6272,8 @@ module.exports.polyfill = function(object) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(144)))
 
 /***/ }),
-/* 483 */
+
+/***/ 483:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6958,7 +6329,8 @@ module.exports = function() {
 
 
 /***/ }),
-/* 484 */
+
+/***/ 484:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7215,7 +6587,8 @@ helpers.easingEffects = effects;
 
 
 /***/ }),
-/* 485 */
+
+/***/ 485:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7436,7 +6809,8 @@ helpers.drawRoundedRectangle = function(ctx) {
 
 
 /***/ }),
-/* 486 */
+
+/***/ 486:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7539,7 +6913,8 @@ module.exports = {
 
 
 /***/ }),
-/* 487 */
+
+/***/ 487:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8181,7 +7556,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 488 */
+
+/***/ 488:
 /***/ (function(module, exports, __webpack_require__) {
 
 var conversions = __webpack_require__(489);
@@ -8278,7 +7654,8 @@ Converter.prototype.getValues = function(space) {
 module.exports = convert;
 
 /***/ }),
-/* 489 */
+
+/***/ 489:
 /***/ (function(module, exports) {
 
 /* MIT license */
@@ -8982,7 +8359,8 @@ for (var key in cssKeywords) {
 
 
 /***/ }),
-/* 490 */
+
+/***/ 490:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
@@ -9209,7 +8587,8 @@ for (var name in colorNames) {
 
 
 /***/ }),
-/* 491 */
+
+/***/ 491:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9323,7 +8702,8 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 492 */
+
+/***/ 492:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9421,7 +8801,8 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 493 */
+
+/***/ 493:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9534,7 +8915,8 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 494 */
+
+/***/ 494:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9758,7 +9140,8 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 495 */
+
+/***/ 495:
 /***/ (function(module, exports) {
 
 /**
@@ -9779,7 +9162,8 @@ module.exports = {
 
 
 /***/ }),
-/* 496 */
+
+/***/ 496:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10236,7 +9620,8 @@ helpers.removeEvent = removeEventListener;
 
 
 /***/ }),
-/* 497 */
+
+/***/ 497:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10617,7 +10002,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 498 */
+
+/***/ 498:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10796,7 +10182,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 499 */
+
+/***/ 499:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11679,7 +11066,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 500 */
+
+/***/ 500:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12016,7 +11404,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 501 */
+
+/***/ 501:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12445,7 +11834,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 502 */
+
+/***/ 502:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12497,7 +11887,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 503 */
+
+/***/ 503:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13412,7 +12803,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 504 */
+
+/***/ 504:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14364,7 +13756,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 505 */
+
+/***/ 505:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14503,7 +13896,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 506 */
+
+/***/ 506:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14643,7 +14037,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 507 */
+
+/***/ 507:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14842,7 +14237,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 508 */
+
+/***/ 508:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15093,7 +14489,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 509 */
+
+/***/ 509:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15630,7 +15027,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 510 */
+
+/***/ 510:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16371,7 +15769,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 511 */
+
+/***/ 511:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16799,7 +16198,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 512 */
+
+/***/ 512:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16986,7 +16386,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 513 */
+
+/***/ 513:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17292,7 +16693,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 514 */
+
+/***/ 514:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17632,7 +17034,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 515 */
+
+/***/ 515:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17861,7 +17264,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 516 */
+
+/***/ 516:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18036,7 +17440,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 517 */
+
+/***/ 517:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18085,7 +17490,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 518 */
+
+/***/ 518:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18103,7 +17509,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 519 */
+
+/***/ 519:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18120,7 +17527,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 520 */
+
+/***/ 520:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18138,7 +17546,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 521 */
+
+/***/ 521:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18156,7 +17565,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 522 */
+
+/***/ 522:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18174,7 +17584,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 523 */
+
+/***/ 523:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18192,7 +17603,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 524 */
+
+/***/ 524:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18207,7 +17619,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 525 */
+
+/***/ 525:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18535,7 +17948,8 @@ module.exports = function() {
 
 
 /***/ }),
-/* 526 */
+
+/***/ 526:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19109,7 +18523,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 527 */
+
+/***/ 527:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19359,7 +18774,8 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 528 */
+
+/***/ 528:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19378,7 +18794,8 @@ module.exports.validate = function (instance, schema, options) {
 
 
 /***/ }),
-/* 529 */
+
+/***/ 529:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19719,7 +19136,8 @@ module.exports = Validator;
 
 
 /***/ }),
-/* 530 */
+
+/***/ 530:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19742,7 +19160,8 @@ module.exports = {
 
 
 /***/ }),
-/* 531 */
+
+/***/ 531:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19753,7 +19172,8 @@ exports.encode = exports.stringify = __webpack_require__(533);
 
 
 /***/ }),
-/* 532 */
+
+/***/ 532:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19844,7 +19264,8 @@ var isArray = Array.isArray || function (xs) {
 
 
 /***/ }),
-/* 533 */
+
+/***/ 533:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19936,7 +19357,8 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 534 */
+
+/***/ 534:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20767,13 +20189,15 @@ module.exports = attribute;
 
 
 /***/ }),
-/* 535 */
+
+/***/ 535:
 /***/ (function(module, exports) {
 
 module.exports = {"$id":"https://www.residentprogram.com/schemas/case-log-details.json#","title":"Case Log Details Schema","$ref":"https://www.residentprogram.com/schemas/questionnaire.json"}
 
 /***/ }),
-/* 536 */
+
+/***/ 536:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Generated by CoffeeScript 1.10.0
@@ -21459,7 +20883,8 @@ module.exports = {"$id":"https://www.residentprogram.com/schemas/case-log-detail
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module)))
 
 /***/ }),
-/* 537 */
+
+/***/ 537:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21726,7 +21151,525 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 }));
 
 
+/***/ }),
+
+/***/ 6:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["isoDateString"] = isoDateString;
+/* harmony export (immutable) */ __webpack_exports__["isoDateStringObject"] = isoDateStringObject;
+/* harmony export (immutable) */ __webpack_exports__["datesEqual"] = datesEqual;
+/* harmony export (immutable) */ __webpack_exports__["renderDate"] = renderDate;
+/* harmony export (immutable) */ __webpack_exports__["renderDateTime"] = renderDateTime;
+/* harmony export (immutable) */ __webpack_exports__["renderDateRange"] = renderDateRange;
+/* harmony export (immutable) */ __webpack_exports__["renderDateRangeExplicit"] = renderDateRangeExplicit;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DATE_RANGES", function() { return DATE_RANGES; });
+/* harmony export (immutable) */ __webpack_exports__["currentQuarter"] = currentQuarter;
+/* harmony export (immutable) */ __webpack_exports__["lastQuarter"] = lastQuarter;
+/* harmony export (immutable) */ __webpack_exports__["currentSemester"] = currentSemester;
+/* harmony export (immutable) */ __webpack_exports__["lastSemester"] = lastSemester;
+/* harmony export (immutable) */ __webpack_exports__["currentYear"] = currentYear;
+/* harmony export (immutable) */ __webpack_exports__["lastYear"] = lastYear;
+/* harmony export (immutable) */ __webpack_exports__["allTime"] = allTime;
+/* harmony export (immutable) */ __webpack_exports__["academicYearForDate"] = academicYearForDate;
+/* harmony export (immutable) */ __webpack_exports__["quarterForDate"] = quarterForDate;
+/* harmony export (immutable) */ __webpack_exports__["monthForDate"] = monthForDate;
+/* harmony export (immutable) */ __webpack_exports__["quartersInAcademicYear"] = quartersInAcademicYear;
+/* harmony export (immutable) */ __webpack_exports__["monthsInAcademicYear"] = monthsInAcademicYear;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+
+
+function isoDateString(date) {
+	return __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('Y-MM-DD');
+}
+
+function isoDateStringObject(dates) {
+	var newDates = {};
+
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
+
+	try {
+		for (var _iterator = Object.entries(dates)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var _ref = _step.value;
+
+			var _ref2 = _slicedToArray(_ref, 2);
+
+			var key = _ref2[0];
+			var date = _ref2[1];
+
+			var dateString = isoDateString(date);
+			newDates[key] = dateString;
+		}
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
+	}
+
+	return newDates;
+}
+
+function datesEqual(d1, d2) {
+	var dates1 = isoDateStringObject(d1);
+	var dates2 = isoDateStringObject(d2);
+
+	return dates1.startDate === dates2.startDate && dates1.endDate === dates2.endDate;
+}
+
+function renderDate(date) {
+	var explicit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+	var format = explicit ? 'll' : 'MMMM Y';
+	return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format(format) : '';
+}
+
+function renderDateTime(date) {
+	return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).calendar() : '';
+}
+
+function renderDateRange(startDate, endDate) {
+	var explicit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+	if (startDate === null && endDate === null) return 'All time';
+
+	var range = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).twix(endDate, { allDay: true });
+	return range.start().startOf('month') && range.end().endOf('month') && !explicit ? range.format({
+		dayFormat: '_',
+		monthFormat: 'MMMM'
+	}).replace(/\s+_/g, '') : range.format({
+		monthFormat: 'MMMM'
+	});
+}
+
+function renderDateRangeExplicit(startDate, endDate) {
+	return renderDateRange(startDate, endDate, true);
+}
+
+var DATE_RANGES = {
+	CUSTOM: 'custom',
+	CURRENT_QUARTER: 'currentQuarter',
+	LAST_QUARTER: 'lastQuarter',
+	CURRENT_SEMESTER: 'currentSemester',
+	LAST_SEMESTER: 'lastSemester',
+	CURRENT_YEAR: 'currentYear',
+	LAST_YEAR: 'lastYear',
+	ALL_TIME: 'allTime'
+};
+
+function currentQuarter() {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
+	while (startDate.month() % 3 !== 0) {
+		startDate.subtract(1, 'month');
+	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(2, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function lastQuarter() {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
+	while (startDate.month() % 3 !== 0) {
+		startDate.subtract(1, 'month');
+	}startDate.subtract(3, 'months');
+	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(2, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function currentSemester() {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
+	while (startDate.month() % 6 !== 0) {
+		startDate.subtract(1, 'month');
+	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(5, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function lastSemester() {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
+	while (startDate.month() % 6 !== 0) {
+		startDate.subtract(1, 'month');
+	}startDate.subtract(6, 'months');
+	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(5, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function currentYear() {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
+	while (startDate.month() !== 6) {
+		startDate.subtract(1, 'month');
+	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(11, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function lastYear() {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
+	while (startDate.month() !== 6) {
+		startDate.subtract(1, 'month');
+	}startDate.subtract(1, 'year');
+	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(11, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function allTime() {
+	return {
+		startDate: null,
+		endDate: null
+	};
+}
+
+function academicYearForDate(date) {
+	date = __WEBPACK_IMPORTED_MODULE_0_moment___default()(date);
+
+	var startYear = date.month() >= 6 ? // July
+	date.year() : date.year() - 1;
+
+	var startDate = {
+		year: startYear,
+		month: 6,
+		day: 1
+	};
+	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(1, 'year').subtract(1, 'day');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function quarterForDate(date) {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).startOf('month');
+	while (startDate.month() % 3 !== 0) {
+		startDate.subtract(1, 'month');
+	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(2, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function monthForDate(date) {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).startOf('month');
+	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function quartersInAcademicYear() {
+	var academicYear = academicYearForDate(new Date());
+	var date = __WEBPACK_IMPORTED_MODULE_0_moment___default()(academicYear.startDate);
+
+	var quarters = [];
+	while (date <= academicYear.endDate) {
+		quarters.push(quarterForDate(date));
+		date.add(3, 'months');
+	}
+
+	return quarters;
+}
+
+function monthsInAcademicYear() {
+	var academicYear = academicYearForDate(new Date());
+	var date = __WEBPACK_IMPORTED_MODULE_0_moment___default()(academicYear.startDate);
+
+	var months = [];
+	while (date <= academicYear.endDate) {
+		months.push(monthForDate(date));
+		date.add(1, 'month');
+	}
+
+	return months;
+}
+
+/***/ }),
+
+/***/ 864:
+/***/ (function(module, exports) {
+
+/*
+ * classList.js: Cross-browser full element.classList implementation.
+ * 1.1.20170427
+ *
+ * By Eli Grey, http://eligrey.com
+ * License: Dedicated to the public domain.
+ *   See https://github.com/eligrey/classList.js/blob/master/LICENSE.md
+ */
+
+/*global self, document, DOMException */
+
+/*! @source http://purl.eligrey.com/github/classList.js/blob/master/classList.js */
+
+if ("document" in window.self) {
+
+// Full polyfill for browsers with no classList support
+// Including IE < Edge missing SVGElement.classList
+if (!("classList" in document.createElement("_")) 
+	|| document.createElementNS && !("classList" in document.createElementNS("http://www.w3.org/2000/svg","g"))) {
+
+(function (view) {
+
+"use strict";
+
+if (!('Element' in view)) return;
+
+var
+	  classListProp = "classList"
+	, protoProp = "prototype"
+	, elemCtrProto = view.Element[protoProp]
+	, objCtr = Object
+	, strTrim = String[protoProp].trim || function () {
+		return this.replace(/^\s+|\s+$/g, "");
+	}
+	, arrIndexOf = Array[protoProp].indexOf || function (item) {
+		var
+			  i = 0
+			, len = this.length
+		;
+		for (; i < len; i++) {
+			if (i in this && this[i] === item) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	// Vendors: please allow content code to instantiate DOMExceptions
+	, DOMEx = function (type, message) {
+		this.name = type;
+		this.code = DOMException[type];
+		this.message = message;
+	}
+	, checkTokenAndGetIndex = function (classList, token) {
+		if (token === "") {
+			throw new DOMEx(
+				  "SYNTAX_ERR"
+				, "An invalid or illegal string was specified"
+			);
+		}
+		if (/\s/.test(token)) {
+			throw new DOMEx(
+				  "INVALID_CHARACTER_ERR"
+				, "String contains an invalid character"
+			);
+		}
+		return arrIndexOf.call(classList, token);
+	}
+	, ClassList = function (elem) {
+		var
+			  trimmedClasses = strTrim.call(elem.getAttribute("class") || "")
+			, classes = trimmedClasses ? trimmedClasses.split(/\s+/) : []
+			, i = 0
+			, len = classes.length
+		;
+		for (; i < len; i++) {
+			this.push(classes[i]);
+		}
+		this._updateClassName = function () {
+			elem.setAttribute("class", this.toString());
+		};
+	}
+	, classListProto = ClassList[protoProp] = []
+	, classListGetter = function () {
+		return new ClassList(this);
+	}
+;
+// Most DOMException implementations don't allow calling DOMException's toString()
+// on non-DOMExceptions. Error's toString() is sufficient here.
+DOMEx[protoProp] = Error[protoProp];
+classListProto.item = function (i) {
+	return this[i] || null;
+};
+classListProto.contains = function (token) {
+	token += "";
+	return checkTokenAndGetIndex(this, token) !== -1;
+};
+classListProto.add = function () {
+	var
+		  tokens = arguments
+		, i = 0
+		, l = tokens.length
+		, token
+		, updated = false
+	;
+	do {
+		token = tokens[i] + "";
+		if (checkTokenAndGetIndex(this, token) === -1) {
+			this.push(token);
+			updated = true;
+		}
+	}
+	while (++i < l);
+
+	if (updated) {
+		this._updateClassName();
+	}
+};
+classListProto.remove = function () {
+	var
+		  tokens = arguments
+		, i = 0
+		, l = tokens.length
+		, token
+		, updated = false
+		, index
+	;
+	do {
+		token = tokens[i] + "";
+		index = checkTokenAndGetIndex(this, token);
+		while (index !== -1) {
+			this.splice(index, 1);
+			updated = true;
+			index = checkTokenAndGetIndex(this, token);
+		}
+	}
+	while (++i < l);
+
+	if (updated) {
+		this._updateClassName();
+	}
+};
+classListProto.toggle = function (token, force) {
+	token += "";
+
+	var
+		  result = this.contains(token)
+		, method = result ?
+			force !== true && "remove"
+		:
+			force !== false && "add"
+	;
+
+	if (method) {
+		this[method](token);
+	}
+
+	if (force === true || force === false) {
+		return force;
+	} else {
+		return !result;
+	}
+};
+classListProto.toString = function () {
+	return this.join(" ");
+};
+
+if (objCtr.defineProperty) {
+	var classListPropDesc = {
+		  get: classListGetter
+		, enumerable: true
+		, configurable: true
+	};
+	try {
+		objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+	} catch (ex) { // IE 8 doesn't support enumerable:true
+		// adding undefined to fight this issue https://github.com/eligrey/classList.js/issues/36
+		// modernie IE8-MSW7 machine has IE8 8.0.6001.18702 and is affected
+		if (ex.number === undefined || ex.number === -0x7FF5EC54) {
+			classListPropDesc.enumerable = false;
+			objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+		}
+	}
+} else if (objCtr[protoProp].__defineGetter__) {
+	elemCtrProto.__defineGetter__(classListProp, classListGetter);
+}
+
+}(window.self));
+
+}
+
+// There is full or partial native classList support, so just check if we need
+// to normalize the add/remove and toggle APIs.
+
+(function () {
+	"use strict";
+
+	var testElement = document.createElement("_");
+
+	testElement.classList.add("c1", "c2");
+
+	// Polyfill for IE 10/11 and Firefox <26, where classList.add and
+	// classList.remove exist but support only one argument at a time.
+	if (!testElement.classList.contains("c2")) {
+		var createMethod = function(method) {
+			var original = DOMTokenList.prototype[method];
+
+			DOMTokenList.prototype[method] = function(token) {
+				var i, len = arguments.length;
+
+				for (i = 0; i < len; i++) {
+					token = arguments[i];
+					original.call(this, token);
+				}
+			};
+		};
+		createMethod('add');
+		createMethod('remove');
+	}
+
+	testElement.classList.toggle("c3", false);
+
+	// Polyfill for IE 10 and Firefox <24, where classList.toggle does not
+	// support the second argument.
+	if (testElement.classList.contains("c3")) {
+		var _toggle = DOMTokenList.prototype.toggle;
+
+		DOMTokenList.prototype.toggle = function(token, force) {
+			if (1 in arguments && !this.contains(token) === !force) {
+				return force;
+			} else {
+				return _toggle.call(this, token);
+			}
+		};
+
+	}
+
+	testElement = null;
+}());
+
+}
+
+
 /***/ })
-],[457]);
+
+},[457]);
 });
 //# sourceMappingURL=bundle.js.map

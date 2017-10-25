@@ -41,7 +41,7 @@
     "ajv": "^5.2.2",
     "bootstrap-sass": "^3.0.0",
     "chart.js": "^2.2.0-rc.2",
-    "classlist-polyfill": "^1.0.3",
+    "classlist-polyfill": "^1.2.0",
     "color": "^2.0.0",
     "commonmark": "^0.28.1",
     "dlv": "^1.1.0",
