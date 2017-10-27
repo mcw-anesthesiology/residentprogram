@@ -80,7 +80,7 @@ export default {
 	computed: {
 		caseLogVersion() {
 			try {
-				return this.detailsCaseLog.details_schema.case_log_version;
+				return Number(this.detailsCaseLog.details_schema.case_log_version);
 			} catch (e) {
 				console.error(e);
 			}
@@ -94,11 +94,11 @@ export default {
 		},
 		v1CaseLogs() {
 			return this.caseLogs
-				.filter(caseLog => caseLog.details_schema.case_log_version !== 2);
+				.filter(caseLog => Number(caseLog.details_schema.case_log_version) !== 2);
 		},
 		v2CaseLogs() {
 			return this.caseLogs
-				.filter(caseLog => caseLog.details_schema.case_log_version === 2);
+				.filter(caseLog => Number(caseLog.details_schema.case_log_version) === 2);
 		},
 		thead() {
 			return [[
