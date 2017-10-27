@@ -24,7 +24,9 @@
 						@click="$emit('close')">
 					Cancel
 				</button>
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" class="btn btn-primary"
+						:disabled="!validation || !validation.valid"
+						:title="submitTitle">
 					Submit
 				</button>
 			</div>
@@ -35,8 +37,11 @@
 <script>
 import CaseLogForm from './Form.vue';
 
+import { questionnaire as validate } from '@/modules/questionnaire/validate.js';
 import { fetchConfig, okOrThrow, simpleErrorAlert } from '@/modules/utils.js';
 import { isoDateString } from '@/modules/date-utils.js';
+
+const incompleteMessage = 'Please complete all required questions before submitting the case log';
 
 export default {
 	props: {
@@ -81,8 +86,18 @@ export default {
 		};
 	},
 
-	mounted() {
-
+	computed: {
+		validation() {
+			return validate({
+				title: this.schemaTitle,
+				sections: this.sections
+			});
+		},
+		submitTitle() {
+			return (this.validation && this.validation.valid)
+				? ''
+				: incompleteMessage;
+		}
 	},
 
 	methods: {
@@ -91,6 +106,14 @@ export default {
 		},
 		handleSubmit(event) {
 			event.preventDefault();
+
+			if (!this.validation || !this.validation.valid) {
+				this.$emit('alert', {
+					type: 'info',
+					text: incompleteMessage
+				});
+				return;
+			}
 
 			fetch('/case_logs', {
 				method: 'POST',
