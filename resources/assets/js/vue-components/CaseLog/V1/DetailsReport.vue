@@ -86,7 +86,7 @@ export default {
 		},
 		subsections() {
 			let subsections = [];
-			for (let schema of this.schema) {
+			for (let schema of Array.from(this.schema)) {
 				for (let subsection of schema.subsections) {
 					subsections.push(subsection);
 				}
