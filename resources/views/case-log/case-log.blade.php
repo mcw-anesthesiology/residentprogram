@@ -58,7 +58,6 @@
 	</show-hide-button>
 	@endif
 
-	<alert-list v-model="alerts"></alert-list>
 </div>
 
 	@if($canLog)
@@ -74,6 +73,9 @@
 	</component>
 	@endif
 
+<div class="container">
+	<alert-list v-model="alerts"></alert-list>
+</div>
 @stop
 
 @push('scripts')
