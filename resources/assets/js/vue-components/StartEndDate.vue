@@ -93,8 +93,12 @@ export default {
 	},
 	data(){
 		return {
-			startDate: this.value.startDate,
-			endDate: this.value.endDate,
+			startDate: this.value && this.value.startDate && moment(this.value.startDate).isValid()
+				? this.value.startDate
+				: null,
+			endDate: this.value && this.value.endDate && moment(this.value.endDate).isValid()
+				? this.value.endDate
+				: null,
 			dateRange: dateUtils.DATE_RANGES.CUSTOM
 		};
 	},
