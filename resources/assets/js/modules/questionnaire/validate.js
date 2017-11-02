@@ -108,7 +108,7 @@ export function question(question: QuestionnaireQuestion): Validation {
 	let valid = true;
 	const errors: ValidationErrors = new Map();
 
-	if (question.type !== 'list' && !question.required)
+	if (!question.required)
 		return {
 			valid,
 			errors
@@ -231,7 +231,10 @@ export function listQuestion(list: QuestionnaireListQuestion): Validation {
 	let valid = true;
 	const errors: ValidationErrors = new Map();
 
-	if (!list.items || !Array.isArray(list.items) || list.items.length === 0) {
+	if (
+		list.required
+		&& (!list.items || !Array.isArray(list.items) || list.items.length === 0)
+	) {
 		valid = false;
 		errors.set('items', 'Please enter a list item');
 	}

@@ -93,8 +93,8 @@ export default {
 
 	data() {
 		return {
-			multipleDates: this.date && this.date.includes(';'),
-			dateUnknown: this.date && this.date === 'Unknown'
+			multipleDates: Boolean(this.date && this.date.includes(';')),
+			dateUnknown: Boolean(this.date && this.date === 'Unknown')
 		};
 	},
 

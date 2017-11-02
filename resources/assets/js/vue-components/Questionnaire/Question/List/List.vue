@@ -10,8 +10,10 @@
 				</span>
 			</legend>
 
-			<bootstrap-alert v-if="items.length === 0" class="invalid-container"
-				type="error" text="Please add at least one item">
+			<bootstrap-alert v-if="required && items.length === 0"
+				class="invalid-container"
+				type="error"
+				text="Please add at least one item">
 			</bootstrap-alert>
 
 			<list-items :ordered="ordered"
@@ -99,6 +101,10 @@ export default {
 			}
 		},
 		ordered: {
+			type: Boolean,
+			default: false
+		},
+		required: {
 			type: Boolean,
 			default: false
 		},

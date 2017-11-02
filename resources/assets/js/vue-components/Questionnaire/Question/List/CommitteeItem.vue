@@ -35,12 +35,14 @@
 </template>
 
 <script>
+import ListItem from './Item.vue';
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 
 import { ucfirst } from '@/modules/utils.js';
 import { committeeListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
+	extends: ListItem,
 	props: {
 		type: {
 			type: String,
@@ -74,6 +76,7 @@ export default {
 	},
 
 	components: {
+		ListItem,
 		ConfirmationButton
 	}
 };
