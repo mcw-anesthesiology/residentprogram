@@ -21,6 +21,7 @@
 			"type": "object",
 			"properties": {
 				"category": {"type": "string"},
+				"value": {"type": "number"},
 				"max": {"type": "number"},
 				"weight": {"type": "number"}
 			},
