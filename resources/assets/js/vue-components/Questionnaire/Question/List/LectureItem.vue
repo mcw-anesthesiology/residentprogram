@@ -31,11 +31,13 @@
 			</label>
 			<div class="checkbox-label-container">
 				<label class="checkbox-label">
-					<input type="checkbox" v-model="multipleDates" :disabled="dateUnknown" />
+					<input type="checkbox" v-model="multipleDates"
+						:disabled="readonly || dateUnknown" />
 					Multiple
 				</label>
 				<label class="checkbox-label">
-					<input type="checkbox" v-model="dateUnknown" />
+					<input type="checkbox" v-model="dateUnknown"
+						:disabled="readonly" />
 					Unknown date
 				</label>
 			</div>
