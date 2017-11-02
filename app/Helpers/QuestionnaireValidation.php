@@ -172,7 +172,7 @@ class QuestionnaireValidation {
 	}
 
 	static function questionIsValid($question) {
-		if ($question['type'] != 'list' && empty($question['required'])) {
+		if (empty($question['required'])) {
 			return true;
 		}
 
@@ -213,7 +213,7 @@ class QuestionnaireValidation {
 	}
 
 	static function listQuestionIsValid($list) {
-		if (!key_exists('items', $list) || empty($list['items'])) {
+		if ($list['required'] && (!key_exists('items', $list) || empty($list['items']))) {
 			return false;
 		}
 
