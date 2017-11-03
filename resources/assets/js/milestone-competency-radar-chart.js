@@ -1,9 +1,4 @@
 /* eslint-disable */
-// MCW Colors
-// var averageSolidColor = "rgba(0,67,100,1)";
-// var averageFillColor = "rgba(0,67,100,0.2)";
-// var individualSolidColor = "rgba(1,108,100,1)";
-// var individualFillColor = "rgba(1,108,100,0.2)";
 
 var averageSolidColor = "rgba(227,227,0,1)";
 var averageFillColor = "rgba(227,227,0,0.3)";
@@ -150,6 +145,13 @@ function drawAllRadarGraphs(){
 		prepareReport(report);
 
 		report.subjectIds.forEach(function(subjectId){
+			var milestoneValues = [];
+			try {
+				milestoneValues = getValues(report.subjectMilestone[subjectId]);
+			} catch (e) {
+				console.error(e);
+			}
+
 			var milestoneData = {
 				labels: report.milestoneLabels,
 				datasets: [
@@ -162,10 +164,17 @@ function drawAllRadarGraphs(){
 						pointStrokeColor: "#fff",
 						pointHighlightFill: "#fff",
 						pointHighlightStroke: individualSolidColor,
-						data: getValues(report.subjectMilestone[subjectId])
+						data: milestoneValues
 					}
 				]
 			};
+
+			var competencyValues = [];
+			try {
+				competencyValues = getValues(report.subjectCompetency[subjectId]);
+			} catch (e) {
+				console.error(e);
+			}
 
 			var competencyData = {
 				labels: report.competencyLabels,
@@ -179,7 +188,7 @@ function drawAllRadarGraphs(){
 						pointStrokeColor: "#fff",
 						pointHighlightFill: "#fff",
 						pointHighlightStroke: individualSolidColor,
-						data: getValues(report.subjectCompetency[subjectId])
+						data: competencyValues
 					}
 				]
 			};
@@ -191,7 +200,10 @@ function drawAllRadarGraphs(){
 
 function prepareReport(report){
 	// Sort subject ids by subject name
-	report.subjectIds = Object.keys(report.subjects).sort(function(a, b){return report.subjects[a].localeCompare(report.subjects[b]);})
+	report.subjectIds = Object.keys(report.subjects)
+		.sort(function(a, b){
+			return report.subjects[a].localeCompare(report.subjects[b]);
+		});
 
 	if(report.trainingLevel == "fellow")
 		report.scaleLabels = ["", "Fellow Level 1", "Fellow Level 2", "Fellow Level 3", "Fellow Level 4", "Fellow Level 5"];
@@ -241,6 +253,6 @@ function getValues(obj){
 	for(var i = 0; i < keys.length; i++){
 		values.push(obj[keys[i]]);
 	}
-	
+
 	return values;
 }
