@@ -13,7 +13,7 @@ return webpackJsonp([11],{
 /***/ 127:
 /***/ (function(module, exports, __webpack_require__) {
 
-/* flatpickr v3.1.4, @license MIT */
+/* flatpickr v4.0.7, @license MIT */
 (function (global, factory) {
 	 true ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -72,7 +72,8 @@ var defaults = {
     altFormat: "F j, Y",
     altInput: false,
     altInputClass: "form-control input",
-    animate: window && window.navigator.userAgent.indexOf("MSIE") === -1,
+    animate: typeof window === "object" &&
+        window.navigator.userAgent.indexOf("MSIE") === -1,
     ariaDateFormat: "F j, Y",
     clickOpens: true,
     closeOnSelect: true,
@@ -192,7 +193,7 @@ function debounce(func, wait, immediate) {
     return function () {
         var context = this, args = arguments;
         timeout !== null && clearTimeout(timeout);
-        timeout = setTimeout(function () {
+        timeout = window.setTimeout(function () {
             timeout = null;
             if (!immediate)
                 func.apply(context, args);
@@ -368,6 +369,29 @@ var formats = {
     w: function (date) { return date.getDay(); },
     y: function (date) { return String(date.getFullYear()).substring(2); },
 };
+
+"use strict";
+if (typeof Object.assign !== "function") {
+    Object.assign = function (target) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (!target) {
+            throw TypeError("Cannot convert undefined or null to object");
+        }
+        var _loop_1 = function (source) {
+            if (source) {
+                Object.keys(source).forEach(function (key) { return (target[key] = source[key]); });
+            }
+        };
+        for (var _a = 0, args_1 = args; _a < args_1.length; _a++) {
+            var source = args_1[_a];
+            _loop_1(source);
+        }
+        return target;
+    };
+}
 
 function FlatpickrInstance(element, instanceConfig) {
     var self = {};
@@ -709,8 +733,11 @@ function FlatpickrInstance(element, instanceConfig) {
         var customAppend = self.config.appendTo !== undefined && self.config.appendTo.nodeType;
         if (self.config.inline || self.config.static) {
             self.calendarContainer.classList.add(self.config.inline ? "inline" : "static");
-            if (self.config.inline && !customAppend && self.element.parentNode) {
-                self.element.parentNode.insertBefore(self.calendarContainer, self._input.nextSibling);
+            if (self.config.inline) {
+                if (!customAppend && self.element.parentNode)
+                    self.element.parentNode.insertBefore(self.calendarContainer, self._input.nextSibling);
+                else if (self.config.appendTo !== undefined)
+                    self.config.appendTo.appendChild(self.calendarContainer);
             }
             if (self.config.static) {
                 var wrapper = createElement("div", "flatpickr-wrapper");
@@ -1064,7 +1091,7 @@ function FlatpickrInstance(element, instanceConfig) {
         self.latestSelectedDateObj = undefined;
         self.showTimeInput = false;
         self.redraw();
-        if (triggerChangeEvent === true)
+        if (triggerChangeEvent)
             triggerEvent("onChange");
     }
     function close() {
@@ -1350,7 +1377,8 @@ function FlatpickrInstance(element, instanceConfig) {
                 break;
             }
         }
-        var _loop_1 = function (timestamp, i) {
+        var _loop_1 = function (i, date) {
+            var timestamp = date.getTime();
             var outOfRange = timestamp < self.minRangeDate.getTime() ||
                 timestamp > self.maxRangeDate.getTime(), dayElem = self.days.childNodes[i];
             if (outOfRange) {
@@ -1374,8 +1402,11 @@ function FlatpickrInstance(element, instanceConfig) {
             if (timestamp >= minRangeDate && timestamp <= maxRangeDate)
                 dayElem.classList.add("inRange");
         };
-        for (var timestamp = self.days.childNodes[0].dateObj.getTime(), i = 0; i < 42; i++, timestamp += duration.DAY) {
-            _loop_1(timestamp, i);
+        for (var i = 0, date = self.days.childNodes[i].dateObj; i < 42; i++,
+            date =
+                self.days.childNodes[i] &&
+                    self.days.childNodes[i].dateObj) {
+            _loop_1(i, date);
         }
     }
     function onResize() {
@@ -1395,13 +1426,14 @@ function FlatpickrInstance(element, instanceConfig) {
             triggerEvent("onOpen");
             return;
         }
-        if (self.isOpen || self._input.disabled || self.config.inline)
+        if (self._input.disabled || self.config.inline)
             return;
+        var wasOpen = self.isOpen;
         self.isOpen = true;
-        self.calendarContainer.classList.add("open");
         positionCalendar(positionElement);
+        self.calendarContainer.classList.add("open");
         self._input.classList.add("active");
-        triggerEvent("onOpen");
+        !wasOpen && triggerEvent("onOpen");
     }
     function minMaxDateSetter(type) {
         return function (date) {
@@ -1699,7 +1731,6 @@ function FlatpickrInstance(element, instanceConfig) {
     }
     function setDate(date, triggerChange, format) {
         if (triggerChange === void 0) { triggerChange = false; }
-        if (format === void 0) { format = undefined; }
         if (date !== 0 && !date)
             return self.clear(triggerChange);
         setSelectedDate(date, format);
@@ -2087,7 +2118,8 @@ flatpickr = function (selector, config) {
         return _flatpickr(window.document.querySelectorAll(selector), config);
     return _flatpickr([selector], config);
 };
-window.flatpickr = flatpickr;
+if (typeof window === "object")
+    window.flatpickr = flatpickr;
 flatpickr.defaultConfig = defaults;
 flatpickr.l10ns = {
     en: __assign({}, english),
@@ -2276,7 +2308,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 25:
+/***/ 26:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3276,7 +3308,7 @@ if (false) {
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var hooks = new Set(['onChange', 'onOpen', 'onClose', 'onMonthChange', 'onYearChange', 'onReady', 'onValueUpdate', 'onDayCreate']);
+var hooks = new Set(['onChange', 'onOpen', 'onClose', 'onMonthChange', 'onYearChange', 'onReady', 'onValueUpdate']);
 
 var VueFlatpickr$1 = { render: function render() {
 		var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('input', { attrs: { "type": "text", "placeholder": _vm.placeholder }, domProps: { "value": _vm.value } });
@@ -3314,29 +3346,20 @@ var VueFlatpickr$1 = { render: function render() {
 		value: function value(val) {
 			this.fp.setDate(val);
 		},
-		hookedOptions: function hookedOptions(options) {
+		hookedOptions: function hookedOptions(options, oldOptions) {
 			for (var _ref in Object.entries(options)) {
 				var _ref2 = _slicedToArray(_ref, 2);
 
 				var key = _ref2[0];
 				var val = _ref2[1];
 
-				this.fp.set(key, val);
+				if (val !== oldOptions[key]) this.fp.set(key, val);
 			}
 		}
 	},
 
 	mounted: function mounted() {
-		var self = this;
-		var origOnValUpdate = this.hookedOptions.onValueUpdate;
-		this.fp = new __WEBPACK_IMPORTED_MODULE_0_flatpickr___default.a(this.$el, Object.assign(this.hookedOptions, {
-			onValueUpdate: function onValueUpdate() {
-				self.onInput(self.$el.value);
-				if (typeof origOnValUpdate === 'function') {
-					origOnValUpdate();
-				}
-			}
-		}));
+		this.fp = new __WEBPACK_IMPORTED_MODULE_0_flatpickr___default.a(this.$el, this.hookedOptions);
 		this.$emit('FlatpickrRef', this.fp);
 	},
 	destroyed: function destroyed() {
@@ -3353,6 +3376,16 @@ var VueFlatpickr$1 = { render: function render() {
 			var _this = this;
 
 			options = Object.assign({}, options);
+
+			if (!options.onChange) {
+				options.onChange = [];
+			} else if (!Array.isArray(options.onChange)) {
+				options.onChange = [options.onChange];
+			}
+
+			options.onChange.push(function (selectedDates, dateStr) {
+				_this.$emit('input', dateStr);
+			});
 
 			var _iteratorNormalCompletion = true;
 			var _didIteratorError = false;
@@ -3411,7 +3444,7 @@ function stripOn(hook) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(26);
 //
 //
 //
@@ -3670,7 +3703,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 829:
+/***/ 832:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3680,7 +3713,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_Alumni_Edit_vue__ = __webpack_require__(324);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Alumni_Subscription_vue__ = __webpack_require__(830);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Alumni_Subscription_vue__ = __webpack_require__(833);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(1);
 
 
@@ -3760,12 +3793,12 @@ function createAlumni(el, propsData) {
 
 /***/ }),
 
-/***/ 830:
+/***/ 833:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Subscription_vue__ = __webpack_require__(831);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8e5d72ae_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Subscription_vue__ = __webpack_require__(832);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Subscription_vue__ = __webpack_require__(834);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8e5d72ae_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Subscription_vue__ = __webpack_require__(835);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -3812,7 +3845,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 831:
+/***/ 834:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3896,7 +3929,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 832:
+/***/ 835:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3967,6 +4000,6 @@ if (false) {
 
 /***/ })
 
-},[829]);
+},[832]);
 });
 //# sourceMappingURL=vue-alumni.js.map

@@ -917,7 +917,7 @@ if (false) {(function () {
 /***/ 127:
 /***/ (function(module, exports, __webpack_require__) {
 
-/* flatpickr v3.1.4, @license MIT */
+/* flatpickr v4.0.7, @license MIT */
 (function (global, factory) {
 	 true ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -976,7 +976,8 @@ var defaults = {
     altFormat: "F j, Y",
     altInput: false,
     altInputClass: "form-control input",
-    animate: window && window.navigator.userAgent.indexOf("MSIE") === -1,
+    animate: typeof window === "object" &&
+        window.navigator.userAgent.indexOf("MSIE") === -1,
     ariaDateFormat: "F j, Y",
     clickOpens: true,
     closeOnSelect: true,
@@ -1096,7 +1097,7 @@ function debounce(func, wait, immediate) {
     return function () {
         var context = this, args = arguments;
         timeout !== null && clearTimeout(timeout);
-        timeout = setTimeout(function () {
+        timeout = window.setTimeout(function () {
             timeout = null;
             if (!immediate)
                 func.apply(context, args);
@@ -1272,6 +1273,29 @@ var formats = {
     w: function (date) { return date.getDay(); },
     y: function (date) { return String(date.getFullYear()).substring(2); },
 };
+
+"use strict";
+if (typeof Object.assign !== "function") {
+    Object.assign = function (target) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (!target) {
+            throw TypeError("Cannot convert undefined or null to object");
+        }
+        var _loop_1 = function (source) {
+            if (source) {
+                Object.keys(source).forEach(function (key) { return (target[key] = source[key]); });
+            }
+        };
+        for (var _a = 0, args_1 = args; _a < args_1.length; _a++) {
+            var source = args_1[_a];
+            _loop_1(source);
+        }
+        return target;
+    };
+}
 
 function FlatpickrInstance(element, instanceConfig) {
     var self = {};
@@ -1613,8 +1637,11 @@ function FlatpickrInstance(element, instanceConfig) {
         var customAppend = self.config.appendTo !== undefined && self.config.appendTo.nodeType;
         if (self.config.inline || self.config.static) {
             self.calendarContainer.classList.add(self.config.inline ? "inline" : "static");
-            if (self.config.inline && !customAppend && self.element.parentNode) {
-                self.element.parentNode.insertBefore(self.calendarContainer, self._input.nextSibling);
+            if (self.config.inline) {
+                if (!customAppend && self.element.parentNode)
+                    self.element.parentNode.insertBefore(self.calendarContainer, self._input.nextSibling);
+                else if (self.config.appendTo !== undefined)
+                    self.config.appendTo.appendChild(self.calendarContainer);
             }
             if (self.config.static) {
                 var wrapper = createElement("div", "flatpickr-wrapper");
@@ -1968,7 +1995,7 @@ function FlatpickrInstance(element, instanceConfig) {
         self.latestSelectedDateObj = undefined;
         self.showTimeInput = false;
         self.redraw();
-        if (triggerChangeEvent === true)
+        if (triggerChangeEvent)
             triggerEvent("onChange");
     }
     function close() {
@@ -2254,7 +2281,8 @@ function FlatpickrInstance(element, instanceConfig) {
                 break;
             }
         }
-        var _loop_1 = function (timestamp, i) {
+        var _loop_1 = function (i, date) {
+            var timestamp = date.getTime();
             var outOfRange = timestamp < self.minRangeDate.getTime() ||
                 timestamp > self.maxRangeDate.getTime(), dayElem = self.days.childNodes[i];
             if (outOfRange) {
@@ -2278,8 +2306,11 @@ function FlatpickrInstance(element, instanceConfig) {
             if (timestamp >= minRangeDate && timestamp <= maxRangeDate)
                 dayElem.classList.add("inRange");
         };
-        for (var timestamp = self.days.childNodes[0].dateObj.getTime(), i = 0; i < 42; i++, timestamp += duration.DAY) {
-            _loop_1(timestamp, i);
+        for (var i = 0, date = self.days.childNodes[i].dateObj; i < 42; i++,
+            date =
+                self.days.childNodes[i] &&
+                    self.days.childNodes[i].dateObj) {
+            _loop_1(i, date);
         }
     }
     function onResize() {
@@ -2299,13 +2330,14 @@ function FlatpickrInstance(element, instanceConfig) {
             triggerEvent("onOpen");
             return;
         }
-        if (self.isOpen || self._input.disabled || self.config.inline)
+        if (self._input.disabled || self.config.inline)
             return;
+        var wasOpen = self.isOpen;
         self.isOpen = true;
-        self.calendarContainer.classList.add("open");
         positionCalendar(positionElement);
+        self.calendarContainer.classList.add("open");
         self._input.classList.add("active");
-        triggerEvent("onOpen");
+        !wasOpen && triggerEvent("onOpen");
     }
     function minMaxDateSetter(type) {
         return function (date) {
@@ -2603,7 +2635,6 @@ function FlatpickrInstance(element, instanceConfig) {
     }
     function setDate(date, triggerChange, format) {
         if (triggerChange === void 0) { triggerChange = false; }
-        if (format === void 0) { format = undefined; }
         if (date !== 0 && !date)
             return self.clear(triggerChange);
         setSelectedDate(date, format);
@@ -2991,7 +3022,8 @@ flatpickr = function (selector, config) {
         return _flatpickr(window.document.querySelectorAll(selector), config);
     return _flatpickr([selector], config);
 };
-window.flatpickr = flatpickr;
+if (typeof window === "object")
+    window.flatpickr = flatpickr;
 flatpickr.defaultConfig = defaults;
 flatpickr.l10ns = {
     en: __assign({}, english),
@@ -4204,7 +4236,7 @@ window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
 
 /* WEBPACK VAR INJECTION */(function(global) {var require;var require;/*!
     localForage -- Offline Storage, Improved
-    Version 1.5.2
+    Version 1.5.3
     https://localforage.github.io/localForage
     (c) 2013-2017 Mozilla, Apache License 2.0
 */
@@ -6017,6 +6049,28 @@ function isLocalStorageValid() {
     }
 }
 
+// Check if localStorage throws when saving an item
+function checkIfLocalStorageThrows() {
+    var localStorageTestKey = '_localforage_support_test';
+
+    try {
+        localStorage.setItem(localStorageTestKey, true);
+        localStorage.removeItem(localStorageTestKey);
+
+        return false;
+    } catch (e) {
+        return true;
+    }
+}
+
+// Check if localStorage is usable and allows to save an item
+// This method checks if localStorage is usable in Safari Private Browsing
+// mode, or in any other case where the available quota for localStorage
+// is 0 and there wasn't any saved items yet.
+function _isLocalStorageUsable() {
+    return !checkIfLocalStorageThrows() || localStorage.length > 0;
+}
+
 // Config the localStorage backend, using options set in the config.
 function _initStorage$2(options) {
     var self = this;
@@ -6031,6 +6085,10 @@ function _initStorage$2(options) {
 
     if (dbInfo.storeName !== self._defaultConfig.storeName) {
         dbInfo.keyPrefix += dbInfo.storeName + '/';
+    }
+
+    if (!_isLocalStorageUsable()) {
+        return Promise$1.reject();
     }
 
     self._dbInfo = dbInfo;
@@ -6163,8 +6221,9 @@ function keys$2(callback) {
         var keys = [];
 
         for (var i = 0; i < length; i++) {
-            if (localStorage.key(i).indexOf(dbInfo.keyPrefix) === 0) {
-                keys.push(localStorage.key(i).substring(dbInfo.keyPrefix.length));
+            var itemKey = localStorage.key(i);
+            if (itemKey.indexOf(dbInfo.keyPrefix) === 0) {
+                keys.push(itemKey.substring(dbInfo.keyPrefix.length));
             }
         }
 
@@ -6670,7 +6729,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 24:
+/***/ 25:
 /***/ (function(module, exports) {
 
 /**
@@ -6708,7 +6767,7 @@ module.exports = isObject;
 
 /***/ }),
 
-/***/ 25:
+/***/ 26:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6812,7 +6871,7 @@ module.exports = eq;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(9),
-    isObject = __webpack_require__(24);
+    isObject = __webpack_require__(25);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -6940,8 +6999,8 @@ module.exports = MapCache;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(651);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_cb631b42_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(652);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(654);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_cb631b42_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(655);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -7210,7 +7269,7 @@ module.exports = isLength;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var hooks = new Set(['onChange', 'onOpen', 'onClose', 'onMonthChange', 'onYearChange', 'onReady', 'onValueUpdate', 'onDayCreate']);
+var hooks = new Set(['onChange', 'onOpen', 'onClose', 'onMonthChange', 'onYearChange', 'onReady', 'onValueUpdate']);
 
 var VueFlatpickr$1 = { render: function render() {
 		var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('input', { attrs: { "type": "text", "placeholder": _vm.placeholder }, domProps: { "value": _vm.value } });
@@ -7248,29 +7307,20 @@ var VueFlatpickr$1 = { render: function render() {
 		value: function value(val) {
 			this.fp.setDate(val);
 		},
-		hookedOptions: function hookedOptions(options) {
+		hookedOptions: function hookedOptions(options, oldOptions) {
 			for (var _ref in Object.entries(options)) {
 				var _ref2 = _slicedToArray(_ref, 2);
 
 				var key = _ref2[0];
 				var val = _ref2[1];
 
-				this.fp.set(key, val);
+				if (val !== oldOptions[key]) this.fp.set(key, val);
 			}
 		}
 	},
 
 	mounted: function mounted() {
-		var self = this;
-		var origOnValUpdate = this.hookedOptions.onValueUpdate;
-		this.fp = new __WEBPACK_IMPORTED_MODULE_0_flatpickr___default.a(this.$el, Object.assign(this.hookedOptions, {
-			onValueUpdate: function onValueUpdate() {
-				self.onInput(self.$el.value);
-				if (typeof origOnValUpdate === 'function') {
-					origOnValUpdate();
-				}
-			}
-		}));
+		this.fp = new __WEBPACK_IMPORTED_MODULE_0_flatpickr___default.a(this.$el, this.hookedOptions);
 		this.$emit('FlatpickrRef', this.fp);
 	},
 	destroyed: function destroyed() {
@@ -7287,6 +7337,16 @@ var VueFlatpickr$1 = { render: function render() {
 			var _this = this;
 
 			options = Object.assign({}, options);
+
+			if (!options.onChange) {
+				options.onChange = [];
+			} else if (!Array.isArray(options.onChange)) {
+				options.onChange = [options.onChange];
+			}
+
+			options.onChange.push(function (selectedDates, dateStr) {
+				_this.$emit('input', dateStr);
+			});
 
 			var _iteratorNormalCompletion = true;
 			var _didIteratorError = false;
@@ -7861,7 +7921,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(26);
 //
 //
 //
@@ -8686,26 +8746,26 @@ module.exports = stackDelete;
 
 /***/ }),
 
-/***/ 644:
+/***/ 647:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__admin_js__ = __webpack_require__(645);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__admin_js__ = __webpack_require__(648);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAdminDashboard", function() { return __WEBPACK_IMPORTED_MODULE_0__admin_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__resident_js__ = __webpack_require__(646);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__resident_js__ = __webpack_require__(649);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createResidentDashboard", function() { return __WEBPACK_IMPORTED_MODULE_1__resident_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__faculty_js__ = __webpack_require__(647);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__faculty_js__ = __webpack_require__(650);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_2__faculty_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__staff_js__ = __webpack_require__(648);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__staff_js__ = __webpack_require__(651);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createStaffDashboard", function() { return __WEBPACK_IMPORTED_MODULE_3__staff_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_js__ = __webpack_require__(649);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_js__ = __webpack_require__(652);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAPPDashboard", function() { return __WEBPACK_IMPORTED_MODULE_4__app_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__faculty_admin_js__ = __webpack_require__(650);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__faculty_admin_js__ = __webpack_require__(653);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAdminFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_5__faculty_admin_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__faculty_anonymous_js__ = __webpack_require__(653);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__faculty_anonymous_js__ = __webpack_require__(656);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAnonymousFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_6__faculty_anonymous_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__faculty_faculty_js__ = __webpack_require__(654);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__faculty_faculty_js__ = __webpack_require__(657);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFacultyFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_7__faculty_faculty_js__["a"]; });
 
 
@@ -8718,7 +8778,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 645:
+/***/ 648:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9020,7 +9080,7 @@ function createAdminDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 646:
+/***/ 649:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9237,7 +9297,28 @@ function createResidentDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 647:
+/***/ 65:
+/***/ (function(module, exports) {
+
+/**
+ * Gets the stack value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Stack
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function stackGet(key) {
+  return this.__data__.get(key);
+}
+
+module.exports = stackGet;
+
+
+/***/ }),
+
+/***/ 650:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9449,7 +9530,7 @@ function createFacultyDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 648:
+/***/ 651:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9628,7 +9709,7 @@ function createStaffDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 649:
+/***/ 652:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9734,28 +9815,7 @@ function createAPPDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 65:
-/***/ (function(module, exports) {
-
-/**
- * Gets the stack value for `key`.
- *
- * @private
- * @name get
- * @memberOf Stack
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function stackGet(key) {
-  return this.__data__.get(key);
-}
-
-module.exports = stackGet;
-
-
-/***/ }),
-
-/***/ 650:
+/***/ 653:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9830,7 +9890,7 @@ function createAdminFacultyDashboard(el) {
 
 /***/ }),
 
-/***/ 651:
+/***/ 654:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9888,7 +9948,7 @@ function createAdminFacultyDashboard(el) {
 
 /***/ }),
 
-/***/ 652:
+/***/ 655:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9956,7 +10016,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 653:
+/***/ 656:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10060,7 +10120,7 @@ function createAnonymousFacultyDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 654:
+/***/ 657:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10231,7 +10291,7 @@ module.exports = stackSet;
 
 var isFunction = __webpack_require__(29),
     isMasked = __webpack_require__(71),
-    isObject = __webpack_require__(24),
+    isObject = __webpack_require__(25),
     toSource = __webpack_require__(31);
 
 /**
@@ -11312,6 +11372,6 @@ module.exports = getSymbols;
 
 /***/ })
 
-},[644]);
+},[647]);
 });
 //# sourceMappingURL=vue-dashboard.js.map

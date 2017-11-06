@@ -15,24 +15,25 @@
 				</textarea>
 			</label>
 		</validated-form-group>
-		<validated-form-group prop="hours"
+		<validated-form-group prop="date"
 				:errors="validation.errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
-			<label class="containing-label">
-				{{ hoursLabel }}
-				<input type="number" class="form-control"
-					:value="hours" :readonly="readonly"
-					@input="$emit('input', {hours: Number($event.target.value)})" />
-			</label>
+			<multiple-unknown-date-selector
+					:value="date"
+					:readonly="readonly"
+					@input="$emit('input', {date: arguments[0]})">
+				{{ dateLabel }}
+			</multiple-unknown-date-selector>
 		</validated-form-group>
 	</list-item>
 </template>
 
 <script>
 import ListItem from './Item.vue';
+import MultipleUnknownDateSelector from '@/vue-components/MultipleUnknownDateSelector.vue';
 
-import { projectListItem as validate } from '@/modules/questionnaire/validate.js';
+import { datedEventListItem as validate } from '@/modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,
@@ -48,8 +49,8 @@ export default {
 			type: String,
 			default: ''
 		},
-		hours: {
-			type: Number,
+		date: {
+			type: String,
 			default: 0
 		},
 		labels: {
@@ -62,12 +63,12 @@ export default {
 		descriptionLabel() {
 			return (this.labels && this.labels.description)
 				? this.labels.description
-				: 'Description of the project and your involvement';
+				: 'Description of the event and your involvement';
 		},
-		hoursLabel() {
-			return (this.labels && this.labels.hours)
-				? this.labels.hours
-				: 'Number of hours spent';
+		dateLabel() {
+			return (this.labels && this.labels.dateLabel)
+				? this.labels.dateLabel
+				: 'Date(s) the event took place';
 		},
 		validation() {
 			return validate(this);
@@ -75,7 +76,8 @@ export default {
 	},
 
 	components: {
-		ListItem
+		ListItem,
+		MultipleUnknownDateSelector
 	}
 };
 </script>

@@ -5,12 +5,14 @@ import VueRouter from 'vue-router';
 
 import SelectQuestion from './resources/assets/js/vue-components/Questionnaire/Question/__ui-tests__/select.js';
 import RadioQuestion from './resources/assets/js/vue-components/Questionnaire/Question/__ui-tests__/radio.js';
+import DatedEventList from './resources/assets/js/vue-components/Questionnaire/Question/__ui-tests__/dated-event-list.js';
 
 import './resources/assets/css/main.css';
 
 const components = {
 	SelectQuestion,
-	RadioQuestion
+	RadioQuestion,
+	DatedEventList
 };
 
 Vue.use(VueRouter);

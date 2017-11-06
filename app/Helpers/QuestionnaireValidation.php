@@ -297,6 +297,16 @@ class QuestionnaireValidation {
 					return false;
 				}
 				break;
+			case 'project':
+				if (empty($listItem['description']) || empty($listItem['hours'])) {
+					return false;
+				}
+				break;
+			case 'datedEvent':
+				if (empty($listItem['description']) || empty($listItem['date'])) {
+					return false;
+				}
+				break;
 		}
 
 		return true;

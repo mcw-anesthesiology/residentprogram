@@ -1,0 +1,7 @@
+{
+	"type": "list",
+	"listType": "datedEvent",
+	"description": "Desc",
+	"items": [],
+	"required": true
+}
