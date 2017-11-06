@@ -923,6 +923,12 @@ small[data-v-6ff62c0e] {
 .notes-container[data-v-6ff62c0e] {
 	margin-top: 2em;
 }
+@media print {
+.close-report-button[data-v-6ff62c0e],
+	.form-summary[data-v-6ff62c0e] {
+		display: none;
+}
+}
 
 .checklist[data-v-08bc7d30] {
 	font-size: 1.25em;
@@ -936,6 +942,9 @@ small[data-v-6ff62c0e] {
 .checklist[data-v-08bc7d30] {
 		padding: 0 2em;
 }
+}
+.pages > .page[data-v-08bc7d30] {
+	margin-bottom: 6em;
 }
 .checklist-pager-forward-enter-active[data-v-08bc7d30],
 .checklist-pager-back-enter-active[data-v-08bc7d30] {
@@ -952,6 +961,17 @@ small[data-v-6ff62c0e] {
 .checklist-pager-back-enter[data-v-08bc7d30], .checklist-pager-back-leave-to[data-v-08bc7d30] {
 	transform: translateX(10px);
 	opacity: 0;
+}
+.dont-paginate-container[data-v-08bc7d30] {
+	margin-top: 2em;
+}
+@media print {
+.checklist[data-v-08bc7d30] {
+		padding: 0 !important;
+}
+.checklist-controls[data-v-08bc7d30] {
+		display: none;
+}
 }
 
 section[data-v-a8188cb2] {
