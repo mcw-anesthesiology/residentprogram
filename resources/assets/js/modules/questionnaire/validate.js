@@ -32,6 +32,7 @@ import type {
 	QuestionnaireLectureListItem,
 	QuestionnaireMentorshipListItem,
 	QuestionnaireProjectListItem,
+	QuestionnaireDatedEventListItem,
 	ConditionChecker
 } from './index.js';
 
@@ -297,6 +298,8 @@ export function listItem(item: QuestionnaireListItem): Validation {
 			return mentorshipListItem(item);
 		case 'project':
 			return projectListItem(item);
+		case 'datedEvent':
+			return datedEventListItem(item);
 	}
 
 	// Unrecognized list type
@@ -406,5 +409,12 @@ export function projectListItem(item: QuestionnaireProjectListItem): Validation 
 	return requiredListItem(item, new Map([
 		['description', 'describe the project and your involvement'],
 		['hours', 'estimate the number of hours you spent on the project']
+	]));
+}
+
+export function datedEventListItem(item: QuestionnaireDatedEventListItem): Validation {
+	return requiredListItem(item, new Map([
+		['description', 'describe the event and your involvement'],
+		['date', 'list the date(s) it took place']
 	]));
 }

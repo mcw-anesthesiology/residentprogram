@@ -54,7 +54,7 @@ return webpackJsonp([9],[
 /* harmony export (immutable) */ __webpack_exports__["b"] = arraysIntersect;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_striptags__ = __webpack_require__(538);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_striptags__ = __webpack_require__(541);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_striptags___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_striptags__);
 
 
@@ -893,9 +893,9 @@ function monthsInAcademicYear() {
 
 
 module.exports = __webpack_require__(223);
-module.exports.easing = __webpack_require__(485);
-module.exports.canvas = __webpack_require__(486);
-module.exports.options = __webpack_require__(487);
+module.exports.easing = __webpack_require__(488);
+module.exports.canvas = __webpack_require__(489);
+module.exports.options = __webpack_require__(490);
 
 
 /***/ }),
@@ -960,7 +960,7 @@ module.exports = {
 /* harmony export (immutable) */ __webpack_exports__["e"] = getDataAttributes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(537);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(540);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_twix__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js__ = __webpack_require__(1);
@@ -1362,7 +1362,7 @@ var FEATURE_RELEASE_DATES = {
 "use strict";
 
 
-var color = __webpack_require__(433);
+var color = __webpack_require__(436);
 var helpers = __webpack_require__(15);
 
 function interpolate(start, view, model, ease) {
@@ -1686,10 +1686,10 @@ process.umask = function() { return 0; };
 
 
 module.exports = {};
-module.exports.Arc = __webpack_require__(492);
-module.exports.Line = __webpack_require__(493);
-module.exports.Point = __webpack_require__(494);
-module.exports.Rectangle = __webpack_require__(495);
+module.exports.Arc = __webpack_require__(495);
+module.exports.Line = __webpack_require__(496);
+module.exports.Point = __webpack_require__(497);
+module.exports.Rectangle = __webpack_require__(498);
 
 
 /***/ }),
@@ -2495,9 +2495,9 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 /* harmony export (immutable) */ __webpack_exports__["d"] = generateCaseLogLocationReportTable;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(234);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema__ = __webpack_require__(529);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema__ = __webpack_require__(532);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jsonschema__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__ = __webpack_require__(536);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__ = __webpack_require__(539);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__);
 
 
@@ -3188,6 +3188,48 @@ var helpers = {
 	 */
 	mergeIf: function(target, source) {
 		return helpers.merge(target, source, {merger: helpers._mergerIf});
+	},
+
+	/**
+	 * Applies the contents of two or more objects together into the first object.
+	 * @param {Object} target - The target object in which all objects are merged into.
+	 * @param {Object} arg1 - Object containing additional properties to merge in target.
+	 * @param {Object} argN - Additional objects containing properties to merge in target.
+	 * @returns {Object} The `target` object.
+	 */
+	extend: function(target) {
+		var setFn = function(value, key) {
+			target[key] = value;
+		};
+		for (var i = 1, ilen = arguments.length; i < ilen; ++i) {
+			helpers.each(arguments[i], setFn);
+		}
+		return target;
+	},
+
+	/**
+	 * Basic javascript inheritance based on the model created in Backbone.js
+	 */
+	inherits: function(extensions) {
+		var me = this;
+		var ChartElement = (extensions && extensions.hasOwnProperty('constructor')) ? extensions.constructor : function() {
+			return me.apply(this, arguments);
+		};
+
+		var Surrogate = function() {
+			this.constructor = ChartElement;
+		};
+
+		Surrogate.prototype = me.prototype;
+		ChartElement.prototype = new Surrogate();
+		ChartElement.extend = helpers.inherits;
+
+		if (extensions) {
+			helpers.extend(ChartElement.prototype, extensions);
+		}
+
+		ChartElement.__super__ = me.prototype;
+		return ChartElement;
 	}
 };
 
@@ -3272,60 +3314,60 @@ module.exports = function (exec) {
 /**
  * @namespace Chart
  */
-var Chart = __webpack_require__(484)();
+var Chart = __webpack_require__(487)();
 
 Chart.helpers = __webpack_require__(15);
 
 // @todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!
-__webpack_require__(488)(Chart);
+__webpack_require__(491)(Chart);
 
 Chart.defaults = __webpack_require__(22);
 Chart.Element = __webpack_require__(132);
 Chart.elements = __webpack_require__(145);
-Chart.Interaction = __webpack_require__(434);
-Chart.platform = __webpack_require__(435);
+Chart.Interaction = __webpack_require__(437);
+Chart.platform = __webpack_require__(438);
 
-__webpack_require__(498)(Chart);
-__webpack_require__(499)(Chart);
-__webpack_require__(500)(Chart);
 __webpack_require__(501)(Chart);
 __webpack_require__(502)(Chart);
 __webpack_require__(503)(Chart);
 __webpack_require__(504)(Chart);
 __webpack_require__(505)(Chart);
-
 __webpack_require__(506)(Chart);
 __webpack_require__(507)(Chart);
 __webpack_require__(508)(Chart);
+
 __webpack_require__(509)(Chart);
 __webpack_require__(510)(Chart);
 __webpack_require__(511)(Chart);
-
-// Controllers must be loaded after elements
-// See Chart.core.datasetController.dataElementType
 __webpack_require__(512)(Chart);
 __webpack_require__(513)(Chart);
 __webpack_require__(514)(Chart);
+
+// Controllers must be loaded after elements
+// See Chart.core.datasetController.dataElementType
 __webpack_require__(515)(Chart);
 __webpack_require__(516)(Chart);
 __webpack_require__(517)(Chart);
 __webpack_require__(518)(Chart);
-
 __webpack_require__(519)(Chart);
 __webpack_require__(520)(Chart);
 __webpack_require__(521)(Chart);
+
 __webpack_require__(522)(Chart);
 __webpack_require__(523)(Chart);
 __webpack_require__(524)(Chart);
 __webpack_require__(525)(Chart);
+__webpack_require__(526)(Chart);
+__webpack_require__(527)(Chart);
+__webpack_require__(528)(Chart);
 
 // Loading built-it plugins
 var plugins = [];
 
 plugins.push(
-	__webpack_require__(526)(Chart),
-	__webpack_require__(527)(Chart),
-	__webpack_require__(528)(Chart)
+	__webpack_require__(529)(Chart),
+	__webpack_require__(530)(Chart),
+	__webpack_require__(531)(Chart)
 );
 
 Chart.plugins.register(plugins);
@@ -3378,7 +3420,7 @@ Chart.canvasHelpers = Chart.helpers.canvas;
 
 
 var punycode = __webpack_require__(236);
-var util = __webpack_require__(531);
+var util = __webpack_require__(534);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -3453,7 +3495,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(532);
+    querystring = __webpack_require__(535);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -4817,13 +4859,16 @@ Url.prototype.parseHost = function() {
 /* 423 */,
 /* 424 */,
 /* 425 */,
-/* 426 */
+/* 426 */,
+/* 427 */,
+/* 428 */,
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(427);
+var global = __webpack_require__(430);
 var core = __webpack_require__(221);
-var ctx = __webpack_require__(465);
-var hide = __webpack_require__(467);
+var ctx = __webpack_require__(468);
+var hide = __webpack_require__(470);
 var PROTOTYPE = 'prototype';
 
 var $export = function (type, name, source) {
@@ -4884,7 +4929,7 @@ module.exports = $export;
 
 
 /***/ }),
-/* 427 */
+/* 430 */
 /***/ (function(module, exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -4896,12 +4941,12 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
 
 /***/ }),
-/* 428 */
+/* 431 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(468);
-var IE8_DOM_DEFINE = __webpack_require__(429);
-var toPrimitive = __webpack_require__(430);
+var anObject = __webpack_require__(471);
+var IE8_DOM_DEFINE = __webpack_require__(432);
+var toPrimitive = __webpack_require__(433);
 var dP = Object.defineProperty;
 
 exports.f = __webpack_require__(172) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
@@ -4918,16 +4963,16 @@ exports.f = __webpack_require__(172) ? Object.defineProperty : function definePr
 
 
 /***/ }),
-/* 429 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(172) && !__webpack_require__(233)(function () {
-  return Object.defineProperty(__webpack_require__(469)('div'), 'a', { get: function () { return 7; } }).a != 7;
+  return Object.defineProperty(__webpack_require__(472)('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
 
 
 /***/ }),
-/* 430 */
+/* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
@@ -4945,7 +4990,7 @@ module.exports = function (it, S) {
 
 
 /***/ }),
-/* 431 */
+/* 434 */
 /***/ (function(module, exports) {
 
 module.exports = function (bitmap, value) {
@@ -4959,24 +5004,24 @@ module.exports = function (bitmap, value) {
 
 
 /***/ }),
-/* 432 */
+/* 435 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(473);
-var defined = __webpack_require__(475);
+var IObject = __webpack_require__(476);
+var defined = __webpack_require__(478);
 module.exports = function (it) {
   return IObject(defined(it));
 };
 
 
 /***/ }),
-/* 433 */
+/* 436 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var convert = __webpack_require__(489);
-var string = __webpack_require__(491);
+var convert = __webpack_require__(492);
+var string = __webpack_require__(494);
 
 var Color = function (obj) {
 	if (obj instanceof Color) {
@@ -5462,7 +5507,7 @@ module.exports = Color;
 
 
 /***/ }),
-/* 434 */
+/* 437 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5683,7 +5728,7 @@ module.exports = {
 		 * @private
 		 */
 		'x-axis': function(chart, e) {
-			return indexMode(chart, e, {intersect: true});
+			return indexMode(chart, e, {intersect: false});
 		},
 
 		/**
@@ -5799,15 +5844,15 @@ module.exports = {
 
 
 /***/ }),
-/* 435 */
+/* 438 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var helpers = __webpack_require__(15);
-var basic = __webpack_require__(496);
-var dom = __webpack_require__(497);
+var basic = __webpack_require__(499);
+var dom = __webpack_require__(500);
 
 // @TODO Make possible to select another platform at build time.
 var implementation = dom._enabled ? dom : basic;
@@ -5880,9 +5925,6 @@ module.exports = helpers.extend({
 
 
 /***/ }),
-/* 436 */,
-/* 437 */,
-/* 438 */,
 /* 439 */,
 /* 440 */,
 /* 441 */,
@@ -5901,12 +5943,15 @@ module.exports = helpers.extend({
 /* 454 */,
 /* 455 */,
 /* 456 */,
-/* 457 */
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_js__ = __webpack_require__(458);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_js__ = __webpack_require__(461);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__case_log_details_schema_js__ = __webpack_require__(222);
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "caseLogDetailsSchemaIsValid", function() { return __WEBPACK_IMPORTED_MODULE_1__case_log_details_schema_js__["a"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderCaseLogDetailsSchema", function() { return __WEBPACK_IMPORTED_MODULE_1__case_log_details_schema_js__["e"]; });
@@ -5980,17 +6025,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 458 */
+/* 461 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_whatwg_fetch__ = __webpack_require__(459);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_whatwg_fetch__ = __webpack_require__(462);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_whatwg_fetch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_whatwg_fetch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_dataset__ = __webpack_require__(460);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_dataset__ = __webpack_require__(463);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_dataset___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_element_dataset__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_raf_polyfill_js__ = __webpack_require__(480);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_raf_polyfill_js__ = __webpack_require__(483);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_raf_polyfill_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_raf_polyfill_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classlist_polyfill__ = __webpack_require__(483);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classlist_polyfill__ = __webpack_require__(486);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classlist_polyfill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_classlist_polyfill__);
 
 
@@ -5998,7 +6043,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 459 */
+/* 462 */
 /***/ (function(module, exports) {
 
 (function(self) {
@@ -6465,21 +6510,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 460 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var req = __webpack_require__(461);
+var req = __webpack_require__(464);
 module.exports = (req['default'] || req).apply(req, [])
 
 /***/ }),
-/* 461 */
+/* 464 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__ = __webpack_require__(462);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__ = __webpack_require__(465);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__ = __webpack_require__(470);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__ = __webpack_require__(473);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__);
 
 //
@@ -6555,16 +6600,16 @@ function elementDatasetPolyfill() {
 
 
 /***/ }),
-/* 462 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(463), __esModule: true };
+module.exports = { "default": __webpack_require__(466), __esModule: true };
 
 /***/ }),
-/* 463 */
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(464);
+__webpack_require__(467);
 var $Object = __webpack_require__(221).Object;
 module.exports = function defineProperty(it, key, desc) {
   return $Object.defineProperty(it, key, desc);
@@ -6572,20 +6617,20 @@ module.exports = function defineProperty(it, key, desc) {
 
 
 /***/ }),
-/* 464 */
+/* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $export = __webpack_require__(426);
+var $export = __webpack_require__(429);
 // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(172), 'Object', { defineProperty: __webpack_require__(428).f });
+$export($export.S + $export.F * !__webpack_require__(172), 'Object', { defineProperty: __webpack_require__(431).f });
 
 
 /***/ }),
-/* 465 */
+/* 468 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(466);
+var aFunction = __webpack_require__(469);
 module.exports = function (fn, that, length) {
   aFunction(fn);
   if (that === undefined) return fn;
@@ -6607,7 +6652,7 @@ module.exports = function (fn, that, length) {
 
 
 /***/ }),
-/* 466 */
+/* 469 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -6617,11 +6662,11 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 467 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(428);
-var createDesc = __webpack_require__(431);
+var dP = __webpack_require__(431);
+var createDesc = __webpack_require__(434);
 module.exports = __webpack_require__(172) ? function (object, key, value) {
   return dP.f(object, key, createDesc(1, value));
 } : function (object, key, value) {
@@ -6631,7 +6676,7 @@ module.exports = __webpack_require__(172) ? function (object, key, value) {
 
 
 /***/ }),
-/* 468 */
+/* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(232);
@@ -6642,11 +6687,11 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 469 */
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(232);
-var document = __webpack_require__(427).document;
+var document = __webpack_require__(430).document;
 // typeof document.createElement is 'object' in old IE
 var is = isObject(document) && isObject(document.createElement);
 module.exports = function (it) {
@@ -6655,16 +6700,16 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 470 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(471), __esModule: true };
+module.exports = { "default": __webpack_require__(474), __esModule: true };
 
 /***/ }),
-/* 471 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(472);
+__webpack_require__(475);
 var $Object = __webpack_require__(221).Object;
 module.exports = function getOwnPropertyDescriptor(it, key) {
   return $Object.getOwnPropertyDescriptor(it, key);
@@ -6672,14 +6717,14 @@ module.exports = function getOwnPropertyDescriptor(it, key) {
 
 
 /***/ }),
-/* 472 */
+/* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
-var toIObject = __webpack_require__(432);
-var $getOwnPropertyDescriptor = __webpack_require__(476).f;
+var toIObject = __webpack_require__(435);
+var $getOwnPropertyDescriptor = __webpack_require__(479).f;
 
-__webpack_require__(479)('getOwnPropertyDescriptor', function () {
+__webpack_require__(482)('getOwnPropertyDescriptor', function () {
   return function getOwnPropertyDescriptor(it, key) {
     return $getOwnPropertyDescriptor(toIObject(it), key);
   };
@@ -6687,11 +6732,11 @@ __webpack_require__(479)('getOwnPropertyDescriptor', function () {
 
 
 /***/ }),
-/* 473 */
+/* 476 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(474);
+var cof = __webpack_require__(477);
 // eslint-disable-next-line no-prototype-builtins
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
   return cof(it) == 'String' ? it.split('') : Object(it);
@@ -6699,7 +6744,7 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 
 /***/ }),
-/* 474 */
+/* 477 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -6710,7 +6755,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 475 */
+/* 478 */
 /***/ (function(module, exports) {
 
 // 7.2.1 RequireObjectCoercible(argument)
@@ -6721,15 +6766,15 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 476 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var pIE = __webpack_require__(477);
-var createDesc = __webpack_require__(431);
-var toIObject = __webpack_require__(432);
-var toPrimitive = __webpack_require__(430);
-var has = __webpack_require__(478);
-var IE8_DOM_DEFINE = __webpack_require__(429);
+var pIE = __webpack_require__(480);
+var createDesc = __webpack_require__(434);
+var toIObject = __webpack_require__(435);
+var toPrimitive = __webpack_require__(433);
+var has = __webpack_require__(481);
+var IE8_DOM_DEFINE = __webpack_require__(432);
 var gOPD = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(172) ? gOPD : function getOwnPropertyDescriptor(O, P) {
@@ -6743,14 +6788,14 @@ exports.f = __webpack_require__(172) ? gOPD : function getOwnPropertyDescriptor(
 
 
 /***/ }),
-/* 477 */
+/* 480 */
 /***/ (function(module, exports) {
 
 exports.f = {}.propertyIsEnumerable;
 
 
 /***/ }),
-/* 478 */
+/* 481 */
 /***/ (function(module, exports) {
 
 var hasOwnProperty = {}.hasOwnProperty;
@@ -6760,11 +6805,11 @@ module.exports = function (it, key) {
 
 
 /***/ }),
-/* 479 */
+/* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // most Object methods by ES6 should accept primitives
-var $export = __webpack_require__(426);
+var $export = __webpack_require__(429);
 var core = __webpack_require__(221);
 var fails = __webpack_require__(233);
 module.exports = function (KEY, exec) {
@@ -6776,17 +6821,17 @@ module.exports = function (KEY, exec) {
 
 
 /***/ }),
-/* 480 */
+/* 483 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(481).polyfill()
+__webpack_require__(484).polyfill()
 
 
 /***/ }),
-/* 481 */
+/* 484 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {var now = __webpack_require__(482)
+/* WEBPACK VAR INJECTION */(function(global) {var now = __webpack_require__(485)
   , root = typeof window === 'undefined' ? global : window
   , vendors = ['moz', 'webkit']
   , suffix = 'AnimationFrame'
@@ -6865,7 +6910,7 @@ module.exports.polyfill = function(object) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
 
 /***/ }),
-/* 482 */
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {// Generated by CoffeeScript 1.12.2
@@ -6908,7 +6953,7 @@ module.exports.polyfill = function(object) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(144)))
 
 /***/ }),
-/* 483 */
+/* 486 */
 /***/ (function(module, exports) {
 
 /*
@@ -7154,7 +7199,7 @@ if (objCtr.defineProperty) {
 
 
 /***/ }),
-/* 484 */
+/* 487 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7210,7 +7255,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 485 */
+/* 488 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7467,7 +7512,7 @@ helpers.easingEffects = effects;
 
 
 /***/ }),
-/* 486 */
+/* 489 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7520,7 +7565,7 @@ var exports = module.exports = {
 	drawPoint: function(ctx, style, radius, x, y) {
 		var type, edgeLength, xOffset, yOffset, height, size;
 
-		if (typeof style === 'object') {
+		if (style && typeof style === 'object') {
 			type = style.toString();
 			if (type === '[object HTMLImageElement]' || type === '[object HTMLCanvasElement]') {
 				ctx.drawImage(style, x - style.width / 2, y - style.height / 2, style.width, style.height);
@@ -7688,7 +7733,7 @@ helpers.drawRoundedRectangle = function(ctx) {
 
 
 /***/ }),
-/* 487 */
+/* 490 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7791,7 +7836,7 @@ module.exports = {
 
 
 /***/ }),
-/* 488 */
+/* 491 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7799,23 +7844,13 @@ module.exports = {
 /* global document: false */
 
 
-var color = __webpack_require__(433);
+var color = __webpack_require__(436);
 var defaults = __webpack_require__(22);
 var helpers = __webpack_require__(15);
 
 module.exports = function(Chart) {
 
 	// -- Basic js utility methods
-
-	helpers.extend = function(base) {
-		var setFn = function(value, key) {
-			base[key] = value;
-		};
-		for (var i = 1, ilen = arguments.length; i < ilen; i++) {
-			helpers.each(arguments[i], setFn);
-		}
-		return base;
-	};
 
 	helpers.configMerge = function(/* objects ... */) {
 		return helpers.merge(helpers.clone(arguments[0]), [].slice.call(arguments, 1), {
@@ -7922,29 +7957,7 @@ module.exports = function(Chart) {
 			}
 		}
 	};
-	helpers.inherits = function(extensions) {
-		// Basic javascript inheritance based on the model created in Backbone.js
-		var me = this;
-		var ChartElement = (extensions && extensions.hasOwnProperty('constructor')) ? extensions.constructor : function() {
-			return me.apply(this, arguments);
-		};
 
-		var Surrogate = function() {
-			this.constructor = ChartElement;
-		};
-		Surrogate.prototype = me.prototype;
-		ChartElement.prototype = new Surrogate();
-
-		ChartElement.extend = helpers.inherits;
-
-		if (extensions) {
-			helpers.extend(ChartElement.prototype, extensions);
-		}
-
-		ChartElement.__super__ = me.prototype;
-
-		return ChartElement;
-	};
 	// -- Math methods
 	helpers.isNumber = function(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
@@ -8433,10 +8446,10 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 489 */
+/* 492 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(490);
+var conversions = __webpack_require__(493);
 
 var convert = function() {
    return new Converter();
@@ -8530,7 +8543,7 @@ Converter.prototype.getValues = function(space) {
 module.exports = convert;
 
 /***/ }),
-/* 490 */
+/* 493 */
 /***/ (function(module, exports) {
 
 /* MIT license */
@@ -9234,7 +9247,7 @@ for (var key in cssKeywords) {
 
 
 /***/ }),
-/* 491 */
+/* 494 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
@@ -9461,7 +9474,7 @@ for (var name in colorNames) {
 
 
 /***/ }),
-/* 492 */
+/* 495 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9575,7 +9588,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 493 */
+/* 496 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9673,7 +9686,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 494 */
+/* 497 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9786,7 +9799,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 495 */
+/* 498 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10010,7 +10023,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 496 */
+/* 499 */
 /***/ (function(module, exports) {
 
 /**
@@ -10031,7 +10044,7 @@ module.exports = {
 
 
 /***/ }),
-/* 497 */
+/* 500 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10273,6 +10286,13 @@ function watchForRender(node, handler) {
 		addEventListener(node, type, proxy);
 	});
 
+	// #4737: Chrome might skip the CSS animation when the CSS_RENDER_MONITOR class
+	// is removed then added back immediately (same animation frame?). Accessing the
+	// `offsetParent` property will force a reflow and re-evaluate the CSS animation.
+	// https://gist.github.com/paulirish/5d52fb081b3570c81e3a#box-metrics
+	// https://github.com/chartjs/Chart.js/issues/4737
+	expando.reflow = !!node.offsetParent;
+
 	node.classList.add(CSS_RENDER_MONITOR);
 }
 
@@ -10488,7 +10508,7 @@ helpers.removeEvent = removeEventListener;
 
 
 /***/ }),
-/* 498 */
+/* 501 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10818,6 +10838,27 @@ module.exports = function(Chart) {
 	 * @param {Object} options - The plugin options.
 	 */
 	/**
+  	 * @method IPlugin#beforeTooltipDraw
+	 * @desc Called before drawing the `tooltip`. If any plugin returns `false`,
+	 * the tooltip drawing is cancelled until another `render` is triggered.
+	 * @param {Chart} chart - The chart instance.
+	 * @param {Object} args - The call arguments.
+	 * @param {Object} args.tooltip - The tooltip.
+	 * @param {Number} args.easingValue - The current animation value, between 0.0 and 1.0.
+	 * @param {Object} options - The plugin options.
+	 * @returns {Boolean} `false` to cancel the chart tooltip drawing.
+  	 */
+	/**
+ 	 * @method IPlugin#afterTooltipDraw
+  	 * @desc Called after drawing the `tooltip`. Note that this hook will not
+ 	 * be called if the tooltip drawing has been previously cancelled.
+ 	 * @param {Chart} chart - The chart instance.
+ 	 * @param {Object} args - The call arguments.
+ 	 * @param {Object} args.tooltip - The tooltip.
+	 * @param {Number} args.easingValue - The current animation value, between 0.0 and 1.0.
+ 	 * @param {Object} options - The plugin options.
+ 	 */
+	/**
 	 * @method IPlugin#beforeEvent
  	 * @desc Called before processing the specified `event`. If any plugin returns `false`,
 	 * the event will be discarded.
@@ -10869,7 +10910,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 499 */
+/* 502 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11048,7 +11089,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 500 */
+/* 503 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11056,8 +11097,8 @@ module.exports = function(Chart) {
 
 var defaults = __webpack_require__(22);
 var helpers = __webpack_require__(15);
-var Interaction = __webpack_require__(434);
-var platform = __webpack_require__(435);
+var Interaction = __webpack_require__(437);
+var platform = __webpack_require__(438);
 
 module.exports = function(Chart) {
 	var plugins = Chart.plugins;
@@ -11425,6 +11466,14 @@ module.exports = function(Chart) {
 
 			me.updateDatasets();
 
+			// Need to reset tooltip in case it is displayed with elements that are removed
+			// after update.
+			me.tooltip.initialize();
+
+			// Last active contains items that were previously in the tooltip.
+			// When we reset the tooltip, we need to clear it
+			me.lastActive = [];
+
 			// Do this before render so that any plugins that need final scale updates can use it
 			plugins.notify(me, 'afterUpdate');
 
@@ -11582,9 +11631,7 @@ module.exports = function(Chart) {
 			}
 
 			me.drawDatasets(easingValue);
-
-			// Finally draw the tooltip
-			me.tooltip.draw();
+			me._drawTooltip(easingValue);
 
 			plugins.notify(me, 'afterDraw', [easingValue]);
 		},
@@ -11647,6 +11694,28 @@ module.exports = function(Chart) {
 			meta.controller.draw(easingValue);
 
 			plugins.notify(me, 'afterDatasetDraw', [args]);
+		},
+
+		/**
+		 * Draws tooltip unless a plugin returns `false` to the `beforeTooltipDraw`
+		 * hook, in which case, plugins will not be called on `afterTooltipDraw`.
+		 * @private
+		 */
+		_drawTooltip: function(easingValue) {
+			var me = this;
+			var tooltip = me.tooltip;
+			var args = {
+				tooltip: tooltip,
+				easingValue: easingValue
+			};
+
+			if (plugins.notify(me, 'beforeTooltipDraw', [args]) === false) {
+				return;
+			}
+
+			tooltip.draw();
+
+			plugins.notify(me, 'afterTooltipDraw', [args]);
 		},
 
 		// Get the single element that was clicked on
@@ -11931,7 +12000,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 501 */
+/* 504 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12268,7 +12337,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 502 */
+/* 505 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12697,7 +12766,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 503 */
+/* 506 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12749,7 +12818,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 504 */
+/* 507 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13293,17 +13362,33 @@ module.exports = function(Chart) {
 			return rawValue;
 		},
 
-		// Used to get the value to display in the tooltip for the data at the given index
-		// function getLabelForIndex(index, datasetIndex)
+		/**
+		 * Used to get the value to display in the tooltip for the data at the given index
+		 * @param index
+		 * @param datasetIndex
+		 */
 		getLabelForIndex: helpers.noop,
 
-		// Used to get data value locations.  Value can either be an index or a numerical value
+		/**
+		 * Returns the location of the given data point. Value can either be an index or a numerical value
+		 * The coordinate (0, 0) is at the upper-left corner of the canvas
+		 * @param value
+		 * @param index
+		 * @param datasetIndex
+		 */
 		getPixelForValue: helpers.noop,
 
-		// Used to get the data value from a given pixel. This is the inverse of getPixelForValue
+		/**
+		 * Used to get the data value from a given pixel. This is the inverse of getPixelForValue
+		 * The coordinate (0, 0) is at the upper-left corner of the canvas
+		 * @param pixel
+		 */
 		getValueForPixel: helpers.noop,
 
-		// Used for tick location, should
+		/**
+		 * Returns the location of the tick at the given index
+		 * The coordinate (0, 0) is at the upper-left corner of the canvas
+		 */
 		getPixelForTick: function(index) {
 			var me = this;
 			var offset = me.options.offset;
@@ -13324,7 +13409,10 @@ module.exports = function(Chart) {
 			return me.top + (index * (innerHeight / (me._ticks.length - 1)));
 		},
 
-		// Utility for getting the pixel location of a percentage of scale
+		/**
+		 * Utility for getting the pixel location of a percentage of scale
+		 * The coordinate (0, 0) is at the upper-left corner of the canvas
+		 */
 		getPixelForDecimal: function(decimal) {
 			var me = this;
 			if (me.isHorizontal()) {
@@ -13338,6 +13426,10 @@ module.exports = function(Chart) {
 			return me.top + (decimal * me.height);
 		},
 
+		/**
+		 * Returns the pixel for the minimum chart value
+		 * The coordinate (0, 0) is at the upper-left corner of the canvas
+		 */
 		getBasePixel: function() {
 			return this.getPixelForValue(this.getBaseValue());
 		},
@@ -13394,7 +13486,7 @@ module.exports = function(Chart) {
 
 				// Since we always show the last tick,we need may need to hide the last shown one before
 				shouldSkip = (skipRatio > 1 && i % skipRatio > 0) || (i % skipRatio === 0 && i + skipRatio >= tickCount);
-				if (shouldSkip && i !== tickCount - 1 || helpers.isNullOrUndef(tick.label)) {
+				if (shouldSkip && i !== tickCount - 1) {
 					// leave tick in place but make sure it's not displayed (#4635)
 					delete tick.label;
 				}
@@ -13444,7 +13536,7 @@ module.exports = function(Chart) {
 
 			helpers.each(ticks, function(tick, index) {
 				// autoskipper skipped this tick (#4635)
-				if (tick.label === undefined) {
+				if (helpers.isNullOrUndef(tick.label)) {
 					return;
 				}
 
@@ -13664,7 +13756,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 505 */
+/* 508 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14054,6 +14146,7 @@ module.exports = function(Chart) {
 	Chart.Tooltip = Element.extend({
 		initialize: function() {
 			this._model = getBaseModel(this._options);
+			this._lastActive = [];
 		},
 
 		// Get the title
@@ -14165,7 +14258,7 @@ module.exports = function(Chart) {
 
 				var labelColors = [];
 				var labelTextColors = [];
-				tooltipPosition = Chart.Tooltip.positioners[opts.position](active, me._eventPosition);
+				tooltipPosition = Chart.Tooltip.positioners[opts.position].call(me, active, me._eventPosition);
 
 				var tooltipItems = [];
 				for (i = 0, len = active.length; i < len; ++i) {
@@ -14347,6 +14440,7 @@ module.exports = function(Chart) {
 			};
 
 			// Before body lines
+			ctx.fillStyle = mergeOpacity(vm.bodyFontColor, opacity);
 			helpers.each(vm.beforeBody, fillLineOfText);
 
 			var drawColorBoxes = vm.displayColors;
@@ -14354,6 +14448,8 @@ module.exports = function(Chart) {
 
 			// Draw body lines now
 			helpers.each(body, function(bodyItem, i) {
+				var textColor = mergeOpacity(vm.labelTextColors[i], opacity);
+				ctx.fillStyle = textColor;
 				helpers.each(bodyItem.before, fillLineOfText);
 
 				helpers.each(bodyItem.lines, function(line) {
@@ -14371,7 +14467,6 @@ module.exports = function(Chart) {
 						// Inner square
 						ctx.fillStyle = mergeOpacity(vm.labelColors[i].backgroundColor, opacity);
 						ctx.fillRect(pt.x + 1, pt.y + 1, bodyFontSize - 2, bodyFontSize - 2);
-						var textColor = mergeOpacity(vm.labelTextColors[i], opacity);
 						ctx.fillStyle = textColor;
 					}
 
@@ -14616,7 +14711,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 506 */
+/* 509 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14755,7 +14850,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 507 */
+/* 510 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14895,7 +14990,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 508 */
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15094,7 +15189,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 509 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15345,7 +15440,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 510 */
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15882,7 +15977,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 511 */
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15901,47 +15996,47 @@ var MAX_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
 
 var INTERVALS = {
 	millisecond: {
-		major: true,
+		common: true,
 		size: 1,
 		steps: [1, 2, 5, 10, 20, 50, 100, 250, 500]
 	},
 	second: {
-		major: true,
+		common: true,
 		size: 1000,
 		steps: [1, 2, 5, 10, 30]
 	},
 	minute: {
-		major: true,
+		common: true,
 		size: 60000,
 		steps: [1, 2, 5, 10, 30]
 	},
 	hour: {
-		major: true,
+		common: true,
 		size: 3600000,
 		steps: [1, 2, 3, 6, 12]
 	},
 	day: {
-		major: true,
+		common: true,
 		size: 86400000,
 		steps: [1, 2, 5]
 	},
 	week: {
-		major: false,
+		common: false,
 		size: 604800000,
 		steps: [1, 2, 3, 4]
 	},
 	month: {
-		major: true,
+		common: true,
 		size: 2.628e9,
 		steps: [1, 2, 3]
 	},
 	quarter: {
-		major: false,
+		common: false,
 		size: 7.884e9,
 		steps: [1, 2, 3, 4]
 	},
 	year: {
-		major: true,
+		common: true,
 		size: 3.154e10
 	}
 };
@@ -16141,7 +16236,10 @@ function determineStepSize(min, max, unit, capacity) {
 	return factor;
 }
 
-function determineUnit(minUnit, min, max, capacity) {
+/**
+ * Figures out what unit results in an appropriate number of auto-generated ticks
+ */
+function determineUnitForAutoTicks(minUnit, min, max, capacity) {
 	var ilen = UNITS.length;
 	var i, interval, factor;
 
@@ -16149,7 +16247,7 @@ function determineUnit(minUnit, min, max, capacity) {
 		interval = INTERVALS[UNITS[i]];
 		factor = interval.steps ? interval.steps[interval.steps.length - 1] : MAX_INTEGER;
 
-		if (Math.ceil((max - min) / (factor * interval.size)) <= capacity) {
+		if (interval.common && Math.ceil((max - min) / (factor * interval.size)) <= capacity) {
 			return UNITS[i];
 		}
 	}
@@ -16157,9 +16255,27 @@ function determineUnit(minUnit, min, max, capacity) {
 	return UNITS[ilen - 1];
 }
 
+/**
+ * Figures out what unit to format a set of ticks with
+ */
+function determineUnitForFormatting(ticks, minUnit, min, max) {
+	var duration = moment.duration(moment(max).diff(moment(min)));
+	var ilen = UNITS.length;
+	var i, unit;
+
+	for (i = ilen - 1; i >= UNITS.indexOf(minUnit); i--) {
+		unit = UNITS[i];
+		if (INTERVALS[unit].common && duration.as(unit) >= ticks.length) {
+			return unit;
+		}
+	}
+
+	return UNITS[minUnit ? UNITS.indexOf(minUnit) : 0];
+}
+
 function determineMajorUnit(unit) {
 	for (var i = UNITS.indexOf(unit) + 1, ilen = UNITS.length; i < ilen; ++i) {
-		if (INTERVALS[UNITS[i]].major) {
+		if (INTERVALS[UNITS[i]].common) {
 			return UNITS[i];
 		}
 	}
@@ -16171,8 +16287,10 @@ function determineMajorUnit(unit) {
  * Important: this method can return ticks outside the min and max range, it's the
  * responsibility of the calling code to clamp values if needed.
  */
-function generate(min, max, minor, major, capacity, options) {
+function generate(min, max, capacity, options) {
 	var timeOpts = options.time;
+	var minor = timeOpts.unit || determineUnitForAutoTicks(timeOpts.minUnit, min, max, capacity);
+	var major = determineMajorUnit(minor);
 	var stepSize = helpers.valueOrDefault(timeOpts.stepSize, timeOpts.unitStepSize);
 	var weekday = minor === 'week' ? timeOpts.isoWeekday : false;
 	var majorTicksEnabled = options.ticks.major.enabled;
@@ -16369,8 +16487,8 @@ module.exports = function(Chart) {
 			var me = this;
 			var chart = me.chart;
 			var timeOpts = me.options.time;
-			var min = parse(timeOpts.min, me) || MAX_INTEGER;
-			var max = parse(timeOpts.max, me) || MIN_INTEGER;
+			var min = MAX_INTEGER;
+			var max = MIN_INTEGER;
 			var timestamps = [];
 			var datasets = [];
 			var labels = [];
@@ -16417,6 +16535,9 @@ module.exports = function(Chart) {
 				max = Math.max(max, timestamps[timestamps.length - 1]);
 			}
 
+			min = parse(timeOpts.min, me) || min;
+			max = parse(timeOpts.max, me) || max;
+
 			// In case there is no valid min/max, let's use today limits
 			min = min === MAX_INTEGER ? +moment().startOf('day') : min;
 			max = max === MIN_INTEGER ? +moment().endOf('day') + 1 : max;
@@ -16441,10 +16562,6 @@ module.exports = function(Chart) {
 			var max = me.max;
 			var options = me.options;
 			var timeOpts = options.time;
-			var formats = timeOpts.displayFormats;
-			var capacity = me.getLabelCapacity(min);
-			var unit = timeOpts.unit || determineUnit(timeOpts.minUnit, min, max, capacity);
-			var majorUnit = determineMajorUnit(unit);
 			var timestamps = [];
 			var ticks = [];
 			var i, ilen, timestamp;
@@ -16458,7 +16575,7 @@ module.exports = function(Chart) {
 				break;
 			case 'auto':
 			default:
-				timestamps = generate(min, max, unit, majorUnit, capacity, options);
+				timestamps = generate(min, max, me.getLabelCapacity(min), options);
 			}
 
 			if (options.bounds === 'ticks' && timestamps.length) {
@@ -16482,14 +16599,12 @@ module.exports = function(Chart) {
 			me.max = max;
 
 			// PRIVATE
-			me._unit = unit;
-			me._majorUnit = majorUnit;
-			me._minorFormat = formats[unit];
-			me._majorFormat = formats[majorUnit];
+			me._unit = timeOpts.unit || determineUnitForFormatting(ticks, timeOpts.minUnit, me.min, me.max);
+			me._majorUnit = determineMajorUnit(me._unit);
 			me._table = buildLookupTable(me._timestamps.data, min, max, options.distribution);
 			me._offsets = computeOffsets(me._table, ticks, min, max, options);
 
-			return ticksFromTimestamps(ticks, majorUnit);
+			return ticksFromTimestamps(ticks, me._majorUnit);
 		},
 
 		getLabelForIndex: function(index, datasetIndex) {
@@ -16513,16 +16628,18 @@ module.exports = function(Chart) {
 		 * Function to format an individual tick mark
 		 * @private
 		 */
-		tickFormatFunction: function(tick, index, ticks) {
+		tickFormatFunction: function(tick, index, ticks, formatOverride) {
 			var me = this;
 			var options = me.options;
 			var time = tick.valueOf();
+			var formats = options.time.displayFormats;
+			var minorFormat = formats[me._unit];
 			var majorUnit = me._majorUnit;
-			var majorFormat = me._majorFormat;
-			var majorTime = tick.clone().startOf(me._majorUnit).valueOf();
+			var majorFormat = formats[majorUnit];
+			var majorTime = tick.clone().startOf(majorUnit).valueOf();
 			var majorTickOpts = options.ticks.major;
 			var major = majorTickOpts.enabled && majorUnit && majorFormat && time === majorTime;
-			var label = tick.format(major ? majorFormat : me._minorFormat);
+			var label = tick.format(formatOverride ? formatOverride : major ? majorFormat : minorFormat);
 			var tickOpts = major ? majorTickOpts : options.ticks.minor;
 			var formatter = helpers.valueOrDefault(tickOpts.callback, tickOpts.userCallback);
 
@@ -16608,9 +16725,9 @@ module.exports = function(Chart) {
 		getLabelCapacity: function(exampleTime) {
 			var me = this;
 
-			me._minorFormat = me.options.time.displayFormats.millisecond;	// Pick the longest format for guestimation
+			var formatOverride = me.options.time.displayFormats.millisecond;	// Pick the longest format for guestimation
 
-			var exampleLabel = me.tickFormatFunction(moment(exampleTime), 0, []);
+			var exampleLabel = me.tickFormatFunction(moment(exampleTime), 0, [], formatOverride);
 			var tickLabelWidth = me.getLabelWidth(exampleLabel);
 			var innerWidth = me.isHorizontal() ? me.width : me.height;
 
@@ -16623,7 +16740,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 512 */
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17051,7 +17168,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 513 */
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17238,7 +17355,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 514 */
+/* 517 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17544,7 +17661,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 515 */
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17884,7 +18001,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 516 */
+/* 519 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18113,7 +18230,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 517 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18288,7 +18405,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 518 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18337,7 +18454,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 519 */
+/* 522 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18355,7 +18472,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 520 */
+/* 523 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18372,7 +18489,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 521 */
+/* 524 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18390,7 +18507,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 522 */
+/* 525 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18408,7 +18525,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 523 */
+/* 526 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18426,7 +18543,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 524 */
+/* 527 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18444,7 +18561,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 525 */
+/* 528 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18459,7 +18576,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 526 */
+/* 529 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18787,7 +18904,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 527 */
+/* 530 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19361,7 +19478,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 528 */
+/* 531 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19611,13 +19728,13 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 529 */
+/* 532 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Validator = module.exports.Validator = __webpack_require__(530);
+var Validator = module.exports.Validator = __webpack_require__(533);
 
 module.exports.ValidatorResult = __webpack_require__(175).ValidatorResult;
 module.exports.ValidationError = __webpack_require__(175).ValidationError;
@@ -19630,7 +19747,7 @@ module.exports.validate = function (instance, schema, options) {
 
 
 /***/ }),
-/* 530 */
+/* 533 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19638,7 +19755,7 @@ module.exports.validate = function (instance, schema, options) {
 
 var urilib = __webpack_require__(235);
 
-var attribute = __webpack_require__(535);
+var attribute = __webpack_require__(538);
 var helpers = __webpack_require__(175);
 var ValidatorResult = helpers.ValidatorResult;
 var SchemaError = helpers.SchemaError;
@@ -19971,7 +20088,7 @@ module.exports = Validator;
 
 
 /***/ }),
-/* 531 */
+/* 534 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19994,18 +20111,18 @@ module.exports = {
 
 
 /***/ }),
-/* 532 */
+/* 535 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(533);
-exports.encode = exports.stringify = __webpack_require__(534);
+exports.decode = exports.parse = __webpack_require__(536);
+exports.encode = exports.stringify = __webpack_require__(537);
 
 
 /***/ }),
-/* 533 */
+/* 536 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20096,7 +20213,7 @@ var isArray = Array.isArray || function (xs) {
 
 
 /***/ }),
-/* 534 */
+/* 537 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20188,7 +20305,7 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 535 */
+/* 538 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21019,13 +21136,13 @@ module.exports = attribute;
 
 
 /***/ }),
-/* 536 */
+/* 539 */
 /***/ (function(module, exports) {
 
 module.exports = {"$id":"https://www.residentprogram.com/schemas/case-log-details.json#","title":"Case Log Details Schema","$ref":"https://www.residentprogram.com/schemas/questionnaire.json"}
 
 /***/ }),
-/* 537 */
+/* 540 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Generated by CoffeeScript 1.10.0
@@ -21711,7 +21828,7 @@ module.exports = {"$id":"https://www.residentprogram.com/schemas/case-log-detail
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module)))
 
 /***/ }),
-/* 538 */
+/* 541 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21979,6 +22096,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ })
-],[457]);
+],[460]);
 });
 //# sourceMappingURL=bundle.js.map

@@ -234,7 +234,9 @@
 							"lecture",
 							"audienceLecture",
 							"mentorship",
-							"subjectMentorship"
+							"subjectMentorship",
+							"project",
+							"datedEvent"
 						]},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
@@ -255,7 +257,8 @@
 									{"$ref": "#/definitions/question/definitions/list/definitions/review"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/lecture"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/mentorship"},
-									{"$ref": "#/definitions/question/definitions/list/definitions/project"}
+									{"$ref": "#/definitions/question/definitions/list/definitions/project"},
+									{"$ref": "#/definitions/question/definitions/list/definitions/datedEvent"}
 								]
 							}
 						}
@@ -430,6 +433,20 @@
 								"type",
 								"description",
 								"hours"
+							]
+						},
+						"datedEvent": {
+							"title": "Generic event with date and description list item",
+							"type": "object",
+							"properties": {
+								"type": {"const": "datedEvent"},
+								"description": {"type": "string"},
+								"date": {"type": "string"}
+							},
+							"required": [
+								"type",
+								"description",
+								"date"
 							]
 						}
 					}
