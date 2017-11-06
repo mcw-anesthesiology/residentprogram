@@ -2,7 +2,7 @@
 	<div>
 		<div class="close-container">
 			<button type="button"
-					class="btn btn-default"
+					class="btn btn-default close-report-button"
 					@click="handleClose">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 			</button>
@@ -303,5 +303,12 @@ export default {
 
 	.notes-container {
 		margin-top: 2em;
+	}
+
+	@media print {
+		.close-report-button,
+		.form-summary {
+			display: none;
+		}
 	}
 </style>

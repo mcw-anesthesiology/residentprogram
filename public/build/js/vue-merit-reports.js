@@ -30977,6 +30977,7 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Questionnaire_Pager_vue__ = __webpack_require__(757);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ShowHideButton_vue__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_merit_utils_js__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_dom_utils_js__ = __webpack_require__(228);
 //
 //
 //
@@ -31029,6 +31030,53 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -31067,8 +31115,29 @@ if (false) {(function () {
 	},
 
 
+	computed: {
+		dontPaginate: function dontPaginate() {
+			return this.$route && this.$route.query && this.$route.query.dontPaginate;
+		}
+	},
+
 	methods: {
 		checklistIsValid: __WEBPACK_IMPORTED_MODULE_6__modules_merit_utils_js__["a" /* checklistIsValid */],
+		togglePagination: function togglePagination() {
+			var dontPaginate = !this.dontPaginate || undefined;
+			var location = Object.assign({}, this.$route, {
+				query: { dontPaginate: dontPaginate, page: undefined }
+			});
+
+			this.$router.push(location);
+		},
+		goToPage: function goToPage(pageNum) {
+			if (!this.dontPaginate) return;
+
+			$('.pages > section').eq(pageNum).velocity('scroll', {
+				offset: -1 * Object(__WEBPACK_IMPORTED_MODULE_7__modules_dom_utils_js__["a" /* getHeaderHeight */])()
+			});
+		},
 		handleInput: function handleInput(pageNum, page) {
 			var pages = this.pages.slice();
 			pages[pageNum] = Object.assign({}, pages[pageNum], page);
@@ -32752,18 +32821,141 @@ var render = function() {
     [
       _c("h1", [_vm._v(_vm._s(_vm.title))]),
       _vm._v(" "),
-      _c("questionnaire-pager", {
-        attrs: {
-          pages: _vm.pages,
-          readonly: _vm.readonly,
-          "checklist-validator": _vm.checklistIsValid
-        },
-        on: { submit: _vm.handleSubmit },
-        scopedSlots: _vm._u([
-          {
-            key: "header",
-            fn: function(pager) {
-              return [
+      _vm.dontPaginate
+        ? _c(
+            "div",
+            { staticClass: "pages" },
+            _vm._l(_vm.pages, function(page, pageNum) {
+              return _c(
+                "checklist-section",
+                _vm._b(
+                  {
+                    key: "page-" + pageNum,
+                    attrs: {
+                      page: true,
+                      readonly: _vm.readonly,
+                      user: _vm.user,
+                      "show-errors": _vm.show.errors
+                    },
+                    on: {
+                      input: function($event) {
+                        _vm.handleInput(pageNum, arguments[0])
+                      }
+                    }
+                  },
+                  "checklist-section",
+                  page,
+                  false
+                )
+              )
+            })
+          )
+        : _c("questionnaire-pager", {
+            attrs: {
+              pages: _vm.pages,
+              readonly: _vm.readonly,
+              "checklist-validator": _vm.checklistIsValid
+            },
+            on: { submit: _vm.handleSubmit },
+            scopedSlots: _vm._u([
+              {
+                key: "header",
+                fn: function(pager) {
+                  return [
+                    _c(
+                      "div",
+                      { staticClass: "text-right" },
+                      [
+                        _c(
+                          "show-hide-button",
+                          {
+                            staticClass: "btn btn-info btn-sm",
+                            model: {
+                              value: _vm.show.errors,
+                              callback: function($$v) {
+                                _vm.$set(_vm.show, "errors", $$v)
+                              },
+                              expression: "show.errors"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n\t\t\t\t\tchecklist validation\n\t\t\t\t\t"
+                            ),
+                            _c("span", {
+                              staticClass: "glyphicon glyphicon-ok",
+                              attrs: { slot: "glyph" },
+                              slot: "glyph"
+                            })
+                          ]
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm.show.errors
+                      ? _c("checklist-errors", {
+                          attrs: { pages: pager.pages },
+                          on: { navigate: pager.goToPage }
+                        })
+                      : _vm._e()
+                  ]
+                }
+              },
+              {
+                key: "default",
+                fn: function(pager) {
+                  return [
+                    _vm.show.errors
+                      ? _c("section-errors", { attrs: { page: pager.page } })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c(
+                      "transition",
+                      {
+                        attrs: { name: "checklist-pager-" + pager.lastChange }
+                      },
+                      [
+                        _c(
+                          "checklist-section",
+                          _vm._b(
+                            {
+                              key: "page-" + pager.pageNum,
+                              attrs: {
+                                page: true,
+                                readonly: _vm.readonly,
+                                user: _vm.user,
+                                "show-errors": _vm.show.errors
+                              },
+                              on: {
+                                input: function($event) {
+                                  _vm.handleInput(pager.pageNum, arguments[0])
+                                }
+                              }
+                            },
+                            "checklist-section",
+                            pager.page,
+                            false
+                          )
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm.show.errors
+                      ? _c("section-errors", { attrs: { page: pager.page } })
+                      : _vm._e()
+                  ]
+                }
+              }
+            ])
+          }),
+      _vm._v(" "),
+      _c("div", { staticClass: "checklist-controls" }, [
+        _vm.dontPaginate
+          ? _c(
+              "div",
+              [
                 _c(
                   "div",
                   { staticClass: "text-right" },
@@ -32795,106 +32987,100 @@ var render = function() {
                 _vm._v(" "),
                 _vm.show.errors
                   ? _c("checklist-errors", {
-                      attrs: { pages: pager.pages },
-                      on: { navigate: pager.goToPage }
+                      attrs: { pages: _vm.pages },
+                      on: { navigate: _vm.goToPage }
                     })
                   : _vm._e()
-              ]
-            }
-          },
-          {
-            key: "default",
-            fn: function(pager) {
-              return [
-                _vm.show.errors
-                  ? _c("section-errors", { attrs: { page: pager.page } })
-                  : _vm._e(),
-                _vm._v(" "),
-                _c(
-                  "transition",
-                  { attrs: { name: "checklist-pager-" + pager.lastChange } },
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "text-center" },
+          [
+            _vm.readonly
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-default",
+                    attrs: { type: "button" },
+                    on: { click: _vm.handleClose }
+                  },
+                  [_vm._v("\n\t\t\t\tClose\n\t\t\t")]
+                )
+              : _c(
+                  "confirmation-button",
+                  {
+                    staticClass: "btn btn-default",
+                    attrs: { "pressed-class": "btn btn-warning" },
+                    on: { click: _vm.handleClose }
+                  },
                   [
+                    _vm._v("\n\t\t\t\tClose\n\t\t\t\t"),
                     _c(
-                      "checklist-section",
-                      _vm._b(
-                        {
-                          key: "page-" + pager.pageNum,
-                          attrs: {
-                            page: true,
-                            readonly: _vm.readonly,
-                            user: _vm.user,
-                            "show-errors": _vm.show.errors
-                          },
-                          on: {
-                            input: function($event) {
-                              _vm.handleInput(pager.pageNum, arguments[0])
-                            }
-                          }
-                        },
-                        "checklist-section",
-                        pager.page,
-                        false
-                      )
+                      "template",
+                      { attrs: { slot: "pressed" }, slot: "pressed" },
+                      [
+                        _vm._v(
+                          "\n\t\t\t\t\tYes, close without saving\n\t\t\t\t"
+                        )
+                      ]
                     )
                   ],
-                  1
+                  2
                 ),
-                _vm._v(" "),
-                _vm.show.errors
-                  ? _c("section-errors", { attrs: { page: pager.page } })
-                  : _vm._e()
-              ]
-            }
-          }
+            _vm._v(" "),
+            !_vm.readonly
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-info",
+                    attrs: { type: "button" },
+                    on: { click: _vm.handleSave }
+                  },
+                  [_vm._v("\n\t\t\t\tSave and close\n\t\t\t")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.dontPaginate && !_vm.readonly
+              ? _c(
+                  "confirmation-button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: {
+                      "pressed-class": "btn-success",
+                      disabled: !_vm.checklistIsValid({ pages: _vm.pages })
+                    },
+                    on: { click: _vm.handleSubmit }
+                  },
+                  [
+                    _vm._v("\n\t\t\t\tSubmit\n\t\t\t\t"),
+                    _c(
+                      "template",
+                      { attrs: { slot: "pressed" }, slot: "pressed" },
+                      [_vm._v("\n\t\t\t\t\tConfirm submission\n\t\t\t\t")]
+                    )
+                  ],
+                  2
+                )
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "dont-paginate-container text-center" }, [
+          _c("label", { staticClass: "normal-text-label" }, [
+            _c("input", {
+              attrs: { type: "checkbox" },
+              domProps: { value: _vm.dontPaginate },
+              on: { change: _vm.togglePagination }
+            }),
+            _vm._v("\n\t\t\t\tShow on one page\n\t\t\t")
+          ])
         ])
-      }),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "text-center" },
-        [
-          _vm.readonly
-            ? _c(
-                "button",
-                {
-                  staticClass: "btn btn-default",
-                  attrs: { type: "button" },
-                  on: { click: _vm.handleClose }
-                },
-                [_vm._v("\n\t\t\tClose\n\t\t")]
-              )
-            : _c(
-                "confirmation-button",
-                {
-                  staticClass: "btn btn-default",
-                  attrs: { "pressed-class": "btn btn-warning" },
-                  on: { click: _vm.handleClose }
-                },
-                [
-                  _vm._v("\n\t\t\tClose\n\t\t\t"),
-                  _c(
-                    "template",
-                    { attrs: { slot: "pressed" }, slot: "pressed" },
-                    [_vm._v("\n\t\t\t\tYes, close without saving\n\t\t\t")]
-                  )
-                ],
-                2
-              ),
-          _vm._v(" "),
-          !_vm.readonly
-            ? _c(
-                "button",
-                {
-                  staticClass: "btn btn-info",
-                  attrs: { type: "button" },
-                  on: { click: _vm.handleSave }
-                },
-                [_vm._v("\n\t\t\tSave and close\n\t\t")]
-              )
-            : _vm._e()
-        ],
-        1
-      )
+      ])
     ],
     1
   )
@@ -32926,7 +33112,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-default",
+            staticClass: "btn btn-default close-report-button",
             attrs: { type: "button" },
             on: { click: _vm.handleClose }
           },
