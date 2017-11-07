@@ -14862,6 +14862,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 
@@ -14901,6 +14902,10 @@ if (false) {(function () {
 			required: false
 		},
 		itemLabels: {
+			type: Object,
+			required: false
+		},
+		suggestions: {
 			type: Object,
 			required: false
 		},
@@ -15095,6 +15100,10 @@ if (false) {(function () {
 		helpClass: {
 			type: String,
 			required: false
+		},
+		suggestions: {
+			type: Object,
+			required: false
 		}
 	},
 
@@ -15109,7 +15118,8 @@ if (false) {(function () {
 				props: Object.assign({
 					readonly: _this.readonly,
 					showErrors: _this.showErrors,
-					helpClass: _this.helpClass
+					helpClass: _this.helpClass,
+					suggestions: _this.suggestions
 				}, item),
 				on: {
 					input: function input(item) {
@@ -15852,9 +15862,10 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ConfirmationButton_vue__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_questionnaire_validate_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SuggestableTextInput_vue__ = __webpack_require__(872);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ConfirmationButton_vue__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_questionnaire_validate_js__ = __webpack_require__(6);
 //
 //
 //
@@ -15905,6 +15916,8 @@ if (false) {(function () {
 //
 //
 //
+//
+
 
 
 
@@ -15920,6 +15933,20 @@ if (false) {(function () {
 			required: true,
 			validator: function validator(type) {
 				return type === 'committee';
+			}
+		},
+		labels: {
+			type: Object,
+			required: false,
+			default: function _default() {
+				return {};
+			}
+		},
+		suggestions: {
+			type: Object,
+			required: false,
+			default: function _default() {
+				return {};
 			}
 		},
 		name: {
@@ -15945,17 +15972,18 @@ if (false) {(function () {
 			return ['chair', 'member'];
 		},
 		validation: function validation() {
-			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_questionnaire_validate_js__["c" /* committeeListItem */])(this);
+			return Object(__WEBPACK_IMPORTED_MODULE_4__modules_questionnaire_validate_js__["c" /* committeeListItem */])(this);
 		}
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["I" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["I" /* ucfirst */]
 	},
 
 	components: {
 		ListItem: __WEBPACK_IMPORTED_MODULE_0__Item_vue__["a" /* default */],
-		ConfirmationButton: __WEBPACK_IMPORTED_MODULE_1__ConfirmationButton_vue__["a" /* default */]
+		SuggestableTextInput: __WEBPACK_IMPORTED_MODULE_1__SuggestableTextInput_vue__["a" /* default */],
+		ConfirmationButton: __WEBPACK_IMPORTED_MODULE_2__ConfirmationButton_vue__["a" /* default */]
 	}
 });
 
@@ -18383,6 +18411,7 @@ var render = function() {
             attrs: {
               ordered: _vm.ordered,
               items: _vm.items,
+              suggestions: _vm.suggestions,
               readonly: _vm.readonly,
               "show-errors": _vm.showErrors,
               "help-class": _vm.helpClass
@@ -25752,19 +25781,30 @@ var render = function() {
           }
         },
         [
-          _c("label", { staticClass: "containing-label control-label" }, [
-            _vm._v("\n\t\t\tCommittee name\n\t\t\t"),
-            _c("textarea", {
-              staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
-              domProps: { value: _vm.name },
-              on: {
-                input: function($event) {
-                  _vm.$emit("input", { name: $event.target.value })
+          _c(
+            "label",
+            { staticClass: "containing-label control-label" },
+            [
+              _vm._v(
+                "\n\t\t\t" +
+                  _vm._s(_vm.labels.name || "Committee name") +
+                  "\n\t\t\t"
+              ),
+              _c("suggestable-text-input", {
+                attrs: {
+                  value: _vm.name,
+                  readonly: _vm.readonly,
+                  suggestions: _vm.suggestions.name
+                },
+                on: {
+                  input: function($event) {
+                    _vm.$emit("input", { name: arguments[0] })
+                  }
                 }
-              }
-            })
-          ])
+              })
+            ],
+            1
+          )
         ]
       ),
       _vm._v(" "),
@@ -25781,7 +25821,11 @@ var render = function() {
         [
           _c("fieldset", [
             _c("legend", { staticClass: "control-label" }, [
-              _vm._v("\n\t\t\t\tYour role\n\t\t\t")
+              _vm._v(
+                "\n\t\t\t\t" +
+                  _vm._s(_vm.labels.role || "Your role") +
+                  "\n\t\t\t"
+              )
             ])
           ]),
           _vm._v(" "),
@@ -25818,7 +25862,11 @@ var render = function() {
         },
         [
           _c("label", { staticClass: "containing-label control-label" }, [
-            _vm._v("\n\t\t\tMeetings per year\n\t\t\t"),
+            _vm._v(
+              "\n\t\t\t" +
+                _vm._s(_vm.labels.meetingsPerYear || "Meetings per year") +
+                "\n\t\t\t"
+            ),
             _c("input", {
               staticClass: "form-control",
               attrs: { type: "number", readonly: _vm.readonly },
@@ -25846,6 +25894,187 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-3068b9fc", esExports)
+  }
+}
+
+/***/ }),
+/* 872 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_SuggestableTextInput_vue__ = __webpack_require__(873);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5b29cccf_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_SuggestableTextInput_vue__ = __webpack_require__(874);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_SuggestableTextInput_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5b29cccf_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_SuggestableTextInput_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/SuggestableTextInput.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5b29cccf", Component.options)
+  } else {
+    hotAPI.reload("data-v-5b29cccf", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 873 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		value: {
+			type: String,
+			default: ''
+		},
+		suggestions: {
+			type: Array,
+			required: false
+		},
+		readonly: {
+			type: Boolean,
+			default: false
+		},
+		placeholder: {
+			type: String,
+			required: false
+		}
+	},
+
+	computed: {
+		hasSuggestions: function hasSuggestions() {
+			return this.suggestions && Array.isArray(this.suggestions) && this.suggestions.length > 0;
+		},
+		showOther: function showOther() {
+			if (!this.hasSuggestions) return true;
+
+			return !this.suggestions.includes(this.value);
+		}
+	},
+
+	methods: {
+		handleSelectChange: function handleSelectChange() {},
+		handleInput: function handleInput(event) {
+			this.$emit('input', event.target.value);
+		}
+	}
+});
+
+/***/ }),
+/* 874 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.hasSuggestions
+    ? _c("div", [
+        _c(
+          "select",
+          { staticClass: "form-control", on: { change: _vm.handleInput } },
+          [
+            _vm._l(_vm.suggestions, function(suggestion) {
+              return _c(
+                "option",
+                {
+                  key: suggestion,
+                  domProps: { selected: _vm.value === suggestion }
+                },
+                [_vm._v("\n\t\t\t" + _vm._s(suggestion) + "\n\t\t")]
+              )
+            }),
+            _vm._v(" "),
+            _c(
+              "option",
+              { attrs: { value: "" }, domProps: { selected: _vm.showOther } },
+              [_vm._v("Other")]
+            )
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _vm.showOther
+          ? _c("textarea", {
+              staticClass: "form-control",
+              attrs: { placeholder: _vm.placeholder },
+              domProps: { value: _vm.value },
+              on: { input: _vm.handleInput }
+            })
+          : _vm._e()
+      ])
+    : _c("textarea", {
+        staticClass: "form-control",
+        attrs: { placeholder: _vm.placeholder },
+        domProps: { value: _vm.value },
+        on: { input: _vm.handleInput }
+      })
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5b29cccf", esExports)
   }
 }
 

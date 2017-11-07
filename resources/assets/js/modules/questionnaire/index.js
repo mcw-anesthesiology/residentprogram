@@ -114,6 +114,7 @@ export type QuestionnaireListQuestion = QuestionnaireQuestionBase & {
 	ordered?: boolean,
 	itemProps?: Object, // FIXME
 	itemLabels?: Object, // FIXME
+	suggestions?: Object, // FIXME
 	items: Array<QuestionnaireListItem>,
 	scoring?: ValueScoringDefinition
 };

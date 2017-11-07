@@ -242,6 +242,7 @@
 						"ordered": {"type": "boolean"},
 						"itemProps": {"type": "object"},
 						"itemLabels": {"type": "object"},
+						"suggestions": {"type": "object"},
 						"items": {
 							"type": "array",
 							"items": {

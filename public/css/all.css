@@ -9098,12 +9098,12 @@ body {
 	margin-bottom: 0;
 }
 
-.containing-label > input,
-.containing-label > textarea,
-.containing-label > select,
-.containing-label > .select2,
-.containing-label > .input-group,
-.containing-label > button {
+.containing-label input,
+.containing-label textarea,
+.containing-label select,
+.containing-label .select2,
+.containing-label .input-group,
+.containing-label button {
 	margin-top: 5px;
 	font-weight: normal;
 }
