@@ -32,6 +32,10 @@ export default {
 		helpClass: {
 			type: String,
 			required: false
+		},
+		suggestions: {
+			type: Object,
+			required: false
 		}
 	},
 
@@ -46,6 +50,7 @@ export default {
 					readonly: this.readonly,
 					showErrors: this.showErrors,
 					helpClass: this.helpClass,
+					suggestions: this.suggestions,
 					...item
 				},
 				on: {

@@ -8,11 +8,12 @@
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
 			<label class="containing-label control-label">
-				Committee name
-				<textarea class="form-control"
-					:value="name" :readonly="readonly"
-					@input="$emit('input', {name: $event.target.value})">
-				</textarea>
+				{{ labels.name || 'Committee name' }}
+				<suggestable-text-input
+					:value="name"
+					:readonly="readonly"
+					:suggestions="suggestions.name"
+					@input="$emit('input', {name: arguments[0]})" />
 			</label>
 		</validated-form-group>
 		<validated-form-group prop="role"
@@ -21,7 +22,7 @@
 				:invalid-class="helpClass">
 			<fieldset>
 				<legend class="control-label">
-					Your role
+					{{ labels.role || 'Your role' }}
 				</legend>
 			</fieldset>
 			<div class="options">
@@ -39,7 +40,7 @@
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
 			<label class="containing-label control-label">
-				Meetings per year
+				{{ labels.meetingsPerYear || 'Meetings per year' }}
 				<input type="number" class="form-control"
 					:value="meetingsPerYear" :readonly="readonly"
 					@input="$emit('input', {meetingsPerYear: Number($event.target.value)})" />
@@ -50,6 +51,7 @@
 
 <script>
 import ListItem from './Item.vue';
+import SuggestableTextInput from '@/vue-components/SuggestableTextInput.vue';
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 
 import { ucfirst } from '@/modules/utils.js';
@@ -63,6 +65,20 @@ export default {
 			required: true,
 			validator(type) {
 				return type === 'committee';
+			}
+		},
+		labels: {
+			type: Object,
+			required: false,
+			default() {
+				return {};
+			}
+		},
+		suggestions: {
+			type: Object,
+			required: false,
+			default() {
+				return {};
 			}
 		},
 		name: {
@@ -101,6 +117,7 @@ export default {
 
 	components: {
 		ListItem,
+		SuggestableTextInput,
 		ConfirmationButton
 	}
 };

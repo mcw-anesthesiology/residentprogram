@@ -18,6 +18,7 @@
 
 			<list-items :ordered="ordered"
 				:items="items"
+				:suggestions="suggestions"
 				:readonly="readonly"
 				:show-errors="showErrors"
 				:help-class="helpClass"
@@ -92,6 +93,10 @@ export default {
 			required: false
 		},
 		itemLabels: {
+			type: Object,
+			required: false
+		},
+		suggestions: {
 			type: Object,
 			required: false
 		},
