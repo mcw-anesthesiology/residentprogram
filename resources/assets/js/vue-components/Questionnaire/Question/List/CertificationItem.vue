@@ -9,9 +9,11 @@
 				:invalid-class="helpClass">
 			<label class="containing-label">
 				Board
-				<input type="text" class="form-control"
-					:value="board" :readonly="readonly"
-					@input="$emit('input', {board: $event.target.value})" />
+				<suggestable-text-input
+					:value="board"
+					:suggestions="suggestions.board"
+					:readonly="readonly"
+					@input="$emit('input', {board: arguments[0]})" />
 			</label>
 		</validated-form-group>
 		<validated-form-group prop="specialty"
@@ -20,10 +22,11 @@
 				:invalid-class="helpClass">
 			<label class="containing-label">
 				Specialty
-				<textarea class="form-control"
-					:value="specialty" :readonly="readonly"
-					@input="$emit('input', {specialty: $event.target.value})">
-				</textarea>
+				<suggestable-text-input
+					:value="specialty"
+					:suggestions="suggestions.specialty"
+					:readonly="readonly"
+					@input="$emit('input', {specialty: arguments[0]})" />
 			</label>
 		</validated-form-group>
 	</list-item>
@@ -31,6 +34,7 @@
 
 <script>
 import ListItem from './Item.vue';
+import SuggestableTextInput from '@/vue-components/SuggestableTextInput.vue';
 
 import { certificationListItem as validate } from '@/modules/questionnaire/validate.js';
 
@@ -51,6 +55,12 @@ export default {
 		specialty: {
 			type: String,
 			default: ''
+		},
+		suggestions: {
+			type: Object,
+			default() {
+				return {};
+			}
 		}
 	},
 
@@ -61,7 +71,8 @@ export default {
 	},
 
 	components: {
-		ListItem
+		ListItem,
+		SuggestableTextInput
 	}
 };
 </script>

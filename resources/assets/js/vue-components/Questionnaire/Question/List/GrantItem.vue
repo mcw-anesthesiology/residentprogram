@@ -9,8 +9,10 @@
 				:invalid-class="helpClass">
 			<label class="containing-label">
 				Funding agency
-				<input type="text" class="form-control"
-					:value="agency" :readonly="readonly"
+				<suggestable-text-input
+					:value="agency"
+					:suggestions="suggestions.agency"
+					:readonly="readonly"
 					@input="$emit('input', {agency: $event.target.value})" />
 			</label>
 		</validated-form-group>
@@ -20,10 +22,11 @@
 				:invalid-class="helpClass">
 			<label class="containing-label">
 				Project
-				<textarea class="form-control"
-					:value="project" :readonly="readonly"
-					@input="$emit('input', {project: $event.target.value})">
-				</textarea>
+				<suggestable-text-input
+					:value="project"
+					:suggestions="suggestions.project"
+					:readonly="readonly"
+					@input="$emit('input', {project: $event.target.value})" />
 			</label>
 		</validated-form-group>
 		<validated-form-group prop="amount"
@@ -45,6 +48,7 @@
 
 <script>
 import ListItem from './Item.vue';
+import SuggestableTextInput from '@/vue-components/SuggestableTextInput.vue';
 
 import { grantListItem as validate } from '@/modules/questionnaire/validate.js';
 
@@ -59,6 +63,13 @@ export default {
 					'grant',
 					'grantOther'
 				].includes(type);
+			}
+		},
+		suggestions: {
+			type: Object,
+			required: false,
+			default() {
+				return {};
 			}
 		},
 		agency: {
@@ -82,7 +93,8 @@ export default {
 	},
 
 	components: {
-		ListItem
+		ListItem,
+		SuggestableTextInput
 	}
 };
 </script>
