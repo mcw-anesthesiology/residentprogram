@@ -878,7 +878,7 @@ function certificationListItem(item) {
 }
 
 function committeeListItem(item) {
-	return requiredListItem(item, new Map([['name', 'enter the committee name'], ['role', 'select your role in the committee']]));
+	return requiredListItem(item, new Map([['name', 'enter the committee name'], ['role', 'select your role in the committee'], ['meetingsPerYear', 'estimate the number of meetings the committee holds per year']]));
 }
 
 function editorialBoardListItem(item) {

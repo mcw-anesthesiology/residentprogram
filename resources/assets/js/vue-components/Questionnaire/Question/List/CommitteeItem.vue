@@ -7,7 +7,7 @@
 				:errors="validation.errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
-			<label class="containing-label">
+			<label class="containing-label control-label">
 				Committee name
 				<textarea class="form-control"
 					:value="name" :readonly="readonly"
@@ -20,15 +20,29 @@
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
 			<fieldset>
-				<legend>
+				<legend class="control-label">
 					Your role
 				</legend>
 			</fieldset>
-			<label v-for="value of ['chair', 'member']" class="containing-label">
-				<input type="radio" :value="value"
-					:checked="role === value"
-					@change="$emit('input', {role: $event.target.value})" />
-				{{ ucfirst(value) }}
+			<div class="options">
+				<label v-for="value of POSSIBLE_ROLES"
+						class="control-label">
+					<input type="radio" :value="value"
+						:checked="role === value"
+						@change="$emit('input', {role: $event.target.value})" />
+					{{ ucfirst(value) }}
+				</label>
+			</div>
+		</validated-form-group>
+		<validated-form-group prop="meetingsPerYear"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
+			<label class="containing-label control-label">
+				Meetings per year
+				<input type="number" class="form-control"
+					:value="meetingsPerYear" :readonly="readonly"
+					@input="$emit('input', {meetingsPerYear: Number($event.target.value)})" />
 			</label>
 		</validated-form-group>
 	</list-item>
@@ -59,6 +73,10 @@ export default {
 			type: String,
 			default: ''
 		},
+		meetingsPerYear: {
+			type: Number,
+			default: 0
+		},
 		readonly: {
 			type: Boolean,
 			default: false
@@ -66,6 +84,12 @@ export default {
 	},
 
 	computed: {
+		POSSIBLE_ROLES() {
+			return [
+				'chair',
+				'member'
+			];
+		},
 		validation() {
 			return validate(this);
 		}
@@ -81,3 +105,14 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.options {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.options label {
+		padding: 1em;
+	}
+</style>

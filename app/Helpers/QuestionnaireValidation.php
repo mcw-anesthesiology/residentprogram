@@ -247,7 +247,11 @@ class QuestionnaireValidation {
 				}
 				break;
 			case 'committee':
-				if (empty($listItem['name']) || empty($listItem['role'])) {
+				if (
+					empty($listItem['name'])
+					|| empty($listItem['role'])
+					|| empty($listItem['meetingsPerYear'])
+				) {
 					return false;
 				}
 				break;
