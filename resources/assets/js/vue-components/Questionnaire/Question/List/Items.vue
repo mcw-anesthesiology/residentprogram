@@ -9,7 +9,6 @@ import EditorialBoardItem from './EditorialBoardItem.vue';
 import ReviewItem from './ReviewItem.vue';
 import LectureItem from './LectureItem.vue';
 import MentorshipItem from './MentorshipItem.vue';
-import ProjectItem from './ProjectItem.vue';
 import DatedEventItem from './DatedEventItem.vue';
 
 export default {
@@ -93,8 +92,6 @@ export default {
 				case 'mentorship':
 				case 'subjectMentorship':
 					return 'mentorship-item';
-				case 'project':
-					return 'project-item';
 				case 'datedEvent':
 					return 'dated-event-item';
 			}
@@ -112,7 +109,6 @@ export default {
 		ReviewItem,
 		LectureItem,
 		MentorshipItem,
-		ProjectItem,
 		DatedEventItem
 	}
 };

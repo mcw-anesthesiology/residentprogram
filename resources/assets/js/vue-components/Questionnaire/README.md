@@ -18,5 +18,7 @@ When making change to questionnaire, must duplicate changes in the following pla
 		- `questionIsValid`
 6. Relevant components in `resources/assets/js/vue-components/Questionnaire/`
 	- Make sure to update parent component for new child types
-		- `List/Items.vue` for new list item types
+		- List types:
+			- `List/Items.vue`
+			- `List/List.vue`
 		- `Question.vue` for new question types

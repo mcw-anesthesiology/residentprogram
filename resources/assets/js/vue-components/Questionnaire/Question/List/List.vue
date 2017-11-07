@@ -74,7 +74,8 @@ export default {
 					'lecture',
 					'audienceLecture',
 					'mentorship',
-					'subjectMentorship'
+					'subjectMentorship',
+					'datedEvent'
 				].includes(type);
 			}
 		},

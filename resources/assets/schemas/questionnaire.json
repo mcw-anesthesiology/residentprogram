@@ -235,7 +235,6 @@
 							"audienceLecture",
 							"mentorship",
 							"subjectMentorship",
-							"project",
 							"datedEvent"
 						]},
 						"text": {"type": "string"},
@@ -257,7 +256,6 @@
 									{"$ref": "#/definitions/question/definitions/list/definitions/review"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/lecture"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/mentorship"},
-									{"$ref": "#/definitions/question/definitions/list/definitions/project"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/datedEvent"}
 								]
 							}
@@ -419,20 +417,6 @@
 								"type",
 								"mentee",
 								"subject"
-							]
-						},
-						"project": {
-							"title": "Generic project list item",
-							"type": "object",
-							"properties": {
-								"type": {"const": "project"},
-								"description": {"type": "string"},
-								"hours": {"type": "number"}
-							},
-							"required": [
-								"type",
-								"description",
-								"hours"
 							]
 						},
 						"datedEvent": {

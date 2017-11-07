@@ -1,48 +1,48 @@
 
-.alert[data-v-8d03363a] {
+.alert[data-v-6a9bb17e] {
 	page-break-inside: avoid;
 }
 
-.form-item[data-v-2c14a78c] {
+.form-item[data-v-40f54402] {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 }
-.form-item .form-block[data-v-2c14a78c] {
+.form-item .form-block[data-v-40f54402] {
 	flex-grow: 1;
 }
-.custom-options-editor[data-v-2c14a78c] {
+.custom-options-editor[data-v-40f54402] {
 	display: block;
 	margin: 1em auto;
 	font-family: monospace;
 	white-space: pre;
 }
 
-.question-id[data-v-e2c7d180] {
+.question-id[data-v-22d797f6] {
 	font-size: larger;
 	text-transform: uppercase;
 	font-weight: bold;
 }
 
-.form-builder-question-option[data-v-855ce662] {
+.form-builder-question-option[data-v-2077d258] {
 	margin-top: 10px;
 }
-.working-option[data-v-855ce662] {
+.working-option[data-v-2077d258] {
 	opacity: 0.5;
 }
-.working-option[data-v-855ce662]:hover,
-.working-option.is-focused[data-v-855ce662],
-.working-option[data-v-855ce662]:active {
+.working-option[data-v-2077d258]:hover,
+.working-option.is-focused[data-v-2077d258],
+.working-option[data-v-2077d258]:active {
 	opacity: 1;
 }
-textarea.form-option-description[data-v-855ce662] {
+textarea.form-option-description[data-v-2077d258] {
 	resize: vertical;
 	height: 100px;
 }
 
 @media print {
-button[data-v-38459c74] {
+button[data-v-d60b033e] {
 		display: none;
 }
 }
