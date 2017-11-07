@@ -976,6 +976,14 @@ li[data-v-d731fb12] {
 	margin-bottom: 1em;
 }
 
+.options[data-v-3068b9fc] {
+	display: flex;
+	flex-wrap: wrap;
+}
+.options label[data-v-3068b9fc] {
+	padding: 1em;
+}
+
 .radio-question[data-v-5c1243f6] {
 	font-size: 1.25em;
 }

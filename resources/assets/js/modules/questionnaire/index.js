@@ -147,7 +147,8 @@ export type QuestionnairePublicationListItem = {
 export type QuestionnaireCommitteeListItem = {
 	type: 'committee',
 	name: string,
-	role: 'chair' | 'member'
+	role: 'chair' | 'member',
+	meetingsPerYear?: number // Required, but an addition. Older entries won't have it
 };
 
 export type QuestionnaireStudyListItem = {

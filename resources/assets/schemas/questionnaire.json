@@ -300,12 +300,14 @@
 							"properties": {
 								"type": {"const": "committee"},
 								"name": {"type": "string"},
-								"role": {"enum": ["chair", "member"]}
+								"role": {"enum": ["chair", "member"]},
+								"meetingsPerYear": {"type": "number"}
 							},
 							"required": [
 								"type",
 								"name",
-								"role"
+								"role",
+								"meetingsPerYear"
 							]
 						},
 						"study": {

@@ -352,7 +352,8 @@ export function certificationListItem(item: QuestionnaireCertificationListItem):
 export function committeeListItem(item: QuestionnaireCommitteeListItem): Validation {
 	return requiredListItem(item, new Map([
 		['name', 'enter the committee name'],
-		['role', 'select your role in the committee']
+		['role', 'select your role in the committee'],
+		['meetingsPerYear', 'estimate the number of meetings the committee holds per year']
 	]));
 }
 
