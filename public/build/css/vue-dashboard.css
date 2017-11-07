@@ -1,18 +1,18 @@
 
-.alert[data-v-8d03363a] {
+.alert[data-v-6a9bb17e] {
 	page-break-inside: avoid;
 }
 
-.refresh-button-container[data-v-4d4c1aff] {
+.refresh-button-container[data-v-15321984] {
 	text-align: right;
 }
 @media print {
-.refresh-button-container[data-v-4d4c1aff] {
+.refresh-button-container[data-v-15321984] {
 		display: none;
 }
 }
 
-.form-horizontal[data-v-7d00f708] {
+.form-horizontal[data-v-272d3bd7] {
 	overflow-x: hidden;
 }
 .flatpickr-calendar {

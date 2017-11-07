@@ -108,7 +108,6 @@ export type QuestionnaireListQuestion = QuestionnaireQuestionBase & {
 		| 'audienceLecture'
 		| 'mentorship'
 		| 'subjectMentorship'
-		| 'project'
 		| 'datedEvent',
 	text?: string,
 	description?: string,
@@ -130,7 +129,6 @@ export type QuestionnaireListItem =
 	| QuestionnaireReviewListItem
 	| QuestionnaireLectureListItem
 	| QuestionnaireMentorshipListItem
-	| QuestionnaireProjectListItem
 	| QuestionnaireDatedEventListItem;
 
 export type QuestionnaireTextListItem = {
@@ -197,12 +195,6 @@ export type QuestionnaireMentorshipListItem = {
 	type: 'mentorship' | 'subjectMentorship',
 	mentee: string,
 	subject: string
-};
-
-export type QuestionnaireProjectListItem = {
-	type: 'project',
-	description: string,
-	hours: number
 };
 
 export type QuestionnaireDatedEventListItem = {

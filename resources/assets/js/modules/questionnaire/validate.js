@@ -31,7 +31,6 @@ import type {
 	QuestionnaireReviewListItem,
 	QuestionnaireLectureListItem,
 	QuestionnaireMentorshipListItem,
-	QuestionnaireProjectListItem,
 	QuestionnaireDatedEventListItem,
 	ConditionChecker
 } from './index.js';
@@ -296,8 +295,6 @@ export function listItem(item: QuestionnaireListItem): Validation {
 		case 'mentorship':
 		case 'subjectMentorship':
 			return mentorshipListItem(item);
-		case 'project':
-			return projectListItem(item);
 		case 'datedEvent':
 			return datedEventListItem(item);
 	}
@@ -402,13 +399,6 @@ export function studyListItem(item: QuestionnaireStudyListItem): Validation {
 		['yearInitiated', 'enter the year the study was initiated'],
 		['approvalNumber', 'enter the study approval number'],
 		['progress', "describe the study's progress"]
-	]));
-}
-
-export function projectListItem(item: QuestionnaireProjectListItem): Validation {
-	return requiredListItem(item, new Map([
-		['description', 'describe the project and your involvement'],
-		['hours', 'estimate the number of hours you spent on the project']
 	]));
 }
 
