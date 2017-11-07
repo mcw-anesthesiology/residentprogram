@@ -16390,7 +16390,8 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_questionnaire_validate_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SuggestableTextInput_vue__ = __webpack_require__(872);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_questionnaire_validate_js__ = __webpack_require__(6);
 //
 //
 //
@@ -16436,6 +16437,10 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -16449,6 +16454,13 @@ if (false) {(function () {
 			required: true,
 			validator: function validator(type) {
 				return ['grant', 'grantOther'].includes(type);
+			}
+		},
+		suggestions: {
+			type: Object,
+			required: false,
+			default: function _default() {
+				return {};
 			}
 		},
 		agency: {
@@ -16467,12 +16479,13 @@ if (false) {(function () {
 
 	computed: {
 		validation: function validation() {
-			return Object(__WEBPACK_IMPORTED_MODULE_1__modules_questionnaire_validate_js__["f" /* grantListItem */])(this);
+			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_questionnaire_validate_js__["f" /* grantListItem */])(this);
 		}
 	},
 
 	components: {
-		ListItem: __WEBPACK_IMPORTED_MODULE_0__Item_vue__["a" /* default */]
+		ListItem: __WEBPACK_IMPORTED_MODULE_0__Item_vue__["a" /* default */],
+		SuggestableTextInput: __WEBPACK_IMPORTED_MODULE_1__SuggestableTextInput_vue__["a" /* default */]
 	}
 });
 
@@ -16512,19 +16525,26 @@ var render = function() {
               }
             },
             [
-              _c("label", { staticClass: "containing-label" }, [
-                _vm._v("\n\t\t\tFunding agency\n\t\t\t"),
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: { type: "text", readonly: _vm.readonly },
-                  domProps: { value: _vm.agency },
-                  on: {
-                    input: function($event) {
-                      _vm.$emit("input", { agency: $event.target.value })
+              _c(
+                "label",
+                { staticClass: "containing-label" },
+                [
+                  _vm._v("\n\t\t\tFunding agency\n\t\t\t"),
+                  _c("suggestable-text-input", {
+                    attrs: {
+                      value: _vm.agency,
+                      suggestions: _vm.suggestions.agency,
+                      readonly: _vm.readonly
+                    },
+                    on: {
+                      input: function($event) {
+                        _vm.$emit("input", { agency: $event.target.value })
+                      }
                     }
-                  }
-                })
-              ])
+                  })
+                ],
+                1
+              )
             ]
           )
         : _vm._e(),
@@ -16540,19 +16560,26 @@ var render = function() {
           }
         },
         [
-          _c("label", { staticClass: "containing-label" }, [
-            _vm._v("\n\t\t\tProject\n\t\t\t"),
-            _c("textarea", {
-              staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
-              domProps: { value: _vm.project },
-              on: {
-                input: function($event) {
-                  _vm.$emit("input", { project: $event.target.value })
+          _c(
+            "label",
+            { staticClass: "containing-label" },
+            [
+              _vm._v("\n\t\t\tProject\n\t\t\t"),
+              _c("suggestable-text-input", {
+                attrs: {
+                  value: _vm.project,
+                  suggestions: _vm.suggestions.project,
+                  readonly: _vm.readonly
+                },
+                on: {
+                  input: function($event) {
+                    _vm.$emit("input", { project: $event.target.value })
+                  }
                 }
-              }
-            })
-          ])
+              })
+            ],
+            1
+          )
         ]
       ),
       _vm._v(" "),
@@ -16658,7 +16685,8 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_questionnaire_validate_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SuggestableTextInput_vue__ = __webpack_require__(872);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_questionnaire_validate_js__ = __webpack_require__(6);
 //
 //
 //
@@ -16690,6 +16718,10 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -16712,17 +16744,24 @@ if (false) {(function () {
 		specialty: {
 			type: String,
 			default: ''
+		},
+		suggestions: {
+			type: Object,
+			default: function _default() {
+				return {};
+			}
 		}
 	},
 
 	computed: {
 		validation: function validation() {
-			return Object(__WEBPACK_IMPORTED_MODULE_1__modules_questionnaire_validate_js__["a" /* certificationListItem */])(this);
+			return Object(__WEBPACK_IMPORTED_MODULE_2__modules_questionnaire_validate_js__["a" /* certificationListItem */])(this);
 		}
 	},
 
 	components: {
-		ListItem: __WEBPACK_IMPORTED_MODULE_0__Item_vue__["a" /* default */]
+		ListItem: __WEBPACK_IMPORTED_MODULE_0__Item_vue__["a" /* default */],
+		SuggestableTextInput: __WEBPACK_IMPORTED_MODULE_1__SuggestableTextInput_vue__["a" /* default */]
 	}
 });
 
@@ -16761,19 +16800,26 @@ var render = function() {
           }
         },
         [
-          _c("label", { staticClass: "containing-label" }, [
-            _vm._v("\n\t\t\tBoard\n\t\t\t"),
-            _c("input", {
-              staticClass: "form-control",
-              attrs: { type: "text", readonly: _vm.readonly },
-              domProps: { value: _vm.board },
-              on: {
-                input: function($event) {
-                  _vm.$emit("input", { board: $event.target.value })
+          _c(
+            "label",
+            { staticClass: "containing-label" },
+            [
+              _vm._v("\n\t\t\tBoard\n\t\t\t"),
+              _c("suggestable-text-input", {
+                attrs: {
+                  value: _vm.board,
+                  suggestions: _vm.suggestions.board,
+                  readonly: _vm.readonly
+                },
+                on: {
+                  input: function($event) {
+                    _vm.$emit("input", { board: arguments[0] })
+                  }
                 }
-              }
-            })
-          ])
+              })
+            ],
+            1
+          )
         ]
       ),
       _vm._v(" "),
@@ -16788,19 +16834,26 @@ var render = function() {
           }
         },
         [
-          _c("label", { staticClass: "containing-label" }, [
-            _vm._v("\n\t\t\tSpecialty\n\t\t\t"),
-            _c("textarea", {
-              staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
-              domProps: { value: _vm.specialty },
-              on: {
-                input: function($event) {
-                  _vm.$emit("input", { specialty: $event.target.value })
+          _c(
+            "label",
+            { staticClass: "containing-label" },
+            [
+              _vm._v("\n\t\t\tSpecialty\n\t\t\t"),
+              _c("suggestable-text-input", {
+                attrs: {
+                  value: _vm.specialty,
+                  suggestions: _vm.suggestions.specialty,
+                  readonly: _vm.readonly
+                },
+                on: {
+                  input: function($event) {
+                    _vm.$emit("input", { specialty: arguments[0] })
+                  }
                 }
-              }
-            })
-          ])
+              })
+            ],
+            1
+          )
         ]
       )
     ],
