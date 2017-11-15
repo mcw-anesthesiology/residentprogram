@@ -197,6 +197,19 @@ export function academicYearForDate(date: DateLike) {
 	};
 }
 
+export function semesterForDate(date: DateLike) {
+	let startDate = moment(date).startOf('month');
+	while (startDate.month() % 6 !== 0)
+		startDate.subtract(1, 'month');
+
+	let endDate = moment(startDate).add(5, 'months').endOf('month');
+
+	return {
+		startDate,
+		endDate
+	};
+}
+
 export function quarterForDate(date: DateLike) {
 	let startDate = moment(date).startOf('month');
 	while (startDate.month() % 3 !== 0)
@@ -218,6 +231,19 @@ export function monthForDate(date: DateLike) {
 		startDate,
 		endDate
 	};
+}
+
+export function semestersInAcademicYear() {
+	let academicYear = academicYearForDate(new Date());
+	let date = moment(academicYear.startDate);
+
+	let semesters = [];
+	while (date <= academicYear.endDate) {
+		semesters.push(semesterForDate(date));
+		date.add(6, 'months');
+	}
+
+	return semesters;
 }
 
 export function quartersInAcademicYear() {

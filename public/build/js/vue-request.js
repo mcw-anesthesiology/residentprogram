@@ -3076,8 +3076,8 @@ module.exports = nativeCreate;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_EvaluationDataTable_vue__ = __webpack_require__(213);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5eaa9cb0_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_EvaluationDataTable_vue__ = __webpack_require__(215);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_EvaluationDataTable_vue__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5eaa9cb0_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_EvaluationDataTable_vue__ = __webpack_require__(216);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -3887,13 +3887,13 @@ module.exports = Map;
 
 /***/ }),
 
-/***/ 213:
+/***/ 214:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(126);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(215);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_localforage__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
@@ -4013,7 +4013,7 @@ window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
 
 /***/ }),
 
-/***/ 214:
+/***/ 215:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var require;var require;/*!
@@ -6447,7 +6447,7 @@ module.exports = localforage_js;
 
 /***/ }),
 
-/***/ 215:
+/***/ 216:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6511,7 +6511,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 25:
+/***/ 24:
 /***/ (function(module, exports) {
 
 /**
@@ -6597,7 +6597,7 @@ module.exports = eq;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(9),
-    isObject = __webpack_require__(25);
+    isObject = __webpack_require__(24);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -8157,7 +8157,7 @@ module.exports = stackDelete;
 
 /***/ }),
 
-/***/ 648:
+/***/ 649:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8170,7 +8170,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_SelectTwo_vue__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_indefinite__ = __webpack_require__(649);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_indefinite__ = __webpack_require__(650);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_indefinite___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_indefinite__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__ = __webpack_require__(7);
@@ -8351,6 +8351,11 @@ function createRequest(el, propsData) {
 						case 'year':
 							dates = [Object(__WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__["currentYear"])()];
 							break;
+						case 'semester':
+							dates = Object(__WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__["semestersInAcademicYear"])().filter(function (semester) {
+								return semester.startDate <= requestDate;
+							});
+							break;
 						case 'quarter':
 							dates = Object(__WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__["quartersInAcademicYear"])().filter(function (quarter) {
 								return quarter.startDate <= requestDate;
@@ -8372,6 +8377,11 @@ function createRequest(el, propsData) {
 							if (today.month() === 6 && form.type === 'faculty') {
 								dates.unshift(Object(__WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__["lastYear"])());
 							}
+							break;
+						case 'semester':
+							dates = Object(__WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__["semestersInAcademicYear"])().filter(function (semester) {
+								return semester.startDate <= today && semester.endDate >= threeMonthsAgo;
+							});
 							break;
 						case 'quarter':
 							dates = Object(__WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__["quartersInAcademicYear"])().filter(function (quarter) {
@@ -8567,7 +8577,28 @@ function getRequestType() {
 
 /***/ }),
 
-/***/ 649:
+/***/ 65:
+/***/ (function(module, exports) {
+
+/**
+ * Gets the stack value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Stack
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function stackGet(key) {
+  return this.__data__.get(key);
+}
+
+module.exports = stackGet;
+
+
+/***/ }),
+
+/***/ 650:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {(function() {
@@ -8591,27 +8622,6 @@ function getRequestType() {
 })();
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module)))
-
-/***/ }),
-
-/***/ 65:
-/***/ (function(module, exports) {
-
-/**
- * Gets the stack value for `key`.
- *
- * @private
- * @name get
- * @memberOf Stack
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function stackGet(key) {
-  return this.__data__.get(key);
-}
-
-module.exports = stackGet;
-
 
 /***/ }),
 
@@ -8682,7 +8692,7 @@ module.exports = stackSet;
 
 var isFunction = __webpack_require__(29),
     isMasked = __webpack_require__(71),
-    isObject = __webpack_require__(25),
+    isObject = __webpack_require__(24),
     toSource = __webpack_require__(31);
 
 /**
@@ -9763,6 +9773,6 @@ module.exports = getSymbols;
 
 /***/ })
 
-},[648]);
+},[649]);
 });
 //# sourceMappingURL=vue-request.js.map

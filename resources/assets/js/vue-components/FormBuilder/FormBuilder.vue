@@ -204,6 +204,7 @@ export default {
 			return [
 				'month',
 				'quarter',
+				'semester',
 				'year'
 			];
 		},

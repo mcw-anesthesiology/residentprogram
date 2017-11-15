@@ -15,6 +15,7 @@ import {
 	currentYear,
 	lastYear,
 	academicYearForDate,
+	semestersInAcademicYear,
 	quartersInAcademicYear,
 	monthsInAcademicYear
 } from '@/modules/date-utils.js';
@@ -193,6 +194,11 @@ export function createRequest(el, propsData) {
 								currentYear()
 							];
 							break;
+						case 'semester':
+							dates = semestersInAcademicYear().filter(semester =>
+								semester.startDate <= requestDate
+							);
+							break;
 						case 'quarter':
 							dates = quartersInAcademicYear().filter(quarter =>
 								quarter.startDate <= requestDate
@@ -216,6 +222,12 @@ export function createRequest(el, propsData) {
 							if (today.month() === 6 && form.type === 'faculty') {
 								dates.unshift(lastYear());
 							}
+							break;
+						case 'semester':
+							dates = semestersInAcademicYear().filter(semester =>
+								semester.startDate <= today
+									&& semester.endDate >= threeMonthsAgo
+							);
 							break;
 						case 'quarter':
 							dates = quartersInAcademicYear().filter(quarter =>
