@@ -208,8 +208,8 @@ class EgressParser {
 		[$last, $rest] = array_map('trim', explode(',', $name));
 		[$first] = array_map('trim', explode(' ', $rest));
 
-		$query = User::whereRaw("first_name LIKE ?", ["%{$first}%"])
-			->whereRaw("last_name LIKE ?", ["%{$last}%"]);
+		$user = null;
+		$query = User::whereRaw('last_name LIKE ?', ["%{$last}%"]);
 
 		if (!empty($userType))
 			$query = $query->where('type', $userType);
@@ -217,6 +217,16 @@ class EgressParser {
 		if (!empty($userTrainingLevel))
 			$query = $query->where('training_level', $userTrainingLevel);
 
-		return $query->firstOrFail();
+		$results = $query->get();
+		if (count($results) !== 1) {
+			$query = $query->whereRaw('first_name LIKE ?', ["%{$first}%"]);
+			$results = $query->get();
+		}
+
+		if (count($results) === 1)
+			return $results[0];
+
+
+		throw new ModelNotFoundException();
 	}
 }
