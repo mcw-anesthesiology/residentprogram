@@ -104,7 +104,7 @@ class EgressParser {
 								'pairings' => []
 							];
 
-						$pairings = $overlapsByFaculty[$facultyUser->id]['pairings'];
+						$pairings = &$overlapsByFaculty[$facultyUser->id]['pairings'];
 
 						if (!empty($typedStaff[self::RESIDENT_ROLE])) {
 							foreach ($typedStaff[self::RESIDENT_ROLE] as $resident) {
@@ -116,7 +116,7 @@ class EgressParser {
 											'cases' => []
 										];
 
-									$pairings[$residentUser->id]['cases'][] = $case;
+									$pairings[$residentUser->id]['cases'][] = $resident;
 								} catch (ModelNotFoundException $e) {
 									Log::debug('Resident not found for name ' . $resident['name']);
 								}
@@ -133,20 +133,21 @@ class EgressParser {
 	}
 
 	static function computeOverlaps($overlappingCasesByFaculty) {
-		foreach ($overlappingCasesByFaculty as $facultyId => $overlap) {
-			foreach ($overlap['pairings'] as $pairing) {
-				$pairing['numCases'] = count($pairings['cases']);
-				$pairing['totalTime'] = array_reduce($pairings['cases'], function ($totalDuration, $case) {
+		foreach ($overlappingCasesByFaculty as &$overlap) {
+			foreach ($overlap['pairings'] as &$pairing) {
+				$pairing['numCases'] = count($pairing['cases']);
+				$pairing['totalTime'] = array_reduce($pairing['cases'], function ($totalDuration, $case) {
 					try {
-						$start = self::parseDate($case['date'], $case['time']['start']);
-						$end = self::parseDate($case['date'], $case['time']['end']);
+						$start = self::parseDate($case['date'], $case['times']['start']);
+						$end = self::parseDate($case['date'], $case['times']['end']);
+
 						if ($start >= $end) {
 							$end->addDay();
 						}
 						$caseDuration = $end->diff($start);
 
 						$d1 = Carbon::now();
-						$d2 = $d1->clone();
+						$d2 = $d1->copy();
 						$d2->add($totalDuration)->add($caseDuration);
 
 						return $d2->diff($d1);
@@ -170,7 +171,7 @@ class EgressParser {
 					$resident = $pairing['resident'];
 					echo "\t" . $resident->full_name . "\n";
 					echo "\t\tCases: " . $pairing['numCases'] . "\n";
-					echo "\t\tTotal time: " . $pairing['totalTime'] . "\n";
+					echo "\t\tTotal time: " . $pairing['totalTime']->format('%a days, %h hours, %i minutes') . "\n";
 				}
 			}
 		}
@@ -181,8 +182,8 @@ class EgressParser {
 		$year = (int)$year + 2000; // Assuming two-digit year is in 2000s
 		$month = (int)$month;
 		$day = (int)$day;
-		$hours = substr($time, 0, 2);
-		$minutes = substr($time, 2, 2);
+		$hour = substr($time, 0, 2);
+		$minute = substr($time, 2, 2);
 
 		return Carbon::create($year, $month, $day, $hour, $minute);
 	}
