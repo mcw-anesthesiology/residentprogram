@@ -44,10 +44,8 @@ class EgressParser {
 		}
 
 		if (!empty($cases)) {
-			$overlaps = self::computeOverlaps(self::getOverlappingCases($cases));
+			return self::computeOverlaps(self::getOverlappingCases($cases));
 		}
-
-		self::printReport($overlaps);
 	}
 
 	static function parseCase($procDate, $anesthesiaStaff) {
@@ -77,7 +75,7 @@ class EgressParser {
 						$staff[$name]['times']['start'] = $start;
 						$staff[$name]['times']['end'] = $end;
 					} catch (\Exception $e) {
-						Log::debug('hm');
+						Log::debug('Failed to parse ');
 					}
 				}
 			}
@@ -177,7 +175,29 @@ class EgressParser {
 		}
 	}
 
+	static function writeReport($overlaps, $outfile) {
+		$outfp = fopen($outfile, 'w');
+		foreach ($overlaps as $facultyOverlap) {
+			$faculty = $facultyOverlap['faculty'];
+			if (!empty($facultyOverlap['pairings'])) {
+				fwrite($outfp, $faculty->full_name . "\n");
+				foreach ($facultyOverlap['pairings'] as $pairing) {
+					$resident = $pairing['resident'];
+					fwrite($outfp, "\t" . $resident->full_name . "\n");
+					fwrite($outfp, "\t\tCases: " . $pairing['numCases'] . "\n");
+					fwrite($outfp, "\t\tTotal time: " . $pairing['totalTime']->format('%a days, %h hours, %i minutes') . "\n");
+				}
+			}
+		}
+
+		fclose($outfp);
+	}
+
 	static function parseDate($date, $time) {
+		if (strpos($time, ' ') !== false) {
+			[$date, $time] = array_map('trim', explode(' ', $time));
+		}
+
 		[$month, $day, $year] = explode('/', $date);
 		$year = (int)$year + 2000; // Assuming two-digit year is in 2000s
 		$month = (int)$month;
