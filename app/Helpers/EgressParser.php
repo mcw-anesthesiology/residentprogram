@@ -13,7 +13,7 @@ use Log;
 
 class EgressParser {
 
-	// Row indexes
+	// Column indexes
 	const DATE = 0;
 	const ANESTHESIA_STAFF = 6;
 
@@ -99,6 +99,7 @@ class EgressParser {
 						if (empty($overlapsByFaculty[$facultyUser->id]))
 							$overlapsByFaculty[$facultyUser->id] = [
 								'faculty' => $facultyUser,
+								'case' => $faculty,
 								'pairings' => []
 							];
 
@@ -114,7 +115,18 @@ class EgressParser {
 											'cases' => []
 										];
 
-									$pairings[$residentUser->id]['cases'][] = $resident;
+									$case = $resident;
+									try {
+										$case['timeTogether'] = self::computeCaseOverlapTime(
+											$faculty['date'],
+											$faculty,
+											$resident
+										);
+									} catch (\Exception $e) {
+										Log::debug("Failed to compute time together for {$faculty['name']} and {$resident['name']}: " . $e);
+									}
+
+									$pairings[$residentUser->id]['cases'][] = $case;
 								} catch (ModelNotFoundException $e) {
 									Log::debug('Resident not found for name ' . $resident['name']);
 								}
@@ -136,28 +148,58 @@ class EgressParser {
 				$pairing['numCases'] = count($pairing['cases']);
 				$pairing['totalTime'] = array_reduce($pairing['cases'], function ($totalDuration, $case) {
 					try {
-						$start = self::parseDate($case['date'], $case['times']['start']);
-						$end = self::parseDate($case['date'], $case['times']['end']);
+						$caseDuration = $case['timeTogether'];
 
-						if ($start >= $end) {
-							$end->addDay();
+						if (!empty($caseDuration)) {
+							$d1 = Carbon::now();
+							$d2 = $d1->copy();
+							$d2->add($totalDuration)->add($caseDuration);
+
+							return $d2->diff($d1);
 						}
-						$caseDuration = $end->diff($start);
-
-						$d1 = Carbon::now();
-						$d2 = $d1->copy();
-						$d2->add($totalDuration)->add($caseDuration);
-
-						return $d2->diff($d1);
 					} catch (\Exception $e) {
 						Log::debug('Problem computing case duration: ' . $e);
 					}
+
 					return $totalDuration;
 				}, CarbonInterval::create(0));
 			}
 		}
 
 		return $overlappingCasesByFaculty;
+	}
+
+	static function computeCaseOverlapTime($date, $staff1, $staff2) {
+		return self::computeOverlapTime(
+			$date,
+			$staff1['times']['start'],
+			$staff1['times']['end'],
+			$staff2['times']['start'],
+			$staff2['times']['end']
+		);
+	}
+
+	static function computeOverlapTime(
+		$date,
+		$firstStart,
+		$firstEnd,
+		$secondStart,
+		$secondEnd
+	) {
+		$firstStart = self::parseDate($date, $firstStart);
+		$firstEnd = self::parseDate($date, $firstEnd);
+
+		$secondStart = self::parseDate($date, $secondStart);
+		$secondEnd = self::parseDate($date, $secondEnd);
+
+		$start = max($firstStart, $secondStart);
+		$end = min($firstEnd, $secondEnd);
+
+		if ($start > $end) {
+			$end->addDay();
+		}
+
+		return $end->diff($start);
 	}
 
 	static function printReport($overlaps) {
