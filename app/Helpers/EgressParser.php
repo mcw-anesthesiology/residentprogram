@@ -202,6 +202,37 @@ class EgressParser {
 		return $end->diff($start);
 	}
 
+	static function sortOverlaps($overlaps) {
+
+		$sortByFaculty = self::getSorter('faculty');
+		$sortByResident = self::getSorter('resident');
+
+		$sortFacultyOverlaps = function ($facultyOverlaps) use ($sortByResident) {
+			$pairings = &$facultyOverlaps['pairings'];
+			usort($pairings, $sortByResident);
+
+			return $facultyOverlaps;
+		};
+
+		$sortedFacultyOverlaps = array_map($sortFacultyOverlaps, $overlaps);
+
+		usort($sortedFacultyOverlaps, $sortByFaculty);
+
+		return $sortedFacultyOverlaps;
+	}
+
+	static function getSorter($key) {
+		return function ($a, $b) use ($key) {
+			$aName = $a[$key]->full_name;
+			$bName = $b[$key]->full_name;
+
+			if ($aName == $bName)
+				return 0;
+
+			return ($aName < $bName) ? -1 : 1;
+		};
+	}
+
 	static function printReport($overlaps) {
 		foreach ($overlaps as $facultyOverlap) {
 			$faculty = $facultyOverlap['faculty'];
