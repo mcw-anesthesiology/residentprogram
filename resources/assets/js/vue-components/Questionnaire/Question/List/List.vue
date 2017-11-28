@@ -1,10 +1,10 @@
 <template>
 	<div class="form-group">
 		<fieldset :title="description">
-			<legend v-if="text || itemCount">
+			<legend v-if="text || (fixedLength == null && itemCount)">
 				{{ text }}
 				{{ text && itemCount != null ? '-' : '' }}
-				<span>
+				<span v-if="fixedLength == null">
 					{{ itemCount }}
 					{{ itemCount === 1 ? 'item' : 'items' }}
 				</span>
