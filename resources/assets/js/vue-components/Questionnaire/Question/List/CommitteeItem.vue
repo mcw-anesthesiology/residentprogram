@@ -2,7 +2,8 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
+			:removable="removable"
+			@remove="removeItem">
 		<validated-form-group prop="name"
 				:errors="validation.errors"
 				:show-errors="showErrors"
@@ -11,7 +12,7 @@
 				{{ labels.name || 'Committee name' }}
 				<suggestable-text-input
 					:value="name"
-					:readonly="readonly"
+					:readonly="isReadonly('name')"
 					:suggestions="suggestions.name"
 					@input="$emit('input', {name: arguments[0]})" />
 			</label>
@@ -30,6 +31,7 @@
 						class="control-label">
 					<input type="radio" :value="value"
 						:checked="role === value"
+						:disabled="isReadonly('role')"
 						@change="$emit('input', {role: $event.target.value})" />
 					{{ ucfirst(value) }}
 				</label>
@@ -42,7 +44,8 @@
 			<label class="containing-label control-label">
 				{{ labels.meetingsPerYear || 'Meetings per year' }}
 				<input type="number" class="form-control"
-					:value="meetingsPerYear" :readonly="readonly"
+					:value="meetingsPerYear"
+					:readonly="isReadonly('meetingsPerYear')"
 					@input="$emit('input', {meetingsPerYear: Number($event.target.value)})" />
 			</label>
 		</validated-form-group>

@@ -112,6 +112,7 @@ export type QuestionnaireListQuestion = QuestionnaireQuestionBase & {
 	text?: string,
 	description?: string,
 	ordered?: boolean,
+	fixedLength?: number,
 	itemProps?: Object, // FIXME
 	itemLabels?: Object, // FIXME
 	suggestions?: Object, // FIXME

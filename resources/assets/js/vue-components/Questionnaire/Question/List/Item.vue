@@ -1,10 +1,10 @@
 <template>
 	<li class="questionnaire-list-item">
 		<div class="item-controls">
-			<confirmation-button v-if="!readonly" class="btn btn-sm"
+			<confirmation-button v-if="canRemove" class="btn btn-sm"
 					unpressed-class="btn-warning"
 					pressed-class="btn-danger"
-					@click="$emit('remove')">
+					@click="removeItem">
 				<span class="glyphicon glyphicon-remove"></span>
 				Remove item
 			</confirmation-button>
@@ -28,6 +28,12 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		propsReadonly: {
+			type: Object,
+			default() {
+				return {};
+			}
+		},
 		invalid: {
 			type: Boolean,
 			default: false
@@ -39,6 +45,28 @@ export default {
 		helpClass: {
 			type: String,
 			required: false
+		},
+		removable: {
+			type: Boolean,
+			default: true
+		}
+	},
+
+	computed: {
+		canRemove() {
+			return !this.readonly && this.removable;
+		}
+	},
+
+	methods: {
+		removeItem() {
+			if (!this.canRemove)
+				return;
+
+			this.$emit('remove');
+		},
+		isReadonly(prop) {
+			return this.readonly || this.propsReadonly[prop];
 		}
 	},
 

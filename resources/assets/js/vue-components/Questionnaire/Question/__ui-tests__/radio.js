@@ -25,7 +25,7 @@ export default {
 	`,
 	methods: {
 		handleInput(changes) {
-			this.props = Object.assign({}, props, changes);
+			this.props = Object.assign({}, this.props, changes);
 		}
 	},
 	components: {

@@ -669,6 +669,11 @@ function listQuestion(list) {
 		errors.set('items', 'Please enter a list item');
 	}
 
+	if (list.fixedLength && (!list.items || !Array.isArray(list.items) || list.items.length !== list.fixedLength)) {
+		valid = false;
+		errors.set('items', 'Number of items does not match specified size');
+	}
+
 	if (valid) {
 		var _iteratorNormalCompletion4 = true;
 		var _didIteratorError4 = false;

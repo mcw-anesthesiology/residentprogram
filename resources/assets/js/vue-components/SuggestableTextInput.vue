@@ -1,6 +1,8 @@
 <template>
 	<div v-if="hasSuggestions">
-		<select class="form-control" @change="handleInput">
+		<select class="form-control"
+				:disabled="readonly"
+				@change="handleInput">
 			<option v-for="suggestion of suggestions"
 					:key="suggestion"
 					:selected="value === suggestion">
@@ -17,6 +19,7 @@
 	<textarea v-else class="form-control"
 		:value="value"
 		:placeholder="placeholder"
+		:readonly="readonly"
 		@input="handleInput">
 	</textarea>
 </template>
@@ -59,10 +62,10 @@ export default {
 	},
 
 	methods: {
-		handleSelectChange() {
-
-		},
 		handleInput(event) {
+			if (this.readonly)
+				return;
+
 			this.$emit('input', event.target.value);
 		}
 	}

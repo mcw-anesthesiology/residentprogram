@@ -352,6 +352,11 @@ function listQuestion(list) {
 		errors.set('items', 'Please enter a list item');
 	}
 
+	if (list.fixedLength && (!list.items || !Array.isArray(list.items) || list.items.length !== list.fixedLength)) {
+		valid = false;
+		errors.set('items', 'Number of items does not match specified size');
+	}
+
 	if (valid) {
 		var _iteratorNormalCompletion4 = true;
 		var _didIteratorError4 = false;
@@ -14873,6 +14878,10 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapAlert_vue__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShowHideButton_vue__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_snarkdown__ = __webpack_require__(23);
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+//
+//
 //
 //
 //
@@ -14970,6 +14979,10 @@ if (false) {(function () {
 			type: Boolean,
 			default: false
 		},
+		fixedLength: {
+			type: Number,
+			required: false
+		},
 		required: {
 			type: Boolean,
 			default: false
@@ -14994,6 +15007,9 @@ if (false) {(function () {
 			}
 		};
 	},
+	mounted: function mounted() {
+		this.ensureFixedLength();
+	},
 
 
 	computed: {
@@ -15002,15 +15018,76 @@ if (false) {(function () {
 		},
 		markedUpDescription: function markedUpDescription() {
 			if (this.description) return Object(__WEBPACK_IMPORTED_MODULE_3_snarkdown__["a" /* default */])(this.description);
+		},
+		propsReadonly: function propsReadonly() {
+			var propsReadonly = {};
+
+			if (this.itemProps) {
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = Object.keys(this.itemProps)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var prop = _step.value;
+
+						propsReadonly[prop] = true;
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+			}
+
+			return propsReadonly;
+		},
+		canEditItems: function canEditItems() {
+			return !this.readonly && this.fixedLength == null;
 		}
 	},
 
 	methods: {
+		ensureFixedLength: function ensureFixedLength() {
+			if (this.fixedLength == null) return;
+
+			if (this.itemCount > this.fixedLength) {
+				var items = Array.slice(this.items);
+				while (this.itemCount > this.fixedLength) {
+					items.pop();
+				}
+				this.$emit('input', { items: items });
+			} else if (this.itemCount < this.fixedLength) {
+				var newItems = [];
+				for (var i = 0; i < this.fixedLength - this.itemCount; i++) {
+					newItems.push(this.getNewItem());
+				}
+				this.addItems(newItems);
+			}
+		},
 		addItem: function addItem() {
+			if (!this.canEditItems) return;
+
+			this.addItems([this.getNewItem()]);
+		},
+		addItems: function addItems(newItems) {
 			if (this.readonly) return;
 
 			var items = Array.slice(this.items);
+			items.push.apply(items, _toConsumableArray(newItems));
 
+			this.$emit('input', { items: items });
+		},
+		getNewItem: function getNewItem() {
 			var newItem = {
 				type: this.listType
 			};
@@ -15021,9 +15098,7 @@ if (false) {(function () {
 
 			if (this.itemLabels) newItem.labels = this.itemLabels;
 
-			items.push(newItem);
-
-			this.$emit('input', { items: items });
+			return newItem;
 		},
 		onChange: function onChange(items) {
 			if (this.readonly) return;
@@ -15144,6 +15219,16 @@ if (false) {(function () {
 			type: Boolean,
 			default: false
 		},
+		propsReadonly: {
+			type: Object,
+			default: function _default() {
+				return {};
+			}
+		},
+		itemsRemovable: {
+			type: Boolean,
+			default: true
+		},
 		showErrors: {
 			type: Boolean,
 			default: false
@@ -15168,9 +15253,11 @@ if (false) {(function () {
 			return h(itemComponent, {
 				props: Object.assign({
 					readonly: _this.readonly,
+					propsReadonly: _this.propsReadonly,
 					showErrors: _this.showErrors,
 					helpClass: _this.helpClass,
-					suggestions: _this.suggestions
+					suggestions: _this.suggestions,
+					removable: _this.itemsRemovable
 				}, item),
 				on: {
 					input: function input(item) {
@@ -15313,6 +15400,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 
@@ -15401,6 +15489,12 @@ if (false) {(function () {
 			type: Boolean,
 			default: false
 		},
+		propsReadonly: {
+			type: Object,
+			default: function _default() {
+				return {};
+			}
+		},
 		invalid: {
 			type: Boolean,
 			default: false
@@ -15412,6 +15506,27 @@ if (false) {(function () {
 		helpClass: {
 			type: String,
 			required: false
+		},
+		removable: {
+			type: Boolean,
+			default: true
+		}
+	},
+
+	computed: {
+		canRemove: function canRemove() {
+			return !this.readonly && this.removable;
+		}
+	},
+
+	methods: {
+		removeItem: function removeItem() {
+			if (!this.canRemove) return;
+
+			this.$emit('remove');
+		},
+		isReadonly: function isReadonly(prop) {
+			return this.readonly || this.propsReadonly[prop];
 		}
 	},
 
@@ -15435,7 +15550,7 @@ var render = function() {
       "div",
       { staticClass: "item-controls" },
       [
-        !_vm.readonly
+        _vm.canRemove
           ? _c(
               "confirmation-button",
               {
@@ -15444,11 +15559,7 @@ var render = function() {
                   "unpressed-class": "btn-warning",
                   "pressed-class": "btn-danger"
                 },
-                on: {
-                  click: function($event) {
-                    _vm.$emit("remove")
-                  }
-                }
+                on: { click: _vm.removeItem }
               },
               [
                 _c("span", { staticClass: "glyphicon glyphicon-remove" }),
@@ -15495,13 +15606,10 @@ var render = function() {
       attrs: {
         readonly: _vm.readonly,
         invalid: !_vm.validation.valid,
-        "show-errors": _vm.showErrors
+        "show-errors": _vm.showErrors,
+        removable: _vm.removable
       },
-      on: {
-        remove: function($event) {
-          _vm.$emit("remove")
-        }
-      }
+      on: { remove: _vm.removeItem }
     },
     [
       _c(
@@ -15655,6 +15763,11 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -15721,13 +15834,10 @@ var render = function() {
       attrs: {
         readonly: _vm.readonly,
         invalid: !_vm.validation.valid,
-        "show-errors": _vm.showErrors
+        "show-errors": _vm.showErrors,
+        removable: _vm.removable
       },
-      on: {
-        remove: function($event) {
-          _vm.$emit("remove")
-        }
-      }
+      on: { remove: _vm.removeItem }
     },
     [
       _c(
@@ -15745,7 +15855,7 @@ var render = function() {
             _vm._v("\n\t\t\tTitle of publication\n\t\t\t"),
             _c("textarea", {
               staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
+              attrs: { readonly: _vm.isReadonly("title") },
               domProps: { value: _vm.title },
               on: {
                 input: function($event) {
@@ -15772,7 +15882,7 @@ var render = function() {
             _vm._v("\n\t\t\tPrimary author(s)\n\t\t\t"),
             _c("textarea", {
               staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
+              attrs: { readonly: _vm.isReadonly("author") },
               domProps: { value: _vm.author },
               on: {
                 input: function($event) {
@@ -15799,7 +15909,7 @@ var render = function() {
             _vm._v("\n\t\t\tLink (PubMed, MCW FCD, etc.)\n\t\t\t"),
             _c("input", {
               staticClass: "form-control",
-              attrs: { type: "text", readonly: _vm.readonly },
+              attrs: { type: "text", readonly: _vm.isReadonly("link") },
               domProps: { value: _vm.link },
               on: {
                 input: function($event) {
@@ -15826,7 +15936,7 @@ var render = function() {
             _vm._v("\n\t\t\tYour role on the project\n\t\t\t"),
             _c("textarea", {
               staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
+              attrs: { readonly: _vm.isReadonly("role") },
               domProps: { value: _vm.role },
               on: {
                 input: function($event) {
@@ -15923,6 +16033,9 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ConfirmationButton_vue__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_questionnaire_validate_js__ = __webpack_require__(6);
+//
+//
+//
 //
 //
 //
@@ -16072,6 +16185,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	props: {
@@ -16105,8 +16221,9 @@ if (false) {(function () {
 	},
 
 	methods: {
-		handleSelectChange: function handleSelectChange() {},
 		handleInput: function handleInput(event) {
+			if (this.readonly) return;
+
 			this.$emit('input', event.target.value);
 		}
 	}
@@ -16125,7 +16242,11 @@ var render = function() {
     ? _c("div", [
         _c(
           "select",
-          { staticClass: "form-control", on: { change: _vm.handleInput } },
+          {
+            staticClass: "form-control",
+            attrs: { disabled: _vm.readonly },
+            on: { change: _vm.handleInput }
+          },
           [
             _vm._l(_vm.suggestions, function(suggestion) {
               return _c(
@@ -16158,7 +16279,7 @@ var render = function() {
       ])
     : _c("textarea", {
         staticClass: "form-control",
-        attrs: { placeholder: _vm.placeholder },
+        attrs: { placeholder: _vm.placeholder, readonly: _vm.readonly },
         domProps: { value: _vm.value },
         on: { input: _vm.handleInput }
       })
@@ -16189,13 +16310,10 @@ var render = function() {
       attrs: {
         readonly: _vm.readonly,
         invalid: !_vm.validation.valid,
-        "show-errors": _vm.showErrors
+        "show-errors": _vm.showErrors,
+        removable: _vm.removable
       },
-      on: {
-        remove: function($event) {
-          _vm.$emit("remove")
-        }
-      }
+      on: { remove: _vm.removeItem }
     },
     [
       _c(
@@ -16221,7 +16339,7 @@ var render = function() {
               _c("suggestable-text-input", {
                 attrs: {
                   value: _vm.name,
-                  readonly: _vm.readonly,
+                  readonly: _vm.isReadonly("name"),
                   suggestions: _vm.suggestions.name
                 },
                 on: {
@@ -16263,7 +16381,7 @@ var render = function() {
             _vm._l(_vm.POSSIBLE_ROLES, function(value) {
               return _c("label", { staticClass: "control-label" }, [
                 _c("input", {
-                  attrs: { type: "radio" },
+                  attrs: { type: "radio", disabled: _vm.isReadonly("role") },
                   domProps: { value: value, checked: _vm.role === value },
                   on: {
                     change: function($event) {
@@ -16297,7 +16415,10 @@ var render = function() {
             ),
             _c("input", {
               staticClass: "form-control",
-              attrs: { type: "number", readonly: _vm.readonly },
+              attrs: {
+                type: "number",
+                readonly: _vm.isReadonly("meetingsPerYear")
+              },
               domProps: { value: _vm.meetingsPerYear },
               on: {
                 input: function($event) {
@@ -16449,6 +16570,12 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -16512,13 +16639,10 @@ var render = function() {
       attrs: {
         readonly: _vm.readonly,
         invalid: !_vm.validation.valid,
-        "show-errors": _vm.showErrors
+        "show-errors": _vm.showErrors,
+        removable: _vm.removable
       },
-      on: {
-        remove: function($event) {
-          _vm.$emit("remove")
-        }
-      }
+      on: { remove: _vm.removeItem }
     },
     [
       _c(
@@ -16536,7 +16660,7 @@ var render = function() {
             _vm._v("\n\t\t\tStudy title\n\t\t\t"),
             _c("textarea", {
               staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
+              attrs: { readonly: _vm.isReadonly("title") },
               domProps: { value: _vm.title },
               on: {
                 input: function($event) {
@@ -16563,7 +16687,7 @@ var render = function() {
             _vm._v("\n\t\t\tYour role in study\n\t\t\t"),
             _c("textarea", {
               staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
+              attrs: { readonly: _vm.isReadonly("role") },
               domProps: { value: _vm.role },
               on: {
                 input: function($event) {
@@ -16590,7 +16714,10 @@ var render = function() {
             _vm._v("\n\t\t\tYear initiated\n\t\t\t"),
             _c("input", {
               staticClass: "form-control",
-              attrs: { type: "text", readonly: _vm.readonly },
+              attrs: {
+                type: "text",
+                readonly: _vm.isReadonly("yearInitiated")
+              },
               domProps: { value: _vm.yearInitiated },
               on: {
                 input: function($event) {
@@ -16617,7 +16744,10 @@ var render = function() {
             _vm._v("\n\t\t\tApproval number (IRB / ACUC)\n\t\t\t"),
             _c("input", {
               staticClass: "form-control",
-              attrs: { type: "text", readonly: _vm.readonly },
+              attrs: {
+                type: "text",
+                readonly: _vm.isReadonly("approvalNumber")
+              },
               domProps: { value: _vm.approvalNumber },
               on: {
                 input: function($event) {
@@ -16644,7 +16774,7 @@ var render = function() {
             _vm._v("\n\t\t\tProgress\n\t\t\t"),
             _c("textarea", {
               staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
+              attrs: { readonly: _vm.isReadonly("progress") },
               domProps: { value: _vm.progress },
               on: {
                 input: function($event) {
@@ -16777,6 +16907,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -16841,50 +16973,45 @@ var render = function() {
       attrs: {
         readonly: _vm.readonly,
         invalid: !_vm.validation.valid,
-        "show-errors": _vm.showErrors
+        "show-errors": _vm.showErrors,
+        removable: _vm.removable
       },
-      on: {
-        remove: function($event) {
-          _vm.$emit("remove")
-        }
-      }
+      on: { remove: _vm.removeItem }
     },
     [
-      _vm.type === "grantOther"
-        ? _c(
-            "validated-form-group",
-            {
-              attrs: {
-                prop: "agency",
-                errors: _vm.validation.errors,
-                "show-errors": _vm.showErrors,
-                "invalid-class": _vm.helpClass
-              }
-            },
+      _c(
+        "validated-form-group",
+        {
+          attrs: {
+            prop: "agency",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
+        [
+          _c(
+            "label",
+            { staticClass: "containing-label" },
             [
-              _c(
-                "label",
-                { staticClass: "containing-label" },
-                [
-                  _vm._v("\n\t\t\tFunding agency\n\t\t\t"),
-                  _c("suggestable-text-input", {
-                    attrs: {
-                      value: _vm.agency,
-                      suggestions: _vm.suggestions.agency,
-                      readonly: _vm.readonly
-                    },
-                    on: {
-                      input: function($event) {
-                        _vm.$emit("input", { agency: $event.target.value })
-                      }
-                    }
-                  })
-                ],
-                1
-              )
-            ]
+              _vm._v("\n\t\t\tFunding agency\n\t\t\t"),
+              _c("suggestable-text-input", {
+                attrs: {
+                  value: _vm.agency,
+                  suggestions: _vm.suggestions.agency,
+                  readonly: _vm.isReadonly("agency")
+                },
+                on: {
+                  input: function($event) {
+                    _vm.$emit("input", { agency: $event.target.value })
+                  }
+                }
+              })
+            ],
+            1
           )
-        : _vm._e(),
+        ]
+      ),
       _vm._v(" "),
       _c(
         "validated-form-group",
@@ -16906,7 +17033,7 @@ var render = function() {
                 attrs: {
                   value: _vm.project,
                   suggestions: _vm.suggestions.project,
-                  readonly: _vm.readonly
+                  readonly: _vm.isReadonly("project")
                 },
                 on: {
                   input: function($event) {
@@ -16938,7 +17065,7 @@ var render = function() {
               _vm._v(" "),
               _c("input", {
                 staticClass: "form-control",
-                attrs: { type: "number", readonly: _vm.readonly },
+                attrs: { type: "number", readonly: _vm.isReadonly("amount") },
                 domProps: { value: _vm.amount },
                 on: {
                   input: function($event) {
@@ -17083,6 +17210,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -17136,7 +17265,8 @@ if (false) {(function () {
 
 			return {
 				altInput: true,
-				altInputClass: this.readonly ? 'form-control' : 'form-control appear-not-readonly',
+				altInputClass: this.isReadonly('recertified') ? 'form-control' : 'form-control appear-not-readonly',
+				clickOpens: !this.isReadonly('recertified'),
 				altFormat: 'M j, Y',
 				minDate: startDate,
 				maxDate: endDate
@@ -17166,13 +17296,10 @@ var render = function() {
       attrs: {
         readonly: _vm.readonly,
         invalid: !_vm.validation.valid,
-        "show-errors": _vm.showErrors
+        "show-errors": _vm.showErrors,
+        removable: _vm.removable
       },
-      on: {
-        remove: function($event) {
-          _vm.$emit("remove")
-        }
-      }
+      on: { remove: _vm.removeItem }
     },
     [
       _c(
@@ -17195,7 +17322,7 @@ var render = function() {
                 attrs: {
                   value: _vm.board,
                   suggestions: _vm.suggestions.board,
-                  readonly: _vm.readonly
+                  readonly: _vm.isReadonly("board")
                 },
                 on: {
                   input: function($event) {
@@ -17229,7 +17356,7 @@ var render = function() {
                 attrs: {
                   value: _vm.specialty,
                   suggestions: _vm.suggestions.specialty,
-                  readonly: _vm.readonly
+                  readonly: _vm.isReadonly("specialty")
                 },
                 on: {
                   input: function($event) {
@@ -17256,7 +17383,7 @@ var render = function() {
         [
           _c("label", { staticClass: "containing-label" }, [
             _c("input", {
-              attrs: { type: "checkbox" },
+              attrs: { type: "checkbox", disabled: _vm.isReadonly("current") },
               domProps: { checked: _vm.current },
               on: {
                 change: function($event) {
@@ -17439,6 +17566,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -17521,13 +17650,10 @@ var render = function() {
       attrs: {
         readonly: _vm.readonly,
         invalid: !_vm.validation.valid,
-        "show-errors": _vm.showErrors
+        "show-errors": _vm.showErrors,
+        removable: _vm.removable
       },
-      on: {
-        remove: function($event) {
-          _vm.$emit("remove")
-        }
-      }
+      on: { remove: _vm.removeItem }
     },
     [
       _c(
@@ -17545,7 +17671,7 @@ var render = function() {
             _vm._v("\n\t\t\tJournal\n\t\t\t"),
             _c("input", {
               staticClass: "form-control",
-              attrs: { type: "text", readonly: _vm.readonly },
+              attrs: { type: "text", readonly: _vm.isReadonly("journal") },
               domProps: { value: _vm.journal },
               on: {
                 input: function($event) {
@@ -17578,7 +17704,10 @@ var render = function() {
                 _vm._l(_vm.predefinedRoles, function(predefinedRole) {
                   return _c("label", [
                     _c("input", {
-                      attrs: { type: "radio", disabled: _vm.readonly },
+                      attrs: {
+                        type: "radio",
+                        disabled: _vm.isReadonly("role")
+                      },
                       domProps: {
                         value: predefinedRole,
                         checked: _vm.role === predefinedRole
@@ -17595,7 +17724,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("label", [
                   _c("input", {
-                    attrs: { type: "radio", disabled: _vm.readonly },
+                    attrs: { type: "radio", disabled: _vm.isReadonly("role") },
                     domProps: {
                       value: _vm.otherRole,
                       checked: _vm.role === _vm.otherRole
@@ -17616,7 +17745,7 @@ var render = function() {
                     attrs: {
                       type: "text",
                       placeholder: "Other",
-                      readonly: _vm.readonly
+                      readonly: _vm.isReadonly("role")
                     },
                     domProps: { value: _vm.otherRole },
                     on: {
@@ -17740,6 +17869,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 
 
@@ -17801,13 +17933,10 @@ var render = function() {
       attrs: {
         readonly: _vm.readonly,
         invalid: !_vm.validation.valid,
-        "show-errors": _vm.showErrors
+        "show-errors": _vm.showErrors,
+        removable: _vm.removable
       },
-      on: {
-        remove: function($event) {
-          _vm.$emit("remove")
-        }
-      }
+      on: { remove: _vm.removeItem }
     },
     [
       _c(
@@ -17825,7 +17954,7 @@ var render = function() {
             _vm._v("\n\t\t\t" + _vm._s(_vm.workLabel) + "\n\t\t\t"),
             _c("textarea", {
               staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
+              attrs: { readonly: _vm.isReadonly("work") },
               domProps: { value: _vm.work },
               on: {
                 input: function($event) {
@@ -17852,7 +17981,7 @@ var render = function() {
             _vm._v("\n\t\t\t" + _vm._s(_vm.reviewsLabel) + "\n\t\t\t"),
             _c("input", {
               staticClass: "form-control",
-              attrs: { type: "number", readonly: _vm.readonly },
+              attrs: { type: "number", readonly: _vm.isReadonly("reviews") },
               domProps: { value: _vm.reviews },
               on: {
                 input: function($event) {
@@ -17937,6 +18066,11 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MultipleUnknownDateSelector_vue__ = __webpack_require__(219);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_questionnaire_validate_js__ = __webpack_require__(6);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -18271,13 +18405,10 @@ var render = function() {
       attrs: {
         readonly: _vm.readonly,
         invalid: !_vm.validation.valid,
-        "show-errors": _vm.showErrors
+        "show-errors": _vm.showErrors,
+        removable: _vm.removable
       },
-      on: {
-        remove: function($event) {
-          _vm.$emit("remove")
-        }
-      }
+      on: { remove: _vm.removeItem }
     },
     [
       _c(
@@ -18295,7 +18426,7 @@ var render = function() {
             _vm._v("\n\t\t\tLecture title\n\t\t\t"),
             _c("textarea", {
               staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
+              attrs: { readonly: _vm.isReadonly("title") },
               domProps: { value: _vm.title },
               on: {
                 input: function($event) {
@@ -18321,7 +18452,7 @@ var render = function() {
           _c(
             "multiple-unknown-date-selector",
             {
-              attrs: { value: _vm.date, readonly: _vm.readonly },
+              attrs: { value: _vm.date, readonly: _vm.isReadonly("date") },
               on: {
                 input: function($event) {
                   _vm.$emit("input", { date: arguments[0] })
@@ -18334,36 +18465,34 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.type !== "audienceLecture"
-        ? _c(
-            "validated-form-group",
-            {
-              attrs: {
-                prop: "audience",
-                errors: _vm.errors,
-                "show-errors": _vm.showErrors,
-                "invalid-class": _vm.helpClass
+      _c(
+        "validated-form-group",
+        {
+          attrs: {
+            prop: "audience",
+            errors: _vm.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
+        [
+          _c("label", { staticClass: "containing-label" }, [
+            _vm._v(
+              "\n\t\t\tLecture audience (department, society, group, location, etc.)\n\t\t\t"
+            ),
+            _c("textarea", {
+              staticClass: "form-control",
+              attrs: { readonly: _vm.isReadonly("audience") },
+              domProps: { value: _vm.audience },
+              on: {
+                input: function($event) {
+                  _vm.$emit("input", { audience: $event.target.value })
+                }
               }
-            },
-            [
-              _c("label", { staticClass: "containing-label" }, [
-                _vm._v(
-                  "\n\t\t\tLecture audience (department, society, group, location, etc.)\n\t\t\t"
-                ),
-                _c("textarea", {
-                  staticClass: "form-control",
-                  attrs: { readonly: _vm.readonly },
-                  domProps: { value: _vm.audience },
-                  on: {
-                    input: function($event) {
-                      _vm.$emit("input", { audience: $event.target.value })
-                    }
-                  }
-                })
-              ])
-            ]
-          )
-        : _vm._e()
+            })
+          ])
+        ]
+      )
     ],
     1
   )
@@ -18471,9 +18600,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
 
 
 
@@ -18535,13 +18661,10 @@ var render = function() {
       attrs: {
         readonly: _vm.readonly,
         invalid: !_vm.validation.valid,
-        "show-errors": _vm.showErrors
+        "show-errors": _vm.showErrors,
+        removable: _vm.removable
       },
-      on: {
-        remove: function($event) {
-          _vm.$emit("remove")
-        }
-      }
+      on: { remove: _vm.removeItem }
     },
     [
       _c(
@@ -18559,7 +18682,7 @@ var render = function() {
             _vm._v("\n\t\t\t" + _vm._s(_vm.menteeLabel) + "\n\t\t\t"),
             _c("input", {
               staticClass: "form-control",
-              attrs: { type: "text", readonly: _vm.readonly },
+              attrs: { type: "text", readonly: _vm.isReadonly("mentee") },
               domProps: { value: _vm.mentee },
               on: {
                 input: function($event) {
@@ -18567,54 +18690,36 @@ var render = function() {
                 }
               }
             })
-          ]),
-          _vm._v(" "),
-          !_vm.mentee
-            ? _c("span", { staticClass: "help-block" }, [
-                _vm._v(
-                  "\n\t\t\tPlease enter the mentee / trainee name or remove this list item\n\t\t"
-                )
-              ])
-            : _vm._e()
+          ])
         ]
       ),
       _vm._v(" "),
-      _vm.type !== "subjectMentorship"
-        ? _c(
-            "validated-form-group",
-            {
-              attrs: {
-                prop: "subject",
-                errors: _vm.validation.errors,
-                "show-errors": _vm.showErrors,
-                "invalid-class": _vm.helpClass
+      _c(
+        "validated-form-group",
+        {
+          attrs: {
+            prop: "subject",
+            errors: _vm.validation.errors,
+            "show-errors": _vm.showErrors,
+            "invalid-class": _vm.helpClass
+          }
+        },
+        [
+          _c("label", { staticClass: "containing-label" }, [
+            _vm._v("\n\t\t\t" + _vm._s(_vm.subjectLabel) + "\n\t\t\t"),
+            _c("textarea", {
+              staticClass: "form-control",
+              attrs: { readonly: _vm.isReadonly("subject") },
+              domProps: { value: _vm.subject },
+              on: {
+                input: function($event) {
+                  _vm.$emit("input", { subject: $event.target.value })
+                }
               }
-            },
-            [
-              _c("label", { staticClass: "containing-label" }, [
-                _vm._v("\n\t\t\t" + _vm._s(_vm.subjectLabel) + "\n\t\t\t"),
-                _c("textarea", {
-                  staticClass: "form-control",
-                  attrs: { readonly: _vm.readonly },
-                  domProps: { value: _vm.subject },
-                  on: {
-                    input: function($event) {
-                      _vm.$emit("input", { subject: $event.target.value })
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              !_vm.subject
-                ? _c("span", { staticClass: "help-block" }, [
-                    _vm._v(
-                      "\n\t\t\tPlease enter the mentorship subject or remove this list item\n\t\t"
-                    )
-                  ])
-                : _vm._e()
-            ]
-          )
-        : _vm._e()
+            })
+          ])
+        ]
+      )
     ],
     1
   )
@@ -18720,6 +18825,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -18783,13 +18890,10 @@ var render = function() {
       attrs: {
         readonly: _vm.readonly,
         invalid: !_vm.validation.valid,
-        "show-errors": _vm.showErrors
+        "show-errors": _vm.showErrors,
+        removable: _vm.removable
       },
-      on: {
-        remove: function($event) {
-          _vm.$emit("remove")
-        }
-      }
+      on: { remove: _vm.removeItem }
     },
     [
       _c(
@@ -18807,7 +18911,7 @@ var render = function() {
             _vm._v("\n\t\t\t" + _vm._s(_vm.descriptionLabel) + "\n\t\t\t"),
             _c("textarea", {
               staticClass: "form-control",
-              attrs: { readonly: _vm.readonly },
+              attrs: { readonly: _vm.isReadonly("description") },
               domProps: { value: _vm.description },
               on: {
                 input: function($event) {
@@ -18833,7 +18937,7 @@ var render = function() {
           _c(
             "multiple-unknown-date-selector",
             {
-              attrs: { value: _vm.date, readonly: _vm.readonly },
+              attrs: { value: _vm.date, readonly: _vm.isReadonly("date") },
               on: {
                 input: function($event) {
                   _vm.$emit("input", { date: arguments[0] })
@@ -18911,13 +19015,15 @@ var render = function() {
               items: _vm.items,
               suggestions: _vm.suggestions,
               readonly: _vm.readonly,
+              "props-readonly": _vm.propsReadonly,
               "show-errors": _vm.showErrors,
-              "help-class": _vm.helpClass
+              "help-class": _vm.helpClass,
+              "items-removable": _vm.canEditItems
             },
             on: { change: _vm.onChange }
           }),
           _vm._v(" "),
-          !_vm.readonly
+          _vm.canEditItems
             ? _c(
                 "button",
                 {
