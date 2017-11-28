@@ -14,7 +14,7 @@
 					:value="agency"
 					:suggestions="suggestions.agency"
 					:readonly="isReadonly('agency')"
-					@input="$emit('input', {agency: $event.target.value})" />
+					@input="$emit('input', {agency: arguments[0]})" />
 			</label>
 		</validated-form-group>
 		<validated-form-group prop="project"
@@ -27,7 +27,7 @@
 					:value="project"
 					:suggestions="suggestions.project"
 					:readonly="isReadonly('project')"
-					@input="$emit('input', {project: $event.target.value})" />
+					@input="$emit('input', {project: arguments[0]})" />
 			</label>
 		</validated-form-group>
 		<validated-form-group prop="amount"
