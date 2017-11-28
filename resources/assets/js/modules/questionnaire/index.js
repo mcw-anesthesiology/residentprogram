@@ -171,7 +171,9 @@ export type QuestionnaireGrantListItem = {
 export type QuestionnaireCertificationListItem = {
 	type: 'certification',
 	board: string,
-	specialty: string
+	specialty: string,
+	current: boolean,
+	recertified: string
 };
 
 export type QuestionnaireEditorialBoardListItem = {

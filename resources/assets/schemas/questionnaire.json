@@ -353,7 +353,9 @@
 							"properties": {
 								"type": {"const": "certification"},
 								"board": {"type": "string"},
-								"specialty": {"type": "string"}
+								"specialty": {"type": "string"},
+								"current": {"type": "boolean"},
+								"recertified": {"type": "string"}
 							},
 							"required": [
 								"type",

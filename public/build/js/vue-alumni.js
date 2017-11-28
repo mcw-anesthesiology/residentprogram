@@ -2364,6 +2364,148 @@ if (false) {(function () {
 
 /***/ }),
 
+/***/ 27:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flatpickr__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flatpickr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_flatpickr__);
+
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var hooks = new Set(['onChange', 'onOpen', 'onClose', 'onMonthChange', 'onYearChange', 'onReady', 'onValueUpdate']);
+
+var VueFlatpickr$1 = { render: function render() {
+		var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('input', { attrs: { "type": "text", "placeholder": _vm.placeholder }, domProps: { "value": _vm.value } });
+	}, staticRenderFns: [],
+	props: {
+		placeholder: {
+			type: String,
+			default: ''
+		},
+		options: {
+			type: Object,
+			default: function _default() {
+				return {};
+			}
+		},
+		value: {
+			type: String,
+			default: ''
+		}
+	},
+	data: function data() {
+		return {
+			fp: null
+		};
+	},
+
+
+	computed: {
+		hookedOptions: function hookedOptions() {
+			return this.addHooks(this.options);
+		}
+	},
+
+	watch: {
+		value: function value(val) {
+			this.fp.setDate(val);
+		},
+		hookedOptions: function hookedOptions(options, oldOptions) {
+			for (var _ref in Object.entries(options)) {
+				var _ref2 = _slicedToArray(_ref, 2);
+
+				var key = _ref2[0];
+				var val = _ref2[1];
+
+				if (val !== oldOptions[key]) this.fp.set(key, val);
+			}
+		}
+	},
+
+	mounted: function mounted() {
+		this.fp = new __WEBPACK_IMPORTED_MODULE_0_flatpickr___default.a(this.$el, this.hookedOptions);
+		this.$emit('FlatpickrRef', this.fp);
+	},
+	destroyed: function destroyed() {
+		this.fp.destroy();
+		this.fp = null;
+	},
+
+
+	methods: {
+		onInput: function onInput(e) {
+			typeof e === 'string' ? this.$emit('input', e) : this.$emit('input', e.target.value);
+		},
+		addHooks: function addHooks(options) {
+			var _this = this;
+
+			options = Object.assign({}, options);
+
+			if (!options.onChange) {
+				options.onChange = [];
+			} else if (!Array.isArray(options.onChange)) {
+				options.onChange = [options.onChange];
+			}
+
+			options.onChange.push(function (selectedDates, dateStr) {
+				_this.$emit('input', dateStr);
+			});
+
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				var _loop = function _loop() {
+					var hook = _step.value;
+
+					var firer = function firer(selectedDates, dateStr, instance) {
+						_this.$emit(stripOn(hook), [selectedDates, dateStr, instance]);
+					};
+
+					if (hook in options) {
+						if (!Array.isArray(options[hook])) options[hook] = [options[hook]];
+
+						options[hook].push(firer);
+					} else {
+						options[hook] = [firer];
+					}
+				};
+
+				for (var _iterator = hooks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					_loop();
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return options;
+		}
+	}
+};
+
+function stripOn(hook) {
+	return hook.charAt(2).toLowerCase() + hook.substring(3);
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (VueFlatpickr$1);
+
+
+/***/ }),
+
 /***/ 326:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2431,7 +2573,7 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ConfirmationButton_vue__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(1);
 //
@@ -3295,148 +3437,6 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-16ff425b", esExports)
   }
 }
-
-/***/ }),
-
-/***/ 37:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flatpickr__ = __webpack_require__(127);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_flatpickr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_flatpickr__);
-
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var hooks = new Set(['onChange', 'onOpen', 'onClose', 'onMonthChange', 'onYearChange', 'onReady', 'onValueUpdate']);
-
-var VueFlatpickr$1 = { render: function render() {
-		var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('input', { attrs: { "type": "text", "placeholder": _vm.placeholder }, domProps: { "value": _vm.value } });
-	}, staticRenderFns: [],
-	props: {
-		placeholder: {
-			type: String,
-			default: ''
-		},
-		options: {
-			type: Object,
-			default: function _default() {
-				return {};
-			}
-		},
-		value: {
-			type: String,
-			default: ''
-		}
-	},
-	data: function data() {
-		return {
-			fp: null
-		};
-	},
-
-
-	computed: {
-		hookedOptions: function hookedOptions() {
-			return this.addHooks(this.options);
-		}
-	},
-
-	watch: {
-		value: function value(val) {
-			this.fp.setDate(val);
-		},
-		hookedOptions: function hookedOptions(options, oldOptions) {
-			for (var _ref in Object.entries(options)) {
-				var _ref2 = _slicedToArray(_ref, 2);
-
-				var key = _ref2[0];
-				var val = _ref2[1];
-
-				if (val !== oldOptions[key]) this.fp.set(key, val);
-			}
-		}
-	},
-
-	mounted: function mounted() {
-		this.fp = new __WEBPACK_IMPORTED_MODULE_0_flatpickr___default.a(this.$el, this.hookedOptions);
-		this.$emit('FlatpickrRef', this.fp);
-	},
-	destroyed: function destroyed() {
-		this.fp.destroy();
-		this.fp = null;
-	},
-
-
-	methods: {
-		onInput: function onInput(e) {
-			typeof e === 'string' ? this.$emit('input', e) : this.$emit('input', e.target.value);
-		},
-		addHooks: function addHooks(options) {
-			var _this = this;
-
-			options = Object.assign({}, options);
-
-			if (!options.onChange) {
-				options.onChange = [];
-			} else if (!Array.isArray(options.onChange)) {
-				options.onChange = [options.onChange];
-			}
-
-			options.onChange.push(function (selectedDates, dateStr) {
-				_this.$emit('input', dateStr);
-			});
-
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				var _loop = function _loop() {
-					var hook = _step.value;
-
-					var firer = function firer(selectedDates, dateStr, instance) {
-						_this.$emit(stripOn(hook), [selectedDates, dateStr, instance]);
-					};
-
-					if (hook in options) {
-						if (!Array.isArray(options[hook])) options[hook] = [options[hook]];
-
-						options[hook].push(firer);
-					} else {
-						options[hook] = [firer];
-					}
-				};
-
-				for (var _iterator = hooks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					_loop();
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			return options;
-		}
-	}
-};
-
-function stripOn(hook) {
-	return hook.charAt(2).toLowerCase() + hook.substring(3);
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (VueFlatpickr$1);
-
 
 /***/ }),
 
