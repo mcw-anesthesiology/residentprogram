@@ -25553,7 +25553,7 @@ var render = function() {
                 },
                 on: {
                   input: function($event) {
-                    _vm.$emit("input", { agency: $event.target.value })
+                    _vm.$emit("input", { agency: arguments[0] })
                   }
                 }
               })
@@ -25587,7 +25587,7 @@ var render = function() {
                 },
                 on: {
                   input: function($event) {
-                    _vm.$emit("input", { project: $event.target.value })
+                    _vm.$emit("input", { project: arguments[0] })
                   }
                 }
               })
