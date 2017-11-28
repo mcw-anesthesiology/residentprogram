@@ -239,6 +239,18 @@ export function listQuestion(list: QuestionnaireListQuestion): Validation {
 		errors.set('items', 'Please enter a list item');
 	}
 
+	if (
+		list.fixedLength
+		&& (
+			!list.items
+			|| !Array.isArray(list.items)
+			|| list.items.length !== list.fixedLength
+		)
+	) {
+		valid = false;
+		errors.set('items', 'Number of items does not match specified size');
+	}
+
 	if (valid) {
 		for (let [index, item] of list.items.entries()) {
 			if ('itemProps' in list) {

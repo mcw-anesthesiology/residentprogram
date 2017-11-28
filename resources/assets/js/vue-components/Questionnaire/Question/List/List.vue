@@ -20,11 +20,13 @@
 				:items="items"
 				:suggestions="suggestions"
 				:readonly="readonly"
+				:props-readonly="propsReadonly"
 				:show-errors="showErrors"
 				:help-class="helpClass"
+				:items-removable="canEditItems"
 				@change="onChange" />
 
-			<button v-if="!readonly" type="button" class="btn btn-sm btn-info"
+			<button v-if="canEditItems" type="button" class="btn btn-sm btn-info"
 					@click="addItem">
 				<span class="glyphicon glyphicon-plus"></span>
 				Add item
@@ -110,6 +112,10 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		fixedLength: {
+			type: Number,
+			required: false
+		},
 		required: {
 			type: Boolean,
 			default: false
@@ -135,6 +141,10 @@ export default {
 		};
 	},
 
+	mounted() {
+		this.ensureFixedLength();
+	},
+
 	computed: {
 		itemCount() {
 			return this.items.length;
@@ -142,16 +152,58 @@ export default {
 		markedUpDescription() {
 			if (this.description)
 				return snarkdown(this.description);
+		},
+		propsReadonly() {
+			const propsReadonly = {};
+
+			if (this.itemProps) {
+				for (const prop of Object.keys(this.itemProps)) {
+					propsReadonly[prop] = true;
+				}
+			}
+
+			return propsReadonly;
+		},
+		canEditItems() {
+			return !this.readonly && this.fixedLength == null;
 		}
 	},
 
 	methods: {
+		ensureFixedLength() {
+			if (this.fixedLength == null)
+				return;
+
+			if (this.itemCount > this.fixedLength) {
+				let items = Array.slice(this.items);
+				while (this.itemCount > this.fixedLength) {
+					items.pop();
+				}
+				this.$emit('input', {items});
+			} else if (this.itemCount < this.fixedLength) {
+				let newItems = [];
+				for (let i = 0; i < (this.fixedLength - this.itemCount); i++) {
+					newItems.push(this.getNewItem());
+				}
+				this.addItems(newItems);
+			}
+		},
 		addItem() {
+			if (!this.canEditItems)
+				return;
+
+			this.addItems([this.getNewItem()]);
+		},
+		addItems(newItems) {
 			if (this.readonly)
 				return;
 
 			let items = Array.slice(this.items);
+			items.push(...newItems);
 
+			this.$emit('input', {items});
+		},
+		getNewItem() {
 			const newItem = {
 				type: this.listType
 			};
@@ -163,9 +215,7 @@ export default {
 			if (this.itemLabels)
 				newItem.labels = this.itemLabels;
 
-			items.push(newItem);
-
-			this.$emit('input', {items});
+			return newItem;
 		},
 		onChange(items) {
 			if (this.readonly)

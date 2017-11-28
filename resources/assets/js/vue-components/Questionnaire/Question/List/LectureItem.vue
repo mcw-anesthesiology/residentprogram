@@ -2,7 +2,8 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
+			:removable="removable"
+			@remove="removeItem">
 		<validated-form-group prop="title"
 				:errors="errors"
 				:show-errors="showErrors"
@@ -10,7 +11,8 @@
 			<label class="containing-label">
 				Lecture title
 				<textarea class="form-control"
-					:value="title" :readonly="readonly"
+					:value="title"
+					:readonly="isReadonly('title')"
 					@input="$emit('input', {title: $event.target.value})">
 				</textarea>
 			</label>
@@ -19,19 +21,22 @@
 				:errors="errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
-			<multiple-unknown-date-selector :value="date" :readonly="readonly"
+			<multiple-unknown-date-selector
+					:value="date"
+					:readonly="isReadonly('date')"
 					@input="$emit('input', {date: arguments[0]})">
 				Lecture date
 			</multiple-unknown-date-selector>
 		</validated-form-group>
-		<validated-form-group v-if="type !== 'audienceLecture'" prop="audience"
+		<validated-form-group prop="audience"
 				:errors="errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
 			<label class="containing-label">
 				Lecture audience (department, society, group, location, etc.)
 				<textarea class="form-control"
-					:value="audience" :readonly="readonly"
+					:value="audience"
+					:readonly="isReadonly('audience')"
 					@input="$emit('input', {audience: $event.target.value})">
 				</textarea>
 			</label>

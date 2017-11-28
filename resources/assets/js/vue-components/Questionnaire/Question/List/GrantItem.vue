@@ -2,8 +2,9 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
-		<validated-form-group v-if="type === 'grantOther'" prop="agency"
+			:removable="removable"
+			@remove="removeItem">
+		<validated-form-group prop="agency"
 				:errors="validation.errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
@@ -12,7 +13,7 @@
 				<suggestable-text-input
 					:value="agency"
 					:suggestions="suggestions.agency"
-					:readonly="readonly"
+					:readonly="isReadonly('agency')"
 					@input="$emit('input', {agency: $event.target.value})" />
 			</label>
 		</validated-form-group>
@@ -25,7 +26,7 @@
 				<suggestable-text-input
 					:value="project"
 					:suggestions="suggestions.project"
-					:readonly="readonly"
+					:readonly="isReadonly('project')"
 					@input="$emit('input', {project: $event.target.value})" />
 			</label>
 		</validated-form-group>
@@ -38,7 +39,8 @@
 				<div class="input-group">
 					<span class="input-group-addon">$</span>
 					<input type="number" class="form-control"
-						:value="amount" :readonly="readonly"
+						:value="amount"
+						:readonly="isReadonly('amount')"
 						@input="$emit('input', {amount: Number($event.target.value)})" />
 				</div>
 			</label>

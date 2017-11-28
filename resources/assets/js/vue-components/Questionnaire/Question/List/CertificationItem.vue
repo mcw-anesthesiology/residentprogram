@@ -2,7 +2,8 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
+			:removable="removable"
+			@remove="removeItem">
 		<validated-form-group prop="board"
 				:errors="validation.errors"
 				:show-errors="showErrors"
@@ -12,7 +13,7 @@
 				<suggestable-text-input
 					:value="board"
 					:suggestions="suggestions.board"
-					:readonly="readonly"
+					:readonly="isReadonly('board')"
 					@input="$emit('input', {board: arguments[0]})" />
 			</label>
 		</validated-form-group>
@@ -25,7 +26,7 @@
 				<suggestable-text-input
 					:value="specialty"
 					:suggestions="suggestions.specialty"
-					:readonly="readonly"
+					:readonly="isReadonly('specialty')"
 					@input="$emit('input', {specialty: arguments[0]})" />
 			</label>
 		</validated-form-group>
@@ -36,6 +37,7 @@
 			<label class="containing-label">
 				<input type="checkbox"
 					:checked="current"
+					:disabled="isReadonly('current')"
 					@change="$emit('input', {current: $event.target.checked})" />
 				Current
 			</label>
@@ -105,9 +107,10 @@ export default {
 			const { startDate, endDate } = isoDateStringObject(currentYear());
 			return {
 				altInput: true,
-				altInputClass: this.readonly
+				altInputClass: this.isReadonly('recertified')
 					? 'form-control'
 					: 'form-control appear-not-readonly',
+				clickOpens: !this.isReadonly('recertified'),
 				altFormat: 'M j, Y',
 				minDate: startDate,
 				maxDate: endDate

@@ -25,6 +25,16 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		propsReadonly: {
+			type: Object,
+			default() {
+				return {};
+			}
+		},
+		itemsRemovable: {
+			type: Boolean,
+			default: true
+		},
 		showErrors: {
 			type: Boolean,
 			default: false
@@ -48,9 +58,11 @@ export default {
 			return h(itemComponent, {
 				props: {
 					readonly: this.readonly,
+					propsReadonly: this.propsReadonly,
 					showErrors: this.showErrors,
 					helpClass: this.helpClass,
 					suggestions: this.suggestions,
+					removable: this.itemsRemovable,
 					...item
 				},
 				on: {

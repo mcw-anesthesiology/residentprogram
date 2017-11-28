@@ -240,6 +240,7 @@
 						"text": {"type": "string"},
 						"description": {"type": "string"},
 						"ordered": {"type": "boolean"},
+						"fixedLength": {"type": "number"},
 						"itemProps": {"type": "object"},
 						"itemLabels": {"type": "object"},
 						"suggestions": {"type": "object"},

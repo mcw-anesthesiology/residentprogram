@@ -2,7 +2,8 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
+			:removable="removable"
+			@remove="removeItem">
 		<validated-form-group prop="mentee"
 				:errors="validation.errors"
 				:show-errors="showErrors"
@@ -10,27 +11,23 @@
 			<label class="containing-label">
 				{{ menteeLabel }}
 				<input type="text" class="form-control"
-					:value="mentee" :readonly="readonly"
+					:value="mentee"
+					:readonly="isReadonly('mentee')"
 					@input="$emit('input', {mentee: $event.target.value})" />
 			</label>
-			<span v-if="!mentee" class="help-block">
-				Please enter the mentee / trainee name or remove this list item
-			</span>
 		</validated-form-group>
-		<validated-form-group v-if="type !== 'subjectMentorship'" prop="subject"
+		<validated-form-group prop="subject"
 				:errors="validation.errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
 			<label class="containing-label">
 				{{ subjectLabel }}
 				<textarea class="form-control"
-					:value="subject" :readonly="readonly"
+					:value="subject"
+					:readonly="isReadonly('subject')"
 					@input="$emit('input', {subject: $event.target.value})">
 				</textarea>
 			</label>
-			<span v-if="!subject" class="help-block">
-				Please enter the mentorship subject or remove this list item
-			</span>
 		</validated-form-group>
 	</list-item>
 </template>

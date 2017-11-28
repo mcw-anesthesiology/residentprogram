@@ -217,6 +217,16 @@ class QuestionnaireValidation {
 			return false;
 		}
 
+		if (
+			!empty($list['fixedLength'])
+			&& (
+				!key_exists('items', $list)
+				|| count($list['items']) !== $list['fixedLength']
+			)
+		) {
+			return false;
+		}
+
 		foreach ($list['items'] as $listItem) {
 			if (key_exists('itemProps', $list)) {
 				foreach ($list['itemProps'] as $key => $value) {

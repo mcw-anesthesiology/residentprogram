@@ -2,7 +2,8 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
+			:removable="removable"
+			@remove="removeItem">
 		<validated-form-group prop="description"
 				:errors="validation.errors"
 				:show-errors="showErrors"
@@ -10,7 +11,8 @@
 			<label class="containing-label">
 				{{ descriptionLabel }}
 				<textarea class="form-control"
-					:value="description" :readonly="readonly"
+					:value="description"
+					:readonly="isReadonly('description')"
 					@input="$emit('input', {description: $event.target.value})">
 				</textarea>
 			</label>
@@ -21,7 +23,7 @@
 				:invalid-class="helpClass">
 			<multiple-unknown-date-selector
 					:value="date"
-					:readonly="readonly"
+					:readonly="isReadonly('date')"
 					@input="$emit('input', {date: arguments[0]})">
 				{{ dateLabel }}
 			</multiple-unknown-date-selector>
