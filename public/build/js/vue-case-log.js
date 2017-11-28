@@ -18981,7 +18981,7 @@ var render = function() {
         "fieldset",
         { attrs: { title: _vm.description } },
         [
-          _vm.text || _vm.itemCount
+          _vm.text || (_vm.fixedLength == null && _vm.itemCount)
             ? _c("legend", [
                 _vm._v(
                   "\n\t\t\t" +
@@ -18990,15 +18990,17 @@ var render = function() {
                     _vm._s(_vm.text && _vm.itemCount != null ? "-" : "") +
                     "\n\t\t\t"
                 ),
-                _c("span", [
-                  _vm._v(
-                    "\n\t\t\t\t" +
-                      _vm._s(_vm.itemCount) +
-                      "\n\t\t\t\t" +
-                      _vm._s(_vm.itemCount === 1 ? "item" : "items") +
-                      "\n\t\t\t"
-                  )
-                ])
+                _vm.fixedLength == null
+                  ? _c("span", [
+                      _vm._v(
+                        "\n\t\t\t\t" +
+                          _vm._s(_vm.itemCount) +
+                          "\n\t\t\t\t" +
+                          _vm._s(_vm.itemCount === 1 ? "item" : "items") +
+                          "\n\t\t\t"
+                      )
+                    ])
+                  : _vm._e()
               ])
             : _vm._e(),
           _vm._v(" "),
