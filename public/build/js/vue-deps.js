@@ -10809,28 +10809,32 @@ exports.clearImmediate = clearImmediate;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(17);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rollbar__ = __webpack_require__(548);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rollbar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rollbar__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__ = __webpack_require__(45);
+/* global process */
 
 
 
 
 
-var rollbar = new __WEBPACK_IMPORTED_MODULE_1_rollbar___default.a({
-	accessToken: __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__["i" /* ROLLBAR_TOKEN */],
-	captureUncaught: true,
-	captureUnhandledRejections: false,
-	payload: {
-		environment: 'production'
-	}
-});
 
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.config.errorHandler = function (err, vm, info) {
-	rollbar.error('Error from Vue: ' + err + ', vm: ' + vm + ', info: ' + info);
-};
+if (process.env.NODE_ENV === 'production') {
+	var rollbar = new __WEBPACK_IMPORTED_MODULE_1_rollbar___default.a({
+		accessToken: __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__["i" /* ROLLBAR_TOKEN */],
+		captureUncaught: true,
+		captureUnhandledRejections: false,
+		payload: {
+			environment: 'production'
+		}
+	});
+
+	__WEBPACK_IMPORTED_MODULE_0_vue___default.a.config.errorHandler = function (err, vm, info) {
+		rollbar.error('Error from Vue: ' + err + ', info: ' + info + ', vm: ' + JSON.stringify(vm));
+	};
+}
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.directive('visible', function (el, _ref) {
 	var value = _ref.value,
@@ -10846,6 +10850,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.directive('visible', function (el, _
 		el.style.opacity = value ? 1 : 0;
 	}
 });
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(144)))
 
 /***/ }),
 

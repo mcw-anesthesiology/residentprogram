@@ -960,7 +960,8 @@ module.exports = {
 /* 24 */,
 /* 25 */,
 /* 26 */,
-/* 27 */
+/* 27 */,
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1178,7 +1179,6 @@ function getDataAttributes(thing) {
 }
 
 /***/ }),
-/* 28 */,
 /* 29 */,
 /* 30 */,
 /* 31 */,
@@ -5989,7 +5989,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "generateCaseLogDetailsReport", function() { return __WEBPACK_IMPORTED_MODULE_1__case_log_details_schema_js__["b"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "generateCaseLogDetailsReportCharts", function() { return __WEBPACK_IMPORTED_MODULE_1__case_log_details_schema_js__["c"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "generateCaseLogLocationReportTable", function() { return __WEBPACK_IMPORTED_MODULE_1__case_log_details_schema_js__["d"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datatable_utils_js__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datatable_utils_js__ = __webpack_require__(28);
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "unlimitTableEvals", function() { return __WEBPACK_IMPORTED_MODULE_2__datatable_utils_js__["u"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "unlimitRestTableEvals", function() { return __WEBPACK_IMPORTED_MODULE_2__datatable_utils_js__["t"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "createDateCell", function() { return __WEBPACK_IMPORTED_MODULE_2__datatable_utils_js__["a"]; });
