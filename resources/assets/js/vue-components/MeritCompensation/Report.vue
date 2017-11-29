@@ -30,8 +30,10 @@
 			</div>
 		</div>
 
-		<merit-compensation-checklist v-bind="checklist"
-			:title="title" :readonly="readonly"
+		<merit-compensation-checklist
+			v-bind="checklist"
+			:title="title"
+			:readonly="readonly"
 			:user="currentUser"
 			@input="handleChecklistInput"
 			@save="handleSave"
@@ -124,7 +126,7 @@ export default {
 		},
 		title: {
 			type: String,
-			required: true
+			required: false
 		},
 		user_id: {
 			type: [ String, Number ],
