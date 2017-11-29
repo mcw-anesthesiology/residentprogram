@@ -253,6 +253,16 @@ export function listQuestion(list: QuestionnaireListQuestion): Validation {
 
 	if (valid) {
 		for (let [index, item] of list.items.entries()) {
+			if ('itemRequired' in list) {
+				for (let [key, required] of Object.entries(list.itemRequired)) {
+					if (required && !item[key]) {
+						valid = false;
+						// This string interp thing kinda stinks
+						errors.set(`item[${index}][${key}]`, `Required item prop ${key} not present in list item`);
+					}
+				}
+			}
+
 			if ('itemProps' in list) {
 				for (let [key, value] of Object.entries(list.itemProps)) {
 					if (item[key] !== value) {
@@ -264,7 +274,7 @@ export function listQuestion(list: QuestionnaireListQuestion): Validation {
 			}
 
 			if (!errors.has(`item[${index}]`)) {
-				const listItemValidation = listItem(item);
+				const listItemValidation = listItem(item, list.itemRequired);
 				if (!listItemValidation.valid) {
 					valid = false;
 					for (let [itemKey, itemVal] of listItemValidation.errors.entries()) {
@@ -282,33 +292,36 @@ export function listQuestion(list: QuestionnaireListQuestion): Validation {
 	};
 }
 
-export function listItem(item: QuestionnaireListItem): Validation {
+export function listItem(
+	item: QuestionnaireListItem,
+	propsRequired?: {[string]: string}
+): Validation {
 	switch (item.type) {
 		case 'text':
-			return textListItem(item);
+			return textListItem(item, propsRequired);
 		case 'publication':
-			return publicationListItem(item);
+			return publicationListItem(item, propsRequired);
 		case 'committee':
-			return committeeListItem(item);
+			return committeeListItem(item, propsRequired);
 		case 'study':
-			return studyListItem(item);
+			return studyListItem(item, propsRequired);
 		case 'grant':
 		case 'grantOther':
-			return grantListItem(item);
+			return grantListItem(item, propsRequired);
 		case 'certification':
-			return certificationListItem(item);
+			return certificationListItem(item, propsRequired);
 		case 'editorialBoard':
-			return editorialBoardListItem(item);
+			return editorialBoardListItem(item, propsRequired);
 		case 'review':
-			return reviewListItem(item);
+			return reviewListItem(item, propsRequired);
 		case 'lecture':
 		case 'audienceLecture':
-			return lectureListItem(item);
+			return lectureListItem(item, propsRequired);
 		case 'mentorship':
 		case 'subjectMentorship':
-			return mentorshipListItem(item);
+			return mentorshipListItem(item, propsRequired);
 		case 'datedEvent':
-			return datedEventListItem(item);
+			return datedEventListItem(item, propsRequired);
 	}
 
 	// Unrecognized list type
@@ -332,92 +345,156 @@ function requiredListItem(item: QuestionnaireListItem, requiredMap: Map<string, 
 	};
 }
 
-export function textListItem(item: QuestionnaireTextListItem): Validation {
-	let valid = true;
-	const errors: ValidationErrors = new Map();
-
-	if (!item.text) {
-		valid = false;
-		errors.set('text', 'Please complete or remove this list item');
+function addPropsRequired(
+	map: Map<string, string>,
+	propsRequired?: {[string]: string}
+): Map<string, string> {
+	if (propsRequired) {
+		for (let [key, val] of Object.entries(propsRequired)) {
+			if (val) {
+				if (typeof val === 'string')
+					map.set(key, val);
+				else
+					map.set(key, 'complete');
+			}
+		}
 	}
 
-	return {
-		valid,
-		errors
-	};
+	return map;
 }
 
-export function publicationListItem(item: QuestionnairePublicationListItem): Validation {
-	return requiredListItem(item, new Map([
+export function textListItem(
+	item: QuestionnaireTextListItem,
+	propsRequired?: {[string]: string}
+): Validation {
+	const map = new Map([
+		['text', 'complete']
+	]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
+}
+
+export function publicationListItem(
+	item: QuestionnairePublicationListItem,
+	propsRequired?: {[string]: string}
+): Validation {
+	const map = new Map([
 		['title', 'enter the publication title'],
 		['role', 'describe your role']
-	]));
+	]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-export function certificationListItem(item: QuestionnaireCertificationListItem): Validation {
-	return requiredListItem(item, new Map([
+export function certificationListItem(
+	item: QuestionnaireCertificationListItem,
+	propsRequired?: {[string]: string}
+): Validation {
+	const map = new Map([
 		['board', 'enter the certification board'],
 		['specialty', 'enter the certification specialty']
-	]));
+	]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-export function committeeListItem(item: QuestionnaireCommitteeListItem): Validation {
-	return requiredListItem(item, new Map([
+export function committeeListItem(
+	item: QuestionnaireCommitteeListItem,
+	propsRequired?: {[string]: string}
+): Validation {
+	const map = new Map([
 		['name', 'enter the committee name'],
 		['role', 'select your role in the committee'],
 		['meetingsPerYear', 'estimate the number of meetings the committee holds per year']
-	]));
+	]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-export function editorialBoardListItem(item: QuestionnaireEditorialBoardListItem): Validation {
-	return requiredListItem(item, new Map([
+export function editorialBoardListItem(
+	item: QuestionnaireEditorialBoardListItem,
+	propsRequired?: {[string]: string}
+): Validation {
+	const map = new Map([
 		['journal', 'enter the journal'],
 		['role', 'describe your role']
-	]));
+	]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-export function grantListItem(item: QuestionnaireGrantListItem): Validation {
-	return requiredListItem(item, new Map([
+export function grantListItem(
+	item: QuestionnaireGrantListItem,
+	propsRequired?: {[string]: string}
+): Validation {
+	const map = new Map([
 		['agency', 'enter the funding agency'],
 		['project', 'enter the name of the project'],
 		['amount', 'enter the funding amount']
-	]));
+	]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-export function lectureListItem(item: QuestionnaireLectureListItem): Validation {
-	return requiredListItem(item, new Map([
+export function lectureListItem(
+	item: QuestionnaireLectureListItem,
+	propsRequired?: {[string]: string}
+): Validation {
+	const map = new Map([
 		['title', 'enter the lecture title'],
 		['date', 'enter the lecture date(s)'],
 		['audience', 'enter the lecture audience']
-	]));
+	]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-export function mentorshipListItem(item: QuestionnaireMentorshipListItem): Validation {
-	return requiredListItem(item, new Map([
+export function mentorshipListItem(
+	item: QuestionnaireMentorshipListItem,
+	propsRequired?: {[string]: string}
+): Validation {
+	const map = new Map([
 		['mentee', 'enter the mentee / trainee name'],
 		['subject', 'enter the mentorship subject']
-	]));
+	]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-export function reviewListItem(item: QuestionnaireReviewListItem): Validation {
-	return requiredListItem(item, new Map([
+export function reviewListItem(
+	item: QuestionnaireReviewListItem,
+	propsRequired?: {[string]: string}
+): Validation {
+	const map = new Map([
 		['work', "enter the name of what's being reviewed"]
-	]));
+	]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-export function studyListItem(item: QuestionnaireStudyListItem): Validation {
-	return requiredListItem(item, new Map([
+export function studyListItem(
+	item: QuestionnaireStudyListItem,
+	propsRequired?: {[string]: string}
+): Validation {
+	const map = new Map([
 		['title', 'the study title'],
 		['role', 'describe your role'],
 		['yearInitiated', 'enter the year the study was initiated'],
 		['approvalNumber', 'enter the study approval number'],
 		['progress', "describe the study's progress"]
-	]));
+	]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-export function datedEventListItem(item: QuestionnaireDatedEventListItem): Validation {
-	return requiredListItem(item, new Map([
+export function datedEventListItem(
+	item: QuestionnaireDatedEventListItem,
+	propsRequired?: {[string]: string}
+): Validation {
+	const map = new Map([
 		['description', 'describe the event and your involvement'],
 		['date', 'list the date(s) it took place']
-	]));
+	]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }

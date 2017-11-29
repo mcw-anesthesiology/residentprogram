@@ -34,6 +34,10 @@ export default {
 				return {};
 			}
 		},
+		propsRequired: {
+			type: Object,
+			required: false
+		},
 		invalid: {
 			type: Boolean,
 			default: false

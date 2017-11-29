@@ -25,6 +25,14 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		propLabels: {
+			type: Object,
+			required: false
+		},
+		propsRequired: {
+			type: Object,
+			required: false
+		},
 		propsReadonly: {
 			type: Object,
 			default() {
@@ -63,6 +71,8 @@ export default {
 					helpClass: this.helpClass,
 					suggestions: this.suggestions,
 					removable: this.itemsRemovable,
+					labels: this.propLabels,
+					propsRequired: this.propsRequired,
 					...item
 				},
 				on: {

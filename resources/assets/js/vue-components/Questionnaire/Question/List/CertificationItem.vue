@@ -101,7 +101,7 @@ export default {
 
 	computed: {
 		validation() {
-			return validate(this);
+			return validate(this, this.propsRequired);
 		},
 		flatpickrOptions() {
 			const { startDate, endDate } = isoDateStringObject(currentYear());

@@ -243,6 +243,7 @@
 						"fixedLength": {"type": "number"},
 						"itemProps": {"type": "object"},
 						"itemLabels": {"type": "object"},
+						"itemRequired": {"type": "object"},
 						"suggestions": {"type": "object"},
 						"items": {
 							"type": "array",

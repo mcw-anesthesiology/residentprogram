@@ -228,6 +228,14 @@ class QuestionnaireValidation {
 		}
 
 		foreach ($list['items'] as $listItem) {
+			if (key_exists('itemRequired', $list)) {
+				foreach ($list['itemRequired'] as $key => $required) {
+					if ($required && empty($listItem[$key])) {
+						return false;
+					}
+				}
+			}
+
 			if (key_exists('itemProps', $list)) {
 				foreach ($list['itemProps'] as $key => $value) {
 					if ($listItem[$key] != $value) {

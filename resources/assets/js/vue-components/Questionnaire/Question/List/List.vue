@@ -20,6 +20,8 @@
 				:items="items"
 				:suggestions="suggestions"
 				:readonly="readonly"
+				:prop-labels="itemLabels"
+				:props-required="itemRequired"
 				:props-readonly="propsReadonly"
 				:show-errors="showErrors"
 				:help-class="helpClass"
@@ -95,6 +97,10 @@ export default {
 			required: false
 		},
 		itemLabels: {
+			type: Object,
+			required: false
+		},
+		itemRequired: {
 			type: Object,
 			required: false
 		},
@@ -211,9 +217,6 @@ export default {
 			if (this.itemProps) {
 				Object.assign(newItem, this.itemProps);
 			}
-
-			if (this.itemLabels)
-				newItem.labels = this.itemLabels;
 
 			return newItem;
 		},

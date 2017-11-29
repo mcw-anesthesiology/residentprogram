@@ -100,7 +100,7 @@ export default {
 
 	computed: {
 		validation() {
-			return validate(this);
+			return validate(this, this.propsRequired);
 		}
 	},
 
