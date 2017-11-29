@@ -113,8 +113,9 @@ export type QuestionnaireListQuestion = QuestionnaireQuestionBase & {
 	description?: string,
 	ordered?: boolean,
 	fixedLength?: number,
-	itemProps?: Object, // FIXME
-	itemLabels?: Object, // FIXME
+	itemProps?: {[string]: any}, // FIXME
+	itemLabels?: {[string]: string}, // FIXME
+	itemRequired?: {[string]: string}, // FIXME
 	suggestions?: Object, // FIXME
 	items: Array<QuestionnaireListItem>,
 	scoring?: ValueScoringDefinition

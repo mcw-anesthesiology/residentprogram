@@ -408,24 +408,24 @@ function listQuestion(list) {
 				var index = _ref6[0];
 				var item = _ref6[1];
 
-				if ('itemProps' in list) {
+				if ('itemRequired' in list) {
 					var _iteratorNormalCompletion5 = true;
 					var _didIteratorError5 = false;
 					var _iteratorError5 = undefined;
 
 					try {
-						for (var _iterator5 = Object.entries(list.itemProps)[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+						for (var _iterator5 = Object.entries(list.itemRequired)[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
 							var _ref7 = _step5.value;
 
 							var _ref8 = _slicedToArray(_ref7, 2);
 
 							var key = _ref8[0];
-							var value = _ref8[1];
+							var required = _ref8[1];
 
-							if (item[key] !== value) {
+							if (required && !item[key]) {
 								valid = false;
 								// This string interp thing kinda stinks
-								errors.set('item[' + index + '][' + key + ']', 'Predefined itemProp ' + key + ' not present in list item');
+								errors.set('item[' + index + '][' + key + ']', 'Required item prop ' + key + ' not present in list item');
 							}
 						}
 					} catch (err) {
@@ -444,37 +444,73 @@ function listQuestion(list) {
 					}
 				}
 
+				if ('itemProps' in list) {
+					var _iteratorNormalCompletion6 = true;
+					var _didIteratorError6 = false;
+					var _iteratorError6 = undefined;
+
+					try {
+						for (var _iterator6 = Object.entries(list.itemProps)[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+							var _ref9 = _step6.value;
+
+							var _ref10 = _slicedToArray(_ref9, 2);
+
+							var _key = _ref10[0];
+							var value = _ref10[1];
+
+							if (item[_key] !== value) {
+								valid = false;
+								// This string interp thing kinda stinks
+								errors.set('item[' + index + '][' + _key + ']', 'Predefined itemProp ' + _key + ' not present in list item');
+							}
+						}
+					} catch (err) {
+						_didIteratorError6 = true;
+						_iteratorError6 = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion6 && _iterator6.return) {
+								_iterator6.return();
+							}
+						} finally {
+							if (_didIteratorError6) {
+								throw _iteratorError6;
+							}
+						}
+					}
+				}
+
 				if (!errors.has('item[' + index + ']')) {
-					var listItemValidation = listItem(item);
+					var listItemValidation = listItem(item, list.itemRequired);
 					if (!listItemValidation.valid) {
 						valid = false;
-						var _iteratorNormalCompletion6 = true;
-						var _didIteratorError6 = false;
-						var _iteratorError6 = undefined;
+						var _iteratorNormalCompletion7 = true;
+						var _didIteratorError7 = false;
+						var _iteratorError7 = undefined;
 
 						try {
-							for (var _iterator6 = listItemValidation.errors.entries()[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-								var _ref9 = _step6.value;
+							for (var _iterator7 = listItemValidation.errors.entries()[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+								var _ref11 = _step7.value;
 
-								var _ref10 = _slicedToArray(_ref9, 2);
+								var _ref12 = _slicedToArray(_ref11, 2);
 
-								var itemKey = _ref10[0];
-								var itemVal = _ref10[1];
+								var itemKey = _ref12[0];
+								var itemVal = _ref12[1];
 
 								// This string interp thing kinda stinks
 								errors.set('item[' + index + '][' + itemKey + ']', itemVal);
 							}
 						} catch (err) {
-							_didIteratorError6 = true;
-							_iteratorError6 = err;
+							_didIteratorError7 = true;
+							_iteratorError7 = err;
 						} finally {
 							try {
-								if (!_iteratorNormalCompletion6 && _iterator6.return) {
-									_iterator6.return();
+								if (!_iteratorNormalCompletion7 && _iterator7.return) {
+									_iterator7.return();
 								}
 							} finally {
-								if (_didIteratorError6) {
-									throw _iteratorError6;
+								if (_didIteratorError7) {
+									throw _iteratorError7;
 								}
 							}
 						}
@@ -503,33 +539,33 @@ function listQuestion(list) {
 	};
 }
 
-function listItem(item) {
+function listItem(item, propsRequired) {
 	switch (item.type) {
 		case 'text':
-			return textListItem(item);
+			return textListItem(item, propsRequired);
 		case 'publication':
-			return publicationListItem(item);
+			return publicationListItem(item, propsRequired);
 		case 'committee':
-			return committeeListItem(item);
+			return committeeListItem(item, propsRequired);
 		case 'study':
-			return studyListItem(item);
+			return studyListItem(item, propsRequired);
 		case 'grant':
 		case 'grantOther':
-			return grantListItem(item);
+			return grantListItem(item, propsRequired);
 		case 'certification':
-			return certificationListItem(item);
+			return certificationListItem(item, propsRequired);
 		case 'editorialBoard':
-			return editorialBoardListItem(item);
+			return editorialBoardListItem(item, propsRequired);
 		case 'review':
-			return reviewListItem(item);
+			return reviewListItem(item, propsRequired);
 		case 'lecture':
 		case 'audienceLecture':
-			return lectureListItem(item);
+			return lectureListItem(item, propsRequired);
 		case 'mentorship':
 		case 'subjectMentorship':
-			return mentorshipListItem(item);
+			return mentorshipListItem(item, propsRequired);
 		case 'datedEvent':
-			return datedEventListItem(item);
+			return datedEventListItem(item, propsRequired);
 	}
 
 	// Unrecognized list type
@@ -540,18 +576,18 @@ function requiredListItem(item, requiredMap) {
 	var valid = true;
 	var errors = new Map();
 
-	var _iteratorNormalCompletion7 = true;
-	var _didIteratorError7 = false;
-	var _iteratorError7 = undefined;
+	var _iteratorNormalCompletion8 = true;
+	var _didIteratorError8 = false;
+	var _iteratorError8 = undefined;
 
 	try {
-		for (var _iterator7 = requiredMap.entries()[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-			var _ref11 = _step7.value;
+		for (var _iterator8 = requiredMap.entries()[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+			var _ref13 = _step8.value;
 
-			var _ref12 = _slicedToArray(_ref11, 2);
+			var _ref14 = _slicedToArray(_ref13, 2);
 
-			var prop = _ref12[0];
-			var str = _ref12[1];
+			var prop = _ref14[0];
+			var str = _ref14[1];
 
 			if (!item[prop]) {
 				valid = false;
@@ -559,16 +595,16 @@ function requiredListItem(item, requiredMap) {
 			}
 		}
 	} catch (err) {
-		_didIteratorError7 = true;
-		_iteratorError7 = err;
+		_didIteratorError8 = true;
+		_iteratorError8 = err;
 	} finally {
 		try {
-			if (!_iteratorNormalCompletion7 && _iterator7.return) {
-				_iterator7.return();
+			if (!_iteratorNormalCompletion8 && _iterator8.return) {
+				_iterator8.return();
 			}
 		} finally {
-			if (_didIteratorError7) {
-				throw _iteratorError7;
+			if (_didIteratorError8) {
+				throw _iteratorError8;
 			}
 		}
 	}
@@ -579,59 +615,108 @@ function requiredListItem(item, requiredMap) {
 	};
 }
 
-function textListItem(item) {
-	var valid = true;
-	var errors = new Map();
+function addPropsRequired(map, propsRequired) {
+	if (propsRequired) {
+		var _iteratorNormalCompletion9 = true;
+		var _didIteratorError9 = false;
+		var _iteratorError9 = undefined;
 
-	if (!item.text) {
-		valid = false;
-		errors.set('text', 'Please complete or remove this list item');
+		try {
+			for (var _iterator9 = Object.entries(propsRequired)[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+				var _ref15 = _step9.value;
+
+				var _ref16 = _slicedToArray(_ref15, 2);
+
+				var key = _ref16[0];
+				var val = _ref16[1];
+
+				if (val) {
+					if (typeof val === 'string') map.set(key, val);else map.set(key, 'complete');
+				}
+			}
+		} catch (err) {
+			_didIteratorError9 = true;
+			_iteratorError9 = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion9 && _iterator9.return) {
+					_iterator9.return();
+				}
+			} finally {
+				if (_didIteratorError9) {
+					throw _iteratorError9;
+				}
+			}
+		}
 	}
 
-	return {
-		valid: valid,
-		errors: errors
-	};
+	return map;
 }
 
-function publicationListItem(item) {
-	return requiredListItem(item, new Map([['title', 'enter the publication title'], ['role', 'describe your role']]));
+function textListItem(item, propsRequired) {
+	var map = new Map([['text', 'complete']]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-function certificationListItem(item) {
-	return requiredListItem(item, new Map([['board', 'enter the certification board'], ['specialty', 'enter the certification specialty']]));
+function publicationListItem(item, propsRequired) {
+	var map = new Map([['title', 'enter the publication title'], ['role', 'describe your role']]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-function committeeListItem(item) {
-	return requiredListItem(item, new Map([['name', 'enter the committee name'], ['role', 'select your role in the committee'], ['meetingsPerYear', 'estimate the number of meetings the committee holds per year']]));
+function certificationListItem(item, propsRequired) {
+	var map = new Map([['board', 'enter the certification board'], ['specialty', 'enter the certification specialty']]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-function editorialBoardListItem(item) {
-	return requiredListItem(item, new Map([['journal', 'enter the journal'], ['role', 'describe your role']]));
+function committeeListItem(item, propsRequired) {
+	var map = new Map([['name', 'enter the committee name'], ['role', 'select your role in the committee'], ['meetingsPerYear', 'estimate the number of meetings the committee holds per year']]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-function grantListItem(item) {
-	return requiredListItem(item, new Map([['agency', 'enter the funding agency'], ['project', 'enter the name of the project'], ['amount', 'enter the funding amount']]));
+function editorialBoardListItem(item, propsRequired) {
+	var map = new Map([['journal', 'enter the journal'], ['role', 'describe your role']]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-function lectureListItem(item) {
-	return requiredListItem(item, new Map([['title', 'enter the lecture title'], ['date', 'enter the lecture date(s)'], ['audience', 'enter the lecture audience']]));
+function grantListItem(item, propsRequired) {
+	var map = new Map([['agency', 'enter the funding agency'], ['project', 'enter the name of the project'], ['amount', 'enter the funding amount']]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-function mentorshipListItem(item) {
-	return requiredListItem(item, new Map([['mentee', 'enter the mentee / trainee name'], ['subject', 'enter the mentorship subject']]));
+function lectureListItem(item, propsRequired) {
+	var map = new Map([['title', 'enter the lecture title'], ['date', 'enter the lecture date(s)'], ['audience', 'enter the lecture audience']]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-function reviewListItem(item) {
-	return requiredListItem(item, new Map([['work', "enter the name of what's being reviewed"]]));
+function mentorshipListItem(item, propsRequired) {
+	var map = new Map([['mentee', 'enter the mentee / trainee name'], ['subject', 'enter the mentorship subject']]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-function studyListItem(item) {
-	return requiredListItem(item, new Map([['title', 'the study title'], ['role', 'describe your role'], ['yearInitiated', 'enter the year the study was initiated'], ['approvalNumber', 'enter the study approval number'], ['progress', "describe the study's progress"]]));
+function reviewListItem(item, propsRequired) {
+	var map = new Map([['work', "enter the name of what's being reviewed"]]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
-function datedEventListItem(item) {
-	return requiredListItem(item, new Map([['description', 'describe the event and your involvement'], ['date', 'list the date(s) it took place']]));
+function studyListItem(item, propsRequired) {
+	var map = new Map([['title', 'the study title'], ['role', 'describe your role'], ['yearInitiated', 'enter the year the study was initiated'], ['approvalNumber', 'enter the study approval number'], ['progress', "describe the study's progress"]]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
+}
+
+function datedEventListItem(item, propsRequired) {
+	var map = new Map([['description', 'describe the event and your involvement'], ['date', 'list the date(s) it took place']]);
+
+	return requiredListItem(item, addPropsRequired(map, propsRequired));
 }
 
 /***/ }),
@@ -23473,6 +23558,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
 
 
 
@@ -23512,6 +23599,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			required: false
 		},
 		itemLabels: {
+			type: Object,
+			required: false
+		},
+		itemRequired: {
 			type: Object,
 			required: false
 		},
@@ -23646,8 +23737,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				Object.assign(newItem, this.itemProps);
 			}
 
-			if (this.itemLabels) newItem.labels = this.itemLabels;
-
 			return newItem;
 		},
 		onChange: function onChange(items) {
@@ -23769,6 +23858,14 @@ if (false) {(function () {
 			type: Boolean,
 			default: false
 		},
+		propLabels: {
+			type: Object,
+			required: false
+		},
+		propsRequired: {
+			type: Object,
+			required: false
+		},
 		propsReadonly: {
 			type: Object,
 			default: function _default() {
@@ -23807,7 +23904,9 @@ if (false) {(function () {
 					showErrors: _this.showErrors,
 					helpClass: _this.helpClass,
 					suggestions: _this.suggestions,
-					removable: _this.itemsRemovable
+					removable: _this.itemsRemovable,
+					labels: _this.propLabels,
+					propsRequired: _this.propsRequired
 				}, item),
 				on: {
 					input: function input(item) {
@@ -24063,6 +24162,10 @@ if (false) {(function () {
 			default: function _default() {
 				return {};
 			}
+		},
+		propsRequired: {
+			type: Object,
+			required: false
 		},
 		invalid: {
 			type: Boolean,
@@ -24389,7 +24492,7 @@ if (false) {(function () {
 
 	computed: {
 		validation: function validation() {
-			return Object(__WEBPACK_IMPORTED_MODULE_1__modules_questionnaire_validate_js__["j" /* publicationListItem */])(this);
+			return Object(__WEBPACK_IMPORTED_MODULE_1__modules_questionnaire_validate_js__["j" /* publicationListItem */])(this, this.propsRequired);
 		}
 	},
 
@@ -25835,7 +25938,7 @@ if (false) {(function () {
 
 	computed: {
 		validation: function validation() {
-			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_questionnaire_validate_js__["a" /* certificationListItem */])(this);
+			return Object(__WEBPACK_IMPORTED_MODULE_3__modules_questionnaire_validate_js__["a" /* certificationListItem */])(this, this.propsRequired);
 		},
 		flatpickrOptions: function flatpickrOptions() {
 			var _isoDateStringObject = Object(__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateStringObject"])(Object(__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["currentYear"])()),
@@ -27746,6 +27849,8 @@ var render = function() {
               items: _vm.items,
               suggestions: _vm.suggestions,
               readonly: _vm.readonly,
+              "prop-labels": _vm.itemLabels,
+              "props-required": _vm.itemRequired,
               "props-readonly": _vm.propsReadonly,
               "show-errors": _vm.showErrors,
               "help-class": _vm.helpClass,
