@@ -18,7 +18,7 @@ export default {
 	props: {
 		title: {
 			type: String,
-			required: true
+			required: false
 		},
 		pages: {
 			type: Array,

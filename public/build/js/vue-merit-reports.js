@@ -31557,7 +31557,7 @@ if (false) {(function () {
 		},
 		title: {
 			type: String,
-			required: true
+			required: false
 		},
 		currentUser: {
 			type: Object,
@@ -31719,6 +31719,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -31760,7 +31762,7 @@ if (false) {(function () {
 		},
 		title: {
 			type: String,
-			required: true
+			required: false
 		},
 		user_id: {
 			type: [String, Number],
@@ -32108,7 +32110,7 @@ if (false) {(function () {
 	props: {
 		title: {
 			type: String,
-			required: true
+			required: false
 		},
 		pages: {
 			type: Array,
@@ -34465,7 +34467,7 @@ if (false) {(function () {
 		},
 		title: {
 			type: String,
-			required: true
+			required: false
 		},
 		currentUser: {
 			type: Object,
@@ -34685,7 +34687,7 @@ if (false) {(function () {
 		},
 		title: {
 			type: String,
-			required: true
+			required: false
 		},
 		subjectName: {
 			type: String,
@@ -34825,7 +34827,7 @@ if (false) {(function () {
 	props: {
 		title: {
 			type: String,
-			required: true
+			required: false
 		},
 		pages: {
 			type: Array,
