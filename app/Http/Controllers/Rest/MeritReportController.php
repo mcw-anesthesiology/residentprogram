@@ -142,12 +142,8 @@ class MeritReportController extends RestController {
     public function update(Request $request, $id) {
         $report = MeritReport::findOrFail($id);
 
-        $revision = [
-            'merit_report_id' => $id,
-            'changed_by' => Auth::id(),
-            'old_status' => $report->status,
-            'old_report' => $report->report,
-        ];
+        $oldStatus = $report->status;
+		$oldReport = $report->report;
 
         $user = Auth::user();
         if ($user->isType('admin')) {
@@ -158,10 +154,16 @@ class MeritReportController extends RestController {
         $report->update($request->all());
         $report->fresh();
 
-        $revision['new_status'] = $report->status;
-        $revision['new_report'] = $report->report;
-
-        $report->revisions()->create($revision);
+		if ($report->status != $oldStatus) {
+			$report->revisions()->create([
+	            'merit_report_id' => $id,
+	            'changed_by' => Auth::id(),
+	            'old_status' => $oldStatus,
+	            'old_report' => $oldReport,
+				'new_status' => $report->status,
+				'new_report' => $report->report
+	        ]);
+		}
 
         return $request->ajax()
             ? 'success'
