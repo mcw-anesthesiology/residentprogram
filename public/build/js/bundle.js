@@ -401,34 +401,30 @@ function fetchFormGroups() {
 function groupForms(forms) {
 	var groups = {};
 
-	forms.map(function (form) {
-		if (form.type) {
-			if (!groups[form.type]) {
-				groups[form.type] = {
-					text: ucfirst(form.type),
-					children: []
-				};
-			}
-
-			groups[form.type].children.push({
-				id: form.id,
-				text: form.title
-			});
-		}
-	});
-
-	// $FlowFixMe
-	var groupedForms = Object.values(groups);
 	var _iteratorNormalCompletion4 = true;
 	var _didIteratorError4 = false;
 	var _iteratorError4 = undefined;
 
 	try {
-		for (var _iterator4 = groupedForms[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-			var group = _step4.value;
+		for (var _iterator4 = forms[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+			var _form = _step4.value;
 
-			group.children.sort(sortSelect2Objects);
+			if (_form.type) {
+				if (!groups[_form.type]) {
+					groups[_form.type] = {
+						text: ucfirst(_form.type),
+						children: []
+					};
+				}
+
+				groups[_form.type].children.push({
+					id: _form.id,
+					text: _form.title
+				});
+			}
 		}
+
+		// $FlowFixMe
 	} catch (err) {
 		_didIteratorError4 = true;
 		_iteratorError4 = err;
@@ -440,6 +436,32 @@ function groupForms(forms) {
 		} finally {
 			if (_didIteratorError4) {
 				throw _iteratorError4;
+			}
+		}
+	}
+
+	var groupedForms = Object.values(groups);
+	var _iteratorNormalCompletion5 = true;
+	var _didIteratorError5 = false;
+	var _iteratorError5 = undefined;
+
+	try {
+		for (var _iterator5 = groupedForms[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+			var group = _step5.value;
+
+			group.children.sort(sortSelect2Objects);
+		}
+	} catch (err) {
+		_didIteratorError5 = true;
+		_iteratorError5 = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion5 && _iterator5.return) {
+				_iterator5.return();
+			}
+		} finally {
+			if (_didIteratorError5) {
+				throw _iteratorError5;
 			}
 		}
 	}
@@ -546,27 +568,27 @@ function isAdmin(user) {
 
 function usesFeature(user, feature) {
 	if ('user_features' in user && Array.isArray(user.user_features)) {
-		var _iteratorNormalCompletion5 = true;
-		var _didIteratorError5 = false;
-		var _iteratorError5 = undefined;
+		var _iteratorNormalCompletion6 = true;
+		var _didIteratorError6 = false;
+		var _iteratorError6 = undefined;
 
 		try {
-			for (var _iterator5 = user.user_features[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-				var userFeature = _step5.value;
+			for (var _iterator6 = user.user_features[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+				var userFeature = _step6.value;
 
 				if (userFeature.feature === feature) return true;
 			}
 		} catch (err) {
-			_didIteratorError5 = true;
-			_iteratorError5 = err;
+			_didIteratorError6 = true;
+			_iteratorError6 = err;
 		} finally {
 			try {
-				if (!_iteratorNormalCompletion5 && _iterator5.return) {
-					_iterator5.return();
+				if (!_iteratorNormalCompletion6 && _iterator6.return) {
+					_iterator6.return();
 				}
 			} finally {
-				if (_didIteratorError5) {
-					throw _iteratorError5;
+				if (_didIteratorError6) {
+					throw _iteratorError6;
 				}
 			}
 		}
@@ -576,27 +598,27 @@ function usesFeature(user, feature) {
 }
 
 function arraysIntersect(arr1, arr2) {
-	var _iteratorNormalCompletion6 = true;
-	var _didIteratorError6 = false;
-	var _iteratorError6 = undefined;
+	var _iteratorNormalCompletion7 = true;
+	var _didIteratorError7 = false;
+	var _iteratorError7 = undefined;
 
 	try {
-		for (var _iterator6 = arr1[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-			var item = _step6.value;
+		for (var _iterator7 = arr1[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+			var item = _step7.value;
 
 			if (arr2.includes(item)) return true;
 		}
 	} catch (err) {
-		_didIteratorError6 = true;
-		_iteratorError6 = err;
+		_didIteratorError7 = true;
+		_iteratorError7 = err;
 	} finally {
 		try {
-			if (!_iteratorNormalCompletion6 && _iterator6.return) {
-				_iterator6.return();
+			if (!_iteratorNormalCompletion7 && _iterator7.return) {
+				_iterator7.return();
 			}
 		} finally {
-			if (_didIteratorError6) {
-				throw _iteratorError6;
+			if (_didIteratorError7) {
+				throw _iteratorError7;
 			}
 		}
 	}
@@ -1706,7 +1728,8 @@ process.umask = function() { return 0; };
 /* 142 */,
 /* 143 */,
 /* 144 */,
-/* 145 */
+/* 145 */,
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1720,7 +1743,6 @@ module.exports.Rectangle = __webpack_require__(505);
 
 
 /***/ }),
-/* 146 */,
 /* 147 */,
 /* 148 */,
 /* 149 */,
@@ -3352,7 +3374,7 @@ __webpack_require__(498)(Chart);
 
 Chart.defaults = __webpack_require__(22);
 Chart.Element = __webpack_require__(132);
-Chart.elements = __webpack_require__(145);
+Chart.elements = __webpack_require__(146);
 Chart.Interaction = __webpack_require__(444);
 Chart.platform = __webpack_require__(445);
 
@@ -16781,7 +16803,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(22);
-var elements = __webpack_require__(145);
+var elements = __webpack_require__(146);
 var helpers = __webpack_require__(15);
 
 defaults._set('bar', {
@@ -17209,7 +17231,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(22);
-var elements = __webpack_require__(145);
+var elements = __webpack_require__(146);
 var helpers = __webpack_require__(15);
 
 defaults._set('bubble', {
@@ -17396,7 +17418,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(22);
-var elements = __webpack_require__(145);
+var elements = __webpack_require__(146);
 var helpers = __webpack_require__(15);
 
 defaults._set('doughnut', {
@@ -17702,7 +17724,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(22);
-var elements = __webpack_require__(145);
+var elements = __webpack_require__(146);
 var helpers = __webpack_require__(15);
 
 defaults._set('line', {
@@ -18042,7 +18064,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(22);
-var elements = __webpack_require__(145);
+var elements = __webpack_require__(146);
 var helpers = __webpack_require__(15);
 
 defaults._set('polarArea', {
@@ -18271,7 +18293,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(22);
-var elements = __webpack_require__(145);
+var elements = __webpack_require__(146);
 var helpers = __webpack_require__(15);
 
 defaults._set('radar', {
@@ -18623,7 +18645,7 @@ module.exports = function(Chart) {
 
 
 var defaults = __webpack_require__(22);
-var elements = __webpack_require__(145);
+var elements = __webpack_require__(146);
 var helpers = __webpack_require__(15);
 
 defaults._set('global', {

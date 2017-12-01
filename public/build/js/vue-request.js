@@ -8322,11 +8322,19 @@ function createRequest(el, propsData) {
 			subjectForms: function subjectForms() {
 				var forms = this.forms;
 				if (this.subjectId && this.subject && this.subject.type === 'resident') {
-					forms = this.subject.training_level === 'fellow' ? forms.filter(function (form) {
-						return form.type === 'fellow';
-					}) : forms.filter(function (form) {
-						return form.type === 'resident';
-					});
+					if (this.subject.training_level === 'fellow') {
+						forms = forms.filter(function (form) {
+							return form.type === 'fellow';
+						});
+					} else if (this.subject.training_level === 'intern') {
+						forms = forms.filter(function (form) {
+							return ['resident', 'intern'].includes(form.type);
+						});
+					} else {
+						forms = forms.filter(function (form) {
+							return form.type === 'resident';
+						});
+					}
 				}
 
 				return forms;

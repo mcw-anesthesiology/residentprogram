@@ -148,9 +148,13 @@ export function createRequest(el, propsData) {
 			subjectForms() {
 				let forms = this.forms;
 				if (this.subjectId && this.subject && this.subject.type === 'resident') {
-					forms = this.subject.training_level === 'fellow'
-						? forms.filter(form => form.type === 'fellow')
-						: forms.filter(form => form.type === 'resident');
+					if (this.subject.training_level === 'fellow') {
+						forms = forms.filter(form => form.type === 'fellow');
+					} else if (this.subject.training_level === 'intern') {
+						forms = forms.filter(form => ['resident', 'intern'].includes(form.type));
+					} else {
+						forms = forms.filter(form => form.type === 'resident');
+					}
 				}
 
 				return forms;

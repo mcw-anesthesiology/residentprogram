@@ -392,7 +392,7 @@ export function fetchFormGroups(): Promise<Array<Select2OptGroup>> {
 export function groupForms(forms: Array<Form>): Array<Select2OptGroup> {
 	let groups: {[string]: Select2OptGroup} = {};
 
-	forms.map(form => {
+	for (const form of forms) {
 		if (form.type) {
 			if (!groups[form.type]) {
 				groups[form.type] = {
@@ -406,7 +406,7 @@ export function groupForms(forms: Array<Form>): Array<Select2OptGroup> {
 				text: form.title
 			});
 		}
-	});
+	}
 
 	// $FlowFixMe
 	let groupedForms: Array<Select2OptGroup> = Object.values(groups);
