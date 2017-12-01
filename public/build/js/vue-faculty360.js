@@ -1372,7 +1372,8 @@ if (false) {(function () {
 				'self-fellow': 'Fellow (self)',
 				faculty: 'Faculty',
 				staff: 'Staff',
-				app: 'APP'
+				app: 'APP',
+				intern360: 'Intern 360'
 			};
 		},
 		periodTypes: function periodTypes() {
