@@ -117,12 +117,20 @@ class MainController extends Controller
         $user = Auth::user();
         switch ($user->type) {
             case "resident":
-                $numStaffEvals = $user->subjectEvaluations()->notHidden()->where("status", "complete")->whereHas("form", function($query) {
-                    $query->where("evaluator_type", "staff");
-                })->count();
-                $numSelfEvals = $user->subjectEvaluations()->notHidden()->where("status", "complete")->whereHas("form", function($query) {
-                    $query->where("evaluator_type", "self");
-                })->count();
+                $numStaffEvals = $user->subjectEvaluations()
+                    ->notHidden()
+                    ->where("status", "complete")
+                    ->whereHas("form", function($query) {
+                        return $query->where("evaluator_type", "staff");
+                    })
+                    ->count();
+                $numSelfEvals = $user->subjectEvaluations()
+                    ->notHidden()
+                    ->where("status", "complete")
+                    ->whereHas("form", function($query) {
+                        return $query->where("evaluator_type", "self");
+                    })
+                    ->count();
                 break;
             case "faculty":
                 $mentees = $user->mentees->where("status", "active")->unique();
