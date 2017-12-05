@@ -310,7 +310,7 @@ class MainController extends Controller
             }
 
 			if ($user->isType($subjectTypes)) {
-				$spcificTypes = [$user->specificType];
+				$specificTypes = [$user->specificType];
 				if ($user->isType('intern')) {
 					$specificTypes[] = 'intern';
 				}
