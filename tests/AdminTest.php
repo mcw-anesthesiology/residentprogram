@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 use Faker\Factory as Faker;
 
-class AdminTest extends TestCase
+class AdminTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

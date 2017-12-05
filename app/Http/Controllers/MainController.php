@@ -79,8 +79,6 @@ class MainController extends Controller
 
                     if ($user->type == "faculty")
                         throw new \DomainException("Faculty cannot request faculty evaluations");
-                    if (!$request->has("subject_id"))
-                        throw new \DomainException("Please select a faculty to be evaluated");
                 }
 
 				if ($requestType == 'app') {

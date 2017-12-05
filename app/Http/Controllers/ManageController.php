@@ -207,7 +207,9 @@ class ManageController extends Controller
             $usernames[$user->id] = preg_replace("/\W/", "", strtolower($user->last_name.",".substr($user->first_name, 0, 1)));
         }
 
-        $html = new Htmldom($request->file("schedule"));
+		$file = $request->file("schedule");
+        $contents = $file->openFile('r')->fread($file->getSize());
+        $html = new Htmldom($contents);
         $table = $html->find("table", 0);
         $th = $table->find("tr", 0)->find("th");
 
