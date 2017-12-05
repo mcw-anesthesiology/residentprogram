@@ -29,7 +29,7 @@ export default function createAdminDashboard(el, propsData){
 		},
 		propsData,
 
-		data(){
+		data() {
 			return {
 				flaggedEvals: null,
 
@@ -37,7 +37,7 @@ export default function createAdminDashboard(el, propsData){
 			};
 		},
 
-		mounted(){
+		mounted() {
 			const flaggedEvalsBody = {
 				with: {
 					evaluation: true,
@@ -66,7 +66,7 @@ export default function createAdminDashboard(el, propsData){
 			});
 		},
 
-		updated(){
+		updated() {
 			if(this.flaggedEvals && this.flaggedEvals.length > 0){
 				$('.table').on('click', '.remove-flag', event => {
 					event.preventDefault();
@@ -104,7 +104,7 @@ export default function createAdminDashboard(el, propsData){
 		},
 
 		computed: {
-			flaggedEvalsThead(){
+			flaggedEvalsThead() {
 				return [[
 					'#',
 					'Evaluator',
@@ -114,7 +114,7 @@ export default function createAdminDashboard(el, propsData){
 					''
 				]];
 			},
-			flaggedEvalsConfig(){
+			flaggedEvalsConfig() {
 				return {
 					columns: [
 						{data: 'evaluation.url'},
@@ -139,7 +139,7 @@ export default function createAdminDashboard(el, propsData){
 					}
 				};
 			},
-			traineeEvalsThead(){
+			traineeEvalsThead() {
 				return [[
 					'#',
 					'Trainee',
@@ -151,7 +151,7 @@ export default function createAdminDashboard(el, propsData){
 					'Status'
 				]];
 			},
-			traineeEvalsConfig(){
+			traineeEvalsConfig() {
 				return {
 					ajax: {
 						url: '/evaluations',
@@ -197,7 +197,7 @@ export default function createAdminDashboard(el, propsData){
 					deferRender: true
 				};
 			},
-			watchedFormThead(){
+			watchedFormThead() {
 				return [[
 					'#',
 					'Subject',
@@ -208,7 +208,7 @@ export default function createAdminDashboard(el, propsData){
 					''
 				]];
 			},
-			watchedFormConfigs(){
+			watchedFormConfigs() {
 				return this.watchedForms.map(watchedForm => ({
 					ajax: {
 						url: '/evaluations',
@@ -233,7 +233,7 @@ export default function createAdminDashboard(el, propsData){
 						},
 						{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
 						{data: 'status', render: renderEvaluationStatus},
-						{data: null, orderable: false, searchable: false, render(){
+						{data: null, orderable: false, searchable: false, render() {
 							return '';
 						}}
 					],
@@ -243,7 +243,66 @@ export default function createAdminDashboard(el, propsData){
 					}
 				}));
 			},
-			selfEvalThead(){
+			intern360Thead() {
+				return [[
+					'#',
+					'Intern',
+					'Resident',
+					'Form',
+					'Evaluation date',
+					'Completed',
+					'Status',
+					''
+				]];
+			},
+			intern360Config() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								subject: [
+									'full_name'
+								],
+								evaluator: [
+									'full_name'
+								],
+								form: [
+									'title'
+								]
+							},
+							whereHas: {
+								form: {
+									type: 'intern',
+									evaluator_type: 'ca-1'
+								}
+							}
+						},
+						dataSrc: ''
+					},
+					columns: [
+						{data: 'url'},
+						{data: 'subject.full_name'},
+						{data: 'evaluator.full_name'},
+						{data: 'form.title'},
+						{
+							data: null,
+							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+						},
+						{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: 'status', render: renderEvaluationStatus},
+						{data: null, orderable: false, searchable: false, render() {
+							return ''; // FIXME
+						}}
+					],
+					order: [[0, 'desc']],
+					createdRow: function(row){
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
+			selfEvalThead() {
 				return [[
 					'#',
 					'Evaluator',
@@ -254,7 +313,7 @@ export default function createAdminDashboard(el, propsData){
 					''
 				]];
 			},
-			selfEvalConfig(){
+			selfEvalConfig() {
 				return {
 					ajax: {
 						url: '/evaluations',
@@ -286,7 +345,7 @@ export default function createAdminDashboard(el, propsData){
 						},
 						{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
 						{data: 'status', render: renderEvaluationStatus},
-						{data: null, orderable: false, searchable: false, render(){
+						{data: null, orderable: false, searchable: false, render() {
 							return ''; // FIXME
 						}}
 					],
@@ -296,7 +355,7 @@ export default function createAdminDashboard(el, propsData){
 					}
 				};
 			},
-			staffEvalThead(){
+			staffEvalThead() {
 				return [[
 					'#',
 					'Resident/Fellow',
@@ -308,7 +367,7 @@ export default function createAdminDashboard(el, propsData){
 					'Status'
 				]];
 			},
-			staffEvalConfig(){
+			staffEvalConfig() {
 				return {
 					ajax: {
 						url: '/evaluations',

@@ -8991,6 +8991,42 @@ function createAdminDashboard(el, propsData) {
 					};
 				});
 			},
+			intern360Thead: function intern360Thead() {
+				return [['#', 'Intern', 'Resident', 'Form', 'Evaluation date', 'Completed', 'Status', '']];
+			},
+			intern360Config: function intern360Config() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								subject: ['full_name'],
+								evaluator: ['full_name'],
+								form: ['title']
+							},
+							whereHas: {
+								form: {
+									type: 'intern',
+									evaluator_type: 'ca-1'
+								}
+							}
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'form.title' }, {
+						data: null,
+						render: Object(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["j" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: Object(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["k" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["c" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["l" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
+							return ''; // FIXME
+						}
+					}],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
 			selfEvalThead: function selfEvalThead() {
 				return [['#', 'Evaluator', 'Form', 'Evaluation date', 'Completed', 'Status', '']];
 			},
@@ -9231,6 +9267,74 @@ function createResidentDashboard(el, propsData) {
 							return name;
 						}
 					}, { data: 'form.title' }, {
+						data: null,
+						render: Object(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["j" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: Object(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["k" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["k" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateTimeCell */] }],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
+			completeIntern360EvaluatorThead: function completeIntern360EvaluatorThead() {
+				return [['#', 'Intern', 'Form', 'Evaluation Date', 'Created', 'Completed']];
+			},
+			completeIntern360EvaluatorConfig: function completeIntern360EvaluatorConfig() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								subject: ['full_name'],
+								form: ['title', 'type']
+							},
+							whereHas: {
+								form: {
+									type: 'intern'
+								}
+							},
+							evaluator_id: this.user.id
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["r" /* renderSubjectEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+						data: null,
+						render: Object(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["j" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: Object(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["k" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["k" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateTimeCell */] }],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
+			completeIntern360SubjectThead: function completeIntern360SubjectThead() {
+				return [['#', 'Resident', 'Form', 'Evaluation Date', 'Created', 'Completed']];
+			},
+			completeIntern360SubjectConfig: function completeIntern360SubjectConfig() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								evaluator: ['full_name'],
+								form: ['title', 'type']
+							},
+							whereHas: {
+								form: {
+									type: 'intern'
+								}
+							},
+							subject_id: this.user.id
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["r" /* renderSubjectEvalUrl */] }, { data: 'evaluator.full_name', render: function render(name) {
+							if (!name) return '<i>Anonymous</i>';
+
+							return name;
+						} }, { data: 'form.title' }, {
 						data: null,
 						render: Object(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["j" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
 						createdCell: Object(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')

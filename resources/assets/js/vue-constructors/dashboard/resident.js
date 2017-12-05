@@ -183,6 +183,103 @@ export default function createResidentDashboard(el, propsData){
 					}
 				};
 			},
+			completeIntern360EvaluatorThead() {
+				return [[
+					'#',
+					'Intern',
+					'Form',
+					'Evaluation Date',
+					'Created',
+					'Completed'
+				]];
+			},
+			completeIntern360EvaluatorConfig() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								subject: ['full_name'],
+								form: ['title', 'type']
+							},
+							whereHas: {
+								form: {
+									type: 'intern'
+								}
+							},
+							evaluator_id: this.user.id
+						},
+						dataSrc: ''
+					},
+					columns: [
+						{data: 'url', render: renderSubjectEvalUrl},
+						{data: 'subject.full_name'},
+						{data: 'form.title'},
+						{
+							data: null,
+							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+						},
+						{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell}
+					],
+					order: [[0, 'desc']],
+					createdRow: function(row){
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
+			completeIntern360SubjectThead() {
+				return [[
+					'#',
+					'Resident',
+					'Form',
+					'Evaluation Date',
+					'Created',
+					'Completed'
+				]];
+			},
+			completeIntern360SubjectConfig() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								evaluator: ['full_name'],
+								form: ['title', 'type']
+							},
+							whereHas: {
+								form: {
+									type: 'intern'
+								}
+							},
+							subject_id: this.user.id
+						},
+						dataSrc: ''
+					},
+					columns: [
+						{data: 'url', render: renderSubjectEvalUrl},
+						{data: 'evaluator.full_name', render: function(name){
+							if(!name)
+								return '<i>Anonymous</i>';
+
+							return name;
+						}},
+						{data: 'form.title'},
+						{
+							data: null,
+							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+						},
+						{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell}
+					],
+					order: [[0, 'desc']],
+					createdRow: function(row){
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
 			completeStaffThead(){
 				return [[
 					'#',

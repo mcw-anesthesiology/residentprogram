@@ -8211,6 +8211,8 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 
 
+var REQUEST_TYPES = ['faculty', 'app', 'staff', 'intern360', 'self'];
+
 function createRequest(el, propsData) {
 
 	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
@@ -8286,9 +8288,9 @@ function createRequest(el, propsData) {
 					evaluationDate: true
 				};
 
-				if (['resident', 'self'].includes(this.requestType) && this.user.type === 'resident' || this.requestType === 'app' && this.user.type === 'app') required.subjectId = false;
+				if (['resident', 'self'].includes(this.requestType) && this.user.type === 'resident' || this.requestType === 'app' && this.user.type === 'app' || this.requestType === 'intern360' && this.user.type === 'resident' && this.user.training_level === 'intern') required.subjectId = false;
 
-				if (this.requestType === 'resident' && this.user.type === 'faculty' || this.requestType === 'staff' && this.user.type === 'staff' || this.requestType === 'faculty' && this.user.type === 'resident' || this.requestType === 'app' && this.user.type === 'faculty' || this.requestType === 'self') required.evaluatorId = false;
+				if (this.requestType === 'resident' && this.user.type === 'faculty' || this.requestType === 'staff' && this.user.type === 'staff' || this.requestType === 'faculty' && this.user.type === 'resident' || this.requestType === 'app' && this.user.type === 'faculty' || this.requestType === 'intern360' && this.user.type === 'resident' && ['ca-1', 'ca-2', 'ca-3'].includes(this.user.training_level) || this.requestType === 'self') required.evaluatorId = false;
 
 				return required;
 			},
@@ -8599,9 +8601,7 @@ function getRequestType() {
 	});
 	var type = paths[paths.length - 1];
 
-	if (['faculty', 'app', 'staff', 'self'].includes(type)) return type;
-
-	return 'resident';
+	return REQUEST_TYPES.includes(type) ? type : 'resident';
 }
 
 /***/ }),

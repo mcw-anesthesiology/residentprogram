@@ -80,7 +80,7 @@ class FormController extends RestController
 				$form->visibility = 'visible';
 				break;
 			case 'intern360':
-				$form->type = 'intern360';
+				$form->type = 'intern';
 				// It's technically 1, 2, and 3, but this works for now
 				$form->evaluator_type = 'ca-1';
 				$form->visibility = 'anonymous';

@@ -18,6 +18,14 @@
 		<li><a href="/request">Request Evaluation</a></li>
 		@endif
 
+		@if (config('features.intern360_evaluations'))
+			@if ($user->isType('intern'))
+				<li><a href="/request/intern360">Request Intern 360 Evaluation</a></li>
+			@elseif ($user->isType(['ca-1', 'ca-2', 'ca-3']))
+				<li><a href="/request/intern360">Evaluate Intern</a></li>
+			@endif
+		@endif
+
 		@if (config('features.faculty_evaluations'))
 		<li><a href="/request/faculty">Evaluate Faculty</a></li>
 		@endif
