@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Artisan;
 
-class ResidentTest extends TestCase
+class ResidentTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

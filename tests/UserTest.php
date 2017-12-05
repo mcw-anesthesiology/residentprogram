@@ -8,7 +8,7 @@ use Faker\Factory as Faker;
 
 use App\User;
 
-class UserTest extends TestCase
+class UserTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

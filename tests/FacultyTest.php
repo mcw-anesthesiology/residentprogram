@@ -10,7 +10,7 @@ use Faker\Factory as Faker;
 
 use Illuminate\Support\Facades\Artisan;
 
-class FacultyTest extends TestCase
+class FacultyTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
