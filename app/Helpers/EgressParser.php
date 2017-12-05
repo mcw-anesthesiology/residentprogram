@@ -21,8 +21,12 @@ class EgressParser {
 	const RESIDENT_ROLE = 'Anesthesia Resident';
 	const FELLOW_ROLE = 'Anesthesia Fellow';
 
+	static function parseFilename($filename) {
+		$fp = fopen($filename, 'r');
+		return self::parseCsv($fp);
+	}
+
 	static function parseCsv($file) {
-		// TODO: Decide if it'll be a file pointer or contents string
 		// FIXME: Don't just catch Exception everywhere
 
 		$cases = [];
