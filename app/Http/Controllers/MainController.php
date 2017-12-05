@@ -118,14 +118,14 @@ class MainController extends Controller
                 $numStaffEvals = $user->subjectEvaluations()
                     ->notHidden()
                     ->where("status", "complete")
-                    ->whereHas("form", function($query) {
+                    ->whereHas("form", function ($query) {
                         return $query->where("evaluator_type", "staff");
                     })
                     ->count();
                 $numSelfEvals = $user->subjectEvaluations()
                     ->notHidden()
                     ->where("status", "complete")
-                    ->whereHas("form", function($query) {
+                    ->whereHas("form", function ($query) {
                         return $query->where("evaluator_type", "self");
                     })
                     ->count();
@@ -310,8 +310,12 @@ class MainController extends Controller
             }
 
 			if ($user->isType($subjectTypes)) {
+				$spcificTypes = [$user->specificType];
+				if ($user->isType('intern')) {
+					$specificTypes[] = 'intern';
+				}
 				$forms = Form::where("status", "active")
-					->where("type", $user->specific_type)
+					->whereIn("type", $specificTypes)
 					->whereIn("evaluator_type", $evaluatorTypes)
 					->orderBy("title")
 					->get()
@@ -330,8 +334,8 @@ class MainController extends Controller
 					->whereIn("evaluator_type", $evalTypes)
 					->orderBy("title")
 					->get()
-					->each($hideModelFields);;
-			} else{
+					->each($hideModelFields);
+			} else {
 				$forms = Form::where("status", "active")
 					->whereIn("type", $subjectTypes)
 					->whereIn("evaluator_type", $evaluatorTypes)
@@ -451,6 +455,10 @@ class MainController extends Controller
 					&& $user->isType("resident")
 				)
 				|| $requestType == 'app' && $user->isType('app')
+				|| (
+					$requestType == 'intern360'
+					&& $user->isType('intern')
+				)
 			) {
 				$subjects = [$user->id];
 			} else {
@@ -459,9 +467,12 @@ class MainController extends Controller
 					$subjects = [$subjects];
 			}
 
-			if ((in_array($requestType, ['resident', 'app']) && $user->isType("faculty"))
-					|| ($requestType == "staff" && $user->isType("staff"))
-					|| ($requestType == "faculty" && $user->isType("resident"))) {
+			if (
+				(in_array($requestType, ['resident', 'app']) && $user->isType("faculty"))
+				|| ($requestType == "staff" && $user->isType("staff"))
+				|| ($requestType == "faculty" && $user->isType("resident"))
+				|| ($requestType == 'intern360' && $user->isType(['ca-1', 'ca-2', 'ca-3']))
+			) {
 				$evaluators = [$user->id];
             } else {
 				$evaluators = $request->input("evaluator_id");

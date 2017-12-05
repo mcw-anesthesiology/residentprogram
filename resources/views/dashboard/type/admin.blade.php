@@ -36,6 +36,15 @@
 	</div>
 </div>
 
+<div class="container body-block">
+	<h2 class="sub-header">
+		<span class="glyphicon glyphicon-list"></span>
+		Intern 360 Evaluations
+	</h2>
+	<evaluation-data-table id="admin-intern360-evals-table"
+		:thead="intern360Thead" :config="intern360Config">
+	</evaluation-data-table>
+</div>
 
 <div class="container body-block">
 	<h2 class="sub-header">
