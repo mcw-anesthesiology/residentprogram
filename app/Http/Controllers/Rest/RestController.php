@@ -63,7 +63,7 @@ class RestController extends Controller
 		$user = Auth::user();
         $query = $this->model::with($this->getWithArray($request));
 
-		foreach($request->intersect($this->attributes) as $name => $value){
+		foreach(array_filter($request->only($this->attributes)) as $name => $value){
 			if(is_array($value)){
 				if (!is_array($value[0])) {
 					$value = [$value];

@@ -188,9 +188,9 @@ class EvaluationController extends RestController
 
 		$input = [];
 		if($user->isType("admin"))
-			$input = $request->intersect($adminEditableFields);
+			$input = array_filter($request->only($adminEditableFields));
 		else
-			$input = $request->intersect($userEditableFields);
+			$input = array_filter($request->only($userEditableFields));
 
 		if(!empty($input["evaluator_id"])){
 			$evaluator = User::findOrFail($input["evaluator_id"]);
