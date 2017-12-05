@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
 		\App\Console\Commands\ChangeFacultyEvalDatesToAcademicYear::class,
 		\App\Console\Commands\ExportAlumniToCsv::class,
 		\App\Console\Commands\ExportActiveUsersToCsv::class,
+		\App\Console\Commands\ExportEgressPairingsReport::class,
         \App\Console\Commands\FacultyReminders::class,
 		\App\Console\Commands\ProcessScheduledRequests::class,
 		\App\Console\Commands\ResidentReminders::class,
