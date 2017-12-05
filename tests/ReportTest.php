@@ -977,7 +977,6 @@ class ReportTest extends BrowserKitTestCase
 
     public function testNeedsEvaluations(){
 		// FIXME
-
     }
 
     public function testNeedsEvaluationsReminder(){
