@@ -14,18 +14,6 @@
 		"pages"
 	],
 	"definitions": {
-		"scoringDefinition": {
-			"title": "Scoring definition",
-			"type": "object",
-			"properties": {
-				"category": {"type": "string"},
-				"max": {"type": "number"},
-				"weight": {"type": "number"}
-			},
-			"required": [
-				"category"
-			]
-		},
 		"section": {
 			"title": "Section",
 			"type": "object",
@@ -68,7 +56,7 @@
 					}
 				},
 				"scoring": {
-					"$ref": "#/definitions/scoringDefinition"
+					"$ref": "https://www.residentprogram.com/schemas/questionnaire.json#/definitions/scoringDefinition"
 				}
 			},
 			"required": ["type", "text"]

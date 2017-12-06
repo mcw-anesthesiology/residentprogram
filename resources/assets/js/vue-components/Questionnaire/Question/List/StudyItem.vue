@@ -2,7 +2,8 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
+			:removable="removable"
+			@remove="removeItem">
 		<validated-form-group prop="title"
 				:errors="validation.errors"
 				:show-errors="showErrors"
@@ -10,7 +11,8 @@
 			<label class="containing-label">
 				Study title
 				<textarea class="form-control"
-					:value="title" :readonly="readonly"
+					:value="title"
+					:readonly="isReadonly('title')"
 					@input="$emit('input', {title: $event.target.value})">
 				</textarea>
 			</label>
@@ -22,7 +24,8 @@
 			<label class="containing-label">
 				Your role in study
 				<textarea class="form-control"
-					:value="role" :readonly="readonly"
+					:value="role"
+					:readonly="isReadonly('role')"
 					@input="$emit('input', {role: $event.target.value})">
 				</textarea>
 			</label>
@@ -34,7 +37,8 @@
 			<label class="containing-label">
 				Year initiated
 				<input type="text" class="form-control"
-					:value="yearInitiated" :readonly="readonly"
+					:value="yearInitiated"
+					:readonly="isReadonly('yearInitiated')"
 					@input="$emit('input', {yearInitiated: $event.target.value})" />
 			</label>
 		</validated-form-group>
@@ -45,7 +49,8 @@
 			<label class="containing-label">
 				Approval number (IRB / ACUC)
 				<input type="text" class="form-control"
-					:value="approvalNumber" :readonly="readonly"
+					:value="approvalNumber"
+					:readonly="isReadonly('approvalNumber')"
 					@input="$emit('input', {approvalNumber: $event.target.value})" />
 			</label>
 		</validated-form-group>
@@ -56,7 +61,8 @@
 			<label class="containing-label">
 				Progress
 				<textarea class="form-control"
-					:value="progress" :readonly="readonly"
+					:value="progress"
+					:readonly="isReadonly('progress')"
 					@input="$emit('input', {progress: $event.target.value})">
 				</textarea>
 			</label>

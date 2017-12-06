@@ -9,7 +9,7 @@ import EditorialBoardItem from './EditorialBoardItem.vue';
 import ReviewItem from './ReviewItem.vue';
 import LectureItem from './LectureItem.vue';
 import MentorshipItem from './MentorshipItem.vue';
-import ProjectItem from './ProjectItem.vue';
+import DatedEventItem from './DatedEventItem.vue';
 
 export default {
 	props: {
@@ -25,12 +25,34 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		propLabels: {
+			type: Object,
+			required: false
+		},
+		propsRequired: {
+			type: Object,
+			required: false
+		},
+		propsReadonly: {
+			type: Object,
+			default() {
+				return {};
+			}
+		},
+		itemsRemovable: {
+			type: Boolean,
+			default: true
+		},
 		showErrors: {
 			type: Boolean,
 			default: false
 		},
 		helpClass: {
 			type: String,
+			required: false
+		},
+		suggestions: {
+			type: Object,
 			required: false
 		}
 	},
@@ -44,8 +66,13 @@ export default {
 			return h(itemComponent, {
 				props: {
 					readonly: this.readonly,
+					propsReadonly: this.propsReadonly,
 					showErrors: this.showErrors,
 					helpClass: this.helpClass,
+					suggestions: this.suggestions,
+					removable: this.itemsRemovable,
+					labels: this.propLabels,
+					propsRequired: this.propsRequired,
 					...item
 				},
 				on: {
@@ -92,8 +119,8 @@ export default {
 				case 'mentorship':
 				case 'subjectMentorship':
 					return 'mentorship-item';
-				case 'project':
-					return 'project-item';
+				case 'datedEvent':
+					return 'dated-event-item';
 			}
 		}
 	},
@@ -109,7 +136,7 @@ export default {
 		ReviewItem,
 		LectureItem,
 		MentorshipItem,
-		ProjectItem
+		DatedEventItem
 	}
 };
 </script>

@@ -1,0 +1,11 @@
+{
+	"type": "list",
+	"listType": "certification",
+	"text": "Certification list",
+	"fixedLength": 1,
+	"itemProps": {
+		"board": "Test board"
+	},
+	"items": [],
+	"required": true
+}

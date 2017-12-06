@@ -345,7 +345,8 @@ class ReportController extends Controller
             ->where("evaluations.status", "complete")
             ->where("evaluations.evaluation_date_end", ">=", $startDate)
             ->where("evaluations.evaluation_date_start", "<=", $endDate)
-			->where("responses.response", ">=", 0);
+			->where("responses.response", ">=", 0)
+            ->orderBy('responses.id');
 
         if (!empty($milestonesFilter))
             $query->whereIn("milestones.id", $milestonesFilter);
@@ -504,7 +505,8 @@ class ReportController extends Controller
             ->whereIn("forms.evaluator_type", ["faculty"])
             ->whereIn("evaluations.status", ["pending", "complete"])
             ->where("evaluations.evaluation_date_end", ">=", $startDate)
-            ->where("evaluations.evaluation_date_start", "<=", $endDate);
+            ->where("evaluations.evaluation_date_start", "<=", $endDate)
+            ->orderBy('evaluations.id');
 
         if ($trainingLevel != "all")
             $reqQuery->where("evaluations.training_level", $trainingLevel);
@@ -573,7 +575,8 @@ class ReportController extends Controller
                 ->where("evaluations.evaluation_date_start", "<=", $endDate)
                 ->where("evaluations.subject_id", $reportSubject)
                 ->whereIn("forms.type", ["resident", "fellow"])
-                ->whereIn("forms.evaluator_type", ["faculty"]);
+                ->whereIn("forms.evaluator_type", ["faculty"])
+                ->orderBy('text_responses.id');
 
             if ($trainingLevel != "all")
                 $textQuery->where("evaluations.training_level", $trainingLevel);
@@ -598,7 +601,8 @@ class ReportController extends Controller
                 ->where("evaluations.evaluation_date_start", "<=", $endDate)
                 ->where("evaluations.subject_id", $reportSubject)
                 ->whereIn("forms.type", ["resident", "fellow"])
-                ->whereIn("forms.evaluator_type", ["faculty"]);
+                ->whereIn("forms.evaluator_type", ["faculty"])
+                ->orderBy('evaluations.id');
 
             if ($trainingLevel != "all")
                 $reportEvaluationsQuery->where("evaluations.training_level", $trainingLevel);
@@ -623,7 +627,8 @@ class ReportController extends Controller
 				->where("evaluations.evaluation_date_start", "<=", $endDate)
 				->whereIn("evaluations.subject_id", array_keys($subjects))
 				->whereIn("forms.type", ["resident", "fellow"])
-				->whereIn("forms.evaluator_type", ["faculty"]);
+				->whereIn("forms.evaluator_type", ["faculty"])
+                ->orderBy('text_responses.id');
 
 			if ($trainingLevel != "all")
 				$textQuery->where("evaluations.training_level", $trainingLevel);
@@ -759,7 +764,8 @@ class ReportController extends Controller
             ->where("evaluations.status", "complete")
             ->where("forms.id", $request->input("form_id"))
             ->where("evaluation_date_end", ">", $startDate)
-            ->where("evaluation_date_start", "<", $endDate);
+            ->where("evaluation_date_start", "<", $endDate)
+			->orderBy('responses.id');
 
 		$query->select("evaluation_id", "evaluator_id", "subject_id", "response",
 			"question_id", "evaluation_date_start", "evaluation_date_end",
@@ -776,7 +782,8 @@ class ReportController extends Controller
             ->where("evaluations.status", "complete")
             ->where("forms.id", $request->input("form_id"))
             ->where("evaluation_date_end", ">=", $startDate)
-            ->where("evaluation_date_start", "<=", $endDate);
+            ->where("evaluation_date_start", "<=", $endDate)
+            ->orderBy('text_responses.id');
 
         $textQuery->select("evaluation_id", "evaluator_id", "subject_id", "response",
 			"question_id", "evaluation_date_start", "evaluation_date_end",

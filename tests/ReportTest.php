@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 use Faker\Factory as Faker;
 
-class ReportTest extends TestCase
+class ReportTest extends BrowserKitTestCase
 {
     // This  class has a lot of magic numbers to check math
     use DatabaseTransactions;
@@ -460,14 +460,14 @@ class ReportTest extends TestCase
             ]
         ]);
     }
-	
+
 	public function testAggregateReportWithCurrentTrainingLevel(){
 		$startDate = Carbon::parse("0001-01-01");
         $endDate = Carbon::now();
         $endDate->second = 0;
 
         $fellow = factory(App\User::class, "fellow")->create();
-		
+
 		// Comlplete evals have CA-1 training level by default
 		$fellowEval = factory(App\Evaluation::class, "complete")->create([
 			"form_id" => $this->form->id,
@@ -475,7 +475,7 @@ class ReportTest extends TestCase
 			"evaluator_id" => $this->faculty->id,
 			"requested_by_id" => $this->admin->id
 		]);
-		
+
 		$responses = [
 			"q1" => [
 				factory(App\Response::class)->create([
@@ -977,7 +977,6 @@ class ReportTest extends TestCase
 
     public function testNeedsEvaluations(){
 		// FIXME
-        
     }
 
     public function testNeedsEvaluationsReminder(){
@@ -1014,7 +1013,7 @@ class ReportTest extends TestCase
                 "endDate" => $endDate,
                 "user" => "all"
             ]);
-			
+
 		$this->seeJson([
 			'noneRequested' => [
 				$moreFaculty[1]->full_name
@@ -1087,7 +1086,7 @@ class ReportTest extends TestCase
                 "endDate" => $endDate,
                 "user" => $this->faculty->id,
             ]);
-			
+
 		$this->seeJson([
 			'lastCompleted' => [
 				[
@@ -1136,7 +1135,7 @@ class ReportTest extends TestCase
                 "endDate" => $endDate,
                 "user" => "all"
             ]);
-			
+
 		$this->seeJson([
 			'noneRequested' => [
 	            $moreResidents[1]->full_name
@@ -1222,7 +1221,7 @@ class ReportTest extends TestCase
                 "endDate" => $endDate,
                 "user" => $this->residents[0]->id
             ]);
-			
+
 		$this->seeJson([
 			'lastCompleted' => [
 				[

@@ -26,6 +26,30 @@
 @endif
 </div>
 
+@if ($user->isType(['ca-1', 'ca-2', 'ca-3']))
+<div class="container body-block">
+	<h2 class="sub-header">
+		<span class="glyphicon glyphicon-list"></span>
+		Completed Intern 360 Evaluations
+	</h2>
+	<evaluation-data-table id="completed-intern360-evaluator-evals-table"
+		:thead="completeIntern360EvaluatorThead"
+		:config="completeIntern360EvaluatorConfig">
+	</evaluation-data-table>
+</div>
+@elseif ($user->isType('intern'))
+<div class="container body-block">
+	<h2 class="sub-header">
+		<span class="glyphicon glyphicon-check"></span>
+		Completed Intern 360 Evaluations
+	</h2>
+	<evaluation-data-table id="completed-intern360-subject-evals-table"
+		:thead="completeIntern360SubjectThead"
+		:config="completeIntern360SubjectConfig">
+	</evaluation-data-table>
+</div>
+@endif
+
 @if($numStaffEvals > 0)
 <div class="container body-block">
 	<h2 class="sub-header"><span class="glyphicon glyphicon-list"></span> Staff Evaluations</h2>

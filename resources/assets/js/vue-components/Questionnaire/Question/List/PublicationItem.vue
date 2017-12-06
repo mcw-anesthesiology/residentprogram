@@ -2,7 +2,8 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
+			:removable="removable"
+			@remove="removeItem">
 		<validated-form-group prop="title"
 				:errors="validation.errors"
 				:show-errors="showErrors"
@@ -10,7 +11,8 @@
 			<label class="containing-label">
 				Title of publication
 				<textarea class="form-control"
-					:value="title" :readonly="readonly"
+					:value="title"
+					:readonly="isReadonly('title')"
 					@input="$emit('input', {title: $event.target.value})">
 				</textarea>
 			</label>
@@ -22,7 +24,8 @@
 			<label class="containing-label">
 				Primary author(s)
 				<textarea class="form-control"
-					:value="author" :readonly="readonly"
+					:value="author"
+					:readonly="isReadonly('author')"
 					@input="$emit('input', {author: $event.target.value})">
 				</textarea>
 			</label>
@@ -34,7 +37,8 @@
 			<label class="containing-label">
 				Link (PubMed, MCW FCD, etc.)
 				<input type="text" class="form-control"
-					:value="link" :readonly="readonly"
+					:value="link"
+					:readonly="isReadonly('link')"
 					@input="$emit('input', {link: $event.target.value})" />
 			</label>
 		</validated-form-group>
@@ -45,7 +49,8 @@
 			<label class="containing-label">
 				Your role on the project
 				<textarea class="form-control"
-					:value="role" :readonly="readonly"
+					:value="role"
+					:readonly="isReadonly('role')"
 					@input="$emit('input', {role: $event.target.value})">
 				</textarea>
 			</label>
@@ -95,7 +100,7 @@ export default {
 
 	computed: {
 		validation() {
-			return validate(this);
+			return validate(this, this.propsRequired);
 		}
 	},
 

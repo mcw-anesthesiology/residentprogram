@@ -54,7 +54,7 @@ class MainController extends Controller
 		$this->middleware(function($request, $next) {
 			try {
 				$user = Auth::user();
-				$requestType = in_array('requestType', $request->route()->parameters())
+				$requestType = array_key_exists('requestType', $request->route()->parameters())
 					? $request->route()->parameters()['requestType']
 					: 'resident';
 
@@ -63,20 +63,38 @@ class MainController extends Controller
 					'faculty',
 					'app',
 					'staff',
-					'self'
+					'self',
+					'intern360'
 				]))
 					throw new \DomainException("Sorry, {$requestType} is not currently a valid request type");
 
+				if ($requestType == 'resident') {
+					if (!config('features.trainee_evaluations'))
+						throw new \DomainException('That evalutaion type is not currently enabled');
+				}
+
                 if ($requestType == "faculty") {
+					if (!config('features.faculty_evaluations'))
+						throw new \DomainException('That evalutaion type is not currently enabled');
+
                     if ($user->type == "faculty")
                         throw new \DomainException("Faculty cannot request faculty evaluations");
-                    if (!$request->has("subject_id"))
-                        throw new \DomainException("Please select a faculty to be evaluated");
                 }
 
 				if ($requestType == 'app') {
+					if (!config('features.app_evaluations'))
+						throw new \DomainException('That evalutaion type is not currently enabled');
+
 					if (!$user->isType(['app', 'faculty', 'admin']))
 						throw new \DomainException('Sorry, you are not currently allowed to create an APP evaluation');
+				}
+
+				if ($requestType == 'intern360') {
+					if (!config('features.intern360_evaluations'))
+						throw new \DomainException('That evalutaion type is not currently enabled');
+
+					if (!$user->isType(['admin', 'intern', 'ca-1', 'ca-2', 'ca-3']))
+						throw new \DomainException('Sorry, you are not currently allowed to make that kind of request');
 				}
 
 				return $next($request);
@@ -87,22 +105,30 @@ class MainController extends Controller
             $adminEmail = config('app.admin_email');
             return back()->with('error', "There was a problem creating the request. "
                 + "If this continues to happen, please let me know at {$adminEmail}");
-		})->only([
+		})->only(
 			'request',
 			'createRequest'
-		]);
+		);
     }
 
     public function dashboard() {
         $user = Auth::user();
         switch ($user->type) {
             case "resident":
-                $numStaffEvals = $user->subjectEvaluations()->notHidden()->where("status", "complete")->whereHas("form", function($query) {
-                    $query->where("evaluator_type", "staff");
-                })->count();
-                $numSelfEvals = $user->subjectEvaluations()->notHidden()->where("status", "complete")->whereHas("form", function($query) {
-                    $query->where("evaluator_type", "self");
-                })->count();
+                $numStaffEvals = $user->subjectEvaluations()
+                    ->notHidden()
+                    ->where("status", "complete")
+                    ->whereHas("form", function ($query) {
+                        return $query->where("evaluator_type", "staff");
+                    })
+                    ->count();
+                $numSelfEvals = $user->subjectEvaluations()
+                    ->notHidden()
+                    ->where("status", "complete")
+                    ->whereHas("form", function ($query) {
+                        return $query->where("evaluator_type", "self");
+                    })
+                    ->count();
                 break;
             case "faculty":
                 $mentees = $user->mentees->where("status", "active")->unique();
@@ -131,26 +157,38 @@ class MainController extends Controller
     public function request(Request $request, $requestType = "resident") {
 		try {
 	        $user = Auth::user();
-			if ($requestType == "faculty") {
-				$subjectTypes = ["faculty"];
-				$evaluatorTypes = ["resident", "fellow"];
-	            $requestorTypes = $evaluatorTypes;
-			} elseif ($requestType == "staff") {
-				$subjectTypes = ["resident", "fellow"];
-				$evaluatorTypes = ["staff"];
-	            $requestorTypes = $evaluatorTypes;
-			} elseif ($requestType == "self") {
-	            $subjectTypes = ["resident", "fellow"];
-	            $evaluatorTypes = ["self"];
-	            $requestorTypes = ["admin"];
-	        } elseif ($requestType == 'app') {
-                $subjectTypes = ['app'];
-                $evaluatorTypes = ['faculty'];
-                $requestorTypes = ['app', 'faculty', 'admin'];
-            } else {
-				$subjectTypes = ["resident", "fellow"];
-				$evaluatorTypes = ["faculty"];
-	            $requestorTypes = array_merge($subjectTypes, $evaluatorTypes);
+			// FIXME: `RESIDENT` means actual resident, `resident` means any trainee
+			switch ($requestType) {
+				case 'faculty':
+					$subjectTypes = ["faculty"];
+					$evaluatorTypes = ["resident", "fellow"];
+					$requestorTypes = $evaluatorTypes;
+					break;
+				case 'staff':
+					$subjectTypes = ["resident", "fellow"];
+					$evaluatorTypes = ["staff"];
+					$requestorTypes = $evaluatorTypes;
+					break;
+				case 'self':
+					$subjectTypes = ["resident", "fellow"];
+					$evaluatorTypes = ["self"];
+					$requestorTypes = ["admin"];
+					break;
+				case 'app':
+					$subjectTypes = ['app'];
+					$evaluatorTypes = ['faculty'];
+					$requestorTypes = ['app', 'faculty', 'admin'];
+					break;
+				case 'intern360':
+					$subjectTypes = ['intern'];
+					$evaluatorTypes = ['ca-1', 'ca-2', 'ca-3'];
+					$requestorTypes = array_merge($subjectTypes, $evaluatorTypes, ['admin']);
+					break;
+				default:
+					$subjectTypes = ["resident", "fellow"];
+					$evaluatorTypes = ["faculty"];
+					$requestorTypes = array_merge($subjectTypes, $evaluatorTypes);
+					break;
 			}
 
 			$evaluationTypes = array_merge($subjectTypes, $evaluatorTypes);
@@ -238,10 +276,46 @@ class MainController extends Controller
                 if (empty($apps))
                     throw new \Exception('There are not any registered APP accounts');
             }
+            if (!$user->isType('intern') && in_array('intern', $evaluationTypes)) {
+                $interns[0] = User::ofType('resident')
+					->where('training_level', 'intern')
+					->active()
+					->orderBy('last_name')
+					->get()
+					->each($hideModelFields);
+            }
+			if (!$user->isType('ca-1') && in_array('ca-1', $evaluationTypes)) {
+                $ca1s[0] = User::ofType('resident')
+					->where('training_level', 'ca-1')
+					->active()
+					->orderBy('last_name')
+					->get()
+					->each($hideModelFields);
+            }
+			if (!$user->isType('ca-2') && in_array('ca-2', $evaluationTypes)) {
+                $ca2s[0] = User::ofType('resident')
+					->where('training_level', 'ca-2')
+					->active()
+					->orderBy('last_name')
+					->get()
+					->each($hideModelFields);
+            }
+			if (!$user->isType('ca-3') && in_array('ca-3', $evaluationTypes)) {
+                $ca3s[0] = User::ofType('resident')
+					->where('training_level', 'ca-3')
+					->active()
+					->orderBy('last_name')
+					->get()
+					->each($hideModelFields);
+            }
 
 			if ($user->isType($subjectTypes)) {
+				$specificTypes = [$user->specificType];
+				if ($user->isType('intern')) {
+					$specificTypes[] = 'intern';
+				}
 				$forms = Form::where("status", "active")
-					->where("type", $user->specific_type)
+					->whereIn("type", $specificTypes)
 					->whereIn("evaluator_type", $evaluatorTypes)
 					->orderBy("title")
 					->get()
@@ -251,14 +325,17 @@ class MainController extends Controller
                 // FIXME: Remove this if/when trainee user type is added
                 if ($user->isType('fellow') && $requestType == 'faculty')
                     $evalTypes[] = $user->type;
+				// FIXME: Workaround for form evaluator_type not being an array
+				if ($user->isType(['ca-1', 'ca-2', 'ca-3']) && $requestType == 'intern360')
+					$evalTypes[] = 'ca-1';
 
 				$forms = Form::where("status", "active")
 					->whereIn("type", $subjectTypes)
 					->whereIn("evaluator_type", $evalTypes)
 					->orderBy("title")
 					->get()
-					->each($hideModelFields);;
-			} else{
+					->each($hideModelFields);
+			} else {
 				$forms = Form::where("status", "active")
 					->whereIn("type", $subjectTypes)
 					->whereIn("evaluator_type", $evaluatorTypes)
@@ -329,6 +406,24 @@ class MainController extends Controller
                     $evaluatorTypeText = 'faculty';
                     $requestTypeText = 'APP';
                     break;
+				case 'intern360':
+					if (!$user->isType('intern'))
+						$subjects = $interns;
+					if (!$user->isType(['ca-1', 'ca-2', 'ca-3'])) {
+						$evaluators = [[]];
+						if (!empty($ca1s) && !empty($ca1s[0]))
+							$evaluators[0] = array_merge($evaluators[0], $ca1s[0]->toArray());
+						if (!empty($ca2s) && !empty($ca2s[0]))
+							$evaluators[0] = array_merge($evaluators[0], $ca2s[0]->toArray());
+						if (!empty($ca3s) && !empty($ca3s[0]))
+							$evaluators[0] = array_merge($evaluators[0], $ca3s[0]->toArray());
+					}
+
+					$subjectTypeText = 'intern';
+					$subjectTypeTextPlural = 'interns';
+					$evaluatorTypeText = 'resident';
+					$requestTypeText = 'intern 360';
+					break;
 			}
 
 			if (!empty($subjects))
@@ -342,11 +437,12 @@ class MainController extends Controller
 				"subjects", "evaluators", "subjectTypeText",
 				"subjectTypeTextPlural", "evaluatorTypeText", "blocks",
 				"evaluatorTypes", "subjectTypes", "requestTypeText");
+			return view("evaluations.request", $data);
 		} catch(\Exception $e) {
 			return back()->with("error", $e->getMessage());
 		}
 
-        return view("evaluations.request", $data);
+		return back()->with('error', 'Sorry, there was a problem starting your request');
     }
 
     public function createRequest(Request $request, $requestType = "resident") {
@@ -359,6 +455,10 @@ class MainController extends Controller
 					&& $user->isType("resident")
 				)
 				|| $requestType == 'app' && $user->isType('app')
+				|| (
+					$requestType == 'intern360'
+					&& $user->isType('intern')
+				)
 			) {
 				$subjects = [$user->id];
 			} else {
@@ -367,9 +467,12 @@ class MainController extends Controller
 					$subjects = [$subjects];
 			}
 
-			if ((in_array($requestType, ['resident', 'app']) && $user->isType("faculty"))
-					|| ($requestType == "staff" && $user->isType("staff"))
-					|| ($requestType == "faculty" && $user->isType("resident"))) {
+			if (
+				(in_array($requestType, ['resident', 'app']) && $user->isType("faculty"))
+				|| ($requestType == "staff" && $user->isType("staff"))
+				|| ($requestType == "faculty" && $user->isType("resident"))
+				|| ($requestType == 'intern360' && $user->isType(['ca-1', 'ca-2', 'ca-3']))
+			) {
 				$evaluators = [$user->id];
             } else {
 				$evaluators = $request->input("evaluator_id");

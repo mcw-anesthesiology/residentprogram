@@ -27,6 +27,14 @@ import {
 	renderDateTimeCell
 } from '@/modules/datatable-utils.js';
 
+const REQUEST_TYPES = [
+	'faculty',
+	'app',
+	'staff',
+	'intern360',
+	'self'
+];
+
 export function createRequest(el, propsData) {
 
 	return new Vue({
@@ -107,6 +115,11 @@ export function createRequest(el, propsData) {
 						&& this.user.type === 'resident'
 					)
 					|| this.requestType === 'app' && this.user.type === 'app'
+					|| (
+						this.requestType === 'intern360'
+						&& this.user.type === 'resident'
+						&& this.user.training_level === 'intern'
+					)
 				)
 					required.subjectId = false;
 
@@ -114,6 +127,11 @@ export function createRequest(el, propsData) {
 						|| (this.requestType === 'staff' && this.user.type === 'staff')
 						|| (this.requestType === 'faculty' && this.user.type === 'resident')
 						|| (this.requestType === 'app' && this.user.type === 'faculty')
+						|| (
+							this.requestType === 'intern360'
+							&& this.user.type === 'resident'
+							&& ['ca-1', 'ca-2', 'ca-3'].includes(this.user.training_level)
+						)
 						|| (this.requestType === 'self'))
 					required.evaluatorId = false;
 
@@ -148,9 +166,13 @@ export function createRequest(el, propsData) {
 			subjectForms() {
 				let forms = this.forms;
 				if (this.subjectId && this.subject && this.subject.type === 'resident') {
-					forms = this.subject.training_level === 'fellow'
-						? forms.filter(form => form.type === 'fellow')
-						: forms.filter(form => form.type === 'resident');
+					if (this.subject.training_level === 'fellow') {
+						forms = forms.filter(form => form.type === 'fellow');
+					} else if (this.subject.training_level === 'intern') {
+						forms = forms.filter(form => ['resident', 'intern'].includes(form.type));
+					} else {
+						forms = forms.filter(form => form.type === 'resident');
+					}
 				}
 
 				return forms;
@@ -450,15 +472,7 @@ function getRequestType() {
 	paths = paths.filter(path => path.length > 0);
 	let type = paths[paths.length - 1];
 
-	if (
-		[
-			'faculty',
-			'app',
-			'staff',
-			'self'
-		].includes(type)
-	)
-		return type;
-
-	return 'resident';
+	return REQUEST_TYPES.includes(type)
+		? type
+		: 'resident';
 }

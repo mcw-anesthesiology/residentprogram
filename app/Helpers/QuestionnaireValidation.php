@@ -172,7 +172,7 @@ class QuestionnaireValidation {
 	}
 
 	static function questionIsValid($question) {
-		if ($question['type'] != 'list' && empty($question['required'])) {
+		if (empty($question['required'])) {
 			return true;
 		}
 
@@ -213,11 +213,29 @@ class QuestionnaireValidation {
 	}
 
 	static function listQuestionIsValid($list) {
-		if (!key_exists('items', $list) || empty($list['items'])) {
+		if ($list['required'] && (!key_exists('items', $list) || empty($list['items']))) {
+			return false;
+		}
+
+		if (
+			!empty($list['fixedLength'])
+			&& (
+				!key_exists('items', $list)
+				|| count($list['items']) !== $list['fixedLength']
+			)
+		) {
 			return false;
 		}
 
 		foreach ($list['items'] as $listItem) {
+			if (key_exists('itemRequired', $list)) {
+				foreach ($list['itemRequired'] as $key => $required) {
+					if ($required && empty($listItem[$key])) {
+						return false;
+					}
+				}
+			}
+
 			if (key_exists('itemProps', $list)) {
 				foreach ($list['itemProps'] as $key => $value) {
 					if ($listItem[$key] != $value) {
@@ -247,7 +265,11 @@ class QuestionnaireValidation {
 				}
 				break;
 			case 'committee':
-				if (empty($listItem['name']) || empty($listItem['role'])) {
+				if (
+					empty($listItem['name'])
+					|| empty($listItem['role'])
+					|| empty($listItem['meetingsPerYear'])
+				) {
 					return false;
 				}
 				break;
@@ -294,6 +316,11 @@ class QuestionnaireValidation {
 			case 'mentorship':
 			case 'subjectMentorship':
 				if (empty($listItem['mentee']) || empty($listItem['subject'])) {
+					return false;
+				}
+				break;
+			case 'datedEvent':
+				if (empty($listItem['description']) || empty($listItem['date'])) {
 					return false;
 				}
 				break;

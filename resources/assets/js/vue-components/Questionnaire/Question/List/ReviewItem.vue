@@ -2,7 +2,8 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
+			:removable="removable"
+			@remove="removeItem">
 		<validated-form-group prop="work"
 				:errors="validation.errors"
 				:show-errors="showErrors"
@@ -10,7 +11,8 @@
 			<label class="containing-label">
 				{{ workLabel }}
 				<textarea class="form-control"
-					:value="work" :readonly="readonly"
+					:value="work"
+					:readonly="isReadonly('work')"
 					@input="$emit('input', {work: $event.target.value})">
 				</textarea>
 			</label>
@@ -22,7 +24,8 @@
 			<label class="containing-label">
 				{{ reviewsLabel }}
 				<input type="number" class="form-control"
-					:value="reviews" :readonly="readonly"
+					:value="reviews"
+					:readonly="isReadonly('reviews')"
 					@input="$emit('input', {reviews: Number($event.target.value)})" />
 			</label>
 		</validated-form-group>

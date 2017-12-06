@@ -5,31 +5,34 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.5.9",
-        "laravel/framework": "^5.3",
-        "fzaninotto/faker": "^1.5",
-        "maximebf/debugbar": "^1.10",
-        "barryvdh/laravel-debugbar": "^2.0",
-        "anlutro/l4-settings": "^0.4.0",
-        "guzzlehttp/guzzle": "^6.1",
-        "dompdf/dompdf": "^0.7",
-        "barryvdh/laravel-dompdf": "^0.7",
-        "doctrine/dbal": "^2.5",
+        "php": ">=7.0.0",
+        "laravel/framework": "^5.5",
+        "fzaninotto/faker": "^1.7",
+        "maximebf/debugbar": "^1.14",
+        "barryvdh/laravel-debugbar": "^3.1",
+        "anlutro/l4-settings": "^0.6.0",
+        "guzzlehttp/guzzle": "^6.3",
+        "dompdf/dompdf": "^0.8",
+        "barryvdh/laravel-dompdf": "^0.8",
+        "doctrine/dbal": "^2.6",
 		"yangqi/htmldom": "dev-master",
-        "michelf/php-markdown": "^1.6",
+        "michelf/php-markdown": "^1.7",
         "turkeyfried/us-state-lists": "^1.0",
-        "justinrainbow/json-schema": "^5.2.5",
+        "justinrainbow/json-schema": "^5.2",
         "jenssegers/rollbar": "^1.5",
-        "vinkla/hashids": "^2.4",
-        "pusher/pusher-php-server": "~2.0"
+        "vinkla/hashids": "^3.3.0",
+        "pusher/pusher-php-server": "~3.0",
+        "laravel/tinker": "^1.0"
     },
     "require-dev": {
+		"filp/whoops": "~2.0",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "~6.0",
         "phpspec/phpspec": "~2.1",
-		"symfony/dom-crawler": "^3.1",
+		"symfony/dom-crawler": "^3.4.0",
 		"symfony/css-selector": "^3.1",
-        "laravel/homestead": "^4.0"
+        "laravel/homestead": "^4.0",
+        "laravel/browser-kit-testing": "^2.0"
     },
     "autoload": {
         "classmap": [
@@ -41,8 +44,12 @@
     },
     "autoload-dev": {
         "classmap": [
-            "tests/TestCase.php"
-        ]
+            "tests/TestCase.php",
+            "tests/BrowserKitTestCase.php"
+        ],
+		"psr-4": {
+			"Tests\\": "tests/"
+		}
     },
     "scripts": {
         "post-install-cmd": [
@@ -60,7 +67,11 @@
         ],
         "post-create-project-cmd": [
             "php artisan key:generate"
-        ]
+        ],
+		"post-autoload-dump": [
+	        "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+	        "@php artisan package:discover"
+	    ]
     },
     "config": {
         "preferred-install": "dist"
