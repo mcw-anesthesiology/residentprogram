@@ -56,6 +56,7 @@
 	</div>
 </div>
 
+@if (config('features.faculty_evaluations'))
 <div class="container body-block" v-pre>
 	<div class="row">
 		<h2 class="sub-header">Faculty evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
@@ -76,7 +77,9 @@
 		</div>
 	</div>
 </div>
+@endif
 
+@if (config('features.app_evaluations'))
 <div class="container body-block" v-pre>
 	<div class="row">
 		<h2 class="sub-header">
@@ -106,7 +109,39 @@
 		</div>
 	</div>
 </div>
+@endif
 
+@if (config('features.intern360_evaluations'))
+<div class="container body-block" v-pre>
+	<div class="row">
+		<h2 class="sub-header">
+			Intern 360 evaluation forms
+			<button class="addModal btn btn-success btn-xs" data-toggle="modal"
+					data-target=".bs-add-modal" data-id="Form"
+					id="addBtn">
+				<span class="glyphicon glyphicon-plus"></span>
+				Add new
+			</button>
+		</h2>
+		<div class="table-responsive">
+			<table class="table table-striped forms-table" data-type="intern360"
+					id="intern360-forms-table">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Evaluator type</th>
+						<th>Created</th>
+						<th>Status</th>
+						<th>Subject visibility</th>
+						<th>View</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+@endif
 
 	<!-- Add Modal -->
 	<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal" v-pre>

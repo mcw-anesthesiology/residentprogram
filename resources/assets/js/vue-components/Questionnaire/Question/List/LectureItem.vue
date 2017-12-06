@@ -2,7 +2,8 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
+			:removable="removable"
+			@remove="removeItem">
 		<validated-form-group prop="title"
 				:errors="errors"
 				:show-errors="showErrors"
@@ -10,7 +11,8 @@
 			<label class="containing-label">
 				Lecture title
 				<textarea class="form-control"
-					:value="title" :readonly="readonly"
+					:value="title"
+					:readonly="isReadonly('title')"
 					@input="$emit('input', {title: $event.target.value})">
 				</textarea>
 			</label>
@@ -19,35 +21,22 @@
 				:errors="errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
-			<label class="containing-label">
-				Lecture date
-				<input v-if="dateUnknown" type="text" class="form-control"
-					:value="date" readonly />
-				<vue-flatpickr v-else class="form-control"
-					:key="`multiple-${multipleDates}`"
-					:options="flatpickrOptions"
+			<multiple-unknown-date-selector
 					:value="date"
-					@input="$emit('input', {date: arguments[0]})" />
-			</label>
-			<div class="checkbox-label-container">
-				<label class="checkbox-label">
-					<input type="checkbox" v-model="multipleDates" :disabled="dateUnknown" />
-					Multiple
-				</label>
-				<label class="checkbox-label">
-					<input type="checkbox" v-model="dateUnknown" />
-					Unknown date
-				</label>
-			</div>
+					:readonly="isReadonly('date')"
+					@input="$emit('input', {date: arguments[0]})">
+				Lecture date
+			</multiple-unknown-date-selector>
 		</validated-form-group>
-		<validated-form-group v-if="type !== 'audienceLecture'" prop="audience"
+		<validated-form-group prop="audience"
 				:errors="errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
 			<label class="containing-label">
 				Lecture audience (department, society, group, location, etc.)
 				<textarea class="form-control"
-					:value="audience" :readonly="readonly"
+					:value="audience"
+					:readonly="isReadonly('audience')"
 					@input="$emit('input', {audience: $event.target.value})">
 				</textarea>
 			</label>
@@ -57,8 +46,7 @@
 
 <script>
 import ListItem from './Item.vue';
-import VueFlatpickr from '@jacobmischka/vue-flatpickr';
-import 'flatpickr/dist/flatpickr.css';
+import MultipleUnknownDateSelector from '@/vue-components/MultipleUnknownDateSelector.vue';
 
 import { lectureListItem as validate } from '@/modules/questionnaire/validate.js';
 
@@ -89,25 +77,7 @@ export default {
 		}
 	},
 
-	data() {
-		return {
-			multipleDates: this.date && this.date.includes(';'),
-			dateUnknown: this.date && this.date === 'Unknown'
-		};
-	},
-
 	computed: {
-		flatpickrOptions() {
-			return {
-				altInput: true,
-				altInputClass: this.readonly
-					? 'form-control'
-					: 'form-control appear-not-readonly',
-				altFormat: 'M j, Y',
-				clickOpens: !this.readonly,
-				mode: this.multipleDates ? 'multiple' : 'single'
-			};
-		},
 		validation() {
 			return validate(this);
 		},
@@ -118,38 +88,9 @@ export default {
 		}
 	},
 
-	watch: {
-		multipleDates(multipleDates) {
-			if (!multipleDates) {
-				let date = this.date;
-				if (date && date.includes(';'))
-					date = date.split(';')[0];
-
-				this.$emit('input', { date });
-			}
-		},
-		dateUnknown(dateUnknown) {
-			if (dateUnknown)
-				this.$emit('input', { date: 'Unknown' });
-			else if (this.date === 'Unknown')
-				this.$emit('input', { date: null });
-		}
-	},
-
 	components: {
 		ListItem,
-		VueFlatpickr
+		MultipleUnknownDateSelector
 	}
 };
 </script>
-
-<style scoped>
-	.checkbox-label-container {
-		padding: 0 -5px;
-	}
-
-	.checkbox-label {
-		font-weight: normal;
-		margin: 0 5px;
-	}
-</style>

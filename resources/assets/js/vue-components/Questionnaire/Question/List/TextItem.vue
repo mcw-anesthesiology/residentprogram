@@ -2,21 +2,27 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
+			:removable="removable"
+			@remove="removeItem">
 		<validated-form-group prop="text"
 				:errors="validation.errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
-			<textarea class="form-control"
-				:value="text" :readonly="readonly"
-				@input="$emit('input', {text: $event.target.value})">
-			</textarea>
+			<label class="containing-label">
+				{{ labels.text }}
+				<suggestable-text-input
+					:value="text"
+					:suggestions="suggestions.text"
+					:readonly="isReadonly('text')"
+					@input="$emit('input', {text: arguments[0]})" />
+			</label>
 		</validated-form-group>
 	</list-item>
 </template>
 
 <script>
 import ListItem from './Item.vue';
+import SuggestableTextInput from '@/vue-components/SuggestableTextInput.vue';
 
 import { textListItem as validate } from '@/modules/questionnaire/validate.js';
 
@@ -31,6 +37,18 @@ export default {
 			required: true,
 			validator(type) {
 				return type === 'text';
+			}
+		},
+		suggestions: {
+			type: Object,
+			default() {
+				return {};
+			}
+		},
+		labels: {
+			type: Object,
+			default() {
+				return {};
 			}
 		},
 		text: {
@@ -50,7 +68,8 @@ export default {
 	},
 
 	components: {
-		ListItem
+		ListItem,
+		SuggestableTextInput
 	}
 };
 </script>

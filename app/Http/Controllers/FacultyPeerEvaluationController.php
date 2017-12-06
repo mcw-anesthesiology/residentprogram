@@ -25,7 +25,7 @@ class FacultyPeerEvaluationController extends Controller
 
     public function __construct() {
 		$this->middleware('site-feature:faculty360');
-		$this->middleware('auth')->only('view');
+		$this->middleware('auth')->except('request');
 		$this->middleware('shared');
 		$this->middleware('type:admin')->only('manage');
 

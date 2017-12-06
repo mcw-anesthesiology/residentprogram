@@ -1,7 +1,19 @@
 <template>
 	<div class="checklist">
 		<h1>{{ title }}</h1>
-		<questionnaire-pager :pages="pages" :readonly="readonly"
+		<div v-if="dontPaginate" class="pages">
+			<checklist-section v-for="(page, pageNum) of pages"
+				:key="`page-${pageNum}`"
+				v-bind="page"
+				:page="true"
+				:readonly="readonly"
+				:user="user"
+				:show-errors="show.errors"
+				@input="handleInput(pageNum, arguments[0])" />
+		</div>
+		<questionnaire-pager v-else
+				:pages="pages"
+				:readonly="readonly"
 				:checklist-validator="checklistIsValid"
 				@submit="handleSubmit">
 			<template slot="header" slot-scope="pager">
@@ -29,23 +41,57 @@
 			</template>
 		</questionnaire-pager>
 
-		<div class="text-center">
-			<button type="button" v-if="readonly" class="btn btn-default"
-					@click="handleClose">
-				Close
-			</button>
-			<confirmation-button v-else class="btn btn-default"
-					pressed-class="btn btn-warning" @click="handleClose">
-				Close
-				<template slot="pressed">
-					Yes, close without saving
-				</template>
-			</confirmation-button>
+		<div class="checklist-controls">
+			<div v-if="dontPaginate">
+				<div class="text-right">
+					<show-hide-button class="btn btn-info btn-sm"
+							v-model="show.errors">
+						checklist validation
+						<span slot="glyph" class="glyphicon glyphicon-ok"></span>
+					</show-hide-button>
+				</div>
+				<checklist-errors v-if="show.errors"
+					:pages="pages"
+					@navigate="goToPage" />
+			</div>
 
-			<button v-if="!readonly" type="button" class="btn btn-info"
-					@click="handleSave">
-				Save and close
-			</button>
+			<div class="text-center">
+				<button type="button" v-if="readonly" class="btn btn-default"
+						@click="handleClose">
+					Close
+				</button>
+				<confirmation-button v-else class="btn btn-default"
+						pressed-class="btn btn-warning" @click="handleClose">
+					Close
+					<template slot="pressed">
+						Yes, close without saving
+					</template>
+				</confirmation-button>
+
+				<button v-if="!readonly" type="button" class="btn btn-info"
+						@click="handleSave">
+					Save and close
+				</button>
+
+				<confirmation-button v-if="dontPaginate && !readonly"
+						class="btn btn-primary"
+						pressed-class="btn-success"
+						:disabled="!checklistIsValid({pages})"
+						@click="handleSubmit">
+					Submit
+					<template slot="pressed">
+						Confirm submission
+					</template>
+				</confirmation-button>
+			</div>
+
+			<div class="dont-paginate-container text-center">
+				<label class="normal-text-label">
+					<input type="checkbox" :value="dontPaginate"
+						@change="togglePagination" />
+					Show on one page
+				</label>
+			</div>
 		</div>
 	</div>
 </template>
@@ -59,12 +105,13 @@ import QuestionnairePager from '@/vue-components/Questionnaire/Pager.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import { checklistIsValid } from '@/modules/merit-utils.js';
+import { getHeaderHeight } from '@/modules/dom-utils.js';
 
 export default {
 	props: {
 		title: {
 			type: String,
-			required: true
+			required: false
 		},
 		pages: {
 			type: Array,
@@ -87,8 +134,34 @@ export default {
 		};
 	},
 
+	computed: {
+		dontPaginate() {
+			return (
+				this.$route
+				&& this.$route.query
+				&& this.$route.query.dontPaginate
+			);
+		}
+	},
+
 	methods: {
 		checklistIsValid,
+		togglePagination() {
+			const dontPaginate = !this.dontPaginate || undefined;
+			const location = Object.assign({}, this.$route, {
+				query: { dontPaginate, page: undefined }
+			});
+
+			this.$router.push(location);
+		},
+		goToPage(pageNum) {
+			if (!this.dontPaginate)
+				return;
+
+			$('.pages > section').eq(pageNum).velocity('scroll', {
+				offset: -1 * getHeaderHeight()
+			});
+		},
 		handleInput(pageNum, page) {
 			let pages = this.pages.slice();
 			pages[pageNum] = Object.assign({}, pages[pageNum], page);
@@ -134,6 +207,10 @@ export default {
 		}
 	}
 
+	.pages > .page {
+		margin-bottom: 6em;
+	}
+
 	.checklist-pager-forward-enter-active,
 	.checklist-pager-back-enter-active {
 		transition: all 0.1s ease-out;
@@ -152,5 +229,19 @@ export default {
 	.checklist-pager-back-enter, .checklist-pager-back-leave-to {
 		transform: translateX(10px);
 		opacity: 0;
+	}
+
+	.dont-paginate-container {
+		margin-top: 2em;
+	}
+
+	@media print {
+		.checklist {
+			padding: 0 !important;
+		}
+
+		.checklist-controls {
+			display: none;
+		}
 	}
 </style>

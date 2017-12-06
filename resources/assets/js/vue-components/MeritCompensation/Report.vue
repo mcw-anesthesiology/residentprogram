@@ -2,7 +2,7 @@
 	<div>
 		<div class="close-container">
 			<button type="button"
-					class="btn btn-default"
+					class="btn btn-default close-report-button"
 					@click="handleClose">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 			</button>
@@ -30,8 +30,10 @@
 			</div>
 		</div>
 
-		<merit-compensation-checklist v-bind="checklist"
-			:title="title" :readonly="readonly"
+		<merit-compensation-checklist
+			v-bind="checklist"
+			:title="title"
+			:readonly="readonly"
 			:user="currentUser"
 			@input="handleChecklistInput"
 			@save="handleSave"
@@ -124,7 +126,7 @@ export default {
 		},
 		title: {
 			type: String,
-			required: true
+			required: false
 		},
 		user_id: {
 			type: [ String, Number ],
@@ -303,5 +305,12 @@ export default {
 
 	.notes-container {
 		margin-top: 2em;
+	}
+
+	@media print {
+		.close-report-button,
+		.form-summary {
+			display: none;
+		}
 	}
 </style>

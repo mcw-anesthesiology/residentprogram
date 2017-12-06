@@ -108,12 +108,15 @@ export type QuestionnaireListQuestion = QuestionnaireQuestionBase & {
 		| 'audienceLecture'
 		| 'mentorship'
 		| 'subjectMentorship'
-		| 'project',
+		| 'datedEvent',
 	text?: string,
 	description?: string,
 	ordered?: boolean,
-	itemProps?: Object, // FIXME
-	itemLabels?: Object, // FIXME
+	fixedLength?: number,
+	itemProps?: {[string]: any}, // FIXME
+	itemLabels?: {[string]: string}, // FIXME
+	itemRequired?: {[string]: string}, // FIXME
+	suggestions?: Object, // FIXME
 	items: Array<QuestionnaireListItem>,
 	scoring?: ValueScoringDefinition
 };
@@ -129,7 +132,7 @@ export type QuestionnaireListItem =
 	| QuestionnaireReviewListItem
 	| QuestionnaireLectureListItem
 	| QuestionnaireMentorshipListItem
-	| QuestionnaireProjectListItem;
+	| QuestionnaireDatedEventListItem;
 
 export type QuestionnaireTextListItem = {
 	type: 'text',
@@ -147,7 +150,8 @@ export type QuestionnairePublicationListItem = {
 export type QuestionnaireCommitteeListItem = {
 	type: 'committee',
 	name: string,
-	role: 'chair' | 'member'
+	role: 'chair' | 'member',
+	meetingsPerYear?: number // Required, but an addition. Older entries won't have it
 };
 
 export type QuestionnaireStudyListItem = {
@@ -169,7 +173,9 @@ export type QuestionnaireGrantListItem = {
 export type QuestionnaireCertificationListItem = {
 	type: 'certification',
 	board: string,
-	specialty: string
+	specialty: string,
+	current: boolean,
+	recertified: string
 };
 
 export type QuestionnaireEditorialBoardListItem = {
@@ -197,10 +203,10 @@ export type QuestionnaireMentorshipListItem = {
 	subject: string
 };
 
-export type QuestionnaireProjectListItem = {
-	type: 'project',
+export type QuestionnaireDatedEventListItem = {
+	type: 'datedEvent',
 	description: string,
-	hours: number
+	date: string
 };
 
 export type QuestionnaireInstruction = {

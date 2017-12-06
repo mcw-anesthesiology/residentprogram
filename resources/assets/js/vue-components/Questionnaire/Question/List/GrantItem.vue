@@ -2,16 +2,19 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
-		<validated-form-group v-if="type === 'grantOther'" prop="agency"
+			:removable="removable"
+			@remove="removeItem">
+		<validated-form-group prop="agency"
 				:errors="validation.errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
 			<label class="containing-label">
 				Funding agency
-				<input type="text" class="form-control"
-					:value="agency" :readonly="readonly"
-					@input="$emit('input', {agency: $event.target.value})" />
+				<suggestable-text-input
+					:value="agency"
+					:suggestions="suggestions.agency"
+					:readonly="isReadonly('agency')"
+					@input="$emit('input', {agency: arguments[0]})" />
 			</label>
 		</validated-form-group>
 		<validated-form-group prop="project"
@@ -20,10 +23,11 @@
 				:invalid-class="helpClass">
 			<label class="containing-label">
 				Project
-				<textarea class="form-control"
-					:value="project" :readonly="readonly"
-					@input="$emit('input', {project: $event.target.value})">
-				</textarea>
+				<suggestable-text-input
+					:value="project"
+					:suggestions="suggestions.project"
+					:readonly="isReadonly('project')"
+					@input="$emit('input', {project: arguments[0]})" />
 			</label>
 		</validated-form-group>
 		<validated-form-group prop="amount"
@@ -35,7 +39,8 @@
 				<div class="input-group">
 					<span class="input-group-addon">$</span>
 					<input type="number" class="form-control"
-						:value="amount" :readonly="readonly"
+						:value="amount"
+						:readonly="isReadonly('amount')"
 						@input="$emit('input', {amount: Number($event.target.value)})" />
 				</div>
 			</label>
@@ -45,6 +50,7 @@
 
 <script>
 import ListItem from './Item.vue';
+import SuggestableTextInput from '@/vue-components/SuggestableTextInput.vue';
 
 import { grantListItem as validate } from '@/modules/questionnaire/validate.js';
 
@@ -59,6 +65,13 @@ export default {
 					'grant',
 					'grantOther'
 				].includes(type);
+			}
+		},
+		suggestions: {
+			type: Object,
+			required: false,
+			default() {
+				return {};
 			}
 		},
 		agency: {
@@ -82,7 +95,8 @@ export default {
 	},
 
 	components: {
-		ListItem
+		ListItem,
+		SuggestableTextInput
 	}
 };
 </script>

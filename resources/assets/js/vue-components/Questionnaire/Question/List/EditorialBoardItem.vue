@@ -2,7 +2,8 @@
 	<list-item :readonly="readonly"
 			:invalid="!validation.valid"
 			:show-errors="showErrors"
-			@remove="$emit('remove')">
+			:removable="removable"
+			@remove="removeItem">
 		<validated-form-group prop="journal"
 				:errors="validation.errors"
 				:show-errors="showErrors"
@@ -10,7 +11,8 @@
 			<label class="containing-label">
 				Journal
 				<input type="text" class="form-control"
-					:value="journal" :readonly="readonly"
+					:value="journal"
+					:readonly="isReadonly('journal')"
 					@input="$emit('input', {journal: $event.target.value})" />
 			</label>
 		</validated-form-group>
@@ -26,7 +28,7 @@
 					<label v-for="predefinedRole of predefinedRoles">
 						<input type="radio" :value="predefinedRole"
 							:checked="role === predefinedRole"
-							:disabled="readonly"
+							:disabled="isReadonly('role')"
 							@change="handleCheck" />
 						{{ kebabCaseToWords(predefinedRole) }}
 					</label>
@@ -34,12 +36,12 @@
 					<label>
 						<input type="radio" :value="otherRole"
 							:checked="role === otherRole"
-							:disabled="readonly"
+							:disabled="isReadonly('role')"
 							@change="handleCheck" />
 						<input type="text"
 							class="form-control editable-option-text"
 							placeholder="Other"
-							:readonly="readonly"
+							:readonly="isReadonly('role')"
 							v-model="otherRole"
 							@click="handleOtherCheck" />
 					</label>

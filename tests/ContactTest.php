@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Faker\Factory as Faker;
 
-class ContactTest extends TestCase {
+class ContactTest extends BrowserKitTestCase {
 
 	use DatabaseTransactions;
 

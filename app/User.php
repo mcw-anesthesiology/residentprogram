@@ -103,6 +103,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	}
 
 	public function getSpecificTypeAttribute(){
+		// TODO: Do the same for interns?
 		if($this->type == "resident" && $this->training_level == "fellow")
 			return "fellow";
 

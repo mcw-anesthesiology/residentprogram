@@ -1,27 +1,34 @@
 <template>
 	<div class="form-group">
 		<fieldset :title="description">
-			<legend v-if="text || itemCount">
+			<legend v-if="text || (fixedLength == null && itemCount)">
 				{{ text }}
 				{{ text && itemCount != null ? '-' : '' }}
-				<span>
+				<span v-if="fixedLength == null">
 					{{ itemCount }}
 					{{ itemCount === 1 ? 'item' : 'items' }}
 				</span>
 			</legend>
 
-			<bootstrap-alert v-if="items.length === 0" class="invalid-container"
-				type="error" text="Please add at least one item">
+			<bootstrap-alert v-if="required && items.length === 0"
+				class="invalid-container"
+				type="error"
+				text="Please add at least one item">
 			</bootstrap-alert>
 
 			<list-items :ordered="ordered"
 				:items="items"
+				:suggestions="suggestions"
 				:readonly="readonly"
+				:prop-labels="itemLabels"
+				:props-required="itemRequired"
+				:props-readonly="propsReadonly"
 				:show-errors="showErrors"
 				:help-class="helpClass"
+				:items-removable="canEditItems"
 				@change="onChange" />
 
-			<button v-if="!readonly" type="button" class="btn btn-sm btn-info"
+			<button v-if="canEditItems" type="button" class="btn btn-sm btn-info"
 					@click="addItem">
 				<span class="glyphicon glyphicon-plus"></span>
 				Add item
@@ -72,7 +79,8 @@ export default {
 					'lecture',
 					'audienceLecture',
 					'mentorship',
-					'subjectMentorship'
+					'subjectMentorship',
+					'datedEvent'
 				].includes(type);
 			}
 		},
@@ -92,6 +100,14 @@ export default {
 			type: Object,
 			required: false
 		},
+		itemRequired: {
+			type: Object,
+			required: false
+		},
+		suggestions: {
+			type: Object,
+			required: false
+		},
 		items: {
 			type: Array,
 			default() {
@@ -99,6 +115,14 @@ export default {
 			}
 		},
 		ordered: {
+			type: Boolean,
+			default: false
+		},
+		fixedLength: {
+			type: Number,
+			required: false
+		},
+		required: {
 			type: Boolean,
 			default: false
 		},
@@ -123,6 +147,10 @@ export default {
 		};
 	},
 
+	mounted() {
+		this.ensureFixedLength();
+	},
+
 	computed: {
 		itemCount() {
 			return this.items.length;
@@ -130,16 +158,58 @@ export default {
 		markedUpDescription() {
 			if (this.description)
 				return snarkdown(this.description);
+		},
+		propsReadonly() {
+			const propsReadonly = {};
+
+			if (this.itemProps) {
+				for (const prop of Object.keys(this.itemProps)) {
+					propsReadonly[prop] = true;
+				}
+			}
+
+			return propsReadonly;
+		},
+		canEditItems() {
+			return !this.readonly && this.fixedLength == null;
 		}
 	},
 
 	methods: {
+		ensureFixedLength() {
+			if (this.fixedLength == null)
+				return;
+
+			if (this.itemCount > this.fixedLength) {
+				let items = Array.slice(this.items);
+				while (this.itemCount > this.fixedLength) {
+					items.pop();
+				}
+				this.$emit('input', {items});
+			} else if (this.itemCount < this.fixedLength) {
+				let newItems = [];
+				for (let i = 0; i < (this.fixedLength - this.itemCount); i++) {
+					newItems.push(this.getNewItem());
+				}
+				this.addItems(newItems);
+			}
+		},
 		addItem() {
+			if (!this.canEditItems)
+				return;
+
+			this.addItems([this.getNewItem()]);
+		},
+		addItems(newItems) {
 			if (this.readonly)
 				return;
 
 			let items = Array.slice(this.items);
+			items.push(...newItems);
 
+			this.$emit('input', {items});
+		},
+		getNewItem() {
 			const newItem = {
 				type: this.listType
 			};
@@ -148,12 +218,7 @@ export default {
 				Object.assign(newItem, this.itemProps);
 			}
 
-			if (this.itemLabels)
-				newItem.labels = this.itemLabels;
-
-			items.push(newItem);
-
-			this.$emit('input', {items});
+			return newItem;
 		},
 		onChange(items) {
 			if (this.readonly)

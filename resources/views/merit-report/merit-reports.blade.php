@@ -7,7 +7,6 @@
 @section('blockless-body')
 	<transition name="merit-view">
 		<router-view :user="user"
-			title="hm"
 			:current-user="user"
 			:merit-reports="meritReports"
 			:merit-forms="meritForms"
