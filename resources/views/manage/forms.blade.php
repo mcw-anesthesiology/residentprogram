@@ -115,7 +115,7 @@
 <div class="container body-block" v-pre>
 	<div class="row">
 		<h2 class="sub-header">
-			Intern 360 evaluation forms
+			Intern evaluation forms
 			<button class="addModal btn btn-success btn-xs" data-toggle="modal"
 					data-target=".bs-add-modal" data-id="Form"
 					id="addBtn">
@@ -124,7 +124,7 @@
 			</button>
 		</h2>
 		<div class="table-responsive">
-			<table class="table table-striped forms-table" data-type="intern360"
+			<table class="table table-striped forms-table" data-type="intern"
 					id="intern360-forms-table">
 				<thead>
 					<tr>
@@ -230,7 +230,8 @@
 				'resident': 0,
 				'fellow': 1,
 				'faculty': 2,
-				'app': 3
+				'app': 3,
+				'intern': 4
 			};
 
 			var optGroups = [
@@ -248,6 +249,10 @@
 				},
 				{
 					text: 'APP',
+					children: []
+				},
+				{
+					text: 'Intern',
 					children: []
 				}
 			];
