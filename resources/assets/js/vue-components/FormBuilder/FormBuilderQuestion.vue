@@ -263,6 +263,9 @@ export default {
 					if(this.questionType === 'radiononnumeric')
 						options = STANDARD_OPTIONS.FACULTY.slice();
 					break;
+				case 'intern360':
+					options = STANDARD_OPTIONS.NUMERIC_LIKERT.slice();
+					break;
 			}
 
 			if(!options){

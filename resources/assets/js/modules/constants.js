@@ -45,6 +45,13 @@ export const STANDARD_OPTIONS = {
 		{value: 'agree', text: 'Agree'},
 		{value: 'strongly-agree', text: 'Strongly Agree'},
 		{value: 'n-a', text: 'N/A'}
+	],
+	NUMERIC_LIKERT: [
+		{value: 1, text: 'Strongly disagree'},
+		{value: 2, text: 'Disagree'},
+		{value: 3, text: 'Neither agree nor disagree'},
+		{value: 4, text: 'Agree'},
+		{value: 5, text: 'Strongly agree'}
 	]
 };
 
