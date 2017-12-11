@@ -30,7 +30,8 @@ class Kernel extends ConsoleKernel
 		\App\Console\Commands\ProcessScheduledRequests::class,
 		\App\Console\Commands\ResidentReminders::class,
 		\App\Console\Commands\RunAdvancements::class,
-		\App\Console\Commands\ReleaseFacultyEvals::class
+		\App\Console\Commands\ReleaseFacultyEvals::class,
+		\App\Console\Commands\SendPairingReports::class
     ];
 
     /**
