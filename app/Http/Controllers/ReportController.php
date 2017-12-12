@@ -346,7 +346,9 @@ class ReportController extends Controller
             ->where("evaluations.evaluation_date_end", ">=", $startDate)
             ->where("evaluations.evaluation_date_start", "<=", $endDate)
 			->where("responses.response", ">=", 0)
-            ->orderBy('responses.id');
+            ->orderBy('responses.id')
+            ->orderBy("milestones.title")
+            ->orderBy("competencies.title");
 
         if (!empty($milestonesFilter))
             $query->whereIn("milestones.id", $milestonesFilter);
@@ -359,9 +361,11 @@ class ReportController extends Controller
 				->where("users.training_level", $currentTrainingLevel);
 		}
 
-        $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
-            ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
-            ->orderBy("milestones.title")->orderBy("competencies.title");
+        $query->select("milestone_id", "milestones.title as milestone_title",
+            "competency_id", "competencies.title as competency_title",
+            "subject_id", "evaluator_id", "last_name", "first_name",
+            "evaluation_id", "response", "weight",
+            "responses.question_id as question_id");
         $query->chunk(20000, function($responses) use (&$subjects,
 				&$milestones, &$competencies, &$subjectEvals,
 				&$subjectRequests, &$averageMilestone, &$averageMilestoneDenom,
