@@ -426,7 +426,7 @@ export function sortSelect2Objects(a: Select2Option, b: Select2Option): number {
 	return 0;
 }
 
-export function sortEmptyLast(a: any, b: any): number {
+export function sortEmptyLast(a: any, b: any): ?number {
 	let aEmpty = (a == null || (typeof a === 'string' && a.trim() === ''));
 	let bEmpty = (b == null || (typeof b === 'string' && b.trim() === ''));
 
@@ -436,8 +436,6 @@ export function sortEmptyLast(a: any, b: any): number {
 		return 1;
 	if (bEmpty)
 		return -1;
-
-	return 0;
 }
 
 export function sortNumbers(a: number, b: number): number {
