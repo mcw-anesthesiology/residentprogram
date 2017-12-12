@@ -1,8 +1,10 @@
 import Vue from 'vue';
 
-import AlertList from '@/vue-components/AlertList.vue';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import DataTable from '@/vue-components/DataTable.vue';
 import EvaluationDataTable from '@/vue-components/EvaluationDataTable.vue';
+import FlaggedEvaluationControls from '@/vue-components/Dashboard/FlaggedEvaluationControls.vue';
 
 import { getFetchHeaders } from '@/modules/utils.js';
 import {
@@ -16,6 +18,7 @@ import {
 export default function createAdminDashboard(el, propsData){
 
 	return new Vue({
+		mixins: [HasAlerts],
 		el,
 		props: {
 			flaggedActions: {
@@ -31,9 +34,7 @@ export default function createAdminDashboard(el, propsData){
 
 		data() {
 			return {
-				flaggedEvals: null,
-
-				alerts: []
+				flaggedEvals: null
 			};
 		},
 
@@ -66,43 +67,6 @@ export default function createAdminDashboard(el, propsData){
 			});
 		},
 
-		updated() {
-			if(this.flaggedEvals && this.flaggedEvals.length > 0){
-				$('.table').on('click', '.remove-flag', event => {
-					event.preventDefault();
-					event.stopPropagation();
-
-					let flaggedEvalId = $(event.target).data('id');
-					fetch(`/flagged_evaluations/${flaggedEvalId}`, {
-						method: 'POST', // DELETE
-						headers: getFetchHeaders(),
-						credentials: 'same-origin',
-						body: JSON.stringify({
-							_method: 'DELETE'
-						})
-					}).then(response => {
-						if(response.ok)
-							return response.text();
-						else
-							throw new Error(response.statusText);
-					}).then(response => {
-						if(response === 'success')
-							this.flaggedEvals = this.flaggedEvals
-								.filter(flaggedEval =>
-									flaggedEval.id !== Number(flaggedEvalId));
-						else
-							throw new Error(response);
-					}).catch(err => {
-						console.error(err);
-						this.alerts.push({
-							type: 'error',
-							html: `<b>Error:</b> Unable to complete flagged evaluation`
-						});
-					});
-				});
-			}
-		},
-
 		computed: {
 			flaggedEvalsThead() {
 				return [[
@@ -124,19 +88,33 @@ export default function createAdminDashboard(el, propsData){
 							return this.flaggedActions[action];
 						}},
 						{data: 'reason'},
-						{data: null, orderable: false, searchable: false, render(flaggedEval){
-							return `<button type="button"
-									class="remove-flag btn btn-primary btn-xs"
-									data-id="${flaggedEval.id}">
-								<span class="glyphicon glyphicon-ok"></span>
-								Complete
-							</button>`;
-						}}
+						{data: null, orderable: false, searchable: false,
+							createdCell: (el, flaggedEval) => {
+								const adminComponent = this;
+								new Vue({
+									el,
+									render(h) {
+										return h(FlaggedEvaluationControls, {
+											props: {
+												flaggedEval
+											},
+											on: {
+												alert(alert) {
+													adminComponent.alerts.push(alert);
+												},
+												remove() {
+													adminComponent.flaggedEvals = adminComponent.flaggedEvals
+														.filter(fe =>
+															Number(fe.id) !== Number(flaggedEval.id));
+												}
+											}
+										});
+									}
+								});
+							}
+						}
 					],
-					order: [[0, 'desc']],
-					createdRow(row){
-						$(row).addClass('view-evaluation');
-					}
+					order: [[0, 'desc']]
 				};
 			},
 			traineeEvalsThead() {
@@ -470,7 +448,6 @@ export default function createAdminDashboard(el, propsData){
 		},
 
 		components: {
-			AlertList,
 			DataTable,
 			EvaluationDataTable
 		}

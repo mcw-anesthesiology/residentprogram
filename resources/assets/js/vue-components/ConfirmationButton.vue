@@ -30,14 +30,14 @@ export default {
 			default: false
 		}
 	},
-	data(){
+	data() {
 		return {
 			pressed: false
 		};
 	},
 
 	computed: {
-		currentClass(){
+		currentClass() {
 			return (this.pressedClass && this.pressed)
 				? this.pressedClass
 				: this.unpressedClass;
@@ -45,14 +45,13 @@ export default {
 	},
 
 	methods: {
-		handleClick(){
-			if(this.pressed){
-				this.$emit('click');
+		handleClick(event) {
+			if (this.pressed) {
+				this.$emit('click', event);
 				this.pressed = false;
 				if(this.pressedTimeout)
 					clearTimeout(this.pressedTimeout);
-			}
-			else {
+			} else {
 				this.pressed = true;
 				this.pressedTimeout = setTimeout(() => {
 					this.pressed = false;
