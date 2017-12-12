@@ -1,4 +1,4 @@
-<h1>Hello!</h1>
+<p>Hello Dr {{ $resident->last_name }}!</p>
 
 <p>
 	In an attempt to provide residents more feedback and make it simpler
@@ -8,7 +8,7 @@
 
 <p>
 	Based on our records, we've selected the following faculty as top
-	candidates to provide evaluations for {{ $timePeriodDisplay }}.
+	candidates to provide evaluations for {{ $periodDisplay }}.
 </p>
 
 <ol>

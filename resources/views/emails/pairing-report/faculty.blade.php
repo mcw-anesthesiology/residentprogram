@@ -1,4 +1,4 @@
-<h1>Hello!</h1>
+<p>Hello Dr {{ $faculty->last_name }}!</p>
 
 <p>
 	In an attempt to provide more feedback to our residents and make it simpler
@@ -8,15 +8,16 @@
 
 <p>
 	Based on our records, we've selected the following residents as top
-	candidates for evaluation for {{ $timePeriodDisplay }}.
+	candidates for evaluation for {{ $periodDisplay }}.
 </p>
 
 <ol>
 @foreach ($pairings as $pairing)
 	<li>
-		<b>{{ $pairing['resident']->full_name }}</b>
-		- {{ $pairing['numCases'] }} totalling
-		{{ $pairing['totalTime']->format('%h hours, %i minutes') }}
+		<b>{{ $pairing['resident']->full_name }}</b>:
+		<i>{{ $pairing['numCases'] }} cases</i>
+		totalling
+		<i>{{ $pairing['totalTime']->format('%a days, %h hours, %i minutes') }}</i>
 	</li>
 @endforeach
 </ol>
@@ -27,7 +28,11 @@
 
 <p>
 	As always, if you have any questions or comments about the site
-	please let me know at {{ config('app.admin_email') }} and I'll
+	please let me know at
+	<a href="mailto:{{ config('app.admin_email') }}">
+		{{ config('app.admin_email') }}
+	</a>
+	and I'll
 	get back to you as soon as possible!
 </p>
 
