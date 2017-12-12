@@ -139,6 +139,17 @@ class EgressParser {
 											$faculty,
 											$resident
 										);
+
+										if (self::intervalIsNegative(
+											$case['timeTogether']
+										)) {
+											Log::debug("\n\n" . json_encode([
+												'date' => $faculty['date'],
+												'faculty' => $faculty,
+												'resident' => $resident,
+											], JSON_PRETTY_PRINT) . "\n\n");
+										}
+
 									} catch (\Exception $e) {
 										Log::debug("Failed to compute time together for {$faculty['name']} and {$resident['name']}: " . $e);
 									}
@@ -159,6 +170,13 @@ class EgressParser {
 		return $overlaps;
 	}
 
+	static function intervalIsNegative($interval) {
+		$date = new DateTimeImmutable();
+		$iDate = $date->add($interval);
+
+		return $iDate < $date;
+	}
+
 	static function computeOverlaps($overlappingCasesByFaculty) {
 		foreach ($overlappingCasesByFaculty as &$overlap) {
 			foreach ($overlap['pairings'] as &$pairing) {
@@ -169,10 +187,10 @@ class EgressParser {
 
 						if (!empty($caseDuration)) {
 							$d = new DateTimeImmutable();
-							return $d
-								->add($totalDuration)
-								->add($caseDuration)
-								->diff($d);
+							return $d->diff(
+								$d->add($totalDuration)
+									->add($caseDuration)
+							);
 						}
 					} catch (\Exception $e) {
 						Log::debug('Problem computing case duration: ' . $e);
@@ -216,7 +234,7 @@ class EgressParser {
 			$end->addDay();
 		}
 
-		return $end->diff($start);
+		return $start->diff($end);
 	}
 
 	static function sortOverlaps(
@@ -242,7 +260,6 @@ class EgressParser {
 		$nestedSorter
 	) {
 		$sortFacultyOverlaps = function ($facultyOverlaps) use ($nestedSorter) {
-			Log::debug('***' . $facultyOverlaps['faculty']->full_name . '***');
 			$pairings = &$facultyOverlaps['pairings'];
 			usort($pairings, $nestedSorter);
 
