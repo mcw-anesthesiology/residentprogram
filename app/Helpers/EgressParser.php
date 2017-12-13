@@ -224,17 +224,25 @@ class EgressParser {
 		$firstStart = self::parseDate($date, $firstStart);
 		$firstEnd = self::parseDate($date, $firstEnd);
 
+		if ($firstStart > $firstEnd)
+			$firstEnd->addDay();
+
 		$secondStart = self::parseDate($date, $secondStart);
 		$secondEnd = self::parseDate($date, $secondEnd);
+
+		if ($secondStart > $secondEnd)
+			$secondStart->addDay();
 
 		$start = max($firstStart, $secondStart);
 		$end = min($firstEnd, $secondEnd);
 
-		if ($start > $end) {
-			$end->addDay();
-		}
+		$diff = $start->diff($end);
 
-		return $start->diff($end);
+		$d = new DateTimeImmutable();
+
+		return ($d->add($diff) > $d)
+			? $diff
+			: new DateInterval('PT0S');
 	}
 
 	static function sortOverlaps(

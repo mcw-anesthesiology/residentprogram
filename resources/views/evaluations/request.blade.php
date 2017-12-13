@@ -52,7 +52,9 @@
 				</div>
 			</div>
 			<div class="col-md-8">
-				<label for="subject">{{ ucfirst($subjectTypeText) }}</label>
+				<label for="subject">
+					{{ ucfirst($subjectTypeText) }}
+				</label>
 				<div class="input-group">
 					<select-two class="form-control" name="subject_id[]" id="subject" required
 							:options="subjectOptions" v-model="subjectId"
@@ -69,6 +71,13 @@
 						</label>
 					</span>
 				</div>
+				<small v-if="subjectFilter">
+					Currently being filtered
+					<button type="button" class="btn btn-xs btn-default"
+							@click="subjectFilter = null">
+						Clear filter
+					</button>
+				</small>
 			</div>
 		</div>
 	@endif
@@ -81,7 +90,9 @@
 				</div>
 			</div>
 			<div class="col-md-8">
-				<label for="evaluator">{{ ucfirst($evaluatorTypeText) }}</label>
+				<label for="evaluator">
+					{{ ucfirst($evaluatorTypeText) }}
+				</label>
 				<div class="input-group">
 					<select-two class="form-control" name="evaluator_id[]"
 							id="evaluator" required
@@ -99,6 +110,13 @@
 						</label>
 					</span>
 				</div>
+				<small v-if="evaluatorFilter">
+					Currently being filtered
+					<button type="button" class="btn btn-xs btn-default"
+							@click="evaluatorFilter = null">
+						Clear filter
+					</button>
+				</small>
 			</div>
 		</div>
 	@endif
@@ -110,13 +128,22 @@
 				</div>
 			</div>
 			<div class="col-md-8">
-				<label for="evaluation-form">Evaluation form</label>
+				<label for="evaluation-form">
+					Evaluation form
+				</label>
 				<select-two class="form-control" name="form_id"
 						id="evaluation-form" required
 						:options="formOptions" v-model="formId"
 						placeholder="Select form">
 					<option value="">Select form</option>
 				</select-two>
+				<small v-if="formFilter">
+					Currently being filtered
+					<button type="button" class="btn btn-xs btn-default"
+							@click="formFilter = null">
+						Clear filter
+					</button>
+				</small>
 			</div>
 		</div>
 

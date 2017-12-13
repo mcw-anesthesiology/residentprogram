@@ -26,10 +26,11 @@ class SendPairingReports extends Command
 		{--no-faculty : Do not send to faculty}
 		{--faculty-subject=Resident pairing report : Subject for email to faculty}
 		{--resident-subject=Faculty pairing report : Subject for email to residents}
-		{--min-cases=2 : Minimum number of cases}
-		{--min-hours=4 : Minimum number of hours together}
-		{--max-pairs=3 : Maximum number of pairs per person to send in report}
-		{--or : Require <min-cases> OR <min-hours> (requires both by default)}
+		{--min-cases=0 : Minimum number of cases}
+		{--min-hours=0 : Minimum number of hours together (combined with minutes)}
+		{--min-minutes=30 : Minimum number of minutes together (combined with hours)}
+		{--max-pairs=999 : Maximum number of pairs per person to send in report}
+		{--or : Require <min-cases> OR <min-hours and min-minutes> (requires both by default)}
 		{--dry : Do not send anything, log instead}';
 
     /**
@@ -65,6 +66,7 @@ class SendPairingReports extends Command
 		$residentSubject = $this->option('resident-subject');
 		$minCases = $this->option('min-cases');
 		$minHours = $this->option('min-hours');
+		$minMinutes = $this->option('min-minutes');
 		$maxPairs = $this->option('max-pairs');
 		$orNotAnd = $this->option('or');
 		$dry = $this->option('dry');
@@ -90,61 +92,172 @@ class SendPairingReports extends Command
 					}
 				);
 
+				$minHoursInterval = new DateInterval("PT{$minHours}H{$minMinutes}M");
+				$d = new DateTimeImmutable();
+				$minDate = $d->add($minHoursInterval);
+
+				$facultyEmailsSent = 0;
+
+				foreach ($overlapsByFaculty as $facultyOverlap) {
+					try {
+						$faculty = $facultyOverlap['faculty'];
+						$pairings = array_slice(array_filter(
+							$facultyOverlap['pairings'],
+							function ($pairing) use ($minCases, $d, $minDate, $orNotAnd) {
+								return (
+									($orNotAnd && (
+										$pairing['numCases'] >= $minCases
+										|| $d->add($pairing['totalTime']) >= $minDate
+									))
+									|| (!$orNotAnd && (
+										$pairing['numCases'] >= $minCases
+										&& $d->add($pairing['totalTime']) >= $minDate
+									))
+								);
+							}
+						), 0, $maxPairs);
+
+						$requestUrl = url('/request?' . join('&', array_map(
+							function ($pairing) {
+								return "subject={$pairing['resident']->id}";
+							},
+							$pairings
+						)));
+
+						$data = compact(
+							'faculty',
+							'pairings',
+							'periodDisplay',
+							'requestUrl'
+						);
+
+						if ($dry) {
+							$this->info(
+								"Would have sent report to {$faculty->full_name} with "
+								. count($pairings) . ' pairings'
+							);
+						} else {
+							Mail::send(
+								'emails.pairing-report.faculty',
+								$data,
+								function ($message) use ($faculty, $facultySubject) {
+									$message->to($faculty->email)
+										->from('admin@residentprogram.com', 'Resident Program')
+										->replyTo(config('app.admin_email'))
+										->subject($facultySubject);
+								}
+							);
+
+							// Mailtrap gets mad if you send emails too quickly
+							if (config('app.env') != 'production') {
+								sleep(1);
+							}
+						}
+
+						$facultyEmailsSent++;
+					} catch (\Exception $e) {
+						Log::debug('Failed sending pairing report: ' . $e);
+					}
+				}
+
+				$this->info($facultyEmailsSent . ' faculty reports sent');
+			}
+		}
+
+		if (!$noResident) {
+			$roles = [
+				'resident' => EgressParser::RESIDENT_ROLE,
+				'faculty' => EgressParser::FACULTY_ROLE
+			];
+			$overlapsByResident = EgressParser::parseFilename($egressFile, $roles);
+			if (empty($overlapsByResident)) {
+				$this->error('Unable to find overlaps by resident');
+			} else {
+				$overlapsByResident = EgressParser::sort(
+					$overlapsByResident,
+					EgressParser::getNameSorter('resident'),
+					function($a, $b) {
+						$date = new DateTimeImmutable();
+						$aDate = $date->add($a['totalTime']);
+						$bDate = $date->add($b['totalTime']);
+
+						if ($aDate == $bDate)
+							return 0;
+
+						return ($aDate > $bDate) ? -1 : 1;
+					}
+				);
+
 				$minHoursInterval = new DateInterval("PT{$minHours}H");
 				$d = new DateTimeImmutable();
 				$minDate = $d->add($minHoursInterval);
 
-				foreach ($overlapsByFaculty as $facultyOverlap) {
-					$faculty = $facultyOverlap['faculty'];
-					$pairings = array_slice(array_filter(
-						$facultyOverlap['pairings'],
-						function ($pairing) use ($minCases, $d, $minDate, $orNotAnd) {
-							return (
-								($orNotAnd && (
-									$pairing['numCases'] >= $minCases
-									|| $d->add($pairing['totalTime']) >= $minDate
-								))
-								|| (!$orNotAnd && (
-									$pairing['numCases'] >= $minCases
-									&& $d->add($pairing['totalTime']) >= $minDate
-								))
+				$residentEmailsSent = 0;
+
+				foreach ($overlapsByResident as $residentOverlap) {
+					try {
+						$resident = $residentOverlap['resident'];
+						$pairings = array_slice(array_filter(
+							$residentOverlap['pairings'],
+							function ($pairing) use ($minCases, $d, $minDate, $orNotAnd) {
+								return (
+									($orNotAnd && (
+										$pairing['numCases'] >= $minCases
+										|| $d->add($pairing['totalTime']) >= $minDate
+									))
+									|| (!$orNotAnd && (
+										$pairing['numCases'] >= $minCases
+										&& $d->add($pairing['totalTime']) >= $minDate
+									))
+								);
+							}
+						), 0, $maxPairs);
+
+						$requestUrl = url('/request?' . join('&', array_map(
+							function ($pairing) {
+								return "evaluator={$pairing['faculty']->id}";
+							},
+							$pairings
+						)));
+
+						$data = compact(
+							'resident',
+							'pairings',
+							'periodDisplay',
+							'requestUrl'
+						);
+
+						if ($dry) {
+							$this->info(
+								"Would have sent report to {$resident->full_name} with "
+								. count($pairings) . ' pairings'
 							);
-						}
-					), 0, $maxPairs);
+						} else {
+							Mail::send(
+								'emails.pairing-report.resident',
+								$data,
+								function ($message) use ($resident, $residentSubject) {
+									$message->to($resident->email)
+										->from('admin@residentprogram.com', 'Resident Program')
+										->replyTo(config('app.admin_email'))
+										->subject($residentSubject);
+								}
+							);
 
-					$data = compact('faculty', 'pairings', 'periodDisplay');
-					Mail::send(
-						'emails.pairing-report.faculty',
-						$data,
-						function ($message) use ($faculty, $facultySubject) {
-							$message->to($faculty->email)
-								->from('admin@residentprogram.com', 'Resident Program')
-								->replyTo(config('app.admin_email'))
-								->subject($facultySubject);
+							// Mailtrap gets mad if you send emails too quickly
+							if (config('app.env') != 'production') {
+								sleep(1);
+							}
 						}
-					);
 
-					// Mailtrap gets mad if you send emails too quickly
-					if (config('app.env') != 'production') {
-						sleep(1);
+						$residentEmailsSent++;
+					} catch (\Exception $e) {
+						Log::debug('Failed sending pairing report to resident: ' . $e);
 					}
 				}
+
+				$this->info($residentEmailsSent . ' resident reports sent');
 			}
 		}
-
-		// $roles = [
-		// 	'resident' => EgressParser::RESIDENT_ROLE,
-		// 	'faculty' => EgressParser::FACULTY_ROLE
-		// ];
-		// $overlapsByResident = EgressParser::parseFilename($egressFile, $roles);
-		// if (empty($overlapsByResident)) {
-		// 	$this->error('Unable to find overlaps by resident');
-		// } else {
-        //
-		// 	$overlapsByResident = EgressParser::sortOverlaps(
-		// 		$overlapsByResident,
-		// 		array_keys($roles)
-		// 	);
-		// }
     }
 }
