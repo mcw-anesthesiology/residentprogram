@@ -57,6 +57,10 @@ export function createRequest(el, propsData) {
 				useCustomEvaluationDate: false,
 				customEvaluationDate: null,
 
+				subjectFilter: mapNumbersIfExists(getSearchFilter('subject')),
+				evaluatorFilter: mapNumbersIfExists(getSearchFilter('evaluator')),
+				formFilter: mapNumbersIfExists(getSearchFilter('form')),
+
 				requestNote: null,
 
 				sendHash: requestType === 'staff',
@@ -80,6 +84,7 @@ export function createRequest(el, propsData) {
 				}
 			};
 		},
+
 		computed: {
 			flatpickrOptions() {
 				let academicYear = academicYearForDate(new Date());
@@ -157,14 +162,44 @@ export function createRequest(el, propsData) {
 				let subjectId = Number(this.subjectId);
 				return this.subjects[0].find(subject => subject.id === subjectId);
 			},
+			filteredEvaluators() {
+				if (!this.evaluators)
+					return;
+				if (!this.evaluatorFilter)
+					return this.evaluators[0];
+
+				return this.evaluators[0].filter(user =>
+					this.evaluatorFilter.includes(user.id)
+				);
+			},
+			filteredSubjects() {
+				if (!this.subjects)
+					return;
+				if (!this.subjectFilter)
+					return this.subjects[0];
+
+				return this.subjects[0].filter(user =>
+					this.subjectFilter.includes(user.id)
+				);
+			},
+			filteredForms() {
+				if (!this.forms)
+					return;
+				if (!this.formFilter)
+					return this.forms;
+
+				return this.forms.filter(form =>
+					this.formFilter.includes(form.id)
+				);
+			},
 			evaluatorOptions() {
-				return groupUsers(this.evaluators[0]);
+				return groupUsers(this.filteredEvaluators);
 			},
 			subjectOptions() {
-				return groupUsers(this.subjects[0]);
+				return groupUsers(this.filteredSubjects);
 			},
 			subjectForms() {
-				let forms = this.forms;
+				let forms = this.filteredForms;
 				if (this.subjectId && this.subject && this.subject.type === 'resident') {
 					if (this.subject.training_level === 'fellow') {
 						forms = forms.filter(form => form.type === 'fellow');
@@ -391,6 +426,31 @@ export function createRequest(el, propsData) {
 				};
 			}
 		},
+
+		mounted() {
+			if (
+				this.filteredEvaluators
+				&& this.filteredEvaluators.length === 1
+				&& this.required.evaluatorId
+			)
+				this.evaluatorId = this.filteredEvaluators[0].id;
+
+			if (
+				this.filteredSubjects
+				&& this.filteredSubjects.length === 1
+				&& this.required.subjectId
+			)
+				this.subjectId = this.filteredSubjects[0].id;
+
+			if (
+				this.filteredForms
+				&& this.filteredForms.length === 1
+				&& this.required.formId
+			)
+				this.formId = this.filteredForms[0].id;
+
+		},
+
 		watch: {
 			allowMultiple(allowMultiple) {
 				Object.keys(allowMultiple).map(field => {
@@ -438,6 +498,7 @@ export function createRequest(el, propsData) {
 					this.formId = null;
 			}
 		},
+
 		methods: {
 			clearDay() {
 				this.$refs.evaluationDayFlatpickr.fp.clear();
@@ -459,6 +520,7 @@ export function createRequest(el, propsData) {
 					event.preventDefault();
 			}
 		},
+
 		components: {
 			VueFlatpickr,
 			EvaluationDataTable,
@@ -475,4 +537,17 @@ function getRequestType() {
 	return REQUEST_TYPES.includes(type)
 		? type
 		: 'resident';
+}
+
+function getSearchFilter(prop) {
+	let params = new URLSearchParams(window.location.search);
+	return params.has(prop)
+		? params.getAll(prop)
+		: null;
+}
+
+function mapNumbersIfExists(arr) {
+	return arr
+		? arr.map(val => Number(val))
+		: null;
 }
