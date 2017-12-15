@@ -730,7 +730,7 @@ export default {
 											].concat(
 												item.options.map(option => [
 													option.text,
-													getResponseValue(option.value, this.customOptionValues[item.originalIndex])
+													getResponseValue(option.value, this.customOptionValues[item.originalIndex]) || ''
 												].concat(hasSubject
 													? [
 														option.responses || '',
@@ -776,6 +776,8 @@ export default {
 										});
 									break;
 							}
+
+							console.log(questionBody);
 
 							return {
 								pageBreak: this.pdfOptions.questionPageBreak,
