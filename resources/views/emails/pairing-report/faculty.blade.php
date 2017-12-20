@@ -1,4 +1,4 @@
-<p>Hello Dr {{ $faculty->last_name }}!</p>
+<p>Hello Dr {{ $user->last_name }}!</p>
 
 <p>
 	In an attempt to provide more feedback to our residents and make it simpler

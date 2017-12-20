@@ -69,6 +69,7 @@ Route::get('manage/user-features', 'ManageController@userFeatures');
 Route::get('manage/scheduled-requests', 'ManageController@scheduledRequests');
 
 Route::get('reports', 'ReportController@reports');
+Route::post('reports/egress-pairings/overlaps', 'EgressPairingReportController@getOverlaps');
 
 Route::post('report/aggregate', 'ReportController@aggregate');
 Route::post('report/specific', 'ReportController@specific');
