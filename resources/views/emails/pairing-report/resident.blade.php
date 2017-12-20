@@ -1,4 +1,4 @@
-<p>Hello Dr {{ $resident->last_name }}!</p>
+<p>Hello Dr {{ $user->last_name }}!</p>
 
 <p>
 	In an attempt to provide you more feedback and make it simpler
