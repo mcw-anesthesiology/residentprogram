@@ -7,8 +7,10 @@
 							:errors="errors" prop="egressFile">
 						<label class="containing-label">
 							Egress report file (CSV)
-							<input type="file" class="form-control" accept=".csv"
-								name="egressFile" />
+							<input type="file" class="form-control"
+								accept=".csv"
+								name="egressFile"
+								@change="handleEgressFileChange"/>
 						</label>
 					</validated-form-group>
 				</div>
@@ -27,19 +29,24 @@
 					</validated-form-group>
 					<validated-form-group class="col-sm-6"
 							:errors="errors" prop="maxPairs">
-						<fieldset>
-							<legend>
-								Maximum number of pairs per user
-							</legend>
-							<label class="containing-label">
-								Unlimited
-								<input type="checkbox" :checked="maxPairs === null"
-									@change="handleUnlimitedPairsChange" />
-							</label>
-							<input type="number" v-if="maxPairs !== null"
-								class="form-control" min="0"
-								v-model="maxPairs" />
-						</fieldset>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<span class="panel-title">
+									Maximum number of pairs per user
+								</span>
+							</div>
+							<div class="panel-body">
+								<input type="number"
+									:disabled="maxPairs === null"
+									class="form-control" min="0"
+									v-model="maxPairs" />
+								<label class="containing-label">
+									Unlimited
+									<input type="checkbox" :checked="maxPairs === null"
+										@change="handleUnlimitedPairsChange" />
+								</label>
+							</div>
+						</div>
 					</validated-form-group>
 				</div>
 				<div class="row">
@@ -66,20 +73,92 @@
 					</validated-form-group>
 				</div>
 				<div class="submit-container text-center">
-					<button type="submit" class="btn btn-lg btn-primary">
+					<button type="submit" class="btn btn-lg btn-primary"
+							:disabled="!valid">
 						Run report
 					</button>
 				</div>
 			</form>
 		</div>
 
+		<div v-if="overlapsToSend && overlapsToSend.length > 0"
+				class="container body-block">
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<span class="panel-title">
+						{{ overlapsToSend.length }} reports selected
+					</span>
+				</div>
+				<div class="panel-body">
+					<ul>
+						<li v-for="overlapToSend of overlapsToSend">
+							{{ overlapToSend[reportUserType].full_name }}
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="form">
+				<div class="row">
+					<validated-form-group class="col-sm-6" :errors="errors"
+							prop="emailSubject">
+						<label class="containing-label">
+							Email subject
+							<input type="text" class="form-control"
+								placeholder="Resident pairing report"
+								v-model="emailSubject" />
+						</label>
+					</validated-form-group>
+					<validated-form-group class="col-sm-6" :errors="errors"
+							prop="periodDisplay">
+						<label class="containing-label">
+							Time period display
+							<input type="text" class="form-control"
+								placeholder="'the past month', 'in July', etc"
+								v-model="periodDisplay" />
+						</label>
+					</validated-form-group>
+				</div>
+			</div>
+
+			<div class="text-center">
+				<button type="button" class="btn btn-lg btn-info"
+						:disabled="!sendReportValid"
+						@click="sendReports">
+					<span class="glyphicon glyphicon-send"></span>
+					Send reports
+				</button>
+			</div>
+		</div>
+
 		<div v-if="overlaps" class="container body-block">
-			<component-list :items="overlaps">
+			<h2>
+				Overlaps grouped by
+				{{ reportUserType }}
+			</h2>
+			<component-list :items="overlaps"
+					:fields="overlapsFields"
+					:fieldAccessors="overlapsFieldAccessors">
 				<template slot-scope="item">
-					<overlap-list-item :overlap="item" />
+					<div class="row">
+						<div class="col-xs-1">
+							<input type="checkbox"
+								:value="item"
+								v-model="overlapsToSend" />
+						</div>
+						<div class="col-xs-11">
+							<overlap-list-item
+								:overlap="item"
+								:user-type="reportUserType"
+								:subject-type="subjectType" />
+						</div>
+					</div>
 				</template>
 			</component-list>
 		</div>
+
+		<alert-list v-model="alerts" />
 	</div>
 </template>
 
@@ -90,6 +169,8 @@ import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 import OverlapListItem from './OverlapListItem.vue';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
+import delve from 'dlv';
 
 import {
 	fetchConfig,
@@ -104,13 +185,20 @@ export default {
 	],
 	data() {
 		return {
+			egressFiles: null,
 			userType: 'faculty',
 			minCases: 0,
 			minHours: 0,
 			minMinutes: 30,
 			maxPairs: null,
 
-			overlaps: null
+			emailSubject: '',
+			periodDisplay: '',
+
+			reportUserType: null,
+			overlaps: null,
+
+			overlapsToSend: []
 		};
 	},
 
@@ -121,19 +209,47 @@ export default {
 				'resident'
 			];
 		},
+		subjectType() {
+			return this.reportUserType === 'faculty'
+				? 'resident'
+				: 'faculty';
+		},
+		overlapsFields() {
+			return this.reportUserType === 'faculty'
+				? [
+					'faculty_name'
+				]
+				: [
+					'resident_name'
+				];
+		},
+		overlapsFieldAccessors() {
+			return this.reportUserType === 'faculty'
+				? {
+					faculty_name: overlap => overlap.faculty.full_name,
+					id: overlap => overlap.faculty.id
+				}
+				: {
+					resident_name: overlap => overlap.resident.full_name,
+					id: overlap => overlap.resident.id
+				};
+		},
 		errors() {
 			const map = new Map();
+
+			if (delve(this, 'egressFiles.length') !== 1) {
+				map.set('egressFile', 'Please select an egress report CSV file');
+			}
+
+			if (!this.userTypes.includes(this.userType)) {
+				map.set('userType', 'Invalid selection');
+			}
 
 			const numProps = [
 				'minCases',
 				'minHours',
 				'minMinutes'
 			];
-
-			if (!this.userTypes.includes(this.userType)) {
-				map.set('userType', 'Invalid selection');
-			}
-
 			for (const prop of numProps) {
 				if (Number.isNaN(Number(this[prop]))) {
 					map.set(prop, 'Must be a number');
@@ -145,11 +261,35 @@ export default {
 			}
 
 			return map;
+		},
+		valid() {
+			return Array.from(this.errors.keys()).length === 0;
+		},
+		sendReportErrors() {
+			const map = new Map();
+
+			const stringProps = [
+				'emailSubject',
+				'periodDisplay'
+			];
+			for (const prop of stringProps) {
+				if (!this[prop]) {
+					map.set(prop, 'Please enter a value');
+				}
+			}
+
+			return map;
+		},
+		sendReportValid() {
+			return Array.from(this.sendReportErrors.keys()).length === 0;
 		}
 	},
 
 	methods: {
 		ucfirst,
+		handleEgressFileChange(event) {
+			this.egressFiles = event.target.files;
+		},
 		handleUnlimitedPairsChange(event) {
 			if (event.target.checked) {
 				this.maxPairs = null;
@@ -159,6 +299,18 @@ export default {
 		},
 		handleSubmit(event) {
 			event.preventDefault();
+
+			if (!this.valid) {
+				this.alerts.push({
+					type: 'warning',
+					text: 'Please fix all input errors'
+				});
+				return;
+			}
+
+			this.overlaps = null;
+			this.overlapsToSend = [];
+			this.reportUserType = this.userType;
 
 			const body = new FormData(event.target);
 			const quoteUnlimitedMaxPairsUnquote = 99999;
@@ -176,9 +328,31 @@ export default {
 				body
 			}).then(jsonOrThrow).then(overlaps => {
 				this.overlaps = overlaps;
+				this.overlapsToSend = [];
 			}).catch(err => {
 				console.error(err);
 				this.alerts.push(simpleErrorAlert('There was a problem fetching the report'));
+			});
+		},
+		sendReports() {
+			if (
+				!this.sendReportValid
+				|| !this.overlapsToSend
+				|| this.overlapsToSend.length === 0
+			)
+				return;
+
+			fetch('/reports/egress-pairings/send-reports', {
+				...fetchConfig(),
+				method: 'POST',
+				body: JSON.stringify({
+					overlaps: this.overlapsToSend
+				})
+			}).then(jsonOrThrow).then(response => {
+				console.log(response);
+			}).catch(err => {
+				console.error(err);
+				this.alerts.push(simpleErrorAlert('There was a problem sending the reports'));
 			});
 		}
 	},
