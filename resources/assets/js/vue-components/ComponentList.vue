@@ -65,6 +65,10 @@ import { sortFunctions } from '@/modules/report-utils.js';
 
 export default {
 	props: {
+		searchRef: {
+			type: String,
+			required: false
+		},
 		fields: {
 			type: Array,
 			default() {
@@ -124,10 +128,13 @@ export default {
 			return map;
 		},
 		index() {
-			let fields = this.fields;
+			const vm = this;
 
-			let index = lunr(function() {
-				fields.map(field => {
+			return lunr(function() {
+				if (vm.searchRef)
+					this.ref(vm.searchRef);
+
+				for (const field of vm.fields) {
 					let name, options;
 					if (typeof field === 'string') {
 						name = field;
@@ -136,22 +143,20 @@ export default {
 						options = field;
 					}
 					this.field(name, options);
-				});
-			});
-
-			this.items.map(item => {
-				if (this.fieldAccessors) {
-					for (let field in this.fieldAccessors) {
-						item[field] = this.fieldAccessors[field](item, 'search');
-					}
 				}
-				index.add(item);
-			});
 
-			return index;
+				for (const item of vm.items) {
+					if (vm.fieldAccessors) {
+						for (const field in vm.fieldAccessors) {
+							item[field] = vm.fieldAccessors[field](item, 'search');
+						}
+					}
+					this.add(item);
+				}
+			});
 		},
 		filteredItems() {
-			if (this.query) {
+			if (this.query && this.index) {
 				let refs = this.index.search(this.query);
 				return refs.map(ref => {
 					return this.itemMap.get(ref.ref);

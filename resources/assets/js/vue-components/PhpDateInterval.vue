@@ -1,7 +1,5 @@
 <template>
-	<span>
-		{{ display }}
-	</span>
+	<span class="php-date-interval">{{ display }}</span>
 </template>
 
 <script>
@@ -36,13 +34,19 @@ export default {
 				.map(thing => {
 					const val = this[thing];
 					const unit = val === 1
-						? thing.substring(0, thing.length - 1)
+						? thing.substring(0, thing.length - 1) + ' '
 						: thing;
 
-					return `${val} ${unit}`;
+					return `${String(val).padStart(2)} ${unit}`;
 				})
-				.join(', ');
+				.join('  ');
 		}
 	}
 };
 </script>
+
+<style scoped>
+	.php-date-interval {
+		white-space: pre;
+	}
+</style>

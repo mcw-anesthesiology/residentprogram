@@ -1457,6 +1457,51 @@ aside[data-v-76955910] {
 }
 }
 
+.overlap-list-item[data-v-f54c8bae] {
+	margin: 1em 0.5em;
+}
+.overlap-user-name[data-v-f54c8bae] {
+	font-size: 1.25em;
+	margin: 0;
+}
+.pairings-list[data-v-f54c8bae] {
+	margin-left: 2em;
+}
+.pairings-list-item[data-v-f54c8bae] {
+	font-family: monospace;
+	padding: 0.25em;
+}
+.pairings-list-item[data-v-f54c8bae]:not(:last-child) {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.pairings-list-item[data-v-f54c8bae]:nth-child(even) {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+.pairings-list-item-row[data-v-f54c8bae] {
+	display: flex;
+	justify-content: space-around;
+}
+.pairings-list-item-row > *[data-v-f54c8bae] {
+	flex-grow: 1;
+}
+.subject-name[data-v-f54c8bae] {
+	flex-basis: 50%;
+}
+.num-cases[data-v-f54c8bae] {
+	flex-basis: 20%;
+}
+.total-time[data-v-f54c8bae] {
+	flex-basis: 30%;
+}
+.num-cases[data-v-f54c8bae],
+.total-time[data-v-f54c8bae] {
+	text-align: right;
+}
+
+.php-date-interval[data-v-16a0d5eb] {
+	white-space: pre;
+}
+
 .controls-row[data-v-0dd0fb89] {
 	margin-bottom: 3em;
 }

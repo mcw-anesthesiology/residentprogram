@@ -36,4 +36,10 @@ class EgressPairingReportController extends Controller
 			$roles
 		);
 	}
+
+	public function sendReports(Request $request) {
+		$overlaps = $request->input('overlaps');
+
+		return $overlaps;
+	}
 }

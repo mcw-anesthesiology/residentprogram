@@ -70,6 +70,7 @@ Route::get('manage/scheduled-requests', 'ManageController@scheduledRequests');
 
 Route::get('reports', 'ReportController@reports');
 Route::post('reports/egress-pairings/overlaps', 'EgressPairingReportController@getOverlaps');
+Route::post('reports/egress-pairings/send-reports', 'EgressPairingReportController@sendReports');
 
 Route::post('report/aggregate', 'ReportController@aggregate');
 Route::post('report/specific', 'ReportController@specific');
