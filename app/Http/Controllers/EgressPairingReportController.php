@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Helpers\EgressParser;
 
+use Log;
+
 class EgressPairingReportController extends Controller
 {
     public function __construct() {
@@ -39,7 +41,39 @@ class EgressPairingReportController extends Controller
 
 	public function sendReports(Request $request) {
 		$overlaps = $request->input('overlaps');
+        $userType = $request->input('userType');
+        $subjectType = $request->input('subjectType');
+        $emailSubject = $request->input('emailSubject');
+        $periodDisplay = $request->input('periodDisplay');
 
-		return $overlaps;
+        $successes = 0;
+        $errors = [];
+
+        foreach ($overlaps as $overlap) {
+            $user = $overlap[$userType];
+            $pairings = $overlap['pairings'];
+            try {
+                EgressParser::sendPairingReport(
+                    $user,
+                    $pairings,
+                    $userType,
+                    $subjectType,
+                    $emailSubject,
+                    $periodDisplay
+                );
+                $successes++;
+            } catch (\Exception $e) {
+                Log::Debug('Error sending report: ' . $e);
+                $errors[] = $overlap;
+            }
+        }
+
+		$response = [
+            'successful' => $successes
+        ];
+        if (!empty($errors))
+            $response['errors'] = $errors;
+
+        return $response;
 	}
 }
