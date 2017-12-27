@@ -378,7 +378,35 @@ export default {
 					periodDisplay: this.periodDisplay
 				})
 			}).then(jsonOrThrow).then(response => {
-				console.log(response);
+				if (response.successful) {
+					this.alerts.push({
+						type: 'success',
+						text: `${response.successful} reports sent successfully`
+					});
+				}
+
+				try {
+					if (response.errors && Array.isArray(response.errors) && response.errors.length > 0) {
+						const lis = response.errors.map(overlap =>
+							overlap[this.reportUserType].full_name
+						).map(name => `<li>${name}</li>`);
+						this.alerts.push({
+							type: 'error',
+							html: `
+								<strong>Error:</strong>
+								Failed to send reports to the following users:
+								<ul>
+									${lis}
+								</ul>
+							`
+						});
+					}
+				} catch (e) {
+					console.error(e);
+					this.alerts.push(
+						simpleErrorAlert('There was a problem displaying unsuccessful reports')
+					);
+				}
 			}).catch(err => {
 				console.error(err);
 				this.alerts.push(simpleErrorAlert('There was a problem sending the reports'));
