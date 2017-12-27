@@ -1,4 +1,4 @@
-<p>Hello Dr {{ $user->last_name }}!</p>
+<p>Hello Dr {{ $user['last_name'] }}!</p>
 
 <p>
 	In an attempt to provide more feedback to our residents and make it simpler
@@ -15,7 +15,7 @@
 <ol>
 	@foreach ($pairings as $pairing)
 	<li>
-		<b>{{ $pairing['resident']->full_name }}</b>:
+		<b>{{ $pairing['resident']['full_name'] }}</b>:
 		<i>
 			{{ $pairing['numCases'] }}
 			case{{ $pairing['numCases'] == 1 ? '' : 's' }}
