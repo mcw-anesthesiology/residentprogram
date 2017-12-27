@@ -79,4 +79,22 @@ EOD;
 			(new DateInterval('PT3H15M'))->format(self::INTERVAL_FORMAT)
 		);
 	}
+
+	function testJsonDecodeDateInterval() {
+		$faker = new Faker\Generator();
+		$faker->addProvider(new Faker\Provider\DateTime($faker));
+		$d1 = $faker->dateTime();
+		$d2 = $faker->dateTime();
+
+		$di = $d1->diff($d2, true);
+		$decodedDi = EgressParser::arrayToDateInterval(
+			json_decode(json_encode($di))
+		);
+
+		$d = new DateTimeImmutable();
+		$this->assertEquals(
+			$d->add($di),
+			$d->add($decodedDi)
+		);
+	}
 }

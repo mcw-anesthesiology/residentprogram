@@ -62,6 +62,11 @@ class EgressPairingReportController extends Controller
                     $periodDisplay
                 );
                 $successes++;
+
+				// Mailtrap gets mad if you send emails too quickly
+				if (config('app.env') != 'production') {
+					sleep(1);
+				}
             } catch (\Exception $e) {
                 Log::Debug('Error sending report: ' . $e);
                 $errors[] = $overlap;

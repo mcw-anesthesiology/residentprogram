@@ -406,11 +406,19 @@ class EgressParser {
 		$periodDisplay
 	) {
 		$requestUrl = url('/request?' . join('&', array_map(
-			function ($pairing) {
-				return "subject={$pairing[$subjectType]->id}";
+			function ($pairing) use ($subjectType) {
+				return "subject={$pairing[$subjectType]['id']}";
 			},
 			$pairings
 		)));
+
+		foreach ($pairings as &$pairing) {
+			if (!($pairing['totalTime'] instanceof DateInterval)) {
+				$pairing['totalTime'] = self::arrayToDateInterval(
+					$pairing['totalTime']
+				);
+			}
+		}
 
 		$data = compact(
 			'user',
@@ -423,7 +431,7 @@ class EgressParser {
 			"emails.pairing-report.{$userType}",
 			$data,
 			function ($message) use ($user, $emailSubject) {
-				$message->to($user->email)
+				$message->to($user['email'])
 					->from('admin@residentprogram.com', 'Resident Program')
 					->replyTo(config('app.admin_email'))
 					->subject($emailSubject);
@@ -538,8 +546,8 @@ class EgressParser {
 
 				foreach ($overlapsByFaculty as $facultyOverlap) {
 					try {
-						$faculty = $facultyOverlap['faculty'];
-						$pairings = $facultyOverlap['pairings'];
+						$faculty = (array)$facultyOverlap['faculty'];
+						$pairings = (array)$facultyOverlap['pairings'];
 
 						if ($dry) {
 							$info[] = "Would have sent report to "
@@ -598,8 +606,8 @@ class EgressParser {
 
 				foreach ($overlapsByResident as $residentOverlap) {
 					try {
-						$resident = $residentOverlap['resident'];
-						$pairings = $residentOverlap['pairings'];
+						$resident = (array)$residentOverlap['resident'];
+						$pairings = (array)$residentOverlap['pairings'];
 
 						if ($dry) {
 							$info[] = 'Would have sent report to '
@@ -638,5 +646,15 @@ class EgressParser {
 			$result['errors'] = $errors;
 
 		return $result;
+	}
+
+	static function arrayToDateInterval($arr) {
+		$di = new DateInterval('PT0S');
+		foreach ($arr as $key => $val) {
+			$di->$key = $val;
+		}
+		$dt = new DateTimeImmutable();
+
+		return $dt->diff($dt->add($di));
 	}
 }

@@ -79,6 +79,8 @@
 					</button>
 				</div>
 			</form>
+
+			<alert-list v-model="alerts" />
 		</div>
 
 		<div v-if="overlapsToSend && overlapsToSend.length > 0"
@@ -96,6 +98,13 @@
 							{{ overlapToSend[reportUserType].full_name }}
 						</li>
 					</ul>
+				</div>
+				<div class="panel-footer text-center">
+					<button type="button" class="btn btn-default"
+							@click="deselectAllOverlaps">
+						<span class="glyphicon glyphicon-remove"></span>
+						Clear selection
+					</button>
 				</div>
 			</div>
 
@@ -115,7 +124,7 @@
 						<label class="containing-label">
 							Time period display
 							<input type="text" class="form-control"
-								placeholder="'the past month', 'in July', etc"
+								placeholder="'the past month', 'July' (displayed after the word 'for')"
 								v-model="periodDisplay" />
 						</label>
 					</validated-form-group>
@@ -137,15 +146,27 @@
 				Overlaps grouped by
 				{{ reportUserType }}
 			</h2>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<button type="button" class="btn btn-info"
+							@click="selectAllOverlaps">
+						<span class="glyphicon glyphicon-send"></span>
+						Select all
+					</button>
+				</div>
+			</div>
 			<component-list :items="overlaps"
 					:fields="overlapsFields"
 					:fieldAccessors="overlapsFieldAccessors">
 				<template slot-scope="item">
 					<div class="row">
 						<div class="col-xs-1">
-							<input type="checkbox"
-								:value="item"
-								v-model="overlapsToSend" />
+							<label title="Send report">
+								<input type="checkbox"
+									:value="item"
+									v-model="overlapsToSend" />
+								<span class="glyphicon glyphicon-send"></span>
+							</label>
 						</div>
 						<div class="col-xs-11">
 							<overlap-list-item
@@ -157,8 +178,6 @@
 				</template>
 			</component-list>
 		</div>
-
-		<alert-list v-model="alerts" />
 	</div>
 </template>
 
@@ -297,6 +316,12 @@ export default {
 				this.maxPairs = 3;
 			}
 		},
+		selectAllOverlaps() {
+			this.overlapsToSend = this.overlaps.slice();
+		},
+		deselectAllOverlaps() {
+			this.overlapsToSend = [];
+		},
 		handleSubmit(event) {
 			event.preventDefault();
 
@@ -346,7 +371,11 @@ export default {
 				...fetchConfig(),
 				method: 'POST',
 				body: JSON.stringify({
-					overlaps: this.overlapsToSend
+					overlaps: this.overlapsToSend,
+					userType: this.reportUserType,
+					subjectType: this.subjectType,
+					emailSubject: this.emailSubject,
+					periodDisplay: this.periodDisplay
 				})
 			}).then(jsonOrThrow).then(response => {
 				console.log(response);
