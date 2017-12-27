@@ -71,7 +71,7 @@
 						</label>
 					</span>
 				</div>
-				<small v-if="subjectFilter">
+				<small v-if="subjectFilter" v-cloak>
 					Currently being filtered
 					<button type="button" class="btn btn-xs btn-default"
 							@click="subjectFilter = null">
@@ -110,7 +110,7 @@
 						</label>
 					</span>
 				</div>
-				<small v-if="evaluatorFilter">
+				<small v-if="evaluatorFilter" v-cloak>
 					Currently being filtered
 					<button type="button" class="btn btn-xs btn-default"
 							@click="evaluatorFilter = null">
@@ -137,7 +137,7 @@
 						placeholder="Select form">
 					<option value="">Select form</option>
 				</select-two>
-				<small v-if="formFilter">
+				<small v-if="formFilter" v-cloak>
 					Currently being filtered
 					<button type="button" class="btn btn-xs btn-default"
 							@click="formFilter = null">
