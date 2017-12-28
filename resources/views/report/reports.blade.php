@@ -31,7 +31,7 @@
 			</fieldset>
 		</div>
 
-		<router-view :users="users" :groupedUsers="groupedUsers"></router-view>
+		<router-view :users="users" :grouped-users="groupedUsers"></router-view>
 	</div>
 @stop
 
