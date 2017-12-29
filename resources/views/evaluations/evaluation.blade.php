@@ -43,7 +43,7 @@
 		}
 
 		.evaluation-request-note p {
-			white-space: pre;
+			white-space: pre-wrap;
 			padding: 2em;
 			border-radius: 4px;
 			background-color: rgba(0, 0, 0, 0.05);
