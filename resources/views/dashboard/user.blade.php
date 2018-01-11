@@ -22,7 +22,6 @@
 </div>
 
 	@if($user->type == "faculty")
-
 <div class="container body-block">
 	<form role="form" id="reminders-form" action="/user/reminders" method="post">
 		{!! csrf_field() !!}
@@ -57,11 +56,23 @@
 		<button type="submit" class="btn btn-primary">Update Notification Preferences</button>
 	</form>
 </div>
-
 	@endif
+
+<div class="container body-block">
+	<form role="form" @submit="handleSettingSubmit">
+		<p>
+			@{{ test }}
+		</p>
+		<button type="submit" class="btn btn-primary">
+			Save settings
+		</button>
+	</form>
+</div>
 @stop
 
 @section("script")
+	<script src="{{ elixir('js/vue-deps.js') }}"></script>
+	<script src="{{ elixir('js/vue-user.js') }}"></script>
 	<script>
 		$("#new-password-confirm").keyup(function(){
 			if($("#new-password").val() == $("#new-password-confirm").val())
@@ -76,5 +87,7 @@
 			if("{{ $onlyIfPending }}" == "yes")
 				$("#only-if-pending").prop("checked", true);
 		});
+
+		createUserSettingsPage('main');
 	</script>
 @stop

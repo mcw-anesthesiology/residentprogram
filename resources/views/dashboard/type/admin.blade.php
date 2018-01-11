@@ -14,7 +14,9 @@
 		Trainee Evaluations
 	</h2>
 	<evaluation-data-table id="admin-trainee-evaluations-table"
-		:thead="traineeEvalsThead" :config="traineeEvalsConfig">
+		:range="defaultUserEvaluationRange"
+		:thead="traineeEvalsThead"
+		:config="traineeEvalsConfig">
 	</evaluation-data-table>
 </div>
 
@@ -30,7 +32,9 @@
 		</div>
 		<div class="panel-body">
 			<evaluation-data-table :id="`admin-watched-form-${watchedForms[index].form.id}-table`"
-				:thead="watchedFormThead" :config="config">
+				:range="defaultUserEvaluationRange"
+				:thead="watchedFormThead"
+				:config="config">
 			</evaluation-data-table>
 		</div>
 	</div>
@@ -42,7 +46,9 @@
 		Intern 360 Evaluations
 	</h2>
 	<evaluation-data-table id="admin-intern360-evals-table"
-		:thead="intern360Thead" :config="intern360Config">
+		:range="defaultUserEvaluationRange"
+		:thead="intern360Thead"
+		:config="intern360Config">
 	</evaluation-data-table>
 </div>
 
@@ -52,7 +58,9 @@
 		Self Evaluations
 	</h2>
 	<evaluation-data-table id="admin-self-evals-table"
-		:thead="selfEvalThead" :config="selfEvalConfig">
+		:range="defaultUserEvaluationRange"
+		:thead="selfEvalThead"
+		:config="selfEvalConfig">
 	</evaluation-data-table>
 </div>
 
@@ -62,7 +70,9 @@
 		Staff Evaluations
 	</h2>
 	<evaluation-data-table id="admin-staff-evals-table"
-		:thead="staffEvalThead" :config="staffEvalConfig">
+		:range="defaultUserEvaluationRange"
+		:thead="staffEvalThead"
+		:config="staffEvalConfig">
 	</evaluation-data-table>
 </div>
 
@@ -72,7 +82,9 @@
 		APP Evaluations
 	</h2>
 	<evaluation-data-table id="admin-app-evals-table"
-		:thead="appEvalThead" :config="appEvalConfig">
+		:range="defaultUserEvaluationRange"
+		:thead="appEvalThead"
+		:config="appEvalConfig">
 	</evaluation-data-table>
 </div>
 

@@ -27,8 +27,15 @@ export type User = {
 	remind_only_if_pending: boolean,
 	photo_path: string,
 	profile_link: string,
-	user_features?: Array<UserFeature>
+	user_features?: Array<UserFeature>,
+	user_settings?: Array<UserSetting>
 	// TODO: Add relationships
+};
+
+export type UserSetting = {
+	user_id?: ?number,
+	name: string,
+	value: string
 };
 
 export type UserFeature = {

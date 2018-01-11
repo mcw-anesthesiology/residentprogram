@@ -18,7 +18,8 @@ module.exports = {
 		'vue-faculty360': './resources/assets/js/vue-constructors/faculty360/index.js',
 		'vue-merit-reports': './resources/assets/js/vue-constructors/merit-reports/index.js',
 		'vue-alumni': './resources/assets/js/vue-constructors/alumni.js',
-		'vue-case-log': './resources/assets/js/vue-constructors/case-log.js'
+		'vue-case-log': './resources/assets/js/vue-constructors/case-log.js',
+		'vue-user': './resources/assets/js/vue-constructors/user.js'
 	},
 	output: {
 		path: path.resolve(__dirname, 'public/build/js/'),

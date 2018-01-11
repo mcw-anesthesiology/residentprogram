@@ -12,6 +12,7 @@ import {
 	renderDateRangeCell,
 	createDateRangeCell
 } from '@/modules/datatable-utils.js';
+import { getUserSetting } from '@/modules/user-utils.js';
 
 export default function createResidentDashboard(el, propsData){
 
@@ -29,6 +30,9 @@ export default function createResidentDashboard(el, propsData){
 		propsData,
 
 		computed: {
+			defaultUserEvaluationRange() {
+				return getUserSetting(this.user, 'defaultEvaluationRange');
+			},
 			pendingSubjectThead(){
 				return [[
 					'#',

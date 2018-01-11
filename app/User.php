@@ -148,6 +148,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $this->hasMany("App\UserFeature");
 	}
 
+	public function userSettings() {
+		return $this->hasMany('App\UserSetting');
+	}
+
 	public function typeFeatures(){
 		return DB::table("users")
 			->join("user_features", function($join){

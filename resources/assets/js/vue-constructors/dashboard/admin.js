@@ -6,7 +6,6 @@ import DataTable from '@/vue-components/DataTable.vue';
 import EvaluationDataTable from '@/vue-components/EvaluationDataTable.vue';
 import FlaggedEvaluationControls from '@/vue-components/Dashboard/FlaggedEvaluationControls.vue';
 
-import { getFetchHeaders } from '@/modules/utils.js';
 import {
 	renderDateRangeCell,
 	createDateRangeCell,
@@ -14,6 +13,8 @@ import {
 	renderEvaluationStatus,
 	createDateTimeCell
 } from '@/modules/datatable-utils.js';
+import { getUserSetting } from '@/modules/user-utils.js';
+import { getFetchHeaders } from '@/modules/utils.js';
 
 export default function createAdminDashboard(el, propsData){
 
@@ -68,6 +69,9 @@ export default function createAdminDashboard(el, propsData){
 		},
 
 		computed: {
+			defaultUserEvaluationRange() {
+				return getUserSetting(this.user, 'defaultEvaluationRange');
+			},
 			flaggedEvalsThead() {
 				return [[
 					'#',
