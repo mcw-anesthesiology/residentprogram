@@ -11,9 +11,10 @@ import {
 	createDateRangeCell,
 	renderEvaluationStatus
 } from '@/modules/datatable-utils.js';
+import { getUserSetting } from '@/modules/user-utils.js';
 
 export default function createStaffDashboard(el, propsData){
-	
+
 	return new Vue({
 		el,
 		props: {
@@ -31,14 +32,17 @@ export default function createStaffDashboard(el, propsData){
 			}
 		},
 		propsData,
-		
+
 		data(){
 			return {
 				alerts: []
 			};
 		},
-		
+
 		computed: {
+			defaultUserEvaluationRange() {
+				return getUserSetting(this.user, 'defaultEvaluationRange');
+			},
 			pendingThead(){
 				return [[
 					'#',
@@ -218,7 +222,7 @@ export default function createStaffDashboard(el, propsData){
 				};
 			}
 		},
-		
+
 		components: {
 			AlertList,
 			EvaluationDataTable

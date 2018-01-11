@@ -3,7 +3,8 @@
 		<span class="glyphicon glyphicon-inbox"></span>
 		Requests
 	</h2>
-	<evaluation-data-table range="allTime"
+	<evaluation-data-table
+		range="allTime"
 		:thead="pendingSubjectThead"
 		:config="pendingSubjectConfig">
 	</evaluation-data-table>
@@ -14,7 +15,9 @@
 		<span class="glyphicon glyphicon-check"></span>
 		Completed evaluations
 	</h2>
-	<evaluation-data-table :thead="completeThead"
+	<evaluation-data-table
+		:range="defaultUserEvaluationRange"
+		:thead="completeThead"
 		:config="completeConfig">
 	</evaluation-data-table>
 </div>

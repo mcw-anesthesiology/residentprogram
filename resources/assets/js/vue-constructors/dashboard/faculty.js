@@ -12,6 +12,7 @@ import {
 	renderEvaluationStatus,
 	renderSubjectCell
 } from '@/modules/datatable-utils.js';
+import { getUserSetting } from '@/modules/user-utils.js';
 
 export default function createFacultyDashboard(el, propsData){
 
@@ -40,6 +41,9 @@ export default function createFacultyDashboard(el, propsData){
 		},
 
 		computed: {
+			defaultUserEvaluationRange() {
+				return getUserSetting(this.user, 'defaultEvaluationRange');
+			},
 			pendingThead(){
 				return [[
 					'#',

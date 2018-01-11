@@ -11,6 +11,7 @@ import {
 	renderDateRangeCell,
 	createDateRangeCell
 } from '@/modules/datatable-utils.js';
+import { getUserSetting } from '@/modules/user-utils.js';
 
 export default function createAPPDashboard(el, propsData) {
 	return new Vue({
@@ -27,6 +28,9 @@ export default function createAPPDashboard(el, propsData) {
 		propsData,
 
 		computed: {
+			defaultUserEvaluationRange() {
+				return getUserSetting(this.user, 'defaultEvaluationRange');
+			},
 			pendingSubjectThead() {
 				return [[
 					'#',
