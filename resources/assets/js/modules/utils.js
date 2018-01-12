@@ -182,6 +182,13 @@ export function nl2br(text: string): string {
 	return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
 }
 
+export function pluralize(noun: string, items: number): string {
+	if (items !== 1)
+		noun += 's';
+
+	return noun;
+}
+
 export function escapeCsv(text: string): string {
 	return `"${striptags(text)}"`;
 }
@@ -194,7 +201,7 @@ export function getFetchHeaders(
 		: 'application/json';
 
 	let headers = new Headers();
-	headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+	headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
 
 	if (contentType)
 		headers.append('Content-Type', contentType);

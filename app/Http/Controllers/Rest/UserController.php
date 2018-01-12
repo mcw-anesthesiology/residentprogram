@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\User;
 
+use Auth;
+
 class UserController extends RestController
 {
 
@@ -13,7 +15,8 @@ class UserController extends RestController
         $this->middleware('auth');
 		$this->middleware('type:admin', ['except' => [
 			'index',
-			'show'
+			'show',
+			'settings'
 		]]);
     }
 
@@ -78,10 +81,9 @@ class UserController extends RestController
 		if ($request->has("send_email"))
 			$user->sendNewAccountEmail($password);
 
-		if ($request->ajax())
-			return "success";
-		else
-			return back();
+		return $request->ajax()
+			? 'success'
+			: back();
 	}
 
 	public function update(Request $request, $id) {
@@ -114,10 +116,9 @@ class UserController extends RestController
 
 		$user->save();
 
-		if ($request->ajax())
-			return "success";
-		else
-			return back();
+		return $request->ajax()
+			? 'success'
+			: back();
 	}
 
 	public function password(Request $request, $id) {
@@ -125,10 +126,9 @@ class UserController extends RestController
 		if (!$user->resetPassword())
 			throw new \Exception("Failed to reset password");
 
-		if ($request->ajax())
-			return "success";
-		else
-			return back();
+		return $request->ajax()
+			? 'success'
+			: back();
 	}
 
 	public function welcome(Request $request, $id) {
@@ -136,10 +136,32 @@ class UserController extends RestController
 		if (!$user->sendNewAccountEmail())
 			throw new \Exception("Failed to send welcome email");
 
-		if ($request->ajax())
-			return "success";
-		else
-			return back();
+		return $request->ajax()
+			? 'success'
+			: back();
+	}
+
+	public function settings(Request $request) {
+		$user = Auth::user();
+
+		$userSettings = config('constants.USER_SETTINGS');
+		$saved = [];
+
+		foreach ($userSettings as $name => $options) {
+			if ($request->has($name)) {
+				$value = $request->input($name);
+				if (in_array($value, $options)) {
+					$saved[$name] = $user->saveSetting($name, $value);
+				}
+			}
+		}
+
+		foreach (array_keys($request->all()) as $name) {
+			if (!array_key_exists($name, $saved))
+				$saved[$name] = false;
+		}
+
+		return $saved;
 	}
 
 	protected function getExtension($file) {

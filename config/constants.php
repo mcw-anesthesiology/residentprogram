@@ -41,5 +41,14 @@ return [
 
 	'MERIT_REPORT_TYPES' => [
 		'faculty_yearly' => 'Yearly faculty merit report'
+	],
+
+	'USER_SETTINGS' => [
+		'defaultEvaluationRange' => [
+			'currentQuarter',
+			'currentSemester',
+			'currentYear',
+			'allTime'
+		]
 	]
 ];

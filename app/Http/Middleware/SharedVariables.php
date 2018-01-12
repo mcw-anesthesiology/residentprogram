@@ -24,7 +24,10 @@ class SharedVariables
 		View::share("ADMIN_EMAIL", config("app.admin_email"));
 
 		if (Auth::check()) {
-			View::share("user", Auth::user());
+			$user = Auth::user();
+			$user->load('userSettings');
+
+			View::share("user", $user);
 
 			$milestoneGroups = [];
 			$milestones = Milestone::orderBy("title")->get();
@@ -34,7 +37,6 @@ class SharedVariables
 
 			View::share("milestoneGroups", $milestoneGroups);
 
-			$user = Auth::user();
 			if (!$user->isType('resident')) {
 				$reportableUserGroups = [];
 

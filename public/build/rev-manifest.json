@@ -50,5 +50,7 @@
 	"js/vue-request.js": "js/vue-request.js",
 	"js/vue-request.js.map": "js/vue-request.js.map",
 	"js/vue-user.js": "js/vue-user.js",
-	"js/vue-user.js.map": "js/vue-user.js.map"
+	"js/vue-user.js.map": "js/vue-user.js.map",
+	"css/vue-user.css": "css/vue-user.css",
+	"css/vue-user.css.map": "css/vue-user.css.map"
 }
