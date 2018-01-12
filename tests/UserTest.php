@@ -68,4 +68,23 @@ class UserTest extends BrowserKitTestCase
 		$this->user = $this->user->fresh();
 		$this->assertEquals($this->user->notifications, "yes");
 	}
+
+	public function testChangeDefaultEvalRange() {
+		$this->changeSetting('defaultEvaluationRange', 'currentYear');
+	}
+
+	private function changeSetting($name, $value) {
+		$this->actingAs($this->user)
+			->post('/users/settings', [
+				$name => $value
+			])->seeJson([
+				$name => true
+			]);
+
+		$this->seeInDatabase('user_settings', [
+			'user_id' => $this->user->id,
+			'name' => $name,
+			'value' => $value
+		]);
+	}
 }
