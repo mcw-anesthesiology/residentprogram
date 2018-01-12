@@ -22,6 +22,10 @@ export default function createAdminDashboard(el, propsData){
 		mixins: [HasAlerts],
 		el,
 		props: {
+			user: {
+				type: Object,
+				required: true
+			},
 			flaggedActions: {
 				type: Object,
 				required: true

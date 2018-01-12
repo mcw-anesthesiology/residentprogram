@@ -92,6 +92,7 @@
 @push('scripts')
 	<script>
 		var propsData = {
+			user: {!! $user->toJson() !!},
 			watchedForms: {!! $user->watchedForms()->with('form')->get()->toJson() !!},
 			flaggedActions: {!! json_encode($flaggedActions) !!}
 		};

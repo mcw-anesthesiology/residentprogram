@@ -11,6 +11,8 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
+use App\UserSetting;
+
 use Auth;
 use DB;
 use Log;
@@ -150,6 +152,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 	public function userSettings() {
 		return $this->hasMany('App\UserSetting');
+	}
+
+	public function saveSetting($name, $value) {
+		$setting = UserSetting::firstOrNew([
+			'user_id' => $this->id,
+			'name' => $name
+		]);
+
+		$setting->value = $value;
+
+		return $setting->save();
 	}
 
 	public function typeFeatures(){

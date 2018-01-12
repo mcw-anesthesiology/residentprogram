@@ -1,6 +1,38 @@
 @extends("app")
 
 @section("blockless-body")
+
+@verbatim
+<div class="container body-block">
+	<h1>User settings</h1>
+	<form v-cloak role="form" @submit="handleSettingsSubmit">
+		<div v-for="(options, setting) in USER_SETTINGS" :key="setting"
+				class="form-group">
+			<label class="containing-label">
+				{{ displaySetting(setting) }}
+				<select class="form-control" :name="setting"
+						:value="getUserSetting(setting)">
+					<option v-for="option of options" :key="option"
+							:value="option">
+						{{ displaySetting(option) }}
+					</option>
+				</select>
+			</label>
+			<small v-if="SETTINGS_HELP[setting]">
+				{{ SETTINGS_HELP[setting] }}
+			</small>
+		</div>
+		<button type="submit" class="btn btn-primary">
+			Save settings
+		</button>
+	</form>
+</div>
+
+<div class="container">
+	<alert-list v-model="alerts"></alert-list>
+</div>
+@endverbatim
+
 <div class="container body-block">
 	<form role="form" id="password-form" action="#" method="post">
 		{!! csrf_field() !!}
@@ -57,17 +89,6 @@
 	</form>
 </div>
 	@endif
-
-<div class="container body-block">
-	<form role="form" @submit="handleSettingSubmit">
-		<p>
-			@{{ test }}
-		</p>
-		<button type="submit" class="btn btn-primary">
-			Save settings
-		</button>
-	</form>
-</div>
 @stop
 
 @section("script")
@@ -88,6 +109,10 @@
 				$("#only-if-pending").prop("checked", true);
 		});
 
-		createUserSettingsPage('main');
+		var propsData = {
+			user: {!! $user->toJson() !!}
+		};
+
+		createUserSettingsPage('main', propsData);
 	</script>
 @stop
