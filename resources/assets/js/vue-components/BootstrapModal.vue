@@ -1,14 +1,15 @@
 <template>
-	<div class="modal fade" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+	<div ref="modal" class="modal" tabindex="-1" role="dialog"
+			aria-labelledby="" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" aria-hidden="true"
-							@click="close">
+							@click="$emit('close')">
 						&times;
 					</button>
 					<slot name="header">
-						
+
 					</slot>
 				</div>
 				<div class="modal-body">
@@ -16,7 +17,7 @@
 				</div>
 				<div class="modal-footer">
 					<slot name="footer">
-						
+
 					</slot>
 				</div>
 			</div>
@@ -26,10 +27,14 @@
 
 <script>
 export default {
-	methods: {
-		close(){
-			this.$emit('close');
-		}
+	mounted() {
+		$(this.$refs.modal).modal({
+			backdrop: 'static',
+			show: true
+		});
+	},
+	beforeDestroy() {
+		$(this.$refs.modal).modal('hide');
 	}
 };
 </script>

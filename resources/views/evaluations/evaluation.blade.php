@@ -50,6 +50,10 @@
 			border: 1px solid rgba(0, 0, 0, 0.1);
 		}
 
+		.evaluation-comment-section {
+
+		}
+
 		hr {
 			page-break-before: always;
 		}
@@ -57,7 +61,7 @@
 @stop
 
 @section("body")
-	<div>
+	<div id="evaluation-header">
 	@if($evaluation->status == "pending" && $user->id == $evaluation->evaluator_id)
 		<h1 class="header">Complete Evaluation</h1>
 	@else
@@ -66,126 +70,194 @@
 
 		<div id="evaluation-controls" class="noprint">
 	@if($evaluation->evaluator_id == $user->id)
-			<button class="btn btn-primary" data-toggle="modal" data-target="#evaluation-comment-modal" id="comment-evaluation"><span class="glyphicon glyphicon-pencil"></span> Evaluation comment</button>
-			<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation" @if($evaluation->status != "pending") disabled title="Completed evaluations cannot be edited" @elseif($user->id != $evaluation->requested_by_id) disabled title="You can only edit evaluations you created" @endif><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
-			<button class="btn btn-warning" data-toggle="modal" data-target="#flag-evaluation-modal" id="mark-evaluation"><span class="glyphicon glyphicon-flag"></span> Problem with evaluation?</button>
+			<button type="button"
+					class="btn btn-primary"
+					data-toggle="modal"
+					data-target="#evaluation-comment-modal"
+		@if(!in_array($evaluation->status, ['pending', 'complete']))
+					disabled
+					title="Cannot add a comment to a disabled evaluation"
+		@endif
+					id="comment-evaluation">
+				<span class="glyphicon glyphicon-pencil"></span>
+				Evaluation comment
+			</button>
+			<button type="button"
+					class="btn btn-info"
+					data-toggle="modal"
+					data-target="#edit-evaluation-modal"
+					id="edit-evaluation"
+		@if($evaluation->status != "pending")
+					disabled
+					title="Completed evaluations cannot be edited"
+		@elseif($user->id != $evaluation->requested_by_id)
+					disabled
+					title="You can only edit evaluations you created"
+		@endif
+					>
+				<span class="glyphicon glyphicon-edit"></span>
+				Edit evaluation
+			</button>
+			<button type="button"
+					class="btn btn-warning"
+					data-toggle="modal"
+					data-target="#flag-evaluation-modal"
+					id="mark-evaluation">
+				<span class="glyphicon glyphicon-flag"></span>
+				Problem with evaluation?
+			</button>
+			<button type="button" v-if="canDecline" v-cloak
+					class="btn btn-danger"
+					@click="show.modals.decline = true">
+				<span class="glyphicon glyphicon-remove"></span>
+				Decline evaluation
+			</button>
+
 			<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" placement="left" title="Controls information" class="close" id="evaluation-controls-info">
 				<span class="glyphicon glyphicon-info-sign"></span>
 			</a>
 	@elseif($user->isType("admin"))
 			<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation"><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
-			<Button class="btn btn-info" data-toggle="modal" data-target="#evaluation-hash-modal" id="edit-hash"><span class="glyphicon glyphicon-link"></span> Personalized completion link</Button>
+			<button class="btn btn-info" data-toggle="modal" data-target="#evaluation-hash-modal" id="edit-hash"><span class="glyphicon glyphicon-link"></span> Personalized completion link</Button>
 	@endif
 		</div>
-	</div>
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h2 class="panel-title">Evaluation Information</h2>
-		</div>
-		<div class="panel-body table-responsive">
-			<table class="table" id="evaluation-info-table">
-				<thead>
-					<tr>
-						<th>#</th>
-	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
-						<th>{{ ucfirst($evaluation->subject->type) }}</th>
-	@endif
-	@if($user->isType("admin"))
-						<th>{{ ucfirst($evaluation->evaluator->type) }}</th>
-	@endif
-	@if($evaluation->status == "complete")
-						<th>Evaluation Date</th>
-	@endif
-	@if(!$evaluation->isAnonymousToUser())
-						<th>
-							{{
-								($user->id == $evaluation->requested_by_id && $user->id == $evaluation->evaluator_id)
-									? 'Created'
-									: 'Requested'
-							}}
-						</th>
-		@if($evaluation->status == "complete")
-						<th>Completed</th>
-		@endif
-	@endif
-						<th>Status</th>
-	@if($evaluation->subject->isType("resident"))
-						<th>Training Level</th>
-	@endif
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>{{ $evaluation->viewable_id }}</td>
-	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
-						<td>{!! $subjectString !!}</td>
-	@endif
-	@if($user->isType("admin"))
-						<td>{!! $evaluatorString !!}</td>
-	@endif
-	@if($evaluation->status == "complete")
-						<td>
-							{{ $evaluation->evaluation_date_start->format("F Y") == $evaluation->evaluation_date_end->format("F Y")
-							 	? $evaluation->evaluation_date_start->format("F Y")
-								: $evaluation->evaluation_date_start->format("F Y") . ' — ' . $evaluation->evaluation_date_end->format("F Y")
-							}}
-						</td>
-	@endif
-	@if(!$evaluation->isAnonymousToUser())
-						<td>{{ $evaluation->request_date }}</td>
-		@if($evaluation->status == "complete")
-						<td>{{ $evaluation->complete_date }}</td>
-		@endif
-	@endif
-						<td>{!! $statusLabel !!}</td>
-	@if(!$evaluation->subject->isType("faculty"))
-		@if($evaluation->training_level)
-			@if(strpos($evaluation->training_level, "ca-") !== false)
-							<td>{{ strtoupper($evaluation->training_level) }}</td>
-			@else
-							<td>{{ ucfirst($evaluation->training_level) }}</td>
-			@endif
-		@else
-			@if(strpos($evaluation->subject->training_level, "ca-") !== false)
-							<td>{{ strtoupper($evaluation->subject->training_level) }}</td>
-			@else
-							<td>{{ ucfirst($evaluation->subject->training_level) }}</td>
-			@endif
-		@endif
-	@endif
-					</tr>
-				</tbody>
-			</table>
-	@if($evaluation->subject->photo_path && $evaluation->subject_id != $user->id)
-			<div class="subject-image">
-				<img src="/{{ $evaluation->subject->photo_path }}" />
+		<bootstrap-modal v-if="show.modals.decline" v-cloak
+				@close="show.modals.decline = false">
+			<span slot="header" class="modal-title">Decline evaluation</span>
+
+			<div class="form-group">
+				<label class="containing-label">
+					Decline reason
+					<textarea class="form-control" v-model="decline.reason"
+						placeholder="Please describe why you feel unable to complete this evaluation">
+					</textarea>
+					<small>Reason will be displayed to trainee.</small>
+				</label>
+
+				<alert-list v-model="decline.alerts"></alert-list>
 			</div>
+
+			<div slot="footer" class="text-right">
+				<button type="button" class="btn btn-danger"
+						@click="declineEvaluation">
+					<span class="glyphicon glyphicon-remove"></span>
+					Decline evaluation request
+				</button>
+				<button type="button" class="btn btn-default"
+						@click="show.modals.decline = false">
+					Cancel
+				</button>
+			</div>
+		</bootstrap-modal>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2 class="panel-title">Evaluation Information</h2>
+			</div>
+			<div class="panel-body table-responsive">
+				<table class="table" id="evaluation-info-table">
+					<thead>
+						<tr>
+							<th>#</th>
+	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
+							<th>{{ ucfirst($evaluation->subject->type) }}</th>
 	@endif
-		</div>
-	@if($user->isType("admin") && $evaluation->comment)
-		<div class="panel-footer">
-			<h3 class="sub-header">Evaluation Comment</h3>
-			<p>
-				{{ $evaluation->comment }}
-			</p>
-		</div>
+	@if($user->isType("admin"))
+							<th>{{ ucfirst($evaluation->evaluator->type) }}</th>
+	@endif
+	@if($evaluation->status == "complete")
+							<th>Evaluation Date</th>
+	@endif
+	@if(!$evaluation->isAnonymousToUser())
+							<th>
+								{{
+									($user->id == $evaluation->requested_by_id && $user->id == $evaluation->evaluator_id)
+										? 'Created'
+										: 'Requested'
+								}}
+							</th>
+		@if($evaluation->status == "complete")
+							<th>Completed</th>
+		@endif
+	@endif
+							<th>Status</th>
+	@if($evaluation->subject->isType("resident"))
+							<th>Training Level</th>
+	@endif
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{{ $evaluation->viewable_id }}</td>
+	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
+							<td>{!! $subjectString !!}</td>
+	@endif
+	@if($user->isType("admin"))
+							<td>{!! $evaluatorString !!}</td>
+	@endif
+	@if($evaluation->status == "complete")
+							<td>
+								{{ $evaluation->evaluation_date_start->format("F Y") == $evaluation->evaluation_date_end->format("F Y")
+								 	? $evaluation->evaluation_date_start->format("F Y")
+									: $evaluation->evaluation_date_start->format("F Y") . ' — ' . $evaluation->evaluation_date_end->format("F Y")
+								}}
+							</td>
+	@endif
+	@if(!$evaluation->isAnonymousToUser())
+							<td>{{ $evaluation->request_date }}</td>
+		@if($evaluation->status == "complete")
+							<td>{{ $evaluation->complete_date }}</td>
+		@endif
+	@endif
+							<td>{!! $statusLabel !!}</td>
+	@if(!$evaluation->subject->isType("faculty"))
+							<td>{{ $evaluationTrainingLevel }}</td>
+	@endif
+						</tr>
+					</tbody>
+				</table>
+
+	@if($evaluation->comment)
+				<div class="well evaluation-comment-section">
+		@if($evaluation->status == 'declined')
+					<h3 class="sub-header">Decline reason</h3>
+					<p>
+						{{ $evaluation->comment }}
+					</p>
+				</div>
+		@elseif($user->isType("admin") || $user->id == $evaluation->evaluator_id)
+					<h3 class="sub-header">Evaluation Comment</h3>
+					<p>
+						{{ $evaluation->comment }}
+					</p>
+		@endif
+	@endif
+				</div>
+
+	@if($evaluation->subject->photo_path && $evaluation->subject_id != $user->id)
+				<div class="subject-image">
+					<img src="/{{ $evaluation->subject->photo_path }}" />
+				</div>
 	@endif
 
 	@if(!empty($evaluation->request_note))
-		<div class="request-note-container">
-			<p>
-				<i>
-					Note from requestor
-					({{ $evaluation->requestor->first_name }} {{$evaluation->requestor->last_name}}):
-				</i>
-			</p>
+			<div class="request-note-container">
+				<p>
+					<i>
+						Note from requestor
+						({{ $evaluation->requestor->first_name }} {{$evaluation->requestor->last_name}}):
+					</i>
+				</p>
 
-			<blockquote class="evaluation-request-note">
-				<p>{{ $evaluation->request_note }}</p>
-			</blockquote>
-		</div>
+				<blockquote class="evaluation-request-note">
+					<p>{{ $evaluation->request_note }}</p>
+				</blockquote>
+			</div>
 	@endif
+
+			</div>
+		</div>
 	</div>
 
 	<div id="form">
@@ -366,6 +438,8 @@
 @stop
 
 @section("script")
+	<script src="{{ elixir('js/vue-deps.js') }}"></script>
+	<script src="{{ elixir('js/vue-evaluation.js') }}"></script>
 	<script>
 		var evaluationId = "{{ $evaluation->viewable_id }}";
 		$(".evaluation-hash-edit").click(function(){
@@ -630,5 +704,12 @@
 
 		$(window).resize(resizeInfoTable);
 	@endif
+
+	var propsData = {
+		user: {!! $user->toJson() !!},
+		evaluation: {!! $evaluation->toJson() !!}
+	};
+
+	createEvaluationPage('#evaluation-header', propsData);
 	</script>
 @stop

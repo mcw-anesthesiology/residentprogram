@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Helpers\DisplayHelpers;
 use App\Helpers\FormReader;
 
 use Auth;
@@ -610,6 +611,7 @@ class MainController extends Controller
 				case "canceled by resident":
 				case "canceled by fellow":
 				case "canceled by staff":
+				case 'declined':
 					$labelContext = "label-danger";
 					break;
 				case "pending":
@@ -621,7 +623,12 @@ class MainController extends Controller
 			}
 			$statusLabel = "<span class='label {$labelContext}'>" . ucfirst($evaluation->status) . "</span>";
 
-	        $data = compact("evaluation", "subjectString", "evaluatorString", "statusLabel");
+			$evaluationTrainingLevel = !empty($evaluation->training_level)
+				? DisplayHelpers::renderTrainingLevel($evaluation->training_level)
+				: DisplayHelpers::renderTrainingLevel($evaluation->subject->training_level);
+
+	        $data = compact('evaluation', 'subjectString', 'evaluatorString',
+				'statusLabel', 'evaluationTrainingLevel');
 	        if ((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject))
 				&& in_array($evaluation->visibility, ["visible", "anonymous"]))
 				|| $evaluation->evaluator_id == $user->id
