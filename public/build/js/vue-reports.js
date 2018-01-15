@@ -44900,12 +44900,18 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 				pdfmake.vfs = vfs;
 
-				var filename = _this.report.subjects[_this.subjectId] + ' - ' + new Date().toLocaleString(); // FIXME
+				// FIXME
+				var subjectName = _this.report.subjects[_this.subjectId];
+				var trainingLevel = Object(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["s" /* renderTrainingLevel */])(_this.report.trainingLevel);
+				var startDate = _this.report.startDate.date ? _this.report.startDate.date.split(' ')[0] : _this.report.startDate;
+				var endDate = _this.report.endDate.date ? _this.report.endDate.date.split(' ')[0] : _this.report.endDate;
+
+				var filename = subjectName + ' Individual Report (' + trainingLevel + ', ' + startDate + ' to ' + endDate + ').pdf';
 
 				var content = [{ text: 'Report parameters', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["c" /* borderedStripedTable */])({
 					table: Object(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["h" /* fullWidthTable */])({
 						headerRows: 1,
-						body: [['Name', 'Training level', 'Start date', 'End date'].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["l" /* tableHeader */]), [_this.report.subjects[_this.subjectId], _this.report.trainingLevel, _this.report.startDate.date ? _this.report.startDate.date.split(' ')[0] : _this.report.startDate, _this.report.endDate.date ? _this.report.endDate.date.split(' ')[0] : _this.report.endDate]]
+						body: [['Name', 'Training level', 'Start date', 'End date'].map(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["l" /* tableHeader */]), [subjectName, trainingLevel, startDate, endDate]]
 					})
 				}), { text: 'Evaluations included in report', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__["c" /* borderedStripedTable */])({
 					table: {
