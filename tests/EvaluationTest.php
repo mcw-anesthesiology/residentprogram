@@ -83,4 +83,28 @@ class EvaluationTest extends BrowserKitTestCase
                     ->see("Insufficient permissions to view the requested evaluation");
         }
     }
+
+	public function testDeclineEvaluation() {
+		$subject = $this->residents[0];
+		$evaluator = $this->faculty[0];
+		$eval = factory(App\Evaluation::class)->create([
+			'form_id' => $this->form->id,
+			'subject_id' => $subject->id,
+			'evaluator_id' => $evaluator->id,
+			'requested_by_id' => $subject->id
+		]);
+
+		$this->actingAs($evaluator)
+			->visit("/evaluation/{$eval->id}")
+			->post("/evaluations/{$eval->id}/decline", [
+				'_method' => 'PATCH',
+				'reason' => "I don't want to"
+			]);
+
+		$this->seeInDatabase('evaluations', [
+			'id' => $eval->id,
+			'status' => 'declined',
+			'comment' => "I don't want to"
+		]);
+	}
 }

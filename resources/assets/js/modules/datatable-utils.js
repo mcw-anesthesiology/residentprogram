@@ -107,6 +107,7 @@ export function getEvaluationStatusLabelType(status: string): string {
 		case 'canceled by resident':
 		case 'canceled by fellow':
 		case 'canceled by staff':
+		case 'declined':
 			return 'danger';
 		case 'pending':
 			return 'warning';

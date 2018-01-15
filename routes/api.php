@@ -29,6 +29,7 @@ Route::patch('evaluations/{id}/cancel', 'Rest\EvaluationController@cancel');
 Route::patch('evaluations/{id}/hash', 'Rest\EvaluationController@sendHash');
 Route::patch('evaluations/{id}/comment', 'Rest\EvaluationController@saveComment');
 Route::patch('evaluations/{id}/edit', 'Rest\EvaluationController@userEdit');
+Route::patch('evaluations/{id}/decline', 'Rest\EvaluationController@decline');
 Route::resource('evaluations', 'Rest\EvaluationController', ['only' => [
 	'index', 'store', 'show', 'update'
 ]]);

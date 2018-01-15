@@ -19,7 +19,8 @@ module.exports = {
 		'vue-merit-reports': './resources/assets/js/vue-constructors/merit-reports/index.js',
 		'vue-alumni': './resources/assets/js/vue-constructors/alumni.js',
 		'vue-case-log': './resources/assets/js/vue-constructors/case-log.js',
-		'vue-user': './resources/assets/js/vue-constructors/user.js'
+		'vue-user': './resources/assets/js/vue-constructors/user.js',
+		'vue-evaluation': './resources/assets/js/vue-constructors/evaluation.js'
 	},
 	output: {
 		path: path.resolve(__dirname, 'public/build/js/'),

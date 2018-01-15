@@ -8,7 +8,7 @@ import { simpleErrorAlert } from '@/modules/utils.js';
 
 import type { BootstrapAlertItem } from '@/modules/utils.js';
 
-type ViewModelWithAlerts = {
+type AlertContainer = {
 	alerts: Array<BootstrapAlertItem>
 };
 
@@ -22,7 +22,7 @@ export const rollbar = new Rollbar({
 	}
 });
 
-export function handleError(err: Error, vm: ?ViewModelWithAlerts, message: ?string) {
+export function handleError(err: Error, vm: ?AlertContainer, message: ?string) {
 	console.error(err);
 	rollbar.error(err);
 	if (vm && message) {

@@ -19,7 +19,13 @@ class EvaluationController extends RestController
 	public function __construct() {
 		$this->middleware("auth");
 		$this->middleware("type:admin", ["except" => [
-			"index", "show", "cancel", "sendHash", "saveComment", "userEdit"
+			'index',
+			'show',
+			'cancel',
+			'sendHash',
+			'saveComment',
+			'userEdit',
+			'decline'
 		]]);
 
 		$this->middleware(function ($request, $next) {
@@ -36,15 +42,54 @@ class EvaluationController extends RestController
 
 			} catch(\Exception $e) {
 				if ($request->ajax())
-					return response('Unauthorized.', 401);
+					return response('Unauthorized.', 403);
 				else
 					return back()->with("error", "You are not authorized to modify that evaluation");
 			}
 		})->only('cancel');
 
-		$this->middleware("evaluation.evaluator", ["only" => [
-			"saveComment"
-		]]);
+		$this->middleware(function ($request, $next) {
+			try {
+				if (!$request->has('reason'))
+					return $request->ajax()
+						? response('Please specify a reason.', 400)
+						: back()->with('error', 'Please specify a reason for declining');
+
+				$user = Auth::user();
+				$eval = Evaluation::findOrFail($request->route()->parameters()['id']);
+				if (
+					$eval->status == 'pending'
+					&& $eval->evaluator_id == $user->id
+				)
+					return $next($request);
+
+				throw new \Exception();
+			} catch (\Exception $e) {
+				return $request->ajax()
+					? response('Unauthorized.', 403)
+					: back()->with('error', 'You are not authorized to decline that evaluation');
+			}
+		})->only('decline');
+
+		$this->middleware(function ($request, $next) {
+			try {
+				$user = Auth::user();
+				$eval = Evaluation::findOrFail($request->route()->parameters()['id']);
+
+				if (
+					$user->id == $eval->evaluator_id
+					&& in_array($eval->status, ['pending', 'complete'])
+				)
+					return $next($request);
+
+				throw new \Exception();
+			} catch (\Exception $e) {
+				return $request->ajax()
+					? response('Unable to edit comment.', 400)
+					: back()->with('error', 'Unable to edit comment');
+			}
+		})->only('saveComment');
+
 		$this->middleware("evaluation.user-edit", ["only" => [
 			"userEdit"
 		]]);
@@ -145,10 +190,20 @@ class EvaluationController extends RestController
 		$eval->status = "canceled by " . $userRole;
 		$eval->save();
 
-		if ($request->ajax())
-			return "success";
-		else
-			return back();
+		return $request->ajax()
+			? 'success'
+			: back();
+	}
+
+	public function decline(Request $request, $id) {
+		$eval = Evaluation::findOrFail($id);
+		$eval->status = 'declined';
+		$eval->comment = $request->input('reason');
+		$eval->save();
+
+		return $request->ajax()
+			? 'success'
+			: back();
 	}
 
 	public function sendHash(Request $request, $id) {
