@@ -69,7 +69,7 @@
 			<div class="container body-block">
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<bootstrap-alert type="info">
 								<span class="glyphicon glyphicon-info-sign"></span>
 								Select a subject to show
@@ -100,8 +100,14 @@
 								</div>
 							</label>
 						</div>
-						<div class="col-sm-2 col-md-1">
-							<button type="button" class="btn btn-default labelless-button"
+						<div class="col-sm-3 col-md-2">
+							<button type="button"
+									class="btn btn-default labelless-button"
+									@click="selectAllTrainees">
+								Select all
+							</button>
+							<button type="button"
+									class="btn btn-default labelless-button"
 									@click="traineeId = null">
 								Clear
 							</button>
@@ -300,6 +306,13 @@ export default {
 				newMilestones = newMilestones.concat(groupIds);
 			}
 			this.milestonesFilter = newMilestones;
+		},
+		selectAllTrainees() {
+			this.multipleTrainees = true;
+			const users = this.show.inactiveUsers
+				? this.users
+				: this.users.filter(u => u.status === 'active');
+			this.traineeId = users.map(u => u.id);
 		},
 		runReport(){
 			fetch('/report/aggregate', {
