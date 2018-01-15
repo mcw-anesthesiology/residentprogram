@@ -480,7 +480,17 @@ export default {
 			]).then(([pdfmake, vfs]) => {
 				pdfmake.vfs = vfs;
 
-				const filename = `${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}`; // FIXME
+				// FIXME
+				const subjectName = this.report.subjects[this.subjectId];
+				const trainingLevel = renderTrainingLevel(this.report.trainingLevel);
+				const startDate = this.report.startDate.date
+					? this.report.startDate.date.split(' ')[0]
+					: this.report.startDate;
+				const endDate = this.report.endDate.date
+					? this.report.endDate.date.split(' ')[0]
+					: this.report.endDate;
+
+				const filename = `${subjectName} Individual Report (${trainingLevel}, ${startDate} to ${endDate}).pdf`;
 
 				let content = [
 					{ text: 'Report parameters', style: 'heading' },
@@ -490,14 +500,10 @@ export default {
 							body: [
 								['Name', 'Training level', 'Start date', 'End date'].map(tableHeader),
 								[
-									this.report.subjects[this.subjectId],
-									this.report.trainingLevel,
-									this.report.startDate.date
-										? this.report.startDate.date.split(' ')[0]
-										: this.report.startDate,
-									this.report.endDate.date
-										? this.report.endDate.date.split(' ')[0]
-										: this.report.endDate
+									subjectName,
+									trainingLevel,
+									startDate,
+									endDate
 								]
 							]
 						})
