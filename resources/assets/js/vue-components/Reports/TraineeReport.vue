@@ -156,16 +156,18 @@
 </template>
 
 <script>
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import AggregateReport from './AggregateReport.vue';
 import IndividualReport from './IndividualReport.vue';
 import StartEndDate from '../StartEndDate.vue';
 import StatsReport from './StatsReport.vue';
 import TrainingLevelSelect from './TrainingLevelSelect.vue';
-import AlertList from '../AlertList.vue';
 import BootstrapAlert from '../BootstrapAlert.vue';
 import SelectTwo from '../SelectTwo.vue';
 import SvgIcon from '../SvgIcon.vue';
 
+import { handleError } from '@/modules/errors.js';
 import {
 	getFetchHeaders,
 	jsonOrThrow,
@@ -176,6 +178,7 @@ import {
 import { isoDateStringObject, currentQuarter } from '@/modules/date-utils.js';
 
 export default {
+	mixins: [HasAlerts],
 	props: {
 		users: {
 			type: Array,
@@ -205,30 +208,20 @@ export default {
 			evaluatorStats: null,
 
 			milestones: [],
-			competencies: [],
-
-			alerts: []
+			competencies: []
 		};
 	},
 	mounted(){
 		fetchMilestones().then(milestones => {
 			this.milestones = milestones;
 		}).catch(err => {
-			console.error(err);
-			this.alerts.push({
-				type: 'error',
-				html: '<strong>Error:</strong> There was a problem fetching milestones'
-			});
+			handleError(err, this, 'There was a problem fetching milestones');
 		});
 
 		fetchCompetencies().then(competencies => {
 			this.competencies = competencies;
 		}).catch(err => {
-			console.error(err);
-			this.alerts.push({
-				type: 'error',
-				html: '<strong>Error:</strong> There was a problem fetching competencies'
-			});
+			handleError(err, this, 'There was a problem fetching competencies');
 		});
 
 		$(this.$refs.currentTrainingLevelHintGlyph).popover({
@@ -335,7 +328,7 @@ export default {
 			}).then(report => {
 				this.report = Object.assign({}, this.report, report);
 			}).catch(err => {
-				console.error(err);
+				handleError(err, this, 'There was a problem fetching the aggregate report');
 			});
 
 			fetch('/report/stats/trainee/trainee', {
@@ -348,7 +341,7 @@ export default {
 			}).then(jsonOrThrow).then(stats => {
 				this.subjectStats = stats;
 			}).catch(err => {
-				console.error(err);
+				handleError(err, this, 'There was a problem fetching the trainee statistics');
 			});
 
 			fetch('/report/stats/faculty/trainee', {
@@ -361,7 +354,7 @@ export default {
 			}).then(jsonOrThrow).then(stats => {
 				this.evaluatorStats = stats;
 			}).catch(err => {
-				console.error(err);
+				handleError(err, this, 'There was a problem fetching the faculty statistics');
 			});
 		},
 		printAll(){
@@ -376,7 +369,6 @@ export default {
 		IndividualReport,
 		StatsReport,
 		TrainingLevelSelect,
-		AlertList,
 		BootstrapAlert,
 		SelectTwo,
 		SvgIcon

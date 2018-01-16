@@ -182,6 +182,7 @@ import {
 	generateScoresReportCsv
 } from '@/modules/reports/form-report.js';
 
+import { handleError } from '@/modules/errors.js';
 import {
 	average,
 	standardDeviation
@@ -408,11 +409,7 @@ export default {
 		fetchFormGroups().then(groupedForms => {
 			this.groupedForms = groupedForms;
 		}).catch(err => {
-			this.alerts.push({
-				type: 'error',
-				html: '<strong>Error: </strong> There was a problem fetching the list of forms'
-			});
-			console.error(err);
+			handleError(err, this, 'There was a problem fetching the list of forms');
 		});
 	},
 
@@ -475,11 +472,7 @@ export default {
 			}).then(report => {
 				this.report = Object.assign({}, this.report, report);
 			}).catch(err => {
-				this.alerts.push({
-					type: 'error',
-					html: '<strong>Error: </strong> There was a problem running the report'
-				});
-				console.error(err);
+				handleError(err, this, 'There was a problem running the report');
 			});
 		},
 		fetchSubjectEvals() {
@@ -513,7 +506,7 @@ export default {
 			}).then(jsonOrThrow).then(subjectEvals => {
 				this.subjectEvals = subjectEvals;
 			}).catch(err => {
-				console.error(err);
+				handleError(err, this, 'There was a problem fetching subject evaluations');
 			});
 		},
 		hideQuestion(questionIndex, hide) {
@@ -777,8 +770,6 @@ export default {
 									break;
 							}
 
-							console.log(questionBody);
-
 							return {
 								pageBreak: this.pdfOptions.questionPageBreak,
 								stack: [
@@ -869,11 +860,7 @@ export default {
 
 				pdfmake.createPdf(docDefinition).download(filename);
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: `<strong>Error:</strong> There was a problem exporting the report for ${this.reportContents.title}`
-				});
+				handleError(err, this, `There was a problem exporting the report for ${this.reportContents.title}`);
 			});
 		}
 	},

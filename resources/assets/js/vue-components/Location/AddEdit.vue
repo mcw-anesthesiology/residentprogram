@@ -29,7 +29,8 @@
 </template>
 
 <script>
-import { fetchConfig, okOrThrow, simpleErrorAlert } from '@/modules/utils.js';
+import { emitError } from '@/modules/errors.js';
+import { fetchConfig, okOrThrow } from '@/modules/utils.js';
 
 export default {
 	props: {
@@ -74,11 +75,7 @@ export default {
 			}).then(okOrThrow).then(() => {
 				this.$emit('submit');
 			}).catch(err => {
-				console.error(err);
-				this.$emit(
-					'alert',
-					simpleErrorAlert('There was a problem saving the location')
-				);
+				emitError(err, this, 'There was a problem saving the location');
 			});
 		}
 	}

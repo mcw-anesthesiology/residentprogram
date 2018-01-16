@@ -1,26 +1,24 @@
 import Vue from 'vue';
 
-import AlertList from '@/vue-components/AlertList.vue';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import FormBuilder from '@/vue-components/FormBuilder/FormBuilder.vue';
 
+import { handleError } from '@/modules/errors.js';
 import { getFetchHeaders } from '@/modules/utils.js';
 
 export function createFormBuilder(el, propsData){
 	return new Vue({
 		el,
+		mixins: [HasAlerts],
 		props: {
 			oldFormContents: {
 				type: Object,
 				required: false
 			}
 		},
-		data(){
-			return {
-				alerts: []
-			};
-		},
 		propsData,
-		
+
 		methods: {
 			handleSubmit(form) {
 				fetch('/forms', {
@@ -39,17 +37,12 @@ export function createFormBuilder(el, propsData){
 					else
 						throw new Error(response);
 				}).catch(err => {
-					this.alerts.push({
-						type: 'error',
-						text: 'Error saving form'
-					});
-					console.error(err);
+					handleError(err, this, 'There was a problem saving the form');
 				});
 			}
 		},
-		
+
 		components: {
-			AlertList,
 			FormBuilder
 		}
 	});

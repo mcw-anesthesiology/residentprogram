@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { emitError } from '@/modules/errors.js';
 import { getFetchHeaders, okOrThrow } from '@/modules/utils.js';
 
 export default {
@@ -64,11 +65,7 @@ export default {
 			}).then(okOrThrow).then(() => {
 				this.$emit('reload');
 			}).catch(err => {
-				console.error(err);
-				this.$emit('alert', {
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem updating your subscription'
-				});
+				emitError(err, this, 'There was a problem updating your subscription');
 			});
 		}
 	}

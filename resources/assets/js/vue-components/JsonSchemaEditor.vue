@@ -62,11 +62,13 @@
 </template>
 
 <script>
-import AlertList from '@/vue-components/AlertList.vue';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import Ajv from 'ajv';
 
+import { handleError, logError } from '@/modules/errors.js';
 import {
 	ucfirst,
 	ucfirstWords,
@@ -75,6 +77,7 @@ import {
 } from '@/modules/utils.js';
 
 export default {
+	mixins: [HasAlerts],
 	props: {
 		schemaId: {
 			type: String,
@@ -103,8 +106,7 @@ export default {
 	},
 	data() {
 		return {
-			newJson: null,
-			alerts: []
+			newJson: null
 		};
 	},
 
@@ -121,7 +123,7 @@ export default {
 			try {
 				return JSON.parse(this.newJson);
 			} catch (err) {
-				console.error(err);
+				logError(err);
 			}
 		},
 		schemaErrors() {
@@ -161,11 +163,7 @@ export default {
 				}
 				this.schemaValidator = ajv.getSchema(this.schemaId);
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: `<strong>Error:</strong> There was a problem fetching the schema`
-				});
+				handleError(err, this, 'There was a problem fetching the schema');
 			});
 		},
 		formatJson() {
@@ -178,7 +176,6 @@ export default {
 	},
 
 	components: {
-		AlertList,
 		ShowHideButton
 	}
 };

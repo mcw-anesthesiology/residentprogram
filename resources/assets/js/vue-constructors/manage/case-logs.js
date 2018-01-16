@@ -7,11 +7,11 @@ import JsonSchemaEditor from '@/vue-components/JsonSchemaEditor.vue';
 
 import AddEditLocation from '@/vue-components/Location/AddEdit.vue';
 
+import { handleError } from '@/modules/errors.js';
 import {
 	fetchConfig,
 	okOrThrow,
-	jsonOrThrow,
-	simpleErrorAlert
+	jsonOrThrow
 } from '@/modules/utils.js';
 
 export default function createManageCaseLogs(el, propsData) {
@@ -49,11 +49,7 @@ export default function createManageCaseLogs(el, propsData) {
 				}).then(jsonOrThrow).then(locations => {
 					this.locations = locations;
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching locations'
-					});
+					handleError(err, this, 'There was a problem fetching locations');
 				});
 			},
 			addLocation() {
@@ -76,8 +72,7 @@ export default function createManageCaseLogs(el, propsData) {
 				}).then(okOrThrow).then(() => {
 					this.fetchLocations();
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push(simpleErrorAlert('There was a problem deleting the location'));
+					handleError(err, this, 'There was a problem deleting the location');
 				});
 			},
 
@@ -89,11 +84,8 @@ export default function createManageCaseLogs(el, propsData) {
 						details_type: detailsType,
 						schema
 					})
-				}).then(okOrThrow).then(() => {
-
-				}).catch(err => {
-					console.error(err);
-					this.alerts.push(simpleErrorAlert('There was a problem updating the schema'));
+				}).then(okOrThrow).catch(err => {
+					handleError(err, this, 'There was a problem updating the schema');
 				});
 			}
 		},

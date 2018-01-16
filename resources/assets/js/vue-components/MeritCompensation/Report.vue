@@ -94,6 +94,7 @@ import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
 import LoadingButton from '@/vue-components/LoadingButton.vue';
 import RichDateRange from '@/vue-components/RichDateRange.vue';
 
+import { emitError } from '@/modules/errors.js';
 import { isoDateString } from '@/modules/date-utils.js';
 import { getCheckedItemCount } from '@/modules/merit-utils.js';
 import { isAdmin, getFetchHeaders, okOrThrow } from '@/modules/utils.js';
@@ -270,11 +271,7 @@ export default {
 			}).catch(err => {
 				this.savingSuccessful = false;
 				this.saving = false;
-				console.error(err);
-				this.$emit('alert', {
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem saving the report'
-				});
+				emitError(err, this, 'There was a problem saving the report');
 			});
 		},
 		handleClose() {

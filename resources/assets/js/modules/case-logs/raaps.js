@@ -1,9 +1,11 @@
 /* @flow */
 
+import { logError } from '@/modules/errors.js';
 import { getValues } from '@/modules/questionnaire/index.js';
 
 import type { QuestionCountSummary } from '@/modules/chart-utils.js';
 import type { QuestionnaireQuestion } from '@/modules/questionnaire/index.js';
+
 
 const PERIPHERAL_CATEGORY_KEY = 'PERIPHERAL-CATEGORY';
 
@@ -34,7 +36,7 @@ export function getAdditionalSummaryMaps(
 							peripheralCategoryMap.set(category, count + 1);
 						}
 					} catch (e) {
-						console.error(e);
+						logError(e);
 					}
 				}
 			}
@@ -42,7 +44,7 @@ export function getAdditionalSummaryMaps(
 
 		map.set(PERIPHERAL_CATEGORY_KEY, peripheralCategoryMap);
 	} catch (e) {
-		console.error(`Unable to compute ${PERIPHERAL_CATEGORY_KEY}: ${e}`);
+		logError(`Unable to compute ${PERIPHERAL_CATEGORY_KEY}`, e);
 	}
 
 	return map;

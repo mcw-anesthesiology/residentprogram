@@ -192,6 +192,7 @@ import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 
+import { emitError } from '@/modules/errors.js';
 import {
 	okOrThrow,
 	getFetchHeaders
@@ -314,11 +315,7 @@ export default {
 			}).then(okOrThrow).then(() => {
 				this.$emit('reload');
 			}).catch(err => {
-				console.error(err);
-				this.$emit('alert', {
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem saving the alum'
-				});
+				emitError(err, this, 'There was a problem saving the alum');
 			});
 		}
 	},

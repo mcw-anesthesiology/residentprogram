@@ -1,6 +1,8 @@
 import Vue from 'vue';
+import moment from 'moment';
 
-import AlertList from '@/vue-components/AlertList.vue';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import ComponentList from '@/vue-components/ComponentList.vue';
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import DataTable from '@/vue-components/DataTable.vue';
@@ -11,8 +13,7 @@ import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
 import FormBuilder from '@/vue-components/FormBuilder/FormBuilder.vue';
 import FormReader from '@/vue-components/FormReader/FormReader.vue';
 
-import moment from 'moment';
-
+import { handleError } from '@/modules/errors.js';
 import {
 	getEvaluationStatusLabel
 } from '@/modules/datatable-utils.js';
@@ -33,9 +34,7 @@ import {
 export default function createManageFaculty360(el) {
 	return new Vue({
 		el,
-		props: {
-
-		},
+		mixins: [HasAlerts],
 		data() {
 			return {
 				forms: null,
@@ -122,11 +121,7 @@ export default function createManageFaculty360(el) {
 				}).then(jsonOrThrow).then(forms => {
 					this.forms = forms;
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching forms'
-					});
+					handleError(err, this, 'There was a problem fetching the forms');
 				});
 			},
 			fetchEvaluations() {
@@ -150,11 +145,7 @@ export default function createManageFaculty360(el) {
 				}).then(jsonOrThrow).then(evals => {
 					this.evaluations = evals;
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching evaluations'
-					});
+					handleError(err, this, 'There was a problem fetching evaluations');
 				});
 			},
 
@@ -174,11 +165,7 @@ export default function createManageFaculty360(el) {
 				}).then(okOrThrow).then(() => {
 					this.fetchForms();
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem changing the form status'
-					});
+					handleError(err, this, 'There was a problem changing the form status');
 				});
 			},
 			toggleEvaluationStatus(evaluation, event) {
@@ -201,11 +188,7 @@ export default function createManageFaculty360(el) {
 				}).then(okOrThrow).then(() => {
 					this.fetchEvaluations();
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: "<strong>Error:</strong> There was a problem changing the evaluation's status"
-					});
+					handleError(err, this, 'There was a problem changing the evaluation status');
 				});
 			},
 			resendEvaluationHash(evaluation, event) {
@@ -221,11 +204,7 @@ export default function createManageFaculty360(el) {
 						text: 'New link sent successfully!'
 					});
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem sending a new completion link'
-					});
+					handleError(err, this, 'There was a problem sending a new completion link');
 				});
 			},
 			viewEvaluation(evaluation, event) {
@@ -246,17 +225,12 @@ export default function createManageFaculty360(el) {
 					this.show.createForm = false;
 					this.fetchForms();
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem saving the form'
-					});
+					handleError(err, this, 'There was a problem saving the form');
 				});
 			}
 		},
 
 		components: {
-			AlertList,
 			ComponentList,
 			ConfirmationButton,
 			DataTable,

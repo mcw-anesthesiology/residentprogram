@@ -11,8 +11,19 @@
 
 		<title>Resident Program Evaluation System</title>
 
+	@if (Auth::check())
+		<script>
+			var RESIDENTPROGRAM_USER = {
+				id: {{ Auth::user()->id }},
+				username: "{{ Auth::user()->username }}",
+				email: "{{ Auth::user()->email }}"
+			};
+		</script>
+	@endif
+
 	@if(App::environment("production"))
 		<script>
+
 			var _rollbarConfig = {
 				accessToken: "a93e639dab554778a17abb196dd88916",
 				captureUncaught: true,
@@ -20,11 +31,7 @@
 				payload: {
 					environment: "production",
 		@if(Auth::check())
-					person: {
-						id: {{ Auth::user()->id }},
-						username: "{{ Auth::user()->username }}",
-						email: "{{ Auth::user()->email }}"
-					}
+					person: RESIDENTPROGRAM_USER
 		@endif
 				}
 			};

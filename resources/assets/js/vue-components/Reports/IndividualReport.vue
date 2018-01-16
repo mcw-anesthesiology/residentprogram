@@ -138,8 +138,9 @@
 import Color from 'color';
 import download from 'downloadjs';
 
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import BootstrapAlert from '../BootstrapAlert.vue';
-import AlertList from '../AlertList.vue';
 import BootstrapButtonInput from '../BootstrapButtonInput.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
@@ -150,6 +151,7 @@ import {
 	RESIDENT_VALUE_MAP,
 	FELLOWSHIP_VALUE_MAPS
 } from '@/modules/constants.js';
+import { handleError } from '@/modules/errors.js';
 import {
 	camelCaseToWords,
 	ucfirst
@@ -169,6 +171,7 @@ import {
 } from '@/modules/report-utils.js';
 
 export default {
+	mixins: [HasAlerts],
 	props: {
 		subject: {
 			type: Object,
@@ -188,9 +191,7 @@ export default {
 				charts: true
 			},
 			chartType: 'radar',
-			chartOrientation: 'vertical',
-
-			alerts: []
+			chartOrientation: 'vertical'
 		};
 	},
 	computed: {
@@ -636,11 +637,7 @@ export default {
 
 				pdfmake.createPdf(docDefinition).download(filename);
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: `<strong>Error: </strong> There was a problem exporting the report for ${this.report.subjects[this.subjectId]}`
-				});
+				handleError(err, this, `There was a problem exporting the report for ${this.report.subjects[this.subjectId]}`);
 			});
 
 		}
@@ -648,7 +645,6 @@ export default {
 
 	components: {
 		BootstrapAlert,
-		AlertList,
 		BootstrapButtonInput,
 		ChartjsChart,
 		DataTable,

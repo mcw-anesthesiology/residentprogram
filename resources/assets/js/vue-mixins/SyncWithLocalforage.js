@@ -1,8 +1,10 @@
 import * as localforage from 'localforage';
 
+import { logError } from '@/modules/errors.js';
+
 export default function SyncWithLocalforage({propertyName, namespace, checker}) {
 	if (!propertyName || !namespace) {
-		console.error('Need to specify propertyName and namespace for SyncWithLocalforage');
+		logError('Need to specify propertyName and namespace for SyncWithLocalforage');
 		return;
 	}
 
@@ -16,16 +18,12 @@ export default function SyncWithLocalforage({propertyName, namespace, checker}) 
 			return localforage.getItem(key).then(prop => {
 				if(prop && checker(prop))
 				this[propertyName] = prop;
-			}).catch(err => {
-				console.error(err);
-			});
+			}).catch(logError);
 		},
 
 		watch: {
 			[propertyName]: prop => {
-				localforage.setItem(key, prop).catch(err => {
-					console.error(err);
-				});
+				localforage.setItem(key, prop).catch(logError);
 			}
 		}
 	};

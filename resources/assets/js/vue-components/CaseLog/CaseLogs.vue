@@ -50,6 +50,7 @@ import CaseLogDetailsV1 from './V1/Details.vue';
 import CaseLogSummaryV1 from './V1/DetailsReport.vue';
 
 import { renderDateCell, createDateCell } from '@/modules/datatable-utils.js';
+import { emitError, logError } from '@/modules/errors.js';
 import { getFetchHeaders, okOrThrow } from '@/modules/utils.js';
 
 export default {
@@ -82,7 +83,7 @@ export default {
 			try {
 				return Number(this.detailsCaseLog.details_schema.case_log_version);
 			} catch (e) {
-				console.error(e);
+				logError(e);
 			}
 
 			return 1;
@@ -112,7 +113,6 @@ export default {
 		tconfig() {
 			let removeCaseLog = this.removeCaseLog;
 			let renderCaseLog = this.renderCaseLog;
-			let alerts = this.alerts;
 			let removable = this.removable;
 
 			let columns = [
@@ -171,14 +171,7 @@ export default {
 									}).then(okOrThrow).then(() => {
 										removeCaseLog(caseLog.id);
 									}).catch(err => {
-										console.error(err);
-										alerts.push({
-											type: 'error',
-											html: `<strong>
-												Error:
-											</strong>
-											There was a problem deleting the case log entry`
-										});
+										emitError(err, this, 'There was a problem deleting the case log entry');
 									});
 								},
 								viewCaseLog() {

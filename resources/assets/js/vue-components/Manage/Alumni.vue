@@ -69,6 +69,7 @@ import EmailEditor from '@/vue-components/EmailEditor.vue';
 import AlumniListItem from '@/vue-components/Alumni/AlumniListItem.vue';
 
 import { getHeaderHeight } from '@/modules/dom-utils.js';
+import { handleError } from '@/modules/errors.js';
 import { getFetchHeaders, okOrThrow, jsonOrThrow } from '@/modules/utils.js';
 
 export default {
@@ -142,11 +143,7 @@ information so we can send you newsletters or to manage your alumni subscription
 			}).then(jsonOrThrow).then(alumni => {
 				this.alumni = alumni;
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem fetching alumni'
-				});
+				handleError(err, this, 'There was a problem fetching alumni');
 			});
 		},
 		reloadAfterEdit() {
@@ -185,11 +182,7 @@ information so we can send you newsletters or to manage your alumni subscription
 			}).then(okOrThrow).then(() => {
 				this.fetchAlumni();
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem removing the alum'
-				});
+				handleError(err, this, 'There was a problem removing the alum');
 			});
 		},
 		handleClose() {

@@ -63,7 +63,8 @@ import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 
 import { renderCaseLogDetailsSchema } from '@/modules/case-log-details-schema.js';
 
-import { getFetchHeaders, okOrThrow, simpleErrorAlert } from '@/modules/utils.js';
+import { emitError } from '@/modules/errors.js';
+import { getFetchHeaders, okOrThrow } from '@/modules/utils.js';
 
 export default {
 	props: {
@@ -106,8 +107,7 @@ export default {
 			}).then(okOrThrow).then(() => {
 				this.$emit('submit');
 			}).catch(err => {
-				console.error(err);
-				this.$emit('alert', simpleErrorAlert('There was a problem adding the case log entry'));
+				emitError(err, this, 'There was a problem adding the case log entry');
 			});
 		}
 	},

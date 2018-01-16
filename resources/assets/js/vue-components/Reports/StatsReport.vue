@@ -89,12 +89,14 @@
 <script>
 import Color from 'color';
 
-import AlertList from '../AlertList.vue';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
 import SvgIcon from '../SvgIcon.vue';
 
 import { CHART_COLORS } from '@/modules/constants.js';
+import { handleError } from '@/modules/errors.js';
 import { camelCaseToWords, sortPropIgnoreCase } from '@/modules/utils.js';
 import {
 	createDateCell,
@@ -105,6 +107,7 @@ import {
 import { tableHeader } from '@/modules/report-utils.js';
 
 export default {
+	mixins: [HasAlerts],
 	props: {
 		title: {
 			type: String,
@@ -126,9 +129,7 @@ export default {
 				lastCompleted: false
 			},
 			tableHeight: '500px',
-			chartHeight: '625px',
-
-			alerts: []
+			chartHeight: '625px'
 		};
 	},
 	computed: {
@@ -488,16 +489,11 @@ export default {
 
 				pdfmake.createPdf(docDefinition).download(filename);
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: `<strong>Error:</strong> There was a problem exporting the ${this.title} PDF`
-				});
+				handleError(err, this, `There was a problem exporting the ${this.title} PDF`);
 			});
 		}
 	},
 	components: {
-		AlertList,
 		ChartjsChart,
 		DataTable,
 		SvgIcon

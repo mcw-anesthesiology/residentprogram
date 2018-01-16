@@ -211,6 +211,7 @@ import {
 	renderTrainingLevel,
 	renderSecondaryTrainingLevel
 } from '@/modules/datatable-utils.js';
+import { emitError } from '@/modules/errors.js';
 import { isoDateString, currentYear } from '@/modules/date-utils.js';
 import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
 
@@ -284,11 +285,7 @@ export default {
 			}).then(jsonOrThrow).then(users => {
 				this.residents = users;
 			}).catch(err => {
-				console.error(err);
-				this.$emit('alert', {
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem fetching residents'
-				});
+				emitError(err, this, 'There was a problem fetching residents');
 			});
 		},
 		fetchFellows() {
@@ -304,11 +301,7 @@ export default {
 			}).then(jsonOrThrow).then(users => {
 				this.fellows = users;
 			}).catch(err => {
-				console.error(err);
-				this.$emit('alert', {
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem fetching residents'
-				});
+				emitError(err, this, 'There was a problem fetching fellows');
 			});
 		},
 		fetchFaculty() {
@@ -323,11 +316,7 @@ export default {
 			}).then(jsonOrThrow).then(users => {
 				this.faculty = users;
 			}).catch(err => {
-				console.error(err);
-				this.$emit('alert', {
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem fetching residents'
-				});
+				emitError(err, this, 'There was a problem fetching faculty');
 			});
 		},
 		importUsers() {
@@ -389,11 +378,7 @@ export default {
 					this.$emit('close');
 				}
 			}).catch(err => {
-				console.error(err);
-				this.$emit('alert', {
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem importing alumni'
-				});
+				emitError(err, this, 'There was a problem importing alumni');
 			});
 		}
 	},

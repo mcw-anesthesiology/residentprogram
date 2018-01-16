@@ -9,10 +9,10 @@
 					Run report
 				</button>
 			</div>
-			
+
 			<alert-list v-model="alerts" />
 		</div>
-		
+
 		<stats-report v-if="evaluatorStats"
 			:report="evaluatorStats" title="Trainee evaluation statistics by faculty" />
 		<stats-report v-if="subjectStats"
@@ -21,27 +21,25 @@
 </template>
 
 <script>
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import StatsReport from './StatsReport.vue';
 import StartEndDate from '../StartEndDate.vue';
-import AlertList from '../AlertList.vue';
 
+import { handleError } from '@/modules/errors.js';
 import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
 import { isoDateStringObject, currentQuarter } from '@/modules/date-utils.js';
 
 export default {
-	props: {
-		
-	},
+	mixins: [HasAlerts],
 	data(){
 		return {
 			dates: isoDateStringObject(currentQuarter()),
 			evaluatorStats: null,
-			subjectStats: null,
-			
-			alerts: []
+			subjectStats: null
 		};
 	},
-	
+
 	methods: {
 		runReport(){
 			fetch('/report/stats/trainee/faculty', {
@@ -52,13 +50,9 @@ export default {
 			}).then(jsonOrThrow).then(stats => {
 				this.evaluatorStats = stats;
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: `<strong>Error: </strong> There was a problem fetching the evaluator statistics`
-				});
+				handleError(err, this, 'There was a problem fetching the evaluator statistics');
 			});
-			
+
 			fetch('/report/stats/faculty/faculty', {
 				method: 'POST',
 				headers: getFetchHeaders(),
@@ -67,19 +61,14 @@ export default {
 			}).then(jsonOrThrow).then(stats => {
 				this.subjectStats = stats;
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: `<strong>Error: </strong> There was a problem fetching the subject statistics`
-				});
+				handleError(err, this, 'There was a problem fetching the subject statistics');
 			});
 		}
 	},
-	
+
 	components: {
 		StatsReport,
-		StartEndDate,
-		AlertList
+		StartEndDate
 	}
 };
 </script>

@@ -1,3 +1,5 @@
+import { logError } from '@/modules/errors.js';
+
 export function getAllPublicationTypes(meritReport) {
 	const publicationSection = getPublicationSection(meritReport);
 
@@ -29,7 +31,7 @@ export function getFacultyPublicationsByType(meritReport, checkedOnly = true) {
 				JSON.parse(JSON.stringify(items))
 			);
 		} catch (e) {
-			console.error('Error getting publications, ignoring: ', publicationItem, e);
+			logError('Error getting publications, ignoring: ', publicationItem, e);
 		}
 	}
 
@@ -101,7 +103,7 @@ export function getPubMedIds(meritReport) {
 			}
 		}
 	} catch (e) {
-		console.error('Error getting PubMed IDs: ', e);
+		logError('Error getting PubMed IDs: ', e);
 	}
 
 	return pubMedIds;
@@ -159,7 +161,7 @@ export function getConferencePresentations(meritReport) {
 			}
 		}
 	} catch (e) {
-		console.error('Error getting conference presentations: ', e);
+		logError('Error getting conference presentations: ', e);
 	}
 
 	return conferencePresentations;
@@ -205,7 +207,7 @@ export function getOtherPresentations(meritReport) {
 			}
 		}
 	} catch (e) {
-		console.error('Error getting other presentations: ', e);
+		logError('Error getting other presentations: ', e);
 	}
 
 	return otherPresentations;
@@ -232,7 +234,7 @@ export function getChaptersTextbooks(meritReport) {
 		if (publicationSection.items[4].checked)
 			chaptersTextbooks += publicationSection.items[4].questions[0].items.length;
 	} catch (e) {
-		console.error('Error getting chapters/textbooks: ', e);
+		logError('Error getting chapters/textbooks: ', e);
 	}
 
 	return chaptersTextbooks;
@@ -253,7 +255,7 @@ export function getGrants(meritReport) {
 				grants += grantType.questions[0].items.length;
 		}
 	} catch (e) {
-		console.error('Error getting grants: ', e);
+		logError('Error getting grants: ', e);
 	}
 
 	return grants;
@@ -333,7 +335,7 @@ export function getLeadershipPeerReviewRoles(meritReport) {
 		if (editorialBoard.checked)
 			leadershipPeerReviewRoles += editorialBoard.questions[0].items.length;
 	} catch (e) {
-		console.error('Error getting leadership/peer-review roles: ', e);
+		logError('Error getting leadership/peer-review roles: ', e);
 	}
 
 	return leadershipPeerReviewRoles > 0
@@ -358,7 +360,7 @@ export function getTeachingFormalCourses() {
 	try {
 		// TODO
 	} catch (e) {
-		console.error('Error getting teaching formal courses: ', e);
+		logError('Error getting teaching formal courses: ', e);
 	}
 
 	return teachingFormalCourses;

@@ -12,6 +12,7 @@ import EgressPairings from '@/vue-components/Reports/EgressPairings/EgressPairin
 import FacultyPublicationsReport from '@/vue-components/Reports/FacultyMerit/Publications.vue';
 import FacultyScholarlyActivityReport from '@/vue-components/Reports/FacultyMerit/ScholarlyActivity.vue';
 
+import { logError } from '@/modules/errors.js';
 import {
 	kebabCaseToWords,
 	fetchUsers,
@@ -91,9 +92,7 @@ export function createReports(el){
 		created(){
 			fetchUsers().then(users => {
 				this.users = users;
-			}).catch(err => {
-				console.error(err);
-			});
+			}).catch(logError);
 		},
 
 		methods: {
