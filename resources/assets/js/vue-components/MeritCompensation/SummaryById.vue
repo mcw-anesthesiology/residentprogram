@@ -14,6 +14,7 @@
 <script>
 import MeritReportSummary from './Summary.vue';
 
+import { handleError } from '@/modules/errors.js';
 import { fetchAllMeritReports } from '@/modules/merit-utils.js';
 
 export default {
@@ -70,11 +71,7 @@ export default {
 			fetchAllMeritReports().then(merits => {
 				this.fetchedReports = merits;
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem fetching past merit reports'
-				});
+				handleError(err, this, 'There was a problem fetching past merit reports');
 			});
 		}
 	},

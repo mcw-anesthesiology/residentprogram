@@ -108,15 +108,18 @@
 </template>
 
 <script>
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import FormBuilderInstruction from './FormBuilderInstruction.vue';
 import FormBuilderQuestion from './FormBuilderQuestion.vue';
-import AlertList from '../AlertList.vue';
 import ShowHideButton from '../ShowHideButton.vue';
 import ConfirmationButton from '../ConfirmationButton.vue';
 
+import { handleError, logError } from '@/modules/errors.js';
 import { ucfirst, fetchMilestoneGroups } from '@/modules/utils.js';
 
 export default {
+	mixins: [HasAlerts],
 	props: {
 		oldFormContents: {
 			type: Object,
@@ -158,9 +161,7 @@ export default {
 
 			show: {
 				customOptionsEditor: false
-			},
-
-			alerts: []
+			}
 		};
 	},
 
@@ -169,7 +170,7 @@ export default {
 			fetchMilestoneGroups().then(milestoneGroups => {
 				this.groupedMilestones = milestoneGroups;
 			}).catch(err => {
-				console.error(err);
+				handleError(err, this, 'There was a problem fetching milestones');
 			});
 
 			fetch('/competencies', { credentials: 'same-origin' }).then(response => {
@@ -183,7 +184,7 @@ export default {
 			}).then(competencies => {
 				this.competencies = competencies;
 			}).catch(err => {
-				console.error(err);
+				handleError(err, this, 'There was a problem fetching competencies');
 			});
 		}
 	},
@@ -213,7 +214,7 @@ export default {
 			try {
 				return JSON.stringify(this.customOptions, null, 4);
 			} catch (e) {
-				console.error(e);
+				logError(e);
 			}
 
 			return 'ERROR DISPLAYING CUSTOM OPTIONS';
@@ -269,11 +270,7 @@ export default {
 				else
 					throw new Error('Not an array');
 			} catch (err) {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					text: 'Unable to set custom options'
-				});
+				handleError(err, this, 'Unable to set custom options');
 			}
 		},
 		submitForm() {
@@ -372,7 +369,6 @@ export default {
 	components: {
 		FormBuilderInstruction,
 		FormBuilderQuestion,
-		AlertList,
 		ShowHideButton,
 		ConfirmationButton
 	}

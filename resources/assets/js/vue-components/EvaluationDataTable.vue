@@ -20,6 +20,7 @@ import StartEndDate from './StartEndDate.vue';
 import * as localforage from 'localforage';
 import moment from 'moment';
 
+import { logError } from '@/modules/errors.js';
 import * as dateUtils from '@/modules/date-utils.js';
 
 window.localforage = localforage;
@@ -107,9 +108,7 @@ export default {
 				localforage.setItem(this.localforageKey, {
 					dates,
 					createdAt: new Date()
-				}).catch(err => {
-					console.error(err);
-				});
+				}).catch(logError);
 			}
 		}
 	},

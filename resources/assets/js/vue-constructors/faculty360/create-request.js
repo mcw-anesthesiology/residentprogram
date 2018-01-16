@@ -1,17 +1,19 @@
 import Vue from 'vue';
 
-import AlertList from '@/vue-components/AlertList.vue';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import SelectTwo from '@/vue-components/SelectTwo.vue';
 
+import { handleError } from '@/modules/errors.js';
 import {
 	getFetchHeaders,
-	sortPropIgnoreCase,
-	errorToAlert
+	sortPropIgnoreCase
 } from '@/modules/utils.js';
 
 export default function createFaculty360Request(el, propsData) {
 	return new Vue({
 		el,
+		mixins: [HasAlerts],
 		props: {
 			user: {
 				type: Object,
@@ -36,9 +38,7 @@ export default function createFaculty360Request(el, propsData) {
 
 				emailError: null,
 
-				requestSuccessful: false,
-
-				alerts: []
+				requestSuccessful: false
 			};
 		},
 		propsData,
@@ -95,14 +95,12 @@ export default function createFaculty360Request(el, propsData) {
 					if (response.hash)
 						window.location = `/faculty360/evaluate/${response.hash}`;
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push(errorToAlert(err));
+					handleError(err, this, err.message);
 				});
 			}
 		},
 
 		components: {
-			AlertList,
 			SelectTwo
 		}
 	});

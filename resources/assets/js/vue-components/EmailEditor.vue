@@ -112,6 +112,7 @@ import MediumEditor from './MediumEditor.vue';
 import ShowHideButton from './ShowHideButton.vue';
 import LoadingButton from './LoadingButton.vue';
 
+import { logError } from '@/modules/errors.js';
 import {
 	ucfirst,
 	getFetchHeaders,
@@ -321,6 +322,8 @@ export default {
 								: errorRecipient;
 							return this.possibleRecipients.find(user => user.id === Number(id)).full_name;
 						});
+
+					logError(new Error('Error sending emails to the following users: ' + JSON.stringify(userNames)));
 					this.alerts.push({
 						type: 'error',
 						html: `Error sending emails to the following users: <ul>
@@ -331,7 +334,7 @@ export default {
 
 				this.sendingEmails = false;
 			}).catch(err => {
-				console.error(err);
+				logError(err);
 				this.alerts.push({
 					text: err.message,
 					type: 'error'

@@ -2,6 +2,7 @@ import AlertList from '@/vue-components/AlertList.vue';
 import ComponentList from '@/vue-components/ComponentList.vue';
 import UserWithMeritReportListItem from '@/vue-components/MeritCompensation/UserWithReportListItem.vue';
 
+import { handleError } from '@/modules/errors.js';
 import {
 	getFetchHeaders,
 	jsonOrThrow,
@@ -48,11 +49,7 @@ export default {
 			}).then(jsonOrThrow).then(usersWithReports => {
 				this.usersWithReports = usersWithReports;
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem fetching users with reports'
-				});
+				handleError(err, this, 'There was a problem fetching users with reports');
 			});
 		}
 	},

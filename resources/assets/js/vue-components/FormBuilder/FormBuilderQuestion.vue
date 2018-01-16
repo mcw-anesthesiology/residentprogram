@@ -115,16 +115,19 @@
 </template>
 
 <script>
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import FormBuilderOption from './FormBuilderOption.vue';
 
-import AlertList from '@/vue-components/AlertList.vue';
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import SelectTwo from '@/vue-components/SelectTwo.vue';
 
 import { STANDARD_OPTIONS } from '@/modules/constants.js';
+import { handleError } from '@/modules/errors.js';
 import { sortSelect2Objects } from '@/modules/utils.js';
 
 export default {
+	mixins: [HasAlerts],
 	props: {
 		formType: {
 			type: String,
@@ -181,9 +184,7 @@ export default {
 				text: '',
 				value: '',
 				description: ''
-			},
-
-			alerts: []
+			}
 		};
 	},
 	computed: {
@@ -311,7 +312,7 @@ export default {
 
 				this.$emit('change', {options: options});
 			}).catch(err => {
-				console.error(err);
+				handleError(err, this, 'There was a problem fetching milestone options');
 			});
 		},
 		setCustomOptions(){
@@ -328,7 +329,6 @@ export default {
 	},
 	components: {
 		FormBuilderOption,
-		AlertList,
 		ConfirmationButton,
 		SelectTwo
 	}

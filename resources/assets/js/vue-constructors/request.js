@@ -7,6 +7,7 @@ import SelectTwo from '@/vue-components/SelectTwo.vue';
 import moment from 'moment';
 import indefinite from 'indefinite';
 
+import { logError } from '@/modules/errors.js';
 import { groupUsers, groupForms } from '@/modules/utils.js';
 import {
 	isoDateString,
@@ -226,7 +227,7 @@ export function createRequest(el, propsData) {
 							endDate
 						};
 					} catch (e) {
-						console.error('Error with custom eval date, using non-custom', e);
+						logError('Error with custom eval date, using non-custom', e);
 					}
 				}
 

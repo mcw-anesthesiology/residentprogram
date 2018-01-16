@@ -5,10 +5,9 @@ import ComponentList from '@/vue-components/ComponentList.vue';
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
 import { FEATURE_RELEASE_DATES } from '@/modules/constants.js';
+import { handleError } from '@/modules/errors.js';
 import { isoDateStringObject, lastYear } from '@/modules/date-utils.js';
-import {
-	getUsersWithCompleteMerit
-} from '@/modules/merit-utils.js';
+import { getUsersWithCompleteMerit } from '@/modules/merit-utils.js';
 import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
 
 export default {
@@ -51,11 +50,7 @@ export default {
 			}).then(jsonOrThrow).then(usersWithMerits => {
 				this.usersWithMerits = usersWithMerits;
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem fetching merits'
-				});
+				handleError(err, this, 'There was a problem fetching merits');
 			});
 		}
 	},

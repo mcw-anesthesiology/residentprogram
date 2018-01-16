@@ -3,9 +3,9 @@
 		<div class="container body-block">
 			<h1>Pending evaluation requests</h1>
 			<start-end-date v-model="dates" />
-			
+
 			<alert-list v-model="alerts" />
-			
+
 			<div class="btn-lg-submit-container">
 				<button type="button" class="btn btn-lg btn-primary labelless-button"
 						@click="runReport">
@@ -13,8 +13,8 @@
 				</button>
 			</div>
 		</div>
-		
-		
+
+
 		<div v-if="report" class="container body-block">
 			<section>
 				<component-list :items="report" :fields="userFields">
@@ -29,21 +29,22 @@
 </template>
 
 <script>
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import EvaluationListItem from './Needs/EvaluationListItem.vue';
 import StartEndDate from '../StartEndDate.vue';
-import AlertList from '../AlertList.vue';
 import ComponentList from '../ComponentList.vue';
 
+import { handleError } from '@/modules/errors.js';
 import { getFetchHeaders } from '@/modules/utils.js';
 import { isoDateStringObject, currentQuarter } from '@/modules/date-utils.js';
 
 export default {
+	mixins: [HasAlerts],
 	data(){
 		return {
 			dates: isoDateStringObject(currentQuarter()),
-			report: null,
-			
-			alerts: []
+			report: null
 		};
 	},
 	computed: {
@@ -66,23 +67,18 @@ export default {
 			}).then(response => {
 				if(response.ok)
 					return response.json();
-				
+
 				throw new Error();
 			}).then(report => {
 				this.report = report;
 			}).catch(err => {
-				this.alerts.push({
-					type: 'error',
-					html: '<b>Error</b>: There was a problem running the report.'
-				});
-				console.error(err);
+				handleError(err, this, 'There was a problem running the report');
 			});
 		}
 	},
 	components: {
 		EvaluationListItem,
 		StartEndDate,
-		AlertList,
 		ComponentList
 	}
 };

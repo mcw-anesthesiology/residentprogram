@@ -5,45 +5,46 @@ import DataTable from '@/vue-components/DataTable.vue';
 import OrderingList from '@/vue-components/OrderingList.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
+import { logError } from '@/modules/errors.js';
 import {
 	getFetchHeaders,
 	jsonOrThrow,
-	sortPropNumbers
+	sortPropNumbers,
+	ucfirst
 } from '@/modules/utils.js';
-import { ucfirst } from '@/modules/utils.js';
 
 export default function createManageMilestonesCompetencies(el, propsData){
-	
+
 	return new Vue({
 		el,
 		props: {
-			
+
 		},
 		propsData,
-		
+
 		data(){
 			return {
 				milestones: null,
 				competencies: null,
-				
+
 				orderedMilestones: [],
 				orderedCompetencies: [],
-				
+
 				show: {
 					milestoneOrder: false,
 					competencyOrder: false
 				},
-				
+
 				milestoneAlerts: [],
 				competencyAlerts: []
 			};
 		},
-		
+
 		mounted(){
 			this.fetchMilestones();
 			this.fetchCompetencies();
 		},
-		
+
 		computed: {
 			milestonesThead(){
 				return [[
@@ -63,7 +64,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 								return order != null
 									? Number(order) + 1
 									: Number.MAX_VALUE;
-							
+
 							return order != null
 								? Number(order) + 1
 								: '';
@@ -78,7 +79,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 								data-type="${milestone.type}"
 								data-training-level="${milestone.training_level}"
 								data-description="${milestone.description}"`;
-								
+
 							const editButton = `
 							<button type="button"
 									class="edit-milestone-button btn btn-info btn-xs"
@@ -86,7 +87,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</button>`;
-							
+
 							const levelsButton = `
 							<button type="button"
 									class="edit-milestone-levels-button btn btn-info btn-xs"
@@ -94,7 +95,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 								<span class="glyphicon glyphicon-th-list"></span>
 								Levels
 							</button>`;
-							
+
 							const deleteButton = `
 							<button type="button"
 									class="delete-milestone-button btn btn-danger btn-xs"
@@ -102,14 +103,14 @@ export default function createManageMilestonesCompetencies(el, propsData){
 								<span class="glyphicon glyphicon-remove"></span>
 								Delete
 							</button>`;
-							
+
 							return `${editButton} ${levelsButton}
 								${milestone.forms.length === 0 ? deleteButton : ''}`;
 						}}
 					]
 				};
 			},
-			
+
 			competenciesThead(){
 				return [[
 					'Order',
@@ -126,7 +127,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 								return order != null
 									? Number(order) + 1
 									: Number.MAX_VALUE;
-							
+
 							return order != null
 								? Number(order) + 1
 								: '';
@@ -137,7 +138,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 							const competencyData = `data-id="${competency.id}"
 								data-title="${competency.title}"
 								data-description="${competency.description}"`;
-							
+
 							const editButton = `
 							<button type="button"
 									class="edit-competency-button btn btn-info btn-xs"
@@ -145,7 +146,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</button>`;
-							
+
 							const deleteButton = `
 							<button type="button"
 									class="delete-competency-button btn btn-danger btn-xs"
@@ -153,14 +154,14 @@ export default function createManageMilestonesCompetencies(el, propsData){
 								<span class="glyphicon glyphicon-remove"></span>
 								Delete
 							</button>`;
-							
+
 							return `${editButton} ${competency.forms.length === 0 ? deleteButton : ''}`;
 						}}
 					]
 				};
 			},
 		},
-		
+
 		watch: {
 			competencies(competencies){
 				this.orderedCompetencies = competencies.filter(competency =>
@@ -171,7 +172,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 					milestone.order != null).sort(sortPropNumbers('order'));
 			}
 		},
-		
+
 		methods: {
 			ucfirst,
 			fetchMilestones(){
@@ -180,7 +181,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 						forms: true
 					}
 				});
-				
+
 				return fetch(`/milestones?${query}`, {
 					method: 'GET',
 					headers: getFetchHeaders(),
@@ -188,7 +189,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 				}).then(jsonOrThrow).then(milestones => {
 					this.milestones = milestones;
 				}).catch(err => {
-					console.error(err);
+					logError(err);
 					this.milestoneAlerts.push({
 						type: 'error',
 						html: '<strong>Error: </strong> Problem fetching milestones'
@@ -201,7 +202,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 						forms: true
 					}
 				});
-				
+
 				return fetch(`/competencies?${query}`, {
 					method: 'GET',
 					headers: getFetchHeaders(),
@@ -209,7 +210,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 				}).then(jsonOrThrow).then(competencies => {
 					this.competencies = competencies;
 				}).catch(err => {
-					console.error(err);
+					logError(err);
 					this.competencyAlerts.push({
 						type: 'error',
 						html: '<strong>Error: </strong> Problem fetching competencies'
@@ -221,7 +222,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 					id: milestone.id,
 					order: index
 				}));
-				
+
 				fetch('/milestones/order', {
 					method: 'POST',
 					headers: getFetchHeaders(),
@@ -243,10 +244,10 @@ export default function createManageMilestonesCompetencies(el, propsData){
 							type: 'warning',
 							text: 'Some orders were not saved successfully'
 						});
-						
+
 					this.fetchMilestones();
 				}).catch(err => {
-					console.error(err);
+					logError(err);
 					this.milestoneAlerts.push({
 						type: 'error',
 						text: 'There was a problem saving the orders'
@@ -258,7 +259,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 					id: competency.id,
 					order: index
 				}));
-				
+
 				fetch('/competencies/order', {
 					method: 'POST',
 					headers: getFetchHeaders(),
@@ -282,7 +283,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 						});
 					this.fetchCompetencies();
 				}).catch(err => {
-					console.error(err);
+					logError(err);
 					this.competencyAlerts.push({
 						type: 'error',
 						text: 'There was a problem saving the orders'
@@ -290,7 +291,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 				});
 			}
 		},
-		
+
 		components: {
 			AlertList,
 			DataTable,

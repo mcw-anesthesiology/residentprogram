@@ -1,8 +1,10 @@
 import Vue from 'vue';
 
-import AlertList from '@/vue-components/AlertList.vue';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import FormBuilder from '@/vue-components/FormBuilder/FormBuilder.vue';
 
+import { handleError } from '@/modules/errors.js';
 import {
 	getFetchHeaders,
 	jsonOrThrow
@@ -11,14 +13,13 @@ import {
 export default function createFaculty360CreateForm(el) {
 	return new Vue({
 		el,
+		mixins: [HasAlerts],
 		data() {
 			return {
-				newFormId: null,
-				
-				alerts: []
+				newFormId: null
 			};
 		},
-		
+
 		methods: {
 			handleSubmit(form) {
 				fetch('/faculty360/forms', {
@@ -32,17 +33,12 @@ export default function createFaculty360CreateForm(el) {
 						window.location = `/faculty360/forms/${response.id}/view`;
 					}, 2000);
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem saving the form'
-					});
+					handleError(err, this, 'There was a problem saving the form');
 				});
 			}
 		},
-		
+
 		components: {
-			AlertList,
 			FormBuilder
 		}
 	});

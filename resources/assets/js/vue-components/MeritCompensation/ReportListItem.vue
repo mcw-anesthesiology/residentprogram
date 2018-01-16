@@ -81,9 +81,10 @@ import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import ConfirmationYesNo from '@/vue-components/ConfirmationYesNo.vue';
 import RichDateRange from '@/vue-components/RichDateRange.vue';
 
-import { getFetchHeaders, okOrThrow, ucfirst } from '@/modules/utils.js';
+import { emitError } from '@/modules/errors.js';
 import { getEvaluationStatusLabel } from '@/modules/datatable-utils.js';
 import { getCheckedItemCount } from '@/modules/merit-utils.js';
+import { getFetchHeaders, okOrThrow, ucfirst } from '@/modules/utils.js';
 
 export default {
 	props: {
@@ -190,11 +191,7 @@ export default {
 			}).then(okOrThrow).then(() => {
 				this.$emit('change');
 			}).catch(err => {
-				console.error(err);
-				this.$emit('alert', {
-					type: 'error',
-					html: '<strong>Error:</strong> There was a problem updating the merit report'
-				});
+				emitError(err, this, 'There was a problem updating the merit report');
 			});
 		}
 	},

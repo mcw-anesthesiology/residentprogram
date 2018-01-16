@@ -16,10 +16,10 @@
 <script>
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 
+import { emitError } from '@/modules/errors.js';
 import {
 	fetchConfig,
-	okOrThrow,
-	simpleErrorAlert
+	okOrThrow
 } from '@/modules/utils.js';
 
 export default {
@@ -53,10 +53,7 @@ export default {
 			}).then(okOrThrow).then(() => {
 				this.handleComplete();
 			}).catch(err => {
-				console.error(err);
-				this.$emit('alert', simpleErrorAlert(
-					'There was a problem cancelling the evaluation request'
-				));
+				emitError(err, this, 'There was a problem cancelling the evaluation request');
 			});
 		},
 		handleComplete() {
@@ -69,10 +66,7 @@ export default {
 			}).then(okOrThrow).then(() => {
 				this.$emit('remove');
 			}).catch(err => {
-				console.error(err);
-				this.$emit('alert', simpleErrorAlert(
-					'There was a problem completing the flagged evaluation'
-				));
+				emitError(err, this, 'There was a problem completing the flagged evaluation');
 			});
 		}
 	},

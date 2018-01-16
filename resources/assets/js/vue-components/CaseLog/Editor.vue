@@ -38,8 +38,9 @@
 import CaseLogForm from './Form.vue';
 
 import { questionnaire as validate } from '@/modules/questionnaire/validate.js';
-import { fetchConfig, okOrThrow, simpleErrorAlert } from '@/modules/utils.js';
+import { emitError } from '@/modules/errors.js';
 import { isoDateString } from '@/modules/date-utils.js';
+import { fetchConfig, okOrThrow } from '@/modules/utils.js';
 
 const incompleteMessage = 'Please complete all required questions before submitting the case log';
 
@@ -131,8 +132,7 @@ export default {
 			}).then(okOrThrow).then(() => {
 				this.$emit('submit');
 			}).catch(err => {
-				console.error(err);
-				this.$emit('alert', simpleErrorAlert('There was a problem submitting the case log'));
+				emitError(err, this, 'There was a problem submitting the case log');
 			});
 		}
 	},

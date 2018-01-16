@@ -11,6 +11,7 @@ import FacultyMeritReportMixin from './faculty.js';
 
 export { default as createMeritReportPrintView } from './print-view.js';
 
+import { handleError } from '@/modules/errors.js';
 import {
 	fetchAllMeritReports,
 	getYearlyFacultyMeritForm,
@@ -88,11 +89,7 @@ export function createMeritReportsHub(el, propsData) {
 				return fetchAllMeritReports().then(merits => {
 					this.meritReports = merits;
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching past merit reports'
-					});
+					handleError(err, this, 'There was a problem fetching past merit reports');
 				});
 			},
 			fetchMeritForms() {
@@ -103,11 +100,7 @@ export function createMeritReportsHub(el, propsData) {
 				}).then(jsonOrThrow).then(meritForms => {
 					this.meritForms = meritForms;
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching merit forms'
-					});
+					handleError(err, this, 'There was a problem fetching merit forms');
 				});
 			},
 			addMeritReport() {
@@ -134,11 +127,7 @@ export function createMeritReportsHub(el, propsData) {
 					this.fetchAllMeritReports();
 					this.viewReport(merit.id);
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem creating a new merit report'
-					});
+					handleError(err, this, 'There was a problem creating a new merit report');
 				});
 
 			},

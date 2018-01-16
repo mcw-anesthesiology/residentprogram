@@ -91,6 +91,7 @@ import Color from 'color';
 import ChartjsChart from '@/vue-components/ChartjsChart.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
+import { logError } from '@/modules/errors.js';
 import { getColors } from '@/modules/chart-utils.js';
 import { renderDate } from '@/modules/date-utils.js';
 import { ADDITIONAL_SUMMARY_NAMES, getAdditionalSummaryMaps } from '@/modules/case-logs/raaps.js';
@@ -164,7 +165,7 @@ export default {
 							responses.set(id, values);
 						}
 					} catch (e) {
-						console.error('Failed adding responses', e);
+						logError('Failed adding responses', e);
 					}
 				}
 			}

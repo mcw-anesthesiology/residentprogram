@@ -1,8 +1,10 @@
 import Vue from 'vue';
 
-import AlertList from '@/vue-components/AlertList.vue';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import FormReader from '@/vue-components/FormReader/FormReader.vue';
 
+import { logError } from '@/modules/errors.js';
 import {
 	getFetchHeaders,
 	jsonOrThrow
@@ -19,6 +21,7 @@ const questionTemplates = new Map([
 export default function createFaculty360Evaluate(el, propsData) {
 	return new Vue({
 		el,
+		mixins: [HasAlerts],
 		props: {
 			evaluation: {
 				type: Object,
@@ -32,9 +35,7 @@ export default function createFaculty360Evaluate(el, propsData) {
 					questionTemplates
 				),
 
-				submitSuccessful: false,
-
-				alerts: []
+				submitSuccessful: false
 			};
 		},
 		propsData,
@@ -58,7 +59,7 @@ export default function createFaculty360Evaluate(el, propsData) {
 						text: 'Progress saved successfully!'
 					});
 				}).catch(err => {
-					console.error(err);
+					logError(err);
 					this.alerts.push({
 						type: 'error',
 						html: `<strong>Error:</strong> There was a problem
@@ -81,7 +82,7 @@ export default function createFaculty360Evaluate(el, propsData) {
 				}).then(jsonOrThrow).then(() => {
 					this.submitSuccessful = true;
 				}).catch(err => {
-					console.error(err);
+					logError(err);
 					this.alerts.push({
 						type: 'error',
 						html: `<strong>Error:</strong> There was a problem
@@ -95,7 +96,6 @@ export default function createFaculty360Evaluate(el, propsData) {
 		},
 
 		components: {
-			AlertList,
 			FormReader
 		}
 	});

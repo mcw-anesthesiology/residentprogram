@@ -8,6 +8,10 @@ import { simpleErrorAlert } from '@/modules/utils.js';
 
 import type { BootstrapAlertItem } from '@/modules/utils.js';
 
+type ViewModel = {
+	$emit: Function
+};
+
 type AlertContainer = {
 	alerts: Array<BootstrapAlertItem>
 };
@@ -18,14 +22,24 @@ export const rollbar = new Rollbar({
 	captureUncaught: true,
 	captureUnhandledRejections: false,
 	payload: {
-		environment: 'production'
+		environment: process.env.NODE_ENV,
+		person: window.RESIDENTPROGRAM_USER
 	}
 });
 
+export function logError(...errs: Array<Error | string>) {
+	console.error(...errs);
+	rollbar.error(...errs);
+}
+
 export function handleError(err: Error, vm: ?AlertContainer, message: ?string) {
-	console.error(err);
-	rollbar.error(err);
-	if (vm && message) {
+	logError(err);
+	if (vm && message && vm.alerts && Array.isArray(vm.alerts)) {
 		vm.alerts.push(simpleErrorAlert(message));
 	}
+}
+
+export function emitError(err: Error, vm: ViewModel, message: string, event: string = 'alert') {
+	logError(err);
+	vm.$emit(event, simpleErrorAlert(message));
 }

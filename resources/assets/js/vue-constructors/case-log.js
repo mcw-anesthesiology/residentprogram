@@ -12,6 +12,7 @@ import CaseLogs from '@/vue-components/CaseLog/CaseLogs.vue';
 import CaseLogEditor from '@/vue-components/CaseLog/Editor.vue';
 import CaseLogEditorV1 from '@/vue-components/CaseLog/V1/Editor.vue';
 
+import { handleError } from '@/modules/errors.js';
 import {
 	getFetchHeaders,
 	okOrThrow,
@@ -22,9 +23,7 @@ import { currentQuarter, isoDateStringObject } from '@/modules/date-utils.js';
 
 export function createCaseLog(el, propsData) {
 	return new Vue({
-		mixins: [
-			HasAlerts
-		],
+		mixins: [ HasAlerts ],
 		el,
 		props: {
 			user: {
@@ -123,11 +122,7 @@ export function createCaseLog(el, propsData) {
 				}).then(jsonOrThrow).then(caseLogs => {
 					this.caseLogs = caseLogs;
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching case logs'
-					});
+					handleError(err, this, 'There was a problem fetching case logs');
 				});
 			},
 			deleteCaseLog(caseLogId) {
@@ -141,11 +136,7 @@ export function createCaseLog(el, propsData) {
 				}).then(okOrThrow).then(() => {
 					this.removeCaseLog(caseLogId);
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> there was a problem deleting the case log entry'
-					});
+					handleError(err, this, 'There was a problem deleting the case log entry');
 				});
 			},
 			removeCaseLog(id) {

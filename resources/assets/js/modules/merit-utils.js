@@ -1,6 +1,7 @@
 /* @flow */
 
 import moment from 'moment';
+import { logError } from './errors.js';
 import { isoDateStringObject, academicYearForDate } from './date-utils.js';
 import { getFetchHeaders, jsonOrThrow } from './utils.js';
 import * as validateQuestionnaire from './questionnaire/validate.js';
@@ -76,7 +77,7 @@ export function checklistIsValid(checklist: MeritReportChecklist): boolean {
 	try {
 		return validateMerit.checklist(checklist).valid;
 	} catch (e) {
-		console.error(e);
+		logError(e);
 		return false;
 	}
 }
@@ -85,7 +86,7 @@ export function sectionIsValid(section: MeritReportSection): boolean {
 	try {
 		return validateMerit.section(section).valid;
 	} catch (e) {
-		console.error(e);
+		logError(e);
 		return false;
 	}
 }
@@ -94,7 +95,7 @@ export function itemIsValid(item: MeritReportItem): boolean {
 	try {
 		return validateMerit.item(item).valid;
 	} catch (e) {
-		console.error(e);
+		logError(e);
 		return false;
 	}
 }
@@ -103,7 +104,7 @@ export function questionIsValid(question: QuestionnaireQuestion): boolean {
 	try {
 		return validateQuestionnaire.question(question).valid;
 	} catch (e) {
-		console.error(e);
+		logError(e);
 		return false;
 	}
 }

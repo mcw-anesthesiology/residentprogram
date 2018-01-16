@@ -6,6 +6,7 @@ import DataTable from '@/vue-components/DataTable.vue';
 import EvaluationDataTable from '@/vue-components/EvaluationDataTable.vue';
 import FlaggedEvaluationControls from '@/vue-components/Dashboard/FlaggedEvaluationControls.vue';
 
+import { handleError } from '@/modules/errors.js';
 import {
 	renderDateRangeCell,
 	createDateRangeCell,
@@ -64,11 +65,7 @@ export default function createAdminDashboard(el, propsData){
 			}).then(flaggedEvals => {
 				this.flaggedEvals = flaggedEvals;
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push({
-					type: 'error',
-					html: '<b>Error</b>: Problem fetching flagged evaluations'
-				});
+				handleError(err, this, 'There was a problem fetching flagged evaluations');
 			});
 		},
 

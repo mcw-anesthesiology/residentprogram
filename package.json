@@ -23,7 +23,7 @@
     "make:webpack": "webpack",
     "make:gulp": "gulp",
     "remake": "run-s clean make",
-    "bundle": "webpack-bundle-analyzer ./public/build/js/stats.json",
+    "bundle": "webpack-bundle-analyzer ./public/build/js/stats.json --port 8088",
     "lint": "eslint resources/assets/js --ext .js,.vue && flow",
     "test": "run-s test:*",
     "test:backend": "./vendor/bin/phpunit",

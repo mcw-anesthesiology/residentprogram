@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { logError } from '@/modules/errors.js';
 import { scoreChecklist } from '@/modules/merits/scoring.js';
 
 export default {
@@ -46,7 +47,7 @@ export default {
 			try {
 				return scoreChecklist(this.checklist);
 			} catch (err) {
-				console.error(err);
+				logError(err);
 			}
 		},
 		totalScore() {

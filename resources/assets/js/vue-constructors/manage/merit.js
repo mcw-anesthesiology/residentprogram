@@ -1,12 +1,14 @@
 import Vue from 'vue';
 
-import AlertList from '@/vue-components/AlertList.vue';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import ComponentList from '@/vue-components/ComponentList.vue';
 import JsonSchemaEditor from '@/vue-components/JsonSchemaEditor.vue';
 import SelectTwo from '@/vue-components/SelectTwo.vue';
 
 import MeritFormListItem from '@/vue-components/Manage/Merit/FormListItem.vue';
 
+import { handleError } from '@/modules/errors.js';
 import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
 
 const reportTypeFormsKey = 'reportTypeForms';
@@ -14,6 +16,7 @@ const reportTypeFormsKey = 'reportTypeForms';
 export default function createManageMerit(el, propsData) {
 	return new Vue({
 		el,
+		mixins: [HasAlerts],
 		props: {
 			meritReportTypes: {
 				type: Object,
@@ -26,8 +29,7 @@ export default function createManageMerit(el, propsData) {
 				meritReportTypeForms: {},
 
 				pastMeritForms: null,
-				merit: null,
-				alerts: []
+				merit: null
 			};
 		},
 		propsData,
@@ -77,11 +79,7 @@ export default function createManageMerit(el, propsData) {
 				}).then(jsonOrThrow).then(meritForms => {
 					this.meritForms = meritForms;
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching merit forms'
-					});
+					handleError(err, this, 'There was a problem fetching merit forms');
 				});
 			},
 			fetchReportTypeForms() {
@@ -100,11 +98,7 @@ export default function createManageMerit(el, propsData) {
 				}).then(reportTypeForms => {
 					this.meritReportTypeForms = reportTypeForms;
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching merit report type forms'
-					});
+					handleError(err, this, 'There was a problem fetching merit report type forms');
 				});
 			},
 			addMerit() {
@@ -140,11 +134,7 @@ export default function createManageMerit(el, propsData) {
 					this.merit = null;
 					this.fetchMerits();
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem saving the merit form'
-					});
+					handleError(err, this, 'There was a problem saving the merit form');
 				});
 			},
 			removeMeritForms(forms) {
@@ -181,11 +171,7 @@ export default function createManageMerit(el, propsData) {
 
 
 					}).catch(err => {
-						console.error(err);
-						this.alerts.push({
-							type: 'error',
-							html: '<strong>Error:</strong> There was a problem removing the merit form'
-						});
+						handleError(err, this, 'There was a problem removing the merit form');
 					});
 				});
 
@@ -219,11 +205,7 @@ export default function createManageMerit(el, propsData) {
 
 					this.fetchReportTypeForms();
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem saving report type form'
-					});
+					handleError(err, this, 'There was a problem saving report type form');
 				});
 			},
 			removeReportTypeForm(reportType) {
@@ -240,17 +222,12 @@ export default function createManageMerit(el, propsData) {
 
 					this.fetchReportTypeForms();
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem removing the type form'
-					});
+					handleError(err, this, 'There was a problem removing the type form');
 				});
 			}
 		},
 
 		components: {
-			AlertList,
 			ComponentList,
 			JsonSchemaEditor,
 			SelectTwo,

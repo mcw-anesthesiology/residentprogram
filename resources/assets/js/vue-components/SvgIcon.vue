@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { logError } from '@/modules/errors.js';
 
 export default {
 	props: {
@@ -24,9 +25,7 @@ export default {
 			throw new Error('Unable to load icon');
 		}).then(svg => {
 			this.svg = svg;
-		}).catch(err => {
-			console.error(err.message);
-		});
+		}).catch(logError);
 	}
 };
 </script>

@@ -5,13 +5,12 @@ import HasAlerts from '@/vue-mixins/HasAlerts.js';
 import EditAlumni from '@/vue-components/Alumni/Edit.vue';
 import AlumniSubscription from '@/vue-components/Alumni/Subscription.vue';
 
+import { handleError } from '@/modules/errors.js';
 import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
 
 export function createAlumni(el, propsData) {
 	return new Vue({
-		mixins: [
-			HasAlerts
-		],
+		mixins: [HasAlerts],
 		el,
 		props: {
 			defaultAlum: {
@@ -54,11 +53,7 @@ export function createAlumni(el, propsData) {
 						text: 'Profile information saved successfully!'
 					});
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem reloading the alum data'
-					});
+					handleError(err, this, 'There was a problem reloading the alum data');
 				});
 			},
 			reloadEditAlum() {

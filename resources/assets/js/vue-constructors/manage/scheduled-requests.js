@@ -7,6 +7,7 @@ import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import RichDate from '@/vue-components/RichDate.vue';
 import RichDateRange from '@/vue-components/RichDateRange.vue';
 
+import { handleError } from '@/modules/errors.js';
 import { renderDateRange } from '@/modules/date-utils.js';
 import {
 	getFetchHeaders,
@@ -92,11 +93,7 @@ export default function createManageScheduledRequests(el, propsData) {
 				}).then(jsonOrThrow).then(scheduledRequests => {
 					this.scheduledRequests = scheduledRequests;
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching scheduled requests'
-					});
+					handleError(err, this, 'There was a problem fetching scheduled requests');
 				});
 			},
 			deleteRequest(scheduledRequest) {
@@ -112,11 +109,7 @@ export default function createManageScheduledRequests(el, propsData) {
 						request.id !== scheduledRequest.id
 					);
 				}).catch(err => {
-					console.error(err);
-					this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem deleting the scheduled request'
-					});
+					handleError(err, this, 'There was a problem deleting the scheduled request');
 				});
 			}
 		},

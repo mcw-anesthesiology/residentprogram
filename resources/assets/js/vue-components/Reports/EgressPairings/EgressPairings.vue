@@ -182,20 +182,20 @@
 </template>
 
 <script>
+import delve from 'dlv';
+
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import ComponentList from '@/vue-components/ComponentList.vue';
 import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
 import OverlapListItem from './OverlapListItem.vue';
 
-import HasAlerts from '@/vue-mixins/HasAlerts.js';
-
-import delve from 'dlv';
-
+import { handleError } from '@/modules/errors.js';
 import {
 	fetchConfig,
 	ucfirst,
-	jsonOrThrow,
-	simpleErrorAlert
+	jsonOrThrow
 } from '@/modules/utils.js';
 
 export default {
@@ -355,8 +355,7 @@ export default {
 				this.overlaps = overlaps;
 				this.overlapsToSend = [];
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push(simpleErrorAlert('There was a problem fetching the report'));
+				handleError(err, this, 'There was a problem fetching the report');
 			});
 		},
 		sendReports() {
@@ -401,15 +400,11 @@ export default {
 							`
 						});
 					}
-				} catch (e) {
-					console.error(e);
-					this.alerts.push(
-						simpleErrorAlert('There was a problem displaying unsuccessful reports')
-					);
+				} catch (err) {
+					handleError(err, this, 'There was a problem displaying unsuccessful reports');
 				}
 			}).catch(err => {
-				console.error(err);
-				this.alerts.push(simpleErrorAlert('There was a problem sending the reports'));
+				handleError(err, this, 'There was a problem sending the reports');
 			});
 		}
 	},
