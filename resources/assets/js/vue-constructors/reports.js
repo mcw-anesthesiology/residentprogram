@@ -11,6 +11,7 @@ import EgressPairings from '@/vue-components/Reports/EgressPairings/EgressPairin
 
 import FacultyPublicationsReport from '@/vue-components/Reports/FacultyMerit/Publications.vue';
 import FacultyScholarlyActivityReport from '@/vue-components/Reports/FacultyMerit/ScholarlyActivity.vue';
+import FacultySimulationsReport from '@/vue-components/Reports/FacultyMerit/Simulations.vue';
 
 import { logError } from '@/modules/errors.js';
 import {
@@ -48,7 +49,8 @@ const routes = [
 		props: {
 			reportTypes: [
 				'publications',
-				'scholarly-activity'
+				'scholarly-activity',
+				'simulations'
 			]
 		},
 		children: [
@@ -59,6 +61,10 @@ const routes = [
 			{
 				path: 'scholarly-activity',
 				component: FacultyScholarlyActivityReport
+			},
+			{
+				path: 'simulations',
+				component: FacultySimulationsReport
 			}
 		]
 	},
