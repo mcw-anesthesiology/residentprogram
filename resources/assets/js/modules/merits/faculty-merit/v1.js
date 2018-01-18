@@ -365,3 +365,7 @@ export function getTeachingFormalCourses() {
 
 	return teachingFormalCourses;
 }
+
+export function getParticipatesInSimulation(meritReport) {
+	return Boolean(meritReport.report.pages[1].items[0].items[1].items[12].checked);
+}
