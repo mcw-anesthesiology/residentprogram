@@ -161,8 +161,12 @@ export default {
 				for (const [id, question] of idMap.entries()) {
 					try {
 						const values = getResponses(question);
+						const prevValues = responses.has(id)
+							? responses.get(id)
+							: [];
+
 						if (id && values.length > 0) {
-							responses.set(id, values);
+							responses.set(id, prevValues.concat(values));
 						}
 					} catch (e) {
 						logError('Failed adding responses', e);
