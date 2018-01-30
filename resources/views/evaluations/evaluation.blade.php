@@ -256,10 +256,11 @@
 			</div>
 	@endif
 
-			</div>
 		</div>
 	</div>
+</div>
 
+<div class="container body-block">
 	<div id="form">
 	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 			<form id="evaluation" role="form" method="post" action="#">
