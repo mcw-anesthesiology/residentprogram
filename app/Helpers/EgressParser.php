@@ -403,7 +403,11 @@ class EgressParser {
 		$userType,
 		$subjectType,
 		$emailSubject,
-		$periodDisplay
+		$periodDisplay,
+		$intro = null,
+		$successLead = null,
+		$emptyMessage = null,
+		$closing = null
 	) {
 		$requestUrl = url('/request?' . join('&', array_map(
 			function ($pairing) use ($subjectType) {
@@ -424,7 +428,12 @@ class EgressParser {
 			'user',
 			'pairings',
 			'periodDisplay',
-			'requestUrl'
+			'requestUrl',
+
+			'intro',
+			'successLead',
+			'emptyMessage',
+			'closing'
 		);
 
 		Mail::send(
@@ -560,7 +569,11 @@ class EgressParser {
 								'faculty',
 								'resident',
 								$facultySubject,
-								$periodDisplay
+								$periodDisplay,
+								null,
+								null,
+								null,
+								null
 							);
 
 							// Mailtrap gets mad if you send emails too quickly
@@ -620,7 +633,11 @@ class EgressParser {
 								'resident',
 								'faculty',
 								$residentSubject,
-								$periodDisplay
+								$periodDisplay,
+								null,
+								null,
+								null,
+								null
 							);
 
 							// Mailtrap gets mad if you send emails too quickly

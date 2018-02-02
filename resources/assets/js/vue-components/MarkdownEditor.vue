@@ -2,11 +2,14 @@
 	<div>
 		<section @mouseenter="mouseIn = true" @mouseleave="mouseIn = false">
 			<textarea class="form-control" :class="{'editor-shown': showEditor}"
-					:id="id" rows="15"  tabindex="0" :value="value"
+					:id="id" rows="15" tabindex="0"
+					:placeholder="placeholder"
+					:value="value"
 					@focusout="focused = false" @focusin="focused = true"
 					@input="input" ref="editor"></textarea>
-			<div v-show="!showEditor" v-html="html"
-				class="form-control markdown-editor-rendered-html-container">
+			<div v-show="!showEditor" v-html="html || placeholder"
+				class="form-control markdown-editor-rendered-html-container"
+				:class="{'displaying-placeholder': !html}">
 			</div>
 		</section>
 		<div class="row">
@@ -52,6 +55,10 @@ export default {
 		showHelp: {
 			type: Boolean,
 			default: true
+		},
+		placeholder: {
+			type: String,
+			required: false
 		}
 	},
 	data(){
@@ -62,11 +69,12 @@ export default {
 	},
 	computed: {
 		html(){
-			let html = htmlLabelReplacements(md.render(this.value),
-				this.replacements);
-			
+			let html = md.render(this.value);
+			if (this.replacements)
+				html = htmlLabelReplacements(html, this.replacements);
+
 			this.$emit('html', html);
-			
+
 			return html;
 		},
 		showEditor(){
@@ -98,7 +106,7 @@ export default {
 		position: absolute;
 		left: -10000px;
 	}
-	
+
 	textarea.editor-shown {
 		opacity: 1;
 		pointer-events: all;
@@ -109,6 +117,10 @@ export default {
 	.markdown-editor-rendered-html-container {
 		height: 300px;
 		overflow: auto;
+	}
+
+	.markdown-editor-rendered-html-container.displaying-placeholder {
+		color: #999;
 	}
 </style>
 

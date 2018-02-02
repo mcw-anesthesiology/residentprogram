@@ -1,16 +1,29 @@
 <p>Hello Dr {{ $user['last_name'] }}!</p>
 
+@if (!empty($intro))
+<div>
+	{!! $intro !!}
+</div>
+@else
 <p>
 	In an attempt to provide more feedback to our residents and make it simpler
 	for you to complete evaluations, we will be providing a periodic report of
 	the residents we believe you worked with the most.
 </p>
+@endif
 
 @if (!empty($pairings))
+	@if (!empty($successLead))
+<div>
+	{!! $successLead !!}
+</div>
+	@else
 <p>
 	Based on our records, we've selected the following residents as top
-	candidates for evaluation for {{ $periodDisplay }}.
+	candidates for evaluation for {{ $periodDisplay }}. Please use this as a
+	reference to complete trainee evaluations.
 </p>
+	@endif
 
 <ol>
 	@foreach ($pairings as $pairing)
@@ -47,12 +60,24 @@
 	@endforeach
 </ol>
 @else
+	@if (!empty($emptyMessage))
+<div>
+	{!! $emptyMessage !!}
+</div>
+	@else
 <p>
 	Unfortunately, we weren't able to come up with a list of residents
 	for you this time. We're sorry about that!
 
 	Please complete evaluations for the residents that you worked with.
 </p>
+	@endif
+@endif
+
+@if (!empty($closing))
+<div>
+	{!! $closing !!}
+</div>
 @endif
 
 <p>
