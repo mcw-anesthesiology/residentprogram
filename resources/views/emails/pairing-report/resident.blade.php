@@ -1,5 +1,10 @@
 <p>Hello Dr {{ $user['last_name'] }}!</p>
 
+@if (!empty($intro))
+<div>
+	{!! $intro !!}
+</div>
+@else
 <p>
 	In an attempt to provide you more feedback and make it simpler
 	for evaluators to complete evaluations, we will be providing a periodic
@@ -7,13 +12,20 @@
 </p>
 
 @if (!empty($pairings))
+	@if (!empty($successLead))
+<div>
+	{!! $successLead !!}
+</div>
+	@else
 <p>
 	Based on our records, we've selected the following faculty as top
-	candidates to provide evaluations for {{ $periodDisplay }}.
+	candidates to provide evaluations for {{ $periodDisplay }}. Please use this
+	as a reference to request evaluations and to complete evaluations of faculty.
 </p>
+	@endif
 
 <ol>
-@foreach ($pairings as $pairing)
+	@foreach ($pairings as $pairing)
 	<li>
 		<b>{{ $pairing['faculty']['full_name'] }}</b>:
 		<i>
@@ -44,16 +56,28 @@
 			}}
 		</i>
 	</li>
-@endforeach
+	@endforeach
 </ol>
 
 @else
+	@if (!empty($emptyMessage))
+<div>
+	{!! $emptyMessage !!}
+</div>
+	@else
 <p>
 	Unfortunately, we weren't able to come up with a list of faculty
 	for you this time. We're sorry about that!
 
 	Please request evaluations from faculty members that you worked with.
 </p>
+	@endif
+@endif
+
+@if (!empty($closing))
+<div>
+	{!! $closing !!}
+</div>
 @endif
 
 <p>

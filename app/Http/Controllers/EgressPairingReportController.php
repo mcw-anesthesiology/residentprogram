@@ -45,6 +45,10 @@ class EgressPairingReportController extends Controller
         $subjectType = $request->input('subjectType');
         $emailSubject = $request->input('emailSubject');
         $periodDisplay = $request->input('periodDisplay');
+		$intro = $request->input('intro');
+		$successLead = $request->input('successLead');
+		$emptyMessage = $request->input('emptyMessage');
+		$closing = $request->input('closing');
 
         $successes = 0;
         $errors = [];
@@ -59,7 +63,11 @@ class EgressPairingReportController extends Controller
                     $userType,
                     $subjectType,
                     $emailSubject,
-                    $periodDisplay
+                    $periodDisplay,
+					$intro,
+					$successLead,
+					$emptyMessage,
+					$closing
                 );
                 $successes++;
 

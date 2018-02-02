@@ -129,8 +129,87 @@
 						</label>
 					</validated-form-group>
 				</div>
+				<div v-if="customizeMessageText">
+					<div class="row">
+						<validated-form-group class="col-sm-12"
+								:errors="customMessageErrors"
+								prop="intro">
+							<label class="containing-label">
+								Introduction
+								<markdown-editor :placeholder="messageDefaults.intro"
+									v-model="customMessage.intro"
+									@html="customMessageHtml.intro = arguments[0]" />
+							</label>
+						</validated-form-group>
+						<validated-form-group class="col-sm-12"
+								:errors="customMessageErrors"
+								prop="successLead">
+							<label class="containing-label">
+								Report list lead
+								<markdown-editor :placeholder="messageDefaults.successLead"
+									v-model="customMessage.successLead"
+									@html="customMessageHtml.successLead = arguments[0]" />
+							</label>
+						</validated-form-group>
+						<validated-form-group class="col-sm-12"
+								:errors="customMessageErrors"
+								prop="closing">
+							<label class="containing-label">
+								Closing
+								<markdown-editor :placeholder="messageDefaults.closing"
+									v-model="customMessage.closing"
+									@html="customMessageHtml.closing = arguments[0]" />
+							</label>
+						</validated-form-group>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<span class="panel-title">
+								Full message example
+							</span>
+						</div>
+						<div class="panel-body message-example-body">
+							<p>
+								Hello Dr
+								<span class="label label-info">
+									{{ ucfirst(userType) }}
+								</span>!
+							</p>
+							<div v-html="customMessageHtml.intro
+								|| `<p>${messageDefaults.intro}</p>`"></div>
+
+							<div v-html="customMessageHtml.successLead
+								|| `<p>${messageDefaults.successLead}</p>`"></div>
+							<ol>
+								<li v-for="pairing of examplePairings">
+									<b>{{ pairing.name }}</b>:
+									<i>
+										{{ pairing.numCases }}
+										case{{ pairing.numCases === 1 ? '' : 's' }}
+									</i>
+									together totalling
+									<i>{{ pairing.totalTime }}</i>
+								</li>
+							</ol>
+
+
+							<div v-html="customMessageHtml.closing
+								|| `<p>${messageDefaults.closing}</p>`"></div>
+
+							<p>
+								Thank you!
+							</p>
+						</div>
+					</div>
+				</div>
 			</div>
 
+			<div class="text-center">
+				<label>
+					Customize message text
+					<input type="checkbox" v-model="customizeMessageText" />
+				</label>
+			</div>
 			<div class="text-center">
 				<button type="button" class="btn btn-lg btn-info"
 						:disabled="!sendReportValid"
@@ -181,6 +260,20 @@
 	</div>
 </template>
 
+<style>
+	.message-example-body {
+		padding: 2em;
+	}
+
+	.message-example-body .panel {
+		margin: 1em 0;
+	}
+
+	.containing-label small {
+		font-weight: normal;
+	}
+</style>
+
 <script>
 import delve from 'dlv';
 
@@ -188,6 +281,7 @@ import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
 import ComponentList from '@/vue-components/ComponentList.vue';
 import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
+import MarkdownEditor from '@/vue-components/MarkdownEditor.vue';
 
 import OverlapListItem from './OverlapListItem.vue';
 
@@ -217,7 +311,21 @@ export default {
 			reportUserType: null,
 			overlaps: null,
 
-			overlapsToSend: []
+			overlapsToSend: [],
+
+			customizeMessageText: false,
+			customMessage: {
+				intro: '',
+				successLead: '',
+				emptyMessage: '',
+				closing: ''
+			},
+			customMessageHtml: {
+				intro: null,
+				successLead: null,
+				emptyMessage: null,
+				closing: null
+			}
 		};
 	},
 
@@ -301,6 +409,75 @@ export default {
 		},
 		sendReportValid() {
 			return Array.from(this.sendReportErrors.keys()).length === 0;
+		},
+		messageDefaults() {
+			const stripWhitespace = s => s.replace(/\s+/g, ' ');
+			return this.userType === 'resident'
+				? {
+					intro: stripWhitespace(`In an attempt to provide you more feedback and make it simpler
+						for evaluators to complete evaluations, we will be providing a periodic
+						report of the faculty we believe you worked with the most.`),
+					successLead: stripWhitespace(`Based on our records, we've selected the following faculty as top
+						candidates to provide evaluations for ${this.periodDisplay || '(time period display)'}.
+						Please use this as a reference to request evaluations and to complete evaluations of faculty.`),
+					emptyMessage: stripWhitespace(`Unfortunately, we weren't able to come up with a list of faculty
+						for you this time. We're sorry about that!
+
+						Please request evaluations from faculty members that you worked with.`),
+					closing: ''
+				}
+				: {
+					intro: stripWhitespace(`In an attempt to provide more feedback to our residents and make it simpler
+						for you to complete evaluations, we will be providing a periodic report of
+						the residents we believe you worked with the most.`),
+					successLead: stripWhitespace(`Based on our records, we've selected the following residents as top
+						candidates for evaluation for ${this.periodDisplay || '(time period display)'}.
+						Please use this as a reference to complete trainee evaluations.`),
+					emptyMessage: stripWhitespace(`Unfortunately, we weren't able to come up with a list of residents
+						for you this time. We're sorry about that!
+
+						Please complete evaluations for the residents that you worked with.`),
+					closing: ''
+				};
+		},
+		customMessageErrors() {
+			const map = new Map();
+
+			// Nothing to do right now
+
+			return map;
+		},
+		examplePairings() {
+			return [
+				{
+					name: 'Jones, Joseph',
+					numCases: 25,
+					totalTime: '1 day, 14 hours, 32 minutes'
+				},
+				{
+					name: 'Smith, Deborah',
+					numCases: 17,
+					totalTime: '22 hours, 54 minutes'
+				},
+				{
+					name: 'Lopez, George',
+					numCases: 8,
+					totalTime: '5 hours, 19 minutes'
+				}
+			];
+		}
+	},
+
+	watch: {
+		customizeMessageText(customizeMessageText) {
+			if (!customizeMessageText) {
+				this.customMessageHtml = {
+					intro: null,
+					successLead: null,
+					emptyMessage: null,
+					closing: null
+				};
+			}
 		}
 	},
 
@@ -374,7 +551,8 @@ export default {
 					userType: this.reportUserType,
 					subjectType: this.subjectType,
 					emailSubject: this.emailSubject,
-					periodDisplay: this.periodDisplay
+					periodDisplay: this.periodDisplay,
+					...this.customMessageHtml
 				})
 			}).then(jsonOrThrow).then(response => {
 				if (response.successful) {
@@ -412,7 +590,8 @@ export default {
 	components: {
 		ComponentList,
 		ValidatedFormGroup,
-		OverlapListItem
+		OverlapListItem,
+		MarkdownEditor
 	}
 };
 </script>
