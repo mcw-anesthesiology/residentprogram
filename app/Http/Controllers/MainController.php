@@ -740,6 +740,26 @@ class MainController extends Controller
                 }
             }
             $eval->save();
+
+			if ($eval->status == 'complete' && $user->id != $eval->subject_id) {
+				$subject = User::withoutGlobalScopes()->find($eval->subject_id);
+				if (
+					!empty($subject)
+					&& $subject->notifications == 'yes'
+					&& in_array($eval->form->type, [
+						'resident',
+						'fellow',
+						'intern'
+					])
+					&& in_array($eval->visibility, [
+						'visible',
+						'anonymous'
+					])
+					&& filter_var($subject->email, FILTER_VALIDATE_EMAIL)
+				) {
+					$eval->sendCompleteNotification();
+				}
+			}
         } catch(\Exception $e) {
 			return back()->with("error", $e->getMessage());
 		}

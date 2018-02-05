@@ -89,8 +89,8 @@ Route::post('contact', 'ContactController@saveContact');
 
 Route::get('user', 'UserController@user');
 Route::post('user', 'UserController@saveUser');
-Route::post('user/reminders', 'UserController@saveUserReminders');
-Route::post('user/notifications', 'UserController@saveUserNotifications');
+Route::patch('user/reminders', 'UserController@saveUserReminders');
+Route::patch('user/notifications', 'UserController@saveUserNotifications');
 
 Route::get('merit', 'FacultyMeritController@merit');
 Route::get('manage/merit', 'FacultyMeritController@manage');

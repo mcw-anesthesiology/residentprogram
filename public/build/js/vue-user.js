@@ -357,7 +357,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 892:
+/***/ 898:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -390,9 +390,11 @@ function createUserSettingsPage(el, propsData) {
 		},
 		propsData: propsData,
 		data: function data() {
-			return {
-				user_settings: this.user.user_settings
-			};
+			var data = Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["n" /* filterKeys */])(this.user, ['user_settings', 'notifications', 'reminder_frequency']);
+
+			data.remind_only_if_pending = this.user.remind_only_if_pending === 'yes';
+
+			return data;
 		},
 
 		computed: {
@@ -404,13 +406,54 @@ function createUserSettingsPage(el, propsData) {
 			}
 		},
 		methods: {
+			handleNotificationsUpdate: function handleNotificationsUpdate(event) {
+				var _this = this;
+
+				event.preventDefault();
+
+				fetch('/user/notifications', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["g" /* fetchConfig */])(), {
+					method: 'POST', // PATCH
+					body: JSON.stringify({
+						_method: 'PATCH',
+						notifications: this.notifications
+					})
+				})).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["y" /* okOrThrow */]).then(function () {
+					_this.alerts.push({
+						type: 'success',
+						text: 'Notification preferences saved successfully!'
+					});
+				}).catch(function (err) {
+					Object(__WEBPACK_IMPORTED_MODULE_2__modules_errors_js__["b" /* handleError */])(err, _this, 'There was a problem saving your notification preferences');
+				});
+			},
+			handleRemindersUpdate: function handleRemindersUpdate(event) {
+				var _this2 = this;
+
+				event.preventDefault();
+
+				fetch('/user/reminders', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["g" /* fetchConfig */])(), {
+					method: 'POST', // PATCH
+					body: JSON.stringify({
+						_method: 'PATCH',
+						reminder_frequency: this.reminder_frequency,
+						remind_only_if_pending: this.remind_only_if_pending ? 'yes' : 'no'
+					})
+				})).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["y" /* okOrThrow */]).then(function () {
+					_this2.alerts.push({
+						type: 'success',
+						text: 'Reminder preferences saved successfully!'
+					});
+				}).catch(function (err) {
+					Object(__WEBPACK_IMPORTED_MODULE_2__modules_errors_js__["b" /* handleError */])(err, _this2, 'There was a problem saving your notification preferences');
+				});
+			},
 			getUserSetting: function getUserSetting(setting) {
 				return Object(__WEBPACK_IMPORTED_MODULE_3__modules_user_utils_js__["c" /* getUserSetting */])(this, setting);
 			},
 
 			displaySetting: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["c" /* camelCaseToWords */],
 			handleSettingsSubmit: function handleSettingsSubmit(event) {
-				var _this = this;
+				var _this3 = this;
 
 				event.preventDefault();
 
@@ -419,7 +462,7 @@ function createUserSettingsPage(el, propsData) {
 				fetch('/users/settings', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["g" /* fetchConfig */])({ contentType: null }), {
 					method: 'POST',
 					body: data
-				})).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["u" /* jsonOrThrow */]).then(function (saved) {
+				})).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["v" /* jsonOrThrow */]).then(function (saved) {
 					var entries = Array.from(Object.entries(saved));
 					var successful = entries.filter(function (_ref) {
 						var _ref2 = _slicedToArray(_ref, 2),
@@ -450,12 +493,12 @@ function createUserSettingsPage(el, propsData) {
 
 					if (successful.length > 0) {
 						var s = successful.length;
-						_this.alerts.push({
+						_this3.alerts.push({
 							type: 'success',
-							text: s + ' ' + Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["y" /* pluralize */])('setting', s) + ' saved successfully'
+							text: s + ' ' + Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["z" /* pluralize */])('setting', s) + ' saved successfully'
 						});
 
-						var user_settings = _this.user_settings;
+						var user_settings = _this3.user_settings;
 
 						var _loop = function _loop(name) {
 							var setting = {
@@ -497,20 +540,20 @@ function createUserSettingsPage(el, propsData) {
 							}
 						}
 
-						_this.user_settings = user_settings;
+						_this3.user_settings = user_settings;
 					}
 
 					if (unsuccessful.length > 0) {
 						var u = unsuccessful.length;
-						_this.alerts.push({
+						_this3.alerts.push({
 							type: 'error',
-							html: '\n\t\t\t\t\t\t\t\t<p>' + u + ' ' + Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["y" /* pluralize */])('setting', u) + ' not saved</p>\n\t\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t' + unsuccessful.map(function (name) {
-								return '<li>' + _this.displaySetting(name) + '</li>';
+							html: '\n\t\t\t\t\t\t\t\t<p>' + u + ' ' + Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["z" /* pluralize */])('setting', u) + ' not saved</p>\n\t\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t' + unsuccessful.map(function (name) {
+								return '<li>' + _this3.displaySetting(name) + '</li>';
 							}) + '\n\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t'
 						});
 					}
 				}).catch(function (err) {
-					Object(__WEBPACK_IMPORTED_MODULE_2__modules_errors_js__["b" /* handleError */])(err, _this, 'There was a problem saving your settings');
+					Object(__WEBPACK_IMPORTED_MODULE_2__modules_errors_js__["b" /* handleError */])(err, _this3, 'There was a problem saving your settings');
 				});
 			}
 		}
@@ -519,6 +562,6 @@ function createUserSettingsPage(el, propsData) {
 
 /***/ })
 
-},[892]);
+},[898]);
 });
 //# sourceMappingURL=vue-user.js.map

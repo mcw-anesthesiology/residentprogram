@@ -1434,7 +1434,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["J" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["K" /* ucfirst */],
 		addInstruction: function addInstruction() {
 			this.items.push({
 				type: 'instruction',
@@ -2118,7 +2118,7 @@ if (false) {(function () {
 					id: competency.id,
 					text: competency.title
 				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["I" /* sortSelect2Objects */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["J" /* sortSelect2Objects */]);
 		}
 	},
 	methods: {
@@ -4348,7 +4348,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["J" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["K" /* ucfirst */],
 		resetOptions: function resetOptions() {
 			if (this.readonly) return;
 
@@ -6061,20 +6061,20 @@ module.exports = isMasked;
 
 /***/ }),
 
-/***/ 751:
+/***/ 757:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__create_request_js__ = __webpack_require__(752);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__create_request_js__ = __webpack_require__(758);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFaculty360Request", function() { return __WEBPACK_IMPORTED_MODULE_0__create_request_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__create_form_js__ = __webpack_require__(753);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__create_form_js__ = __webpack_require__(759);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFaculty360CreateForm", function() { return __WEBPACK_IMPORTED_MODULE_1__create_form_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__view_form_js__ = __webpack_require__(754);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__view_form_js__ = __webpack_require__(760);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFaculty360ViewForm", function() { return __WEBPACK_IMPORTED_MODULE_2__view_form_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__evaluate_js__ = __webpack_require__(755);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__evaluate_js__ = __webpack_require__(761);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFaculty360Evaluate", function() { return __WEBPACK_IMPORTED_MODULE_3__evaluate_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__view_evaluation_js__ = __webpack_require__(757);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__view_evaluation_js__ = __webpack_require__(763);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFaculty360ViewEvaluation", function() { return __WEBPACK_IMPORTED_MODULE_4__view_evaluation_js__["a"]; });
 
 
@@ -6084,7 +6084,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 752:
+/***/ 758:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6145,7 +6145,7 @@ function createFaculty360Request(el, propsData) {
 			},
 			sortedFaculty: function sortedFaculty() {
 				var faculty = this.faculty.slice();
-				faculty.sort(Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["G" /* sortPropIgnoreCase */])('full_name'));
+				faculty.sort(Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["H" /* sortPropIgnoreCase */])('full_name'));
 
 				return faculty;
 			}
@@ -6162,7 +6162,7 @@ function createFaculty360Request(el, propsData) {
 
 				fetch('/faculty360/evaluations', {
 					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["o" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["p" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						subject_id: this.facultyId,
@@ -6195,7 +6195,7 @@ function createFaculty360Request(el, propsData) {
 
 /***/ }),
 
-/***/ 753:
+/***/ 759:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6232,10 +6232,10 @@ function createFaculty360CreateForm(el) {
 
 				fetch('/faculty360/forms', {
 					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["o" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["p" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(form)
-				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["u" /* jsonOrThrow */]).then(function (response) {
+				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["v" /* jsonOrThrow */]).then(function (response) {
 					_this.newFormId = response.id;
 					_this.redirectTimeout = window.setTimeout(function () {
 						window.location = '/faculty360/forms/' + response.id + '/view';
@@ -6254,7 +6254,20 @@ function createFaculty360CreateForm(el) {
 
 /***/ }),
 
-/***/ 754:
+/***/ 76:
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__(2);
+
+/** Used to detect overreaching core-js shims. */
+var coreJsData = root['__core-js_shared__'];
+
+module.exports = coreJsData;
+
+
+/***/ }),
+
+/***/ 760:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6294,7 +6307,7 @@ function createFaculty360ViewForm(el, propsData) {
 
 /***/ }),
 
-/***/ 755:
+/***/ 761:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6305,7 +6318,7 @@ function createFaculty360ViewForm(el, propsData) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue__ = __webpack_require__(223);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_errors_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_evaluation_utils_js__ = __webpack_require__(756);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_evaluation_utils_js__ = __webpack_require__(762);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_constants_js__ = __webpack_require__(52);
 
 
@@ -6355,13 +6368,13 @@ function createFaculty360Evaluate(el, propsData) {
 
 				fetch('/faculty360/evaluations/' + this.evaluation.hash + '/save', {
 					method: 'POST', // PATCH
-					headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["o" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["p" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
 						contents: form.contents
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["u" /* jsonOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["v" /* jsonOrThrow */]).then(function () {
 					_this.alerts.push({
 						type: 'success',
 						text: 'Progress saved successfully!'
@@ -6379,13 +6392,13 @@ function createFaculty360Evaluate(el, propsData) {
 
 				fetch('/faculty360/evaluations/' + this.evaluation.hash + '/submit', {
 					method: 'POST', // PATCH
-					headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["o" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["p" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
 						contents: form.contents
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["u" /* jsonOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["v" /* jsonOrThrow */]).then(function () {
 					_this2.submitSuccessful = true;
 				}).catch(function (err) {
 					Object(__WEBPACK_IMPORTED_MODULE_3__modules_errors_js__["c" /* logError */])(err);
@@ -6405,7 +6418,7 @@ function createFaculty360Evaluate(el, propsData) {
 
 /***/ }),
 
-/***/ 756:
+/***/ 762:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6459,7 +6472,7 @@ function processQuestionTemplates(evaluation, templates) {
 
 /***/ }),
 
-/***/ 757:
+/***/ 763:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6491,19 +6504,6 @@ function createFaculty360ViewEvaluation(el, propsData) {
 		}
 	});
 }
-
-/***/ }),
-
-/***/ 76:
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__(2);
-
-/** Used to detect overreaching core-js shims. */
-var coreJsData = root['__core-js_shared__'];
-
-module.exports = coreJsData;
-
 
 /***/ }),
 
@@ -7346,6 +7346,6 @@ module.exports = equalObjects;
 
 /***/ })
 
-},[751]);
+},[757]);
 });
 //# sourceMappingURL=vue-faculty360.js.map

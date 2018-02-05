@@ -107,4 +107,80 @@ class EvaluationTest extends BrowserKitTestCase
 			'comment' => "I don't want to"
 		]);
 	}
+
+	public function testVisibleAnonymousCompleteNotification() {
+		$subject = $this->residents[0];
+		$evaluator = $this->faculty[0];
+
+		Mail::shouldReceive('send')
+			->twice()
+			->andReturnUsing(function($view, $params) {
+				$this->assertEquals($view, 'emails.complete-notification');
+			});
+
+		$visibleEval = factory(App\Evaluation::class, 'complete')->create([
+			'form_id' => $this->form->id,
+			'subject_id' => $subject->id,
+			'evaluator_id' => $evaluator->id,
+			'requested_by_id' => $subject->id
+		]);
+
+		$visibleEval->sendCompleteNotification();
+
+		$anonymousEval = factory(App\Evaluation::class, 'complete')->create([
+			'form_id' => $this->form->id,
+			'subject_id' => $subject->id,
+			'evaluator_id' => $evaluator->id,
+			'requested_by_id' => $subject->id,
+			'visibility' => 'anonymous'
+		]);
+
+		$anonymousEval->sendCompleteNotification();
+	}
+
+	public function testHiddenCompleteNotification() {
+		$subject = $this->residents[0];
+		$evaluator = $this->faculty[0];
+
+		Mail::shouldReceive('send')->times(0);
+
+		$hiddenEval = factory(App\Evaluation::class, 'complete')->create([
+			'form_id' => $this->form->id,
+			'subject_id' => $subject->id,
+			'evaluator_id' => $evaluator->id,
+			'requested_by_id' => $subject->id,
+			'visibility' => 'hidden'
+		]);
+
+		$hiddenSent = $hiddenEval->sendCompleteNotification();
+		$this->assertFalse($hiddenSent);
+
+		$hiddenForm = factory(App\Form::class)->create([
+			'visibility' => 'hidden'
+		]);
+		$hiddenFormEval = factory(App\Evaluation::class, 'complete')->create([
+			'form_id' => $hiddenForm->id,
+			'subject_id' => $subject->id,
+			'evaluator_id' => $evaluator->id,
+			'requested_by_id' => $subject->id
+		]);
+		$hiddenFormSent = $hiddenFormEval->sendCompleteNotification();
+		$this->assertFalse($hiddenFormSent);
+	}
+
+	public function testFacultyCompleteNotification() {
+		$resident = $this->residents[0];
+		$faculty = $this->faculty[0];
+
+		Mail::shouldReceive('send')->times(0);
+
+		$facultyEval = factory(App\Evaluation::class, 'complete')->create([
+			'form_id' => $this->facultyForm->id,
+			'subject_id' => $faculty->id,
+			'evaluator_id' => $resident->id,
+			'requested_by_id' => $resident->id
+		]);
+		$facultySent = $facultyEval->sendCompleteNotification();
+		$this->assertFalse($facultySent);
+	}
 }
