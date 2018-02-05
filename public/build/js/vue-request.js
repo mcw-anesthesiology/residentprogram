@@ -3411,7 +3411,7 @@ if (false) {(function () {
 				return row.map(function (cell) {
 					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["E" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["F" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -7367,7 +7367,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["F" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_1__utils_js__["G" /* sortNumbers */]);
 
 	var _iteratorNormalCompletion = true;
 	var _didIteratorError = false;
@@ -8281,7 +8281,7 @@ module.exports = stackClear;
 
 /***/ }),
 
-/***/ 672:
+/***/ 673:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8294,7 +8294,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_SelectTwo_vue__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_indefinite__ = __webpack_require__(673);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_indefinite__ = __webpack_require__(674);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_indefinite___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_indefinite__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_errors_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_utils_js__ = __webpack_require__(1);
@@ -8456,10 +8456,10 @@ function createRequest(el, propsData) {
 				});
 			},
 			evaluatorOptions: function evaluatorOptions() {
-				return Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["s" /* groupUsers */])(this.filteredEvaluators);
+				return Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["t" /* groupUsers */])(this.filteredEvaluators);
 			},
 			subjectOptions: function subjectOptions() {
-				return Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["s" /* groupUsers */])(this.filteredSubjects);
+				return Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["t" /* groupUsers */])(this.filteredSubjects);
 			},
 			subjectForms: function subjectForms() {
 				var forms = this.filteredForms;
@@ -8482,7 +8482,7 @@ function createRequest(el, propsData) {
 				return forms;
 			},
 			formOptions: function formOptions() {
-				return Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["q" /* groupForms */])(this.subjectForms);
+				return Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["r" /* groupForms */])(this.subjectForms);
 			},
 			evaluationDate: function evaluationDate() {
 				if (this.useCustomEvaluationDate && this.customEvaluationDate) {
@@ -8769,7 +8769,7 @@ function mapNumbersIfExists(arr) {
 
 /***/ }),
 
-/***/ 673:
+/***/ 674:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {(function() {
@@ -9841,6 +9841,6 @@ module.exports = equalObjects;
 
 /***/ })
 
-},[672]);
+},[673]);
 });
 //# sourceMappingURL=vue-request.js.map

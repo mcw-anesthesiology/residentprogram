@@ -11,20 +11,19 @@
 		<div id="form-builder">
 			<form-builder :old-form-contents="oldFormContents"
 				@submit="handleSubmit"></form-builder>
-				
+
 			<alert-list v-model="alerts"></alert-list>
 		</div>
 	</form>
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-form-builder.js') }}"></script>
 	<script>
 		var propsData = {
 			oldFormContents: {!! $formContents or 'null' !!}
 		};
-		
+
 		var vm = createFormBuilder("#form-builder", propsData);
 
 		$("#evaluation-form").submit(checkForm);

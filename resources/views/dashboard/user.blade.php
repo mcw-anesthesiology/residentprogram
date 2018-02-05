@@ -107,7 +107,6 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-user.js') }}"></script>
 	<script>
 		$("#new-password-confirm").keyup(function(){

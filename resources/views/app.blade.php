@@ -50,6 +50,7 @@
 		</script>
 	@endif
 		<link rel="stylesheet" href="{{ elixir("css/all.css") }}" />
+		<link rel="stylesheet" href="{{ elixir('css/vue-global.css') }}" />
 
 		@yield("head")
 		@stack('stylesheets')
@@ -86,6 +87,8 @@
 	@endif
 		</div>
 
+		<div id="global-news-container"></div>
+
 		<main>
 	@if(View::hasSection('body'))
 			<div class="container body-block">
@@ -104,6 +107,14 @@
 		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
 		<script src="{{ elixir("js/manifest.js") }}"></script>
 		<script src="{{ elixir("js/bundle.js") }}"></script>
+		<script src="{{ elixir('js/vue-global.js') }}"></script>
+		<script>
+			var newsPropsData = {
+				user: {!! $user->toJson() !!}
+			};
+
+			createNews('#global-news-container', newsPropsData);
+		</script>
 		@yield("script")
 		@stack('scripts')
 	</body>

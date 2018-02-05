@@ -578,3 +578,7 @@ export function filterKeys(obj: Object, keys: Array<string>): Object {
 
 	return newObj;
 }
+
+export function getRandom(arr: Array<any>): any {
+	return arr[Math.floor(Math.random() * arr.length)];
+}

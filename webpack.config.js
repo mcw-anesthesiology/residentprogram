@@ -8,7 +8,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
 	entry: {
 		bundle: './resources/assets/js/modules/index.js',
-		'vue-deps': './resources/assets/js/vue-constructors/index.js',
+		'vue-global': './resources/assets/js/vue-constructors/index.js',
 		'vue-form-builder': './resources/assets/js/vue-constructors/form-builder.js',
 		'vue-reports': './resources/assets/js/vue-constructors/reports.js',
 		'vue-milestone-competency-lists': './resources/assets/js/vue-constructors/milestone-competency-lists.js',
@@ -62,7 +62,7 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.optimize.CommonsChunkPlugin({
-			name: 'vue-deps',
+			name: 'vue-global',
 			chunks: [
 				'vue-form-builder',
 				'vue-reports',
@@ -77,7 +77,8 @@ module.exports = {
 			]
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
-			names: ['bundle', 'manifest']
+			names: ['bundle', 'manifest'],
+			minChunks: 3
 		}),
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'disabled',

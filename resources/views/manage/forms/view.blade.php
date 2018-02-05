@@ -20,7 +20,6 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-milestone-competency-lists.js') }}"></script>
 	<script>
 		var milestoneQuestions = {!! $form->milestoneQuestions->groupBy('question_id')->toJson() !!};

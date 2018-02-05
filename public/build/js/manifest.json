@@ -19,8 +19,6 @@
   "vue-dashboard.css.map": "../css/vue-dashboard.css.map",
   "vue-dashboard.js": "vue-dashboard.js",
   "vue-dashboard.js.map": "vue-dashboard.js.map",
-  "vue-deps.js": "vue-deps.js",
-  "vue-deps.js.map": "vue-deps.js.map",
   "vue-evaluation.css": "../css/vue-evaluation.css",
   "vue-evaluation.css.map": "../css/vue-evaluation.css.map",
   "vue-evaluation.js": "vue-evaluation.js",
@@ -33,6 +31,8 @@
   "vue-form-builder.css.map": "../css/vue-form-builder.css.map",
   "vue-form-builder.js": "vue-form-builder.js",
   "vue-form-builder.js.map": "vue-form-builder.js.map",
+  "vue-global.js": "vue-global.js",
+  "vue-global.js.map": "vue-global.js.map",
   "vue-manage.css": "../css/vue-manage.css",
   "vue-manage.css.map": "../css/vue-manage.css.map",
   "vue-manage.js": "vue-manage.js",
@@ -56,5 +56,7 @@
   "vue-user.css": "../css/vue-user.css",
   "vue-user.css.map": "../css/vue-user.css.map",
   "vue-user.js": "vue-user.js",
-  "vue-user.js.map": "vue-user.js.map"
+  "vue-user.js.map": "vue-user.js.map",
+  "bundle.css": "../css/bundle.css",
+  "bundle.css.map": "../css/bundle.css.map"
 }

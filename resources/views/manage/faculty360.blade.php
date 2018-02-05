@@ -268,7 +268,6 @@
 @stop
 
 @push('scripts')
-	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-manage.js') }}"></script>
 	<script>
 		createManageFaculty360('main');

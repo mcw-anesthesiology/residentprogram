@@ -387,4 +387,8 @@ class ManageController extends Controller
     public function scheduledRequests() {
         return view('manage.scheduled-requests');
     }
+
+    public function newsItems() {
+        return view('manage.news-items');
+    }
 }

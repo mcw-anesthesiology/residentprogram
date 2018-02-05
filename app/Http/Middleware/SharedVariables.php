@@ -29,6 +29,10 @@ class SharedVariables
 
 			View::share("user", $user);
 
+			// FIXME
+			$newsItems = json_encode([]);
+			View::share('newsItems', $newsItems);
+
 			$milestoneGroups = [];
 			$milestones = Milestone::orderBy("title")->get();
 			foreach($milestones as $milestone){
