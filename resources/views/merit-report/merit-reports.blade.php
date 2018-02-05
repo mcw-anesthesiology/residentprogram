@@ -55,7 +55,6 @@
 @endpush
 
 @push('scripts')
-	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-merit-reports.js') }}"></script>
 	<script>
 		var propsData = {

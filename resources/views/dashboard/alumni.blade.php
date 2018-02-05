@@ -80,7 +80,6 @@
 @stop
 
 @push('scripts')
-	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-alumni.js') }}"></script>
 	<script>
 		var propsData = {

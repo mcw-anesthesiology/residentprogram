@@ -113,3 +113,10 @@ Route::resource('faculty360/evaluations', 'Rest\FacultyPeerEvaluationController'
 Route::resource('scheduled-requests', 'Rest\ScheduledRequestController', ['only' => [
 	'index', 'show', 'destroy'
 ]]);
+
+Route::get('news-items/unseen', 'Rest\NewsItemController@unseen');
+Route::patch('news-items/{id}/dismiss', 'Rest\NewsItemController@dismiss');
+Route::patch('news-items/{id}/temporarily-dismiss', 'Rest\NewsItemController@temporarilyDismiss');
+Route::resource('news-items', 'Rest\NewsItemController', ['only' => [
+	'index', 'store', 'create', 'show', 'update', 'destroy'
+]]);

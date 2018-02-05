@@ -2,6 +2,8 @@ import Vue from 'vue';
 
 import { rollbar } from '@/modules/errors.js';
 
+export { default as createNews } from './news.js';
+
 Vue.config.errorHandler = (err, vm, info) => {
 	rollbar.error(`Error from Vue: ${err}, info: ${info}, vm: ${JSON.stringify(vm)}`);
 };

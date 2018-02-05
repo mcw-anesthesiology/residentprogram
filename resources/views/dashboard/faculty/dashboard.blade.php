@@ -9,6 +9,5 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-dashboard.js') }}"></script>
 @stop

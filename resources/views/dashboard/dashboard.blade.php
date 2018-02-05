@@ -32,7 +32,6 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-dashboard.js') }}"></script>
 	<script>
 		$(document).on("click", ".cancel-eval-button", function(event){

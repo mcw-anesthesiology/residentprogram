@@ -59,6 +59,7 @@ Route::post('manage/forms/edit', 'ManageController@copyAndEditForm');
 Route::get('manage/forms/{id}', 'ManageController@viewForm');
 Route::get('manage/milestones-competencies', 'ManageController@milestonesCompetencies');
 Route::get('manage/mentors', 'ManageController@mentors');
+Route::get('manage/news-items', 'ManageController@newsItems');
 Route::get('manage/block-assignments', 'ManageController@blockAssignments');
 Route::post('manage/block-assignments', 'ManageController@saveBlockAssignments');
 Route::post('manage/block-assignments/table', 'ManageController@blockAssignmentsTable');

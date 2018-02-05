@@ -439,7 +439,6 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-evaluation.js') }}"></script>
 	<script>
 		var evaluationId = "{{ $evaluation->viewable_id }}";
