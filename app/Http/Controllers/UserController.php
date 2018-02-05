@@ -46,13 +46,16 @@ class UserController extends Controller {
 
     public function saveUserReminders(Request $request) {
         $user = Auth::user();
-        $user->reminder_frequency = $request->input("frequency");
-		if ($request->has("only_if_pending"))
-			$user->remind_only_if_pending = $request->input("only_if_pending");
+        $user->reminder_frequency = $request->input("reminder_frequency");
+		if ($request->has("remind_only_if_pending"))
+			$user->remind_only_if_pending = $request->input("remind_only_if_pending");
 		else
 			$user->remind_only_if_pending = "no";
         $user->save();
-        return back()->with("success", "Reminder preferences saved successfully!");
+
+		return $request->ajax()
+			? 'success'
+			: back()->with("success", "Reminder preferences saved successfully!");
     }
 
     public function saveUserNotifications(Request $request) {
@@ -63,7 +66,10 @@ class UserController extends Controller {
 			: 'yes';
 
         $user->save();
-        return back()->with("success", "Notifications preferences saved successfully!");
+
+		return $request->ajax()
+			? 'success'
+			: back()->with("success", "Notifications preferences saved successfully!");
     }
 
 }

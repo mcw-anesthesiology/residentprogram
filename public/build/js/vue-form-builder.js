@@ -1434,7 +1434,7 @@ if (false) {(function () {
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["J" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["K" /* ucfirst */],
 		addInstruction: function addInstruction() {
 			this.items.push({
 				type: 'instruction',
@@ -2118,7 +2118,7 @@ if (false) {(function () {
 					id: competency.id,
 					text: competency.title
 				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["I" /* sortSelect2Objects */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["J" /* sortSelect2Objects */]);
 		}
 	},
 	methods: {
@@ -4246,7 +4246,7 @@ function createFormBuilder(el, propsData) {
 
 				fetch('/forms', {
 					method: 'POST',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["o" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["p" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(form)
 				}).then(function (response) {

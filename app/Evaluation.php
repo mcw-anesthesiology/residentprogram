@@ -261,6 +261,48 @@ class Evaluation extends Model
 		return false;
 	}
 
+	public function sendCompleteNotification() {
+		try {
+			if (!in_array($this->visibility, [
+				'visible',
+				'anonymous'
+			])) {
+				throw new \Exception('Evaluation hidden, cannot notify');
+			}
+
+			if (!in_array($this->form->type, [
+				'resident',
+				'fellow',
+				'intern'
+			])) {
+				throw new \Exception('Only trainee evaluations are currently supported');
+			}
+
+			$this->showAll = true;
+
+			$email = $this->subject->email;
+
+			$data = [
+				'evaluation' => $this
+			];
+
+			Mail::send('emails.complete-notification', $data, function ($message) use ($email) {
+				$message->to($email);
+				$message->from('notifications@residentprogram.com', 'Resident Program Notifications');
+				$message->replyTo(config('app.admin_email'));
+				$message->subject("You've just been evaluated!");
+			});
+
+			$this->showAll = false;
+			return true;
+		} catch (\Exception $e) {
+			Log::error('Problem sending complete notification: ' . $e);
+		}
+
+		$this->showAll = false;
+		return false;
+	}
+
 	public function sendHashLink() {
 		try {
 			if($this->status != 'pending')

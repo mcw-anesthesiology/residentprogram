@@ -49,9 +49,10 @@ class UserTest extends BrowserKitTestCase
 
 		$this->actingAs($this->user)
 			->visit("/user")
-			->see("Reminders")
-			->select($newFrequency, "frequency")
-			->press("Update Reminder Preferences");
+			->post('/user/reminders', [
+				'_method' => 'PATCH',
+				'reminder_frequency' => $newFrequency
+			]);
 
 		$this->user = $this->user->fresh();
 		$this->assertEquals($this->user->reminder_frequency, $newFrequency);
@@ -61,12 +62,13 @@ class UserTest extends BrowserKitTestCase
 		$newNotifications = "yes";
 		$this->actingAs($this->user)
 			->visit("/user")
-			->see("Notifications")
-			->select($newNotifications, "notifications")
-			->press("Update Notification Preferences");
+			->post('/user/notifications', [
+				'_method' => 'PATCH',
+				'notifications' => $newNotifications
+			]);
 
 		$this->user = $this->user->fresh();
-		$this->assertEquals($this->user->notifications, "yes");
+		$this->assertEquals($this->user->notifications, $newNotifications);
 	}
 
 	public function testChangeDefaultEvalRange() {

@@ -2851,10 +2851,10 @@ if (false) {(function () {
 
 			fetch(this.saveUrl, {
 				method: 'POST',
-				headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["o" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["p" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
-			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["x" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["y" /* okOrThrow */]).then(function () {
 				_this.$emit('reload');
 			}).catch(function (err) {
 				Object(__WEBPACK_IMPORTED_MODULE_2__modules_errors_js__["a" /* emitError */])(err, _this, 'There was a problem saving the alum');
@@ -3701,7 +3701,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 854:
+/***/ 860:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3711,7 +3711,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_Alumni_Edit_vue__ = __webpack_require__(331);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Alumni_Subscription_vue__ = __webpack_require__(855);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Alumni_Subscription_vue__ = __webpack_require__(861);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_errors_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(1);
 
@@ -3762,9 +3762,9 @@ function createAlumni(el, propsData) {
 
 				fetch('/alumni/hash/' + this.hash, {
 					method: 'GET',
-					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* getFetchHeaders */])(),
+					headers: Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["p" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["u" /* jsonOrThrow */]).then(function (alum) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["v" /* jsonOrThrow */]).then(function (alum) {
 					_this.alum = alum;
 					_this.alerts.push({
 						type: 'success',
@@ -3789,12 +3789,12 @@ function createAlumni(el, propsData) {
 
 /***/ }),
 
-/***/ 855:
+/***/ 861:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Subscription_vue__ = __webpack_require__(856);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2ababa24_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Subscription_vue__ = __webpack_require__(857);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Subscription_vue__ = __webpack_require__(862);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2ababa24_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Subscription_vue__ = __webpack_require__(863);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -3841,7 +3841,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 856:
+/***/ 862:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3906,13 +3906,13 @@ if (false) {(function () {
 
 			fetch(this.saveUrl, {
 				method: 'POST', // PATCH
-				headers: Object(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["o" /* getFetchHeaders */])(),
+				headers: Object(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["p" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					_method: 'PATCH',
 					do_not_contact: !this.alum.do_not_contact
 				})
-			}).then(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["x" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["y" /* okOrThrow */]).then(function () {
 				_this.$emit('reload');
 			}).catch(function (err) {
 				Object(__WEBPACK_IMPORTED_MODULE_0__modules_errors_js__["a" /* emitError */])(err, _this, 'There was a problem updating your subscription');
@@ -3923,7 +3923,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 857:
+/***/ 863:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3994,6 +3994,6 @@ if (false) {
 
 /***/ })
 
-},[854]);
+},[860]);
 });
 //# sourceMappingURL=vue-alumni.js.map

@@ -6,8 +6,10 @@ import { USER_SETTINGS, SETTINGS_HELP, getUserSetting } from '@/modules/user-uti
 import {
 	camelCaseToWords,
 	fetchConfig,
+	okOrThrow,
 	jsonOrThrow,
-	pluralize
+	pluralize,
+	filterKeys
 } from '@/modules/utils.js';
 
 export function createUserSettingsPage(el, propsData) {
@@ -22,9 +24,15 @@ export function createUserSettingsPage(el, propsData) {
 		},
 		propsData,
 		data() {
-			return {
-				user_settings: this.user.user_settings
-			};
+			const data = filterKeys(this.user, [
+				'user_settings',
+				'notifications',
+				'reminder_frequency'
+			]);
+
+			data.remind_only_if_pending = this.user.remind_only_if_pending === 'yes';
+
+			return data;
 		},
 		computed: {
 			USER_SETTINGS() {
@@ -35,6 +43,47 @@ export function createUserSettingsPage(el, propsData) {
 			}
 		},
 		methods: {
+			handleNotificationsUpdate(event) {
+				event.preventDefault();
+
+				fetch('/user/notifications', {
+					...fetchConfig(),
+					method: 'POST', // PATCH
+					body: JSON.stringify({
+						_method: 'PATCH',
+						notifications: this.notifications
+					})
+				}).then(okOrThrow).then(() => {
+					this.alerts.push({
+						type: 'success',
+						text: 'Notification preferences saved successfully!'
+					});
+				}).catch(err => {
+					handleError(err, this, 'There was a problem saving your notification preferences');
+				});
+			},
+			handleRemindersUpdate(event) {
+				event.preventDefault();
+
+				fetch('/user/reminders', {
+					...fetchConfig(),
+					method: 'POST', // PATCH
+					body: JSON.stringify({
+						_method: 'PATCH',
+						reminder_frequency: this.reminder_frequency,
+						remind_only_if_pending: this.remind_only_if_pending
+							? 'yes'
+							: 'no'
+					})
+				}).then(okOrThrow).then(() => {
+					this.alerts.push({
+						type: 'success',
+						text: 'Reminder preferences saved successfully!'
+					});
+				}).catch(err => {
+					handleError(err, this, 'There was a problem saving your notification preferences');
+				});
+			},
 			getUserSetting(setting) {
 				return getUserSetting(this, setting);
 			},
@@ -44,7 +93,7 @@ export function createUserSettingsPage(el, propsData) {
 
 				const data = new FormData(event.target);
 
-				fetch(`/users/settings`, {
+				fetch('/users/settings', {
 					...fetchConfig({contentType: null}),
 					method: 'POST',
 					body: data

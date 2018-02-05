@@ -568,3 +568,13 @@ export function arraysIntersect(arr1: Array<any>, arr2: Array<any>): boolean {
 
 	return false;
 }
+
+export function filterKeys(obj: Object, keys: Array<string>): Object {
+	const newObj = {};
+
+	for (const key of keys) {
+		newObj[key] = obj[key];
+	}
+
+	return newObj;
+}
