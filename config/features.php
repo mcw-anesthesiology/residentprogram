@@ -11,5 +11,6 @@ return [
 	'faculty360' => env('FEATURE_FACULTY360', true),
 	'alumni' => env('FEATURE_ALUMNI', true),
 
-	'external_links' => env('FEATURE_EXTERNAL_LINKS', true)
+	'external_links' => env('FEATURE_EXTERNAL_LINKS', true),
+	'news' => env('FEATURE_NEWS', true)
 ];

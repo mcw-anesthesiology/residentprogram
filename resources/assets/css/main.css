@@ -513,3 +513,23 @@ select-two {
 	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
+
+.badge.badge-primary {
+	background-color: #337ab7;
+}
+
+.badge.badge-success {
+	background-color: #5cb85c;
+}
+
+.badge.badge-info {
+	background-color: #5bc0de;
+}
+
+.badge.badge-warning {
+	background-color: #f0ad4e;
+}
+
+.badge.badge-danger {
+	background-color: #d9534f;
+}
