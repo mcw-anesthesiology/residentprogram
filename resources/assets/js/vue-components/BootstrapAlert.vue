@@ -4,9 +4,11 @@
 				@click="$emit('close')">
 			<span aria-hidden="true">&times;</span>
 		</button>
+		<slot name="header"></slot>
 		{{ text }}
-		<div v-if="html" v-html="html"></div>
+		<div v-if="html" v-html="html" class="alert-html"></div>
 		<slot></slot>
+		<slot name="footer"></slot>
 	</div>
 </template>
 
@@ -43,7 +45,7 @@ export default {
 		alertTypeClass(){
 			if(this.type === 'error')
 				return 'alert-danger';
-			
+
 			return `alert-${this.type}`;
 		}
 	}

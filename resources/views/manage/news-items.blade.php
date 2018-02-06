@@ -54,7 +54,7 @@
 			<div class="form-group">
 				<label class="containing-label">
 					Audience
-					<select class="form-control">
+					<select class="form-control" v-model="audience">
 						<option v-for="option of audienceOptions"
 								:value="option">
 							{{ kebabCaseToWords(option) }}

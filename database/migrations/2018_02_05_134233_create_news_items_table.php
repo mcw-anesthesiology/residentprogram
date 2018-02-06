@@ -26,7 +26,7 @@ class CreateNewsItemsTable extends Migration
 			$table->integer('user_id');
 			$table->integer('news_item_id');
 			$table->dateTime('dismissed_at')->nullable();
-			$table->dateTime('temporarily_dismissed_at')->nullable();
+			$table->dateTime('temporarily_dismiss_until')->nullable();
 			$table->timestamps();
 		});
     }

@@ -87,8 +87,6 @@
 	@endif
 		</div>
 
-		<div id="global-news-container"></div>
-
 		<main>
 	@if(View::hasSection('body'))
 			<div class="container body-block">
@@ -113,7 +111,7 @@
 				user: {!! $user->toJson() !!}
 			};
 
-			createNews('#global-news-container', newsPropsData);
+			createNews('#global-news-dropdown', newsPropsData);
 		</script>
 		@yield("script")
 		@stack('scripts')

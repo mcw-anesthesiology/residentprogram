@@ -110,6 +110,9 @@
 		@if (config('features.faculty360'))
 			<li><a href="/manage/faculty360">Faculty 360</a></li>
 		@endif
+        @if (config('features.news'))
+            <li><a href="/manage/news-items">News items</a></li>
+        @endif
 
 		  </ul>
 		</li>
@@ -136,16 +139,37 @@
 		<li><a href="{{ $link }}">{{ $name }}</a></li>
 		@endforeach
 	@endif
+	@if (config('features.news'))
+		<li id="global-news-dropdown" class="dropdown" :class="{open: open}"
+				@click="ignoreDropdownClick">
+			<a href="#" @click="toggleDropdown">
+				News
+				<span v-if="newsItems && newsItems.length" v-cloak
+						class="badge badge-info">
+					<span class="glyphicon glyphicon-bell"></span>
+					@{{ newsItems.length }}
+				</span>
+			</a>
+			<span ref="menu" class="dropdown-menu"
+					:class="{'dropdown-menu-left': left}">
+				<news-list :items="newsItems"
+					@remove="handleRemove"></news-list>
+			</span>
+		</li>
+	@endif
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 			  Welcome, {{ ucfirst($user->first_name) }} {{ucfirst($user->last_name)}}
 	@if ($user->type == "faculty")
 		@if ($user->evaluatorEvaluations->where("status", "pending")->count() > 0)
-					<span class="badge">{{ $user->evaluatorEvaluations->where("status", "pending")->count() }}</span>
+				<span class="badge">
+					<span class="glyphicon glyphicon-inbox"></span>
+					{{ $user->evaluatorEvaluations->where("status", "pending")->count() }}
+				</span>
 		@endif
 	@endif
-			  <b class="caret"></b>
-		  </a>
+				<b class="caret"></b>
+			</a>
 		  <ul class="dropdown-menu">
             <li class="disabled"><a>Account type: {{ ucfirst($user->specific_type) }}</a></li>
 			<li><a href="/user">Manage Account</a></li>

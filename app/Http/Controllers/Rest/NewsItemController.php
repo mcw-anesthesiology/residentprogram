@@ -28,6 +28,7 @@ class NewsItemController extends RestController
 
 	public function unseen() {
 		$user = Auth::user();
+		$now = Carbon::now();
 
 		return NewsItem::where(function ($query) use ($user) {
 				$query->whereNull('audience')->orWhereIn('audience', [
@@ -35,8 +36,10 @@ class NewsItemController extends RestController
 					$user->type,
 					$user->specific_type
 				]);
-			})->whereDoesntHave('userNewsItems', function ($query) use ($user) {
-				$query->where('user_id', $user->id);
+			})->whereDoesntHave('userNewsItems', function ($query) use ($user, $now) {
+				$query->where('user_id', $user->id)
+					->whereNotNull('dismissed_at')
+					->orWhere('temporarily_dismiss_until', '<', $now);
 			})->get();
 	}
 
@@ -60,7 +63,8 @@ class NewsItemController extends RestController
 			'user_id' => Auth::id(),
 			'news_item_id' => $id
 		], [
-			'temporarily_dismissed_at' => Carbon::now()
+			// FIXME: Make this customizable
+			'temporarily_dismiss_until' => Carbon::now()->addHours(6)
 		]);
 
 		return 'success';
