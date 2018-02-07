@@ -15,6 +15,8 @@ class NewsItem extends Model
 	protected $fillable = [
 		'heading',
 		'body',
+        'link',
+        'link_text',
 		'audience'
 	];
 

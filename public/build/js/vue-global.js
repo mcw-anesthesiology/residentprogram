@@ -8,7 +8,7 @@
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function() {
-return webpackJsonp([15],{
+return webpackJsonp([13],{
 
 /***/ 554:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -54,7 +54,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.directive('visible', function (el, _
 /* harmony export (immutable) */ __webpack_exports__["a"] = createNews;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_News_List_vue__ = __webpack_require__(913);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_News_List_vue__ = __webpack_require__(558);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_errors_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(1);
 
@@ -112,7 +112,7 @@ function createNews(el) {
 				});
 			},
 			ignoreDropdownClick: function ignoreDropdownClick(event) {
-				event.preventDefault();
+				event.stopPropagation();
 			},
 			toggleDropdown: function toggleDropdown(event) {
 				if (event.defaultPrevented) return;
@@ -134,39 +134,16 @@ function createNews(el) {
 
 /***/ }),
 
-/***/ 561:
+/***/ 558:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export ACKNOWLEDGE_TEXT_OPTIONS */
-/* harmony export (immutable) */ __webpack_exports__["a"] = getAcknowledgeText;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(1);
-
-
-var ACKNOWLEDGE_TEXT_OPTIONS = ['OK', 'Cool', 'Nice', 'Good to know', 'Thanks', 'Neat'];
-
-function getAcknowledgeText() {
-	var exclaim = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-
-	var phrase = Object(__WEBPACK_IMPORTED_MODULE_0__utils_js__["q" /* getRandom */])(ACKNOWLEDGE_TEXT_OPTIONS);
-
-	if (exclaim) phrase += '!';
-
-	return phrase;
-}
-
-/***/ }),
-
-/***/ 913:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_List_vue__ = __webpack_require__(915);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_06b9a28c_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_List_vue__ = __webpack_require__(916);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_List_vue__ = __webpack_require__(560);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_06b9a28c_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_List_vue__ = __webpack_require__(565);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(914)
+  __webpack_require__(559)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -213,21 +190,41 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 914:
+/***/ 559:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 915:
+/***/ 560:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_errors_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_niceties_js__ = __webpack_require__(561);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_niceties_js__ = __webpack_require__(564);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(1);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -331,6 +328,7 @@ if (false) {(function () {
 
 	methods: {
 		getAcknowledgeText: __WEBPACK_IMPORTED_MODULE_2__modules_niceties_js__["a" /* getAcknowledgeText */],
+		getLinkText: __WEBPACK_IMPORTED_MODULE_2__modules_niceties_js__["b" /* getLinkText */],
 
 		handleDismiss: function handleDismiss(id) {
 			var _this = this;
@@ -372,7 +370,44 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 916:
+/***/ 564:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export ACKNOWLEDGE_TEXT_OPTIONS */
+/* harmony export (immutable) */ __webpack_exports__["a"] = getAcknowledgeText;
+/* unused harmony export LINK_TEXT_OPTIONS */
+/* harmony export (immutable) */ __webpack_exports__["b"] = getLinkText;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(1);
+
+
+var ACKNOWLEDGE_TEXT_OPTIONS = ['OK', 'Cool', 'Nice', 'Good to know', 'Thanks', 'Neat', 'Sweet'];
+
+function getAcknowledgeText() {
+	var exclaim = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+	var phrase = Object(__WEBPACK_IMPORTED_MODULE_0__utils_js__["q" /* getRandom */])(ACKNOWLEDGE_TEXT_OPTIONS);
+
+	if (exclaim) phrase += '!';
+
+	return phrase;
+}
+
+var LINK_TEXT_OPTIONS = ['Take me there', "Let's go", 'Show me', 'Check it out', 'Give it a peek'];
+
+function getLinkText() {
+	var exclaim = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+	var phrase = Object(__WEBPACK_IMPORTED_MODULE_0__utils_js__["q" /* getRandom */])(LINK_TEXT_OPTIONS);
+
+	if (exclaim) phrase += '!';
+
+	return phrase;
+}
+
+/***/ }),
+
+/***/ 565:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -408,6 +443,25 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("template", { slot: "footer" }, [
+                  item.link
+                    ? _c("div", { staticClass: "link-container" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-lg btn-success",
+                            attrs: { href: item.link }
+                          },
+                          [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t" +
+                                _vm._s(item.link_text || _vm.getLinkText()) +
+                                "\n\t\t\t\t\t"
+                            )
+                          ]
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c("div", { staticClass: "alert-buttons" }, [
                     _c(
                       "button",

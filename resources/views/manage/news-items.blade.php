@@ -9,7 +9,8 @@
 <div class="container body-block">
 	<h1>News</h1>
 
-	<component-list :items="newsItems" :fields="['heading', 'body', 'audience']"
+	<component-list :items="newsItems"
+			:fields="['id', 'heading', 'body', 'audience']"
 			reloadable @reload="fetchNewsItems">
 		<template slot-scope="item">
 			<div class="component-list-item row">
@@ -17,9 +18,15 @@
 					<small>Heading</small>
 					{{ item.heading }}
 				</div>
-				<div class="col-sm-6">
+				<div class="col-sm-4">
 					<small>Body</small>
 					<div v-html="item.body"></div>
+				</div>
+				<div class="col-sm-2">
+					<small>Link</small>
+					<a v-if="item.link" :href="item.link">
+						{{ item.link_text || '(no text)' }}
+					</a>
 				</div>
 				<div class="col-sm-2">
 					<small>Audience</small>
@@ -49,6 +56,29 @@
 					<markdown-editor v-model="body.md"
 						@html="body.html = arguments[0]" />
 				</label>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="containing-label">
+							Link
+							<input type="text" class="form-control"
+								placeholder="Link button location (optional)"
+								v-model="link" />
+						</label>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="containing-label">
+							Link text
+							<input type="text" class="form-control"
+								placeholder="Text for link (also optional)"
+								v-model="link_text" />
+						</label>
+					</div>
+				</div>
 			</div>
 
 			<div class="form-group">

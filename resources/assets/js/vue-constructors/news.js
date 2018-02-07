@@ -53,7 +53,7 @@ export default function createNews(el) {
 				});
 			},
 			ignoreDropdownClick(event) {
-				event.preventDefault();
+				event.stopPropagation();
 			},
 			toggleDropdown(event) {
 				if (event.defaultPrevented)
