@@ -30,6 +30,8 @@ export default function createManageNewsItems(el, propsData) {
 					md: '',
 					html: null
 				},
+				link: null,
+				link_text: null,
 				audience: null,
 
 				show: {
@@ -73,6 +75,8 @@ export default function createManageNewsItems(el, propsData) {
 					body: JSON.stringify({
 						heading: this.heading,
 						body: this.body.html,
+						link: this.link,
+						link_text: this.link_text,
 						audience: this.audience
 					})
 				}).then(okOrThrow).then(() => {

@@ -30,17 +30,25 @@ class NewsItemController extends RestController
 		$user = Auth::user();
 		$now = Carbon::now();
 
-		return NewsItem::where(function ($query) use ($user) {
-				$query->whereNull('audience')->orWhereIn('audience', [
-					'all',
-					$user->type,
-					$user->specific_type
-				]);
+		$audienceTypes = [
+			'all',
+			$user->specific_type
+		];
+
+		if ($user->isType('trainee')) {
+			$audienceTypes[] = 'trainee';
+			$audienceTypes[] = $user->training_level;
+		}
+		if (!empty($user->secondary_training_level))
+			$audienceTypes[] = $user->secondary_training_level;
+
+		return NewsItem::where(function ($query) use ($user, $audienceTypes) {
+				$query->whereNull('audience')->orWhereIn('audience', $audienceTypes);
 			})->whereDoesntHave('userNewsItems', function ($query) use ($user, $now) {
 				$query->where('user_id', $user->id)
 					->whereNotNull('dismissed_at')
 					->orWhere('temporarily_dismiss_until', '<', $now);
-			})->get();
+			})->orderBy('id', 'desc')->get();
 	}
 
 	public function dismiss($id) {

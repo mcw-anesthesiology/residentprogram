@@ -13,6 +13,11 @@
 					</span>
 				</template>
 				<template slot="footer">
+					<div v-if="item.link" class="link-container">
+						<a :href="item.link" class="btn btn-lg btn-success">
+							{{ item.link_text || getLinkText() }}
+						</a>
+					</div>
 					<div class="alert-buttons">
 						<button type="button" class="btn btn-info"
 								@click="handleRemindLater(item.id)">
@@ -38,6 +43,10 @@
 </template>
 
 <style>
+	.news-list {
+		overflow: auto;
+	}
+
 	.alert-heading {
 		display: block;
 		margin: 2rem 1.5rem;
@@ -45,6 +54,11 @@
 
 	.news-list :global(.alert .alert-html) {
 		padding: 0 1.5rem;
+	}
+
+	.link-container {
+		text-align: center;
+		padding: 1.5em 0;
 	}
 
 	.alert-buttons {
@@ -64,6 +78,12 @@
 		font-size: 3em;
 		margin-top: 0.5em;
 		color: rgba(0, 0, 0, 0.4);
+	}
+
+	@media (min-width: 768px) {
+		.news-list {
+			max-height: calc(100vh - 175px);
+		}
 	}
 
 	@media (max-width: 768px) {
@@ -86,7 +106,7 @@
 import BootstrapAlert from '@/vue-components/BootstrapAlert.vue';
 
 import { logError } from '@/modules/errors.js';
-import { getAcknowledgeText } from '@/modules/niceties.js';
+import { getAcknowledgeText, getLinkText } from '@/modules/niceties.js';
 import { fetchConfig, okOrThrow } from '@/modules/utils.js';
 
 export default {
@@ -101,6 +121,7 @@ export default {
 
 	methods: {
 		getAcknowledgeText,
+		getLinkText,
 
 		handleDismiss(id) {
 			fetch(`/news-items/${id}/dismiss`, {

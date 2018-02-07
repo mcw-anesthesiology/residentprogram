@@ -8,7 +8,7 @@
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function() {
-return webpackJsonp([14],{
+return webpackJsonp([15],{
 
 /***/ 166:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -194,7 +194,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 901:
+/***/ 905:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -399,6 +399,6 @@ function createUserSettingsPage(el, propsData) {
 
 /***/ })
 
-},[901]);
+},[905]);
 });
 //# sourceMappingURL=vue-user.js.map

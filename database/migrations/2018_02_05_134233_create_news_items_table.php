@@ -16,7 +16,9 @@ class CreateNewsItemsTable extends Migration
         Schema::create('news_items', function (Blueprint $table) {
             $table->increments('id');
 			$table->string('heading')->nullable();
-			$table->string('body');
+			$table->text('body');
+            $table->string('link')->nullable();
+            $table->string('link_text')->nullable();
 			$table->string('audience')->nullable();
             $table->timestamps();
         });
