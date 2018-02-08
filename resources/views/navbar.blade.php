@@ -21,7 +21,7 @@
 		@if (config('features.intern360_evaluations'))
 			@if ($user->isType('intern'))
 				<li><a href="/request/intern360">Request Intern 360 Evaluation</a></li>
-			@elseif ($user->isType(['ca-1', 'ca-2', 'ca-3']))
+			@else
 				<li><a href="/request/intern360">Evaluate Intern</a></li>
 			@endif
 		@endif
