@@ -147,7 +147,7 @@
 			</div>
 		</div>
 
-		<div v-visible.once="formId">
+		<div v-visible.once="formId || evaluationDateJson">
 			<div class="row">
 				<div class="col-md-offset-1 col-md-10">
 					<h2 class="date-heading">

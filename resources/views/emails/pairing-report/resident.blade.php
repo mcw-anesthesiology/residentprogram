@@ -1,3 +1,23 @@
+<style>
+	table {
+		margin: 2em 2em 4em;
+		table-layout: fixed;
+		border-collapse: collapse;
+	}
+
+	th {
+		text-align: left;
+	}
+
+	th, td {
+		padding: 1em;
+	}
+
+	tr {
+		border-bottom: 1px solid #333333;
+	}
+</style>
+
 <p>Hello Dr {{ $user['last_name'] }}!</p>
 
 @if (!empty($intro))
@@ -10,6 +30,7 @@
 	for evaluators to complete evaluations, we will be providing a periodic
 	report of the faculty we believe you worked with the most.
 </p>
+@endif
 
 @if (!empty($pairings))
 	@if (!empty($successLead))
@@ -24,40 +45,54 @@
 </p>
 	@endif
 
-<ol>
+<table>
+	<thead>
+		<tr>
+			<th>Faculty</th>
+			<th>Cases together</th>
+			<th>Time together</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
 	@foreach ($pairings as $pairing)
-	<li>
-		<b>{{ $pairing['faculty']['full_name'] }}</b>:
-		<i>
-			{{ $pairing['numCases'] }}
-			case{{ $pairing['numCases'] == 1 ? '' : 's' }}
-		</i>
-		totalling
-		<i>
-			{{
-				preg_replace(
-					'/^1 days/',
-					'1 day',
+		<tr>
+			<td>{{ $pairing['faculty']['full_name'] }}</td>
+			<td>
+				{{ $pairing['numCases'] }}
+				case{{ $pairing['numCases'] == 1 ? '' : 's' }}
+			</td>
+			<td>
+				{{
 					preg_replace(
-						'/^0 days, /',
-						'',
-						str_replace(
-							' 1 hours',
-							' 1 hour',
+						'/^1 days/',
+						'1 day',
+						preg_replace(
+							'/^0 days, /',
+							'',
 							str_replace(
-								' 1 minutes',
-								' 1 minute',
-								$pairing['totalTime']
-									->format('%a days, %h hours, %i minutes')
+								' 1 hours',
+								' 1 hour',
+								str_replace(
+									' 1 minutes',
+									' 1 minute',
+									$pairing['totalTime']
+										->format('%a days, %h hours, %i minutes')
+								)
 							)
 						)
 					)
-				)
-			}}
-		</i>
-	</li>
+				}}
+			</td>
+			<td>
+				<a href="{{ url("/request?evaluator={$pairing['faculty']['id']}{$evaluationDateParams}") }}">
+					Request evaluation
+				</a>
+			</td>
+		</tr>
 	@endforeach
-</ol>
+	</tbody>
+</table>
 
 @else
 	@if (!empty($emptyMessage))
@@ -69,7 +104,7 @@
 	Unfortunately, we weren't able to come up with a list of faculty
 	for you this time. We're sorry about that!
 
-	Please request evaluations from faculty members that you worked with.
+	Please request evaluations from faculty members who you've worked with.
 </p>
 	@endif
 @endif
@@ -86,6 +121,10 @@
 	page to request a new evaluation, or view your
 	<a href="{{ url("/dashboard") }}">dashboard</a>
 	to review any pending requests.
+
+	Please visit the
+	<a href="{{ url('/request/faculty') }}">faculty evaluation creation</a>
+	page to evaluate faculty members who you've worked with.
 </p>
 
 <p>

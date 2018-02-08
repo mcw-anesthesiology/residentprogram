@@ -49,6 +49,7 @@ export function createRequest(el, propsData) {
 		propsData,
 		data() {
 			let requestType = getRequestType();
+
 			return {
 				requestType,
 				subjectId: null,
@@ -61,6 +62,10 @@ export function createRequest(el, propsData) {
 				subjectFilter: mapNumbersIfExists(getSearchFilter('subject')),
 				evaluatorFilter: mapNumbersIfExists(getSearchFilter('evaluator')),
 				formFilter: mapNumbersIfExists(getSearchFilter('form')),
+				evaluationDateFilter: {
+					startDate: getSearchParam('startDate'),
+					endDate: getSearchParam('endDate')
+				},
 
 				requestNote: null,
 
@@ -474,8 +479,12 @@ export function createRequest(el, propsData) {
 				this.checkField('evaluationDate', 'evaluation date');
 			},
 			evaluationDateOptions(options) {
-				if (!options && this.evaluationDateJson)
-					this.evaluationDateJson = null;
+				if (this.evaluationDateJson) {
+					if (!options)
+						this.evaluationDateJson = null;
+				} else if (this.evaluationDateFilter) {
+					this.evaluationDateJson = JSON.stringify(this.evaluationDateFilter);
+				}
 
 				if (!options || !this.evaluationDateJson)
 					return;
@@ -487,8 +496,7 @@ export function createRequest(el, propsData) {
 
 					if (newJson.length !== this.evaluationDateJson.length)
 						this.evaluationDateJson = newJson;
-				}
-				else {
+				} else {
 					if (!options.some(({id}) => id === this.evaluationDateJson))
 						this.evaluationDateJson = null;
 				}
@@ -538,6 +546,13 @@ function getRequestType() {
 	return REQUEST_TYPES.includes(type)
 		? type
 		: 'resident';
+}
+
+function getSearchParam(prop) {
+	let params = new URLSearchParams(window.location.search);
+	return params.has(prop)
+		? params.get(prop)
+		: null;
 }
 
 function getSearchFilter(prop) {

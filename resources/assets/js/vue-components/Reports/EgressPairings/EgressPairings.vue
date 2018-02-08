@@ -128,6 +128,17 @@
 								v-model="periodDisplay" />
 						</label>
 					</validated-form-group>
+					<validated-form-group class="col-sm-12" :errors="errors"
+							prop="reportDates">
+						<label class="containing-label">
+							Report dates (optional)
+							<clearable-date
+								input-class="form-control appear-not-readonly"
+								:options="{mode: 'range'}"
+								v-model="reportDatesStr"
+								@change="handleReportDatesChange" />
+						</label>
+					</validated-form-group>
 				</div>
 				<div v-if="customizeMessageText">
 					<div class="row">
@@ -279,13 +290,16 @@ import delve from 'dlv';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
+
 import ComponentList from '@/vue-components/ComponentList.vue';
 import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
+import ClearableDate from '@/vue-components/ClearableDate.vue';
 import MarkdownEditor from '@/vue-components/MarkdownEditor.vue';
 
 import OverlapListItem from './OverlapListItem.vue';
 
 import { handleError } from '@/modules/errors.js';
+import { isoDateString } from '@/modules/date-utils.js';
 import {
 	fetchConfig,
 	ucfirst,
@@ -307,6 +321,8 @@ export default {
 
 			emailSubject: '',
 			periodDisplay: '',
+			reportDatesStr: '',
+			reportDates: null,
 
 			reportUserType: null,
 			overlaps: null,
@@ -493,6 +509,9 @@ export default {
 				this.maxPairs = 3;
 			}
 		},
+		handleReportDatesChange([dates]) {
+			this.reportDates = dates;
+		},
 		selectAllOverlaps() {
 			this.overlapsToSend = this.overlaps.slice();
 		},
@@ -552,6 +571,7 @@ export default {
 					subjectType: this.subjectType,
 					emailSubject: this.emailSubject,
 					periodDisplay: this.periodDisplay,
+					reportDates: this.reportDates.map(isoDateString),
 					...this.customMessageHtml
 				})
 			}).then(jsonOrThrow).then(response => {
@@ -588,6 +608,7 @@ export default {
 	},
 
 	components: {
+		ClearableDate,
 		ComponentList,
 		ValidatedFormGroup,
 		OverlapListItem,
