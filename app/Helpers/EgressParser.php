@@ -376,7 +376,8 @@ class EgressParser {
 		[$first] = array_map('trim', explode(' ', $rest));
 
 		$user = null;
-		$query = User::whereRaw('last_name LIKE ?', ["%{$last}%"]);
+		$query = User::where('status', 'active')
+			->whereRaw('last_name LIKE ?', ["%{$last}%"]);
 
 		if (!empty($userType))
 			$query = $query->where('type', $userType);
