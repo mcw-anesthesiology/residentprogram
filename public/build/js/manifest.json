@@ -7,8 +7,8 @@
   "bundle.css.map": "../css/bundle-ce68df17df9a931b616e3c55df982eb8.css.map",
   "bundle.js": "bundle-0f7019aef5e77a5ff958.js",
   "bundle.js.map": "bundle-0f7019aef5e77a5ff958.js.map",
-  "manifest.js": "manifest-ded350413257ad16a0fe.js",
-  "manifest.js.map": "manifest-ded350413257ad16a0fe.js.map",
+  "manifest.js": "manifest-c9f53c4271a644141eeb.js",
+  "manifest.js.map": "manifest-c9f53c4271a644141eeb.js.map",
   "vue-alumni.css": "../css/vue-alumni-4880b0c65b05d2500f43ea6ffba4ddd9.css",
   "vue-alumni.css.map": "../css/vue-alumni-4880b0c65b05d2500f43ea6ffba4ddd9.css.map",
   "vue-alumni.js": "vue-alumni-c82f3200e2f03807557b.js",
@@ -53,8 +53,8 @@
   "vue-reports.js.map": "vue-reports-3cb6e7a3f6be3d5c54e3.js.map",
   "vue-request.css": "../css/vue-request-202f8dbf95d0a563609f24827f8f4736.css",
   "vue-request.css.map": "../css/vue-request-202f8dbf95d0a563609f24827f8f4736.css.map",
-  "vue-request.js": "vue-request-c184268bf62148a9b31c.js",
-  "vue-request.js.map": "vue-request-c184268bf62148a9b31c.js.map",
+  "vue-request.js": "vue-request-b1dc082b046e6babd13c.js",
+  "vue-request.js.map": "vue-request-b1dc082b046e6babd13c.js.map",
   "vue-user.js": "vue-user-d36587e11295fa9dfbc6.js",
   "vue-user.js.map": "vue-user-d36587e11295fa9dfbc6.js.map"
 }

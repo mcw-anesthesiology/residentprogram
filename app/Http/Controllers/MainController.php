@@ -94,7 +94,7 @@ class MainController extends Controller
 					if (!config('features.intern360_evaluations'))
 						throw new \DomainException('That evalutaion type is not currently enabled');
 
-					if (!$user->isType(['admin', 'intern', 'ca-1', 'ca-2', 'ca-3']))
+					if (!$user->isType(['admin', 'intern', 'ca-1', 'ca-2', 'ca-3', 'fellow']))
 						throw new \DomainException('Sorry, you are not currently allowed to make that kind of request');
 				}
 
@@ -182,7 +182,7 @@ class MainController extends Controller
 					break;
 				case 'intern360':
 					$subjectTypes = ['intern'];
-					$evaluatorTypes = ['ca-1', 'ca-2', 'ca-3'];
+					$evaluatorTypes = ['ca-1', 'ca-2', 'ca-3', 'fellow'];
 					$requestorTypes = array_merge($subjectTypes, $evaluatorTypes, ['admin']);
 					break;
 				default:
@@ -309,6 +309,14 @@ class MainController extends Controller
 					->get()
 					->each($hideModelFields);
             }
+			if (!$user->isType('fellow') && in_array('fellow', $evaluationTypes)) {
+                $fellows[0] = User::ofType('resident')
+					->where('training_level', 'fellow')
+					->active()
+					->orderBy('last_name')
+					->get()
+					->each($hideModelFields);
+            }
 
 			if ($user->isType($subjectTypes)) {
 				$specificTypes = [$user->specificType];
@@ -327,7 +335,7 @@ class MainController extends Controller
                 if ($user->isType('fellow') && $requestType == 'faculty')
                     $evalTypes[] = $user->type;
 				// FIXME: Workaround for form evaluator_type not being an array
-				if ($user->isType(['ca-1', 'ca-2', 'ca-3']) && $requestType == 'intern360')
+				if ($user->isType(['ca-1', 'ca-2', 'ca-3', 'fellow']) && $requestType == 'intern360')
 					$evalTypes[] = 'ca-1';
 
 				$forms = Form::where("status", "active")
@@ -410,7 +418,7 @@ class MainController extends Controller
 				case 'intern360':
 					if (!$user->isType('intern'))
 						$subjects = $interns;
-					if (!$user->isType(['ca-1', 'ca-2', 'ca-3'])) {
+					if (!$user->isType(['ca-1', 'ca-2', 'ca-3', 'fellow'])) {
 						$evaluators = [[]];
 						if (!empty($ca1s) && !empty($ca1s[0]))
 							$evaluators[0] = array_merge($evaluators[0], $ca1s[0]->toArray());
@@ -418,11 +426,13 @@ class MainController extends Controller
 							$evaluators[0] = array_merge($evaluators[0], $ca2s[0]->toArray());
 						if (!empty($ca3s) && !empty($ca3s[0]))
 							$evaluators[0] = array_merge($evaluators[0], $ca3s[0]->toArray());
+						if (!empty($fellows) && !empty($fellows[0]))
+							$evaluators[0] = array_merge($evaluators[0], $fellows[0]->toArray());
 					}
 
 					$subjectTypeText = 'intern';
 					$subjectTypeTextPlural = 'interns';
-					$evaluatorTypeText = 'resident';
+					$evaluatorTypeText = 'resident or fellow';
 					$requestTypeText = 'intern 360';
 					break;
 			}
@@ -472,7 +482,7 @@ class MainController extends Controller
 				(in_array($requestType, ['resident', 'app']) && $user->isType("faculty"))
 				|| ($requestType == "staff" && $user->isType("staff"))
 				|| ($requestType == "faculty" && $user->isType("resident"))
-				|| ($requestType == 'intern360' && $user->isType(['ca-1', 'ca-2', 'ca-3']))
+				|| ($requestType == 'intern360' && $user->isType(['ca-1', 'ca-2', 'ca-3', 'fellow']))
 			) {
 				$evaluators = [$user->id];
             } else {

@@ -141,7 +141,7 @@ export function createRequest(el, propsData) {
 						|| (
 							this.requestType === 'intern360'
 							&& this.user.type === 'resident'
-							&& ['ca-1', 'ca-2', 'ca-3'].includes(this.user.training_level)
+							&& ['ca-1', 'ca-2', 'ca-3', 'fellow'].includes(this.user.training_level)
 						)
 						|| (this.requestType === 'self'))
 					required.evaluatorId = false;
