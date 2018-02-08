@@ -405,17 +405,29 @@ class EgressParser {
 		$subjectType,
 		$emailSubject,
 		$periodDisplay,
+		$reportDates = null,
 		$intro = null,
 		$successLead = null,
 		$emptyMessage = null,
 		$closing = null
 	) {
+		$filterType = ($subjectType == 'faculty')
+			? 'evaluator'
+			: 'subject';
+
 		$requestUrl = url('/request?' . join('&', array_map(
-			function ($pairing) use ($subjectType) {
-				return "subject={$pairing[$subjectType]['id']}";
+			function ($pairing) use ($filterType, $subjectType) {
+				return "{$filterType}={$pairing[$subjectType]['id']}";
 			},
 			$pairings
 		)));
+
+		$evaluationDateParams = '';
+
+		if (!empty($reportDates)) {
+			$evaluationDateParams = "&startDate={$reportDates[0]}&endDate={$reportDates[1]}";
+			$requestUrl .= $evaluationDateParams;
+		}
 
 		foreach ($pairings as &$pairing) {
 			if (!($pairing['totalTime'] instanceof DateInterval)) {
@@ -430,6 +442,7 @@ class EgressParser {
 			'pairings',
 			'periodDisplay',
 			'requestUrl',
+			'evaluationDateParams',
 
 			'intro',
 			'successLead',
@@ -574,6 +587,7 @@ class EgressParser {
 								null,
 								null,
 								null,
+								null,
 								null
 							);
 
@@ -635,6 +649,7 @@ class EgressParser {
 								'faculty',
 								$residentSubject,
 								$periodDisplay,
+								null,
 								null,
 								null,
 								null,

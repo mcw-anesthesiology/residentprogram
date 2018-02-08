@@ -4,7 +4,8 @@
 			:class="inputClass"
 			:options="options"
 			:value="value"
-			@input="$emit('input', arguments[0])" />
+			@input="$emit('input', arguments[0])"
+			@change="$emit('change', arguments[0])" />
 		<span class="input-group-btn">
 			<button class="btn btn-default" type="button"
 					@click="$emit('input', null)">

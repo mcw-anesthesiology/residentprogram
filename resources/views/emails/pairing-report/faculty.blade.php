@@ -1,3 +1,23 @@
+<style>
+	table {
+		margin: 2em 2em 4em;
+		table-layout: fixed;
+		border-collapse: collapse;
+	}
+
+	th {
+		text-align: left;
+	}
+
+	th, td {
+		padding: 1em;
+	}
+
+	tr {
+		border-bottom: 1px solid #333333;
+	}
+</style>
+
 <p>Hello Dr {{ $user['last_name'] }}!</p>
 
 @if (!empty($intro))
@@ -25,40 +45,55 @@
 </p>
 	@endif
 
-<ol>
+<table>
+	<thead>
+		<tr>
+			<th>Resident</th>
+			<th>Cases together</th>
+			<th>Time together</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
 	@foreach ($pairings as $pairing)
-	<li>
-		<b>{{ $pairing['resident']['full_name'] }}</b>:
-		<i>
-			{{ $pairing['numCases'] }}
-			case{{ $pairing['numCases'] == 1 ? '' : 's' }}
-		</i>
-		together totalling
-		<i>
-			{{
-				preg_replace(
-					'/^1 days/',
-					'1 day',
+		<tr>
+			<td>{{ $pairing['resident']['full_name'] }}</td>
+			<td>
+				{{ $pairing['numCases'] }}
+				case{{ $pairing['numCases'] == 1 ? '' : 's' }}
+			</td>
+			<td>
+				{{
 					preg_replace(
-						'/^0 days, /',
-						'',
-						str_replace(
-							' 1 hours',
-							' 1 hour',
+						'/^1 days/',
+						'1 day',
+						preg_replace(
+							'/^0 days, /',
+							'',
 							str_replace(
-								' 1 minutes',
-								' 1 minute',
-								$pairing['totalTime']
-									->format('%a days, %h hours, %i minutes')
+								' 1 hours',
+								' 1 hour',
+								str_replace(
+									' 1 minutes',
+									' 1 minute',
+									$pairing['totalTime']
+										->format('%a days, %h hours, %i minutes')
+								)
 							)
 						)
 					)
-				)
-			}}
-		</i>
-	</li>
+				}}
+			</td>
+			<td>
+				<a href="{{ url("/request?subject={$pairing['resident']['id']}{$evaluationDateParams}") }}">
+					Evaluate
+				</a>
+			</td>
+		</tr>
 	@endforeach
-</ol>
+	</tbody>
+</table>
+
 @else
 	@if (!empty($emptyMessage))
 <div>
@@ -69,7 +104,7 @@
 	Unfortunately, we weren't able to come up with a list of residents
 	for you this time. We're sorry about that!
 
-	Please complete evaluations for the residents that you worked with.
+	Please complete evaluations for the residents who you've worked with.
 </p>
 	@endif
 @endif
