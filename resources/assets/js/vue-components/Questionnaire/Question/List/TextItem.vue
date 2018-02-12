@@ -8,14 +8,12 @@
 				:errors="validation.errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
-			<label class="containing-label">
-				{{ labels.text }}
-				<suggestable-text-input
-					:value="text"
-					:suggestions="suggestions.text"
-					:readonly="isReadonly('text')"
-					@input="$emit('input', {text: arguments[0]})" />
-			</label>
+			<suggestable-text-input
+				:label="labels.text"
+				:value="text"
+				:suggestions="suggestions.text"
+				:readonly="isReadonly('text')"
+				@input="$emit('input', {text: arguments[0]})" />
 		</validated-form-group>
 	</list-item>
 </template>

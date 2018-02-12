@@ -8,27 +8,23 @@
 				:errors="validation.errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
-			<label class="containing-label">
-				Board
-				<suggestable-text-input
-					:value="board"
-					:suggestions="suggestions.board"
-					:readonly="isReadonly('board')"
-					@input="$emit('input', {board: arguments[0]})" />
-			</label>
+			<suggestable-text-input
+				label="Board"
+				:value="board"
+				:suggestions="suggestions.board"
+				:readonly="isReadonly('board')"
+				@input="$emit('input', {board: arguments[0]})" />
 		</validated-form-group>
 		<validated-form-group prop="specialty"
 				:errors="validation.errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
-			<label class="containing-label">
-				Specialty
-				<suggestable-text-input
-					:value="specialty"
-					:suggestions="suggestions.specialty"
-					:readonly="isReadonly('specialty')"
-					@input="$emit('input', {specialty: arguments[0]})" />
-			</label>
+			<suggestable-text-input
+				label="Specialty"
+				:value="specialty"
+				:suggestions="suggestions.specialty"
+				:readonly="isReadonly('specialty')"
+				@input="$emit('input', {specialty: arguments[0]})" />
 		</validated-form-group>
 		<validated-form-group prop="current"
 				:errors="validation.errors"

@@ -1,27 +1,34 @@
 <template>
 	<div v-if="hasSuggestions">
-		<select class="form-control"
-				:disabled="readonly"
-				@change="handleInput">
-			<option v-for="suggestion of suggestions"
-					:key="suggestion"
-					:selected="value === suggestion">
-				{{ suggestion }}
-			</option>
-			<option :selected="showOther" value="">Other</option>
-		</select>
+		<label class="containing-label">
+			{{ label }}
+			<select class="form-control"
+					:disabled="readonly"
+					@change="handleInput">
+				<option v-for="suggestion of suggestions"
+						:key="suggestion"
+						:selected="value === suggestion">
+					{{ suggestion }}
+				</option>
+				<option :selected="showOther" value="">Other</option>
+			</select>
+		</label>
 		<textarea v-if="showOther" class="form-control"
 			:value="value"
 			:placeholder="placeholder"
+			aria-label="Please enter the 'other' value"
 			@input="handleInput">
 		</textarea>
 	</div>
-	<textarea v-else class="form-control"
-		:value="value"
-		:placeholder="placeholder"
-		:readonly="readonly"
-		@input="handleInput">
-	</textarea>
+	<label v-else class="containing-label">
+		{{ label }}
+		<textarea class="form-control"
+			:value="value"
+			:placeholder="placeholder"
+			:readonly="readonly"
+			@input="handleInput">
+		</textarea>
+	</label>
 </template>
 
 <script>
@@ -38,6 +45,10 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		label: {
+			type: String,
+			default: ''
 		},
 		placeholder: {
 			type: String,

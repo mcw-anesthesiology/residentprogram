@@ -8,14 +8,12 @@
 				:errors="validation.errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
-			<label class="containing-label control-label">
-				{{ labels.name || 'Committee name' }}
-				<suggestable-text-input
-					:value="name"
-					:readonly="isReadonly('name')"
-					:suggestions="suggestions.name"
-					@input="$emit('input', {name: arguments[0]})" />
-			</label>
+			<suggestable-text-input
+				:label="labels.name || 'Committee name'"
+				:value="name"
+				:readonly="isReadonly('name')"
+				:suggestions="suggestions.name"
+				@input="$emit('input', {name: arguments[0]})" />
 		</validated-form-group>
 		<validated-form-group prop="role"
 				:errors="validation.errors"
