@@ -27,8 +27,20 @@ class EgressPairingReportController extends Controller
 			]
 			: null;
 
+		$getFilePath = function ($file) {
+			return $file->path();
+		};
+
+		$egressFiles = !empty($request->egressFiles)
+			? array_map($getFilePath, $request->egressFiles)
+			: [];
+		$chwTraineeFiles = !empty($request->chwTraineeFiles)
+			? array_map($getFilePath, $request->chwTraineeFiles)
+			: [];
+
 		return EgressParser::getSortedFilteredOverlaps(
-			$request->file('egressFile')->path(),
+			$egressFiles,
+			$chwTraineeFiles,
 			$request->input('userType'),
 			$request->input('minCases'),
 			$request->input('minHours'),

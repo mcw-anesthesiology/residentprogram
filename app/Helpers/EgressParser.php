@@ -16,20 +16,38 @@ use Mail;
 
 class EgressParser {
 
+	// Report types
+	const EGRESS_FILE_TYPE = 'egress';
+	const CHW_TRAINEE_FILE_TYPE = 'chw';
+
 	// Column indexes
-	const DATE = 0;
-	const ANESTHESIA_STAFF = 6;
+	const EGRESS_COLS = [
+		'DATE' => 0,
+		'ANESTHESIA_STAFF' => 6
+	];
+	const CHW_TRAINEE_REPORT_COLS = [
+		'DATE' => 1,
+		'ANES_START' => 12,
+		'ANES_END' => 13,
+		'ANESTHESIOLOGIST' => [ 5, 6, 7 ],
+		'RESIDENT' => [ 8, 9 ],
+		'FELLOW' => [ 10, 11 ]
+	];
 
-	const FACULTY_ROLE = 'Anesthesiologist';
-	const RESIDENT_ROLE = 'Anesthesia Resident';
-	const FELLOW_ROLE = 'Anesthesia Fellow';
+	const FACULTY_ROLE = 'faculty';
+	const RESIDENT_ROLE = 'resident';
+	const FELLOW_ROLE = 'fellow';
 
-	static function parseFilename($filename, $roles = null) {
+	const EGRESS_FACULTY_ROLE = 'Anesthesiologist';
+	const EGRESS_RESIDENT_ROLE = 'Anesthesia Resident';
+	const EGRESS_FELLOW_ROLE = 'Anesthesia Fellow';
+
+	static function parseFilename($filename, $roles = null, $type = 'egress') {
 		$fp = fopen($filename, 'r');
-		return self::parseCsv($fp, $roles);
+		return self::parseCsv($fp, $roles, $type);
 	}
 
-	static function parseCsv($file, $roles = null) {
+	static function parseCsv($file, $roles = null, $type = 'egress') {
 		// FIXME: Don't just catch Exception everywhere
 
 		$cases = [];
@@ -42,7 +60,18 @@ class EgressParser {
 			}
 
 			try {
-				$newCase = self::parseCase($row[self::DATE], $row[self::ANESTHESIA_STAFF]);
+				switch ($type) {
+					case self::EGRESS_FILE_TYPE:
+						$newCase = self::parseEgressCase($row);
+						break;
+					case self::CHW_TRAINEE_FILE_TYPE:
+						$newCase = self::parseTraineeProcedureCase($row);
+						break;
+					default:
+						$newCase = null;
+						break;
+				}
+
 				if (!empty($newCase))
 					$cases[] = $newCase;
 			} catch (\Exception $e) {
@@ -53,14 +82,21 @@ class EgressParser {
 		if (!empty($cases)) {
 			return self::computeOverlaps(self::getOverlappingCases($cases, $roles));
 		}
+
+		return [];
 	}
 
-	static function parseCase($procDate, $anesthesiaStaff) {
-		$case = [
-			'date' => $procDate
-		];
+	static function parseEgressCase($row) {
+		$procDate = $row[self::EGRESS_COLS['DATE']];
+		$anesthesiaStaff = $row[self::EGRESS_COLS['ANESTHESIA_STAFF']];
 		$name = null;
 		$staff = [];
+
+		$roleMap = [
+			self::EGRESS_FACULTY_ROLE => self::FACULTY_ROLE,
+			self::EGRESS_RESIDENT_ROLE => self::RESIDENT_ROLE,
+			self::EGRESS_FELLOW_ROLE => self::FELLOW_ROLE
+		];
 
 		try {
 			foreach (explode("\n", $anesthesiaStaff) as $line) {
@@ -76,22 +112,84 @@ class EgressParser {
 				} elseif (!empty($name) && (strpos($line, '(assigned)') === false)) {
 					try {
 						[$role, $times] = array_map('trim', explode('from', $line));
-						$staff[$name]['role'] = $role;
-
 						[$start, $end] = array_map('trim', explode('to', $times));
-						$staff[$name]['times']['start'] = $start;
-						$staff[$name]['times']['end'] = $end;
+
+						$staff[$name]['role'] = array_key_exists($role, $roleMap)
+							? $roleMap[$role]
+							: null;
+						$staff[$name]['times'] = [
+							'start' => self::parseDate($procDate, $start),
+							'end' => self::parseDate($procDate, $end)
+						];
 					} catch (\Exception $e) {
 						Log::debug('Failed to parse ');
 					}
 				}
 			}
 
-			$case['staff'] = $staff;
-			return $case;
+			return [
+				'date' => $procDate,
+				'staff' => $staff
+			];
 		} catch (\Exception $e) {
 			Log::debug("Couldn't parse anesthesia staff: {$e}\n\t{$anesthesiaStaff}");
 		}
+	}
+
+	static function parseTraineeProcedureCase($row) {
+		$procDate = $row[self::CHW_TRAINEE_REPORT_COLS['DATE']];
+		$staff = [];
+
+		$staffCols = array_merge(
+			self::CHW_TRAINEE_REPORT_COLS['ANESTHESIOLOGIST'],
+			self::CHW_TRAINEE_REPORT_COLS['RESIDENT'],
+			self::CHW_TRAINEE_REPORT_COLS['FELLOW']
+		);
+
+		$roleMap = [];
+		foreach (self::CHW_TRAINEE_REPORT_COLS['ANESTHESIOLOGIST'] as $facCol) {
+			$roleMap[$facCol] = self::FACULTY_ROLE;
+		}
+		foreach (self::CHW_TRAINEE_REPORT_COLS['RESIDENT'] as $resCol) {
+			$roleMap[$resCol] = self::RESIDENT_ROLE;
+		}
+		foreach (self::CHW_TRAINEE_REPORT_COLS['FELLOW'] as $fellowCol) {
+			$roleMap[$fellowCol] = self::FELLOW_ROLE;
+		}
+
+		$start = Carbon::parse(
+			$row[self::CHW_TRAINEE_REPORT_COLS['ANES_START']]
+		);
+		$end = Carbon::parse(
+			$row[self::CHW_TRAINEE_REPORT_COLS['ANES_END']]
+		);
+
+		foreach ($staffCols as $col) {
+			try {
+				$name = $row[$col];
+				if (empty($name))
+					continue;
+
+				$staff[$name] = [
+					'name' => $name,
+					'date' => $procDate,
+					'role' => array_key_exists($col, $roleMap)
+						? $roleMap[$col]
+						: null,
+					'times' => [
+						'start' => $start,
+						'end' => $end
+					]
+				];
+			} catch (\Exception $e) {
+				Log::debug("Couldn't parse trainee procedure case for col {$col}: ${e}");
+			}
+		}
+
+		return [
+			'date' => $procDate,
+			'staff' => $staff
+		];
 	}
 
 	static function getOverlappingCases($cases, $roles = null) {
@@ -136,7 +234,6 @@ class EgressParser {
 									$case = $resident;
 									try {
 										$case['timeTogether'] = self::computeCaseOverlapTime(
-											$faculty['date'],
 											$faculty,
 											$resident
 										);
@@ -205,9 +302,8 @@ class EgressParser {
 		return $overlappingCasesByFaculty;
 	}
 
-	static function computeCaseOverlapTime($date, $staff1, $staff2) {
+	static function computeCaseOverlapTime($staff1, $staff2) {
 		return self::computeOverlapTime(
-			$date,
 			$staff1['times']['start'],
 			$staff1['times']['end'],
 			$staff2['times']['start'],
@@ -216,23 +312,16 @@ class EgressParser {
 	}
 
 	static function computeOverlapTime(
-		$date,
 		$firstStart,
 		$firstEnd,
 		$secondStart,
 		$secondEnd
 	) {
-		$firstStart = self::parseDate($date, $firstStart);
-		$firstEnd = self::parseDate($date, $firstEnd);
-
 		if ($firstStart > $firstEnd)
 			$firstEnd->addDay();
 
-		$secondStart = self::parseDate($date, $secondStart);
-		$secondEnd = self::parseDate($date, $secondEnd);
-
 		if ($secondStart > $secondEnd)
-			$secondStart->addDay();
+			$secondEnd->addDay();
 
 		$start = max($firstStart, $secondStart);
 		$end = min($firstEnd, $secondEnd);
@@ -496,7 +585,8 @@ class EgressParser {
 	}
 
 	static function getSortedFilteredOverlaps(
-		$egressFile,
+		$egressFiles,
+		$chwTraineeFiles,
 		$userType,
 		$minCases,
 		$minHours,
@@ -505,7 +595,42 @@ class EgressParser {
 		$orNotAnd = false,
 		$roles = null
 	) {
-		$overlaps = EgressParser::parseFilename($egressFile, $roles);
+		if (empty($egressFiles) && empty($chwTraineeFiles))
+			throw new \DomainException('Must specify at least one report file');
+
+		if (empty($egressFiles)) {
+			$egressFiles = [];
+		} else if (!is_array($egressFiles)) {
+			$egressFiles = [$egressFiles];
+		}
+
+
+		if (empty($chwTraineeFiles)) {
+			$chwTraineeFiles = [];
+		} else if (!is_array($chwTraineeFiles)) {
+			$chwTraineeFiles = [$chwTraineeFiles];
+		}
+
+		$egressFilesOverlaps = array_map(function ($egressFile) use ($roles) {
+			return EgressParser::parseFilename($egressFile, $roles);
+		}, $egressFiles);
+		$chwTraineeFilesOverlaps = array_map(function ($chwTraineeFile) use ($roles) {
+			return EgressParser::parseFilename(
+				$chwTraineeFile,
+				$roles,
+				EgressParser::CHW_TRAINEE_FILE_TYPE
+			);
+		}, $chwTraineeFiles);
+
+		Log::debug($egressFilesOverlaps);
+		Log::debug($chwTraineeFilesOverlaps);
+
+		$overlaps = array_merge_recursive(
+			[],
+			...$egressFilesOverlaps,
+			...$chwTraineeFilesOverlaps
+		);
+		Log::debug($overlaps);
 		$overlaps = EgressParser::sort(
 			$overlaps,
 			EgressParser::getNameSorter($userType),
@@ -530,7 +655,9 @@ class EgressParser {
 		);
 	}
 
-	static function sendPairingReports($egressFile, $options) {
+	static function sendPairingReports($egressFiles, $options) {
+		if (!is_array($egressFiles))
+			$egressFiles = [$egressFiles];
 
 		$noFaculty = !empty($options['no-faculty']);
 		$noResident = !empty($options['no-resident']);
@@ -550,7 +677,8 @@ class EgressParser {
 		if (!$noFaculty) {
 			try {
 				$overlapsByFaculty = self::getSortedFilteredOverlaps(
-					$egressFile,
+					$egressFiles,
+					null,
 					'faculty',
 					$minCases,
 					$minHours,
@@ -613,15 +741,19 @@ class EgressParser {
 				'faculty' => EgressParser::FACULTY_ROLE
 			];
 			try {
-				$overlapsByResident = self::getSortedFilteredOverlaps(
-					$egressFile,
-					'resident',
-					$minCases,
-					$minHours,
-					$minMinutes,
-					$maxPairs,
-					$orNotAnd,
-					$roles
+				$overlapsByResident = array_merge_recursive(
+					...array_map(function ($egressFile) use ($minCases, $minHours, $minMinutes, $maxPairs, $orNotAnd) {
+						return self::getSortedFilteredOverlaps(
+							$egressFile,
+							null,
+							'resident',
+							$minCases,
+							$minHours,
+							$minMinutes,
+							$maxPairs,
+							$orNotAnd
+						);
+					}, $egressFiles)
 				);
 			} catch (\Exception $e) {
 				Log::debug($e);
