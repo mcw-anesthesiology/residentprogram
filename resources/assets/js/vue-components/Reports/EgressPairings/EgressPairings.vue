@@ -3,14 +3,33 @@
 		<div class="container body-block">
 			<form @submit="handleSubmit">
 				<div class="row">
-					<validated-form-group class="col-xs-12"
-							:errors="errors" prop="egressFile">
+					<validated-form-group class="col-xs-12 files-container"
+							:errors="errors" prop="reportFiles">
 						<label class="containing-label">
-							Egress report file (CSV)
-							<input type="file" class="form-control"
+							Egress report files (CSV, multiple allowed)
+							<input ref="egressFileInput"
+								type="file" class="form-control"
 								accept=".csv"
-								name="egressFile"
-								@change="handleEgressFileChange"/>
+								name="egressFiles[]"
+								multiple
+								@change="handleEgressFilesChange" />
+							<button type="button" class="btn btn-sm btn-default"
+									@click="handleClearEgressFileInput">
+								Clear
+							</button>
+						</label>
+						<label class="containing-label">
+							CHW trainee report files (CSV, multiple allowed)
+							<input ref="chwTraineeFileInput"
+								type="file" class="form-control"
+								accept=".csv"
+								name="chwTraineeFiles[]"
+								multiple
+								@change="handleChwTraineeFilesChange" />
+							<button type="button" class="btn btn-sm btn-default"
+									@click="handleClearChwTraineeFileInput">
+								Clear
+							</button>
 						</label>
 					</validated-form-group>
 				</div>
@@ -280,6 +299,10 @@
 		margin: 1em 0;
 	}
 
+	.files-container label {
+		margin: 1em 0;
+	}
+
 	.containing-label small {
 		font-weight: normal;
 	}
@@ -313,6 +336,7 @@ export default {
 	data() {
 		return {
 			egressFiles: null,
+			chwTraineeFiles: null,
 			userType: 'faculty',
 			minCases: 0,
 			minHours: 0,
@@ -380,8 +404,11 @@ export default {
 		errors() {
 			const map = new Map();
 
-			if (delve(this, 'egressFiles.length') !== 1) {
-				map.set('egressFile', 'Please select an egress report CSV file');
+			if (
+				!delve(this, 'egressFiles.length')
+				&& !delve(this, 'chwTraineeFiles.length')
+			) {
+				map.set('reportFiles', 'Please select at least one report CSV file');
 			}
 
 			if (!this.userTypes.includes(this.userType)) {
@@ -499,8 +526,21 @@ export default {
 
 	methods: {
 		ucfirst,
-		handleEgressFileChange(event) {
+		handleEgressFilesChange(event) {
 			this.egressFiles = event.target.files;
+		},
+		handleChwTraineeFilesChange(event) {
+			this.chwTraineeFiles = event.target.files;
+		},
+		handleClearEgressFileInput(event) {
+			event.preventDefault();
+			this.$refs.egressFileInput.value = null;
+			this.egressFiles = null;
+		},
+		handleClearChwTraineeFileInput(event) {
+			event.preventDefault();
+			this.$refs.chwTraineeFileInput.value = null;
+			this.chwTraineeFiles = null;
 		},
 		handleUnlimitedPairsChange(event) {
 			if (event.target.checked) {
