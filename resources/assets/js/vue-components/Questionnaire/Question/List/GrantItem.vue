@@ -8,27 +8,23 @@
 				:errors="validation.errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
-			<label class="containing-label">
-				Funding agency
-				<suggestable-text-input
-					:value="agency"
-					:suggestions="suggestions.agency"
-					:readonly="isReadonly('agency')"
-					@input="$emit('input', {agency: arguments[0]})" />
-			</label>
+			<suggestable-text-input
+				label="Funding agency"
+				:value="agency"
+				:suggestions="suggestions.agency"
+				:readonly="isReadonly('agency')"
+				@input="$emit('input', {agency: arguments[0]})" />
 		</validated-form-group>
 		<validated-form-group prop="project"
 				:errors="validation.errors"
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
-			<label class="containing-label">
-				Project
-				<suggestable-text-input
-					:value="project"
-					:suggestions="suggestions.project"
-					:readonly="isReadonly('project')"
-					@input="$emit('input', {project: arguments[0]})" />
-			</label>
+			<suggestable-text-input
+				label="Project"
+				:value="project"
+				:suggestions="suggestions.project"
+				:readonly="isReadonly('project')"
+				@input="$emit('input', {project: arguments[0]})" />
 		</validated-form-group>
 		<validated-form-group prop="amount"
 				:errors="validation.errors"
