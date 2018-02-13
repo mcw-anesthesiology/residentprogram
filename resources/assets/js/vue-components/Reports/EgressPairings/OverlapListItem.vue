@@ -40,7 +40,7 @@ export default {
 		},
 		subjectType: {
 			type: String,
-			default: 'resident'
+			default: 'trainee'
 		}
 	},
 

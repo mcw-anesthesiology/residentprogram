@@ -5,32 +5,38 @@
 				<div class="row">
 					<validated-form-group class="col-xs-12 files-container"
 							:errors="errors" prop="reportFiles">
-						<label class="containing-label">
-							Egress report files (CSV, multiple allowed)
-							<input ref="egressFileInput"
-								type="file" class="form-control"
-								accept=".csv"
-								name="egressFiles[]"
-								multiple
-								@change="handleEgressFilesChange" />
-							<button type="button" class="btn btn-sm btn-default"
-									@click="handleClearEgressFileInput">
-								Clear
-							</button>
-						</label>
-						<label class="containing-label">
-							CHW trainee report files (CSV, multiple allowed)
-							<input ref="chwTraineeFileInput"
-								type="file" class="form-control"
-								accept=".csv"
-								name="chwTraineeFiles[]"
-								multiple
-								@change="handleChwTraineeFilesChange" />
-							<button type="button" class="btn btn-sm btn-default"
-									@click="handleClearChwTraineeFileInput">
-								Clear
-							</button>
-						</label>
+						<div class="row">
+							<div class="col-sm-6">
+								<label class="containing-label control-label">
+									Egress report files (CSV, multiple allowed)
+									<input ref="egressFileInput"
+										type="file" class="form-control"
+										accept=".csv"
+										name="egressFiles[]"
+										multiple
+										@change="handleEgressFilesChange" />
+									<button type="button" class="btn btn-sm btn-default"
+											@click="handleClearEgressFileInput">
+										Clear
+									</button>
+								</label>
+							</div>
+							<div class="col-sm-6">
+								<label class="containing-label control-label">
+									CHW trainee report files (CSV, multiple allowed)
+									<input ref="chwTraineeFileInput"
+										type="file" class="form-control"
+										accept=".csv"
+										name="chwTraineeFiles[]"
+										multiple
+										@change="handleChwTraineeFilesChange" />
+									<button type="button" class="btn btn-sm btn-default"
+											@click="handleClearChwTraineeFileInput">
+										Clear
+									</button>
+								</label>
+							</div>
+						</div>
 					</validated-form-group>
 				</div>
 				<div class="row">
@@ -47,6 +53,18 @@
 						</label>
 					</validated-form-group>
 					<validated-form-group class="col-sm-6"
+							:errors="errors" prop="subjectType">
+						<label class="containing-label">
+							Subject type
+							<select class="form-control" name="subjectType"
+									v-model="subjectType">
+								<option v-for="type of userTypes" :value="type">
+									{{ ucfirst(type) }}
+								</option>
+							</select>
+						</label>
+					</validated-form-group>
+					<validated-form-group class="col-sm-12"
 							:errors="errors" prop="maxPairs">
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -300,7 +318,7 @@
 							<overlap-list-item
 								:overlap="item"
 								:user-type="reportUserType"
-								:subject-type="subjectType" />
+								:subject-type="reportSubjectType" />
 						</div>
 					</div>
 				</template>
@@ -359,6 +377,7 @@ export default {
 			egressFiles: null,
 			chwTraineeFiles: null,
 			userType: 'faculty',
+			subjectType: 'trainee',
 			minCases: 0,
 			minHours: 0,
 			minMinutes: 30,
@@ -371,6 +390,7 @@ export default {
 			reportDates: null,
 
 			reportUserType: null,
+			reportSubjectType: null,
 			overlaps: null,
 
 			selectedOverlaps: [],
@@ -399,33 +419,21 @@ export default {
 		userTypes() {
 			return [
 				'faculty',
-				'resident'
+				'resident',
+				'fellow',
+				'trainee'
 			];
 		},
-		subjectType() {
-			return this.reportUserType === 'faculty'
-				? 'resident'
-				: 'faculty';
-		},
 		overlapsFields() {
-			return this.reportUserType === 'faculty'
-				? [
-					'faculty_name'
-				]
-				: [
-					'resident_name'
-				];
+			return [
+				'group_by_name'
+			];
 		},
 		overlapsFieldAccessors() {
-			return this.reportUserType === 'faculty'
-				? {
-					faculty_name: overlap => overlap.faculty.full_name,
-					id: overlap => overlap.faculty.id
-				}
-				: {
-					resident_name: overlap => overlap.resident.full_name,
-					id: overlap => overlap.resident.id
-				};
+			return {
+				group_by_name: overlap => overlap[this.reportUserType].full_name,
+				id: overlap => overlap[this.reportUserType].id
+			};
 		},
 		errors() {
 			const map = new Map();
@@ -439,6 +447,10 @@ export default {
 
 			if (!this.userTypes.includes(this.userType)) {
 				map.set('userType', 'Invalid selection');
+			}
+
+			if (!this.userTypes.includes(this.subjectType)) {
+				map.set('subjectType', 'Invalid selection');
 			}
 
 			const numProps = [
@@ -539,16 +551,12 @@ export default {
 			if (!this.selectedOverlaps)
 				return;
 
-			const subjectType = this.reportUserType === 'resident'
-				? 'faculty'
-				: 'resident';
-
 			const flatten = (arr, subarr) => arr.concat(subarr);
 
 			return () => [
 				[
 					ucfirst(this.reportUserType),
-					ucfirst(subjectType),
+					ucfirst(this.reportSubjectType),
 					'Cases',
 					'Total time'
 				],
@@ -556,7 +564,7 @@ export default {
 					rows.concat(overlap.pairings.map(pairing =>
 						[
 							overlap[this.reportUserType].full_name,
-							pairing[subjectType].full_name,
+							pairing[this.reportSubjectType].full_name,
 							pairing.numCases,
 							`${pairing.totalTime.days} days, ${pairing.totalTime.h} hours, ${pairing.totalTime.i} minutes`
 						]
@@ -629,6 +637,7 @@ export default {
 			this.overlaps = null;
 			this.selectedOverlaps = [];
 			this.reportUserType = this.userType;
+			this.reportSubjectType = this.subjectType;
 
 			const body = new FormData(event.target);
 			const quoteUnlimitedMaxPairsUnquote = 99999;
@@ -667,7 +676,7 @@ export default {
 				body: JSON.stringify({
 					overlaps: this.selectedOverlaps,
 					userType: this.reportUserType,
-					subjectType: this.subjectType,
+					subjectType: this.reportSubjectType,
 					emailSubject: this.emailSubject,
 					periodDisplay: this.periodDisplay,
 					reportDates: this.reportDates.map(isoDateString),
