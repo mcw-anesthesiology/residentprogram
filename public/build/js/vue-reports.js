@@ -52526,6 +52526,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 			minHours: 0,
 			minMinutes: 30,
 			maxPairs: null,
+			processing: false,
 
 			emailSubject: '',
 			periodDisplay: '',
@@ -52760,6 +52761,8 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 			event.preventDefault();
 
+			this.processing = true;
+
 			if (!this.valid) {
 				this.alerts.push({
 					type: 'warning',
@@ -52785,6 +52788,8 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 				_this.overlapsToSend = [];
 			}).catch(function (err) {
 				Object(__WEBPACK_IMPORTED_MODULE_7__modules_errors_js__["b" /* handleError */])(err, _this, 'There was a problem fetching the report');
+			}).finally(function () {
+				_this.processing = false;
 			});
 		},
 		sendReports: function sendReports() {
@@ -53491,9 +53496,20 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-lg btn-primary",
-                attrs: { type: "submit", disabled: !_vm.valid }
+                attrs: {
+                  type: "submit",
+                  disabled: !_vm.valid || _vm.processing
+                }
               },
-              [_vm._v("\n\t\t\t\t\tRun report\n\t\t\t\t")]
+              [
+                _vm._v(
+                  "\n\t\t\t\t\t" +
+                    _vm._s(
+                      _vm.processing ? "Processing report..." : "Run report"
+                    ) +
+                    "\n\t\t\t\t"
+                )
+              ]
             )
           ])
         ]),

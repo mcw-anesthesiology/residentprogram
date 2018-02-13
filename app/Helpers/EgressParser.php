@@ -86,6 +86,58 @@ class EgressParser {
 		return [];
 	}
 
+	static function parseFilenames($typePathsMap, $roles = null) {
+		$typeFpMap = [];
+		foreach ($typePathsMap as $type => $paths) {
+			$typeFpMap[$type] = array_map(function ($path) {
+				return fopen($path, 'r');
+			}, $paths);
+		}
+
+		return self::parseCsvs($typeFpMap, $roles);
+	}
+
+	static function parseCsvs($typeFpMap, $roles = null) {
+		$cases = [];
+
+		foreach ($typeFpMap as $type => $fps) {
+			foreach ($fps as $fp) {
+				$firstLine = true;
+				while (($row = fgetcsv($fp)) !== false) {
+					if ($firstLine) {
+						$firstLine = false;
+						continue;
+					}
+
+					try {
+						switch ($type) {
+							case self::EGRESS_FILE_TYPE:
+								$newCase = self::parseEgressCase($row);
+								break;
+							case self::CHW_TRAINEE_FILE_TYPE:
+								$newCase = self::parseTraineeProcedureCase($row);
+								break;
+							default:
+								$newCase = null;
+								break;
+						}
+
+						if (!empty($newCase))
+							$cases[] = $newCase;
+					} catch (\Exception $e) {
+						Log::debug('Unable to compute row: ' . $e);
+					}
+				}
+			}
+		}
+
+		if (!empty($cases)) {
+			return self::computeOverlaps(self::getOverlappingCases($cases, $roles));
+		}
+
+		return [];
+	}
+
 	static function parseEgressCase($row) {
 		$procDate = $row[self::EGRESS_COLS['DATE']];
 		$anesthesiaStaff = $row[self::EGRESS_COLS['ANESTHESIA_STAFF']];
@@ -598,41 +650,25 @@ class EgressParser {
 		if (empty($egressFiles) && empty($chwTraineeFiles))
 			throw new \DomainException('Must specify at least one report file');
 
-		if (empty($egressFiles)) {
-			$egressFiles = [];
-		} else if (!is_array($egressFiles)) {
-			$egressFiles = [$egressFiles];
+		$typePathMap = [];
+
+		if (!empty($egressFiles)) {
+			if (!is_array($egressFiles))
+				$egressFiles = [$egressFiles];
+
+			$typePathMap[EgressParser::EGRESS_FILE_TYPE] = $egressFiles;
+		}
+
+		if (!empty($chwTraineeFiles)) {
+			if (!is_array($chwTraineeFiles))
+				$chwTraineeFiles = [$chwTraineeFiles];
+
+			$typePathMap[EgressParser::CHW_TRAINEE_FILE_TYPE] = $chwTraineeFiles;
 		}
 
 
-		if (empty($chwTraineeFiles)) {
-			$chwTraineeFiles = [];
-		} else if (!is_array($chwTraineeFiles)) {
-			$chwTraineeFiles = [$chwTraineeFiles];
-		}
-
-		$egressFilesOverlaps = array_map(function ($egressFile) use ($roles) {
-			return EgressParser::parseFilename($egressFile, $roles);
-		}, $egressFiles);
-		$chwTraineeFilesOverlaps = array_map(function ($chwTraineeFile) use ($roles) {
-			return EgressParser::parseFilename(
-				$chwTraineeFile,
-				$roles,
-				EgressParser::CHW_TRAINEE_FILE_TYPE
-			);
-		}, $chwTraineeFiles);
-
-		Log::debug($egressFilesOverlaps);
-		Log::debug($chwTraineeFilesOverlaps);
-
-		$overlaps = array_merge_recursive(
-			[],
-			...$egressFilesOverlaps,
-			...$chwTraineeFilesOverlaps
-		);
-		Log::debug($overlaps);
 		$overlaps = EgressParser::sort(
-			$overlaps,
+			EgressParser::parseFilenames($typePathMap, $roles),
 			EgressParser::getNameSorter($userType),
 			function ($a, $b) {
 				$date = new DateTimeImmutable();

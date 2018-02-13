@@ -93,8 +93,8 @@
 				</div>
 				<div class="submit-container text-center">
 					<button type="submit" class="btn btn-lg btn-primary"
-							:disabled="!valid">
-						Run report
+							:disabled="!valid || processing">
+						{{ processing ? 'Processing report...' : 'Run report' }}
 					</button>
 				</div>
 			</form>
@@ -342,6 +342,7 @@ export default {
 			minHours: 0,
 			minMinutes: 30,
 			maxPairs: null,
+			processing: false,
 
 			emailSubject: '',
 			periodDisplay: '',
@@ -561,6 +562,8 @@ export default {
 		handleSubmit(event) {
 			event.preventDefault();
 
+			this.processing = true;
+
 			if (!this.valid) {
 				this.alerts.push({
 					type: 'warning',
@@ -592,6 +595,8 @@ export default {
 				this.overlapsToSend = [];
 			}).catch(err => {
 				handleError(err, this, 'There was a problem fetching the report');
+			}).finally(() => {
+				this.processing = false;
 			});
 		},
 		sendReports() {
