@@ -23,11 +23,15 @@ export function downloadCsv(
 		filename += ` - ${dates.startDate.toString()}-${dates.endDate.toString()}`;
 	filename += '.csv';
 
-	let file = csv.map(row =>
-		row.map(quoteValue).join(',')
-	).join("\n");
+	let file = arrToCsv(csv);
 
 	download(file, filename, 'text/csv');
+}
+
+export function arrToCsv(arr: Array<Array<string | number>>): string {
+	return arr.map(row =>
+		row.map(quoteValue).join(',')
+	).join("\n");
 }
 
 export function csvHeader(

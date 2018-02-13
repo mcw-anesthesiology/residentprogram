@@ -1,9 +1,9 @@
 <template>
 	<button type="button" class="btn"
 			@click="$emit('input', !value)">
-			
+
 		<slot name="left-glyph"></slot>
-			
+
 		<slot v-if="value" name="true">
 			Hide
 		</slot>
@@ -14,9 +14,11 @@
 		<slot>
 			{{ text }}
 		</slot>
-		
+
 		<slot name="glyph">
-			<span class="glyphicon glyphicon-triangle-bottom"></span>
+			<span class="glyphicon"
+				:class="value ? 'glyphicon-collapse-up' : 'glyphicon-expand'">
+			</span>
 		</slot>
 	</button>
 </template>

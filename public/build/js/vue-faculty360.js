@@ -897,6 +897,8 @@ if (false) {
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	props: {
@@ -942,7 +944,10 @@ var render = function() {
       _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]),
       _vm._v(" "),
       _vm._t("glyph", [
-        _c("span", { staticClass: "glyphicon glyphicon-triangle-bottom" })
+        _c("span", {
+          staticClass: "glyphicon",
+          class: _vm.value ? "glyphicon-collapse-up" : "glyphicon-expand"
+        })
       ])
     ],
     2
