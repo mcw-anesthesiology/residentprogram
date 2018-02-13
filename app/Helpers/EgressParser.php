@@ -35,6 +35,7 @@ class EgressParser {
 	];
 
 	const FACULTY_ROLE = 'faculty';
+	const TRAINEE_ROLE = 'trainee';
 	const RESIDENT_ROLE = 'resident';
 	const FELLOW_ROLE = 'fellow';
 
@@ -42,12 +43,22 @@ class EgressParser {
 	const EGRESS_RESIDENT_ROLE = 'Anesthesia Resident';
 	const EGRESS_FELLOW_ROLE = 'Anesthesia Fellow';
 
-	static function parseFilename($filename, $roles = null, $type = 'egress') {
+	static function parseFilename(
+		$filename,
+		$type = 'egress',
+		$groupRole = 'faculty',
+		$subgroupRole = 'trainee'
+	) {
 		$fp = fopen($filename, 'r');
-		return self::parseCsv($fp, $roles, $type);
+		return self::parseCsv($fp, $type, $groupRole, $subgroupRole);
 	}
 
-	static function parseCsv($file, $roles = null, $type = 'egress') {
+	static function parseCsv(
+		$file,
+		$type = 'egress',
+		$groupRole = 'faculty',
+		$subgroupRole = 'trainee'
+	) {
 		// FIXME: Don't just catch Exception everywhere
 
 		$cases = [];
@@ -80,13 +91,19 @@ class EgressParser {
 		}
 
 		if (!empty($cases)) {
-			return self::computeOverlaps(self::getOverlappingCases($cases, $roles));
+			return self::computeOverlaps(
+				self::getOverlappingCases($cases, $groupRole, $subgroupRole)
+			);
 		}
 
 		return [];
 	}
 
-	static function parseFilenames($typePathsMap, $roles = null) {
+	static function parseFilenames(
+		$typePathsMap,
+		$groupRole = 'faculty',
+		$subgroupRole = 'trainee'
+	) {
 		$typeFpMap = [];
 		foreach ($typePathsMap as $type => $paths) {
 			$typeFpMap[$type] = array_map(function ($path) {
@@ -94,10 +111,14 @@ class EgressParser {
 			}, $paths);
 		}
 
-		return self::parseCsvs($typeFpMap, $roles);
+		return self::parseCsvs($typeFpMap, $groupRole, $subgroupRole);
 	}
 
-	static function parseCsvs($typeFpMap, $roles = null) {
+	static function parseCsvs(
+		$typeFpMap,
+		$groupRole = 'faculty',
+		$subgroupRole = 'trainee'
+	) {
 		$cases = [];
 
 		foreach ($typeFpMap as $type => $fps) {
@@ -132,7 +153,7 @@ class EgressParser {
 		}
 
 		if (!empty($cases)) {
-			return self::computeOverlaps(self::getOverlappingCases($cases, $roles));
+			return self::computeOverlaps(self::getOverlappingCases($cases, $groupRole, $subgroupRole));
 		}
 
 		return [];
@@ -244,74 +265,76 @@ class EgressParser {
 		];
 	}
 
-	static function getOverlappingCases($cases, $roles = null) {
-		if (empty($roles))
-			$roles = [
-				'faculty' => self::FACULTY_ROLE,
-				'resident' => self::RESIDENT_ROLE
-			];
-		elseif (count($roles) != 2)
-			throw new \DomainException("Must specify two roles");
-
+	static function getOverlappingCases(
+		$cases,
+		$groupRole = 'faculty',
+		$subgroupRole = 'trainee'
+	) {
 		$overlaps = [];
-
-		$roleNames = array_keys($roles);
-		$roleTypes = array_values($roles);
 
 		foreach ($cases as $case) {
 			$typedStaff = collect($case['staff'])->groupBy('role')->toArray();
-			if (!empty($typedStaff[$roleTypes[0]])) {
-				foreach ($typedStaff[$roleTypes[0]] as $faculty) {
+			$roleStaffGetter = function ($role) use ($typedStaff) {
+				switch ($role) {
+					case self::TRAINEE_ROLE:
+						return array_merge(
+							array_key_exists(self::RESIDENT_ROLE, $typedStaff)
+								? $typedStaff[self::RESIDENT_ROLE]
+								: [],
+							array_key_exists(self::FELLOW_ROLE, $typedStaff)
+								? $typedStaff[self::FELLOW_ROLE]
+								: []
+						);
+					default:
+						return array_key_exists($role, $typedStaff)
+							? $typedStaff[$role]
+							: [];
+				}
+			};
+
+			$groupByStaff = $roleStaffGetter($groupRole);
+			if (!empty($groupByStaff)) {
+				foreach ($groupByStaff as $faculty) {
 					try {
 						$facultyUser = self::findUser($faculty);
 						if (empty($overlaps[$facultyUser->id]))
 							$overlaps[$facultyUser->id] = [
-								$roleNames[0] => $facultyUser,
+								$groupRole => $facultyUser,
 								'case' => $faculty,
 								'pairings' => []
 							];
 
 						$pairings = &$overlaps[$facultyUser->id]['pairings'];
 
-						if (!empty($typedStaff[$roleTypes[1]])) {
-							foreach ($typedStaff[$roleTypes[1]] as $resident) {
+						$subStaffGroup = $roleStaffGetter($subgroupRole);
+						if (!empty($subStaffGroup)) {
+							foreach ($subStaffGroup as $trainee) {
 								try {
-									$residentUser = self::findUser($resident);
-									if (empty($pairings[$residentUser->id]))
-										$pairings[$residentUser->id] = [
-											$roleNames[1] => $residentUser,
+									$traineeUser = self::findUser($trainee);
+									if (empty($pairings[$traineeUser->id]))
+										$pairings[$traineeUser->id] = [
+											$subgroupRole => $traineeUser,
 											'cases' => []
 										];
 
-									$case = $resident;
+									$case = $trainee;
 									try {
 										$case['timeTogether'] = self::computeCaseOverlapTime(
 											$faculty,
-											$resident
+											$trainee
 										);
-
-										if (self::intervalIsNegative(
-											$case['timeTogether']
-										)) {
-											Log::debug("\n\n" . json_encode([
-												'date' => $faculty['date'],
-												'faculty' => $faculty,
-												'resident' => $resident,
-											], JSON_PRETTY_PRINT) . "\n\n");
-										}
-
 									} catch (\Exception $e) {
-										Log::debug("Failed to compute time together for {$faculty['name']} and {$resident['name']}: " . $e);
+										Log::debug("Failed to compute time together for {$faculty['name']} and {$trainee['name']}: " . $e);
 									}
 
-									$pairings[$residentUser->id]['cases'][] = $case;
+									$pairings[$traineeUser->id]['cases'][] = $case;
 								} catch (ModelNotFoundException $e) {
-									Log::debug(ucfirst($roleNames[1]) . ' not found for name ' . $resident['name']);
+									Log::debug($subgroupRole . ' not found for name ' . $trainee['name']);
 								}
 							}
 						}
 					} catch (ModelNotFoundException $e) {
-						Log::debug(ucfirst($roleNames[0]) . ' not found for name ' . $faculty['name']);
+						Log::debug($groupRole . ' not found for name ' . $faculty['name']);
 					}
 				}
 			}
@@ -447,13 +470,17 @@ class EgressParser {
 		};
 	}
 
-	static function printReport($overlaps, $roles = ['faculty', 'resident']) {
+	static function printReport(
+		$overlaps,
+		$groupRole = 'faculty',
+		$subgroupRole = 'trainee'
+	) {
 		foreach ($overlaps as $facultyOverlap) {
-			$faculty = $facultyOverlap[$roles[0]];
+			$faculty = $facultyOverlap[$groupRole];
 			if (!empty($facultyOverlap['pairings'])) {
 				echo $faculty->full_name . "\n";
 				foreach ($facultyOverlap['pairings'] as $pairing) {
-					$resident = $pairing[$roles[1]];
+					$resident = $pairing[$subgroupRole];
 					echo "\t" . $resident->full_name . "\n";
 					echo "\t\tCases: " . $pairing['numCases'] . "\n";
 					echo "\t\tTotal time: " . $pairing['totalTime']->format('%a days, %h hours, %i minutes') . "\n";
@@ -462,14 +489,19 @@ class EgressParser {
 		}
 	}
 
-	static function writeReport($overlaps, $outfile, $roles = ['faculty', 'resident']) {
+	static function writeReport(
+		$overlaps,
+		$outfile,
+		$groupRole = 'faculty',
+		$subgroupRole = 'trainee'
+	) {
 		$outfp = fopen($outfile, 'w');
 		foreach ($overlaps as $facultyOverlap) {
-			$faculty = $facultyOverlap[$roles[0]];
+			$faculty = $facultyOverlap[$groupRole];
 			if (!empty($facultyOverlap['pairings'])) {
 				fwrite($outfp, $faculty->full_name . "\n");
 				foreach ($facultyOverlap['pairings'] as $pairing) {
-					$resident = $pairing[$roles[1]];
+					$resident = $pairing[$subgroupRole];
 					fwrite($outfp, "\t" . $resident->full_name . "\n");
 					fwrite($outfp, "\t\tCases: " . $pairing['numCases'] . "\n");
 					fwrite($outfp, "\t\tTotal time: " . $pairing['totalTime']->format('%a days, %h hours, %i minutes') . "\n");
@@ -642,13 +674,13 @@ class EgressParser {
 	static function getSortedFilteredOverlaps(
 		$egressFiles,
 		$chwTraineeFiles,
-		$userType,
 		$minCases,
 		$minHours,
 		$minMinutes,
 		$maxPairs,
 		$orNotAnd = false,
-		$roles = null
+		$groupRole = 'faculty',
+		$subgroupRole = 'trainee'
 	) {
 		if (empty($egressFiles) && empty($chwTraineeFiles))
 			throw new \DomainException('Must specify at least one report file');
@@ -671,8 +703,8 @@ class EgressParser {
 
 
 		$overlaps = EgressParser::sort(
-			EgressParser::parseFilenames($typePathMap, $roles),
-			EgressParser::getNameSorter($userType),
+			EgressParser::parseFilenames($typePathMap, $groupRole, $subgroupRole),
+			EgressParser::getNameSorter($groupRole),
 			function ($a, $b) {
 				$date = new DateTimeImmutable();
 				$aDate = $date->add($a['totalTime']);
@@ -718,7 +750,6 @@ class EgressParser {
 				$overlapsByFaculty = self::getSortedFilteredOverlaps(
 					$egressFiles,
 					null,
-					'faculty',
 					$minCases,
 					$minHours,
 					$minMinutes,
@@ -775,24 +806,17 @@ class EgressParser {
 		}
 
 		if (!$noResident) {
-			$roles = [
-				'resident' => EgressParser::RESIDENT_ROLE,
-				'faculty' => EgressParser::FACULTY_ROLE
-			];
 			try {
-				$overlapsByResident = array_merge_recursive(
-					...array_map(function ($egressFile) use ($minCases, $minHours, $minMinutes, $maxPairs, $orNotAnd) {
-						return self::getSortedFilteredOverlaps(
-							$egressFile,
-							null,
-							'resident',
-							$minCases,
-							$minHours,
-							$minMinutes,
-							$maxPairs,
-							$orNotAnd
-						);
-					}, $egressFiles)
+				$overlapsByResident = self::getSortedFilteredOverlaps(
+					$egressFiles,
+					null,
+					$minCases,
+					$minHours,
+					$minMinutes,
+					$maxPairs,
+					$orNotAnd,
+					'resident',
+					'faculty'
 				);
 			} catch (\Exception $e) {
 				Log::debug($e);

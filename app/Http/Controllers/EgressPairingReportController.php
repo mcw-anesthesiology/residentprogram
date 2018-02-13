@@ -20,12 +20,6 @@ class EgressPairingReportController extends Controller
 
 	public function getOverlaps(Request $request) {
 		$orNotAnd = false;
-		$roles = $request->input('userType') == 'resident'
-			? [
-				'resident' => EgressParser::RESIDENT_ROLE,
-				'faculty' => EgressParser::FACULTY_ROLE
-			]
-			: null;
 
 		$getFilePath = function ($file) {
 			return $file->path();
@@ -41,13 +35,13 @@ class EgressPairingReportController extends Controller
 		return EgressParser::getSortedFilteredOverlaps(
 			$egressFiles,
 			$chwTraineeFiles,
-			$request->input('userType'),
 			$request->input('minCases'),
 			$request->input('minHours'),
 			$request->input('minMinutes'),
 			$request->input('maxPairs'),
 			$orNotAnd,
-			$roles
+			$request->input('userType'),
+			$request->input('subjectType')
 		);
 	}
 

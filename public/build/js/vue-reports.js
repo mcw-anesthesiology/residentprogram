@@ -52532,6 +52532,24 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -52557,6 +52575,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			egressFiles: null,
 			chwTraineeFiles: null,
 			userType: 'faculty',
+			subjectType: 'trainee',
 			minCases: 0,
 			minHours: 0,
 			minMinutes: 30,
@@ -52569,6 +52588,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			reportDates: null,
 
 			reportUserType: null,
+			reportSubjectType: null,
 			overlaps: null,
 
 			selectedOverlaps: [],
@@ -52596,28 +52616,20 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 	computed: {
 		userTypes: function userTypes() {
-			return ['faculty', 'resident'];
-		},
-		subjectType: function subjectType() {
-			return this.reportUserType === 'faculty' ? 'resident' : 'faculty';
+			return ['faculty', 'resident', 'fellow', 'trainee'];
 		},
 		overlapsFields: function overlapsFields() {
-			return this.reportUserType === 'faculty' ? ['faculty_name'] : ['resident_name'];
+			return ['group_by_name'];
 		},
 		overlapsFieldAccessors: function overlapsFieldAccessors() {
-			return this.reportUserType === 'faculty' ? {
-				faculty_name: function faculty_name(overlap) {
-					return overlap.faculty.full_name;
+			var _this = this;
+
+			return {
+				group_by_name: function group_by_name(overlap) {
+					return overlap[_this.reportUserType].full_name;
 				},
 				id: function id(overlap) {
-					return overlap.faculty.id;
-				}
-			} : {
-				resident_name: function resident_name(overlap) {
-					return overlap.resident.full_name;
-				},
-				id: function id(overlap) {
-					return overlap.resident.id;
+					return overlap[_this.reportUserType].id;
 				}
 			};
 		},
@@ -52630,6 +52642,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			if (!this.userTypes.includes(this.userType)) {
 				map.set('userType', 'Invalid selection');
+			}
+
+			if (!this.userTypes.includes(this.subjectType)) {
+				map.set('subjectType', 'Invalid selection');
 			}
 
 			var numProps = ['minCases', 'minHours', 'minMinutes'];
@@ -52744,20 +52760,18 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			}];
 		},
 		getSelectedOverlapsArray: function getSelectedOverlapsArray() {
-			var _this = this;
+			var _this2 = this;
 
 			if (!this.selectedOverlaps) return;
-
-			var subjectType = this.reportUserType === 'resident' ? 'faculty' : 'resident';
 
 			var flatten = function flatten(arr, subarr) {
 				return arr.concat(subarr);
 			};
 
 			return function () {
-				return [[Object(__WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["L" /* ucfirst */])(_this.reportUserType), Object(__WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["L" /* ucfirst */])(subjectType), 'Cases', 'Total time']].concat(_toConsumableArray(_this.selectedOverlaps.reduce(function (rows, overlap) {
+				return [[Object(__WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["L" /* ucfirst */])(_this2.reportUserType), Object(__WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["L" /* ucfirst */])(_this2.reportSubjectType), 'Cases', 'Total time']].concat(_toConsumableArray(_this2.selectedOverlaps.reduce(function (rows, overlap) {
 					return rows.concat(overlap.pairings.map(function (pairing) {
-						return [overlap[_this.reportUserType].full_name, pairing[subjectType].full_name, pairing.numCases, pairing.totalTime.days + ' days, ' + pairing.totalTime.h + ' hours, ' + pairing.totalTime.i + ' minutes'];
+						return [overlap[_this2.reportUserType].full_name, pairing[_this2.reportSubjectType].full_name, pairing.numCases, pairing.totalTime.days + ' days, ' + pairing.totalTime.h + ' hours, ' + pairing.totalTime.i + ' minutes'];
 					}));
 				}, [])));
 			};
@@ -52815,7 +52829,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			this.selectedOverlaps = [];
 		},
 		handleSubmit: function handleSubmit(event) {
-			var _this2 = this;
+			var _this3 = this;
 
 			event.preventDefault();
 
@@ -52832,6 +52846,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			this.overlaps = null;
 			this.selectedOverlaps = [];
 			this.reportUserType = this.userType;
+			this.reportSubjectType = this.subjectType;
 
 			var body = new FormData(event.target);
 			var quoteUnlimitedMaxPairsUnquote = 99999;
@@ -52842,16 +52857,16 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				method: 'POST',
 				body: body
 			})).then(__WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["w" /* jsonOrThrow */]).then(function (overlaps) {
-				_this2.overlaps = overlaps;
-				_this2.selectedOverlaps = [];
+				_this3.overlaps = overlaps;
+				_this3.selectedOverlaps = [];
 			}).catch(function (err) {
-				Object(__WEBPACK_IMPORTED_MODULE_9__modules_errors_js__["b" /* handleError */])(err, _this2, 'There was a problem fetching the report');
+				Object(__WEBPACK_IMPORTED_MODULE_9__modules_errors_js__["b" /* handleError */])(err, _this3, 'There was a problem fetching the report');
 			}).finally(function () {
-				_this2.processing = false;
+				_this3.processing = false;
 			});
 		},
 		sendReports: function sendReports() {
-			var _this3 = this;
+			var _this4 = this;
 
 			if (!this.sendReportValid || !this.selectedOverlaps || this.selectedOverlaps.length === 0) return;
 
@@ -52860,14 +52875,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				body: JSON.stringify(Object.assign({
 					overlaps: this.selectedOverlaps,
 					userType: this.reportUserType,
-					subjectType: this.subjectType,
+					subjectType: this.reportSubjectType,
 					emailSubject: this.emailSubject,
 					periodDisplay: this.periodDisplay,
 					reportDates: this.reportDates.map(__WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__["isoDateString"])
 				}, this.customMessageHtml))
 			})).then(__WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["w" /* jsonOrThrow */]).then(function (response) {
 				if (response.successful) {
-					_this3.alerts.push({
+					_this4.alerts.push({
 						type: 'success',
 						text: response.successful + ' reports sent successfully'
 					});
@@ -52876,20 +52891,20 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				try {
 					if (response.errors && Array.isArray(response.errors) && response.errors.length > 0) {
 						var lis = response.errors.map(function (overlap) {
-							return overlap[_this3.reportUserType].full_name;
+							return overlap[_this4.reportUserType].full_name;
 						}).map(function (name) {
 							return '<li>' + name + '</li>';
 						});
-						_this3.alerts.push({
+						_this4.alerts.push({
 							type: 'error',
 							html: '\n\t\t\t\t\t\t\t\t<strong>Error:</strong>\n\t\t\t\t\t\t\t\tFailed to send reports to the following users:\n\t\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t' + lis + '\n\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t'
 						});
 					}
 				} catch (err) {
-					Object(__WEBPACK_IMPORTED_MODULE_9__modules_errors_js__["b" /* handleError */])(err, _this3, 'There was a problem displaying unsuccessful reports');
+					Object(__WEBPACK_IMPORTED_MODULE_9__modules_errors_js__["b" /* handleError */])(err, _this4, 'There was a problem displaying unsuccessful reports');
 				}
 			}).catch(function (err) {
-				Object(__WEBPACK_IMPORTED_MODULE_9__modules_errors_js__["b" /* handleError */])(err, _this3, 'There was a problem sending the reports');
+				Object(__WEBPACK_IMPORTED_MODULE_9__modules_errors_js__["b" /* handleError */])(err, _this4, 'There was a problem sending the reports');
 			});
 		}
 	},
@@ -53020,7 +53035,7 @@ if (false) {(function () {
 		},
 		subjectType: {
 			type: String,
-			default: 'resident'
+			default: 'trainee'
 		}
 	},
 
@@ -53257,58 +53272,80 @@ var render = function() {
                   attrs: { errors: _vm.errors, prop: "reportFiles" }
                 },
                 [
-                  _c("label", { staticClass: "containing-label" }, [
-                    _vm._v(
-                      "\n\t\t\t\t\t\tEgress report files (CSV, multiple allowed)\n\t\t\t\t\t\t"
-                    ),
-                    _c("input", {
-                      ref: "egressFileInput",
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "file",
-                        accept: ".csv",
-                        name: "egressFiles[]",
-                        multiple: ""
-                      },
-                      on: { change: _vm.handleEgressFilesChange }
-                    }),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-sm-6" }, [
+                      _c(
+                        "label",
+                        { staticClass: "containing-label control-label" },
+                        [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tEgress report files (CSV, multiple allowed)\n\t\t\t\t\t\t\t\t"
+                          ),
+                          _c("input", {
+                            ref: "egressFileInput",
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "file",
+                              accept: ".csv",
+                              name: "egressFiles[]",
+                              multiple: ""
+                            },
+                            on: { change: _vm.handleEgressFilesChange }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-default",
+                              attrs: { type: "button" },
+                              on: { click: _vm.handleClearEgressFileInput }
+                            },
+                            [
+                              _vm._v(
+                                "\n\t\t\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t\t\t"
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]),
                     _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-default",
-                        attrs: { type: "button" },
-                        on: { click: _vm.handleClearEgressFileInput }
-                      },
-                      [_vm._v("\n\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("label", { staticClass: "containing-label" }, [
-                    _vm._v(
-                      "\n\t\t\t\t\t\tCHW trainee report files (CSV, multiple allowed)\n\t\t\t\t\t\t"
-                    ),
-                    _c("input", {
-                      ref: "chwTraineeFileInput",
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "file",
-                        accept: ".csv",
-                        name: "chwTraineeFiles[]",
-                        multiple: ""
-                      },
-                      on: { change: _vm.handleChwTraineeFilesChange }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-default",
-                        attrs: { type: "button" },
-                        on: { click: _vm.handleClearChwTraineeFileInput }
-                      },
-                      [_vm._v("\n\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t")]
-                    )
+                    _c("div", { staticClass: "col-sm-6" }, [
+                      _c(
+                        "label",
+                        { staticClass: "containing-label control-label" },
+                        [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\tCHW trainee report files (CSV, multiple allowed)\n\t\t\t\t\t\t\t\t"
+                          ),
+                          _c("input", {
+                            ref: "chwTraineeFileInput",
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "file",
+                              accept: ".csv",
+                              name: "chwTraineeFiles[]",
+                              multiple: ""
+                            },
+                            on: { change: _vm.handleChwTraineeFilesChange }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-default",
+                              attrs: { type: "button" },
+                              on: { click: _vm.handleClearChwTraineeFileInput }
+                            },
+                            [
+                              _vm._v(
+                                "\n\t\t\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t\t\t"
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ])
                   ])
                 ]
               )
@@ -53376,6 +53413,58 @@ var render = function() {
                 "validated-form-group",
                 {
                   staticClass: "col-sm-6",
+                  attrs: { errors: _vm.errors, prop: "subjectType" }
+                },
+                [
+                  _c("label", { staticClass: "containing-label" }, [
+                    _vm._v("\n\t\t\t\t\t\tSubject type\n\t\t\t\t\t\t"),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.subjectType,
+                            expression: "subjectType"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "subjectType" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.subjectType = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.userTypes, function(type) {
+                        return _c("option", { domProps: { value: type } }, [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\t" +
+                              _vm._s(_vm.ucfirst(type)) +
+                              "\n\t\t\t\t\t\t\t"
+                          )
+                        ])
+                      })
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "validated-form-group",
+                {
+                  staticClass: "col-sm-12",
                   attrs: { errors: _vm.errors, prop: "maxPairs" }
                 },
                 [
@@ -54225,7 +54314,7 @@ var render = function() {
                               attrs: {
                                 overlap: item,
                                 "user-type": _vm.reportUserType,
-                                "subject-type": _vm.subjectType
+                                "subject-type": _vm.reportSubjectType
                               }
                             })
                           ],
