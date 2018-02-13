@@ -633,7 +633,10 @@ class EgressParser {
 			), 0, $maxPairs);
 		}
 
-		return $overlaps;
+		// Remove empty overlaps
+		return array_values(array_filter($overlaps, function ($overlap) {
+			return count($overlap['pairings']) > 0;
+		}));
 	}
 
 	static function getSortedFilteredOverlaps(

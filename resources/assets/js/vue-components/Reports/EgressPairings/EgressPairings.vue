@@ -102,18 +102,18 @@
 			<alert-list v-model="alerts" />
 		</div>
 
-		<div v-if="overlapsToSend && overlapsToSend.length > 0"
+		<div v-if="selectedOverlaps && selectedOverlaps.length > 0"
 				class="container body-block">
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<span class="panel-title">
-						{{ overlapsToSend.length }} reports selected
+						{{ selectedOverlaps.length }} reports selected
 					</span>
 				</div>
 				<div class="panel-body">
 					<ul>
-						<li v-for="overlapToSend of overlapsToSend">
+						<li v-for="overlapToSend of selectedOverlaps">
 							{{ overlapToSend[reportUserType].full_name }}
 						</li>
 					</ul>
@@ -127,127 +127,147 @@
 				</div>
 			</div>
 
-			<div class="form">
-				<div class="row">
-					<validated-form-group class="col-sm-6" :errors="errors"
-							prop="emailSubject">
-						<label class="containing-label">
-							Email subject
-							<input type="text" class="form-control"
-								placeholder="Resident pairing report"
-								v-model="emailSubject" />
-						</label>
-					</validated-form-group>
-					<validated-form-group class="col-sm-6" :errors="errors"
-							prop="periodDisplay">
-						<label class="containing-label">
-							Time period display
-							<input type="text" class="form-control"
-								placeholder="'the past month', 'July' (displayed after the word 'for')"
-								v-model="periodDisplay" />
-						</label>
-					</validated-form-group>
-					<validated-form-group class="col-sm-12" :errors="errors"
-							prop="reportDates">
-						<label class="containing-label">
-							Report dates (optional)
-							<clearable-date
-								input-class="form-control appear-not-readonly"
-								:options="{mode: 'range'}"
-								v-model="reportDatesStr"
-								@change="handleReportDatesChange" />
-						</label>
-					</validated-form-group>
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<span class="panel-title">Send reports</span>
 				</div>
-				<div v-if="customizeMessageText">
-					<div class="row">
-						<validated-form-group class="col-sm-12"
-								:errors="customMessageErrors"
-								prop="intro">
-							<label class="containing-label">
-								Introduction
-								<markdown-editor :placeholder="messageDefaults.intro"
-									v-model="customMessage.intro"
-									@html="customMessageHtml.intro = arguments[0]" />
-							</label>
-						</validated-form-group>
-						<validated-form-group class="col-sm-12"
-								:errors="customMessageErrors"
-								prop="successLead">
-							<label class="containing-label">
-								Report list lead
-								<markdown-editor :placeholder="messageDefaults.successLead"
-									v-model="customMessage.successLead"
-									@html="customMessageHtml.successLead = arguments[0]" />
-							</label>
-						</validated-form-group>
-						<validated-form-group class="col-sm-12"
-								:errors="customMessageErrors"
-								prop="closing">
-							<label class="containing-label">
-								Closing
-								<markdown-editor :placeholder="messageDefaults.closing"
-									v-model="customMessage.closing"
-									@html="customMessageHtml.closing = arguments[0]" />
-							</label>
-						</validated-form-group>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<span class="panel-title">
-								Full message example
-							</span>
+				<div class="panel-body" v-show="show.sendReports">
+					<div class="form">
+						<div class="row">
+							<validated-form-group class="col-sm-6" :errors="errors"
+									prop="emailSubject">
+								<label class="containing-label">
+									Email subject
+									<input type="text" class="form-control"
+										placeholder="Resident pairing report"
+										v-model="emailSubject" />
+								</label>
+							</validated-form-group>
+							<validated-form-group class="col-sm-6" :errors="errors"
+									prop="periodDisplay">
+								<label class="containing-label">
+									Time period display
+									<input type="text" class="form-control"
+										placeholder="'the past month', 'July' (displayed after the word 'for')"
+										v-model="periodDisplay" />
+								</label>
+							</validated-form-group>
+							<validated-form-group class="col-sm-12" :errors="errors"
+									prop="reportDates">
+								<label class="containing-label">
+									Report dates (optional)
+									<clearable-date
+										input-class="form-control appear-not-readonly"
+										:options="{mode: 'range'}"
+										v-model="reportDatesStr"
+										@change="handleReportDatesChange" />
+								</label>
+							</validated-form-group>
 						</div>
-						<div class="panel-body message-example-body">
-							<p>
-								Hello Dr
-								<span class="label label-info">
-									{{ ucfirst(userType) }}
-								</span>!
-							</p>
-							<div v-html="customMessageHtml.intro
-								|| `<p>${messageDefaults.intro}</p>`"></div>
+						<div v-if="customizeMessageText">
+							<div class="row">
+								<validated-form-group class="col-sm-12"
+										:errors="customMessageErrors"
+										prop="intro">
+									<label class="containing-label">
+										Introduction
+										<markdown-editor :placeholder="messageDefaults.intro"
+											v-model="customMessage.intro"
+											@html="customMessageHtml.intro = arguments[0]" />
+									</label>
+								</validated-form-group>
+								<validated-form-group class="col-sm-12"
+										:errors="customMessageErrors"
+										prop="successLead">
+									<label class="containing-label">
+										Report list lead
+										<markdown-editor :placeholder="messageDefaults.successLead"
+											v-model="customMessage.successLead"
+											@html="customMessageHtml.successLead = arguments[0]" />
+									</label>
+								</validated-form-group>
+								<validated-form-group class="col-sm-12"
+										:errors="customMessageErrors"
+										prop="closing">
+									<label class="containing-label">
+										Closing
+										<markdown-editor :placeholder="messageDefaults.closing"
+											v-model="customMessage.closing"
+											@html="customMessageHtml.closing = arguments[0]" />
+									</label>
+								</validated-form-group>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<span class="panel-title">
+										Full message example
+									</span>
+								</div>
+								<div class="panel-body message-example-body">
+									<p>
+										Hello Dr
+										<span class="label label-info">
+											{{ ucfirst(userType) }}
+										</span>!
+									</p>
+									<div v-html="customMessageHtml.intro
+										|| `<p>${messageDefaults.intro}</p>`"></div>
 
-							<div v-html="customMessageHtml.successLead
-								|| `<p>${messageDefaults.successLead}</p>`"></div>
-							<ol>
-								<li v-for="pairing of examplePairings">
-									<b>{{ pairing.name }}</b>:
-									<i>
-										{{ pairing.numCases }}
-										case{{ pairing.numCases === 1 ? '' : 's' }}
-									</i>
-									together totalling
-									<i>{{ pairing.totalTime }}</i>
-								</li>
-							</ol>
+									<div v-html="customMessageHtml.successLead
+										|| `<p>${messageDefaults.successLead}</p>`"></div>
+									<ol>
+										<li v-for="pairing of examplePairings">
+											<b>{{ pairing.name }}</b>:
+											<i>
+												{{ pairing.numCases }}
+												case{{ pairing.numCases === 1 ? '' : 's' }}
+											</i>
+											together totalling
+											<i>{{ pairing.totalTime }}</i>
+										</li>
+									</ol>
 
 
-							<div v-html="customMessageHtml.closing
-								|| `<p>${messageDefaults.closing}</p>`"></div>
+									<div v-html="customMessageHtml.closing
+										|| `<p>${messageDefaults.closing}</p>`"></div>
 
-							<p>
-								Thank you!
-							</p>
+									<p>
+										Thank you!
+									</p>
+								</div>
+							</div>
 						</div>
 					</div>
+
+					<div class="text-center">
+						<label>
+							Customize message text
+							<input type="checkbox" v-model="customizeMessageText" />
+						</label>
+					</div>
+					<div class="text-center">
+						<button type="button" class="btn btn-lg btn-info"
+								:disabled="!sendReportValid"
+								@click="sendReports">
+							<span class="glyphicon glyphicon-send"></span>
+							Send reports
+						</button>
+					</div>
+				</div>
+				<div class="panel-footer text-center">
+					<show-hide-button class="btn-primary"
+							v-model="show.sendReports">
+						sender
+					</show-hide-button>
 				</div>
 			</div>
 
-			<div class="text-center">
-				<label>
-					Customize message text
-					<input type="checkbox" v-model="customizeMessageText" />
-				</label>
-			</div>
-			<div class="text-center">
-				<button type="button" class="btn btn-lg btn-info"
-						:disabled="!sendReportValid"
-						@click="sendReports">
-					<span class="glyphicon glyphicon-send"></span>
-					Send reports
-				</button>
-			</div>
+			<download-button class="btn btn-info center-block"
+					filename="overlaps-report.csv"
+					:data-getter="getSelectedOverlapsArray">
+				<span class="glyphicon glyphicon-download-alt"></span>
+				Download selected overlaps (CSV)
+			</download-button>
 		</div>
 
 		<div v-if="overlaps" class="container body-block">
@@ -259,7 +279,7 @@
 				<div class="panel-body">
 					<button type="button" class="btn btn-info"
 							@click="selectAllOverlaps">
-						<span class="glyphicon glyphicon-send"></span>
+						<span class="glyphicon glyphicon-th-list"></span>
 						Select all
 					</button>
 				</div>
@@ -270,11 +290,10 @@
 				<template slot-scope="item">
 					<div class="row">
 						<div class="col-xs-1">
-							<label title="Send report">
+							<label title="Select report">
 								<input type="checkbox"
 									:value="item"
-									v-model="overlapsToSend" />
-								<span class="glyphicon glyphicon-send"></span>
+									v-model="selectedOverlaps" />
 							</label>
 						</div>
 						<div class="col-xs-11">
@@ -318,6 +337,8 @@ import ComponentList from '@/vue-components/ComponentList.vue';
 import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 import ClearableDate from '@/vue-components/ClearableDate.vue';
 import MarkdownEditor from '@/vue-components/MarkdownEditor.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+import DownloadButton from '@/vue-components/DownloadButton.vue';
 
 import OverlapListItem from './OverlapListItem.vue';
 
@@ -352,7 +373,7 @@ export default {
 			reportUserType: null,
 			overlaps: null,
 
-			overlapsToSend: [],
+			selectedOverlaps: [],
 
 			customizeMessageText: false,
 			customMessage: {
@@ -366,6 +387,10 @@ export default {
 				successLead: null,
 				emptyMessage: null,
 				closing: null
+			},
+
+			show: {
+				sendReports: false
 			}
 		};
 	},
@@ -509,6 +534,35 @@ export default {
 					totalTime: '5 hours, 19 minutes'
 				}
 			];
+		},
+		getSelectedOverlapsArray() {
+			if (!this.selectedOverlaps)
+				return;
+
+			const subjectType = this.reportUserType === 'resident'
+				? 'faculty'
+				: 'resident';
+
+			const flatten = (arr, subarr) => arr.concat(subarr);
+
+			return () => [
+				[
+					ucfirst(this.reportUserType),
+					ucfirst(subjectType),
+					'Cases',
+					'Total time'
+				],
+				...this.selectedOverlaps.reduce((rows, overlap) =>
+					rows.concat(overlap.pairings.map(pairing =>
+						[
+							overlap[this.reportUserType].full_name,
+							pairing[subjectType].full_name,
+							pairing.numCases,
+							`${pairing.totalTime.days} days, ${pairing.totalTime.h} hours, ${pairing.totalTime.i} minutes`
+						]
+					))
+				, [])
+			];
 		}
 	},
 
@@ -554,10 +608,10 @@ export default {
 			this.reportDates = dates;
 		},
 		selectAllOverlaps() {
-			this.overlapsToSend = this.overlaps.slice();
+			this.selectedOverlaps = this.overlaps.slice();
 		},
 		deselectAllOverlaps() {
-			this.overlapsToSend = [];
+			this.selectedOverlaps = [];
 		},
 		handleSubmit(event) {
 			event.preventDefault();
@@ -573,7 +627,7 @@ export default {
 			}
 
 			this.overlaps = null;
-			this.overlapsToSend = [];
+			this.selectedOverlaps = [];
 			this.reportUserType = this.userType;
 
 			const body = new FormData(event.target);
@@ -592,7 +646,7 @@ export default {
 				body
 			}).then(jsonOrThrow).then(overlaps => {
 				this.overlaps = overlaps;
-				this.overlapsToSend = [];
+				this.selectedOverlaps = [];
 			}).catch(err => {
 				handleError(err, this, 'There was a problem fetching the report');
 			}).finally(() => {
@@ -602,8 +656,8 @@ export default {
 		sendReports() {
 			if (
 				!this.sendReportValid
-				|| !this.overlapsToSend
-				|| this.overlapsToSend.length === 0
+				|| !this.selectedOverlaps
+				|| this.selectedOverlaps.length === 0
 			)
 				return;
 
@@ -611,7 +665,7 @@ export default {
 				...fetchConfig(),
 				method: 'POST',
 				body: JSON.stringify({
-					overlaps: this.overlapsToSend,
+					overlaps: this.selectedOverlaps,
 					userType: this.reportUserType,
 					subjectType: this.subjectType,
 					emailSubject: this.emailSubject,
@@ -657,7 +711,9 @@ export default {
 		ComponentList,
 		ValidatedFormGroup,
 		OverlapListItem,
-		MarkdownEditor
+		MarkdownEditor,
+		ShowHideButton,
+		DownloadButton
 	}
 };
 </script>

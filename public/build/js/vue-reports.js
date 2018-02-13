@@ -2119,17 +2119,18 @@ if (false) {(function () {
 
 "use strict";
 /* unused harmony export quoteValue */
-/* harmony export (immutable) */ __webpack_exports__["g"] = downloadCsv;
-/* harmony export (immutable) */ __webpack_exports__["f"] = csvHeader;
+/* harmony export (immutable) */ __webpack_exports__["h"] = downloadCsv;
+/* harmony export (immutable) */ __webpack_exports__["c"] = arrToCsv;
+/* harmony export (immutable) */ __webpack_exports__["g"] = csvHeader;
 /* unused harmony export getHeaderCellText */
-/* harmony export (immutable) */ __webpack_exports__["d"] = createRadarScaleCallback;
-/* harmony export (immutable) */ __webpack_exports__["e"] = createResponseLegend;
-/* harmony export (immutable) */ __webpack_exports__["j"] = pdfmakeStyle;
-/* harmony export (immutable) */ __webpack_exports__["l"] = tableHeader;
-/* harmony export (immutable) */ __webpack_exports__["h"] = fullWidthTable;
-/* harmony export (immutable) */ __webpack_exports__["c"] = borderedStripedTable;
-/* harmony export (immutable) */ __webpack_exports__["i"] = getAverageLevel;
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return sortFunctions; });
+/* harmony export (immutable) */ __webpack_exports__["e"] = createRadarScaleCallback;
+/* harmony export (immutable) */ __webpack_exports__["f"] = createResponseLegend;
+/* harmony export (immutable) */ __webpack_exports__["k"] = pdfmakeStyle;
+/* harmony export (immutable) */ __webpack_exports__["m"] = tableHeader;
+/* harmony export (immutable) */ __webpack_exports__["i"] = fullWidthTable;
+/* harmony export (immutable) */ __webpack_exports__["d"] = borderedStripedTable;
+/* harmony export (immutable) */ __webpack_exports__["j"] = getAverageLevel;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return sortFunctions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CUSTOM_OPTION_VALUES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DISREGARD_OPTION; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(48);
@@ -2149,11 +2150,15 @@ function downloadCsv(csv, name, dates) {
 	if (dates) filename += ' - ' + dates.startDate.toString() + '-' + dates.endDate.toString();
 	filename += '.csv';
 
-	var file = csv.map(function (row) {
-		return row.map(quoteValue).join(',');
-	}).join("\n");
+	var file = arrToCsv(csv);
 
 	__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(file, filename, 'text/csv');
+}
+
+function arrToCsv(arr) {
+	return arr.map(function (row) {
+		return row.map(quoteValue).join(',');
+	}).join("\n");
 }
 
 function csvHeader(thead) {
@@ -5333,6 +5338,8 @@ if (false) {
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	props: {
@@ -5377,7 +5384,10 @@ var render = function() {
       _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]),
       _vm._v(" "),
       _vm._t("glyph", [
-        _c("span", { staticClass: "glyphicon glyphicon-triangle-bottom" })
+        _c("span", {
+          staticClass: "glyphicon",
+          class: _vm.value ? "glyphicon-collapse-up" : "glyphicon-expand"
+        })
       ])
     ],
     2
@@ -8026,7 +8036,7 @@ function getRadioCheckboxResponses(question) {
 		exportCsv: function exportCsv() {
 			if (!this.exportable) return;
 
-			var header = Object(__WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__["f" /* csvHeader */])(this.thead);
+			var header = Object(__WEBPACK_IMPORTED_MODULE_1__modules_report_utils_js__["g" /* csvHeader */])(this.thead);
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
 					return Object(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* escapeCsv */])(cell.toString());
@@ -9261,7 +9271,7 @@ module.exports = Color;
 		sortFunctions: {
 			type: Map,
 			default: function _default() {
-				return __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["k" /* sortFunctions */];
+				return __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["l" /* sortFunctions */];
 			}
 		}
 	},
@@ -9371,7 +9381,7 @@ module.exports = Color;
 
 			if (this.sortBy && this.sortOrder) {
 
-				return __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["k" /* sortFunctions */].has(this.sortBy) ? this.filteredItems.sort(__WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["k" /* sortFunctions */].get(this.sortBy)) : this.filteredItems.sort(function (a, b) {
+				return __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["l" /* sortFunctions */].has(this.sortBy) ? this.filteredItems.sort(__WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["l" /* sortFunctions */].get(this.sortBy)) : this.filteredItems.sort(function (a, b) {
 					var aValue = void 0;
 					var bValue = void 0;
 
@@ -44271,7 +44281,7 @@ if (false) {(function () {
 					_this4.orderedMilestones.map(function (milestone) {
 						if (_this4.show.averages) row.push(_this4.report.subjectMilestone && _this4.report.subjectMilestone[subjectId] && _this4.report.subjectMilestone[subjectId][milestone.id] ? parseFloat(_this4.report.subjectMilestone[subjectId][milestone.id]).toFixed(2) : '');
 
-						if (_this4.show.averageLevels) row.push(Object(__WEBPACK_IMPORTED_MODULE_7__modules_report_utils_js__["i" /* getAverageLevel */])(_this4.report.subjectMilestone && _this4.report.subjectMilestone[subjectId] && _this4.report.subjectMilestone[subjectId][milestone.id] ? parseFloat(_this4.report.subjectMilestone[subjectId][milestone.id]).toFixed(2) : 0));
+						if (_this4.show.averageLevels) row.push(Object(__WEBPACK_IMPORTED_MODULE_7__modules_report_utils_js__["j" /* getAverageLevel */])(_this4.report.subjectMilestone && _this4.report.subjectMilestone[subjectId] && _this4.report.subjectMilestone[subjectId][milestone.id] ? parseFloat(_this4.report.subjectMilestone[subjectId][milestone.id]).toFixed(2) : 0));
 
 						if (_this4.show.standardDeviations) row.push(_this4.report.subjectMilestoneDeviations && _this4.report.subjectMilestoneDeviations[subjectId] && _this4.report.subjectMilestoneDeviations[subjectId][milestone.id] ? parseFloat(_this4.report.subjectMilestoneDeviations[subjectId][milestone.id]).toFixed(2) : '');
 
@@ -44285,7 +44295,7 @@ if (false) {(function () {
 					_this4.orderedCompetencies.map(function (competency) {
 						if (_this4.show.averages) row.push(_this4.report.subjectCompetency && _this4.report.subjectCompetency[subjectId] && _this4.report.subjectCompetency[subjectId][competency.id] ? parseFloat(_this4.report.subjectCompetency[subjectId][competency.id]).toFixed(2) : '');
 
-						if (_this4.show.averageLevels) row.push(Object(__WEBPACK_IMPORTED_MODULE_7__modules_report_utils_js__["i" /* getAverageLevel */])(_this4.report.subjectCompetency && _this4.report.subjectCompetency[subjectId] && _this4.report.subjectCompetency[subjectId][competency.id] ? parseFloat(_this4.report.subjectCompetency[subjectId][competency.id]).toFixed(2) : 0));
+						if (_this4.show.averageLevels) row.push(Object(__WEBPACK_IMPORTED_MODULE_7__modules_report_utils_js__["j" /* getAverageLevel */])(_this4.report.subjectCompetency && _this4.report.subjectCompetency[subjectId] && _this4.report.subjectCompetency[subjectId][competency.id] ? parseFloat(_this4.report.subjectCompetency[subjectId][competency.id]).toFixed(2) : 0));
 
 						if (_this4.show.standardDeviations) row.push(_this4.report.subjectCompetencyDeviations && _this4.report.subjectCompetencyDeviations[subjectId] && _this4.report.subjectCompetencyDeviations[subjectId][competency.id] ? parseFloat(_this4.report.subjectCompetencyDeviations[subjectId][competency.id]).toFixed(2) : '');
 
@@ -45123,7 +45133,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				scale: {
 					ticks: {
 						beginAtZero: true,
-						userCallback: Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["d" /* createRadarScaleCallback */])(this.valueMap)
+						userCallback: Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["e" /* createRadarScaleCallback */])(this.valueMap)
 					}
 				}
 			};
@@ -45223,34 +45233,34 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 				var filename = subjectName + ' Individual Report (' + trainingLevel + ', ' + startDate + ' to ' + endDate + ').pdf';
 
-				var content = [{ text: 'Report parameters', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["c" /* borderedStripedTable */])({
-					table: Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["h" /* fullWidthTable */])({
+				var content = [{ text: 'Report parameters', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["d" /* borderedStripedTable */])({
+					table: Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["i" /* fullWidthTable */])({
 						headerRows: 1,
-						body: [['Name', 'Training level', 'Start date', 'End date'].map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["l" /* tableHeader */]), [subjectName, trainingLevel, startDate, endDate]]
+						body: [['Name', 'Training level', 'Start date', 'End date'].map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["m" /* tableHeader */]), [subjectName, trainingLevel, startDate, endDate]]
 					})
-				}), { text: 'Evaluations included in report', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["c" /* borderedStripedTable */])({
+				}), { text: 'Evaluations included in report', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["d" /* borderedStripedTable */])({
 					table: {
 						headerRows: 1,
 						widths: ['auto', 'auto', 'auto', '*'],
-						body: JSON.parse(JSON.stringify([_this.evaluationsThead[0].map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.evaluationsData))))
+						body: JSON.parse(JSON.stringify([_this.evaluationsThead[0].map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["m" /* tableHeader */])].concat(_toConsumableArray(_this.evaluationsData))))
 					}
 				})];
 
-				if (_this.show.competencies || _this.show.milestones) content.push({ text: 'Score mapping', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["e" /* createResponseLegend */])(_this.valueMap));
+				if (_this.show.competencies || _this.show.milestones) content.push({ text: 'Score mapping', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["f" /* createResponseLegend */])(_this.valueMap));
 
-				if (_this.show.competencies) content.push({ text: 'Competencies', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["c" /* borderedStripedTable */])({
+				if (_this.show.competencies) content.push({ text: 'Competencies', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["d" /* borderedStripedTable */])({
 					table: {
 						headerRows: 1,
 						widths: ['*', 'auto', 'auto'],
-						body: JSON.parse(JSON.stringify([_this.competenciesThead[0].map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.competenciesData))))
+						body: JSON.parse(JSON.stringify([_this.competenciesThead[0].map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["m" /* tableHeader */])].concat(_toConsumableArray(_this.competenciesData))))
 					}
 				}));
 
-				if (_this.show.milestones) content.push({ text: 'Milestones', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["c" /* borderedStripedTable */])({
+				if (_this.show.milestones) content.push({ text: 'Milestones', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["d" /* borderedStripedTable */])({
 					table: {
 						headerRows: 1,
 						widths: ['*', 'auto', 'auto'],
-						body: JSON.parse(JSON.stringify([_this.milestonesThead[0].map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.milestonesData))))
+						body: JSON.parse(JSON.stringify([_this.milestonesThead[0].map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["m" /* tableHeader */])].concat(_toConsumableArray(_this.milestonesData))))
 					}
 				}));
 
@@ -45290,11 +45300,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 					content.push.apply(content, _toConsumableArray(charts));
 				}
 
-				content.push({ text: 'Comments', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["c" /* borderedStripedTable */])({
+				content.push({ text: 'Comments', style: 'heading' }, Object(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["d" /* borderedStripedTable */])({
 					table: {
 						headerRows: 1,
 						widths: ['auto', 'auto', 'auto', 'auto', '*'],
-						body: JSON.parse(JSON.stringify([_this.commentsThead[0].map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.commentsData))))
+						body: JSON.parse(JSON.stringify([_this.commentsThead[0].map(__WEBPACK_IMPORTED_MODULE_12__modules_report_utils_js__["m" /* tableHeader */])].concat(_toConsumableArray(_this.commentsData))))
 					}
 				}));
 
@@ -46118,7 +46128,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				var content = [{ text: _this.title, style: 'title' }, {
 					table: {
 						headerRows: 1,
-						body: [reportParamHeader.map(__WEBPACK_IMPORTED_MODULE_9__modules_report_utils_js__["l" /* tableHeader */]), reportParamBody]
+						body: [reportParamHeader.map(__WEBPACK_IMPORTED_MODULE_9__modules_report_utils_js__["m" /* tableHeader */]), reportParamBody]
 					},
 					style: 'table'
 				}];
@@ -46129,7 +46139,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.ratiosThead[0].map(__WEBPACK_IMPORTED_MODULE_9__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.ratiosData.sort(Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["I" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.ratiosThead[0].map(__WEBPACK_IMPORTED_MODULE_9__modules_report_utils_js__["m" /* tableHeader */])].concat(_toConsumableArray(_this.ratiosData.sort(Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["I" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -46141,7 +46151,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.noRequestsThead[0].map(__WEBPACK_IMPORTED_MODULE_9__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.noRequestsData.sort(Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["I" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.noRequestsThead[0].map(__WEBPACK_IMPORTED_MODULE_9__modules_report_utils_js__["m" /* tableHeader */])].concat(_toConsumableArray(_this.noRequestsData.sort(Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["I" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -46153,7 +46163,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.noneCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_9__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.noneCompletedData.sort(Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["I" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.noneCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_9__modules_report_utils_js__["m" /* tableHeader */])].concat(_toConsumableArray(_this.noneCompletedData.sort(Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["I" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -46165,7 +46175,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.lastCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_9__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.lastCompletedData.sort(Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["I" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.lastCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_9__modules_report_utils_js__["m" /* tableHeader */])].concat(_toConsumableArray(_this.lastCompletedData.sort(Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["I" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -46177,7 +46187,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.averageCompletionTimesThead[0].map(__WEBPACK_IMPORTED_MODULE_9__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this.averageCompletionTimesData.map(function (obj) {
+						body: JSON.parse(JSON.stringify([_this.averageCompletionTimesThead[0].map(__WEBPACK_IMPORTED_MODULE_9__modules_report_utils_js__["m" /* tableHeader */])].concat(_toConsumableArray(_this.averageCompletionTimesData.map(function (obj) {
 							return [obj.name, obj.time];
 						}).sort(Object(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["I" /* sortPropIgnoreCase */])(0))))))
 					},
@@ -47780,7 +47790,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		runCsvReport: function runCsvReport() {
 			var csv = Object(__WEBPACK_IMPORTED_MODULE_10__modules_reports_form_report_js__["b" /* generateScoresReportCsv */])(this.report, [this.subject], this.hideQuestions, this.scoreQuestions, this.customOptionValues, this.disregardOption);
 
-			Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["g" /* downloadCsv */])(csv, this.report.formContents.title + ' - ' + this.subject.full_name, this.dates);
+			Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["h" /* downloadCsv */])(csv, this.report.formContents.title + ' - ' + this.subject.full_name, this.dates);
 		},
 		runAllCsvReports: function runAllCsvReports() {
 			var _this4 = this;
@@ -47798,7 +47808,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			var csv = Object(__WEBPACK_IMPORTED_MODULE_10__modules_reports_form_report_js__["b" /* generateScoresReportCsv */])(this.report, subjects, this.hideQuestions, this.scoreQuestions, this.customOptionValues, this.disregardOption);
 
-			Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["g" /* downloadCsv */])(csv, this.report.formContents.title + ' - Aggregate', this.dates);
+			Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["h" /* downloadCsv */])(csv, this.report.formContents.title + ' - Aggregate', this.dates);
 		},
 		runReport: function runReport() {
 			var _this5 = this;
@@ -47926,20 +47936,20 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 					text: hasSubject ? _this7.reportContents.title + ' - Summary of evaluations for ' + _this7.subject.full_name : _this7.reportContents.title + ' - Summary of evaluations',
 					style: 'h1'
 				}, {
-					table: Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["h" /* fullWidthTable */])({
+					table: Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["i" /* fullWidthTable */])({
 						headerRows: 1,
-						body: [(hasSubject ? ['Subject'] : []).concat(['Form', 'Start date', 'End date']).map(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["l" /* tableHeader */]), (hasSubject ? [_this7.subject.full_name] : []).concat([_this7.reportContents.title, _this7.dates.startDate, _this7.dates.endDate]).map(Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["j" /* pdfmakeStyle */])('tableBody'))]
+						body: [(hasSubject ? ['Subject'] : []).concat(['Form', 'Start date', 'End date']).map(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["m" /* tableHeader */]), (hasSubject ? [_this7.subject.full_name] : []).concat([_this7.reportContents.title, _this7.dates.startDate, _this7.dates.endDate]).map(Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["k" /* pdfmakeStyle */])('tableBody'))]
 					})
 				}, { text: 'Evaluations included in report', style: 'h2' }, _this7.pdfOptions.evaluationListStyle === 'summary' ? {
 					ul: [evalCounts.subjectRequested + ' requested by ' + (hasSubject ? _this7.subject.full_name : 'subject'), evalCounts.otherRequested + ' requested by others', evalCounts.total + ' total']
-				} : Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["c" /* borderedStripedTable */])({
+				} : Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["d" /* borderedStripedTable */])({
 					table: {
 						headerRows: 1,
 						widths: ['auto', 'auto', 'auto', '*', 'auto', 'auto'],
-						body: [['#', 'Evaluator', 'Requested by', 'Form', 'Evaluation date', 'Completed'].map(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["l" /* tableHeader */])].concat(_toConsumableArray(_this7.subjectEvals.map(function (subjectEval) {
+						body: [['#', 'Evaluator', 'Requested by', 'Form', 'Evaluation date', 'Completed'].map(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["m" /* tableHeader */])].concat(_toConsumableArray(_this7.subjectEvals.map(function (subjectEval) {
 							return [subjectEval.id, subjectEval.evaluator.full_name, subjectEval.requestor.full_name, subjectEval.form.title, Object(__WEBPACK_IMPORTED_MODULE_14__modules_date_utils_js__["renderDateRange"])(subjectEval.evaluation_date_start, subjectEval.evaluation_date_end), __WEBPACK_IMPORTED_MODULE_0_moment___default()(subjectEval.complete_date).calendar()];
 						}).map(function (row) {
-							return row.map(Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["j" /* pdfmakeStyle */])('tableBody'));
+							return row.map(Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["k" /* pdfmakeStyle */])('tableBody'));
 						})))
 					}
 				}), { text: _this7.reportContents.title, style: 'h2' }, {
@@ -47976,7 +47986,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 							case 'checkbox':
 							case 'radio':
 							case 'radiononnumeric':
-								questionBody = Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["c" /* borderedStripedTable */])({
+								questionBody = Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["d" /* borderedStripedTable */])({
 									table: {
 										headerRows: 2,
 										widths: ['auto', 'auto', '*'].concat(hasSubject ? ['*', '*'] : []),
@@ -47992,23 +48002,23 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 											text: 'Responses',
 											colSpan: hasSubject ? 3 : null,
 											style: 'tableHeader'
-										}].concat(hasSubject ? [{}, {}] : []), ['', ''].concat(hasSubject ? ['Subject #', 'Subject %'] : []).concat(['Overall %']).map(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["l" /* tableHeader */])].concat(item.options.map(function (option) {
+										}].concat(hasSubject ? [{}, {}] : []), ['', ''].concat(hasSubject ? ['Subject #', 'Subject %'] : []).concat(['Overall %']).map(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["m" /* tableHeader */])].concat(item.options.map(function (option) {
 											return [option.text, Object(__WEBPACK_IMPORTED_MODULE_10__modules_reports_form_report_js__["c" /* getResponseValue */])(option.value, _this7.customOptionValues[item.originalIndex]) || ''].concat(hasSubject ? [option.responses || '', option.percentage ? option.percentage + '%' : ''] : []).concat([option.averagePercentage ? option.averagePercentage + '%' : '']);
 										}).map(function (row) {
-											return row.map(Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["j" /* pdfmakeStyle */])('tableBody'));
+											return row.map(Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["k" /* pdfmakeStyle */])('tableBody'));
 										}))
 									}
 								});
 								break;
 							case 'text':
-								if (hasSubject && item.subjectResponseValues) questionBody = Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["c" /* borderedStripedTable */])({
+								if (hasSubject && item.subjectResponseValues) questionBody = Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["d" /* borderedStripedTable */])({
 									table: {
 										headerRows: 1,
 										widths: ['auto', 'auto', 'auto', '*'],
-										body: [['#', 'Evaluator', 'Date', 'Response'].map(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["l" /* tableHeader */])].concat(Object.keys(item.subjectResponseValues).map(function (evaluationId) {
+										body: [['#', 'Evaluator', 'Date', 'Response'].map(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["m" /* tableHeader */])].concat(Object.keys(item.subjectResponseValues).map(function (evaluationId) {
 											return [evaluationId, _this7.report.evaluators[evaluationId].full_name, Object(__WEBPACK_IMPORTED_MODULE_14__modules_date_utils_js__["renderDateRange"])(_this7.report.evaluations[evaluationId].evaluation_date_start, _this7.report.evaluations[evaluationId].evaluation_date_end), item.subjectResponseValues[evaluationId]];
 										}).map(function (row) {
-											return row.map(Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["j" /* pdfmakeStyle */])('tableBody'));
+											return row.map(Object(__WEBPACK_IMPORTED_MODULE_15__modules_report_utils_js__["k" /* pdfmakeStyle */])('tableBody'));
 										}))
 									}
 								});
@@ -52183,11 +52193,15 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ValidatedFormGroup_vue__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ClearableDate_vue__ = __webpack_require__(216);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__MarkdownEditor_vue__ = __webpack_require__(329);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__OverlapListItem_vue__ = __webpack_require__(645);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_errors_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_date_utils_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ShowHideButton_vue__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__DownloadButton_vue__ = __webpack_require__(910);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__OverlapListItem_vue__ = __webpack_require__(645);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_errors_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__modules_utils_js__ = __webpack_require__(1);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 //
 //
@@ -52499,6 +52513,27 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -52536,7 +52571,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 			reportUserType: null,
 			overlaps: null,
 
-			overlapsToSend: [],
+			selectedOverlaps: [],
 
 			customizeMessageText: false,
 			customMessage: {
@@ -52550,6 +52585,10 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 				successLead: null,
 				emptyMessage: null,
 				closing: null
+			},
+
+			show: {
+				sendReports: false
 			}
 		};
 	},
@@ -52703,6 +52742,25 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 				numCases: 8,
 				totalTime: '5 hours, 19 minutes'
 			}];
+		},
+		getSelectedOverlapsArray: function getSelectedOverlapsArray() {
+			var _this = this;
+
+			if (!this.selectedOverlaps) return;
+
+			var subjectType = this.reportUserType === 'resident' ? 'faculty' : 'resident';
+
+			var flatten = function flatten(arr, subarr) {
+				return arr.concat(subarr);
+			};
+
+			return function () {
+				return [[Object(__WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["L" /* ucfirst */])(_this.reportUserType), Object(__WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["L" /* ucfirst */])(subjectType), 'Cases', 'Total time']].concat(_toConsumableArray(_this.selectedOverlaps.reduce(function (rows, overlap) {
+					return rows.concat(overlap.pairings.map(function (pairing) {
+						return [overlap[_this.reportUserType].full_name, pairing[subjectType].full_name, pairing.numCases, pairing.totalTime.days + ' days, ' + pairing.totalTime.h + ' hours, ' + pairing.totalTime.i + ' minutes'];
+					}));
+				}, [])));
+			};
 		}
 	},
 
@@ -52720,7 +52778,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["L" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["L" /* ucfirst */],
 		handleEgressFilesChange: function handleEgressFilesChange(event) {
 			this.egressFiles = event.target.files;
 		},
@@ -52751,13 +52809,13 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 			this.reportDates = dates;
 		},
 		selectAllOverlaps: function selectAllOverlaps() {
-			this.overlapsToSend = this.overlaps.slice();
+			this.selectedOverlaps = this.overlaps.slice();
 		},
 		deselectAllOverlaps: function deselectAllOverlaps() {
-			this.overlapsToSend = [];
+			this.selectedOverlaps = [];
 		},
 		handleSubmit: function handleSubmit(event) {
-			var _this = this;
+			var _this2 = this;
 
 			event.preventDefault();
 
@@ -52772,7 +52830,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 			}
 
 			this.overlaps = null;
-			this.overlapsToSend = [];
+			this.selectedOverlaps = [];
 			this.reportUserType = this.userType;
 
 			var body = new FormData(event.target);
@@ -52780,36 +52838,36 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 			body.set('maxPairs', this.maxPairs === null ? quoteUnlimitedMaxPairsUnquote : this.maxPairs);
 
-			fetch('/reports/egress-pairings/overlaps', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["g" /* fetchConfig */])({ contentType: null }), {
+			fetch('/reports/egress-pairings/overlaps', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["g" /* fetchConfig */])({ contentType: null }), {
 				method: 'POST',
 				body: body
-			})).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["w" /* jsonOrThrow */]).then(function (overlaps) {
-				_this.overlaps = overlaps;
-				_this.overlapsToSend = [];
+			})).then(__WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["w" /* jsonOrThrow */]).then(function (overlaps) {
+				_this2.overlaps = overlaps;
+				_this2.selectedOverlaps = [];
 			}).catch(function (err) {
-				Object(__WEBPACK_IMPORTED_MODULE_7__modules_errors_js__["b" /* handleError */])(err, _this, 'There was a problem fetching the report');
+				Object(__WEBPACK_IMPORTED_MODULE_9__modules_errors_js__["b" /* handleError */])(err, _this2, 'There was a problem fetching the report');
 			}).finally(function () {
-				_this.processing = false;
+				_this2.processing = false;
 			});
 		},
 		sendReports: function sendReports() {
-			var _this2 = this;
+			var _this3 = this;
 
-			if (!this.sendReportValid || !this.overlapsToSend || this.overlapsToSend.length === 0) return;
+			if (!this.sendReportValid || !this.selectedOverlaps || this.selectedOverlaps.length === 0) return;
 
-			fetch('/reports/egress-pairings/send-reports', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["g" /* fetchConfig */])(), {
+			fetch('/reports/egress-pairings/send-reports', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["g" /* fetchConfig */])(), {
 				method: 'POST',
 				body: JSON.stringify(Object.assign({
-					overlaps: this.overlapsToSend,
+					overlaps: this.selectedOverlaps,
 					userType: this.reportUserType,
 					subjectType: this.subjectType,
 					emailSubject: this.emailSubject,
 					periodDisplay: this.periodDisplay,
-					reportDates: this.reportDates.map(__WEBPACK_IMPORTED_MODULE_8__modules_date_utils_js__["isoDateString"])
+					reportDates: this.reportDates.map(__WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__["isoDateString"])
 				}, this.customMessageHtml))
-			})).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["w" /* jsonOrThrow */]).then(function (response) {
+			})).then(__WEBPACK_IMPORTED_MODULE_11__modules_utils_js__["w" /* jsonOrThrow */]).then(function (response) {
 				if (response.successful) {
-					_this2.alerts.push({
+					_this3.alerts.push({
 						type: 'success',
 						text: response.successful + ' reports sent successfully'
 					});
@@ -52818,20 +52876,20 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 				try {
 					if (response.errors && Array.isArray(response.errors) && response.errors.length > 0) {
 						var lis = response.errors.map(function (overlap) {
-							return overlap[_this2.reportUserType].full_name;
+							return overlap[_this3.reportUserType].full_name;
 						}).map(function (name) {
 							return '<li>' + name + '</li>';
 						});
-						_this2.alerts.push({
+						_this3.alerts.push({
 							type: 'error',
 							html: '\n\t\t\t\t\t\t\t\t<strong>Error:</strong>\n\t\t\t\t\t\t\t\tFailed to send reports to the following users:\n\t\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t' + lis + '\n\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t'
 						});
 					}
 				} catch (err) {
-					Object(__WEBPACK_IMPORTED_MODULE_7__modules_errors_js__["b" /* handleError */])(err, _this2, 'There was a problem displaying unsuccessful reports');
+					Object(__WEBPACK_IMPORTED_MODULE_9__modules_errors_js__["b" /* handleError */])(err, _this3, 'There was a problem displaying unsuccessful reports');
 				}
 			}).catch(function (err) {
-				Object(__WEBPACK_IMPORTED_MODULE_7__modules_errors_js__["b" /* handleError */])(err, _this2, 'There was a problem sending the reports');
+				Object(__WEBPACK_IMPORTED_MODULE_9__modules_errors_js__["b" /* handleError */])(err, _this3, 'There was a problem sending the reports');
 			});
 		}
 	},
@@ -52840,8 +52898,10 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 		ClearableDate: __WEBPACK_IMPORTED_MODULE_4__ClearableDate_vue__["a" /* default */],
 		ComponentList: __WEBPACK_IMPORTED_MODULE_2__ComponentList_vue__["a" /* default */],
 		ValidatedFormGroup: __WEBPACK_IMPORTED_MODULE_3__ValidatedFormGroup_vue__["a" /* default */],
-		OverlapListItem: __WEBPACK_IMPORTED_MODULE_6__OverlapListItem_vue__["a" /* default */],
-		MarkdownEditor: __WEBPACK_IMPORTED_MODULE_5__MarkdownEditor_vue__["a" /* default */]
+		OverlapListItem: __WEBPACK_IMPORTED_MODULE_8__OverlapListItem_vue__["a" /* default */],
+		MarkdownEditor: __WEBPACK_IMPORTED_MODULE_5__MarkdownEditor_vue__["a" /* default */],
+		ShowHideButton: __WEBPACK_IMPORTED_MODULE_6__ShowHideButton_vue__["a" /* default */],
+		DownloadButton: __WEBPACK_IMPORTED_MODULE_7__DownloadButton_vue__["a" /* default */]
 	}
 });
 
@@ -53527,437 +53587,546 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _vm.overlapsToSend && _vm.overlapsToSend.length > 0
-      ? _c("div", { staticClass: "container body-block" }, [
-          _c("div", { staticClass: "panel panel-default" }, [
-            _c("div", { staticClass: "panel-heading" }, [
-              _c("span", { staticClass: "panel-title" }, [
-                _vm._v(
-                  "\n\t\t\t\t\t" +
-                    _vm._s(_vm.overlapsToSend.length) +
-                    " reports selected\n\t\t\t\t"
+    _vm.selectedOverlaps && _vm.selectedOverlaps.length > 0
+      ? _c(
+          "div",
+          { staticClass: "container body-block" },
+          [
+            _c("div", { staticClass: "panel panel-default" }, [
+              _c("div", { staticClass: "panel-heading" }, [
+                _c("span", { staticClass: "panel-title" }, [
+                  _vm._v(
+                    "\n\t\t\t\t\t" +
+                      _vm._s(_vm.selectedOverlaps.length) +
+                      " reports selected\n\t\t\t\t"
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "panel-body" }, [
+                _c(
+                  "ul",
+                  _vm._l(_vm.selectedOverlaps, function(overlapToSend) {
+                    return _c("li", [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t" +
+                          _vm._s(overlapToSend[_vm.reportUserType].full_name) +
+                          "\n\t\t\t\t\t"
+                      )
+                    ])
+                  })
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "panel-footer text-center" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-default",
+                    attrs: { type: "button" },
+                    on: { click: _vm.deselectAllOverlaps }
+                  },
+                  [
+                    _c("span", { staticClass: "glyphicon glyphicon-remove" }),
+                    _vm._v("\n\t\t\t\t\tClear selection\n\t\t\t\t")
+                  ]
                 )
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "panel-body" }, [
+            _c("div", { staticClass: "panel panel-primary" }, [
+              _vm._m(0),
+              _vm._v(" "),
               _c(
-                "ul",
-                _vm._l(_vm.overlapsToSend, function(overlapToSend) {
-                  return _c("li", [
-                    _vm._v(
-                      "\n\t\t\t\t\t\t" +
-                        _vm._s(overlapToSend[_vm.reportUserType].full_name) +
-                        "\n\t\t\t\t\t"
-                    )
-                  ])
-                })
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "panel-footer text-center" }, [
-              _c(
-                "button",
+                "div",
                 {
-                  staticClass: "btn btn-default",
-                  attrs: { type: "button" },
-                  on: { click: _vm.deselectAllOverlaps }
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.show.sendReports,
+                      expression: "show.sendReports"
+                    }
+                  ],
+                  staticClass: "panel-body"
                 },
                 [
-                  _c("span", { staticClass: "glyphicon glyphicon-remove" }),
-                  _vm._v("\n\t\t\t\t\tClear selection\n\t\t\t\t")
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form" }, [
-            _c(
-              "div",
-              { staticClass: "row" },
-              [
-                _c(
-                  "validated-form-group",
-                  {
-                    staticClass: "col-sm-6",
-                    attrs: { errors: _vm.errors, prop: "emailSubject" }
-                  },
-                  [
-                    _c("label", { staticClass: "containing-label" }, [
-                      _vm._v("\n\t\t\t\t\t\tEmail subject\n\t\t\t\t\t\t"),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.emailSubject,
-                            expression: "emailSubject"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          placeholder: "Resident pairing report"
-                        },
-                        domProps: { value: _vm.emailSubject },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.emailSubject = $event.target.value
-                          }
-                        }
-                      })
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "validated-form-group",
-                  {
-                    staticClass: "col-sm-6",
-                    attrs: { errors: _vm.errors, prop: "periodDisplay" }
-                  },
-                  [
-                    _c("label", { staticClass: "containing-label" }, [
-                      _vm._v("\n\t\t\t\t\t\tTime period display\n\t\t\t\t\t\t"),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.periodDisplay,
-                            expression: "periodDisplay"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          placeholder:
-                            "'the past month', 'July' (displayed after the word 'for')"
-                        },
-                        domProps: { value: _vm.periodDisplay },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.periodDisplay = $event.target.value
-                          }
-                        }
-                      })
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "validated-form-group",
-                  {
-                    staticClass: "col-sm-12",
-                    attrs: { errors: _vm.errors, prop: "reportDates" }
-                  },
-                  [
-                    _c(
-                      "label",
-                      { staticClass: "containing-label" },
-                      [
-                        _vm._v(
-                          "\n\t\t\t\t\t\tReport dates (optional)\n\t\t\t\t\t\t"
-                        ),
-                        _c("clearable-date", {
-                          attrs: {
-                            "input-class": "form-control appear-not-readonly",
-                            options: { mode: "range" }
-                          },
-                          on: { change: _vm.handleReportDatesChange },
-                          model: {
-                            value: _vm.reportDatesStr,
-                            callback: function($$v) {
-                              _vm.reportDatesStr = $$v
-                            },
-                            expression: "reportDatesStr"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ]
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _vm.customizeMessageText
-              ? _c("div", [
-                  _c(
-                    "div",
-                    { staticClass: "row" },
-                    [
-                      _c(
-                        "validated-form-group",
-                        {
-                          staticClass: "col-sm-12",
-                          attrs: {
-                            errors: _vm.customMessageErrors,
-                            prop: "intro"
-                          }
-                        },
-                        [
-                          _c(
-                            "label",
-                            { staticClass: "containing-label" },
-                            [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\tIntroduction\n\t\t\t\t\t\t\t"
-                              ),
-                              _c("markdown-editor", {
-                                attrs: {
-                                  placeholder: _vm.messageDefaults.intro
-                                },
-                                on: {
-                                  html: function($event) {
-                                    _vm.customMessageHtml.intro = arguments[0]
-                                  }
-                                },
-                                model: {
-                                  value: _vm.customMessage.intro,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.customMessage, "intro", $$v)
-                                  },
-                                  expression: "customMessage.intro"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "validated-form-group",
-                        {
-                          staticClass: "col-sm-12",
-                          attrs: {
-                            errors: _vm.customMessageErrors,
-                            prop: "successLead"
-                          }
-                        },
-                        [
-                          _c(
-                            "label",
-                            { staticClass: "containing-label" },
-                            [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\tReport list lead\n\t\t\t\t\t\t\t"
-                              ),
-                              _c("markdown-editor", {
-                                attrs: {
-                                  placeholder: _vm.messageDefaults.successLead
-                                },
-                                on: {
-                                  html: function($event) {
-                                    _vm.customMessageHtml.successLead =
-                                      arguments[0]
-                                  }
-                                },
-                                model: {
-                                  value: _vm.customMessage.successLead,
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.customMessage,
-                                      "successLead",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "customMessage.successLead"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "validated-form-group",
-                        {
-                          staticClass: "col-sm-12",
-                          attrs: {
-                            errors: _vm.customMessageErrors,
-                            prop: "closing"
-                          }
-                        },
-                        [
-                          _c(
-                            "label",
-                            { staticClass: "containing-label" },
-                            [
-                              _vm._v("\n\t\t\t\t\t\t\tClosing\n\t\t\t\t\t\t\t"),
-                              _c("markdown-editor", {
-                                attrs: {
-                                  placeholder: _vm.messageDefaults.closing
-                                },
-                                on: {
-                                  html: function($event) {
-                                    _vm.customMessageHtml.closing = arguments[0]
-                                  }
-                                },
-                                model: {
-                                  value: _vm.customMessage.closing,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.customMessage, "closing", $$v)
-                                  },
-                                  expression: "customMessage.closing"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "panel panel-default" }, [
-                    _vm._m(0),
-                    _vm._v(" "),
+                  _c("div", { staticClass: "form" }, [
                     _c(
                       "div",
-                      { staticClass: "panel-body message-example-body" },
+                      { staticClass: "row" },
                       [
-                        _c("p", [
-                          _vm._v("\n\t\t\t\t\t\t\tHello Dr\n\t\t\t\t\t\t\t"),
-                          _c("span", { staticClass: "label label-info" }, [
-                            _vm._v(
-                              "\n\t\t\t\t\t\t\t\t" +
-                                _vm._s(_vm.ucfirst(_vm.userType)) +
-                                "\n\t\t\t\t\t\t\t"
-                            )
-                          ]),
-                          _vm._v("!\n\t\t\t\t\t\t")
-                        ]),
-                        _vm._v(" "),
-                        _c("div", {
-                          domProps: {
-                            innerHTML: _vm._s(
-                              _vm.customMessageHtml.intro ||
-                                "<p>" + _vm.messageDefaults.intro + "</p>"
-                            )
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("div", {
-                          domProps: {
-                            innerHTML: _vm._s(
-                              _vm.customMessageHtml.successLead ||
-                                "<p>" + _vm.messageDefaults.successLead + "</p>"
-                            )
-                          }
-                        }),
-                        _vm._v(" "),
                         _c(
-                          "ol",
-                          _vm._l(_vm.examplePairings, function(pairing) {
-                            return _c("li", [
-                              _c("b", [_vm._v(_vm._s(pairing.name))]),
-                              _vm._v(":\n\t\t\t\t\t\t\t\t"),
-                              _c("i", [
-                                _vm._v(
-                                  "\n\t\t\t\t\t\t\t\t\t" +
-                                    _vm._s(pairing.numCases) +
-                                    "\n\t\t\t\t\t\t\t\t\tcase" +
-                                    _vm._s(pairing.numCases === 1 ? "" : "s") +
-                                    "\n\t\t\t\t\t\t\t\t"
-                                )
-                              ]),
+                          "validated-form-group",
+                          {
+                            staticClass: "col-sm-6",
+                            attrs: { errors: _vm.errors, prop: "emailSubject" }
+                          },
+                          [
+                            _c("label", { staticClass: "containing-label" }, [
                               _vm._v(
-                                "\n\t\t\t\t\t\t\t\ttogether totalling\n\t\t\t\t\t\t\t\t"
+                                "\n\t\t\t\t\t\t\t\tEmail subject\n\t\t\t\t\t\t\t\t"
                               ),
-                              _c("i", [_vm._v(_vm._s(pairing.totalTime))])
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.emailSubject,
+                                    expression: "emailSubject"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Resident pairing report"
+                                },
+                                domProps: { value: _vm.emailSubject },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.emailSubject = $event.target.value
+                                  }
+                                }
+                              })
                             ])
-                          })
+                          ]
                         ),
                         _vm._v(" "),
-                        _c("div", {
-                          domProps: {
-                            innerHTML: _vm._s(
-                              _vm.customMessageHtml.closing ||
-                                "<p>" + _vm.messageDefaults.closing + "</p>"
-                            )
-                          }
-                        }),
+                        _c(
+                          "validated-form-group",
+                          {
+                            staticClass: "col-sm-6",
+                            attrs: { errors: _vm.errors, prop: "periodDisplay" }
+                          },
+                          [
+                            _c("label", { staticClass: "containing-label" }, [
+                              _vm._v(
+                                "\n\t\t\t\t\t\t\t\tTime period display\n\t\t\t\t\t\t\t\t"
+                              ),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.periodDisplay,
+                                    expression: "periodDisplay"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder:
+                                    "'the past month', 'July' (displayed after the word 'for')"
+                                },
+                                domProps: { value: _vm.periodDisplay },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.periodDisplay = $event.target.value
+                                  }
+                                }
+                              })
+                            ])
+                          ]
+                        ),
                         _vm._v(" "),
-                        _c("p", [
-                          _vm._v("\n\t\t\t\t\t\t\tThank you!\n\t\t\t\t\t\t")
+                        _c(
+                          "validated-form-group",
+                          {
+                            staticClass: "col-sm-12",
+                            attrs: { errors: _vm.errors, prop: "reportDates" }
+                          },
+                          [
+                            _c(
+                              "label",
+                              { staticClass: "containing-label" },
+                              [
+                                _vm._v(
+                                  "\n\t\t\t\t\t\t\t\tReport dates (optional)\n\t\t\t\t\t\t\t\t"
+                                ),
+                                _c("clearable-date", {
+                                  attrs: {
+                                    "input-class":
+                                      "form-control appear-not-readonly",
+                                    options: { mode: "range" }
+                                  },
+                                  on: { change: _vm.handleReportDatesChange },
+                                  model: {
+                                    value: _vm.reportDatesStr,
+                                    callback: function($$v) {
+                                      _vm.reportDatesStr = $$v
+                                    },
+                                    expression: "reportDatesStr"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm.customizeMessageText
+                      ? _c("div", [
+                          _c(
+                            "div",
+                            { staticClass: "row" },
+                            [
+                              _c(
+                                "validated-form-group",
+                                {
+                                  staticClass: "col-sm-12",
+                                  attrs: {
+                                    errors: _vm.customMessageErrors,
+                                    prop: "intro"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "label",
+                                    { staticClass: "containing-label" },
+                                    [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\tIntroduction\n\t\t\t\t\t\t\t\t\t"
+                                      ),
+                                      _c("markdown-editor", {
+                                        attrs: {
+                                          placeholder: _vm.messageDefaults.intro
+                                        },
+                                        on: {
+                                          html: function($event) {
+                                            _vm.customMessageHtml.intro =
+                                              arguments[0]
+                                          }
+                                        },
+                                        model: {
+                                          value: _vm.customMessage.intro,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.customMessage,
+                                              "intro",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "customMessage.intro"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "validated-form-group",
+                                {
+                                  staticClass: "col-sm-12",
+                                  attrs: {
+                                    errors: _vm.customMessageErrors,
+                                    prop: "successLead"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "label",
+                                    { staticClass: "containing-label" },
+                                    [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\tReport list lead\n\t\t\t\t\t\t\t\t\t"
+                                      ),
+                                      _c("markdown-editor", {
+                                        attrs: {
+                                          placeholder:
+                                            _vm.messageDefaults.successLead
+                                        },
+                                        on: {
+                                          html: function($event) {
+                                            _vm.customMessageHtml.successLead =
+                                              arguments[0]
+                                          }
+                                        },
+                                        model: {
+                                          value: _vm.customMessage.successLead,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.customMessage,
+                                              "successLead",
+                                              $$v
+                                            )
+                                          },
+                                          expression:
+                                            "customMessage.successLead"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "validated-form-group",
+                                {
+                                  staticClass: "col-sm-12",
+                                  attrs: {
+                                    errors: _vm.customMessageErrors,
+                                    prop: "closing"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "label",
+                                    { staticClass: "containing-label" },
+                                    [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\tClosing\n\t\t\t\t\t\t\t\t\t"
+                                      ),
+                                      _c("markdown-editor", {
+                                        attrs: {
+                                          placeholder:
+                                            _vm.messageDefaults.closing
+                                        },
+                                        on: {
+                                          html: function($event) {
+                                            _vm.customMessageHtml.closing =
+                                              arguments[0]
+                                          }
+                                        },
+                                        model: {
+                                          value: _vm.customMessage.closing,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.customMessage,
+                                              "closing",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "customMessage.closing"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "panel panel-default" }, [
+                            _vm._m(1),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "panel-body message-example-body"
+                              },
+                              [
+                                _c("p", [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t\t\tHello Dr\n\t\t\t\t\t\t\t\t\t"
+                                  ),
+                                  _c(
+                                    "span",
+                                    { staticClass: "label label-info" },
+                                    [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\t\t" +
+                                          _vm._s(_vm.ucfirst(_vm.userType)) +
+                                          "\n\t\t\t\t\t\t\t\t\t"
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v("!\n\t\t\t\t\t\t\t\t")
+                                ]),
+                                _vm._v(" "),
+                                _c("div", {
+                                  domProps: {
+                                    innerHTML: _vm._s(
+                                      _vm.customMessageHtml.intro ||
+                                        "<p>" +
+                                          _vm.messageDefaults.intro +
+                                          "</p>"
+                                    )
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", {
+                                  domProps: {
+                                    innerHTML: _vm._s(
+                                      _vm.customMessageHtml.successLead ||
+                                        "<p>" +
+                                          _vm.messageDefaults.successLead +
+                                          "</p>"
+                                    )
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "ol",
+                                  _vm._l(_vm.examplePairings, function(
+                                    pairing
+                                  ) {
+                                    return _c("li", [
+                                      _c("b", [_vm._v(_vm._s(pairing.name))]),
+                                      _vm._v(":\n\t\t\t\t\t\t\t\t\t\t"),
+                                      _c("i", [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(pairing.numCases) +
+                                            "\n\t\t\t\t\t\t\t\t\t\t\tcase" +
+                                            _vm._s(
+                                              pairing.numCases === 1 ? "" : "s"
+                                            ) +
+                                            "\n\t\t\t\t\t\t\t\t\t\t"
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\t\t\t\ttogether totalling\n\t\t\t\t\t\t\t\t\t\t"
+                                      ),
+                                      _c("i", [
+                                        _vm._v(_vm._s(pairing.totalTime))
+                                      ])
+                                    ])
+                                  })
+                                ),
+                                _vm._v(" "),
+                                _c("div", {
+                                  domProps: {
+                                    innerHTML: _vm._s(
+                                      _vm.customMessageHtml.closing ||
+                                        "<p>" +
+                                          _vm.messageDefaults.closing +
+                                          "</p>"
+                                    )
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("p", [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t\t\tThank you!\n\t\t\t\t\t\t\t\t"
+                                  )
+                                ])
+                              ]
+                            )
+                          ])
                         ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "text-center" }, [
+                    _c("label", [
+                      _vm._v(
+                        "\n\t\t\t\t\t\tCustomize message text\n\t\t\t\t\t\t"
+                      ),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.customizeMessageText,
+                            expression: "customizeMessageText"
+                          }
+                        ],
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.customizeMessageText)
+                            ? _vm._i(_vm.customizeMessageText, null) > -1
+                            : _vm.customizeMessageText
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.customizeMessageText,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.customizeMessageText = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.customizeMessageText = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.customizeMessageText = $$c
+                            }
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "text-center" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-lg btn-info",
+                        attrs: {
+                          type: "button",
+                          disabled: !_vm.sendReportValid
+                        },
+                        on: { click: _vm.sendReports }
+                      },
+                      [
+                        _c("span", { staticClass: "glyphicon glyphicon-send" }),
+                        _vm._v("\n\t\t\t\t\t\tSend reports\n\t\t\t\t\t")
                       ]
                     )
                   ])
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "text-center" }, [
-            _c("label", [
-              _vm._v("\n\t\t\t\tCustomize message text\n\t\t\t\t"),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.customizeMessageText,
-                    expression: "customizeMessageText"
-                  }
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  checked: Array.isArray(_vm.customizeMessageText)
-                    ? _vm._i(_vm.customizeMessageText, null) > -1
-                    : _vm.customizeMessageText
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.customizeMessageText,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 &&
-                          (_vm.customizeMessageText = $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          (_vm.customizeMessageText = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "panel-footer text-center" },
+                [
+                  _c(
+                    "show-hide-button",
+                    {
+                      staticClass: "btn-primary",
+                      model: {
+                        value: _vm.show.sendReports,
+                        callback: function($$v) {
+                          _vm.$set(_vm.show, "sendReports", $$v)
+                        },
+                        expression: "show.sendReports"
                       }
-                    } else {
-                      _vm.customizeMessageText = $$c
-                    }
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "text-center" }, [
+                    },
+                    [_vm._v("\n\t\t\t\t\tsender\n\t\t\t\t")]
+                  )
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
             _c(
-              "button",
+              "download-button",
               {
-                staticClass: "btn btn-lg btn-info",
-                attrs: { type: "button", disabled: !_vm.sendReportValid },
-                on: { click: _vm.sendReports }
+                staticClass: "btn btn-info center-block",
+                attrs: {
+                  filename: "overlaps-report.csv",
+                  "data-getter": _vm.getSelectedOverlapsArray
+                }
               },
               [
-                _c("span", { staticClass: "glyphicon glyphicon-send" }),
-                _vm._v("\n\t\t\t\tSend reports\n\t\t\t")
+                _c("span", { staticClass: "glyphicon glyphicon-download-alt" }),
+                _vm._v("\n\t\t\tDownload selected overlaps (CSV)\n\t\t")
               ]
             )
-          ])
-        ])
+          ],
+          1
+        )
       : _vm._e(),
     _vm._v(" "),
     _vm.overlaps
@@ -53983,7 +54152,7 @@ var render = function() {
                     on: { click: _vm.selectAllOverlaps }
                   },
                   [
-                    _c("span", { staticClass: "glyphicon glyphicon-send" }),
+                    _c("span", { staticClass: "glyphicon glyphicon-th-list" }),
                     _vm._v("\n\t\t\t\t\tSelect all\n\t\t\t\t")
                   ]
                 )
@@ -54003,26 +54172,26 @@ var render = function() {
                     return [
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-xs-1" }, [
-                          _c("label", { attrs: { title: "Send report" } }, [
+                          _c("label", { attrs: { title: "Select report" } }, [
                             _c("input", {
                               directives: [
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: _vm.overlapsToSend,
-                                  expression: "overlapsToSend"
+                                  value: _vm.selectedOverlaps,
+                                  expression: "selectedOverlaps"
                                 }
                               ],
                               attrs: { type: "checkbox" },
                               domProps: {
                                 value: item,
-                                checked: Array.isArray(_vm.overlapsToSend)
-                                  ? _vm._i(_vm.overlapsToSend, item) > -1
-                                  : _vm.overlapsToSend
+                                checked: Array.isArray(_vm.selectedOverlaps)
+                                  ? _vm._i(_vm.selectedOverlaps, item) > -1
+                                  : _vm.selectedOverlaps
                               },
                               on: {
                                 change: function($event) {
-                                  var $$a = _vm.overlapsToSend,
+                                  var $$a = _vm.selectedOverlaps,
                                     $$el = $event.target,
                                     $$c = $$el.checked ? true : false
                                   if (Array.isArray($$a)) {
@@ -54030,22 +54199,20 @@ var render = function() {
                                       $$i = _vm._i($$a, $$v)
                                     if ($$el.checked) {
                                       $$i < 0 &&
-                                        (_vm.overlapsToSend = $$a.concat([$$v]))
+                                        (_vm.selectedOverlaps = $$a.concat([
+                                          $$v
+                                        ]))
                                     } else {
                                       $$i > -1 &&
-                                        (_vm.overlapsToSend = $$a
+                                        (_vm.selectedOverlaps = $$a
                                           .slice(0, $$i)
                                           .concat($$a.slice($$i + 1)))
                                     }
                                   } else {
-                                    _vm.overlapsToSend = $$c
+                                    _vm.selectedOverlaps = $$c
                                   }
                                 }
                               }
-                            }),
-                            _vm._v(" "),
-                            _c("span", {
-                              staticClass: "glyphicon glyphicon-send"
                             })
                           ])
                         ]),
@@ -54082,8 +54249,16 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "panel-heading" }, [
+      _c("span", { staticClass: "panel-title" }, [_vm._v("Send reports")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-heading" }, [
       _c("span", { staticClass: "panel-title" }, [
-        _vm._v("\n\t\t\t\t\t\t\tFull message example\n\t\t\t\t\t\t")
+        _vm._v("\n\t\t\t\t\t\t\t\t\tFull message example\n\t\t\t\t\t\t\t\t")
       ])
     ])
   }
@@ -54246,7 +54421,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}
 			}
 
-			Object(__WEBPACK_IMPORTED_MODULE_4__modules_report_utils_js__["g" /* downloadCsv */])(csv, 'Publications', this.dates);
+			Object(__WEBPACK_IMPORTED_MODULE_4__modules_report_utils_js__["h" /* downloadCsv */])(csv, 'Publications', this.dates);
 		}
 	},
 
@@ -55813,6 +55988,401 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-294764fe", esExports)
+  }
+}
+
+/***/ }),
+/* 673 */,
+/* 674 */,
+/* 675 */,
+/* 676 */,
+/* 677 */,
+/* 678 */,
+/* 679 */,
+/* 680 */,
+/* 681 */,
+/* 682 */,
+/* 683 */,
+/* 684 */,
+/* 685 */,
+/* 686 */,
+/* 687 */,
+/* 688 */,
+/* 689 */,
+/* 690 */,
+/* 691 */,
+/* 692 */,
+/* 693 */,
+/* 694 */,
+/* 695 */,
+/* 696 */,
+/* 697 */,
+/* 698 */,
+/* 699 */,
+/* 700 */,
+/* 701 */,
+/* 702 */,
+/* 703 */,
+/* 704 */,
+/* 705 */,
+/* 706 */,
+/* 707 */,
+/* 708 */,
+/* 709 */,
+/* 710 */,
+/* 711 */,
+/* 712 */,
+/* 713 */,
+/* 714 */,
+/* 715 */,
+/* 716 */,
+/* 717 */,
+/* 718 */,
+/* 719 */,
+/* 720 */,
+/* 721 */,
+/* 722 */,
+/* 723 */,
+/* 724 */,
+/* 725 */,
+/* 726 */,
+/* 727 */,
+/* 728 */,
+/* 729 */,
+/* 730 */,
+/* 731 */,
+/* 732 */,
+/* 733 */,
+/* 734 */,
+/* 735 */,
+/* 736 */,
+/* 737 */,
+/* 738 */,
+/* 739 */,
+/* 740 */,
+/* 741 */,
+/* 742 */,
+/* 743 */,
+/* 744 */,
+/* 745 */,
+/* 746 */,
+/* 747 */,
+/* 748 */,
+/* 749 */,
+/* 750 */,
+/* 751 */,
+/* 752 */,
+/* 753 */,
+/* 754 */,
+/* 755 */,
+/* 756 */,
+/* 757 */,
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */,
+/* 764 */,
+/* 765 */,
+/* 766 */,
+/* 767 */,
+/* 768 */,
+/* 769 */,
+/* 770 */,
+/* 771 */,
+/* 772 */,
+/* 773 */,
+/* 774 */,
+/* 775 */,
+/* 776 */,
+/* 777 */,
+/* 778 */,
+/* 779 */,
+/* 780 */,
+/* 781 */,
+/* 782 */,
+/* 783 */,
+/* 784 */,
+/* 785 */,
+/* 786 */,
+/* 787 */,
+/* 788 */,
+/* 789 */,
+/* 790 */,
+/* 791 */,
+/* 792 */,
+/* 793 */,
+/* 794 */,
+/* 795 */,
+/* 796 */,
+/* 797 */,
+/* 798 */,
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */,
+/* 804 */,
+/* 805 */,
+/* 806 */,
+/* 807 */,
+/* 808 */,
+/* 809 */,
+/* 810 */,
+/* 811 */,
+/* 812 */,
+/* 813 */,
+/* 814 */,
+/* 815 */,
+/* 816 */,
+/* 817 */,
+/* 818 */,
+/* 819 */,
+/* 820 */,
+/* 821 */,
+/* 822 */,
+/* 823 */,
+/* 824 */,
+/* 825 */,
+/* 826 */,
+/* 827 */,
+/* 828 */,
+/* 829 */,
+/* 830 */,
+/* 831 */,
+/* 832 */,
+/* 833 */,
+/* 834 */,
+/* 835 */,
+/* 836 */,
+/* 837 */,
+/* 838 */,
+/* 839 */,
+/* 840 */,
+/* 841 */,
+/* 842 */,
+/* 843 */,
+/* 844 */,
+/* 845 */,
+/* 846 */,
+/* 847 */,
+/* 848 */,
+/* 849 */,
+/* 850 */,
+/* 851 */,
+/* 852 */,
+/* 853 */,
+/* 854 */,
+/* 855 */,
+/* 856 */,
+/* 857 */,
+/* 858 */,
+/* 859 */,
+/* 860 */,
+/* 861 */,
+/* 862 */,
+/* 863 */,
+/* 864 */,
+/* 865 */,
+/* 866 */,
+/* 867 */,
+/* 868 */,
+/* 869 */,
+/* 870 */,
+/* 871 */,
+/* 872 */,
+/* 873 */,
+/* 874 */,
+/* 875 */,
+/* 876 */,
+/* 877 */,
+/* 878 */,
+/* 879 */,
+/* 880 */,
+/* 881 */,
+/* 882 */,
+/* 883 */,
+/* 884 */,
+/* 885 */,
+/* 886 */,
+/* 887 */,
+/* 888 */,
+/* 889 */,
+/* 890 */,
+/* 891 */,
+/* 892 */,
+/* 893 */,
+/* 894 */,
+/* 895 */,
+/* 896 */,
+/* 897 */,
+/* 898 */,
+/* 899 */,
+/* 900 */,
+/* 901 */,
+/* 902 */,
+/* 903 */,
+/* 904 */,
+/* 905 */,
+/* 906 */,
+/* 907 */,
+/* 908 */,
+/* 909 */,
+/* 910 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_DownloadButton_vue__ = __webpack_require__(911);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_51973c6c_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_DownloadButton_vue__ = __webpack_require__(912);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_DownloadButton_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_51973c6c_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_DownloadButton_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/vue-components/DownloadButton.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-51973c6c", Component.options)
+  } else {
+    hotAPI.reload("data-v-51973c6c", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 911 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_downloadjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_errors_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_report_utils_js__ = __webpack_require__(43);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	props: {
+		filename: {
+			type: String,
+			default: 'export.csv'
+		},
+		contentType: {
+			type: String,
+			default: 'text/csv'
+		},
+		dataGetter: {
+			type: Function,
+			required: true
+		}
+	},
+	data: function data() {
+		return {
+			processing: false
+		};
+	},
+
+	methods: {
+		handleClick: function handleClick() {
+			var _this = this;
+
+			if (!this.dataGetter) return;
+
+			this.processing = true;
+
+			return new Promise(function (resolve) {
+				var data = _this.dataGetter();
+
+				console.log('data', data);
+
+				if (_this.contentType === 'text/csv' && typeof data !== 'string') data = Object(__WEBPACK_IMPORTED_MODULE_2__modules_report_utils_js__["c" /* arrToCsv */])(data);
+
+				__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(data, _this.filename, _this.contentType);
+				resolve();
+			}).catch(function (err) {
+				Object(__WEBPACK_IMPORTED_MODULE_1__modules_errors_js__["a" /* emitError */])(err, _this, 'There was a problem exporting your data');
+			}).finally(function () {
+				_this.processing = false;
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 912 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      attrs: { type: "button", disabled: _vm.processing },
+      on: { click: _vm.handleClick }
+    },
+    [
+      _vm.processing
+        ? _vm._t("processing", [_vm._v("\n\t\tProcessing\n\t")])
+        : _vm._t("default", [_vm._v("\n\t\tDownload\n\t")])
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-51973c6c", esExports)
   }
 }
 
