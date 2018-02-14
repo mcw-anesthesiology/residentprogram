@@ -152,7 +152,8 @@
 				<div class="panel-body" v-show="show.sendReports">
 					<div class="form">
 						<div class="row">
-							<validated-form-group class="col-sm-6" :errors="errors"
+							<validated-form-group class="col-sm-6"
+									:errors="sendReportErrors"
 									prop="emailSubject">
 								<label class="containing-label">
 									Email subject
@@ -161,7 +162,8 @@
 										v-model="emailSubject" />
 								</label>
 							</validated-form-group>
-							<validated-form-group class="col-sm-6" :errors="errors"
+							<validated-form-group class="col-sm-6"
+									:errors="sendReportErrors"
 									prop="periodDisplay">
 								<label class="containing-label">
 									Time period display
@@ -170,7 +172,8 @@
 										v-model="periodDisplay" />
 								</label>
 							</validated-form-group>
-							<validated-form-group class="col-sm-12" :errors="errors"
+							<validated-form-group class="col-sm-12"
+									:errors="sendReportErrors"
 									prop="reportDates">
 								<label class="containing-label">
 									Report dates (optional)
@@ -181,88 +184,74 @@
 										@change="handleReportDatesChange" />
 								</label>
 							</validated-form-group>
+
+							<validated-form-group class="col-sm-12"
+									:errors="sendReportErrors"
+									prop="customMessage.intro">
+								<label for="message-intro" class="control-label">
+									Introduction
+								</label>
+								<vue-editor id="message-intro"
+									v-model="customMessage.intro" />
+							</validated-form-group>
+							<validated-form-group class="col-sm-12"
+									:errors="sendReportErrors"
+									prop="customMessage.successLead">
+								<label for="message-success-lead" class="control-label">
+									Report list lead
+								</label>
+								<vue-editor id="message-success-lead"
+									v-model="customMessage.successLead" />
+							</validated-form-group>
+							<validated-form-group class="col-sm-12"
+									:errors="sendReportErrors"
+									prop="customMessage.closing">
+								<label for="message-closing" class="control-label">
+									Closing
+								</label>
+								<vue-editor id="message-closing"
+									v-model="customMessage.closing" />
+							</validated-form-group>
 						</div>
-						<div v-if="customizeMessageText">
-							<div class="row">
-								<validated-form-group class="col-sm-12"
-										:errors="customMessageErrors"
-										prop="intro">
-									<label class="containing-label">
-										Introduction
-										<markdown-editor :placeholder="messageDefaults.intro"
-											v-model="customMessage.intro"
-											@html="customMessageHtml.intro = arguments[0]" />
-									</label>
-								</validated-form-group>
-								<validated-form-group class="col-sm-12"
-										:errors="customMessageErrors"
-										prop="successLead">
-									<label class="containing-label">
-										Report list lead
-										<markdown-editor :placeholder="messageDefaults.successLead"
-											v-model="customMessage.successLead"
-											@html="customMessageHtml.successLead = arguments[0]" />
-									</label>
-								</validated-form-group>
-								<validated-form-group class="col-sm-12"
-										:errors="customMessageErrors"
-										prop="closing">
-									<label class="containing-label">
-										Closing
-										<markdown-editor :placeholder="messageDefaults.closing"
-											v-model="customMessage.closing"
-											@html="customMessageHtml.closing = arguments[0]" />
-									</label>
-								</validated-form-group>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<span class="panel-title">
+									Full message example
+								</span>
 							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<span class="panel-title">
-										Full message example
-									</span>
-								</div>
-								<div class="panel-body message-example-body">
-									<p>
-										Hello Dr
-										<span class="label label-info">
-											{{ ucfirst(userType) }}
-										</span>!
-									</p>
-									<div v-html="customMessageHtml.intro
-										|| `<p>${messageDefaults.intro}</p>`"></div>
+							<div class="panel-body message-example-body">
+								<p>
+									Hello Dr
+									<span class="label label-info">
+										{{ ucfirst(userType) }}
+									</span>!
+								</p>
+								<div v-html="customMessage.intro"></div>
 
-									<div v-html="customMessageHtml.successLead
-										|| `<p>${messageDefaults.successLead}</p>`"></div>
-									<ol>
-										<li v-for="pairing of examplePairings">
-											<b>{{ pairing.name }}</b>:
-											<i>
-												{{ pairing.numCases }}
-												case{{ pairing.numCases === 1 ? '' : 's' }}
-											</i>
-											together totalling
-											<i>{{ pairing.totalTime }}</i>
-										</li>
-									</ol>
+								<div v-html="customMessage.successLead"></div>
+								<ol>
+									<li v-for="pairing of examplePairings">
+										<b>{{ pairing.name }}</b>:
+										<i>
+											{{ pairing.numCases }}
+											case{{ pairing.numCases === 1 ? '' : 's' }}
+										</i>
+										together totalling
+										<i>{{ pairing.totalTime }}</i>
+									</li>
+								</ol>
 
 
-									<div v-html="customMessageHtml.closing
-										|| `<p>${messageDefaults.closing}</p>`"></div>
+								<div v-html="customMessage.closing"></div>
 
-									<p>
-										Thank you!
-									</p>
-								</div>
+								<p>
+									Thank you!
+								</p>
 							</div>
 						</div>
 					</div>
 
-					<div class="text-center">
-						<label>
-							Customize message text
-							<input type="checkbox" v-model="customizeMessageText" />
-						</label>
-					</div>
 					<div class="text-center">
 						<button type="button" class="btn btn-lg btn-info"
 								:disabled="!sendReportValid"
@@ -343,9 +332,15 @@
 	.containing-label small {
 		font-weight: normal;
 	}
+
+	:global(.ql-editor) {
+		white-space: normal !important;
+	}
 </style>
 
 <script>
+import { VueEditor } from 'vue2-editor';
+
 import delve from 'dlv';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
@@ -389,25 +384,18 @@ export default {
 			reportDatesStr: '',
 			reportDates: null,
 
-			reportUserType: null,
-			reportSubjectType: null,
-			overlaps: null,
-
-			selectedOverlaps: [],
-
-			customizeMessageText: false,
 			customMessage: {
 				intro: '',
 				successLead: '',
 				emptyMessage: '',
 				closing: ''
 			},
-			customMessageHtml: {
-				intro: null,
-				successLead: null,
-				emptyMessage: null,
-				closing: null
-			},
+
+			reportUserType: null,
+			reportSubjectType: null,
+			overlaps: null,
+
+			selectedOverlaps: [],
 
 			show: {
 				sendReports: false
@@ -478,11 +466,25 @@ export default {
 
 			const stringProps = [
 				'emailSubject',
-				'periodDisplay'
+				'customMessage.intro',
+				'customMessage.successLead'
 			];
 			for (const prop of stringProps) {
-				if (!this[prop]) {
+				if (!delve(this, prop)) {
 					map.set(prop, 'Please enter a value');
+				}
+			}
+
+			const DANGER_SPAN = '<span class="label danger-label">';
+			const messageProps = [
+				'customMessage.intro',
+				'customMessage.successLead',
+				'customMessage.closing'
+			];
+			for (const prop of messageProps) {
+				const contents = delve(this, prop);
+				if (contents && contents.includes(DANGER_SPAN)) {
+					map.set(prop, 'Please fix all errors');
 				}
 			}
 
@@ -490,43 +492,6 @@ export default {
 		},
 		sendReportValid() {
 			return Array.from(this.sendReportErrors.keys()).length === 0;
-		},
-		messageDefaults() {
-			const stripWhitespace = s => s.replace(/\s+/g, ' ');
-			return this.userType === 'resident'
-				? {
-					intro: stripWhitespace(`In an attempt to provide you more feedback and make it simpler
-						for evaluators to complete evaluations, we will be providing a periodic
-						report of the faculty we believe you worked with the most.`),
-					successLead: stripWhitespace(`Based on our records, we've selected the following faculty as top
-						candidates to provide evaluations for ${this.periodDisplay || '(time period display)'}.
-						Please use this as a reference to request evaluations and to complete evaluations of faculty.`),
-					emptyMessage: stripWhitespace(`Unfortunately, we weren't able to come up with a list of faculty
-						for you this time. We're sorry about that!
-
-						Please request evaluations from faculty members that you worked with.`),
-					closing: ''
-				}
-				: {
-					intro: stripWhitespace(`In an attempt to provide more feedback to our residents and make it simpler
-						for you to complete evaluations, we will be providing a periodic report of
-						the residents we believe you worked with the most.`),
-					successLead: stripWhitespace(`Based on our records, we've selected the following residents as top
-						candidates for evaluation for ${this.periodDisplay || '(time period display)'}.
-						Please use this as a reference to complete trainee evaluations.`),
-					emptyMessage: stripWhitespace(`Unfortunately, we weren't able to come up with a list of residents
-						for you this time. We're sorry about that!
-
-						Please complete evaluations for the residents that you worked with.`),
-					closing: ''
-				};
-		},
-		customMessageErrors() {
-			const map = new Map();
-
-			// Nothing to do right now
-
-			return map;
 		},
 		examplePairings() {
 			return [
@@ -551,8 +516,6 @@ export default {
 			if (!this.selectedOverlaps)
 				return;
 
-			const flatten = (arr, subarr) => arr.concat(subarr);
-
 			return () => [
 				[
 					ucfirst(this.reportUserType),
@@ -574,16 +537,16 @@ export default {
 		}
 	},
 
+	mounted() {
+		this.assignDefaultMessage();
+	},
+
 	watch: {
-		customizeMessageText(customizeMessageText) {
-			if (!customizeMessageText) {
-				this.customMessageHtml = {
-					intro: null,
-					successLead: null,
-					emptyMessage: null,
-					closing: null
-				};
-			}
+		userType() {
+			this.assignDefaultMessage();
+		},
+		subjectType() {
+			this.assignDefaultMessage();
 		}
 	},
 
@@ -620,6 +583,43 @@ export default {
 		},
 		deselectAllOverlaps() {
 			this.selectedOverlaps = [];
+		},
+		assignDefaultMessage() {
+			if (
+				this.userType === 'faculty'
+				&& ['trainee', 'fellow', 'resident'].includes(this.subjectType)
+			) {
+				this.customMessage.intro = `<p>
+					In an attempt to provide more feedback to our trainees and make it simpler
+					for you to complete evaluations, we will be providing a periodic report of
+					the trainees we believe you worked with the most.
+				</p>`;
+				this.customMessage.successLead = `<p>
+					Based on our records, we've selected the following trainees as top
+					candidates for evaluation for
+					${this.periodDisplay || '<span class="label label-danger">___</span>'}.
+					Please use this as a reference to complete trainee evaluations.
+				</p>`;
+			} else if (
+				['trainee', 'fellow', 'resident'].includes(this.userType)
+				&& this.subjectType === 'faculty'
+			) {
+				this.customMessage.intro = `<p>
+					In an attempt to provide you more feedback and make it simpler
+					for evaluators to complete evaluations, we will be providing a periodic
+					report of the faculty we believe you worked with the most.
+				</p>`;
+				this.customMessage.successLead = `<p>
+					Based on our records, we've selected the following faculty as top
+					candidates to provide evaluations for
+					${this.periodDisplay || '<span class="label label-danger">___</span>'}.
+					Please use this as a reference to request evaluations and to
+					complete evaluations of faculty.
+				</p>`;
+			} else {
+				this.customMessage.intro = '';
+				this.customMessage.successLead = '';
+			}
 		},
 		handleSubmit(event) {
 			event.preventDefault();
@@ -680,7 +680,7 @@ export default {
 					emailSubject: this.emailSubject,
 					periodDisplay: this.periodDisplay,
 					reportDates: this.reportDates.map(isoDateString),
-					...this.customMessageHtml
+					...this.customMessage
 				})
 			}).then(jsonOrThrow).then(response => {
 				if (response.successful) {
@@ -716,6 +716,7 @@ export default {
 	},
 
 	components: {
+		VueEditor,
 		ClearableDate,
 		ComponentList,
 		ValidatedFormGroup,

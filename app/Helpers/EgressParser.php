@@ -610,9 +610,57 @@ class EgressParser {
 			}
 		}
 
+		if ($userType == 'faculty' && in_array($subjectType, ['trainee', 'resident', 'fellow'])) {
+			if (empty($intro))
+				$intro = "<p>
+					In an attempt to provide more feedback to our trainees and make it simpler
+					for you to complete evaluations, we will be providing a periodic report of
+					the trainees we believe you worked with the most.
+				</p>";
+
+			if (empty($successLead))
+				$successLead = "<p>
+					Based on our records, we've selected the following trainees as top
+					candidates for evaluation for {$periodDisplay}. Please use this as a
+					reference to complete trainee evaluations.
+				</p>";
+
+			if (empty($emptyMessage))
+				$emptyMessage = "<p>
+					Unfortunately, we weren't able to come up with a list of trainees
+					for you this time. We're sorry about that!
+
+					Please complete evaluations for the trainees who you've worked with.
+				</p>";
+		} else if (in_array($userType, ['trainee', 'resident', 'fellow']) && $subjectType == 'faculty') {
+			if (empty($intro))
+				$intro = "<p>
+					In an attempt to provide you more feedback and make it simpler
+					for evaluators to complete evaluations, we will be providing a periodic
+					report of the faculty we believe you worked with the most.
+				</p>";
+
+			if (empty($successLead))
+				$successLead = "<p>
+					Based on our records, we've selected the following faculty as top
+					candidates to provide evaluations for {$periodDisplay}. Please use this
+					as a reference to request evaluations and to complete evaluations of faculty.
+				</p>";
+
+			if (empty($emptyMessage))
+				$emptyMessage = "<p>
+					Unfortunately, we weren't able to come up with a list of faculty
+					for you this time. We're sorry about that!
+
+					Please request evaluations from faculty members who you've worked with.
+				</p>";
+		}
+
 		$data = compact(
 			'user',
 			'pairings',
+			'userType',
+			'subjectType',
 			'periodDisplay',
 			'requestUrl',
 			'evaluationDateParams',
@@ -624,7 +672,7 @@ class EgressParser {
 		);
 
 		Mail::send(
-			"emails.pairing-report.{$userType}",
+			'emails.pairing-report.report',
 			$data,
 			function ($message) use ($user, $emailSubject) {
 				$message->to($user['email'])
