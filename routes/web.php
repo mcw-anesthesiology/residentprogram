@@ -108,3 +108,7 @@ Route::get('manage/case-logs', 'CaseLogController@manage');
 
 Route::get('alum/{hash}', 'AlumniController@alumni');
 Route::get('manage/alumni', 'AlumniController@manage');
+
+Route::get('egress-pairings', function () {
+	return view('egress-pairings');
+});

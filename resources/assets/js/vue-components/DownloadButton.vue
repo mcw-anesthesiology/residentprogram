@@ -45,8 +45,6 @@ export default {
 			return new Promise(resolve => {
 				let data = this.dataGetter();
 
-				console.log('data', data);
-
 				if (this.contentType === 'text/csv' && typeof data !== 'string')
 					data = arrToCsv(data);
 

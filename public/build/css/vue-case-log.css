@@ -866,47 +866,6 @@ span.flatpickr-weekday {
   }
 }
 
-.list-header-controls[data-v-8543d20a] {
-	text-align: right;
-}
-.list-header-controls input[type="search"][data-v-8543d20a] {
-	width: 300px;
-	max-width: 100%;
-}
-.list-header-controls.form-inline .input-group > .form-control[data-v-8543d20a] {
-	width: auto;
-}
-.list-container[data-v-8543d20a] {
-	margin: 3em 0;
-}
-.list[data-v-8543d20a] {
-	padding: 0;
-}
-.list li[data-v-8543d20a] {
-	list-style: none;
-}
-.containing-label[data-v-8543d20a] {
-	text-align: left;
-}
-.containing-label > *[data-v-8543d20a] {
-	display: block;
-}
-.no-items-text[data-v-8543d20a] {
-	padding: 0.5em 0;
-	border: 1px solid rgba(0, 0, 0, 0.15);
-	border-left: none;
-	border-right: none;
-	text-align: center;
-	font-size: 1.25em;
-}
-
-.paginator[data-v-55d164d3] {
-	text-align: center;
-}
-nav span[data-v-55d164d3] {
-	margin: 0 0.25em;
-}
-
 .checkbox-question[data-v-697e9da0] {
 	font-size: 1.25em;
 }
