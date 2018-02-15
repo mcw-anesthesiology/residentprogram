@@ -65,6 +65,10 @@ import { sortFunctions } from '@/modules/report-utils.js';
 
 export default {
 	props: {
+		itemKey: {
+			type: String,
+			default: 'id'
+		},
 		searchRef: {
 			type: String,
 			required: false
@@ -119,10 +123,21 @@ export default {
 		};
 	},
 	computed: {
+		itemsWithAccessors() {
+			return this.fieldAccessors
+				? this.items.map(item => {
+					return Array.from(Object.entries(this.fieldAccessors))
+						.reduce((i, [field, accessor]) => {
+							i[field] = accessor(item, 'search');
+							return i;
+						}, Object.assign({}, item));
+				})
+				: this.items;
+		},
 		itemMap() {
 			let map = new Map();
-			this.items.map(item => {
-				map.set(item.id, item);
+			this.itemsWithAccessors.map(item => {
+				map.set(item[this.itemKey], item);
 			});
 
 			return map;
@@ -131,8 +146,7 @@ export default {
 			const vm = this;
 
 			return lunr(function() {
-				if (vm.searchRef)
-					this.ref(vm.searchRef);
+				this.ref(vm.searchRef || vm.itemKey);
 
 				for (const field of vm.fields) {
 					let name, options;
@@ -145,14 +159,9 @@ export default {
 					this.field(name, options);
 				}
 
-				for (const item of vm.items) {
-					if (vm.fieldAccessors) {
-						for (const field in vm.fieldAccessors) {
-							item[field] = vm.fieldAccessors[field](item, 'search');
-						}
-					}
-					this.add(item);
-				}
+				vm.itemsWithAccessors.forEach(i => {
+					this.add(i);
+				});
 			});
 		},
 		filteredItems() {
@@ -163,7 +172,7 @@ export default {
 				});
 			}
 
-			return this.items;
+			return this.itemsWithAccessors;
 		},
 		sortedItems() {
 			if (this.sortBy && this.sortOrder) {

@@ -1079,47 +1079,6 @@ small[data-v-9b7444d6] {
 	color: rgba(0, 0, 0, 0.5);
 }
 
-.list-header-controls[data-v-8543d20a] {
-	text-align: right;
-}
-.list-header-controls input[type="search"][data-v-8543d20a] {
-	width: 300px;
-	max-width: 100%;
-}
-.list-header-controls.form-inline .input-group > .form-control[data-v-8543d20a] {
-	width: auto;
-}
-.list-container[data-v-8543d20a] {
-	margin: 3em 0;
-}
-.list[data-v-8543d20a] {
-	padding: 0;
-}
-.list li[data-v-8543d20a] {
-	list-style: none;
-}
-.containing-label[data-v-8543d20a] {
-	text-align: left;
-}
-.containing-label > *[data-v-8543d20a] {
-	display: block;
-}
-.no-items-text[data-v-8543d20a] {
-	padding: 0.5em 0;
-	border: 1px solid rgba(0, 0, 0, 0.15);
-	border-left: none;
-	border-right: none;
-	text-align: center;
-	font-size: 1.25em;
-}
-
-.paginator[data-v-55d164d3] {
-	text-align: center;
-}
-nav span[data-v-55d164d3] {
-	margin: 0 0.25em;
-}
-
 ul[data-v-7cf79a2e] {
 	columns: 150px 3;
 }
@@ -1547,10 +1506,6 @@ textarea.editor-shown[data-v-4a7e33a8] {
 .num-cases[data-v-f54c8bae],
 .total-time[data-v-f54c8bae] {
 	text-align: right;
-}
-
-.php-date-interval[data-v-16a0d5eb] {
-	white-space: pre;
 }
 
 .controls-row[data-v-0dd0fb89] {

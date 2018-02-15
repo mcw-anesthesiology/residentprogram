@@ -23,10 +23,12 @@ class EgressParser {
 	// Column indexes
 	const EGRESS_COLS = [
 		'DATE' => 0,
+		'PROCEDURE' => 2,
 		'ANESTHESIA_STAFF' => 6
 	];
 	const CHW_TRAINEE_REPORT_COLS = [
 		'DATE' => 1,
+		'PROCEDURE' => 4,
 		'ANES_START' => 12,
 		'ANES_END' => 13,
 		'ANESTHESIOLOGIST' => [ 5, 6, 7 ],
@@ -161,6 +163,7 @@ class EgressParser {
 
 	static function parseEgressCase($row) {
 		$procDate = $row[self::EGRESS_COLS['DATE']];
+		$procedure = $row[self::EGRESS_COLS['PROCEDURE']];
 		$anesthesiaStaff = $row[self::EGRESS_COLS['ANESTHESIA_STAFF']];
 		$name = null;
 		$staff = [];
@@ -180,7 +183,10 @@ class EgressParser {
 					$name = substr(trim($line), 0, -1); // Remove `:`
 					$staff[$name] = [
 						'name' => $name,
-						'date' => $procDate
+						'date' => $procDate,
+						'procedures' => array_map(function($s) {
+							return trim($s);
+						}, str_split("\n", $procedure))
 					];
 				} elseif (!empty($name) && (strpos($line, '(assigned)') === false)) {
 					try {
@@ -211,6 +217,7 @@ class EgressParser {
 
 	static function parseTraineeProcedureCase($row) {
 		$procDate = $row[self::CHW_TRAINEE_REPORT_COLS['DATE']];
+		$procedure = $row[self::CHW_TRAINEE_REPORT_COLS['PROCEDURE']];
 		$staff = [];
 
 		$staffCols = array_merge(
@@ -246,6 +253,9 @@ class EgressParser {
 				$staff[$name] = [
 					'name' => $name,
 					'date' => $procDate,
+					'procedures' => array_map(function($s) {
+						return trim($s);
+					}, explode(',', $procedure)),
 					'role' => array_key_exists($col, $roleMap)
 						? $roleMap[$col]
 						: null,
