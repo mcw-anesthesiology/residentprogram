@@ -16,6 +16,10 @@
 	tr {
 		border-bottom: 1px solid #333333;
 	}
+
+	.cases-cell {
+		text-align: right;
+	}
 </style>
 
 <p>Hello Dr {{ $user['last_name'] }}!</p>
@@ -53,10 +57,9 @@
 	@foreach ($pairings as $pairing)
 		<tr>
 			<td>{{ $pairing[$subjectType]['full_name'] }}</td>
-			<td>{{ $pairing[$subjectType]['specific_type'] }}</td>
-			<td>
+			<td>{{ ucfirst($pairing[$subjectType]['specific_type']) }}</td>
+			<td class="cases-cell">
 				{{ $pairing['numCases'] }}
-				case{{ $pairing['numCases'] == 1 ? '' : 's' }}
 			</td>
 			<td>
 				{{

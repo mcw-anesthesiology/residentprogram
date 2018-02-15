@@ -164,16 +164,6 @@
 							</validated-form-group>
 							<validated-form-group class="col-sm-6"
 									:errors="sendReportErrors"
-									prop="periodDisplay">
-								<label class="containing-label">
-									Time period display
-									<input type="text" class="form-control"
-										placeholder="'the past month', 'July' (displayed after the word 'for')"
-										v-model="periodDisplay" />
-								</label>
-							</validated-form-group>
-							<validated-form-group class="col-sm-12"
-									:errors="sendReportErrors"
 									prop="reportDates">
 								<label class="containing-label">
 									Report dates (optional)
@@ -230,18 +220,33 @@
 								<div v-html="customMessage.intro"></div>
 
 								<div v-html="customMessage.successLead"></div>
-								<ol>
-									<li v-for="pairing of examplePairings">
-										<b>{{ pairing.name }}</b>:
-										<i>
-											{{ pairing.numCases }}
-											case{{ pairing.numCases === 1 ? '' : 's' }}
-										</i>
-										together totalling
-										<i>{{ pairing.totalTime }}</i>
-									</li>
-								</ol>
 
+								<table>
+									<thead>
+										<tr>
+											<th>{{ ucfirst(subjectType) }}</th>
+											<th></th>
+											<th>Cases together</th>
+											<th>Time together</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="pairing of examplePairings">
+											<td>{{ pairing.name }}</td>
+											<td>{{ pairing.type }}</td>
+											<td class="cases-cell">
+												{{ pairing.numCases }}
+											</td>
+											<td>{{ pairing.totalTime }}</td>
+											<td>
+												<a href="#" @click="$event.preventDefault()">
+													Evaluate
+												</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 
 								<div v-html="customMessage.closing"></div>
 
@@ -282,15 +287,13 @@
 				Overlaps grouped by
 				{{ reportUserType }}
 			</h2>
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<button type="button" class="btn btn-info"
-							@click="selectAllOverlaps">
-						<span class="glyphicon glyphicon-th-list"></span>
-						Select all
-					</button>
-				</div>
-			</div>
+
+			<button type="button" class="btn btn-info"
+					@click="selectAllOverlaps">
+				<span class="glyphicon glyphicon-th-list"></span>
+				Select all
+			</button>
+
 			<component-list :items="overlaps"
 					:fields="overlapsFields"
 					:fieldAccessors="overlapsFieldAccessors">
@@ -335,6 +338,25 @@
 
 	:global(.ql-editor) {
 		white-space: normal !important;
+	}
+
+	.message-example-body table {
+		margin: 2em 2em 4em;
+		table-layout: fixed;
+		border-collapse: collapse;
+	}
+
+	.message-example-body th {
+		text-align: left;
+	}
+
+	.message-example-body th,
+	.message-example-body td {
+		padding: 1em;
+	}
+
+	.message-example-body tr {
+		border-bottom: 1px solid #333333;
 	}
 </style>
 
@@ -475,7 +497,7 @@ export default {
 				}
 			}
 
-			const DANGER_SPAN = '<span class="label danger-label">';
+			const PLACEHOLDER = '___';
 			const messageProps = [
 				'customMessage.intro',
 				'customMessage.successLead',
@@ -483,8 +505,8 @@ export default {
 			];
 			for (const prop of messageProps) {
 				const contents = delve(this, prop);
-				if (contents && contents.includes(DANGER_SPAN)) {
-					map.set(prop, 'Please fix all errors');
+				if (contents && contents.includes(PLACEHOLDER)) {
+					map.set(prop, 'Please replace all "___" placeholders');
 				}
 			}
 
@@ -497,16 +519,19 @@ export default {
 			return [
 				{
 					name: 'Jones, Joseph',
+					type: 'Resident',
 					numCases: 25,
 					totalTime: '1 day, 14 hours, 32 minutes'
 				},
 				{
 					name: 'Smith, Deborah',
+					type: 'Fellow',
 					numCases: 17,
 					totalTime: '22 hours, 54 minutes'
 				},
 				{
 					name: 'Lopez, George',
+					type: 'Resident',
 					numCases: 8,
 					totalTime: '5 hours, 19 minutes'
 				}
@@ -596,8 +621,7 @@ export default {
 				</p>`;
 				this.customMessage.successLead = `<p>
 					Based on our records, we've selected the following trainees as top
-					candidates for evaluation for
-					${this.periodDisplay || '<span class="label label-danger">___</span>'}.
+					candidates for evaluation for ___.
 					Please use this as a reference to complete trainee evaluations.
 				</p>`;
 			} else if (
@@ -611,8 +635,7 @@ export default {
 				</p>`;
 				this.customMessage.successLead = `<p>
 					Based on our records, we've selected the following faculty as top
-					candidates to provide evaluations for
-					${this.periodDisplay || '<span class="label label-danger">___</span>'}.
+					candidates to provide evaluations for ___.
 					Please use this as a reference to request evaluations and to
 					complete evaluations of faculty.
 				</p>`;
@@ -679,7 +702,9 @@ export default {
 					subjectType: this.reportSubjectType,
 					emailSubject: this.emailSubject,
 					periodDisplay: this.periodDisplay,
-					reportDates: this.reportDates.map(isoDateString),
+					reportDates: this.reportDates
+						? this.reportDates.map(isoDateString)
+						: null,
 					...this.customMessage
 				})
 			}).then(jsonOrThrow).then(response => {
