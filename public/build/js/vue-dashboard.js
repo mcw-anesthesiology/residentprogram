@@ -7250,8 +7250,8 @@ module.exports = toSource;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(694);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0b72e1b8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(695);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(695);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0b72e1b8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(696);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -8909,26 +8909,26 @@ module.exports = stackSet;
 
 /***/ }),
 
-/***/ 683:
+/***/ 684:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__admin_js__ = __webpack_require__(684);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__admin_js__ = __webpack_require__(685);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAdminDashboard", function() { return __WEBPACK_IMPORTED_MODULE_0__admin_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__resident_js__ = __webpack_require__(689);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__resident_js__ = __webpack_require__(690);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createResidentDashboard", function() { return __WEBPACK_IMPORTED_MODULE_1__resident_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__faculty_js__ = __webpack_require__(690);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__faculty_js__ = __webpack_require__(691);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_2__faculty_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__staff_js__ = __webpack_require__(691);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__staff_js__ = __webpack_require__(692);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createStaffDashboard", function() { return __WEBPACK_IMPORTED_MODULE_3__staff_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_js__ = __webpack_require__(692);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_js__ = __webpack_require__(693);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAPPDashboard", function() { return __WEBPACK_IMPORTED_MODULE_4__app_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__faculty_admin_js__ = __webpack_require__(693);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__faculty_admin_js__ = __webpack_require__(694);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAdminFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_5__faculty_admin_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__faculty_anonymous_js__ = __webpack_require__(696);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__faculty_anonymous_js__ = __webpack_require__(697);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAnonymousFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_6__faculty_anonymous_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__faculty_faculty_js__ = __webpack_require__(697);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__faculty_faculty_js__ = __webpack_require__(698);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFacultyFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_7__faculty_faculty_js__["a"]; });
 
 
@@ -8941,7 +8941,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 684:
+/***/ 685:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8951,7 +8951,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_EvaluationDataTable_vue__ = __webpack_require__(133);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_Dashboard_FlaggedEvaluationControls_vue__ = __webpack_require__(685);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_Dashboard_FlaggedEvaluationControls_vue__ = __webpack_require__(686);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_errors_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_datatable_utils_js__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_user_utils_js__ = __webpack_require__(166);
@@ -9273,16 +9273,16 @@ function createAdminDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 685:
+/***/ 686:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FlaggedEvaluationControls_vue__ = __webpack_require__(687);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b703d21e_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FlaggedEvaluationControls_vue__ = __webpack_require__(688);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_FlaggedEvaluationControls_vue__ = __webpack_require__(688);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b703d21e_hasScoped_true_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_FlaggedEvaluationControls_vue__ = __webpack_require__(689);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(686)
+  __webpack_require__(687)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -9329,14 +9329,14 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 686:
+/***/ 687:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 687:
+/***/ 688:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9418,7 +9418,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 688:
+/***/ 689:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9471,7 +9471,61 @@ if (false) {
 
 /***/ }),
 
-/***/ 689:
+/***/ 69:
+/***/ (function(module, exports, __webpack_require__) {
+
+var isFunction = __webpack_require__(31),
+    isMasked = __webpack_require__(72),
+    isObject = __webpack_require__(26),
+    toSource = __webpack_require__(33);
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+module.exports = baseIsNative;
+
+
+/***/ }),
+
+/***/ 690:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9761,61 +9815,7 @@ function createResidentDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 69:
-/***/ (function(module, exports, __webpack_require__) {
-
-var isFunction = __webpack_require__(31),
-    isMasked = __webpack_require__(72),
-    isObject = __webpack_require__(26),
-    toSource = __webpack_require__(33);
-
-/**
- * Used to match `RegExp`
- * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
- */
-var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
-
-/** Used to detect host constructors (Safari). */
-var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-/** Used for built-in method references. */
-var funcProto = Function.prototype,
-    objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = funcProto.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Used to detect if a method is native. */
-var reIsNative = RegExp('^' +
-  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
-  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-);
-
-/**
- * The base implementation of `_.isNative` without bad shim checks.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a native function,
- *  else `false`.
- */
-function baseIsNative(value) {
-  if (!isObject(value) || isMasked(value)) {
-    return false;
-  }
-  var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
-  return pattern.test(toSource(value));
-}
-
-module.exports = baseIsNative;
-
-
-/***/ }),
-
-/***/ 690:
+/***/ 691:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10032,7 +10032,7 @@ function createFacultyDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 691:
+/***/ 692:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10216,7 +10216,7 @@ function createStaffDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 692:
+/***/ 693:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10327,7 +10327,7 @@ function createAPPDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 693:
+/***/ 694:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10402,7 +10402,7 @@ function createAdminFacultyDashboard(el) {
 
 /***/ }),
 
-/***/ 694:
+/***/ 695:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10460,7 +10460,7 @@ function createAdminFacultyDashboard(el) {
 
 /***/ }),
 
-/***/ 695:
+/***/ 696:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10528,7 +10528,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 696:
+/***/ 697:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10632,7 +10632,7 @@ function createAnonymousFacultyDashboard(el, propsData) {
 
 /***/ }),
 
-/***/ 697:
+/***/ 698:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11718,6 +11718,6 @@ module.exports = arrayPush;
 
 /***/ })
 
-},[683]);
+},[684]);
 });
 //# sourceMappingURL=vue-dashboard.js.map

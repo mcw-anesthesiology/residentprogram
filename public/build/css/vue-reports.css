@@ -1468,6 +1468,21 @@ aside[data-v-76955910] {
 .ql-editor {
 	white-space: normal !important;
 }
+.message-example-body table {
+	margin: 2em 2em 4em;
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+.message-example-body th {
+	text-align: left;
+}
+.message-example-body th,
+.message-example-body td {
+	padding: 1em;
+}
+.message-example-body tr {
+	border-bottom: 1px solid #333333;
+}
 
 textarea[data-v-4a7e33a8] {
 	opacity: 0;
