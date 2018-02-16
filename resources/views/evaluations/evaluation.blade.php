@@ -279,8 +279,17 @@
 
 	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 				<div class="submit-container text-center">
-					<button type="submit" id="complete-form" name="evaluation_id" value="{{ $evaluation->viewable_id }}" class="btn btn-primary btn-lg">Complete evaluation</button>
-					<button type="submit" id="save-form" name="evaluation_id_saved" value="{{ $evaluation->viewable_id }}" class="btn btn-default btn-lg" formnovalidate>Save evaluation</button>
+					<button type="submit" id="complete-form" name="evaluation_id"
+							value="{{ $evaluation->viewable_id }}"
+							class="btn btn-primary btn-lg">
+						Submit completed evaluation
+					</button>
+					<button type="submit" id="save-form" name="evaluation_id_saved"
+							value="{{ $evaluation->viewable_id }}"
+							class="btn btn-default btn-lg"
+							formnovalidate>
+						Save progress, return later
+					</button>
 				</div>
 			</form>
 	@endif
