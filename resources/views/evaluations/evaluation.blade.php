@@ -57,6 +57,19 @@
 		hr {
 			page-break-before: always;
 		}
+
+		.na-option-container {
+			border-right: 1px solid rgba(0, 0, 0, 0.25);
+		}
+
+		.question-option .question-option-text {
+			opacity: 0.8;
+		}
+
+		.question-option:hover .question-option-text,
+		.question-option input:checked + br + .question-option-text {
+			opacity: 1;
+		}
 	</style>
 @stop
 
@@ -282,13 +295,13 @@
 					<button type="submit" id="complete-form" name="evaluation_id"
 							value="{{ $evaluation->viewable_id }}"
 							class="btn btn-primary btn-lg">
-						Submit completed evaluation
+						{{ config('constants.COMPLETE_EVAL_TEXT') }}
 					</button>
 					<button type="submit" id="save-form" name="evaluation_id_saved"
 							value="{{ $evaluation->viewable_id }}"
 							class="btn btn-default btn-lg"
 							formnovalidate>
-						Save progress, return later
+						{{ config('constants.SAVE_EVAL_TEXT') }}
 					</button>
 				</div>
 			</form>
@@ -494,7 +507,12 @@
 			$('.question').each(function() {
 				var question = this;
 				var questionId = $(question).attr('id');
-				if (!($(question).data('required'))) {
+				var questionType = $(question).data('questionType');
+				if (!($(question).data('required')) && (
+					questionType === 'radio'
+					|| questionType === 'radiononnumeric'
+					|| questionType === 'checkbox'
+				)) {
 
 					var container = $(question).find('.question-description-toggle');
 
@@ -518,7 +536,6 @@
 			});
 		@endif
 
-
 		$(document).ready(function(){
 			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id || $user->isType("admin"))
 				@foreach($evaluation->responses as $response)
@@ -537,6 +554,12 @@
 						$("input[name='{{ $response->question_id }}[]'][value='{{ str_replace(["\n", "\r"], ["\\n", "\\r"], addslashes($response->response)) }}']").prop("checked", true);
 					}
 				@endforeach
+
+				$('.question').each(function () {
+					if ($(this).find('.question-option input:checked').length === 0) {
+						$(this).find('input[data-n-a]').prop('checked', true);
+					}
+				});
 			@endif
 
 			@if($evaluation->status == "complete" || $user->id != $evaluation->evaluator_id)
