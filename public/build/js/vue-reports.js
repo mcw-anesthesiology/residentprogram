@@ -48861,17 +48861,19 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_editor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue2_editor__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_dlv__ = __webpack_require__(657);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_dlv___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_dlv__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_mixins_HasAlerts_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ComponentList_vue__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ValidatedFormGroup_vue__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ClearableDate_vue__ = __webpack_require__(205);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__MarkdownEditor_vue__ = __webpack_require__(318);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ShowHideButton_vue__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__DownloadButton_vue__ = __webpack_require__(658);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__OverlapListItem_vue__ = __webpack_require__(661);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_errors_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__modules_date_utils_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__modules_utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lz_string__ = __webpack_require__(923);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lz_string___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lz_string__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_mixins_HasAlerts_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ComponentList_vue__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ValidatedFormGroup_vue__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ClearableDate_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__MarkdownEditor_vue__ = __webpack_require__(318);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ShowHideButton_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__DownloadButton_vue__ = __webpack_require__(658);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__OverlapListItem_vue__ = __webpack_require__(661);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__modules_errors_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__modules_utils_js__ = __webpack_require__(1);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -49238,6 +49240,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
@@ -49259,7 +49266,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-	mixins: [__WEBPACK_IMPORTED_MODULE_2__vue_mixins_HasAlerts_js__["a" /* default */]],
+	mixins: [__WEBPACK_IMPORTED_MODULE_3__vue_mixins_HasAlerts_js__["a" /* default */]],
 	data: function data() {
 		return {
 			egressFiles: null,
@@ -49458,7 +49465,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			if (!this.selectedOverlaps) return;
 
 			return function () {
-				return [[Object(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["L" /* ucfirst */])(_this2.reportUserType), Object(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["L" /* ucfirst */])(_this2.reportSubjectType), 'Cases', 'Total time']].concat(_toConsumableArray(_this2.selectedOverlaps.reduce(function (rows, overlap) {
+				return [[Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["L" /* ucfirst */])(_this2.reportUserType), Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["L" /* ucfirst */])(_this2.reportSubjectType), 'Cases', 'Total time']].concat(_toConsumableArray(_this2.selectedOverlaps.reduce(function (rows, overlap) {
 					return rows.concat(overlap.pairings.map(function (pairing) {
 						return [overlap[_this2.reportUserType].full_name, pairing[_this2.reportSubjectType].full_name, pairing.numCases, pairing.totalTime.days + ' days, ' + pairing.totalTime.h + ' hours, ' + pairing.totalTime.i + ' minutes'];
 					}));
@@ -49482,7 +49489,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["L" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["L" /* ucfirst */],
+		encodePairingData: function encodePairingData(overlap) {
+			return __WEBPACK_IMPORTED_MODULE_2_lz_string__["compressToEncodedURIComponent"](JSON.stringify(overlap));
+		},
 		handleEgressFilesChange: function handleEgressFilesChange(event) {
 			this.egressFiles = event.target.files;
 		},
@@ -49555,14 +49565,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			body.set('maxPairs', this.maxPairs === null ? quoteUnlimitedMaxPairsUnquote : this.maxPairs);
 
-			fetch('/reports/egress-pairings/overlaps', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["g" /* fetchConfig */])({ contentType: null }), {
+			fetch('/reports/egress-pairings/overlaps', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["g" /* fetchConfig */])({ contentType: null }), {
 				method: 'POST',
 				body: body
-			})).then(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["w" /* jsonOrThrow */]).then(function (overlaps) {
+			})).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["w" /* jsonOrThrow */]).then(function (overlaps) {
 				_this3.overlaps = overlaps;
 				_this3.selectedOverlaps = [];
 			}).catch(function (err) {
-				Object(__WEBPACK_IMPORTED_MODULE_10__modules_errors_js__["b" /* handleError */])(err, _this3, 'There was a problem fetching the report');
+				Object(__WEBPACK_IMPORTED_MODULE_11__modules_errors_js__["b" /* handleError */])(err, _this3, 'There was a problem fetching the report');
 			}).finally(function () {
 				_this3.processing = false;
 			});
@@ -49572,7 +49582,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			if (!this.sendReportValid || !this.selectedOverlaps || this.selectedOverlaps.length === 0) return;
 
-			fetch('/reports/egress-pairings/send-reports', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["g" /* fetchConfig */])(), {
+			fetch('/reports/egress-pairings/send-reports', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["g" /* fetchConfig */])(), {
 				method: 'POST',
 				body: JSON.stringify(Object.assign({
 					overlaps: this.selectedOverlaps,
@@ -49580,9 +49590,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 					subjectType: this.reportSubjectType,
 					emailSubject: this.emailSubject,
 					periodDisplay: this.periodDisplay,
-					reportDates: this.reportDates ? this.reportDates.map(__WEBPACK_IMPORTED_MODULE_11__modules_date_utils_js__["isoDateString"]) : null
+					reportDates: this.reportDates ? this.reportDates.map(__WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["isoDateString"]) : null
 				}, this.customMessage))
-			})).then(__WEBPACK_IMPORTED_MODULE_12__modules_utils_js__["w" /* jsonOrThrow */]).then(function (response) {
+			})).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["w" /* jsonOrThrow */]).then(function (response) {
 				if (response.successful) {
 					_this4.alerts.push({
 						type: 'success',
@@ -49603,23 +49613,23 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 						});
 					}
 				} catch (err) {
-					Object(__WEBPACK_IMPORTED_MODULE_10__modules_errors_js__["b" /* handleError */])(err, _this4, 'There was a problem displaying unsuccessful reports');
+					Object(__WEBPACK_IMPORTED_MODULE_11__modules_errors_js__["b" /* handleError */])(err, _this4, 'There was a problem displaying unsuccessful reports');
 				}
 			}).catch(function (err) {
-				Object(__WEBPACK_IMPORTED_MODULE_10__modules_errors_js__["b" /* handleError */])(err, _this4, 'There was a problem sending the reports');
+				Object(__WEBPACK_IMPORTED_MODULE_11__modules_errors_js__["b" /* handleError */])(err, _this4, 'There was a problem sending the reports');
 			});
 		}
 	},
 
 	components: {
 		VueEditor: __WEBPACK_IMPORTED_MODULE_0_vue2_editor__["VueEditor"],
-		ClearableDate: __WEBPACK_IMPORTED_MODULE_5__ClearableDate_vue__["a" /* default */],
-		ComponentList: __WEBPACK_IMPORTED_MODULE_3__ComponentList_vue__["a" /* default */],
-		ValidatedFormGroup: __WEBPACK_IMPORTED_MODULE_4__ValidatedFormGroup_vue__["a" /* default */],
-		OverlapListItem: __WEBPACK_IMPORTED_MODULE_9__OverlapListItem_vue__["a" /* default */],
-		MarkdownEditor: __WEBPACK_IMPORTED_MODULE_6__MarkdownEditor_vue__["a" /* default */],
-		ShowHideButton: __WEBPACK_IMPORTED_MODULE_7__ShowHideButton_vue__["a" /* default */],
-		DownloadButton: __WEBPACK_IMPORTED_MODULE_8__DownloadButton_vue__["a" /* default */]
+		ClearableDate: __WEBPACK_IMPORTED_MODULE_6__ClearableDate_vue__["a" /* default */],
+		ComponentList: __WEBPACK_IMPORTED_MODULE_4__ComponentList_vue__["a" /* default */],
+		ValidatedFormGroup: __WEBPACK_IMPORTED_MODULE_5__ValidatedFormGroup_vue__["a" /* default */],
+		OverlapListItem: __WEBPACK_IMPORTED_MODULE_10__OverlapListItem_vue__["a" /* default */],
+		MarkdownEditor: __WEBPACK_IMPORTED_MODULE_7__MarkdownEditor_vue__["a" /* default */],
+		ShowHideButton: __WEBPACK_IMPORTED_MODULE_8__ShowHideButton_vue__["a" /* default */],
+		DownloadButton: __WEBPACK_IMPORTED_MODULE_9__DownloadButton_vue__["a" /* default */]
 	}
 });
 
@@ -50927,7 +50937,24 @@ var render = function() {
                                 }
                               }
                             })
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              attrs: {
+                                href:
+                                  "/egress-pairings?pairingData=" +
+                                  _vm.encodePairingData(item),
+                                target: "_blank"
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n\t\t\t\t\t\t\tDetailed report\n\t\t\t\t\t\t"
+                              )
+                            ]
+                          )
                         ]),
                         _vm._v(" "),
                         _c(
