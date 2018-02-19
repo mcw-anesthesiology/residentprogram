@@ -93,13 +93,13 @@ class FacultyTest extends BrowserKitTestCase
 
 		$this->actingAs($this->user)
 			->visit("/evaluation/" . $eval->id)
-			->see("Complete Evaluation")
+			->see(config('constants.COMPLETE_EVAL_TEXT'))
 			->see($eval->id)
 			->see("Pending")
 			->see("Resident Evaluation Form")
             ->select(4, "q1")
             ->type("Good job.", "q3")
-            ->press("Save evaluation");
+            ->press(config('constants.SAVE_EVAL_TEXT'));
 
         $this->seeInDatabase("evaluations", [
             "id" => $eval->id,
@@ -129,14 +129,14 @@ class FacultyTest extends BrowserKitTestCase
 
 		$this->actingAs($this->user)
 			->visit("/evaluation/" . $eval->id)
-			->see("Complete Evaluation")
+			->see(config('constants.COMPLETE_EVAL_TEXT'))
 			->see($eval->id)
 			->see("Pending")
 			->see("Resident Evaluation Form")
             ->select(4, "q1")
             ->select(2, "q2")
             ->type("Good job.", "q3")
-            ->press("Complete evaluation");
+            ->press(config('constants.COMPLETE_EVAL_TEXT'));
 
         $this->seeInDatabase("evaluations", [
             "id" => $eval->id,

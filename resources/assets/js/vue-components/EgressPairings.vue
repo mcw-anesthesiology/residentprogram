@@ -41,7 +41,7 @@ import { ucfirst } from '@/modules/utils.js';
 import { ADMIN_EMAIL } from '@/modules/constants.js';
 
 // FIXME
-import TEST_DATA from '/tmp/test.json';
+// import TEST_DATA from '/tmp/test.json';
 
 export default {
 	// mixins: [HasAlerts],
@@ -58,7 +58,7 @@ export default {
 			return this.params.get('subjectType') || 'trainee';
 		},
 		encodedPairingData() {
-			return btoa(JSON.stringify(TEST_DATA));
+			// return btoa(JSON.stringify(TEST_DATA));
 			return this.params.get('pairingData');
 		},
 		pairingData() {

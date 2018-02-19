@@ -4,6 +4,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use Carbon\Carbon;
+
 use App\Helpers\EgressParser;
 
 class EgressTest extends TestCase {
@@ -19,27 +21,31 @@ Resident, Sample, MD:
 EOD;
 
 		$procDate = '04/20/17';
-		$case = EgressParser::parseCase($procDate, $anesthStaff);
+		$row = [
+			EgressParser::EGRESS_COLS['DATE'] => $procDate,
+			EgressParser::EGRESS_COLS['ANESTHESIA_STAFF'] => $anesthStaff
+		];
+		$case = EgressParser::parseEgressCase($row);
 
 		$this->assertEquals($case, [
 			'date' => $procDate,
 			'staff' => [
 				'Faculty, Sample, MD' => [
 					'name' => 'Faculty, Sample, MD',
-					'role' => 'Anesthesiologist',
+					'role' => 'faculty',
 					'date' => $procDate,
 					'times' => [
-						'start' => '0014',
-						'end' => '1108'
+						'start' => Carbon::create(2017, 4, 20, 0, 14),
+						'end' => Carbon::create(2017, 4, 20, 11, 8)
 					]
 				],
 				'Resident, Sample, MD' => [
 					'name' => 'Resident, Sample, MD',
-					'role' => 'Anesthesia Resident',
+					'role' => 'resident',
 					'date' => $procDate,
 					'times' => [
-						'start' => '0612',
-						'end' => '1443'
+						'start' => Carbon::create(2017, 4, 20, 6, 12),
+						'end' => Carbon::create(2017, 4, 20, 14, 43)
 					]
 				]
 			]
@@ -49,7 +55,6 @@ EOD;
 
 		$this->assertEquals(
 			EgressParser::computeCaseOverlapTime(
-				$procDate,
 				$case['staff']['Faculty, Sample, MD'],
 				$case['staff']['Resident, Sample, MD']
 			)->format(self::INTERVAL_FORMAT),
@@ -68,11 +73,14 @@ EOD;
 		// Overlap: 05/30/17 2004 to 05/30/17 2319
 
 		$procDate = '04/20/17';
-		$case = EgressParser::parseCase($procDate, $anesthStaff);
+		$row = [
+			EgressParser::EGRESS_COLS['DATE'] => $procDate,
+			EgressParser::EGRESS_COLS['ANESTHESIA_STAFF'] => $anesthStaff
+		];
+		$case = EgressParser::parseEgressCase($row);
 
 		$this->assertEquals(
 			EgressParser::computeCaseOverlapTime(
-				$procDate,
 				$case['staff']['Faculty, Sample, MD'],
 				$case['staff']['Resident, Sample, MD']
 			)->format(self::INTERVAL_FORMAT),

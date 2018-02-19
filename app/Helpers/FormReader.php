@@ -4,7 +4,9 @@ namespace App\Helpers;
 
 use \Michelf\Markdown;
 
-class FormReader{
+class FormReader {
+
+	const NA_TEXT = 'Not applicable';
 
 	protected $questionType = "";
 	protected $questionName = "";
@@ -34,7 +36,9 @@ class FormReader{
 				$required = "";
 				$panelType = "panel-default";
 			}
-			$result .= "<div class='question panel {$panelType}' id='{$questionName}' data-required='{$required}'>";
+			$result .= "<div class='question panel {$panelType}'
+				id='{$questionName}' data-required='{$required}'
+				data-question-type='{$questionType}'>";
 			$questionHasDescriptions = false;
 			$result .= "<input type='hidden' name='{$questionName}:weight' value='{$questionWeight}' />";
 
@@ -49,11 +53,13 @@ class FormReader{
 					$questionHasDescriptions = true;
 
 				if ($questionType == "checkbox")
-					$result .= "<div class='question-option {$questionName}'><label><span title='{$description}'>"
-						. "<input type='checkbox' name='{$questionName}[]' value='{$attrs["value"]}' /><br />";
+					$result .= "<div class='question-option {$questionName}'><label title='{$description}'>"
+						. "<input type='checkbox' name='{$questionName}[]' value='{$attrs["value"]}' />
+							<br /><span class='question-option-text'>";
 				else
-					$result .= "<div class='question-option {$questionName}'><label><span title='{$description}'>"
-						. "<input type='radio' name='{$questionName}' value='{$attrs["value"]}' {$required} /><br />";
+					$result .= "<div class='question-option {$questionName}'><label title='{$description}'>"
+						. "<input type='radio' name='{$questionName}' value='{$attrs["value"]}' {$required} />
+							<br /><span class='question-option-text'>";
 			}
 		} elseif ($name == "text") {
 				$result .= "<div class='question-header panel-heading'><h3 class='question-title panel-title'><b>".strtoupper($questionName).": </b>";
@@ -68,7 +74,7 @@ class FormReader{
 	}
 
 	static function endElement($parser, $name) {
-		global $questionType, $questionName, $description,
+		global $NA_TEXT, $questionType, $questionName, $description,
 			$questionHasDescriptions, $required, $result,
 			$characterData, $transformCharacterData;
 
@@ -114,6 +120,18 @@ class FormReader{
 			$result .= "</div>"; // .question-option
 		} elseif ($name == "text") {
 			$result .= "</h3></div><div class='question-body panel-body'>"; // .question-title
+
+			if (empty($required)) {
+				$inputType = $questionType == 'checkbox'
+					? 'checkbox'
+					: 'radio';
+
+				$result .= "<div class='question-option {$questionName} na-option-container'><label><span title='{$description}'>
+					<input type='{$inputType}' name='{$questionName}' data-n-a />
+					<br />
+					<span class='question-option-text'>" . self::NA_TEXT . "</span>
+				</span></label></div>";
+			}
 		} elseif ($name == "title") {
 			$result .= "</h2>";
 		} elseif ($name == "instruction") {

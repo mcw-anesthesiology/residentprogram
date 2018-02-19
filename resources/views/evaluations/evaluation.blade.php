@@ -279,8 +279,17 @@
 
 	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 				<div class="submit-container text-center">
-					<button type="submit" id="complete-form" name="evaluation_id" value="{{ $evaluation->viewable_id }}" class="btn btn-primary btn-lg">Complete evaluation</button>
-					<button type="submit" id="save-form" name="evaluation_id_saved" value="{{ $evaluation->viewable_id }}" class="btn btn-default btn-lg" formnovalidate>Save evaluation</button>
+					<button type="submit" id="complete-form" name="evaluation_id"
+							value="{{ $evaluation->viewable_id }}"
+							class="btn btn-primary btn-lg">
+						{{ config('constants.COMPLETE_EVAL_TEXT') }}
+					</button>
+					<button type="submit" id="save-form" name="evaluation_id_saved"
+							value="{{ $evaluation->viewable_id }}"
+							class="btn btn-default btn-lg"
+							formnovalidate>
+						{{ config('constants.SAVE_EVAL_TEXT') }}
+					</button>
 				</div>
 			</form>
 	@endif
@@ -485,7 +494,12 @@
 			$('.question').each(function() {
 				var question = this;
 				var questionId = $(question).attr('id');
-				if (!($(question).data('required'))) {
+				var questionType = $(question).data('questionType');
+				if (!($(question).data('required')) && (
+					questionType === 'radio'
+					|| questionType === 'radiononnumeric'
+					|| questionType === 'checkbox'
+				)) {
 
 					var container = $(question).find('.question-description-toggle');
 
@@ -509,7 +523,6 @@
 			});
 		@endif
 
-
 		$(document).ready(function(){
 			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id || $user->isType("admin"))
 				@foreach($evaluation->responses as $response)
@@ -528,6 +541,12 @@
 						$("input[name='{{ $response->question_id }}[]'][value='{{ str_replace(["\n", "\r"], ["\\n", "\\r"], addslashes($response->response)) }}']").prop("checked", true);
 					}
 				@endforeach
+
+				$('.question').each(function () {
+					if ($(this).find('.question-option input:checked').length === 0) {
+						$(this).find('input[data-n-a]').prop('checked', true);
+					}
+				});
 			@endif
 
 			@if($evaluation->status == "complete" || $user->id != $evaluation->evaluator_id)
