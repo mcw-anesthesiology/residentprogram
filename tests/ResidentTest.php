@@ -187,13 +187,13 @@ class ResidentTest extends BrowserKitTestCase
 
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
-            ->see("Complete evaluation")
+            ->see(config('constants.COMPLETE_EVAL_TEXT'))
             ->see($eval->id)
             ->see("Pending")
             ->see("Faculty Evaluation Form")
             ->select("good", "q1")
             ->type("Have none.", "q3")
-            ->press("Save evaluation");
+            ->press(config('constants.SAVE_EVAL_TEXT'));
 
         $this->seeInDatabase("evaluations", [
             "id" => $eval->id,
@@ -224,14 +224,14 @@ class ResidentTest extends BrowserKitTestCase
 
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
-            ->see("Complete evaluation")
+            ->see(config('constants.COMPLETE_EVAL_TEXT'))
             ->see($eval->id)
             ->see("Pending")
             ->see("Faculty Evaluation Form")
             ->select("good", "q1")
             ->select("yes", "q2")
             ->type("Have none.", "q3")
-            ->press("Complete evaluation");
+            ->press(config('constants.COMPLETE_EVAL_TEXT'));
 
         $this->seeInDatabase("evaluations", [
             "id" => $eval->id,
@@ -271,14 +271,14 @@ class ResidentTest extends BrowserKitTestCase
 		for($i = 0; $i < 3; $i++){
 			$this->actingAs($this->user)
 	            ->visit("/evaluation/" . $evals[$i]->id)
-	            ->see("Complete evaluation")
+	            ->see(config('constants.COMPLETE_EVAL_TEXT'))
 	            ->see($evals[$i]->id)
 	            ->see("Pending")
 	            ->see("Faculty Evaluation Form")
 	            ->select("good", "q1")
 	            ->select("yes", "q2")
 	            ->type("Have none.", "q3")
-	            ->press("Complete evaluation");
+	            ->press(config('constants.COMPLETE_EVAL_TEXT'));
 		}
 
 		$this->actingAs($this->admin);

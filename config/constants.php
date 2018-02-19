@@ -2,6 +2,9 @@
 
 return [
 
+	'COMPLETE_EVAL_TEXT' => 'Submit completed evaluation',
+	'SAVE_EVAL_TEXT' => 'Save progress, return later',
+
 	'FLAGGED_ACTIONS' => [
 		'date' => 'Change date',
 		'form' => 'Change form',

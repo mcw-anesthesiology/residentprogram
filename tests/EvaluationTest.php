@@ -183,4 +183,48 @@ class EvaluationTest extends BrowserKitTestCase
 		$facultySent = $facultyEval->sendCompleteNotification();
 		$this->assertFalse($facultySent);
 	}
+
+	public function testNAOption() {
+		$resident = $this->residents[0];
+		$faculty = $this->faculty[0];
+
+		$eval = factory(App\Evaluation::class)->create([
+			'form_id' => $this->form->id,
+			'subject_id' => $resident->id,
+			'evaluator_id' => $faculty->id,
+			'requested_by_id' => $resident->id
+		]);
+
+		$responseMap = [
+			'q1' => 4,
+			'q2' => 2
+		];
+
+		$this->actingAs($faculty)
+			->visit("/evaluation/{$eval->id}")
+			->select($responseMap['q1'], 'q1')
+			->select($responseMap['q2'], 'q2')
+			->type('Comments', 'q3')
+			->select('on', 'q4')
+			->press('Submit completed evaluation');
+
+		foreach ($responseMap as $q => $v) {
+			$this->seeInDatabase('responses', [
+				'evaluation_id' => $eval->id,
+				'question_id' => $q,
+				'response' => $v
+			]);
+		}
+
+		$this->seeInDatabase('text_responses', [
+			'evaluation_id' => $eval->id,
+			'question_id' => 'q3',
+			'response' => 'Comments'
+		]);
+
+		$this->notSeeInDatabase('responses', [
+			'evaluation_id' => $eval->id,
+			'question_id' => 'q4'
+		]);
+	}
 }
