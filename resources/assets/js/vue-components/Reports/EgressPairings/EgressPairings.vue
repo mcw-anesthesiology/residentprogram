@@ -305,6 +305,10 @@
 									:value="item"
 									v-model="selectedOverlaps" />
 							</label>
+							<a :href="`/egress-pairings?pairingData=${encodePairingData(item)}`"
+									target="_blank">
+								Detailed report
+							</a>
 						</div>
 						<div class="col-xs-11">
 							<overlap-list-item
@@ -364,6 +368,7 @@
 import { VueEditor } from 'vue2-editor';
 
 import delve from 'dlv';
+import * as lzstring from 'lz-string';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
@@ -577,6 +582,9 @@ export default {
 
 	methods: {
 		ucfirst,
+		encodePairingData(overlap) {
+			return lzstring.compressToEncodedURIComponent(JSON.stringify(overlap));
+		},
 		handleEgressFilesChange(event) {
 			this.egressFiles = event.target.files;
 		},

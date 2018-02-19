@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import * as lzstring from 'lz-string';
+
 // import HasAlerts from '@/vue-mixins/HasAlerts.js';
 import ComponentList from '@/vue-components/ComponentList.vue';
 import EgressPairingListItem from './EgressPairingListItem.vue';
@@ -39,9 +41,6 @@ import { logError } from '@/modules/errors.js';
 import { ucfirst } from '@/modules/utils.js';
 
 import { ADMIN_EMAIL } from '@/modules/constants.js';
-
-// FIXME
-// import TEST_DATA from '/tmp/test.json';
 
 export default {
 	// mixins: [HasAlerts],
@@ -58,7 +57,6 @@ export default {
 			return this.params.get('subjectType') || 'trainee';
 		},
 		encodedPairingData() {
-			// return btoa(JSON.stringify(TEST_DATA));
 			return this.params.get('pairingData');
 		},
 		pairingData() {
@@ -66,7 +64,9 @@ export default {
 				return;
 
 			try {
-				return JSON.parse(atob(this.encodedPairingData));
+				return JSON.parse(lzstring.decompressFromEncodedURIComponent(
+					this.encodedPairingData
+				));
 			} catch (err) {
 				logError(err);
 				// handleError(err, this, 'There was a problem decoding the report data');
