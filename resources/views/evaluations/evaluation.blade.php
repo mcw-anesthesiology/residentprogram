@@ -57,19 +57,6 @@
 		hr {
 			page-break-before: always;
 		}
-
-		.na-option-container {
-			border-right: 1px solid rgba(0, 0, 0, 0.25);
-		}
-
-		.question-option .question-option-text {
-			opacity: 0.8;
-		}
-
-		.question-option:hover .question-option-text,
-		.question-option input:checked + br + .question-option-text {
-			opacity: 1;
-		}
 	</style>
 @stop
 
