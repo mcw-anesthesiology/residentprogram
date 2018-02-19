@@ -6,6 +6,10 @@
 			width: 100%;
 			resize: none;
 		}
+
+		hr {
+			page-break-before: always;
+		}
 	</style>
 @stop
 
