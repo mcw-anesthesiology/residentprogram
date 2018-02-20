@@ -51,7 +51,7 @@
 	@endif
 @endsection
 
-@section('pre-scripts')
+@push('pre-scripts')
 	<script>
 		var newsPropsData = {
 			user: {!! $user->toJson() !!}
@@ -59,4 +59,4 @@
 
 		createNews('#global-news-dropdown', newsPropsData);
 	</script>
-@endsection
+@endpush

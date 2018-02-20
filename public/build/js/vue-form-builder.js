@@ -4337,7 +4337,7 @@ module.exports = listCacheClear;
 
 /***/ }),
 
-/***/ 578:
+/***/ 579:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5812,6 +5812,6 @@ module.exports = arrayFilter;
 
 /***/ })
 
-},[578]);
+},[579]);
 });
 //# sourceMappingURL=vue-form-builder.js.map
