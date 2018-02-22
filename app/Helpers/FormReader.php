@@ -121,7 +121,10 @@ class FormReader {
 		} elseif ($name == "text") {
 			$result .= "</h3></div><div class='question-body panel-body'>"; // .question-title
 
-			if (empty($required)) {
+			if (
+				in_array($questionType, ['radio', 'radiononnumeric', 'checkbox'])
+				&& empty($required)
+			) {
 				$inputType = $questionType == 'checkbox'
 					? 'checkbox'
 					: 'radio';
