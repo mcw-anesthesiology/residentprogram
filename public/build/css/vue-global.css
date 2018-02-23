@@ -87,8 +87,65 @@ nav span[data-v-55d164d3] {
 	margin: 0 0.25em;
 }
 
-.php-date-interval[data-v-16a0d5eb] {
+.component-list-item[data-v-58b36ac4] {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+}
+.component-list-item > *[data-v-58b36ac4] {
+	margin: 0.5em;
+	flex-grow: 1;
+	flex-shrink: 1;
+}
+.subject[data-v-58b36ac4] {
+	flex-basis: calc(20% - 1em);
+}
+.pairing-metric-num-cases[data-v-58b36ac4] {
+	flex-basis: calc(15% - 1em);
+}
+.pairing-metric-time-together[data-v-58b36ac4] {
+	flex-basis: calc(25% - 1em);
+}
+.pairing-metric-case-list[data-v-58b36ac4] {
+	flex-basis: calc(40% - 1em);
+	min-width: 300px;
+	max-width: 100%;
+}
+.subject[data-v-58b36ac4] {
+	text-align: center;
+	padding: 1em;
+}
+.subject img[data-v-58b36ac4] {
+	display: block;
+	margin: 0.25em auto;
+	height: 10em;
+}
+.pairing-metric[data-v-58b36ac4] {
+	display: block;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	padding: 2em;
+	font-size: 1.25em;
+	border-radius: 1px;
+	text-align: center;
+}
+.pairing-metric .pairing-metric-label[data-v-58b36ac4] {
+	display: block;
+	color: rgba(0, 0, 0, 0.35);
+	font-size: 0.8em;
+}
+.pairing-metric .pairing-metric-value[data-v-58b36ac4] {
+	display: block;
+	text-align: center;
+	font-size: 1.25em;
+}
+
+.php-date-interval-pre[data-v-16a0d5eb] {
 	white-space: pre;
+}
+.php-date-interval-unit[data-v-16a0d5eb] {
+	margin: 0 0.1em;
+	white-space: nowrap;
 }
 
 /*# sourceMappingURL=vue-global.css.map*/

@@ -1,5 +1,18 @@
 <template>
-	<span class="php-date-interval">{{ display }}</span>
+	<span v-if="pre" class="php-date-interval-pre">
+		{{ preDisplay }}
+	</span>
+	<span v-else class="php-date-interval">
+		<span class="php-date-interval-unit">
+			{{days}} days
+		</span>
+		<span class="php-date-interval-unit">
+			{{hours}} hours
+		</span>
+		<span class="php-date-interval-unit">
+			{{minutes}} minutes
+		</span>
+	</span>
 </template>
 
 <script>
@@ -8,6 +21,10 @@ export default {
 		value: {
 			type: Object,
 			required: true
+		},
+		pre: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -28,7 +45,7 @@ export default {
 				'minutes'
 			];
 		},
-		display() {
+		preDisplay() {
 			return this.thingsToDisplay
 				.filter(thing => this[thing])
 				.map(thing => {
@@ -46,7 +63,12 @@ export default {
 </script>
 
 <style scoped>
-	.php-date-interval {
+	.php-date-interval-pre {
 		white-space: pre;
+	}
+
+	.php-date-interval-unit {
+		margin: 0 0.1em;
+		white-space: nowrap;
 	}
 </style>
