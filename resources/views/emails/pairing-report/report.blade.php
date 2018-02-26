@@ -93,6 +93,13 @@
 	</tbody>
 </table>
 
+	@if (!empty($reportLink))
+<p>
+	You can see a detailed version of this report using the following link:
+	<a href="{{ $reportLink }}">Detailed pairing report</a>
+</p>
+	@endif
+
 @else
 	@if (!empty($emptyMessage))
 <div>

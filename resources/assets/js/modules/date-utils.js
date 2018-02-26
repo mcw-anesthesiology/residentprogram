@@ -1,6 +1,6 @@
 /* @flow */
 
-import type moment$Moment from 'moment';
+import type { moment$Moment, moment$MomentDuration } from 'moment';
 
 export type DateLike = string | Date | moment$Moment;
 
@@ -270,4 +270,34 @@ export function monthsInAcademicYear() {
 	}
 
 	return months;
+}
+
+export type PhpDateInterval = {
+	y: number,
+	m: number,
+	d: number,
+	days: number,
+	h: number,
+	i: number,
+	s: number,
+
+	f: number,
+	first_last_day_of: number,
+	have_special_relative: number,
+	have_weekday_relative: number,
+	special_amount: number,
+	special_type: number,
+	weekday: number,
+	weekday_behavior: number
+};
+
+export function parsePhpDateInterval(di: PhpDateInterval): moment$MomentDuration {
+	return moment.duration({
+		years: di.y,
+		months: di.m,
+		days: di.days,
+		hours: di.h,
+		minutes: di.i,
+		seconds: di.s
+	});
 }

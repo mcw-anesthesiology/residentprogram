@@ -3,19 +3,21 @@
 		{{ preDisplay }}
 	</span>
 	<span v-else class="php-date-interval">
-		<span class="php-date-interval-unit">
-			{{days}} days
+		<span v-if="days" class="php-date-interval-unit">
+			{{days}} {{pluralize('day', days)}}
 		</span>
-		<span class="php-date-interval-unit">
-			{{hours}} hours
+		<span v-if="days || hours" class="php-date-interval-unit">
+			{{hours}} {{pluralize('hour', hours)}}
 		</span>
-		<span class="php-date-interval-unit">
-			{{minutes}} minutes
+		<span v-if="minutes" class="php-date-interval-unit">
+			{{minutes}} {{pluralize('minute', minutes)}}
 		</span>
 	</span>
 </template>
 
 <script>
+import { pluralize } from '@/modules/text-utils.js';
+
 export default {
 	props: {
 		value: {
@@ -27,7 +29,6 @@ export default {
 			default: false
 		}
 	},
-
 	computed: {
 		days() {
 			return this.value.days;
@@ -58,6 +59,9 @@ export default {
 				})
 				.join('  ');
 		}
+	},
+	methods: {
+		pluralize
 	}
 };
 </script>

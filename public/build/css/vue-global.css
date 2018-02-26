@@ -46,6 +46,10 @@
 }
 }
 
+h2[data-v-59633062] {
+	margin: 1.5em 0;
+}
+
 .list-header-controls[data-v-8543d20a] {
 	text-align: right;
 }
@@ -87,54 +91,79 @@ nav span[data-v-55d164d3] {
 	margin: 0 0.25em;
 }
 
-.component-list-item[data-v-58b36ac4] {
+.component-list-item[data-v-12b95c45] {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	align-items: center;
+	align-items: flex-start;
 }
-.component-list-item > *[data-v-58b36ac4] {
+.component-list-item > *[data-v-12b95c45] {
 	margin: 0.5em;
 	flex-grow: 1;
 	flex-shrink: 1;
 }
-.subject[data-v-58b36ac4] {
+.subject[data-v-12b95c45] {
 	flex-basis: calc(20% - 1em);
 }
-.pairing-metric-num-cases[data-v-58b36ac4] {
+.pairing-metric-num-cases[data-v-12b95c45] {
 	flex-basis: calc(15% - 1em);
 }
-.pairing-metric-time-together[data-v-58b36ac4] {
+.pairing-metric-time-together[data-v-12b95c45] {
 	flex-basis: calc(25% - 1em);
 }
-.pairing-metric-case-list[data-v-58b36ac4] {
+.pairing-metric-case-list[data-v-12b95c45] {
 	flex-basis: calc(40% - 1em);
 	min-width: 300px;
 	max-width: 100%;
 }
-.subject[data-v-58b36ac4] {
-	text-align: center;
-	padding: 1em;
+.pairing-metric-case-list .panel-body[data-v-12b95c45] {
+	max-height: 400px;
+	overflow: auto;
 }
-.subject img[data-v-58b36ac4] {
+.pairing-metric-case-list li + li[data-v-12b95c45] {
+	margin-top: 0.5em;
+}
+.pairing-metric-case-list dl[data-v-12b95c45] {
+	margin-left: 1em;
+}
+.cases-list[data-v-12b95c45] {
+	font-size: 1.15em;
+	list-style-type: disc;
+}
+.case-procedures[data-v-12b95c45] {
+	margin-bottom: 0.5em;
+}
+.case-details[data-v-12b95c45] {
+	font-size: 0.85em;
+}
+.subject[data-v-12b95c45] {
+	text-align: center;
+}
+.subject img[data-v-12b95c45] {
 	display: block;
 	margin: 0.25em auto;
 	height: 10em;
 }
-.pairing-metric[data-v-58b36ac4] {
+.subject-name[data-v-12b95c45] {
+	font-size: 1.15em;
+}
+.subject-type[data-v-12b95c45] {
+	color: rgba(0, 0, 0, 0.65);
+}
+.pairing-metric[data-v-12b95c45] {
 	display: block;
 	border: 1px solid rgba(0, 0, 0, 0.15);
-	padding: 2em;
+	padding: 2em 1em;
 	font-size: 1.25em;
 	border-radius: 1px;
 	text-align: center;
 }
-.pairing-metric .pairing-metric-label[data-v-58b36ac4] {
+.pairing-metric .pairing-metric-label[data-v-12b95c45] {
 	display: block;
 	color: rgba(0, 0, 0, 0.35);
 	font-size: 0.8em;
 }
-.pairing-metric .pairing-metric-value[data-v-58b36ac4] {
+.pairing-metric .pairing-metric-value[data-v-12b95c45] {
 	display: block;
 	text-align: center;
 	font-size: 1.25em;

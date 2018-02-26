@@ -36,9 +36,84 @@ export function nl2br(text: string): string {
 	return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
 }
 
-export function pluralize(noun: string, items: number): string {
+export function titleCase(text: string): string {
+	return text.split(' ').map(w => w.toLowerCase()).map(ucfirst).join(' ');
+}
+
+export function pluralize(noun: string, items: number, suffix: string = 's'): string {
 	if (items !== 1)
-		noun += 's';
+		noun += suffix;
 
 	return noun;
+}
+
+export const INSTITUTIONAL_ACRONYMS: Set<string> = new Set([
+	'MCW',
+	'CHW'
+]);
+
+export const MEDICAL_ACRONYMS: Set<string> = new Set([
+	// Locations
+	'ICU',
+	'CVICU',
+	'PICU',
+	'PACU',
+
+	'RAAPS',
+
+	// Procedures / ailments / devices
+	'EGD',
+	'ORIF',
+	'EUA',
+	'TAL',
+	'IUD',
+	'ACL',
+	'DCR',
+	'BAHA',
+	'AVSD',
+	'CAVSD',
+	'BAL',
+	'AVR',
+	'TVR',
+	'TPVR',
+	'FESS',
+	'OCD',
+	'HHI',
+	'LIJ',
+	'CCL',
+	'PDA',
+	'VAC',
+	'PSB',
+	'IR',
+	'TEE',
+	'CT',
+	'MRI',
+
+	'(IT)',
+]);
+
+export const COMMON_ACRONYMS: Set<string> = new Set([
+	'Y.O.',
+	'N/A'
+]);
+
+export const ALL_ACRONYMS: Set<string> = new Set([
+	...INSTITUTIONAL_ACRONYMS.values(),
+	...MEDICAL_ACRONYMS.values(),
+	...COMMON_ACRONYMS.values()
+]);
+
+export function replaceAcronyms(
+	text: string,
+	acronyms: Set<string> = ALL_ACRONYMS
+): string {
+	for (const acronym of acronyms.values()) {
+		text = text.replace(
+			new RegExp(`(^|[\\W])(${acronym})(\\W|$)`, 'ig'),
+			(_, startSep = '', _matchedAcronym, endSep = '') =>
+				`${startSep}${acronym}${endSep}`
+		);
+	}
+
+	return text;
 }
