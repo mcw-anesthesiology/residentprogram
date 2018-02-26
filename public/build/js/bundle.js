@@ -161,10 +161,10 @@ module.exports = function normalizeComponent (
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_striptags__ = __webpack_require__(544);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_striptags___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_striptags__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__text_utils_js__ = __webpack_require__(545);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "L", function() { return __WEBPACK_IMPORTED_MODULE_2__text_utils_js__["f"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "M", function() { return __WEBPACK_IMPORTED_MODULE_2__text_utils_js__["g"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "L", function() { return __WEBPACK_IMPORTED_MODULE_2__text_utils_js__["h"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "M", function() { return __WEBPACK_IMPORTED_MODULE_2__text_utils_js__["i"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_2__text_utils_js__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "C", function() { return __WEBPACK_IMPORTED_MODULE_2__text_utils_js__["e"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "C", function() { return __WEBPACK_IMPORTED_MODULE_2__text_utils_js__["f"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return __WEBPACK_IMPORTED_MODULE_2__text_utils_js__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "y", function() { return __WEBPACK_IMPORTED_MODULE_2__text_utils_js__["c"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "A", function() { return __WEBPACK_IMPORTED_MODULE_2__text_utils_js__["d"]; });
@@ -802,6 +802,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["semestersInAcademicYear"] = semestersInAcademicYear;
 /* harmony export (immutable) */ __webpack_exports__["quartersInAcademicYear"] = quartersInAcademicYear;
 /* harmony export (immutable) */ __webpack_exports__["monthsInAcademicYear"] = monthsInAcademicYear;
+/* harmony export (immutable) */ __webpack_exports__["parsePhpDateInterval"] = parsePhpDateInterval;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
@@ -1068,6 +1069,17 @@ function monthsInAcademicYear() {
 	}
 
 	return months;
+}
+
+function parsePhpDateInterval(di) {
+	return __WEBPACK_IMPORTED_MODULE_0_moment___default.a.duration({
+		years: di.y,
+		months: di.m,
+		days: di.days,
+		hours: di.h,
+		minutes: di.i,
+		seconds: di.s
+	});
 }
 
 /***/ }),
@@ -33345,13 +33357,21 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["f"] = ucfirst;
-/* harmony export (immutable) */ __webpack_exports__["g"] = ucfirstWords;
+/* harmony export (immutable) */ __webpack_exports__["h"] = ucfirst;
+/* harmony export (immutable) */ __webpack_exports__["i"] = ucfirstWords;
 /* harmony export (immutable) */ __webpack_exports__["a"] = camelCaseToWords;
-/* harmony export (immutable) */ __webpack_exports__["e"] = snakeCaseToWords;
+/* harmony export (immutable) */ __webpack_exports__["f"] = snakeCaseToWords;
 /* harmony export (immutable) */ __webpack_exports__["b"] = kebabCaseToWords;
 /* harmony export (immutable) */ __webpack_exports__["c"] = nl2br;
+/* harmony export (immutable) */ __webpack_exports__["g"] = titleCase;
 /* harmony export (immutable) */ __webpack_exports__["d"] = pluralize;
+/* unused harmony export INSTITUTIONAL_ACRONYMS */
+/* unused harmony export MEDICAL_ACRONYMS */
+/* unused harmony export COMMON_ACRONYMS */
+/* unused harmony export ALL_ACRONYMS */
+/* harmony export (immutable) */ __webpack_exports__["e"] = replaceAcronyms;
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function ucfirst(str) {
 	return str.charAt(0).toUpperCase() + str.substring(1);
 }
@@ -33408,10 +33428,71 @@ function nl2br(text) {
 	return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
 }
 
+function titleCase(text) {
+	return text.split(' ').map(function (w) {
+		return w.toLowerCase();
+	}).map(ucfirst).join(' ');
+}
+
 function pluralize(noun, items) {
-	if (items !== 1) noun += 's';
+	var suffix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 's';
+
+	if (items !== 1) noun += suffix;
 
 	return noun;
+}
+
+var INSTITUTIONAL_ACRONYMS = new Set(['MCW', 'CHW']);
+
+var MEDICAL_ACRONYMS = new Set([
+// Locations
+'ICU', 'CVICU', 'PICU', 'PACU', 'RAAPS',
+
+// Procedures / ailments / devices
+'EGD', 'ORIF', 'EUA', 'TAL', 'IUD', 'ACL', 'DCR', 'BAHA', 'AVSD', 'CAVSD', 'BAL', 'AVR', 'TVR', 'TPVR', 'FESS', 'OCD', 'HHI', 'LIJ', 'CCL', 'PDA', 'VAC', 'PSB', 'IR', 'TEE', 'CT', 'MRI', '(IT)']);
+
+var COMMON_ACRONYMS = new Set(['Y.O.', 'N/A']);
+
+var ALL_ACRONYMS = new Set([].concat(_toConsumableArray(INSTITUTIONAL_ACRONYMS.values()), _toConsumableArray(MEDICAL_ACRONYMS.values()), _toConsumableArray(COMMON_ACRONYMS.values())));
+
+function replaceAcronyms(text) {
+	var acronyms = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ALL_ACRONYMS;
+
+	var _loop = function _loop(acronym) {
+		text = text.replace(new RegExp('(^|[\\W])(' + acronym + ')(\\W|$)', 'ig'), function (_) {
+			var startSep = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+			var _matchedAcronym = arguments[2];
+			var endSep = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+			return '' + startSep + acronym + endSep;
+		});
+	};
+
+	var _iteratorNormalCompletion2 = true;
+	var _didIteratorError2 = false;
+	var _iteratorError2 = undefined;
+
+	try {
+		for (var _iterator2 = acronyms.values()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+			var acronym = _step2.value;
+
+			_loop(acronym);
+		}
+	} catch (err) {
+		_didIteratorError2 = true;
+		_iteratorError2 = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion2 && _iterator2.return) {
+				_iterator2.return();
+			}
+		} finally {
+			if (_didIteratorError2) {
+				throw _iteratorError2;
+			}
+		}
+	}
+
+	return text;
 }
 
 /***/ }),

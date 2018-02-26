@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use Carbon\Carbon;
 
+use LZCompressor\LZString;
+
 use DateTimeImmutable;
 use DateInterval;
 
@@ -15,6 +17,8 @@ use Log;
 use Mail;
 
 class EgressParser {
+
+	// FIXME: Make sure users with multiple accounts aren't getting clobbered
 
 	// Report types
 	const EGRESS_FILE_TYPE = 'egress';
@@ -28,12 +32,14 @@ class EgressParser {
 	];
 	const CHW_TRAINEE_REPORT_COLS = [
 		'DATE' => 1,
+		'LOCATION' => 3,
 		'PROCEDURE' => 4,
 		'ANES_START' => 12,
 		'ANES_END' => 13,
 		'ANESTHESIOLOGIST' => [ 5, 6, 7 ],
 		'RESIDENT' => [ 8, 9 ],
-		'FELLOW' => [ 10, 11 ]
+		'FELLOW' => [ 10, 11 ],
+		'SURGEON' => 14
 	];
 
 	const FACULTY_ROLE = 'faculty';
@@ -168,6 +174,7 @@ class EgressParser {
 		$name = null;
 		$staff = [];
 
+		$parsedDate = self::parseDate($procDate);
 		$roleMap = [
 			self::EGRESS_FACULTY_ROLE => self::FACULTY_ROLE,
 			self::EGRESS_RESIDENT_ROLE => self::RESIDENT_ROLE,
@@ -183,10 +190,10 @@ class EgressParser {
 					$name = substr(trim($line), 0, -1); // Remove `:`
 					$staff[$name] = [
 						'name' => $name,
-						'date' => $procDate,
+						'date' => $parsedDate,
 						'procedures' => array_map(function($s) {
 							return trim($s);
-						}, str_split("\n", $procedure))
+						}, explode("\n", $procedure))
 					];
 				} elseif (!empty($name) && (strpos($line, '(assigned)') === false)) {
 					try {
@@ -197,8 +204,8 @@ class EgressParser {
 							? $roleMap[$role]
 							: null;
 						$staff[$name]['times'] = [
-							'start' => self::parseDate($procDate, $start),
-							'end' => self::parseDate($procDate, $end)
+							'start' => self::parseDateTime($procDate, $start),
+							'end' => self::parseDateTime($procDate, $end)
 						];
 					} catch (\Exception $e) {
 						Log::debug('Failed to parse ');
@@ -237,6 +244,7 @@ class EgressParser {
 			$roleMap[$fellowCol] = self::FELLOW_ROLE;
 		}
 
+		$parsedDate = self::parseDate($procDate);
 		$start = Carbon::parse(
 			$row[self::CHW_TRAINEE_REPORT_COLS['ANES_START']]
 		);
@@ -252,7 +260,7 @@ class EgressParser {
 
 				$staff[$name] = [
 					'name' => $name,
-					'date' => $procDate,
+					'date' => $parsedDate,
 					'procedures' => array_map(function($s) {
 						return trim($s);
 					}, explode(',', $procedure)),
@@ -262,6 +270,10 @@ class EgressParser {
 					'times' => [
 						'start' => $start,
 						'end' => $end
+					],
+					'additionalInfo' => [
+						'location' => $row[self::CHW_TRAINEE_REPORT_COLS['LOCATION']],
+						'surgeon' => $row[self::CHW_TRAINEE_REPORT_COLS['SURGEON']]
 					]
 				];
 			} catch (\Exception $e) {
@@ -522,19 +534,26 @@ class EgressParser {
 		fclose($outfp);
 	}
 
-	static function parseDate($date, $time) {
-		if (strpos($time, ' ') !== false) {
-			[$date, $time] = array_map('trim', explode(' ', $time));
-		}
-
+	static function parseDate($date) {
 		[$month, $day, $year] = explode('/', $date);
 		$year = (int)$year + 2000; // Assuming two-digit year is in 2000s
 		$month = (int)$month;
 		$day = (int)$day;
+
+		return Carbon::create($year, $month, $day);
+	}
+
+	static function parseDateTime($date, $time) {
+		if (strpos($time, ' ') !== false) {
+			[$date, $time] = array_map('trim', explode(' ', $time));
+		}
+
+		$date = self::parseDate($date);
+
 		$hour = substr($time, 0, 2);
 		$minute = substr($time, 2, 2);
 
-		return Carbon::create($year, $month, $day, $hour, $minute);
+		return $date->setTime($hour, $minute);
 	}
 
 	static function findUser($staff) {
@@ -666,6 +685,31 @@ class EgressParser {
 				</p>";
 		}
 
+		$reportLink = null;
+
+		try {
+			$params = [
+				'userType' => $userType,
+				'subjectType' => $subjectType,
+				'pairingData' => LZString::compressToEncodedURIComponent(
+					json_encode([
+						'user name' => $user['full_name'],
+						$userType => $user,
+						'pairings' => $pairings
+					])
+				)
+			];
+
+			$queryString = http_build_query($params);
+
+			if (!empty($evaluationDateParams))
+				$queryString .= $evaluationDateParams;
+
+			$reportLink = url("/egress-pairings?{$queryString}");
+		} catch (\Exception $e) {
+			Log::debug('Failed creating report link: ' . $e);
+		}
+
 		$data = compact(
 			'user',
 			'pairings',
@@ -674,6 +718,7 @@ class EgressParser {
 			'periodDisplay',
 			'requestUrl',
 			'evaluationDateParams',
+			'reportLink',
 
 			'intro',
 			'successLead',

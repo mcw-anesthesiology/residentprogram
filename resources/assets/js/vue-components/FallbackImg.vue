@@ -1,5 +1,5 @@
 <template>
-	<img :src="safeSrc" @error="useFallback = true" />
+	<img :src="imgSrc" @error="useFallback = true" />
 </template>
 
 <script>
@@ -20,7 +20,7 @@ export default {
 		};
 	},
 	computed: {
-		safeSrc() {
+		imgSrc() {
 			return this.useFallback
 				? this.fallback
 				: this.src;

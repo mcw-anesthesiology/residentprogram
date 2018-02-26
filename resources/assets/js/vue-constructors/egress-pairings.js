@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-import EgressPairings from '@/vue-components/EgressPairings.vue';
+import EgressPairings from '@/vue-components/EgressPairings/EgressPairings.vue';
 
 export default function createEgressPairings(el) {
 	return new Vue({

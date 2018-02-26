@@ -409,7 +409,6 @@ body {
 .containing-label textarea,
 .containing-label select,
 .containing-label .select2,
-.containing-label .input-group,
 .containing-label button,
 .containing-label .form-control {
 	margin-top: 5px;

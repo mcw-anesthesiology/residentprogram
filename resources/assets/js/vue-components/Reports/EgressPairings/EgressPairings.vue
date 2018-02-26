@@ -64,7 +64,19 @@
 							</select>
 						</label>
 					</validated-form-group>
-					<validated-form-group class="col-sm-12"
+					<validated-form-group class="col-sm-6"
+							:errors="sendReportErrors"
+							prop="reportDates">
+						<label class="containing-label">
+							Report dates (optional)
+							<clearable-date
+								input-class="form-control appear-not-readonly"
+								:options="{mode: 'range'}"
+								v-model="reportDatesStr"
+								@change="handleReportDatesChange" />
+						</label>
+					</validated-form-group>
+					<validated-form-group class="col-sm-6"
 							:errors="errors" prop="maxPairs">
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -248,6 +260,14 @@
 									</tbody>
 								</table>
 
+								<p>
+									You can see a detailed version of this
+									report using the following link:
+									<a href="#" @click="$event.preventDefault()">
+										Detailed pairing report
+									</a>
+								</p>
+
 								<div v-html="customMessage.closing"></div>
 
 								<p>
@@ -305,7 +325,7 @@
 									:value="item"
 									v-model="selectedOverlaps" />
 							</label>
-							<a :href="`/egress-pairings?pairingData=${encodePairingData(item)}`"
+							<a :href="getReportLink(item)"
 									target="_blank">
 								Detailed report
 							</a>
@@ -441,12 +461,12 @@ export default {
 		},
 		overlapsFields() {
 			return [
-				'group_by_name'
+				'user name'
 			];
 		},
 		overlapsFieldAccessors() {
 			return {
-				group_by_name: overlap => overlap[this.reportUserType].full_name,
+				'user name': overlap => overlap[this.reportUserType].full_name,
 				id: overlap => overlap[this.reportUserType].id
 			};
 		},
@@ -582,8 +602,22 @@ export default {
 
 	methods: {
 		ucfirst,
-		encodePairingData(overlap) {
-			return lzstring.compressToEncodedURIComponent(JSON.stringify(overlap));
+		getReportLink(overlap) {
+			const params = new URLSearchParams();
+			params.set('userType', this.reportUserType);
+			params.set('subjectType', this.reportSubjectType);
+			if (this.reportDates && this.reportDates.length === 2) {
+				params.set('startDate', isoDateString(this.reportDates[0]));
+				params.set('endDate', isoDateString(this.reportDates[1]));
+			}
+
+			params.set(
+				'pairingData',
+				lzstring.compressToEncodedURIComponent(JSON.stringify(overlap))
+			);
+
+
+			return`/egress-pairings?${params.toString()}`;
 		},
 		handleEgressFilesChange(event) {
 			this.egressFiles = event.target.files;
