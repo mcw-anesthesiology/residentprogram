@@ -40,4 +40,14 @@ class DateHelpers {
 			'endDate' => $endDate
 		];
 	}
+
+	public static function arrayToDateInterval($arr) {
+		$di = new DateInterval('PT0S');
+		foreach ($arr as $key => $val) {
+			$di->$key = $val;
+		}
+		$dt = new DateTimeImmutable();
+
+		return $dt->diff($dt->add($di));
+	}
 }
