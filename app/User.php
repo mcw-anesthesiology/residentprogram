@@ -223,6 +223,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $this->hasMany('App\MeritReport');
 	}
 
+	public function anesthesiaCases() {
+		return $this->belongsToMany(
+			'App\AnesthesiaCase',
+			'user_anesthesia_cases',
+			'user_id',
+			'anesthesia_case_id'
+		);
+	}
+
 	public function scopeFormerResidents($query){
 		return $query->where(function($userQuery){
 			$userQuery->where("type", "!=", "resident")->orWhere(function($inactiveQuery){
