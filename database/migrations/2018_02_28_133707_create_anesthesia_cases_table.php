@@ -35,6 +35,8 @@ class CreateAnesthesiaCasesTable extends Migration
 			$table->increments('id');
 			$table->unsignedInteger('user_id');
 			$table->unsignedInteger('anesthesia_case_id');
+			$table->dateTime('start_time');
+			$table->dateTime('stop_time');
 
 			$table->timestamps();
 		});

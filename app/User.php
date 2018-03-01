@@ -229,7 +229,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			'user_anesthesia_cases',
 			'user_id',
 			'anesthesia_case_id'
-		);
+		)->withPivot('start_time', 'stop_time');
+	}
+
+	public function anesthesiaCasesBetween($start, $stop) {
+		return $this->anesthesiaCases()
+			->wherePivot('start_time', '<=', $stop)
+			->wherePivot('stop_time', '>=', $start);
 	}
 
 	public function scopeFormerResidents($query){
