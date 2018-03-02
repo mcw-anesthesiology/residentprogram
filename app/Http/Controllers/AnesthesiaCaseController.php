@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Helpers\CaseParser;
+use App\Helpers\PairingFetcher;
 
 use Auth;
 use Log;
@@ -61,31 +62,6 @@ class AnesthesiaCaseController extends Controller {
 		$end = $request->input('endDate');
 		$subjectType = $request->input('subjectType');
 
-		$cases = $user->anesthesiaCasesBetween($start, $end)->as('user_case')
-			->with([
-				'users' => function ($query) use ($user, $start, $end, $subjectType) {
-					return $query->as('partner_case')
-						->wherePivot('start_time', '<=', $stop)
-						->wherePivot('stop_time', '>=', $start)
-						->where('type', $subjectType)
-						->where('id', '!=', $user->id);
-				}
-			]);
-
-		$overlaps = [];
-		foreach ($cases as $case) {
-			foreach ($case->users as $partner) {
-				if (!array_key_exists($partner->id, $overlaps)) {
-					$overlaps[$partner->id] = [
-						$partner => $partner,
-						'numCases' => 0,
-						'totalTime' => new DateInterval('PT0S')
-					];
-				}
-
-				$overlap = &$overlaps[$partner->id];
-				// TODO
-			}
-		}
+		return PairingFetcher::getPairings($user, $subjectType, $start, $end);
 	}
 }

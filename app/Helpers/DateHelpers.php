@@ -50,4 +50,36 @@ class DateHelpers {
 
 		return $dt->diff($dt->add($di));
 	}
+
+	static function computeOverlapTime(
+		$firstStart,
+		$firstEnd,
+		$secondStart,
+		$secondEnd
+	) {
+		if ($firstStart > $firstEnd)
+			$firstEnd->addDay();
+
+		if ($secondStart > $secondEnd)
+			$secondEnd->addDay();
+
+		$start = max($firstStart, $secondStart);
+		$end = min($firstEnd, $secondEnd);
+
+		$diff = $start->diff($end);
+
+		return self::isDateIntervalPositive($diff)
+			? $diff
+			: new DateInterval('PT0S');
+	}
+
+	static function isDateIntervalPositive($di) {
+		$d = new DateTimeImmutable();
+		return ($d->add($diff) > $d);
+	}
+
+	static function addDateIntervals($di1, $di2) {
+		$d = new DateTimeImmutable();
+		return $d->diff($d->add($di1)->add($di2));
+	}
 }

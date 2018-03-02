@@ -3,12 +3,24 @@
 import moment from 'moment';
 import striptags from 'striptags';
 
+import { ucfirst } from './text-utils.js';
+
 import type { DateLike } from './date-utils.js';
 
 // All the $FlowFixMes in this file are due to
 // https://github.com/facebook/flow/issues/2221
 
 type DateString = string;
+
+export {
+	ucfirst,
+	ucfirstWords,
+	camelCaseToWords,
+	snakeCaseToWords,
+	kebabCaseToWords,
+	nl2br,
+	pluralize
+} from './text-utils.js';
 
 // FIXME
 export type User = {
@@ -145,16 +157,6 @@ export function appendAlert(
 
 	$(parent).append(alert);
 }
-
-export {
-	ucfirst,
-	ucfirstWords,
-	camelCaseToWords,
-	snakeCaseToWords,
-	kebabCaseToWords,
-	nl2br,
-	pluralize
-} from './text-utils.js';
 
 export function escapeCsv(text: string): string {
 	return `"${striptags(text)}"`;
