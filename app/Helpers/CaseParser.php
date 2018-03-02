@@ -6,16 +6,18 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use Carbon\Carbon;
 
-use DateTimeImmutable;
-use DateInterval;
-
 use App\AnesthesiaCase;
 use App\User;
 
 use Log;
-use Mail;
 
 class CaseParser {
+
+	// FIXME: This is slow, because it touches the DB twice for each
+	// row in the report.
+	//
+	// Ideally, we'd do all the processing and then touch the DB only twice,
+	// but that's confusing and I'm too tired to do it right now.
 
 	// Report types
 	const EGRESS_FILE_TYPE = 'FROEDTERT_EGRESS';
@@ -53,32 +55,46 @@ class CaseParser {
 	const EGRESS_RESIDENT_ROLE = 'Anesthesia Resident';
 	const EGRESS_FELLOW_ROLE = 'Anesthesia Fellow';
 
-	protected $EGRESS_ROLE_MAP = [
-		self::EGRESS_FACULTY_ROLE => self::FACULTY_ROLE,
-		self::EGRESS_RESIDENT_ROLE => self::RESIDENT_ROLE,
-		self::EGRESS_FELLOW_ROLE => self::FELLOW_ROLE
-	];
+	function __construct($type) {
+		$this->type = $type;
+		switch ($type) {
+			case self::EGRESS_FILE_TYPE:
+				$this->rowParser = 'parseFroedtertEgressCase';
+				break;
+			case self::CHW_TRAINEE_FILE_TYPE:
+				$this->rowParser = 'parseCHWTraineeProcedureCase';
+				break;
+			default:
+				throw new \InvalidArgumentException("$type is not a valid file type");
+				break;
+		}
 
-	protected $CHW_STAFF_COLS = array_merge(
-		self::CHW_TRAINEE_REPORT_COLS['ANESTHESIOLOGIST'],
-		self::CHW_TRAINEE_REPORT_COLS['RESIDENT'],
-		self::CHW_TRAINEE_REPORT_COLS['FELLOW']
-	);
+		$this->EGRESS_ROLE_MAP = [
+			self::EGRESS_FACULTY_ROLE => self::FACULTY_ROLE,
+			self::EGRESS_RESIDENT_ROLE => self::RESIDENT_ROLE,
+			self::EGRESS_FELLOW_ROLE => self::FELLOW_ROLE
+		];
 
-	protected $CHW_ROLE_MAP = array_merge(
-		array_fill_keys(
+		$this->CHW_STAFF_COLS = array_merge(
 			self::CHW_TRAINEE_REPORT_COLS['ANESTHESIOLOGIST'],
-			self::FACULTY_ROLE
-		),
-		array_fill_keys(
 			self::CHW_TRAINEE_REPORT_COLS['RESIDENT'],
-			self::RESIDENT_ROLE
-		),
-		array_fill_keys(
-			self::CHW_TRAINEE_REPORT_COLS['FELLOW'],
-			self::FELLOW_ROLE
-		),
-	);
+			self::CHW_TRAINEE_REPORT_COLS['FELLOW']
+		);
+
+		$this->CHW_ROLE_MAP = array_fill_keys(
+				self::CHW_TRAINEE_REPORT_COLS['ANESTHESIOLOGIST'],
+				self::FACULTY_ROLE
+			) + array_fill_keys(
+				self::CHW_TRAINEE_REPORT_COLS['RESIDENT'],
+				self::RESIDENT_ROLE
+			) + array_fill_keys(
+				self::CHW_TRAINEE_REPORT_COLS['FELLOW'],
+				self::FELLOW_ROLE
+			);
+
+		$this->userIds = [];
+	}
+
 
 	static function parseFilename($filename, $type = self::EGRESS_FILE_TYPE) {
 		$fp = fopen($filename, 'r');
@@ -93,18 +109,7 @@ class CaseParser {
 
 		$firstLine = true;
 
-		$parse = null;
-		switch ($type) {
-			case self::EGRESS_FILE_TYPE:
-				$parse = self::parseEgressCase;
-				break;
-			case self::CHW_TRAINEE_FILE_TYPE:
-				$parse = self::parseTraineeProcedureCase;
-				break;
-		}
-
-		if (empty($parse))
-			throw new \InvalidArgumentException("$type is not a valid file type");
+		$parser = new self($type);
 
 		while (($row = fgetcsv($file)) !== false) {
 			if ($firstLine) {
@@ -113,7 +118,7 @@ class CaseParser {
 			}
 
 			try {
-				$parse($row);
+				$parser->parseRow($row);
 				$successful++;
 
 			} catch (\Exception $e) {
@@ -128,7 +133,12 @@ class CaseParser {
 		];
 	}
 
-	static function parseFroedtertEgressCase($row) {
+	function parseRow($row) {
+		$parser = $this->rowParser;
+		return $this->$parser($row);
+	}
+
+	function parseFroedtertEgressCase($row) {
 		$logId = $row[self::EGRESS_COLS['ID']];
 		$procDate = self::parseDate($row[self::EGRESS_COLS['DATE']]);
 		$procedure = $row[self::EGRESS_COLS['PROCEDURE']];
@@ -150,7 +160,7 @@ class CaseParser {
 					[$role, $times] = array_map('trim', explode('from', $line));
 					[$start, $end] = array_map('trim', explode('to', $times));
 
-					$staff[$name]['role'] = self::$EGRESS_ROLE_MAP[$role];
+					$staff[$name]['role'] = $this->EGRESS_ROLE_MAP[$role];
 					$staff[$name]['times'] = [
 						'start' => self::parseDateTime($procDate, $start),
 						'end' => self::parseDateTime($procDate, $end)
@@ -165,7 +175,7 @@ class CaseParser {
 
 		foreach ($staff as $name => $caseInfo) {
 			try {
-				$userId = self::findUserId($name, $caseInfo['role']);
+				$userId = $this->getUserId($name, $caseInfo['role']);
 				if (!empty($userId))
 					$caseUsers[$userId] = $caseInfo['times'];
 			} catch (ModelNotFoundException $e) {
@@ -200,7 +210,7 @@ class CaseParser {
 		return $anesthesiaCase->fresh();
 	}
 
-	static function parseCHWTraineeProcedureCase($row) {
+	function parseCHWTraineeProcedureCase($row) {
 		$logId = $row[self::CHW_TRAINEE_REPORT_COLS['ID']];
 		$procDate = self::parseDate($row[self::CHW_TRAINEE_REPORT_COLS['DATE']]);
 		$procedure = $row[self::CHW_TRAINEE_REPORT_COLS['PROCEDURE']];
@@ -215,14 +225,18 @@ class CaseParser {
 
 		$caseUsers = [];
 
-		foreach (self::$CHW_STAFF_COLS as $col) {
-			try {
-				$userId = self::findUserId($row[$col], self::$CHW_ROLE_MAP[$col]);
-				if (!empty($userId))
-					$caseUsers[] = $userId;
-			} catch (ModelNotFoundException $e) {
-				$role = self::$CHW_ROLE_MAP[$col];
-				Log::debug("User not found (Name: $name, role: $role)");
+		foreach ($this->CHW_STAFF_COLS as $col) {
+			$name = $row[$col];
+			$role = $this->CHW_ROLE_MAP[$col];
+
+			if (!empty($name)) {
+				try {
+					$userId = $this->getUserId($name, $role);
+					if (!empty($userId))
+						$caseUsers[] = $userId;
+				} catch (ModelNotFoundException $e) {
+					Log::debug("User not found (Name: $name, role: $role)");
+				}
 			}
 		}
 
@@ -247,9 +261,11 @@ class CaseParser {
 				'stop_time' => $endTime
 			]);
 		}
+
 	}
 
 	static function parseDate($date) {
+		Log::debug($date);
 		[$month, $day, $year] = explode('/', $date);
 		$year = (int)$year + 2000; // Assuming two-digit year is in 2000s
 		$month = (int)$month;
@@ -263,12 +279,21 @@ class CaseParser {
 			[$date, $time] = array_map('trim', explode(' ', $time));
 		}
 
-		$date = self::parseDate($date);
-
 		$hour = substr($time, 0, 2);
 		$minute = substr($time, 2, 2);
 
-		return $date->setTime($hour, $minute);
+		return (new Carbon($date))->setTime($hour, $minute);
+	}
+
+	function getUserId($name, $role) {
+		if (!array_key_exists($role, $this->userIds))
+			$this->userIds[$role] = [];
+
+		if (empty($this->userIds[$role][$name])) {
+			$this->userIds[$role][$name] = self::findUserId($name, $role);
+		}
+
+		return $this->userIds[$role][$name];
 	}
 
 	static function findUserId($name, $role) {
@@ -299,7 +324,7 @@ class CaseParser {
 		if (!empty($userTrainingLevel))
 			$query = $query->where('training_level', $userTrainingLevel);
 
-		$results = $query->get();
+		$results = $query->get(['id'])->pluck('id');
 		if (count($results) !== 1) {
 			$query = $query->whereRaw('first_name LIKE ?', ["%{$first}%"]);
 			$results = $query->get(['id'])->pluck('id');

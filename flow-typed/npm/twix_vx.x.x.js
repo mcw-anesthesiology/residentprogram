@@ -15,31 +15,31 @@
 
 import type moment$Moment from 'moment';
 
-declare class twix$Twix {
-	isValid(): boolean;
-	isSame(t: twix$Twix): boolean;
-	isPast(): boolean;
-	isFuture(): boolean;
-	isCurrent(): boolean;
-	contains(d: moment$Moment): boolean;
-	length(t: string): number;
-	count(t: string): number;
-	countInner(t: string): number;
-	iterate(t: string): twix$Iterator;
-	iterateInner(t: string): twix$Iterator;
-
-	toArray(): Array<moment$Moment>;
-	start(): moment$Moment;
-	end(): moment$Moment;
-}
-
-declare class twix$Iterator {
-	hasNext(): boolean;
-	next(): moment$Moment;
-}
-
 declare module 'twix' {
-	declare module.exports: Class<twix$Twix>;
+	declare class twix$Twix {
+		isValid(): boolean;
+		isSame(t: twix$Twix): boolean;
+		isPast(): boolean;
+		isFuture(): boolean;
+		isCurrent(): boolean;
+		contains(d: moment$Moment): boolean;
+		length(t: string): number;
+		count(t: string): number;
+		countInner(t: string): number;
+		iterate(t: string): twix$Iterator;
+		iterateInner(t: string): twix$Iterator;
+
+		toArray(): Array<moment$Moment>;
+		start(): moment$Moment;
+		end(): moment$Moment;
+	}
+
+	declare class twix$Iterator {
+		hasNext(): boolean;
+		next(): moment$Moment;
+	}
+
+	declare export default Class<twix$Twix>;
 }
 
 /**
