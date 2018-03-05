@@ -73,6 +73,10 @@ Route::get('reports', 'ReportController@reports');
 Route::post('reports/egress-pairings/overlaps', 'EgressPairingReportController@getOverlaps');
 Route::post('reports/egress-pairings/send-reports', 'EgressPairingReportController@sendReports');
 
+Route::post('reports/case-overlaps/add-cases', 'AnesthesiaCaseController@addCases');
+Route::post('reports/case-overlaps/overlaps', 'AnesthesiaCaseController@getOverlaps');
+Route::post('reports/case-overlaps/pairings', 'AnesthesiaCaseController@getPairings');
+
 Route::post('report/aggregate', 'ReportController@aggregate');
 Route::post('report/specific', 'ReportController@specific');
 Route::post('report/form', 'ReportController@formReport');
