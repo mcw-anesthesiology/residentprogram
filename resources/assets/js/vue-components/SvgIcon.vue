@@ -1,5 +1,5 @@
 <template>
-	<span class="svg-icon" v-html="svg"></span>
+	<span class="svg-icon" v-html="svgContents"></span>
 </template>
 
 <script>
@@ -9,23 +9,46 @@ export default {
 	props: {
 		src: {
 			type: String,
-			required: true
+			required: false
+		},
+		svg: {
+			type: String,
+			required: false
 		}
 	},
 	data(){
 		return {
-			svg: null
+			fetchedSvg: null
 		};
 	},
 	created(){
-		fetch(this.src).then(response => {
-			if(response.ok)
-				return response.text();
+		this.fetchSvg();
+	},
+	computed: {
+		svgContents() {
+			return this.svg || this.fetchedSvg;
+		}
+	},
+	watch: {
+		svg(svg) {
+			if (!svg)
+				this.fetchSvg();
+		}
+	},
+	methods: {
+		fetchSvg() {
+			if (this.svg || !this.src)
+				return;
 
-			throw new Error('Unable to load icon');
-		}).then(svg => {
-			this.svg = svg;
-		}).catch(logError);
+			fetch(this.src).then(response => {
+				if(response.ok)
+					return response.text();
+
+				throw new Error('Unable to load icon');
+			}).then(svg => {
+				this.fetchedSvg = svg;
+			}).catch(logError);
+		}
 	}
 };
 </script>

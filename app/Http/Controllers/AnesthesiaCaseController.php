@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use DateInterval;
+
 use App\Helpers\CaseParser;
 use App\Helpers\PairingFetcher;
 
@@ -55,13 +57,84 @@ class AnesthesiaCaseController extends Controller {
 		];
 	}
 
+	public function getOverlaps(Request $request) {
+		$userType = $request->input('userType');
+		$subjectType = $request->input('subjectType');
+		$start = $request->input('startDate');
+		$end = $request->input('endDate');
+
+		$overlaps = array_values(PairingFetcher::getOverlaps(
+			$userType,
+			$subjectType,
+			$start,
+			$end
+		));
+
+		foreach ($overlaps as &$overlap) {
+			foreach ($overlap['pairings'] as &$pairing) {
+				$pairing['procedures'] = array_values($pairing['procedures']);
+			}
+		}
+
+		$minCases = $request->input('minCases');
+		$minHours = $request->input('minHours');
+		$minMinutes = $request->input('minMinutes');
+		$maxPairings = $request->input('maxPairings');
+
+		if (
+			!empty($minCases)
+			&& !empty($minHours)
+			&& !empty($minMinutes)
+			&& !empty($maxPairings)
+		) {
+			$minTime = new DateInterval("PT{$minHours}H{$minMinutes}M");
+
+			$overlaps = PairingFetcher::filterOverlaps(
+				$overlaps,
+				$minCases,
+				$minTime,
+				$maxPairings
+			);
+		}
+
+		$overlaps = PairingFetcher::sortOverlaps(
+			$overlaps,
+			PairingFetcher::getNameSorter('user'),
+			PairingFetcher::getTimeSorter()
+		);
+
+		return $overlaps;
+	}
+
 	public function getPairings(Request $request) {
 		$user = Auth::user();
 
+		$subjectType = $request->input('subjectType');
 		$start = $request->input('startDate');
 		$end = $request->input('endDate');
-		$subjectType = $request->input('subjectType');
 
-		return PairingFetcher::getPairings($user, $subjectType, $start, $end);
+		$pairings = array_values(PairingFetcher::getPairings(
+			$user,
+			$subjectType,
+			$start,
+			$end
+		));
+
+		$minCases = $request->input('minCases');
+		$minHours = $request->input('minHours');
+		$minMinutes = $request->input('minMinutes');
+		$maxPairings = $request->input('maxPairings');
+		$minTime = new DateInterval("PT{$minHours}H{$minMinutes}M");
+
+		$pairings = PairingFetcher::filterPairings(
+			$pairings,
+			$minCases,
+			$minTime,
+			$maxPairings
+		);
+
+		$pairings = usort($pairings, PairingFetcher::getTimeSorter());
+
+		return $pairings;
 	}
 }

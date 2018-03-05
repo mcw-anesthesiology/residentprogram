@@ -2,6 +2,9 @@
 
 namespace App\Helpers;
 
+use DateInterval;
+use DateTimeImmutable;
+
 use Carbon\Carbon;
 
 class DateHelpers {
@@ -75,7 +78,7 @@ class DateHelpers {
 
 	static function isDateIntervalPositive($di) {
 		$d = new DateTimeImmutable();
-		return ($d->add($diff) > $d);
+		return ($d->add($di) > $d);
 	}
 
 	static function addDateIntervals($di1, $di2) {

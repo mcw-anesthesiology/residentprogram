@@ -55,6 +55,10 @@ module.exports = {
 				})
 			},
 			{
+				test: /\.svg$/,
+				use: 'raw-loader'
+			},
+			{
 				test: /element-dataset/,
 				use: 'apply-loader'
 			}
