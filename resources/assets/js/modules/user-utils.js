@@ -2,6 +2,8 @@
 
 import type { User } from '@/modules/utils.js';
 
+export type SpecificType = string; // TODO: make into a legit enum
+
 export const USER_SETTINGS = {
 	defaultEvaluationRange: [
 		'currentQuarter',
@@ -21,4 +23,11 @@ export function getUserSetting(user: User, settingName: string): ?string {
 		if (setting)
 			return setting.value;
 	}
+}
+
+export function getSpecificType(user: User): SpecificType {
+	if (user.type === 'resident' && user.training_level === 'fellow')
+		return 'fellow';
+
+	return user.type;
 }

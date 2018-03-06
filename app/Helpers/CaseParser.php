@@ -267,7 +267,9 @@ class CaseParser {
 	static function parseDate($date) {
 		Log::debug($date);
 		[$month, $day, $year] = explode('/', $date);
-		$year = (int)$year + 2000; // Assuming two-digit year is in 2000s
+		$year = (int)$year;
+		if ($year < 1000)
+			$year += 2000; // Assuming two-digit year is in 2000s
 		$month = (int)$month;
 		$day = (int)$day;
 

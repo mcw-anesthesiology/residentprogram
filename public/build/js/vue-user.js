@@ -16,8 +16,9 @@ return webpackJsonp([15],{
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return USER_SETTINGS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SETTINGS_HELP; });
-/* harmony export (immutable) */ __webpack_exports__["c"] = getUserSetting;
-
+/* harmony export (immutable) */ __webpack_exports__["d"] = getUserSetting;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getSpecificType;
+// TODO: make into a legit enum
 
 var USER_SETTINGS = {
 	defaultEvaluationRange: ['currentQuarter', 'currentSemester', 'currentYear', 'allTime']
@@ -34,6 +35,12 @@ function getUserSetting(user, settingName) {
 		});
 		if (setting) return setting.value;
 	}
+}
+
+function getSpecificType(user) {
+	if (user.type === 'resident' && user.training_level === 'fellow') return 'fellow';
+
+	return user.type;
 }
 
 /***/ }),
@@ -194,7 +201,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 933:
+/***/ 937:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -285,7 +292,7 @@ function createUserSettingsPage(el, propsData) {
 				});
 			},
 			getUserSetting: function getUserSetting(setting) {
-				return Object(__WEBPACK_IMPORTED_MODULE_3__modules_user_utils_js__["c" /* getUserSetting */])(this, setting);
+				return Object(__WEBPACK_IMPORTED_MODULE_3__modules_user_utils_js__["d" /* getUserSetting */])(this, setting);
 			},
 
 			displaySetting: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["c" /* camelCaseToWords */],
@@ -399,6 +406,6 @@ function createUserSettingsPage(el, propsData) {
 
 /***/ })
 
-},[933]);
+},[937]);
 });
 //# sourceMappingURL=vue-user.js.map

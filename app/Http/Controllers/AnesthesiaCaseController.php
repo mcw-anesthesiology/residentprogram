@@ -11,6 +11,7 @@ use App\Helpers\PairingFetcher;
 
 use Auth;
 use Log;
+use User;
 
 class AnesthesiaCaseController extends Controller {
     public function __construct() {
@@ -120,10 +121,10 @@ class AnesthesiaCaseController extends Controller {
 			$end
 		));
 
-		$minCases = $request->input('minCases');
-		$minHours = $request->input('minHours');
-		$minMinutes = $request->input('minMinutes');
-		$maxPairings = $request->input('maxPairings');
+		$minCases = $request->input('minCases', 0);
+		$minHours = $request->input('minHours', 0);
+		$minMinutes = $request->input('minMinutes', 30);
+		$maxPairings = $request->input('maxPairings', 99999);
 		$minTime = new DateInterval("PT{$minHours}H{$minMinutes}M");
 
 		$pairings = PairingFetcher::filterPairings(
@@ -133,7 +134,38 @@ class AnesthesiaCaseController extends Controller {
 			$maxPairings
 		);
 
-		$pairings = usort($pairings, PairingFetcher::getTimeSorter());
+		usort($pairings, PairingFetcher::getTimeSorter());
+
+		return $pairings;
+	}
+
+	public function getUserPairings(Request $request, $userId) {
+		$user = User::findOrFail($userId);
+		$subjectType = $request->input('subjectType');
+		$start = $request->input('startDate');
+		$end = $request->input('endDate');
+
+		$pairings = array_values(PairingFetcher::getPairings(
+			$user,
+			$subjectType,
+			$start,
+			$end
+		));
+
+		$minCases = $request->input('minCases', 0);
+		$minHours = $request->input('minHours', 0);
+		$minMinutes = $request->input('minMinutes', 30);
+		$maxPairings = $request->input('maxPairings', 99999);
+		$minTime = new DateInterval("PT{$minHours}H{$minMinutes}M");
+
+		$pairings = PairingFetcher::filterPairings(
+			$pairings,
+			$minCases,
+			$minTime,
+			$maxPairings
+		);
+
+		usort($pairings, PairingFetcher::getTimeSorter());
 
 		return $pairings;
 	}
