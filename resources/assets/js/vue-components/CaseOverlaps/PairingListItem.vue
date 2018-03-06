@@ -6,7 +6,7 @@
 				{{ subject.full_name }}
 			</p>
 			<p class="subject-type">
-				{{ ucfirst(subject.specific_type) }}
+				{{ ucfirst(getSpecificType(subject)) }}
 			</p>
 			<p>
 				<a :href="evaluateLink" target="_blank">
@@ -38,14 +38,21 @@
 				<ul class="cases-list">
 					<li v-for="pairingCase of pairingCases">
 						<p class="case-procedures">
-							{{ pairingCase.procedures.map(cleanProcedureName).join('; ') }}
+							{{ cleanProcedureName(pairingCase.procedure_desc) }}
 						</p>
 
 						<dl class="case-details">
 							<dt>Date</dt>
 							<dd>{{ displayDate(pairingCase.date) }}</dd>
 
-							<template v-if="pairingCase.additionalInfo">
+							<template v-for="field of ['location', 'surgeon_name']">
+								<template v-if="pairingCase[field]">
+									<dt>{{ ucfirst(snakeCaseToWords(field)) }}</dt>
+									<dd>{{ cleanAdditionalInfo(pairingCase[field]) }}</dd>
+								</template>
+							</template>
+
+							<!-- <template v-if="pairingCase.additionalInfo">
 								<template v-for="(value, key) of pairingCase.additionalInfo">
 									<dt>
 										{{ titleCase(key) }}
@@ -54,7 +61,7 @@
 										{{ cleanAdditionalInfo(value) }}
 									</dd>
 								</template>
-							</template>
+							</template> -->
 						</dl>
 					</li>
 				</ul>
@@ -170,9 +177,11 @@ import PhpDateInterval from '@/vue-components/PhpDateInterval.vue';
 import { logError } from '@/modules/errors.js';
 import {
 	ucfirst,
+	snakeCaseToWords,
 	titleCase,
 	replaceAcronyms
 } from '@/modules/text-utils.js';
+import { getSpecificType } from '@/modules/user-utils.js';
 
 export default {
 	props: {
@@ -191,19 +200,11 @@ export default {
 	},
 	computed: {
 		subject() {
-			return this.pairing[this.subjectType];
+			return this.pairing.partner;
 		},
 		pairingCases() {
-			return this.pairing.cases.sort((a, b) => {
-				const aDate = ('date' in a.date)
-					? a.date.date
-					: a.date;
-
-				const bDate = ('date' in b.date)
-					? b.date.date
-					: b.date;
-
-				return moment(aDate).valueOf() - moment(bDate).valueOf();
+			return Array.from(Object.values(this.pairing.procedures)).sort((a, b) => {
+				return moment(a.date).valueOf() - moment(b.date).valueOf();
 			});
 		},
 		evaluateLink() {
@@ -224,13 +225,11 @@ export default {
 	},
 	methods: {
 		ucfirst,
+		snakeCaseToWords,
 		titleCase,
 		replaceAcronyms,
+		getSpecificType,
 		displayDate(date) {
-			date = ('date' in date)
-				? date.date
-				: date;
-
 			return moment(date, '').format('l (dddd)');
 		},
 		sortCases(a, b) {

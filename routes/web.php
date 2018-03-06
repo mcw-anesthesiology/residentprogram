@@ -76,6 +76,7 @@ Route::post('reports/egress-pairings/send-reports', 'EgressPairingReportControll
 Route::post('reports/case-overlaps/add-cases', 'AnesthesiaCaseController@addCases');
 Route::post('reports/case-overlaps/overlaps', 'AnesthesiaCaseController@getOverlaps');
 Route::post('reports/case-overlaps/pairings', 'AnesthesiaCaseController@getPairings');
+Route::post('reports/case-overlaps/pairings/{userId}', 'AnesthesiaCaseController@getUserPairings');
 
 Route::post('report/aggregate', 'ReportController@aggregate');
 Route::post('report/specific', 'ReportController@specific');
@@ -113,6 +114,6 @@ Route::get('manage/case-logs', 'CaseLogController@manage');
 Route::get('alum/{hash}', 'AlumniController@alumni');
 Route::get('manage/alumni', 'AlumniController@manage');
 
-Route::get('egress-pairings', function () {
-	return view('egress-pairings');
-});
+Route::get('case-overlaps', function () {
+	return view('case-overlaps');
+})->middleware('auth', 'shared');
