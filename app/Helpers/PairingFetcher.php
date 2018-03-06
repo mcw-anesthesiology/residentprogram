@@ -83,8 +83,10 @@ class PairingFetcher {
 				'=',
 				'users.id'
 			)
-			->where('anesthesia_cases.start_time', '<=', $end)
-			->where('anesthesia_cases.stop_time', '>=', $start);
+			->where('user_cases.start_time', '<=', $end)
+			->where('user_cases.stop_time', '>=', $start)
+			->where('partner_cases.start_time', '<=', $end)
+			->where('partner_cases.stop_time', '>=', $start);
 
 		if (!empty($userTypes)) {
 			if (array_key_exists('type', $userTypes))
