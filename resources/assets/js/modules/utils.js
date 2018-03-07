@@ -551,3 +551,11 @@ export function filterKeys(obj: Object, keys: Array<string>): Object {
 export function getRandom(arr: Array<any>): any {
 	return arr[Math.floor(Math.random() * arr.length)];
 }
+
+export function updateSearchParams(params: URLSearchParams) {
+	const newUrl = window.location.origin
+		+ window.location.hash
+		+ window.location.pathname
+		+ '?' + params.toString();
+	window.history.replaceState(null, null, newUrl);
+}

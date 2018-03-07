@@ -37,9 +37,8 @@
 							Report dates
 							<clearable-date
 								input-class="form-control appear-not-readonly"
-								:options="{mode: 'range'}"
-								v-model="reportDatesStr"
-								@change="handleReportDatesChange" />
+								:options="{mode: 'range', dateFormat: 'F j, Y'}"
+								@change="reportDates = arguments[0]" />
 						</label>
 					</validated-form-group>
 					<validated-form-group class="col-sm-6"
@@ -167,7 +166,6 @@ export default {
 			minHours: 0,
 			minMinutes: 30,
 			maxPairs: null,
-			reportDatesStr: '',
 			reportDates: null,
 			processing: false,
 
@@ -247,9 +245,6 @@ export default {
 			} else {
 				this.maxPairs = 3;
 			}
-		},
-		handleReportDatesChange([dates]) {
-			this.reportDates = dates;
 		},
 		selectAllOverlaps() {
 			this.selectedOverlaps = this.overlaps.slice();

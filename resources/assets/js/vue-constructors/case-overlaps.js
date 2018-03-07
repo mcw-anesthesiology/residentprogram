@@ -1,12 +1,20 @@
 import Vue from 'vue';
 
+import moment from 'moment';
+
 import CaseOverlap from '@/vue-components/CaseOverlaps/CaseOverlap.vue';
 
 import StartEndDate from '@/vue-components/StartEndDate.vue';
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
+import 'flatpickr/dist/flatpickr.css';
 
 import { logError } from '@/modules/errors.js';
-import { fetchConfig, jsonOrThrow } from '@/modules/utils.js';
+import { isoDateString } from '@/modules/date-utils.js';
+import {
+	fetchConfig,
+	jsonOrThrow,
+	updateSearchParams
+} from '@/modules/utils.js';
 import { ucfirst } from '@/modules/text-utils.js';
 
 export default function createCaseOverlaps(el, propsData) {
@@ -23,17 +31,21 @@ export default function createCaseOverlaps(el, propsData) {
 			const params = new URLSearchParams(window.location.search);
 
 			return {
-				reportDatesStr: [
-					params.get('startDate'),
-					params.get('endDate')
-				].join(' to '),
-				reportDates: {
-					startDate: params.get('startDate'),
-					endDate: params.get('endDate')
-				},
+				reportDates: params.has('startDate') && params.has('endDate')
+					? [
+						moment(params.get('startDate')).toDate(),
+						moment(params.get('endDate')).toDate()
+					]
+					: [
+						moment().subtract(1, 'month').startOf('month').toDate(),
+						moment().subtract(1, 'month').endOf('month').toDate()
+					],
 				pairings: null,
-				// FIXME: Set defaults for trainees
-				subjectType: 'trainee',
+				subjectType: params.has('subjectType')
+					? params.get('subjectType')
+					: this.user && this.user.type === 'resident'
+						? 'faculty'
+						: 'trainee',
 				subjectTypes: [
 					'trainee',
 					'resident',
@@ -47,8 +59,8 @@ export default function createCaseOverlaps(el, propsData) {
 				return (
 					this.user
 					&& this.pairings
-					&& this.reportDates.startDate
-					&& this.reportDates.endDate
+					&& this.reportDates
+					&& this.reportDates.length === 2
 				);
 			}
 		},
@@ -56,8 +68,20 @@ export default function createCaseOverlaps(el, propsData) {
 			this.fetchPairings();
 		},
 		watch: {
-			reportDates() {
+			reportDates([startDate, endDate]) {
 				this.fetchPairings();
+
+				const params = new URLSearchParams(window.location.search);
+				params.set('startDate', isoDateString(startDate));
+				params.set('endDate', isoDateString(endDate));
+				updateSearchParams(params);
+			},
+			subjectType(subjectType) {
+				this.fetchPairings();
+
+				const params = new URLSearchParams(window.location.search);
+				params.set('subjectType', subjectType);
+				updateSearchParams(params);
 			}
 		},
 		methods: {
@@ -65,8 +89,8 @@ export default function createCaseOverlaps(el, propsData) {
 			fetchPairings() {
 				if (!(
 					this.subjectType
-					&& this.reportDates.startDate
-					&& this.reportDates.endDate
+					&& this.reportDates
+					&& this.reportDates.length === 2
 				))
 					return;
 
@@ -74,7 +98,8 @@ export default function createCaseOverlaps(el, propsData) {
 					...fetchConfig(),
 					method: 'POST',
 					body: JSON.stringify({
-						...this.reportDates,
+						startDate: this.reportDates[0],
+						endDate: this.reportDates[1],
 						subjectType: this.subjectType
 					})
 				}).then(jsonOrThrow).then(pairings => {
@@ -84,10 +109,7 @@ export default function createCaseOverlaps(el, propsData) {
 				});
 			},
 			handleReportDatesChange([dates]) {
-				this.reportDates = {
-					startDate: dates[0],
-					endDate: dates[1]
-				};
+				this.reportDates = dates;
 			}
 		},
 		components: {

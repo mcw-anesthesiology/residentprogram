@@ -51,17 +51,6 @@
 									<dd>{{ cleanAdditionalInfo(pairingCase[field]) }}</dd>
 								</template>
 							</template>
-
-							<!-- <template v-if="pairingCase.additionalInfo">
-								<template v-for="(value, key) of pairingCase.additionalInfo">
-									<dt>
-										{{ titleCase(key) }}
-									</dt>
-									<dd>
-										{{ cleanAdditionalInfo(value) }}
-									</dd>
-								</template>
-							</template> -->
 						</dl>
 					</li>
 				</ul>
@@ -113,6 +102,10 @@
 
 	.pairing-metric-case-list dl {
 		margin-left: 1em;
+	}
+
+	.pairing-metric-case-list dt {
+		margin-top: 0.33em;
 	}
 
 	.cases-list {
@@ -175,6 +168,7 @@ import FallbackImg from '@/vue-components/FallbackImg.vue';
 import PhpDateInterval from '@/vue-components/PhpDateInterval.vue';
 
 import { logError } from '@/modules/errors.js';
+import { isoDateString } from '@/modules/date-utils.js';
 import {
 	ucfirst,
 	snakeCaseToWords,
@@ -194,7 +188,7 @@ export default {
 			required: true
 		},
 		reportDates: {
-			type: Object,
+			type: Array,
 			required: false
 		}
 	},
@@ -215,9 +209,9 @@ export default {
 			const params = new URLSearchParams();
 			params.set(filterType, this.subject.id);
 
-			if (this.reportDates) {
-				params.set('startDate', this.reportDates.startDate);
-				params.set('endDate', this.reportDates.endDate);
+			if (this.reportDates && this.reportDates.length === 2) {
+				params.set('startDate', isoDateString(this.reportDates[0]));
+				params.set('endDate', isoDateString(this.reportDates[1]));
 			}
 
 			return `/request?${params.toString()}`;
