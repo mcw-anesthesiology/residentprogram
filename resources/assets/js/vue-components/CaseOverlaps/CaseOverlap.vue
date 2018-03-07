@@ -3,7 +3,7 @@
 		<h2>
 			{{ user.full_name }}
 			<small>
-				{{ renderDateRange(reportDates.startDate, reportDates.endDate) }}
+				<rich-date-range :dates="reportDates" :start="0" :end="1" />
 			</small>
 		</h2>
 
@@ -30,10 +30,12 @@
 </style>
 
 <script>
-import ComponentList from '@/vue-components/ComponentList.vue';
 import PairingListItem from './PairingListItem.vue';
 
-import { renderDateRange, parsePhpDateInterval } from '@/modules/date-utils.js';
+import ComponentList from '@/vue-components/ComponentList.vue';
+import RichDateRange from '@/vue-components/RichDateRange.vue';
+
+import { parsePhpDateInterval } from '@/modules/date-utils.js';
 import { ucfirst } from '@/modules/utils.js';
 
 import { ADMIN_EMAIL } from '@/modules/constants.js';
@@ -53,7 +55,7 @@ export default {
 			required: true
 		},
 		reportDates: {
-			type: Object,
+			type: Array,
 			required: true
 		}
 	},
@@ -79,12 +81,12 @@ export default {
 		}
 	},
 	methods: {
-		ucfirst,
-		renderDateRange
+		ucfirst
 	},
 	components: {
 		ComponentList,
-		PairingListItem
+		PairingListItem,
+		RichDateRange
 	}
 };
 </script>

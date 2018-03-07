@@ -10,15 +10,15 @@ import { renderDateRange } from '@/modules/date-utils.js';
 export default {
 	props: {
 		dates: {
-			type: Object,
+			type: [Object, Array],
 			required: true
 		},
 		start: {
-			type: String,
+			type: [String, Number],
 			default: 'startDate'
 		},
 		end: {
-			type: String,
+			type: [String, Number],
 			default: 'endDate'
 		},
 		time: {
