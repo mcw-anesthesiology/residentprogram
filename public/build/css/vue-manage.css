@@ -386,30 +386,6 @@ aside[data-v-76955910] {
 	font-size: 0.8em;
 }
 
-textarea[data-v-4a7e33a8] {
-	opacity: 0;
-	pointer-events: none;
-	position: absolute;
-	left: -10000px;
-}
-textarea.editor-shown[data-v-4a7e33a8] {
-	opacity: 1;
-	pointer-events: all;
-	position: relative;
-	left: 0;
-}
-.markdown-editor-rendered-html-container[data-v-4a7e33a8] {
-	height: 300px;
-	overflow: auto;
-}
-.markdown-editor-rendered-html-container.displaying-placeholder[data-v-4a7e33a8] {
-	color: #999;
-}
-
-.markdown-editor-rendered-html-container p + p {
-	margin-top: 20px;
-}
-
 .alum-list-item[data-v-7d3cfb00] {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 	padding: 5px 0;
@@ -530,6 +506,30 @@ small[data-v-0cedece9] {
 	width: 5em;
 }
 .item-controls-buttons[data-v-0de432fc] {
+}
+
+textarea[data-v-4a7e33a8] {
+	opacity: 0;
+	pointer-events: none;
+	position: absolute;
+	left: -10000px;
+}
+textarea.editor-shown[data-v-4a7e33a8] {
+	opacity: 1;
+	pointer-events: all;
+	position: relative;
+	left: 0;
+}
+.markdown-editor-rendered-html-container[data-v-4a7e33a8] {
+	height: 300px;
+	overflow: auto;
+}
+.markdown-editor-rendered-html-container.displaying-placeholder[data-v-4a7e33a8] {
+	color: #999;
+}
+
+.markdown-editor-rendered-html-container p + p {
+	margin-top: 20px;
 }
 
 /*# sourceMappingURL=vue-manage.css.map*/

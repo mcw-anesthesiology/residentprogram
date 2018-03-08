@@ -8,7 +8,6 @@ import NeedsReport from '@/vue-components/Reports/Needs/Report.vue';
 import PendingEvalsReport from '@/vue-components/Reports/PendingEvalsReport.vue';
 import FacultyMeritReport from '@/vue-components/Reports/FacultyMeritReport.vue';
 import CaseOverlaps from '@/vue-components/Reports/CaseOverlaps/CaseOverlaps.vue';
-import EgressPairings from '@/vue-components/Reports/EgressPairings/EgressPairings.vue';
 
 import FacultyPublicationsReport from '@/vue-components/Reports/FacultyMerit/Publications.vue';
 import FacultyScholarlyActivityReport from '@/vue-components/Reports/FacultyMerit/ScholarlyActivity.vue';
@@ -72,10 +71,6 @@ const routes = [
 	{
 		path: '/case-overlaps',
 		component: CaseOverlaps
-	},
-	{
-		path: '/egress-pairings',
-		component: EgressPairings
 	}
 ];
 
