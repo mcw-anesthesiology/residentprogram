@@ -46433,7 +46433,20 @@ if (false) {(function () {
 			fetch('/reports/case-overlaps/add-cases', Object.assign({}, Object(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["g" /* fetchConfig */])({ contentType: null }), {
 				method: 'POST',
 				body: body
-			})).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["z" /* okOrThrow */]).catch(function (err) {
+			})).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["w" /* jsonOrThrow */]).then(function (_ref) {
+				var successful = _ref.successful,
+				    unsuccessful = _ref.unsuccessful;
+
+				if (successful) _this.alerts.push({
+					type: 'success',
+					text: successful + ' rows successfully processed'
+				});
+
+				if (unsuccessful) _this.alerts.push({
+					type: 'error',
+					text: unsuccessful + ' not processed successfully'
+				});
+			}).catch(function (err) {
 				Object(__WEBPACK_IMPORTED_MODULE_4__modules_errors_js__["b" /* handleError */])(err, _this, 'There was a problem uploading the reports');
 			}).finally(function () {
 				_this.processing = false;
