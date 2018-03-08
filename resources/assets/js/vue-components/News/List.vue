@@ -33,7 +33,7 @@
 		</div>
 		<div v-else class="no-news-container text-center">
 			<p>
-				Nothing here!
+				Nothing to see here!
 			</p>
 			<p class="no-news-glyph-container">
 				<span class="glyphicon glyphicon-thumbs-up"></span>

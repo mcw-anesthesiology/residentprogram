@@ -1,8 +1,14 @@
 <template>
 	<div class="overlap-list-item">
-		<p class="overlap-user-name">
-			{{ overlap.user.full_name }}
-		</p>
+		<header>
+			<p class="overlap-user-name">
+				{{ overlap.user.full_name }}
+			</p>
+			<show-hide-button class="btn btn-info btn-sm"
+					v-model="show.detailedReport">
+				detailed report
+			</show-hide-button>
+		</header>
 		<ol class="pairings-list">
 			<li v-for="pairing of overlap.pairings" class="pairings-list-item">
 				<div class="pairings-list-item-row">
@@ -22,11 +28,33 @@
 				</div>
 			</li>
 		</ol>
+
+		<div v-if="show.detailedReport"
+				class="panel panel-default detailed-report-panel">
+			<div class="panel-heading">
+				<span class="panel-title">Detailed report</span>
+			</div>
+			<div class="panel-body detailed-report-body">
+				<case-overlap :user="overlap.user"
+					:pairings="overlap.pairings"
+					:subject-type="subjectType"
+					:reportDates="reportDates" />
+			</div>
+			<div class="panel-footer text-center">
+				<show-hide-button class="btn btn-info"
+						v-model="show.detailedReport">
+					detailed report
+				</show-hide-button>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
 import PhpDateInterval from '@/vue-components/PhpDateInterval.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+
+import CaseOverlap from '@/vue-components/CaseOverlaps/CaseOverlap.vue';
 
 export default {
 	props: {
@@ -41,11 +69,25 @@ export default {
 		subjectType: {
 			type: String,
 			default: 'trainee'
+		},
+		reportDates: {
+			type: Array,
+			required: true
 		}
 	},
 
+	data() {
+		return {
+			show: {
+				detailedReport: false
+			}
+		};
+	},
+
 	components: {
-		PhpDateInterval
+		PhpDateInterval,
+		ShowHideButton,
+		CaseOverlap
 	}
 };
 </script>
@@ -53,6 +95,12 @@ export default {
 <style scoped>
 	.overlap-list-item {
 		margin: 1em 0.5em;
+	}
+
+	header {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
 	}
 
 	.overlap-user-name {
@@ -101,5 +149,14 @@ export default {
 	.num-cases,
 	.total-time {
 		text-align: right;
+	}
+
+	.detailed-report-panel {
+		margin: 1em;
+	}
+
+	.detailed-report-body {
+		max-height: 400px;
+		overflow: auto;
 	}
 </style>

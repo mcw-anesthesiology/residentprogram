@@ -45864,6 +45864,10 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_CaseOverlaps_vue__ = __webpack_require__(661);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_40b4f49f_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_CaseOverlaps_vue__ = __webpack_require__(672);
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(945)
+}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -45872,7 +45876,7 @@ var normalizeComponent = __webpack_require__(0)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -45922,6 +45926,22 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ValidatedFormGroup_vue__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_errors_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__ = __webpack_require__(1);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -46824,6 +46844,8 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PhpDateInterval_vue__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CaseOverlaps_CaseOverlap_vue__ = __webpack_require__(553);
 //
 //
 //
@@ -46851,6 +46873,34 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 
@@ -46867,11 +46917,26 @@ if (false) {(function () {
 		subjectType: {
 			type: String,
 			default: 'trainee'
+		},
+		reportDates: {
+			type: Array,
+			required: true
 		}
 	},
 
+	data: function data() {
+		return {
+			show: {
+				detailedReport: false
+			}
+		};
+	},
+
+
 	components: {
-		PhpDateInterval: __WEBPACK_IMPORTED_MODULE_0__PhpDateInterval_vue__["a" /* default */]
+		PhpDateInterval: __WEBPACK_IMPORTED_MODULE_0__PhpDateInterval_vue__["a" /* default */],
+		ShowHideButton: __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__["a" /* default */],
+		CaseOverlap: __WEBPACK_IMPORTED_MODULE_2__CaseOverlaps_CaseOverlap_vue__["a" /* default */]
 	}
 });
 
@@ -46885,9 +46950,30 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "overlap-list-item" }, [
-    _c("p", { staticClass: "overlap-user-name" }, [
-      _vm._v("\n\t\t" + _vm._s(_vm.overlap.user.full_name) + "\n\t")
-    ]),
+    _c(
+      "header",
+      [
+        _c("p", { staticClass: "overlap-user-name" }, [
+          _vm._v("\n\t\t\t" + _vm._s(_vm.overlap.user.full_name) + "\n\t\t")
+        ]),
+        _vm._v(" "),
+        _c(
+          "show-hide-button",
+          {
+            staticClass: "btn btn-info btn-sm",
+            model: {
+              value: _vm.show.detailedReport,
+              callback: function($$v) {
+                _vm.$set(_vm.show, "detailedReport", $$v)
+              },
+              expression: "show.detailedReport"
+            }
+          },
+          [_vm._v("\n\t\t\tdetailed report\n\t\t")]
+        )
+      ],
+      1
+    ),
     _vm._v(" "),
     _c(
       "ol",
@@ -46926,10 +47012,67 @@ var render = function() {
           ])
         ])
       })
-    )
+    ),
+    _vm._v(" "),
+    _vm.show.detailedReport
+      ? _c(
+          "div",
+          { staticClass: "panel panel-default detailed-report-panel" },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "panel-body detailed-report-body" },
+              [
+                _c("case-overlap", {
+                  attrs: {
+                    user: _vm.overlap.user,
+                    pairings: _vm.overlap.pairings,
+                    "subject-type": _vm.subjectType,
+                    reportDates: _vm.reportDates
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "panel-footer text-center" },
+              [
+                _c(
+                  "show-hide-button",
+                  {
+                    staticClass: "btn btn-info",
+                    model: {
+                      value: _vm.show.detailedReport,
+                      callback: function($$v) {
+                        _vm.$set(_vm.show, "detailedReport", $$v)
+                      },
+                      expression: "show.detailedReport"
+                    }
+                  },
+                  [_vm._v("\n\t\t\t\tdetailed report\n\t\t\t")]
+                )
+              ],
+              1
+            )
+          ]
+        )
+      : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("span", { staticClass: "panel-title" }, [_vm._v("Detailed report")])
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -47413,68 +47556,87 @@ var render = function() {
                     key: "default",
                     fn: function(item) {
                       return [
-                        _c("div", { key: item.id, staticClass: "row" }, [
-                          _c("div", { staticClass: "col-xs-1" }, [
-                            _c("label", { attrs: { title: "Select report" } }, [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.selectedOverlaps,
-                                    expression: "selectedOverlaps"
-                                  }
-                                ],
-                                attrs: { type: "checkbox" },
-                                domProps: {
-                                  value: item,
-                                  checked: Array.isArray(_vm.selectedOverlaps)
-                                    ? _vm._i(_vm.selectedOverlaps, item) > -1
-                                    : _vm.selectedOverlaps
+                        _c(
+                          "div",
+                          { key: item.id, staticClass: "row overlap-item-row" },
+                          [
+                            _c("div", { staticClass: "col-xs-1" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "select-report-label",
+                                  attrs: { title: "Select report" }
                                 },
-                                on: {
-                                  change: function($event) {
-                                    var $$a = _vm.selectedOverlaps,
-                                      $$el = $event.target,
-                                      $$c = $$el.checked ? true : false
-                                    if (Array.isArray($$a)) {
-                                      var $$v = item,
-                                        $$i = _vm._i($$a, $$v)
-                                      if ($$el.checked) {
-                                        $$i < 0 &&
-                                          (_vm.selectedOverlaps = $$a.concat([
-                                            $$v
-                                          ]))
-                                      } else {
-                                        $$i > -1 &&
-                                          (_vm.selectedOverlaps = $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1)))
+                                [
+                                  _c("span", {
+                                    staticClass: "glyphicon glyphicon-send"
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.selectedOverlaps,
+                                        expression: "selectedOverlaps"
                                       }
-                                    } else {
-                                      _vm.selectedOverlaps = $$c
+                                    ],
+                                    attrs: { type: "checkbox" },
+                                    domProps: {
+                                      value: item,
+                                      checked: Array.isArray(
+                                        _vm.selectedOverlaps
+                                      )
+                                        ? _vm._i(_vm.selectedOverlaps, item) >
+                                          -1
+                                        : _vm.selectedOverlaps
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        var $$a = _vm.selectedOverlaps,
+                                          $$el = $event.target,
+                                          $$c = $$el.checked ? true : false
+                                        if (Array.isArray($$a)) {
+                                          var $$v = item,
+                                            $$i = _vm._i($$a, $$v)
+                                          if ($$el.checked) {
+                                            $$i < 0 &&
+                                              (_vm.selectedOverlaps = $$a.concat(
+                                                [$$v]
+                                              ))
+                                          } else {
+                                            $$i > -1 &&
+                                              (_vm.selectedOverlaps = $$a
+                                                .slice(0, $$i)
+                                                .concat($$a.slice($$i + 1)))
+                                          }
+                                        } else {
+                                          _vm.selectedOverlaps = $$c
+                                        }
+                                      }
                                     }
+                                  })
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "col-xs-11" },
+                              [
+                                _c("overlap-list-item", {
+                                  attrs: {
+                                    overlap: item,
+                                    "user-type": _vm.reportUserType,
+                                    "subject-type": _vm.reportSubjectType,
+                                    "report-dates": _vm.reportReportDates
                                   }
-                                }
-                              })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "col-xs-11" },
-                            [
-                              _c("overlap-list-item", {
-                                attrs: {
-                                  overlap: item,
-                                  "user-type": _vm.reportUserType,
-                                  "subject-type": _vm.reportSubjectType
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ])
+                                })
+                              ],
+                              1
+                            )
+                          ]
+                        )
                       ]
                     }
                   }
@@ -50533,6 +50695,12 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-7d59d60a", esExports)
   }
 }
+
+/***/ }),
+/* 945 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 ],[586]);

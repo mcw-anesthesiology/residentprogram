@@ -135,9 +135,10 @@
 					:fields="overlapsFields"
 					:fieldAccessors="overlapsFieldAccessors">
 				<template slot-scope="item">
-					<div class="row" :key="item.id">
+					<div class="row overlap-item-row" :key="item.id">
 						<div class="col-xs-1">
-							<label title="Select report">
+							<label title="Select report" class="select-report-label">
+								<span class="glyphicon glyphicon-send"></span>
 								<input type="checkbox"
 									:value="item"
 									v-model="selectedOverlaps" />
@@ -147,7 +148,8 @@
 							<overlap-list-item
 								:overlap="item"
 								:user-type="reportUserType"
-								:subject-type="reportSubjectType" />
+								:subject-type="reportSubjectType"
+								:report-dates="reportReportDates" />
 						</div>
 					</div>
 				</template>
@@ -155,6 +157,20 @@
 		</div>
 	</div>
 </template>
+
+<style>
+	.overlap-item-row ~ .overlap-item-row {
+		border-top: 1px solid rgba(0, 0, 0, 0.25);
+	}
+
+	.select-report-label {
+		padding: 1em;
+	}
+
+	.select-report-label .glyphicon {
+		margin-right: 0.1em;
+	}
+</style>
 
 <script>
 
