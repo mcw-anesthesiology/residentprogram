@@ -1301,7 +1301,7 @@ var render = function() {
           })
         )
       : _c("div", { staticClass: "no-news-container text-center" }, [
-          _c("p", [_vm._v("\n\t\t\tNothing here!\n\t\t")]),
+          _c("p", [_vm._v("\n\t\t\tNothing to see here!\n\t\t")]),
           _vm._v(" "),
           _vm._m(0)
         ])

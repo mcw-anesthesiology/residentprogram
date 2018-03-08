@@ -560,8 +560,23 @@ aside[data-v-76955910] {
 }
 }
 
+.overlap-item-row ~ .overlap-item-row {
+	border-top: 1px solid rgba(0, 0, 0, 0.25);
+}
+.select-report-label {
+	padding: 1em;
+}
+.select-report-label .glyphicon {
+	margin-right: 0.1em;
+}
+
 .overlap-list-item[data-v-bdf92d76] {
 	margin: 1em 0.5em;
+}
+header[data-v-bdf92d76] {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 .overlap-user-name[data-v-bdf92d76] {
 	font-size: 1.25em;
@@ -599,6 +614,13 @@ aside[data-v-76955910] {
 .num-cases[data-v-bdf92d76],
 .total-time[data-v-bdf92d76] {
 	text-align: right;
+}
+.detailed-report-panel[data-v-bdf92d76] {
+	margin: 1em;
+}
+.detailed-report-body[data-v-bdf92d76] {
+	max-height: 400px;
+	overflow: auto;
 }
 
 .controls-row[data-v-0dd0fb89] {
