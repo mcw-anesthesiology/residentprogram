@@ -46069,6 +46069,17 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -46083,7 +46094,6 @@ if (false) {(function () {
 
 
 
-// import { isoDateString } from '@/modules/date-utils.js';
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -46092,6 +46102,7 @@ if (false) {(function () {
 		return {
 			userType: 'faculty',
 			subjectType: 'trainee',
+			reportType: 'all',
 			minCases: 0,
 			minHours: 0,
 			minMinutes: 30,
@@ -46099,12 +46110,18 @@ if (false) {(function () {
 			reportDates: null,
 			processing: false,
 
-			reportReportDates: null,
 			reportUserType: null,
 			reportSubjectType: null,
+			reportReportType: null,
+			reportReportDates: null,
 			overlaps: null,
 
 			selectedOverlaps: [],
+
+			userTypes: ['faculty', 'resident', 'fellow', 'trainee'],
+
+			reportTypes: ['all', 'FROEDTERT_EGRESS', 'CHW_TRAINEE_REPORT'],
+			reportTypeNames: new Map([['all', 'All'], ['FROEDTERT_EGRESS', 'Froedtert Egress'], ['CHW_TRAINEE_REPORT', 'CHW Trainee']]),
 
 			show: {
 				sendReports: false
@@ -46113,9 +46130,6 @@ if (false) {(function () {
 	},
 
 	computed: {
-		userTypes: function userTypes() {
-			return ['faculty', 'resident', 'fellow', 'trainee'];
-		},
 		overlapsFields: function overlapsFields() {
 			return ['user name'];
 		},
@@ -46138,6 +46152,10 @@ if (false) {(function () {
 
 			if (!this.userTypes.includes(this.subjectType)) {
 				errors.set('subjectType', 'Invalid selection');
+			}
+
+			if (!this.reportTypes.includes(this.reportType)) {
+				errors.set('reportType', 'Invalid selection');
 			}
 
 			if (!Array.isArray(this.reportDates) || this.reportDates.length !== 2) {
@@ -46214,9 +46232,10 @@ if (false) {(function () {
 
 			this.overlaps = null;
 			this.selectedOverlaps = [];
-			this.reportReportDates = this.reportDates;
 			this.reportUserType = this.userType;
 			this.reportSubjectType = this.subjectType;
+			this.reportReportType = this.reportType;
+			this.reportReportDates = this.reportDates;
 
 			var quoteUnlimitedMaxPairsUnquote = 99999;
 
@@ -46225,6 +46244,7 @@ if (false) {(function () {
 				body: JSON.stringify({
 					userType: this.reportUserType,
 					subjectType: this.reportSubjectType,
+					reportType: this.reportReportType,
 					startDate: this.reportDates[0],
 					endDate: this.reportDates[1],
 					minCases: this.minCases,
@@ -46948,7 +46968,7 @@ var render = function() {
                 _c(
                   "validated-form-group",
                   {
-                    staticClass: "col-sm-6",
+                    staticClass: "col-sm-4",
                     attrs: { errors: _vm.errors, prop: "userType" }
                   },
                   [
@@ -46999,7 +47019,7 @@ var render = function() {
                 _c(
                   "validated-form-group",
                   {
-                    staticClass: "col-sm-6",
+                    staticClass: "col-sm-4",
                     attrs: { errors: _vm.errors, prop: "subjectType" }
                   },
                   [
@@ -47038,6 +47058,57 @@ var render = function() {
                             _vm._v(
                               "\n\t\t\t\t\t\t\t\t" +
                                 _vm._s(_vm.ucfirst(type)) +
+                                "\n\t\t\t\t\t\t\t"
+                            )
+                          ])
+                        })
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "validated-form-group",
+                  {
+                    staticClass: "col-sm-4",
+                    attrs: { errors: _vm.errors, prop: "reportType" }
+                  },
+                  [
+                    _c("label", { staticClass: "containing-label" }, [
+                      _vm._v("\n\t\t\t\t\t\tReport type\n\t\t\t\t\t\t"),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.reportType,
+                              expression: "reportType"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.reportType = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        _vm._l(_vm.reportTypes, function(type) {
+                          return _c("option", { domProps: { value: type } }, [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t" +
+                                _vm._s(_vm.reportTypeNames.get(type)) +
                                 "\n\t\t\t\t\t\t\t"
                             )
                           ])

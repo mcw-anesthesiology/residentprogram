@@ -61,6 +61,7 @@ class AnesthesiaCaseController extends Controller {
 	public function getOverlaps(Request $request) {
 		$userType = $request->input('userType');
 		$subjectType = $request->input('subjectType');
+		$reportType = $request->input('reportType', null);
 		$start = $request->input('startDate');
 		$end = $request->input('endDate');
 
@@ -68,7 +69,8 @@ class AnesthesiaCaseController extends Controller {
 			$userType,
 			$subjectType,
 			$start,
-			$end
+			$end,
+			$reportType
 		));
 
 		foreach ($overlaps as &$overlap) {
