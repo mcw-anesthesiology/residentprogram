@@ -6,7 +6,7 @@
 
 			<form @submit="handleSubmit">
 				<div class="row">
-					<validated-form-group class="col-sm-6"
+					<validated-form-group class="col-sm-4"
 							:errors="errors" prop="userType">
 						<label class="containing-label">
 							Group by
@@ -18,7 +18,7 @@
 							</select>
 						</label>
 					</validated-form-group>
-					<validated-form-group class="col-sm-6"
+					<validated-form-group class="col-sm-4"
 							:errors="errors" prop="subjectType">
 						<label class="containing-label">
 							Subject type
@@ -26,6 +26,17 @@
 									v-model="subjectType">
 								<option v-for="type of userTypes" :value="type">
 									{{ ucfirst(type) }}
+								</option>
+							</select>
+						</label>
+					</validated-form-group>
+					<validated-form-group class="col-sm-4"
+							:errors="errors" prop="reportType">
+						<label class="containing-label">
+							Report type
+							<select class="form-control" v-model="reportType">
+								<option v-for="type of reportTypes" :value="type">
+									{{ reportTypeNames.get(type) }}
 								</option>
 							</select>
 						</label>
@@ -159,7 +170,6 @@ import ProcessingButton from '@/vue-components/ProcessingButton.vue';
 import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
 import { handleError } from '@/modules/errors.js';
-// import { isoDateString } from '@/modules/date-utils.js';
 import {
 	fetchConfig,
 	ucfirst,
@@ -175,6 +185,7 @@ export default {
 		return {
 			userType: 'faculty',
 			subjectType: 'trainee',
+			reportType: 'all',
 			minCases: 0,
 			minHours: 0,
 			minMinutes: 30,
@@ -182,12 +193,31 @@ export default {
 			reportDates: null,
 			processing: false,
 
-			reportReportDates: null,
 			reportUserType: null,
 			reportSubjectType: null,
+			reportReportType: null,
+			reportReportDates: null,
 			overlaps: null,
 
 			selectedOverlaps: [],
+
+			userTypes: [
+				'faculty',
+				'resident',
+				'fellow',
+				'trainee'
+			],
+
+			reportTypes: [
+				'all',
+				'FROEDTERT_EGRESS',
+				'CHW_TRAINEE_REPORT'
+			],
+			reportTypeNames: new Map([
+				['all', 'All'],
+				['FROEDTERT_EGRESS', 'Froedtert Egress'],
+				['CHW_TRAINEE_REPORT', 'CHW Trainee']
+			]),
 
 			show: {
 				sendReports: false
@@ -195,14 +225,6 @@ export default {
 		};
 	},
 	computed: {
-		userTypes() {
-			return [
-				'faculty',
-				'resident',
-				'fellow',
-				'trainee'
-			];
-		},
 		overlapsFields() {
 			return [
 				'user name'
@@ -223,6 +245,10 @@ export default {
 
 			if (!this.userTypes.includes(this.subjectType)) {
 				errors.set('subjectType', 'Invalid selection');
+			}
+
+			if (!this.reportTypes.includes(this.reportType)) {
+				errors.set('reportType', 'Invalid selection');
 			}
 
 			if (!Array.isArray(this.reportDates) || this.reportDates.length !== 2) {
@@ -281,9 +307,10 @@ export default {
 
 			this.overlaps = null;
 			this.selectedOverlaps = [];
-			this.reportReportDates = this.reportDates;
 			this.reportUserType = this.userType;
 			this.reportSubjectType = this.subjectType;
+			this.reportReportType = this.reportType;
+			this.reportReportDates = this.reportDates;
 
 			const quoteUnlimitedMaxPairsUnquote = 99999;
 
@@ -293,6 +320,7 @@ export default {
 				body: JSON.stringify({
 					userType: this.reportUserType,
 					subjectType: this.reportSubjectType,
+					reportType: this.reportReportType,
 					startDate: this.reportDates[0],
 					endDate: this.reportDates[1],
 					minCases: this.minCases,

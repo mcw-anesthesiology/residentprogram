@@ -52,7 +52,7 @@ class PairingFetcher {
 		return $query->where($key, '=', $value);
 	}
 
-	static function getOverlaps($userType, $subjectType, $start, $end) {
+	static function getOverlaps($userType, $subjectType, $start, $end, $reportType = null) {
 		$overlaps = [];
 
 		$userTypes = self::getTypes($userType);
@@ -100,6 +100,10 @@ class PairingFetcher {
 				$query = self::applyQuery($query, 'partners.type', $subjectTypes['type']);
 			if (array_key_exists('training_level', $subjectTypes))
 				$query = self::applyQuery($query, 'partners.training_level', $subjectTypes['training_level']);
+		}
+
+		if (!empty($reportType) && $reportType != 'all') {
+			$query = self::applyQuery($query, 'anesthesia_cases.report_type', $reportType);
 		}
 
 		$query = $query->orderBy('partner_cases.id')
