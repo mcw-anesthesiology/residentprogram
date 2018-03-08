@@ -43,6 +43,15 @@
 </div>
 	@endif
 
+	@if (!empty($reportLink))
+<p>
+	You can see a detailed version of this report, and view your pairing
+	reports for other time periods at any time on the
+	<a href="{{ $reportLink }}">detailed pairing report</a>
+	page.
+</p>
+	@endif
+
 <table>
 	<thead>
 		<tr>
@@ -55,9 +64,17 @@
 	</thead>
 	<tbody>
 	@foreach ($pairings as $pairing)
+		<?php
+			$partnerSpecificType = (
+				$pairing['partner']['type'] == 'resident'
+				&& $pairing['partner']['training_level'] == 'fellow'
+			)
+				? 'fellow'
+				: $pairing['partner']['type'];
+		?>
 		<tr>
-			<td>{{ $pairing[$subjectType]['full_name'] }}</td>
-			<td>{{ ucfirst($pairing[$subjectType]['specific_type']) }}</td>
+			<td>{{ $pairing['partner']['full_name'] }}</td>
+			<td>{{ ucfirst($partnerSpecificType) }}</td>
 			<td class="cases-cell">
 				{{ $pairing['numCases'] }}
 			</td>
@@ -84,7 +101,7 @@
 				}}
 			</td>
 			<td>
-				<a href="{{ url("/request?subject={$pairing[$subjectType]['id']}{$evaluationDateParams}") }}">
+				<a href="{{ url("/request?subject={$pairing['partner']['id']}&{$dateQuery}") }}">
 					Evaluate
 				</a>
 			</td>
@@ -92,13 +109,6 @@
 	@endforeach
 	</tbody>
 </table>
-
-	@if (!empty($reportLink))
-<p>
-	You can see a detailed version of this report using the following link:
-	<a href="{{ $reportLink }}">Detailed pairing report</a>
-</p>
-	@endif
 
 @else
 	@if (!empty($emptyMessage))

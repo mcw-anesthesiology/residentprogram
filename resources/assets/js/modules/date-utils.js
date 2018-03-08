@@ -69,7 +69,11 @@ export function renderDateRange(
 		return 'All time';
 
 	let range = moment(startDate).twix(endDate, {allDay: true});
-	return range.start().startOf('month') && range.end().endOf('month') && !explicit
+	return (
+		isoDateString(startDate) === isoDateString(moment(startDate).startOf('month'))
+		&& isoDateString(endDate) === isoDateString(moment(endDate).endOf('month'))
+		&& !explicit
+	)
 		? range.format({
 			dayFormat: '_',
 			monthFormat: 'MMMM'
