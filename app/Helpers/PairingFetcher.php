@@ -108,6 +108,7 @@ class PairingFetcher {
 				'users.id as user_id',
 				'users.last_name as user_last_name',
 				'users.first_name as user_first_name',
+				'users.email as user_email',
 				'users.type as user_type',
 				'users.training_level as user_training_level',
 				'users.secondary_training_level as user_secondary_training_level',
@@ -120,6 +121,7 @@ class PairingFetcher {
 				'partner_cases.user_id as partner_id',
 				'partners.first_name as partner_first_name',
 				'partners.last_name as partner_last_name',
+				'partners.email as partner_email',
 				'partners.type as partner_type',
 				'partners.training_level as partner_training_level',
 				'partners.secondary_training_level as partner_secondary_training_level',
@@ -143,6 +145,8 @@ class PairingFetcher {
 						'user' => [
 							'id' => $result->user_id,
 							'full_name' => "{$result->user_last_name}, {$result->user_first_name}",
+							'last_name' => $result->user_last_name,
+							'email' => $result->user_email,
 							'type' => $result->user_type,
 							'training_level' => $result->user_training_level,
 							'secondary_training_level' => $result->user_secondary_training_level
@@ -206,6 +210,7 @@ class PairingFetcher {
 				'partner_cases.user_id as partner_id',
 				'partners.first_name as partner_first_name',
 				'partners.last_name as partner_last_name',
+				'partners.email as partner_email',
 				'partners.type as partner_type',
 				'partners.training_level as partner_training_level',
 				'partners.secondary_training_level as partner_secondary_training_level',
@@ -236,6 +241,7 @@ class PairingFetcher {
 				'partner' => [
 					'id' => $result->partner_id,
 					'full_name' => "{$result->partner_last_name}, {$result->partner_first_name}",
+					'email' => $result->partner_email,
 					'type' => $result->partner_type,
 					'training_level' => $result->partner_training_level,
 					'secondary_training_level' => $result->partner_secondary_training_level
@@ -372,4 +378,69 @@ class PairingFetcher {
 		), 0, $maxPairings);
 	}
 
+	static function sendPairingReport(
+		$user,
+		$pairings,
+		$startDate,
+		$endDate,
+		$subjectType,
+		$emailSubject,
+		$intro,
+		$successLead,
+		$emptyMessage,
+		$closing
+	) {
+		$filterType = ($subjectType == 'faculty')
+			? 'evaluator'
+			: 'subject';
+
+		$dateQuery = http_build_query([
+			'startDate' => Carbon::parse($startDate)->toDateString(),
+			'endDate' => Carbon::parse($endDate)->toDateString()
+		]);
+
+		$requestUrl = url('/request?' . join('&', array_map(
+			function ($pairing) use ($filterType) {
+				return "{$filterType}={$pairing['partner']['id']}";
+			},
+			$pairings
+		)) . '&' . $dateQuery);
+
+		foreach ($pairings as &$pairing) {
+			if (!($pairing['totalTime'] instanceof DateInterval)) {
+				$pairing['totalTime'] = DateHelpers::arrayToDateInterval(
+					$pairing['totalTime']
+				);
+			}
+		}
+
+		$reportLink = url('/case-overlaps?' . $dateQuery . '&' . http_build_query([
+			'subjectType' => $subjectType
+		]));
+
+		$data = compact(
+			'user',
+			'pairings',
+			'subjectType',
+			'requestUrl',
+			'dateQuery',
+			'reportLink',
+
+			'intro',
+			'successLead',
+			'emptyMessage',
+			'closing'
+		);
+
+		Mail::send(
+			'emails.pairing-report.report',
+			$data,
+			function ($message) use ($user, $emailSubject) {
+				$message->to($user['email'])
+					->from('admin@residentprogram.com', 'Resident Program')
+					->replyTo(config('app.admin_email'))
+					->subject($emailSubject);
+			}
+		);
+	}
 }

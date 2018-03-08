@@ -125,8 +125,23 @@
 	@endif
 	@if ($user->isType("admin"))
 		<li><a href="/reports">Reports</a></li>
-	@elseif ($user->type == "resident" || ($user->type == "faculty" && $user->mentees()->count() > 0))
-		<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Report</a></li>
+	@elseif ($user->isType(['resident', 'faculty']))
+        <li class="dropdown">
+		  <a href="#" data-toggle="dropdown">
+            Reports<b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+        @if ($user->isType('resident') || ($user->isType('faculty') && $user->mentees()->count() > 0))
+            <li>
+                <a class="viewSpecRpt pointer" data-toggle="modal"
+                        data-target=".bs-specRpt-modal" id="viewSpecRpt">
+                    Trainee report
+                </a>
+            </li>
+        @endif
+            <li><a href="/case-overlaps">Case overlaps</a></li>
+          </ul>
+        </li>
 	@endif
 		<li><a href="/contact">Contact</a></li>
 

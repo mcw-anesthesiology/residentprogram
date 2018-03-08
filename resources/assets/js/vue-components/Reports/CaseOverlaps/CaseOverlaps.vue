@@ -96,6 +96,13 @@
 			</form>
 		</div>
 
+		<selected-overlaps v-if="selectedOverlaps && selectedOverlaps.length > 0"
+			:overlaps="selectedOverlaps"
+			:report-dates="reportReportDates"
+			:user-type="reportUserType"
+			:subject-type="reportSubjectType"
+			@clear="selectedOverlaps = []" />
+
 		<div v-if="overlaps" class="container body-block">
 			<h2>
 				Overlaps grouped by
@@ -103,16 +110,21 @@
 			</h2>
 
 			<button type="button" class="btn btn-info"
-					@click="selectAllOverlaps">
+					@click="selectedOverlaps = overlaps.slice()">
 				<span class="glyphicon glyphicon-th-list"></span>
 				Select all
+			</button>
+			<button v-if="selectedOverlaps && selectedOverlaps.length > 0"
+					type="button" class="btn btn-default"
+					@click="selectedOverlaps = []">
+				Clear selection
 			</button>
 
 			<component-list :items="overlaps"
 					:fields="overlapsFields"
 					:fieldAccessors="overlapsFieldAccessors">
 				<template slot-scope="item">
-					<div class="row">
+					<div class="row" :key="item.id">
 						<div class="col-xs-1">
 							<label title="Select report">
 								<input type="checkbox"
@@ -139,6 +151,7 @@ import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
 import AddCases from './AddCases.vue';
 import OverlapListItem from './OverlapListItem.vue';
+import SelectedOverlaps from './SelectedOverlaps.vue';
 
 import ClearableDate from '@/vue-components/ClearableDate.vue';
 import ComponentList from '@/vue-components/ComponentList.vue';
@@ -169,6 +182,7 @@ export default {
 			reportDates: null,
 			processing: false,
 
+			reportReportDates: null,
 			reportUserType: null,
 			reportSubjectType: null,
 			overlaps: null,
@@ -267,6 +281,7 @@ export default {
 
 			this.overlaps = null;
 			this.selectedOverlaps = [];
+			this.reportReportDates = this.reportDates;
 			this.reportUserType = this.userType;
 			this.reportSubjectType = this.subjectType;
 
@@ -300,6 +315,7 @@ export default {
 	components: {
 		AddCases,
 		OverlapListItem,
+		SelectedOverlaps,
 		ClearableDate,
 		ComponentList,
 		ProcessingButton,

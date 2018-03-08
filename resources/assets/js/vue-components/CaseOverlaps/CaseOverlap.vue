@@ -14,7 +14,9 @@
 				:items="pairings"
 				:paginate="false">
 			<template slot-scope="pairing">
-				<pairing-list-item :pairing="pairing"
+				<pairing-list-item :key="pairing.name"
+					:pairing="pairing"
+					:user="user"
 					:subject-type="subjectType"
 					:report-dates="reportDates" />
 			</template>

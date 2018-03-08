@@ -169,4 +169,53 @@ class AnesthesiaCaseController extends Controller {
 
 		return $pairings;
 	}
+
+	public function sendPairingReports(Request $request) {
+		$overlaps = $request->input('overlaps');
+		$startDate = $request->input('startDate');
+		$endDate = $request->input('endDate');
+		$subjectType = $request->input('subjectType');
+		$emailSubject = $request->input('emailSubject');
+		$intro = $request->input('intro');
+		$successLead = $request->input('successLead');
+		$emptyMessage = $request->input('emptyMessage');
+		$closing = $request->input('closing');
+
+		$successes = 0;
+		$errors = [];
+
+		foreach ($overlaps as $overlap) {
+			$user = $overlap['user'];
+			$pairings = $overlap['pairings'];
+
+			try {
+				PairingFetcher::sendPairingReport(
+					$user,
+					$pairings,
+					$startDate,
+					$endDate,
+					$subjectType,
+					$emailSubject,
+					$intro,
+					$successLead,
+					$emptyMessage,
+					$closing
+				);
+				$successes++;
+
+				// Mailtrap gets mad if you send emails too quickly
+				if (config('app.env') != 'production') {
+					sleep(1);
+				}
+			} catch (\Exception $e) {
+				Log::error('Error sending report: ' . $e);
+				$errors[] = $overlap;
+			}
+		}
+
+		return [
+			'successes' => $successes,
+			'errors' => $errors
+		];
+	}
 }

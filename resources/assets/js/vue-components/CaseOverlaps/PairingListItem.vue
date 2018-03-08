@@ -8,7 +8,12 @@
 			<p class="subject-type">
 				{{ ucfirst(getSpecificType(subject)) }}
 			</p>
-			<p>
+			<p v-if="requestLink">
+				<a :href="requestLink" target="_blank">
+					Request evaluation
+				</a>
+			</p>
+			<p v-if="evaluateLink">
 				<a :href="evaluateLink" target="_blank">
 					Evaluate
 				</a>
@@ -183,6 +188,10 @@ export default {
 			type: Object,
 			required: true
 		},
+		user: {
+			type: Object,
+			required: true
+		},
 		subjectType: {
 			type: String,
 			required: true
@@ -201,13 +210,16 @@ export default {
 				return moment(a.date).valueOf() - moment(b.date).valueOf();
 			});
 		},
-		evaluateLink() {
-			const filterType = this.subjectType === 'faculty'
-				? 'evaluator'
-				: 'subject';
+		requestLink() {
+			if (
+				!this.user
+				|| this.user.type === 'faculty'
+				|| this.subjectType !== 'faculty'
+			)
+				return;
 
 			const params = new URLSearchParams();
-			params.set(filterType, this.subject.id);
+			params.set('evaluator', this.subject.id);
 
 			if (this.reportDates && this.reportDates.length === 2) {
 				params.set('startDate', isoDateString(this.reportDates[0]));
@@ -215,6 +227,34 @@ export default {
 			}
 
 			return `/request?${params.toString()}`;
+		},
+		evaluateLink() {
+			const traineeTypes = [
+				'trainee',
+				'resident',
+				'fellow'
+			];
+
+			if (
+				!this.user
+				|| (this.user.type === 'faculty' && this.subjectType === 'faculty')
+				|| (traineeTypes.includes(this.user.type) && traineeTypes.includes(this.subjectType))
+			)
+				return;
+
+			const params = new URLSearchParams();
+			params.set('subject', this.subject.id);
+
+			if (this.reportDates && this.reportDates.length === 2) {
+				params.set('startDate', isoDateString(this.reportDates[0]));
+				params.set('endDate', isoDateString(this.reportDates[1]));
+			}
+
+			const pageUrl = this.subjectType === 'faculty'
+				? '/request/faculty'
+				: '/request';
+
+			return `${pageUrl}?${params.toString()}`;
 		}
 	},
 	methods: {
