@@ -61,7 +61,7 @@ import ProcessingButton from '@/vue-components/ProcessingButton.vue';
 import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
 import { handleError } from '@/modules/errors.js';
-import { fetchConfig, okOrThrow } from '@/modules/utils.js';
+import { fetchConfig, jsonOrThrow } from '@/modules/utils.js';
 
 export default {
 	mixins: [HasAlerts],
@@ -116,7 +116,19 @@ export default {
 				...fetchConfig({contentType: null}),
 				method: 'POST',
 				body
-			}).then(okOrThrow).catch(err => {
+			}).then(jsonOrThrow).then(({successful, unsuccessful}) => {
+				if (successful)
+					this.alerts.push({
+						type: 'success',
+						text: `${successful} rows successfully processed`
+					});
+
+				if (unsuccessful)
+					this.alerts.push({
+						type: 'error',
+						text: `${unsuccessful} not processed successfully`
+					});
+			}).catch(err => {
 				handleError(err, this, 'There was a problem uploading the reports');
 			}).finally(() => {
 				this.processing = false;

@@ -160,6 +160,10 @@ class CaseParser {
 					[$role, $times] = array_map('trim', explode('from', $line));
 					[$start, $end] = array_map('trim', explode('to', $times));
 
+					// Don't log error for roles we don't care about right now
+					if (!array_key_exists($role, $this->EGRESS_ROLE_MAP))
+						continue;
+
 					$staff[$name]['role'] = $this->EGRESS_ROLE_MAP[$role];
 					$staff[$name]['times'] = [
 						'start' => self::parseDateTime($procDate, $start),
@@ -174,12 +178,18 @@ class CaseParser {
 		$caseUsers = [];
 
 		foreach ($staff as $name => $caseInfo) {
+			// Don't log error for these
+			if (empty($caseInfo))
+				continue;
+
 			try {
 				$userId = $this->getUserId($name, $caseInfo['role']);
 				if (!empty($userId))
 					$caseUsers[$userId] = $caseInfo['times'];
 			} catch (ModelNotFoundException $e) {
-				$role = $caseInfo['role'];
+				$role = '';
+				if (array_key_exists('role', $caseInfo))
+					$role = $caseInfo['role'];
 				Log::debug("User not found (Name: $name, role: $role)");
 			}
 		}
@@ -206,8 +216,6 @@ class CaseParser {
 				]);
 			}
 		}
-
-		return $anesthesiaCase->fresh();
 	}
 
 	function parseCHWTraineeProcedureCase($row) {
@@ -265,7 +273,6 @@ class CaseParser {
 	}
 
 	static function parseDate($date) {
-		Log::debug($date);
 		[$month, $day, $year] = explode('/', $date);
 		$year = (int)$year;
 		if ($year < 1000)
@@ -281,8 +288,8 @@ class CaseParser {
 			[$date, $time] = array_map('trim', explode(' ', $time));
 		}
 
-		$hour = substr($time, 0, 2);
-		$minute = substr($time, 2, 2);
+		$hour = (int)substr($time, 0, 2);
+		$minute = (int)substr($time, 2, 2);
 
 		return (new Carbon($date))->setTime($hour, $minute);
 	}
