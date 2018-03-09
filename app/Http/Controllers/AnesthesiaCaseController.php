@@ -36,6 +36,9 @@ class AnesthesiaCaseController extends Controller {
 		$chwTraineeFiles = !empty($request->chwTraineeFiles)
 			? array_map($getFilePath, $request->chwTraineeFiles)
 			: [];
+        $vaTraineeSupervisorFiles = !empty($request->vaTraineeSupervisorFiles)
+            ? array_map($getFilePath, $request->vaTraineeSupervisorFiles)
+            : [];
 
 		$successful = 0;
 		$unsuccessful = 0;
@@ -48,6 +51,12 @@ class AnesthesiaCaseController extends Controller {
 
 		foreach ($chwTraineeFiles as $file) {
 			$results = CaseParser::parseFilename($file, CaseParser::CHW_TRAINEE_FILE_TYPE);
+			$successful += $results['successful'];
+			$unsuccessful += $results['unsuccessful'];
+		}
+
+        foreach ($vaTraineeSupervisorFiles as $file) {
+			$results = CaseParser::parseFilename($file, CaseParser::VA_TRAINEE_SUPERVISOR_FILE_TYPE);
 			$successful += $results['successful'];
 			$unsuccessful += $results['unsuccessful'];
 		}

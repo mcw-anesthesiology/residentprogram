@@ -227,12 +227,14 @@ export default {
 			reportTypes: [
 				'all',
 				'FROEDTERT_EGRESS',
-				'CHW_TRAINEE_REPORT'
+				'CHW_TRAINEE_REPORT',
+				'VA_TRAINEE_SUPERVISOR'
 			],
 			reportTypeNames: new Map([
 				['all', 'All'],
 				['FROEDTERT_EGRESS', 'Froedtert Egress'],
-				['CHW_TRAINEE_REPORT', 'CHW Trainee']
+				['CHW_TRAINEE_REPORT', 'CHW Trainee'],
+				['VA_TRAINEE_SUPERVISOR', 'VA Trainee/Supervisor']
 			]),
 
 			show: {
