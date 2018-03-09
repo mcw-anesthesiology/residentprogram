@@ -15,8 +15,8 @@ class CreateAnesthesiaCasesTable extends Migration
     {
         Schema::create('anesthesia_cases', function (Blueprint $table) {
             $table->increments('id');
-			$table->string('report_type');
-			$table->string('report_case_id');
+			$table->string('report_type', 50);
+			$table->string('report_case_id', 200);
 			$table->date('procedure_date');
 			$table->dateTime('start_time');
 			$table->dateTime('stop_time');
