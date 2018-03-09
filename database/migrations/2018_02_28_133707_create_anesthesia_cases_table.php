@@ -28,7 +28,7 @@ class CreateAnesthesiaCasesTable extends Migration
 
             $table->timestamps();
 
-			$table->unique(['report_type', 'report_case_id']);
+			$table->unique(['report_type', 'report_case_id'], 'report_type_id_unique');
         });
 
 		Schema::create('user_anesthesia_cases', function (Blueprint $table) {
