@@ -134,6 +134,8 @@
 		display: block;
 		margin: 0.25em auto;
 		height: 10em;
+		width: 10em;
+		object-fit: cover;
 	}
 
 	.subject-name {
