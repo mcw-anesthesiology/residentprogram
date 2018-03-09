@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 use Carbon\Carbon;
@@ -17,6 +18,7 @@ class AppServiceProvider extends ServiceProvider {
      */
     public function boot() {
         Carbon::setToStringFormat("d-M-Y g:i A");
+		Schema::defaultStringLength(191);
 
 		// Initialize settings values
 		addSettingIfEmpty('facultyEvalThreshold', 3);
