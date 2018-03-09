@@ -201,7 +201,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 937:
+/***/ 932:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -406,6 +406,6 @@ function createUserSettingsPage(el, propsData) {
 
 /***/ })
 
-},[937]);
+},[932]);
 });
 //# sourceMappingURL=vue-user.js.map

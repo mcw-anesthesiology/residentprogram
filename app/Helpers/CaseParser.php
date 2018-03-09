@@ -22,6 +22,7 @@ class CaseParser {
 	// Report types
 	const EGRESS_FILE_TYPE = 'FROEDTERT_EGRESS';
 	const CHW_TRAINEE_FILE_TYPE = 'CHW_TRAINEE_REPORT';
+	const VA_TRAINEE_SUPERVISOR_FILE_TYPE = 'VA_TRAINEE_SUPERVISOR';
 
 	// Column indexes
 	// FIXME: Froedtert egress likely to change
@@ -45,6 +46,15 @@ class CaseParser {
 		'FELLOW' => [ 10, 11 ],
 		'SURGEON' => 14
 	];
+	const VA_TRAINEE_SUPERVISOR_COLS = [
+		'ID' => 0,
+		'TRAINEE' => 1,
+		'TRAINEE_ROLE' => 2,
+		'SUPERVISOR' => 3,
+		'SUPERVISOR_TITLE' => 4,
+		'CASE_START' => 5,
+		'CASE_STOP' => 6
+	];
 
 	const FACULTY_ROLE = 'faculty';
 	const TRAINEE_ROLE = 'trainee';
@@ -55,6 +65,9 @@ class CaseParser {
 	const EGRESS_RESIDENT_ROLE = 'Anesthesia Resident';
 	const EGRESS_FELLOW_ROLE = 'Anesthesia Fellow';
 
+	const VA_TRAINEE_RESIDENT_ROLE = 'RESIDENT';
+	const VA_TRAINEE_FELLOW_ROLE = 'FELLOW';
+
 	function __construct($type) {
 		$this->type = $type;
 		switch ($type) {
@@ -63,6 +76,9 @@ class CaseParser {
 				break;
 			case self::CHW_TRAINEE_FILE_TYPE:
 				$this->rowParser = 'parseCHWTraineeProcedureCase';
+				break;
+			case self::VA_TRAINEE_SUPERVISOR_FILE_TYPE:
+				$this->rowParser = 'parseVATraineeReportCase';
 				break;
 			default:
 				throw new \InvalidArgumentException("$type is not a valid file type");
@@ -91,6 +107,11 @@ class CaseParser {
 				self::CHW_TRAINEE_REPORT_COLS['FELLOW'],
 				self::FELLOW_ROLE
 			);
+
+		$this->VA_TRAINEE_ROLE_MAP = [
+			self::VA_TRAINEE_RESIDENT_ROLE => self::RESIDENT_ROLE,
+			self::VA_TRAINEE_FELLOW_ROLE => self::FELLOW_ROLE
+		];
 
 		$this->userIds = [];
 	}
@@ -270,6 +291,47 @@ class CaseParser {
 			]);
 		}
 
+	}
+
+	function parseVATraineeReportCase($row) {
+		$logId = $row[self::VA_TRAINEE_SUPERVISOR_COLS['ID']];
+		$startTime = Carbon::parse(
+			$row[self::VA_TRAINEE_SUPERVISOR_COLS['CASE_START']]
+		);
+		$stopTime = Carbon::parse(
+			$row[self::VA_TRAINEE_SUPERVISOR_COLS['CASE_STOP']]
+		);
+		$procDate = $startTime->copy()->startOfDay();
+
+		try {
+			$traineeName = $row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE']];
+			$traineeRole = $this->VA_TRAINEE_ROLE_MAP[
+				$row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE_ROLE']]
+			];
+			$traineeId = $this->getUserId($traineeName, $traineeRole);
+
+			$supervisorName = $row[self::VA_TRAINEE_SUPERVISOR_COLS['SUPERVISOR']];
+			$supervisorId = $this->getUserId($supervisorName, self::FACULTY_ROLE);
+
+			$anesthesiaCase = AnesthesiaCase::updateOrCreate(
+				[
+					'report_type' => self::VA_TRAINEE_SUPERVISOR_FILE_TYPE,
+					'report_case_id' => $logId
+				],
+				[
+					'procedure_date' => $procDate,
+					'start_time' => $startTime,
+					'stop_time' => $stopTime
+				]
+			);
+
+			$anesthesiaCase->users()->attach([$traineeId, $supervisorId], [
+				'start_time' => $startTime,
+				'stop_time' => $stopTime
+			]);
+		} catch (ModelNotFoundException $e) {
+			Log::debug('User not found: ' . $e);
+		}
 	}
 
 	static function parseDate($date) {

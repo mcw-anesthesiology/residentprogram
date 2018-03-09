@@ -6,7 +6,7 @@
 				<validated-form-group class="col-xs-12 files-container"
 						:errors="errors" prop="reportFiles">
 					<div class="row">
-						<div class="col-sm-6">
+						<div class="col-sm-4">
 							<label class="containing-label control-label">
 								Egress report files (CSV, multiple allowed)
 								<input ref="egressFilesInput"
@@ -21,7 +21,7 @@
 								</button>
 							</label>
 						</div>
-						<div class="col-sm-6">
+						<div class="col-sm-4">
 							<label class="containing-label control-label">
 								CHW trainee report files (CSV, multiple allowed)
 								<input ref="chwTraineeFilesInput"
@@ -32,6 +32,21 @@
 									@change="handleFilesChange($event, 'chwTraineeFiles')" />
 								<button type="button" class="btn btn-sm btn-default"
 										@click="handleClearFileInput($event, 'chwTraineeFiles')">
+									Clear
+								</button>
+							</label>
+						</div>
+						<div class="col-sm-4">
+							<label class="containing-label control-label">
+								VA trainee supervisor (CSV, multiple allowed)
+								<input ref="vaTraineeSupervisorFilesInput"
+									type="file" class="form-control"
+									accept=".csv"
+									name="vaTraineeSupervisorFiles[]"
+									multiple
+									@change="handleFilesChange($event, 'vaTraineeSupervisorFiles')" />
+								<button type="button" class="btn btn-sm btn-default"
+										@click="handleClearFileInput($event, 'vaTraineeSupervisorFiles')">
 									Clear
 								</button>
 							</label>
@@ -69,6 +84,7 @@ export default {
 		return {
 			egressFiles: null,
 			chwTraineeFiles: null,
+			vaTraineeSupervisorFiles: null,
 			processing: false
 		};
 	},
@@ -79,6 +95,7 @@ export default {
 			if (
 				!delve(this, 'egressFiles.length')
 				&& !delve(this, 'chwTraineeFiles.length')
+				&& !delve(this, 'vaTraineeSupervisorFiles.length')
 			) {
 				errors.set('reportFiles', 'Please select at least one report CSV file');
 			}
