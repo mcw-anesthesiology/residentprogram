@@ -126,6 +126,7 @@ class PairingFetcher {
 				'partners.first_name as partner_first_name',
 				'partners.last_name as partner_last_name',
 				'partners.email as partner_email',
+				'partners.photo_path as partner_photo_path',
 				'partners.type as partner_type',
 				'partners.training_level as partner_training_level',
 				'partners.secondary_training_level as partner_secondary_training_level',
@@ -215,6 +216,7 @@ class PairingFetcher {
 				'partners.first_name as partner_first_name',
 				'partners.last_name as partner_last_name',
 				'partners.email as partner_email',
+				'partners.photo_path as partner_photo_path',
 				'partners.type as partner_type',
 				'partners.training_level as partner_training_level',
 				'partners.secondary_training_level as partner_secondary_training_level',
@@ -246,6 +248,7 @@ class PairingFetcher {
 					'id' => $result->partner_id,
 					'full_name' => "{$result->partner_last_name}, {$result->partner_first_name}",
 					'email' => $result->partner_email,
+					'photo_path' => $result->partner_photo_path,
 					'type' => $result->partner_type,
 					'training_level' => $result->partner_training_level,
 					'secondary_training_level' => $result->partner_secondary_training_level
