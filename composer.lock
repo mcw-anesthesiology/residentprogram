@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d29b0642ee409b0ddab096aa04681c1",
+    "content-hash": "4c72270887d85a43e57151e0def99d1b",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -2035,49 +2035,6 @@
                 "php"
             ],
             "time": "2018-01-25T21:31:33+00:00"
-        },
-        {
-            "name": "nullpunkt/lz-string-php",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nullpunkt/lz-string-php.git",
-                "reference": "9531b65a350fcfb6169e0d7c9b225f22b7fd9973"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nullpunkt/lz-string-php/zipball/9531b65a350fcfb6169e0d7c9b225f22b7fd9973",
-                "reference": "9531b65a350fcfb6169e0d7c9b225f22b7fd9973",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "monolog/monolog": "^1.17",
-                "phpunit/phpunit": "~5.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "LZCompressor\\": "src/LZCompressor"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Tobias Seipke",
-                    "email": "tobias.seipke@gmail.com",
-                    "homepage": "https://github.com/nullpunkt"
-                },
-                {
-                    "name": "Juhász Ádám",
-                    "email": "juhasz.adam@virgo.hu",
-                    "homepage": "https://github.com/JuhaszAdam"
-                }
-            ],
-            "description": "PHP Class implementation of LZ-String javascript.",
-            "time": "2016-12-12T07:24:06+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -5762,8 +5719,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "yangqi/htmldom": 20,
-        "nullpunkt/lz-string-php": 20
+        "yangqi/htmldom": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
