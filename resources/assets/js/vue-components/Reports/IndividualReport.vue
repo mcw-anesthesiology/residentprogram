@@ -28,6 +28,12 @@
 					</div>
 			</section>
 
+			<section v-if="highlightedQuestions && highlightedQuestions.length > 0">
+				<h3>Highlighted question</h3>
+				<highlighted-question v-for="hq of highlightedQuestions"
+					:key="hq.id" v-bind="hq" />
+			</section>
+
 			<section>
 				<fieldset class="show-container">
 					<legend>Show</legend>
@@ -140,6 +146,7 @@ import download from 'downloadjs';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
+import HighlightedQuestion from './HighlightedQuestion.vue';
 import BootstrapAlert from '../BootstrapAlert.vue';
 import BootstrapButtonInput from '../BootstrapButtonInput.vue';
 import ChartjsChart from '../ChartjsChart.vue';
@@ -154,7 +161,9 @@ import {
 import { handleError } from '@/modules/errors.js';
 import {
 	camelCaseToWords,
-	ucfirst
+	ucfirst,
+	fetchConfig,
+	jsonOrThrow
 } from '@/modules/utils.js';
 import {
 	renderIdToEvalUrl,
@@ -184,6 +193,7 @@ export default {
 	},
 	data(){
 		return {
+			highlightedQuestions: null,
 			show: {
 				milestones: true,
 				competencies: true,
@@ -459,10 +469,28 @@ export default {
 			}
 		}
 	},
+
+	mounted() {
+		this.fetchHighlightedQuestions();
+	},
+
 	methods: {
 		camelCaseToWords,
 		ucfirst,
 		renderDateCell,
+		fetchHighlightedQuestions() {
+			fetch(`/highlighted-questions/user/${this.subjectId}`, {
+				...fetchConfig()
+			}).then(jsonOrThrow).then(highlightedQuestions => {
+				this.highlightedQuestions = highlightedQuestions;
+			}).catch(err => {
+				handleError(
+					err,
+					this,
+					'There was a problem fetching highlighted questions'
+				);
+			});
+		},
 		saveCharts() {
 			if (this.$refs.competencyChart && this.$refs.competencyChart.chart)
 				download(this.$refs.competencyChart.chart.toBase64Image(),
@@ -471,7 +499,7 @@ export default {
 				download(this.$refs.milestoneChart.chart.toBase64Image(),
 					`Milestones chart - ${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}.png`);
 		},
-		exportPdf(){
+		exportPdf() {
 			if(!this.report.subjectEvaluations[this.subjectId])
 				return;
 
@@ -644,6 +672,7 @@ export default {
 	},
 
 	components: {
+		HighlightedQuestion,
 		BootstrapAlert,
 		BootstrapButtonInput,
 		ChartjsChart,
