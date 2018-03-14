@@ -11,6 +11,7 @@
   "scripts": {
     "start": "yarn watch",
     "build": "run-s build:webpack wait build:gulp",
+    "rebuild": "run-s remake build",
     "build:webpack": "NODE_ENV=production webpack -p",
     "build:gulp": "gulp --production",
     "watch": "run-p watch:*",
