@@ -3,7 +3,7 @@
 # Currently for Ubuntu 16.04
 add-apt-repository ppa:ondrej/php
 add-apt-repository ppa:ondrej/apache2
-apt install build-essential apache2 libapache2-mod-php php7.2 php7.2-mysql php7.2-xml php7.2-gd php7.2-curl php7.2-mbstring php7.2-zip composer mysql-client mysql-server
+apt install build-essential apache2 libapache2-mod-php php7.2 php7.2-mysql php7.2-xml php7.2-gd php7.2-curl php7.2-mbstring php7.2-zip php7.2-bcmath php7.2-gmp composer mysql-client mysql-server
 
 # Set up apache2.conf
 
