@@ -7,3 +7,6 @@ Homestead.yaml
 public/build/js/stats.json
 /public/ui-tester.html
 /public/ui-tester.js
+/public/build/
+/public/css/
+/public/js/
