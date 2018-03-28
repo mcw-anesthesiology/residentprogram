@@ -121,13 +121,9 @@ Route::resource('news-items', 'Rest\NewsItemController', ['only' => [
 	'index', 'store', 'create', 'show', 'update', 'destroy'
 ]]);
 
-Route::get(
+Route::post(
 	'highlighted-questions/user/{userId}',
 	'Rest\HighlightedQuestionController@responsesForUser'
-);
-Route::get(
-	'highlighted-questions/user/{userId}/with-evaluations',
-	'Rest\HighlightedQuestionController@evaluationsWithResponsesForUser'
 );
 Route::resource('highlighted-questions', 'Rest\HighlightedQuestionController', ['only' => [
 	'index', 'store', 'create', 'show', 'update', 'destroy'

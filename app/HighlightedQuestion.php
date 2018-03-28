@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use DB;
+
 class HighlightedQuestion extends Model
 {
     protected $table = 'highlighted_questions';
 
 	protected $fillable = [
-		'highlight_name',
-		'form_id',
-		'question_id'
+		'highlight_name'
 	];
 
 	protected $dates = [
@@ -19,68 +19,83 @@ class HighlightedQuestion extends Model
 		'updated_at'
 	];
 
-	public function form() {
-		return $this->belongsTo('App\Form');
-	}
-
-	public function evaluations() {
-		return $this->hasMany('App\Evaluation', 'form_id', 'form_id');
-	}
-
-	public function getResponsesFilter() {
-		$questionId = $this->question_id;
-		return function ($query) use ($questionId) {
-			$query->where('question_id', $questionId);
-		};
+	public function questions() {
+		return $this->hasMany('App\HighlightedQuestionQuestion');
 	}
 
 	public function responses() {
-		// Not ideal way to declare a relationship but should work
-		return $this->hasManyThrough(
-			'App\Response',
-			'App\Evaluation',
-			'form_id',
-			'evaluation_id',
-			'form_id',
-			'id'
-		)->where('question_id', $this->question_id);
+		return $this->responsesInner()->get();
 	}
 
-	public function textResponses() {
-		// Not ideal way to declare a relationship but should work
-		return $this->hasManyThrough(
-			'App\TextResponse',
-			'App\Evaluation',
-			'form_id',
-			'evaluation_id',
-			'form_id',
-			'id'
-		)->where('question_id', $this->question_id);
+	public function responsesBySubject($id) {
+		return $this->responsesInner()
+			->where('evaluations.subject_id', $id)
+			->get();
 	}
 
-	public function evaluationsWithResponses() {
-		// For rest controller because I'm lazy
-		$responsesFilter = $this->getResponsesFilter();
-		return $this->evaluations()
-			->whereHas('responses', $responsesFilter)
-			->with(['responses' => $responsesFilter]);
-	}
-
-	public function evaluationsWithTextResponses() {
-		// For rest controller because I'm lazy
-		$responsesFilter = $this->getResponsesFilter();
-		return $this->evaluations()
-			->whereHas('textResponses', $responsesFilter)
-			->with(['textResponses' => $responsesFilter]);
-	}
-
-	public function responsesWithEvaluations() {
-		// For rest controller because I'm lazy
-		return $this->responses()->with('evaluation');
-	}
-
-	public function textResponsesWithEvaluations() {
-		// For rest controller because I'm lazy
-		return $this->textResponses()->with('evaluation');
+	private function responsesInner() {
+		return DB::table('highlighted_questions_questions')
+			->join(
+				'evaluations',
+				'evaluations.form_id',
+				'=',
+				'highlighted_questions_questions.form_id'
+			)
+			->leftJoin('responses', function ($join) {
+				$join->on(
+					'responses.evaluation_id',
+					'=',
+					'evaluations.id'
+				)->on(
+					'responses.question_id',
+					'=',
+					'highlighted_questions_questions.question_id'
+				);
+			})
+			->leftJoin('text_responses', function ($join) {
+				$join->on(
+					'text_responses.evaluation_id',
+					'=',
+					'evaluations.id'
+				)->on(
+					'text_responses.question_id',
+					'=',
+					'highlighted_questions_questions.question_id'
+				);
+			})
+			->leftJoin('highlighted_questions_questions_values', function ($join) {
+				$join->on(
+					'highlighted_questions_questions_values.highlighted_question_question_id',
+					'=',
+					'highlighted_questions_questions.id'
+				)->on(function ($join) {
+					$join->on(
+						'highlighted_questions_questions_values.value',
+						'=',
+						'responses.response'
+					)->orOn(
+						'highlighted_questions_questions_values.value',
+						'=',
+						'text_responses.response'
+					);
+				});
+			})
+			->where(
+				'highlighted_questions_questions.highlighted_question_id',
+				'=',
+				$this->id
+			)
+			->where(function ($query) {
+				$query->whereNotNull('responses.response')
+					->orWhereNotNull('text_responses.response');
+			})
+			->orderBy('evaluations.id')
+			->select(
+				'highlighted_questions_questions.id as hqq_id',
+				'evaluations.id as evaluation_id',
+				'responses.response as response',
+				'text_responses.response as text_response',
+				'highlighted_questions_questions_values.highlighted_value as highlighted_value'
+			);
 	}
 }

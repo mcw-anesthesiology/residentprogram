@@ -30,8 +30,8 @@
 
 			<section v-if="highlightedQuestions && highlightedQuestions.length > 0">
 				<h3>Highlighted question</h3>
-				<highlighted-question v-for="hq of highlightedQuestions"
-					:key="hq.id" v-bind="hq" />
+				<highlighted-question v-for="(hq, i) of highlightedQuestions"
+					:key="i" :responses="hq" />
 			</section>
 
 			<section>
@@ -159,6 +159,7 @@ import {
 	FELLOWSHIP_VALUE_MAPS
 } from '@/modules/constants.js';
 import { handleError } from '@/modules/errors.js';
+import { isoDateString, parseCarbonDate } from '@/modules/date-utils.js';
 import {
 	camelCaseToWords,
 	ucfirst,
@@ -479,8 +480,19 @@ export default {
 		ucfirst,
 		renderDateCell,
 		fetchHighlightedQuestions() {
+			if (!this.report || !this.report.startDate || !this.report.endDate)
+				return;
+
+			const startDate = isoDateString(parseCarbonDate(this.report.startDate));
+			const endDate = isoDateString(parseCarbonDate(this.report.endDate));
+
 			fetch(`/highlighted-questions/user/${this.subjectId}`, {
-				...fetchConfig()
+				...fetchConfig(),
+				method: 'POST',
+				body: JSON.stringify({
+					startDate,
+					endDate
+				})
 			}).then(jsonOrThrow).then(highlightedQuestions => {
 				this.highlightedQuestions = highlightedQuestions;
 			}).catch(err => {

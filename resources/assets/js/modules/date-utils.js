@@ -276,6 +276,18 @@ export function monthsInAcademicYear() {
 	return months;
 }
 
+export type Timezone = string;
+
+export type PhpCarbonDate = {
+	date: DateLike,
+	timezone: Timezone,
+	timezone_type: number
+};
+
+export function parseCarbonDate(d: PhpCarbonDate): moment$Moment {
+	return moment(d.date);
+}
+
 export type PhpDateInterval = {
 	y: number,
 	m: number,

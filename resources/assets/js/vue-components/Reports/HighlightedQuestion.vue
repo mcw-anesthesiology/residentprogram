@@ -2,7 +2,7 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<span class="panel-title">
-				{{ highlight_name }}
+				{{ highlightName }}
 			</span>
 		</div>
 		<div class="panel-body">
@@ -47,27 +47,29 @@ import groupBy from 'lodash/groupBy';
 
 export default {
 	props: {
-		highlight_name: {
-			type: String,
-			required: true
-		},
-		form_id: {
-			type: Number,
-			required: true
-		},
-		question_id: {
-			type: String,
-			required: true
-		},
 		responses: {
 			type: Array,
 			required: true
 		}
 	},
 	computed: {
+		highlightName() {
+			if (this.responses && this.responses.length > 0)
+				return this.responses[0].highlight_name;
+		},
+
 		responseMap() {
-			return groupBy(this.responses, 'response');
+			return groupBy(this.responses, getResponseValue);
 		}
 	}
 };
+
+function getResponseValue(response) {
+	if (response.highlighted_value)
+		return response.highlighted_value;
+	if (response.text_response)
+		return response.text_response;
+	if (response.response)
+		return response.response;
+}
 </script>

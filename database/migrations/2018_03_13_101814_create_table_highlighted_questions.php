@@ -16,9 +16,30 @@ class CreateTableHighlightedQuestions extends Migration
         Schema::create('highlighted_questions', function (Blueprint $table) {
             $table->increments('id');
 			$table->string('highlight_name');
-			$table->unsignedInteger('form_id');
+            $table->timestamps();
+        });
+
+		Schema::create('highlighted_questions_questions', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('highlighted_question_id');
+            $table->unsignedInteger('form_id');
 			$table->string('question_id');
             $table->timestamps();
+
+            $table->unique(['highlighted_question_id', 'form_id', 'question_id']);
+        });
+
+        Schema::create('highlighted_questions_questions_values', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('highlighted_question_question_id');
+			// These are usually numbers but I don't want to make
+			// a table for each numeric and string values so I'll just
+			// use == and be loosey goosey
+            $table->string('value');
+			$table->string('highlighted_value');
+			$table->timestamps();
+
+            $table->unique(['highlighted_question_question_id', 'value']);
         });
     }
 
@@ -30,5 +51,7 @@ class CreateTableHighlightedQuestions extends Migration
     public function down()
     {
         Schema::dropIfExists('highlighted_questions');
+        Schema::dropIfExists('highlighted_questions_questions');
+		Schema::dropIfExists('highlighted_questions_questions_values');
     }
 }
