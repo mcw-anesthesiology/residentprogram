@@ -2,31 +2,19 @@
 
 DATE=$(date +%F_%H-%M)
 
-# TODO: Change home path after moving to a VPS
-BASE_DIRECTORY=/home4/ab49752
-BACKUP_DIRECTORY="$BASE_DIRECTORY/backups"
+BASE_DIRECTORY=/var/www/residentprogram
 STORAGE_DIRECTORY="$BASE_DIRECTORY/storage/app"
 FORM_DIRECTORY=evaluation_forms
 PHOTO_DIRECTORY=photos
 
-BACKUP_FORM_DIRECTORY="$BACKUP_DIRECTORY/$FORM_DIRECTORY"
-BACKUP_FORM_FILENAME="$BACKUP_FORM_DIRECTORY/$DATE.tar.gz"
-
-BACKUP_PHOTO_DIRECTORY="$BACKUP_DIRECTORY/$PHOTO_DIRECTORY"
-BACKUP_PHOTO_FILENAME="$BACKUP_PHOTO_DIRECTORY/$DATE.tar.gz"
+BACKUP_FORM_FILENAME="$DATE.tar.gz"
+BACKUP_PHOTO_FILENAME="$DATE.tar.gz"
 
 BOX_USERNAME=jmischka@mcw.edu
 BOX_EXTERNAL_PASSWORD=98sNU9FJTXFXIdFu
 BOX_DIRECTORY=residentprogram-backups
 
-# Create dest dirs if they don't exist
-mkdir -p "$BACKUP_FORM_DIRECTORY" "$BACKUP_PHOTO_DIRECTORY"
-
-
 cd $STORAGE_DIRECTORY
-tar -cf $BACKUP_FORM_FILENAME $FORM_DIRECTORY
-tar -cf $BACKUP_PHOTO_FILENAME $PHOTO_DIRECTORY
 
-# FIXME: Reenable --ftp-ssl after moving to a VPS
-curl -1 --disable-epsv --ftp-skip-pasv-ip -u $BOX_USERNAME:$BOX_EXTERNAL_PASSWORD --upload-file $BACKUP_FORM_FILENAME ftp://ftp.box.com/$BOX_DIRECTORY/$FORM_DIRECTORY/
-curl -1 --disable-epsv --ftp-skip-pasv-ip -u $BOX_USERNAME:$BOX_EXTERNAL_PASSWORD --upload-file $BACKUP_PHOTO_FILENAME ftp://ftp.box.com/$BOX_DIRECTORY/$PHOTO_DIRECTORY/
+tar -cz $FORM_DIRECTORY | curl -1 --disable-epsv --ftp-ssl --ftp-skip-pasv-ip -u $BOX_USERNAME:$BOX_EXTERNAL_PASSWORD --upload-file /dev/stdin ftp://ftp.box.com/$BOX_DIRECTORY/$FORM_DIRECTORY/$BACKUP_FORM_FILENAME
+tar -cz $PHOTO_DIRECTORY | curl -1 --disable-epsv --ftp-ssl --ftp-skip-pasv-ip -u $BOX_USERNAME:$BOX_EXTERNAL_PASSWORD --upload-file /dev/stdin ftp://ftp.box.com/$BOX_DIRECTORY/$PHOTO_DIRECTORY/$BACKUP_PHOTO_FILENAME
