@@ -9,12 +9,14 @@ use App\Http\Requests;
 
 use Auth;
 use Hashids;
+use Log;
 
 class RestController extends Controller
 {
 	protected $relationships = [];
 	protected $attributes = [];
 	protected $relationshipAttributes = [];
+	protected $revealable = [];
 
     public function __construct() {
         $this->middleware("auth");
@@ -118,6 +120,13 @@ class RestController extends Controller
 
 		$results = $query->get();
 
+		if ($request->has('revealing') && !empty($this->revealable)) {
+			$results->makeVisible(array_intersect(
+				$request->input('revealing'),
+				$this->revealable
+			));
+		}
+
 		if (!$user->isType("admin"))
 			return $results->each(function($result) {
 				if (method_exists($result, "hideFields"))
@@ -131,7 +140,7 @@ class RestController extends Controller
 				});
 			});
 
-		return $results;
+		return $results->toJson();
     }
 
     /**
@@ -141,11 +150,11 @@ class RestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $this->model::create($request->all());
-		if ($request->ajax())
-			return "success";
-		else
-			return back();
+        $object = $this->model::create($request->all());
+
+		return $request->ajax()
+			? $object
+			: back();
     }
 
     /**
@@ -185,12 +194,11 @@ class RestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $this->model::findOrFail($id)->update($request->all());
+        $successful = $this->model::findOrFail($id)->update($request->all());
 
-		if ($request->ajax())
-			return "success";
-		else
-			return back();
+		return $request->ajax()
+			? $successful
+			: back();
     }
 
     /**

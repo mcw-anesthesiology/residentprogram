@@ -30,6 +30,10 @@ class FormController extends RestController
 		"visibility"
 	];
 
+	protected $revealable = [
+		'contents'
+	];
+
 	protected $model = \App\Form::class;
 
 	public function store(Request $request){

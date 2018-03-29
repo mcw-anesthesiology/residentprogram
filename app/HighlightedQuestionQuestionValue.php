@@ -17,4 +17,8 @@ class HighlightedQuestionQuestionValue extends Model
 	protected $dates = [
 		'created_at'
 	];
+
+	public function question() {
+		return $this->belongsTo('App\HighlightedQuestionQuestion');
+	}
 }

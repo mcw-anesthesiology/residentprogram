@@ -26,7 +26,16 @@ class CreateTableHighlightedQuestions extends Migration
 			$table->string('question_id');
             $table->timestamps();
 
-            $table->unique(['highlighted_question_id', 'form_id', 'question_id']);
+            $table->unique(
+                ['highlighted_question_id', 'form_id', 'question_id'],
+                'hqq_hq_form_question_unique'
+            );
+            $table->foreign(
+                    'highlighted_question_id',
+                    'hqq_hq_id_foreign'
+                )
+                ->references('id')
+                ->on('highlighted_questions');
         });
 
         Schema::create('highlighted_questions_questions_values', function (Blueprint $table) {
@@ -39,7 +48,16 @@ class CreateTableHighlightedQuestions extends Migration
 			$table->string('highlighted_value');
 			$table->timestamps();
 
-            $table->unique(['highlighted_question_question_id', 'value']);
+            $table->unique(
+                ['highlighted_question_question_id', 'value'],
+                'hqqv_hqq_value_unique'
+            );
+            $table->foreign(
+                    'highlighted_question_question_id',
+                    'hqqv_hqq_id_foreign'
+                )
+                ->references('id')
+                ->on('highlighted_questions_questions');
         });
     }
 

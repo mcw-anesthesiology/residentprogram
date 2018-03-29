@@ -23,6 +23,10 @@ class HighlightedQuestionQuestion extends Model
 		return $this->belongsTo('App\HighlightedQuestion');
 	}
 
+	public function values() {
+		return $this->hasMany('App\HighlightedQuestionQuestionValue');
+	}
+
 	public function form() {
 		return $this->belongsTo('App\Form');
 	}
