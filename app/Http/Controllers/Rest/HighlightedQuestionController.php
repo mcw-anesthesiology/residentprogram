@@ -14,7 +14,8 @@ class HighlightedQuestionController extends RestController
 {
 
 	protected $relationships = [
-		'questions'
+		'questions',
+		'questions.values'
 	];
 
 	protected $attributes = [

@@ -391,4 +391,8 @@ class ManageController extends Controller
     public function newsItems() {
         return view('manage.news-items');
     }
+
+    public function highlightedQuestions() {
+        return view('manage.highlighted-questions');
+    }
 }

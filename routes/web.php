@@ -66,6 +66,7 @@ Route::post('manage/block-assignments/table', 'ManageController@blockAssignments
 Route::post('manage/block-assignments/get', 'ManageController@getBlockAssignments');
 Route::get('manage/watched-forms', 'ManageController@watchedForms');
 Route::get('manage/user-features', 'ManageController@userFeatures');
+Route::get('manage/highlighted-questions', 'ManageController@highlightedQuestions');
 
 Route::get('manage/scheduled-requests', 'ManageController@scheduledRequests');
 

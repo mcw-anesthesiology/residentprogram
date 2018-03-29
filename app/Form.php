@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use Storage;
+use Log;
 
 use \DOMDocument;
 
@@ -38,55 +39,59 @@ class Form extends Model
 		'contents'
 	];
 
-	public function getContentsAttribute(){
-		$MULTIPLE_CHOICE_QUESTION_TYPES = config('constants.MULTIPLE_CHOICE_QUESTION_TYPES');
-
-		$formXml = Storage::get($this->xml_path);
-		$formDom = new DOMDocument('1.0', 'utf-8');
-		$formDom->preserveWhiteSpace = false;
-		$formDom->loadXML($formXml);
+	public function getContentsAttribute() {
 		$formContents = [];
-		$formContents['title'] = $formDom->getElementsByTagName('title')->item(0)->textContent;
-		$formContents['formType'] = $this->type;
-		$formContents['items'] = [];
-		$root = $formDom->firstChild;
-		foreach($root->childNodes as $childNode){
-			if(in_array($childNode->nodeName, ['question', 'instruction'])){
-				$item = [];
-				$item['type'] = $childNode->nodeName;
+		try {
+			$MULTIPLE_CHOICE_QUESTION_TYPES = config('constants.MULTIPLE_CHOICE_QUESTION_TYPES');
 
-				if($item['type'] == 'question'){
-					$item['id'] = $childNode->getAttribute('name');
-					// Remove `q` from beginning of id
-					$item['questionIdNum'] = intval(substr($item['id'], 1));
-					$item['questionType'] = $childNode->getAttribute('type');
-					$item['weight'] = $childNode->getAttribute('weight');
-					$item['text'] = $childNode->getElementsByTagName('text')->item(0)->textContent;
-					$item['required'] = $childNode->hasAttribute('required');
-					$item['milestones'] = $this->milestoneQuestions->where('question_id', $item['id'])->pluck('milestone_id');
-					// Only get one competency currently
-					$item['competencies'] = $this->competencyQuestions->where('question_id', $item['id'])->pluck('competency_id');
+			$formXml = Storage::get($this->xml_path);
+			$formDom = new DOMDocument('1.0', 'utf-8');
+			$formDom->preserveWhiteSpace = false;
+			$formDom->loadXML($formXml);
+			$formContents['title'] = $formDom->getElementsByTagName('title')->item(0)->textContent;
+			$formContents['formType'] = $this->type;
+			$formContents['items'] = [];
+			$root = $formDom->firstChild;
+			foreach($root->childNodes as $childNode){
+				if(in_array($childNode->nodeName, ['question', 'instruction'])){
+					$item = [];
+					$item['type'] = $childNode->nodeName;
+
+					if($item['type'] == 'question'){
+						$item['id'] = $childNode->getAttribute('name');
+						// Remove `q` from beginning of id
+						$item['questionIdNum'] = intval(substr($item['id'], 1));
+						$item['questionType'] = $childNode->getAttribute('type');
+						$item['weight'] = $childNode->getAttribute('weight');
+						$item['text'] = $childNode->getElementsByTagName('text')->item(0)->textContent;
+						$item['required'] = $childNode->hasAttribute('required');
+						$item['milestones'] = $this->milestoneQuestions->where('question_id', $item['id'])->pluck('milestone_id');
+						// Only get one competency currently
+						$item['competencies'] = $this->competencyQuestions->where('question_id', $item['id'])->pluck('competency_id');
 
 
-					if(in_array($item['questionType'], $MULTIPLE_CHOICE_QUESTION_TYPES)){
-						$item['options'] = [];
-						foreach($childNode->getElementsByTagName('option') as $optionNode){
-							$option = [];
+						if(in_array($item['questionType'], $MULTIPLE_CHOICE_QUESTION_TYPES)){
+							$item['options'] = [];
+							foreach($childNode->getElementsByTagName('option') as $optionNode){
+								$option = [];
 
-							$option['text'] = $optionNode->textContent;
-							$option['value'] = $optionNode->getAttribute('value');
-							$option['description'] = $optionNode->getAttribute('description');
+								$option['text'] = $optionNode->textContent;
+								$option['value'] = $optionNode->getAttribute('value');
+								$option['description'] = $optionNode->getAttribute('description');
 
-							$item['options'][] = $option;
+								$item['options'][] = $option;
+							}
 						}
 					}
-				}
-				elseif($item['type'] == 'instruction'){
-					$item['text'] = $childNode->textContent;
-				}
+					elseif($item['type'] == 'instruction'){
+						$item['text'] = $childNode->textContent;
+					}
 
-				$formContents['items'][] = $item;
+					$formContents['items'][] = $item;
+				}
 			}
+		} catch (\Exception $e) {
+			Log::error($e);
 		}
 
 		return $formContents;
@@ -122,7 +127,7 @@ class Form extends Model
 
 	public function hideFields(){
 		$this->addHidden($this->userHidden);
-		
+
 		return $this;
 	}
 }

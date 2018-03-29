@@ -191,10 +191,10 @@ export default {
 							bValue = b[this.sortBy];
 						}
 
-						if (Number.isNaN(aValue))
+						if (typeof aValue === 'string')
 							aValue = aValue.toUpperCase();
 
-						if (Number.isNaN(bValue))
+						if (typeof bValue === 'string')
 							bValue = bValue.toUpperCase();
 
 						if (aValue < bValue)
