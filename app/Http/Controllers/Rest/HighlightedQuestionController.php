@@ -13,6 +13,14 @@ use Log;
 class HighlightedQuestionController extends RestController
 {
 
+	public function __construct() {
+		$this->middleware([
+			'auth',
+			'type:admin',
+			'site-feature:highlighted-questions'
+		]);
+	}
+
 	protected $relationships = [
 		'questions',
 		'questions.values'

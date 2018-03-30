@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
 
-class HighlightedQuestionQuestionController extends RestController
+class HighlightedQuestionQuestionValueController extends RestController
 {
 
 	public function __construct() {
@@ -16,14 +16,15 @@ class HighlightedQuestionQuestionController extends RestController
 	}
 
 	protected $relationships = [
-		'values'
+		'question'
 	];
 
 	protected $attributes = [
 		'id',
-		'form_id',
-		'question_id'
+		'highlighted_question_question_id',
+		'value',
+		'highlighted_value'
 	];
 
-	protected $model = \App\HighlightedQuestionQuestion::class;
+	protected $model = \App\HighlightedQuestionQuestionValue::class;
 }

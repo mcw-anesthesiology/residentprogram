@@ -113,7 +113,9 @@
         @if (config('features.news'))
             <li><a href="/manage/news-items">News items</a></li>
         @endif
-
+        @if (config('features.highlighted-questions'))
+            <li><a href="/manage/highlighted-questions">Highlighted questions</a></li>
+        @endif
 		  </ul>
 		</li>
 	@endif

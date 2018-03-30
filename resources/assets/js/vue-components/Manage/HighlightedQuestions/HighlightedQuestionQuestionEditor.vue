@@ -1,29 +1,40 @@
 <template>
-	<form @submit="handleSubmit">
-		<validated-form-group :errors="errors" prop="formId">
-			<label class="containing-label">
-				Form
-				<select-two :options="formGroups"
-					v-model.number="formId" />
-			</label>
-		</validated-form-group>
+	<form class="highlighted-question-question-editor"
+			@submit="handleSubmit">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<span class="panel-title">
+					Highlighted Question - Question editor
+				</span>
+			</div>
+			<div class="panel-body">
+				<validated-form-group :errors="errors" prop="formId">
+					<label class="containing-label control-label">
+						Form
+						<select-two :options="formGroups"
+							v-model.number="formId" />
+					</label>
+				</validated-form-group>
 
-		<validated-form-group :errors="errors" prop="questionId">
-			<label class="containing-label">
-				Question
-				<select-two :options="questionOptions"
-					v-model="questionId" />
-			</label>
-		</validated-form-group>
+				<validated-form-group :errors="errors" prop="questionId">
+					<label class="containing-label control-label">
+						Question
+						<select-two :options="questionOptions"
+							v-model="questionId" />
+					</label>
+				</validated-form-group>
 
-		<div class="text-right">
-			<button type="button" class="btn btn-default"
-					@click="$emit('close')">
-				Cancel
-			</button>
-			<button type="submit" class="btn btn-primary">
-				Save
-			</button>
+				<div class="text-right">
+					<button type="button" class="btn btn-default"
+							@click="$emit('close')">
+						Cancel
+					</button>
+					<button type="submit" class="btn btn-primary"
+							:disabled="!valid">
+						Save
+					</button>
+				</div>
+			</div>
 		</div>
 	</form>
 </template>
@@ -83,7 +94,7 @@ export default {
 
 			return this.questions.map(q => ({
 				id: q.id,
-				text: `${q.id}: ${q.text}`
+				text: `${String(q.id).toUpperCase()}: ${q.text}`
 			}));
 		},
 		question() {
@@ -108,6 +119,12 @@ export default {
 		},
 		valid() {
 			return this.errors.size === 0;
+		}
+	},
+	watch: {
+		formId(formId, oldFormId) {
+			if (formId !== oldFormId)
+				this.questionId = null;
 		}
 	},
 	methods: {

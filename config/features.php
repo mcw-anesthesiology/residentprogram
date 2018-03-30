@@ -12,5 +12,6 @@ return [
 	'alumni' => env('FEATURE_ALUMNI', true),
 
 	'external_links' => env('FEATURE_EXTERNAL_LINKS', true),
-	'news' => env('FEATURE_NEWS', true)
+	'news' => env('FEATURE_NEWS', true),
+	'highlighted-questions' => env('FEATURE_HIGHLIGHTED_QUESTIONS', true)
 ];

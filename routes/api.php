@@ -131,3 +131,6 @@ Route::resource('highlighted-questions', 'Rest\HighlightedQuestionController', [
 Route::resource('highlighted-questions-questions', 'Rest\HighlightedQuestionQuestionController', ['only' => [
 	'index', 'store', 'create', 'show', 'update', 'destroy'
 ]]);
+Route::resource('highlighted-questions-values', 'Rest\HighlightedQuestionQuestionValueController', ['only' => [
+	'index', 'store', 'create', 'show', 'update', 'destroy'
+]]);
