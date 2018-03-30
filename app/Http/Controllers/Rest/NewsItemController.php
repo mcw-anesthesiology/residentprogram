@@ -22,6 +22,7 @@ class NewsItemController extends RestController
 				'dismiss',
 				'temporarilyDismiss'
 			]);
+		$this->middleware('site-feature:news');
 	}
 
 	protected $model = \App\NewsItem::class;

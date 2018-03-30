@@ -1,5 +1,5 @@
 <template>
-	<section>
+	<section class="highlighted-question component-list-item">
 		<h2>{{ highlight_name }}</h2>
 
 		<div>
@@ -13,27 +13,34 @@
 				Edit
 			</button>
 
-			<div>
-				<h3>Questions</h3>
+			<div class="questions-container panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Questions</h3>
+				</div>
+				<div class="panel-body">
+					<div class="question-editor-container">
+						<hqq-editor v-if="show.questionEditor"
+							:forms="forms"
+							:form-groups="formGroups"
+							@close="show.questionEditor = false"
+							@submit="handleQuestionAdd" />
+						<button v-else type="button" class="btn btn-success btn-sm"
+								@click="show.questionEditor = true">
+							<span class="glyphicon glyphicon-plus"></span>
+							Add
+						</button>
+					</div>
 
-				<hqq-editor v-if="show.questionEditor"
-					:forms="forms"
-					:form-groups="formGroups"
-					@close="show.questionEditor = false"
-					@submit="handleQuestionAdd" />
-				<button v-else type="button" class="btn btn-success btn-sm"
-						@click="show.questionEditor = true">
-					<span class="glyphicon glyphicon-plus"></span>
-					Add
-				</button>
-
-				<div v-if="questions && questions.length">
-					<highlighted-question-question v-for="question of questions"
-						:key="question.id"
-						v-bind="question"
-						:forms="forms"
-						:form-groups="formGroups"
-						@update="handleQuestionUpdate(question.id, ...arguments)" />
+					<ul v-if="questions && questions.length"
+							class="highlighted-question-questions list-group">
+						<highlighted-question-question v-for="question of questions"
+							:key="question.id"
+							v-bind="question"
+							:forms="forms"
+							:form-groups="formGroups"
+							@update="handleQuestionUpdate(question.id, ...arguments)"
+							@alert="$emit('alert', ...arguments)" />
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -41,6 +48,30 @@
 		<alert-list v-model="alerts" />
 	</section>
 </template>
+
+<style scoped>
+	.highlighted-question {
+		padding: 1.5em;
+	}
+
+	.questions-container {
+		margin: 1em 0;
+	}
+
+	.questions-container .panel-body {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+
+	.questions-container .panel-body > * {
+		flex-basis: calc(50% - 2em);
+		margin: 0 1em;
+		min-width: 300px;
+		max-width: 100%;
+	}
+</style>
 
 <script>
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
