@@ -143,6 +143,7 @@
 <script>
 import Color from 'color';
 import download from 'downloadjs';
+import groupBy from 'lodash/groupBy';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
@@ -561,6 +562,28 @@ export default {
 						}
 					})
 				];
+
+				if (this.highlightedQuestions) {
+					content.push(
+						{ text: 'Highlighted questions', style: 'heading' }
+					);
+					for (const hq of this.highlightedQuestions) {
+						if (hq.length) {
+							content.push(borderedStripedTable({
+								table: {
+									headerRows: 1,
+									body: [
+										['Evaluation #', hq[0].highlight_name],
+										...hq.map(r => ([
+											r.evaluation_id,
+											r.highlighted_value
+										]))
+									]
+								}
+							}));
+						}
+					}
+				}
 
 				if(this.show.competencies || this.show.milestones)
 					content.push(
