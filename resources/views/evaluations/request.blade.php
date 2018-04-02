@@ -232,13 +232,15 @@
 		<div class="form-group" v-if="requestorIsNotEvaluator"
 				v-visible.once="evaluationDateJson || customEvaluationDate">
 			<div class="col-md-offset-2 col-md-8">
-				<label class="containing-label">
+				<label for="request-note">
 					Request note (optional)
-					<textarea class="form-control" v-model="requestNote"
-						name="request_note"
-						placeholder="Write a little note that will be displayed with your request">
-					</textarea>
 				</label>
+				<vue-editor
+					id="request-note"
+					v-model="requestNote"
+					placeholder="Write a little note that will be displayed with your request">
+				</vue-editor>
+				<input type="hidden" name="request_note" :value="requestNote" />
 			</div>
 		</div>
 

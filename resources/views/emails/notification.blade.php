@@ -7,8 +7,7 @@
 		padding: 2em;
 	}
 
-	.evaluation-request-note p {
-		white-space: pre;
+	.evaluation-request-note div {
 		padding: 2em;
 		border-radius: 4px;
 		background-color: rgba(0, 0, 0, 0.05);
@@ -39,7 +38,7 @@
 	</p>
 
 	<blockquote class="evaluation-request-note">
-		<p>{{ $evaluation->request_note }}</p>
+		<div>{!! $evaluation->request_note !!}</div>
 	</blockquote>
 </div>
 @endif

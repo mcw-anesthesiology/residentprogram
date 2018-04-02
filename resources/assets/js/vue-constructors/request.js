@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
+import { VueEditor } from 'vue2-editor';
 
 import EvaluationDataTable from '@/vue-components/EvaluationDataTable.vue';
 import SelectTwo from '@/vue-components/SelectTwo.vue';
@@ -531,6 +532,7 @@ export function createRequest(el, propsData) {
 		},
 
 		components: {
+			VueEditor,
 			VueFlatpickr,
 			EvaluationDataTable,
 			SelectTwo
