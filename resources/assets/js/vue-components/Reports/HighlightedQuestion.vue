@@ -6,14 +6,29 @@
 			</span>
 		</div>
 		<div class="panel-body">
-			<div v-for="(responses, response) of responseMap" :key="response"
+			<div v-for="(responseResponses, response) of responseMap" :key="response"
 					class="hq-response">
 				<p class="response">
 					{{ response }}
 				</p>
 				<p class="count">
-					{{ responses.length }}
+					{{ responseResponses.length }}
 				</p>
+				<p class="percentage">
+					{{
+						percentageFormatter.format(
+							responseResponses.length
+							/ responses.length
+						)
+					}}
+				</p>
+				<ul class="response-list">
+					<li v-for="r of responseResponses">
+						<a :href="`/evaluation/${r.evaluation_id}`" target="_blank">
+							# {{ r.evaluation_id }}
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -40,6 +55,10 @@
 	.hq-response .count {
 		font-size: 2em;
 	}
+
+	ul {
+		padding-left: 0;
+	}
 </style>
 
 <script>
@@ -57,9 +76,14 @@ export default {
 			if (this.responses && this.responses.length > 0)
 				return this.responses[0].highlight_name;
 		},
-
 		responseMap() {
 			return groupBy(this.responses, getResponseValue);
+		},
+		percentageFormatter() {
+			return new Intl.NumberFormat('en-US', {
+				style: 'percent',
+				maximumFractionDigits: 2
+			});
 		}
 	}
 };
