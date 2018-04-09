@@ -5,15 +5,9 @@
 
     RewriteEngine On
 
-    # Subdomain for old version of site
-    RewriteCond %{HTTP_HOST} old\.residentprogram\.com$
-    RewriteCond %{REQUEST_URI} !^/old
-    RewriteRule ^(.*)$ /old/public/$1 [L]
-
-    # Subdomain for test version of site
-    RewriteCond %{HTTP_HOST} beta\.residentprogram\.com$
-    RewriteCond %{REQUEST_URI} !^/beta
-    RewriteRule ^(.*)$ /beta/public/$1 [L]
+	# Subdomain for old new version, to preserve bad links
+	RewriteCond %{HTTP_HOST} next\.residentprogram\.com$
+	RewriteRule ^(.*)$ https://www.residentprogram.com/$1 [R=301,L]
 
     # http://www.yes-www.org/
     RewriteCond %{HTTP_HOST} !^www\.
