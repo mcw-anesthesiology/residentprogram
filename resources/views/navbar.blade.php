@@ -133,7 +133,13 @@
             Reports<b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-        @if ($user->isType('resident') || ($user->isType('faculty') && $user->mentees()->count() > 0))
+        @if (
+            $user->isType('resident')
+            || (
+                $user->isType('faculty')
+                && !empty($reportableUserGroups)
+            )
+        )
             <li>
                 <a class="viewSpecRpt pointer" data-toggle="modal"
                         data-target=".bs-specRpt-modal" id="viewSpecRpt">
