@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
-import { VueEditor } from 'vue2-editor';
 
 import EvaluationDataTable from '@/vue-components/EvaluationDataTable.vue';
 import SelectTwo from '@/vue-components/SelectTwo.vue';
+import MarkdownEditor from '@/vue-components/MarkdownEditor.vue';
 
 import moment from 'moment';
 import indefinite from 'indefinite';
@@ -68,7 +68,8 @@ export function createRequest(el, propsData) {
 					endDate: getSearchParam('endDate')
 				},
 
-				requestNote: null,
+				requestNote: '',
+				requestNoteHtml: '',
 
 				sendHash: requestType === 'staff',
 				forceNotification: false,
@@ -532,8 +533,8 @@ export function createRequest(el, propsData) {
 		},
 
 		components: {
-			VueEditor,
 			VueFlatpickr,
+			MarkdownEditor,
 			EvaluationDataTable,
 			SelectTwo
 		}
