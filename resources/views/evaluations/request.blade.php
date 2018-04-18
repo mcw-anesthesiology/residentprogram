@@ -235,12 +235,13 @@
 				<label for="request-note">
 					Request note (optional)
 				</label>
-				<vue-editor
+				<markdown-editor
 					id="request-note"
 					v-model="requestNote"
+					@html="requestNoteHtml = arguments[0]"
 					placeholder="Write a little note that will be displayed with your request">
-				</vue-editor>
-				<input type="hidden" name="request_note" :value="requestNote" />
+				</markdown-editor>
+				<input type="hidden" name="request_note" :value="requestNoteHtml" />
 			</div>
 		</div>
 
