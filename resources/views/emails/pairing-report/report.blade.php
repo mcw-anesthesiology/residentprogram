@@ -101,9 +101,18 @@
 				}}
 			</td>
 			<td>
+		@if ($subjectType == 'faculty')
+				<a href="{{ url("/request?evaluator={$pairing['partner']['id']}&{$dateQuery}") }}">
+					Request
+				</a>
+				<a href="{{ url("/request/faculty?subject={$pairing['partner']['id']}&{$dateQuery}") }}">
+					Evaluate
+				</a>
+		@else
 				<a href="{{ url("/request?subject={$pairing['partner']['id']}&{$dateQuery}") }}">
 					Evaluate
 				</a>
+		@endif
 			</td>
 		</tr>
 	@endforeach
