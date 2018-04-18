@@ -25,10 +25,9 @@ class CaseParser {
 	const VA_TRAINEE_SUPERVISOR_FILE_TYPE = 'VA_TRAINEE_SUPERVISOR';
 
 	// Column indexes
-	// FIXME: Froedtert egress likely to change
 	const EGRESS_COLS = [
-		'ID' => 0,
-		'DATE' => 1,
+		'DATE' => 0,
+		'ID' => 1,
 		'PROCEDURE' => 2,
 		'ANES_START' => 4,
 		'ANES_STOP' => 5,
