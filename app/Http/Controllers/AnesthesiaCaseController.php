@@ -91,13 +91,13 @@ class AnesthesiaCaseController extends Controller {
 		$minCases = $request->input('minCases');
 		$minHours = $request->input('minHours');
 		$minMinutes = $request->input('minMinutes');
-		$maxPairings = $request->input('maxPairings');
+		$maxPairs = $request->input('maxPairs');
 
 		if (
-			!empty($minCases)
-			&& !empty($minHours)
-			&& !empty($minMinutes)
-			&& !empty($maxPairings)
+			isset($minCases)
+			&& isset($minHours)
+			&& isset($minMinutes)
+			&& isset($maxPairs)
 		) {
 			$minTime = new DateInterval("PT{$minHours}H{$minMinutes}M");
 
@@ -105,7 +105,7 @@ class AnesthesiaCaseController extends Controller {
 				$overlaps,
 				$minCases,
 				$minTime,
-				$maxPairings
+				$maxPairs
 			);
 		}
 

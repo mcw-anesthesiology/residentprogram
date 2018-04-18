@@ -341,7 +341,7 @@ class PairingFetcher {
 		$orNotAnd = false
 	) {
 		foreach ($overlaps as &$overlap) {
-			$overlap['pairings'] = filterPairings(
+			$overlap['pairings'] = self::filterPairings(
 				$overlap['pairings'],
 				$minCases,
 				$minTime,
