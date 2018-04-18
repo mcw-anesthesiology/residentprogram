@@ -74,7 +74,11 @@ export default function createAPPDashboard(el, propsData) {
 
 							return '';
 						}}
-					]
+					],
+					order: [[0, 'desc']],
+					createdRow(row){
+						$(row).addClass('view-evaluation');
+					}
 				};
 			},
 			completeThead() {
@@ -122,7 +126,11 @@ export default function createAPPDashboard(el, propsData) {
 						},
 						{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
 						{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
-					]
+					],
+					order: [[0, 'desc']],
+					createdRow(row){
+						$(row).addClass('view-evaluation');
+					}
 				};
 			}
 		},
