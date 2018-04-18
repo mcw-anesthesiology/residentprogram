@@ -309,6 +309,24 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return false;
 	}
 
+	public function sendPasswordResetNotification($token) {
+		$data = [
+			'title' => in_array($this->type, ['faculty', 'resident'])
+				? 'Dr.'
+				: $this->first_name,
+			'last_name' => $this->last_name,
+			'token' => $token
+		];
+		$email = $this->email;
+
+		Mail::send('auth.emails.password', $data, function ($message) use ($email) {
+			$message->from('accounts@residentprogram.com', 'Resident Program');
+			$message->to($email);
+			$message->replyTo(config('app.admin_email'));
+			$message->subject('Password reset request');
+		});
+	}
+
 	public function hideFields(){
 		$this->addHidden($this->userHidden);
 
