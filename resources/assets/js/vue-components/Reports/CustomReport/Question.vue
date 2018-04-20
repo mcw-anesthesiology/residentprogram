@@ -49,7 +49,8 @@
 
 <style scoped>
 	.report-question {
-		margin: 2em 0;
+		margin: 4em 0;
+		page-break-inside: avoid;
 	}
 </style>
 
