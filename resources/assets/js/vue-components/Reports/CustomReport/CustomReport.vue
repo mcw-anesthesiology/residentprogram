@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="container body-block">
+		<div class="form-container container body-block">
 			<form @submit="runReport">
 				<start-end-date v-model="reportDates" />
 
@@ -26,14 +26,58 @@
 		</div>
 
 		<div v-if="report" class="container body-block">
-			<h1>{{ report.title }}</h1>
-			<report-section v-for="(section, index) of report.results.sections"
-				:key="index"
-				v-bind="section"
-				:subjects="sortedReportSubjects" />
+			<div class="report-controls panel panel-default">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="containing-label">
+							Font size
+							<div class="font-size-container">
+								<span class="glyphicon glyphicon-zoom-out"></span>
+								<input type="range" v-model="reportFontSizeValue"
+									min="0.25" max="2" step="any" />
+								<span class="glyphicon glyphicon-zoom-in"></span>
+							</div>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="custom-report" :style="{fontSize: reportFontSize}">
+				<h1>{{ report.title }}</h1>
+				<report-section v-for="(section, index) of report.results.sections"
+					:key="index"
+					v-bind="section"
+					:subjects="sortedReportSubjects" />
+			</div>
 		</div>
 	</div>
 </template>
+
+<style scoped>
+	.report-controls {
+		float: right;
+		max-width: 100%;
+		width: 350px;
+	}
+
+	.font-size-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: stretch;
+		align-items: center;
+	}
+
+	.font-size-container input {
+		flex-grow: 1;
+		margin: 0 1em;
+	}
+
+	@media print {
+		.form-container,
+		.report-controls {
+			display: none;
+		}
+	}
+</style>
 
 <script>
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
@@ -61,13 +105,17 @@ export default {
 
 			reportDates: isoDateStringObject(lastQuarter()),
 			customReportId: null,
-			report: null
+			report: null,
+
+			reportFontSizeValue: 1
 		};
 	},
 	computed: {
 		canRunReport() {
-			// FIXME
 			return Boolean(this.customReportId);
+		},
+		reportFontSize() {
+			return `${this.reportFontSizeValue}em`;
 		},
 		sortedReportSubjects() {
 			if (!this.report)

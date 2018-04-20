@@ -1,51 +1,59 @@
 <template>
-	<table class="report-subject-table table table-striped">
-		<thead>
-			<tr>
-				<th rowspan="0">Subject</th>
-				<th v-for="option of options"
-					colspan="2" class="text-right">
-					{{ option.text }}
-				</th>
-				<th rowspan="0" class="text-right">
-					Total
-				</th>
-			</tr>
-			<tr>
-				<template v-for="_ of options">
-					<th class="text-right">#</th>
-					<th class="text-right">%</th>
+	<div class="report-subject-table-container">
+		<table class="report-subject-table table table-striped">
+			<thead>
+				<tr>
+					<th rowspan="0">Subject</th>
+					<th v-for="option of options"
+						colspan="2" class="text-right">
+						{{ option.text }}
+					</th>
+					<th rowspan="0" class="text-right">
+						Total
+					</th>
+				</tr>
+				<tr>
+					<template v-for="_ of options">
+						<th class="text-right">#</th>
+						<th class="text-right">%</th>
+					</template>
+				</tr>
+			</thead>
+			<tbody>
+				<subject-row v-for="subject of subjects" :key="subject.id"
+					:subject="subject"
+					:options="options" />
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>Total</th>
+				<template v-for="optionTotal of optionTotals">
+					<td class="count-cell">
+						{{ optionTotal || '' }}
+					</td>
+					<td class="percent-cell">
+						{{
+							(
+								optionTotal && optionTotalTotal
+								&& percent(optionTotal / optionTotalTotal)
+							) || ''
+						}}
+					</td>
 				</template>
-			</tr>
-		</thead>
-		<tbody>
-			<subject-row v-for="subject of subjects" :key="subject.id"
-				:subject="subject"
-				:options="options" />
-		</tbody>
-		<tfoot>
-			<tr>
-				<th>Total</th>
-			<template v-for="optionTotal of optionTotals">
-				<td class="count-cell">
-					{{ optionTotal || '' }}
-				</td>
-				<td class="percent-cell">
-					{{
-						(
-							optionTotal && optionTotalTotal
-							&& percent(optionTotal / optionTotalTotal)
-						) || ''
-					}}
-				</td>
-			</template>
-				<td class="total-cell">
-					{{ optionTotalTotal }}
-				</td>
-			</tr>
-		</tfoot>
-	</table>
+					<td class="total-cell">
+						{{ optionTotalTotal }}
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
 </template>
+
+<style scoped>
+	.report-subject-table-container {
+		overflow: auto;
+	}
+</style>
 
 <style>
 	.report-subject-table th,
