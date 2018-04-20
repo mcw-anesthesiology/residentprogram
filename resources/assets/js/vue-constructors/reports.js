@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import TraineeReport from '@/vue-components/Reports/TraineeReport.vue';
 import FacultyReport from '@/vue-components/Reports/FacultyReport.vue';
 import FormReport from '@/vue-components/Reports/FormReport.vue';
+import CustomReport from '@/vue-components/Reports/CustomReport/CustomReport.vue';
 import NeedsReport from '@/vue-components/Reports/Needs/Report.vue';
 import PendingEvalsReport from '@/vue-components/Reports/PendingEvalsReport.vue';
 import FacultyMeritReport from '@/vue-components/Reports/FacultyMeritReport.vue';
@@ -34,6 +35,10 @@ const routes = [
 	{
 		path: '/form',
 		component: FormReport
+	},
+	{
+		path: '/custom',
+		component: CustomReport
 	},
 	{
 		path: '/needs-evaluations',

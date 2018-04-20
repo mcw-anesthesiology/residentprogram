@@ -134,3 +134,8 @@ Route::resource('highlighted-questions-questions', 'Rest\HighlightedQuestionQues
 Route::resource('highlighted-questions-values', 'Rest\HighlightedQuestionQuestionValueController', ['only' => [
 	'index', 'store', 'create', 'show', 'update', 'destroy'
 ]]);
+
+Route::post('custom-reports/{id}/run', 'Rest\CustomReportController@runReport');
+Route::resource('custom-reports', 'Rest\CustomReportController', ['only' => [
+	'index', 'store', 'create', 'show', 'update', 'destroy'
+]]);
