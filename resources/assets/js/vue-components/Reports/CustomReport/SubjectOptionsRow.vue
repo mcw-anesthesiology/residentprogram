@@ -2,20 +2,22 @@
 	<tr>
 		<th>{{ subject.full_name }}</th>
 	<template v-for="option of options">
-		<td class="count-cell">
-			{{
-				(option.responses && option.responses[subject.id])
-				|| ''
-			}}
-		</td>
-		<td class="percent-cell">
-			{{
-				(
-					option.responses && option.responses[subject.id]
-					&& percent(option.responses[subject.id] / subjectTotal)
-				)
-				|| ''
-			}}
+		<td class="subject-table-cell">
+			<span class="count">
+				{{
+					(option.responses && option.responses[subject.id])
+					|| ''
+				}}
+			</span>
+			<span class="percent">
+				{{
+					(
+						option.responses && option.responses[subject.id]
+						&& percent(option.responses[subject.id] / subjectTotal)
+					)
+					|| ''
+				}}
+			</span>
 		</td>
 	</template>
 		<td class="total-cell">
