@@ -386,6 +386,10 @@ body {
 	.question-footer {
 		display: none;
 	}
+
+	body {
+		padding-top: 0 !important;
+	}
 }
 
 .center-block {

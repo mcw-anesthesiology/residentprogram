@@ -1,52 +1,45 @@
 <template>
-	<div class="report-subject-table-container">
-		<table class="report-subject-table table table-striped">
-			<thead>
-				<tr>
-					<th rowspan="0">Subject</th>
-					<th v-for="option of options"
-						colspan="2" class="text-right">
-						{{ option.text }}
-					</th>
-					<th rowspan="0" class="text-right">
-						Total
-					</th>
-				</tr>
-				<tr>
-					<template v-for="_ of options">
-						<th class="text-right">#</th>
-						<th class="text-right">%</th>
-					</template>
-				</tr>
-			</thead>
-			<tbody>
-				<subject-row v-for="subject of subjects" :key="subject.id"
-					:subject="subject"
-					:options="options" />
-			</tbody>
-			<tfoot>
-				<tr>
-					<th>Total</th>
-				<template v-for="optionTotal of optionTotals">
-					<td class="count-cell">
+	<table class="report-subject-table table table-striped">
+		<thead>
+			<tr>
+				<th>Subject</th>
+				<th v-for="option of options" class="text-right">
+					{{ option.text }}
+				</th>
+				<th class="text-right">
+					Total
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<subject-row v-for="subject of subjects" :key="subject.id"
+				:subject="subject"
+				:options="options" />
+		</tbody>
+		<tfoot>
+			<tr>
+				<th>Total</th>
+			<template v-for="optionTotal of optionTotals">
+				<td class="subject-table-cell">
+					<span class="count">
 						{{ optionTotal || '' }}
-					</td>
-					<td class="percent-cell">
+					</span>
+					<span class="percent">
 						{{
 							(
 								optionTotal && optionTotalTotal
 								&& percent(optionTotal / optionTotalTotal)
 							) || ''
 						}}
-					</td>
-				</template>
-					<td class="total-cell">
-						{{ optionTotalTotal }}
-					</td>
-				</tr>
-			</tfoot>
-		</table>
-	</div>
+					</span>
+				</td>
+			</template>
+				<td class="total-cell">
+					{{ optionTotalTotal }}
+				</td>
+			</tr>
+		</tfoot>
+	</table>
 </template>
 
 <style scoped>
@@ -66,18 +59,17 @@
 		border: 1px solid #ddd;
 	}
 
-	.report-subject-table .count-cell,
+	.report-subject-table td span {
+		display: block;
+	}
+
+	.report-subject-table td .count,
 	.report-subject-table .total-cell {
-		font-size: 1.15em;
+		font-size: 1.25em;
 		/* font-weight: bold; */
 	}
 
-	.report-subject-table .count-cell {
-		border-right: none;
-	}
-
-	.report-subject-table .percent-cell {
-		border-left: none;
+	.report-subject-table td .percent {
 		font-size: 0.9em;
 		color: rgba(0, 0, 0, 0.55);
 	}

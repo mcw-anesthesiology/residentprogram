@@ -1,60 +1,33 @@
 <template>
-	<div class="report-question">
-		<h3>{{ text }}</h3>
-
-		<div v-if="options">
-			<component :is="viewComponent"
-				:options="options"
-				:subjects="subjects" />
+	<div class="report-question panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{ text }}</h3>
 		</div>
 
-		<div v-if="responses">
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>Subject</th>
-						<th>Evaluation #</th>
-						<th>Response</th>
-					</tr>
-				</thead>
-				<tbody>
-					<template v-for="(subjectResponses, subjectId) of responses">
-						<tr>
-							<th :rowspan="subjectResponses.length">
-								{{ subjects.find(s => s.id == subjectId).full_name }}
-							</th>
-							<td>
-								<a :href="`/evaluation/${subjectResponses[0].evaluation_id}`"
-										target="_blank">
-									{{ subjectResponses[0].evaluation_id }}
-								</a>
-							</td>
-							<td>{{ subjectResponses[0].response }}</td>
-						</tr>
-						<tr v-for="subjectResponse of subjectResponses.slice(1)">
-							<td>
-								<a :href="`/evaluation/${subjectResponse.evaluation_id}`"
-										target="_blank">
-									{{ subjectResponse.evaluation_id }}
-								</a>
-							</td>
-							<td>{{ subjectResponse.response }}</td>
-						</tr>
-					</template>
-				</tbody>
-			</table>
-		</div>
+		<component v-if="options"
+			:is="viewComponent"
+			:options="options"
+			:subjects="subjects" />
+
+		<QuestionResponses v-if="responses"
+			:responses="responses"
+			:subjects="subjects" />
 	</div>
 </template>
 
 <style scoped>
+	h3 {
+		font-size: 1.5em;
+	}
+
 	.report-question {
-		margin: 4em 0;
+		margin: 2em 0;
 		page-break-inside: avoid;
 	}
 </style>
 
 <script>
+import QuestionResponses from './QuestionResponses.vue';
 import SubjectOptionsTable from './SubjectOptionsTable.vue';
 import SubjectOptionsGrid from './SubjectOptionsGrid.vue';
 
@@ -122,6 +95,9 @@ export default {
 
 			return Object.values(responses);
 		}
+	},
+	components: {
+		QuestionResponses
 	}
 };
 </script>
