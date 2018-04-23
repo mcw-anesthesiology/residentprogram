@@ -6,7 +6,7 @@
 
 @section("blockless-body")
 	<div class="container">
-		<alert-list v-model="alerts" />
+		<alert-list v-model="alerts"></alert-list>
 	</div>
 
 	@include("dashboard.type." . $user->type)
