@@ -58,5 +58,10 @@
 		};
 
 		createNews('#global-news-dropdown', newsPropsData);
+
+		checkCookies(
+			document.getElementById('alert-container'),
+			'{{ config('app.admin_email') }}'
+		);
 	</script>
 @endpush
