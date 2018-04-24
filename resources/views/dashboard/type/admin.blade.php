@@ -31,7 +31,7 @@
 			<h3 class="panel-title">@{{ watchedForms[index].form.title }}</h3>
 		</div>
 		<div class="panel-body">
-			<evaluation-data-table :id="`admin-watched-form-${watchedForms[index].form.id}-table`"
+			<evaluation-data-table :id="'admin-watched-form-' + watchedForms[index].form.id + '-table'"
 				:range="defaultUserEvaluationRange"
 				:thead="watchedFormThead"
 				:config="config">
@@ -97,6 +97,11 @@
 			flaggedActions: {!! json_encode($flaggedActions) !!}
 		};
 
-		createAdminDashboard('main', propsData);
+		try {
+			createAdminDashboard('main', propsData);
+		} catch (e) {
+			alert('ok');
+			console.error(e);
+		}
 	</script>
 @endpush
