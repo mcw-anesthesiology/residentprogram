@@ -156,5 +156,11 @@
 			</div>
 		</div>
 		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
+		<script>
+			checkCookies(
+				document.getElementsByClassName('content-section')[0].children[0],
+				'{{ config('app.admin_email') }}'
+			);
+		</script>
 	</body>
 </html>
