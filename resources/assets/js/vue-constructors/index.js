@@ -9,6 +9,10 @@ Vue.config.errorHandler = (err, vm, info) => {
 	rollbar.error(`Error from Vue: ${err}, info: ${info}, vm: ${JSON.stringify(vm)}`);
 };
 
+Vue.config.warnHandler = (msg, vm, trace) => {
+	rollbar.warning(`Warning from Vue: ${msg}, trace: ${trace}, vm: ${JSON.stringify(vm)}`);
+};
+
 Vue.directive('visible', (el, {value, oldValue, modifiers}) => {
 	if(modifiers.once && el.style.visibility === 'visible')
 		return;
