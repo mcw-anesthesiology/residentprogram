@@ -6,11 +6,11 @@ export { default as createNews } from './news.js';
 export { default as createCaseOverlaps } from './case-overlaps.js';
 
 Vue.config.errorHandler = (err, vm, info) => {
-	rollbar.error(`Error from Vue: ${err}, info: ${info}, vm: ${JSON.stringify(vm)}`);
+	rollbar.error(`Error from Vue: ${err}, info: ${info}`);
 };
 
 Vue.config.warnHandler = (msg, vm, trace) => {
-	rollbar.warning(`Warning from Vue: ${msg}, trace: ${trace}, vm: ${JSON.stringify(vm)}`);
+	rollbar.warning(`Warning from Vue: ${msg}, trace: ${trace}`);
 };
 
 Vue.directive('visible', (el, {value, oldValue, modifiers}) => {
