@@ -84,6 +84,45 @@
 						<RichDateRange :dates="reportDates" />
 					</small>
 				</h1>
+
+				<div v-if="!subject && report && report.evaluations"
+						key="report-evals"
+						class="panel panel-info">
+					<div class="panel-heading">
+						<span class="panel-title">
+							Evaluations in report
+						</span>
+					</div>
+					<div v-if="showEvalsTable" class="panel-body">
+						<data-table :thead="evalsThead" :config="evalsConfig" />
+					</div>
+					<div class="panel-footer text-center">
+						<show-hide-button class="btn btn-info"
+								v-model="showEvalsTable">
+							evaluations table
+						</show-hide-button>
+					</div>
+				</div>
+
+				<div v-if="subject && report && report.subjectEvaluations"
+						key="subject-evals"
+						class="panel panel-info">
+					<div class="panel-heading">
+						<span class="panel-title">
+							{{ subject.full_name }} evaluations in report
+						</span>
+					</div>
+					<div v-if="showEvalsTable" class="panel-body">
+						<data-table :thead="evalsThead" :config="subjectEvalsConfig" />
+					</div>
+					<div class="panel-footer text-center">
+						<show-hide-button class="btn btn-info"
+								v-model="showEvalsTable">
+							evaluations table
+						</show-hide-button>
+					</div>
+				</div>
+
 				<report-section v-for="(section, index) of report.results.sections"
 					:key="index"
 					v-bind="section"
@@ -121,13 +160,17 @@
 		display: block;
 		margin-top: 0.25em;
 	}
+</style>
 
+<style>
 	@media print {
 		hr,
 		.form-container,
 		.report-controls-container,
-		.subject-container {
-			display: none;
+		.subject-container,
+		.dataTables_wrapper > div,
+		.refresh-button-container {
+			display: none !important;
 		}
 	}
 </style>
@@ -138,11 +181,25 @@ import HasAlerts from '@/vue-mixins/HasAlerts.js';
 import StartEndDate from '@/vue-components/StartEndDate.vue';
 import SelectTwo from '@/vue-components/SelectTwo.vue';
 import RichDateRange from '@/vue-components/RichDateRange.vue';
+import DataTable from '@/vue-components/DataTable.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+
 import ReportSection from './Section.vue';
 
 import { handleError } from '@/modules/errors.js';
-import { isoDateStringObject, lastQuarter } from '@/modules/date-utils.js';
-import { renderDateRange } from '@/modules/date-utils.js';
+import {
+	isoDateStringObject,
+	lastQuarter,
+	renderDateRange
+} from '@/modules/date-utils.js';
+import {
+	renderDateRangeCell,
+	createDateRangeCell,
+	renderDateCell,
+	createDateCell,
+	renderDateTimeCell,
+	createDateTimeCell
+} from '@/modules/datatable-utils.js';
 import { fetchConfig, jsonOrThrow, groupUsers } from '@/modules/utils.js';
 
 export default {
@@ -165,10 +222,102 @@ export default {
 
 			reportFontSizeValue: 1,
 
-			subjectId: null
+			subjectId: null,
+
+			showEvalsTable: false
 		};
 	},
+	watch: {
+		report() {
+			this.showEvalsTable = false;
+		},
+		subjectId() {
+			this.showEvalsTable = false;
+		}
+	},
 	computed: {
+		evalsThead() {
+			return [[
+				'#',
+				'Subject',
+				'Evaluator',
+				'Requested by',
+				'Form',
+				'Evaluation date',
+				'Requested',
+				'Completed'
+			]];
+		},
+		evalsConfig() {
+			if (!this.report || !this.report.evaluations)
+				return;
+
+			return {
+				ajax: {
+					url: '/evaluations',
+					data: {
+						id: this.report.evaluations.slice(),
+						with: {
+							subject: ['full_name'],
+							evaluator: ['full_name'],
+							requestor: ['full_name'],
+							form: ['title']
+						}
+					},
+					dataSrc: ''
+				},
+				columns: [
+					{data: 'url'},
+					{data: 'subject.full_name'},
+					{data: 'evaluator.full_name'},
+					{data: 'requestor.full_name'},
+					{data: 'form.title'},
+					{
+						data: null,
+						render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+					},
+					{data: 'request_date', render: renderDateCell, createdCell: createDateCell},
+					{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+				],
+				order: [[0, 'desc']]
+			};
+		},
+		subjectEvalsConfig() {
+			if (!this.subjectId || !this.report || !this.report.subjectEvaluations)
+				return;
+
+			return {
+				ajax: {
+					url: '/evaluations',
+					data: {
+						id: this.report.subjectEvaluations[this.subjectId].slice(),
+						with: {
+							subject: ['full_name'],
+							evaluator: ['full_name'],
+							requestor: ['full_name'],
+							form: ['title']
+						}
+					},
+					dataSrc: ''
+				},
+				columns: [
+					{data: 'url'},
+					{data: 'subject.full_name'},
+					{data: 'evaluator.full_name'},
+					{data: 'requestor.full_name'},
+					{data: 'form.title'},
+					{
+						data: null,
+						render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+					},
+					{data: 'request_date', render: renderDateCell, createdCell: createDateCell},
+					{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+				],
+				order: [[0, 'desc']]
+			};
+		},
 		canRunReport() {
 			return Boolean(this.customReportId);
 		},
@@ -247,12 +396,34 @@ export default {
 		},
 		handlePrint() {
 			window.print();
+		},
+		fetchSubjectEvaluations() {
+			if (!this.report || !this.report.subjectEvaluations || !this.subject)
+				return;
+
+			const query = $.param({
+				id: this.report.subjectEvaluations[this.subjectId],
+				with: {
+					subject: ['full_name'],
+					form: ['title']
+				}
+			});
+
+			fetch(`/evaluations?${query}`, {
+				...fetchConfig()
+			}).then(jsonOrThrow).then(evals => {
+				this.subjectEvaluations = evals;
+			}).catch(err => {
+				handleError(err, this, 'There was a problem fetching report evaluations');
+			});
 		}
 	},
 	components: {
 		SelectTwo,
 		StartEndDate,
 		RichDateRange,
+		DataTable,
+		ShowHideButton,
 		ReportSection
 	}
 };

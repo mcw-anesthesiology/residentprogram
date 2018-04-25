@@ -35,8 +35,15 @@ class CustomReportController extends RestController
 
 		$customReport = $customReport->toArray();
 
-		$customReport['subjects'] = $responses->pluck('subject_id')
+		$customReport['subjects'] = $allResponses->pluck('subject_id')
 			->unique()->values()->all();
+		$customReport['evaluations'] = $allResponses->pluck('evaluation_id')
+			->unique()->values()->all();
+		$customReport['subjectEvaluations'] = $allResponses->mapToGroups(function ($response, $key) {
+			return [$response->subject_id => $response->evaluation_id];
+		})->transform(function ($subjectEvalIds, $subjectId) {
+			return $subjectEvalIds->unique();
+		});
 
 		$customReport['results'] = $customReport['structure'];
 		foreach ($customReport['results']['sections'] as &$section) {
