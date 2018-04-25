@@ -42,7 +42,7 @@ class CustomReportController extends RestController
 		$customReport['subjectEvaluations'] = $allResponses->mapToGroups(function ($response, $key) {
 			return [$response->subject_id => $response->evaluation_id];
 		})->transform(function ($subjectEvalIds, $subjectId) {
-			return $subjectEvalIds->unique();
+			return $subjectEvalIds->unique()->values()->all();
 		});
 
 		$customReport['results'] = $customReport['structure'];
