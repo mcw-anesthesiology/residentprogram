@@ -17,7 +17,7 @@
 
 <style scoped>
 	h3 {
-		font-size: 1.5em;
+		font-size: 2em;
 	}
 
 	.report-question {
@@ -30,6 +30,7 @@
 import QuestionResponses from './QuestionResponses.vue';
 import SubjectOptionsTable from './SubjectOptionsTable.vue';
 import SubjectOptionsGrid from './SubjectOptionsGrid.vue';
+import CustomFormQuestion from './FormQuestion.vue';
 
 import { percent } from '@/modules/formatters.js';
 
@@ -53,11 +54,12 @@ export default {
 		},
 		view: {
 			type: String,
-			default: 'table',
+			default: 'form',
 			validate(view) {
 				return [
 					'grid',
-					'table'
+					'table',
+					'form'
 				].includes(view);
 			}
 		}
@@ -65,11 +67,15 @@ export default {
 	computed: {
 		viewComponent() {
 			switch (this.view) {
-				case 'table':
-					return SubjectOptionsTable;
 				case 'grid':
-				default:
 					return SubjectOptionsGrid;
+				case 'form':
+					if (this.subjects.length === 1)
+						return CustomFormQuestion;
+					// eslint-disable-next-line no-fallthrough
+				case 'table':
+				default:
+					return SubjectOptionsTable;
 			}
 		},
 		optionTotals() {
