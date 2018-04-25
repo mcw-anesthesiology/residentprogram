@@ -8,20 +8,20 @@
 			</tr>
 		</thead>
 		<tbody>
-			<template v-for="(subjectResponses, subjectId) of responses">
+			<template v-for="subject of subjects">
 				<tr>
-					<th :rowspan="subjectResponses.length">
-						{{ subjects.find(s => s.id == subjectId).full_name }}
+					<th :rowspan="responses[subject.id].length">
+						{{ subject.full_name }}
 					</th>
 					<td>
-						<a :href="`/evaluation/${subjectResponses[0].evaluation_id}`"
+						<a :href="`/evaluation/${responses[subject.id][0].evaluation_id}`"
 								target="_blank">
-							{{ subjectResponses[0].evaluation_id }}
+							{{ responses[subject.id][0].evaluation_id }}
 						</a>
 					</td>
-					<td class="response-col">{{ subjectResponses[0].response }}</td>
+					<td class="response-col">{{ responses[subject.id][0].response }}</td>
 				</tr>
-				<tr v-for="subjectResponse of subjectResponses.slice(1)">
+				<tr v-for="subjectResponse of responses[subject.id].slice(1)">
 					<td>
 						<a :href="`/evaluation/${subjectResponse.evaluation_id}`"
 								target="_blank">
