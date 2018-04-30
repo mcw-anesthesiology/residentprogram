@@ -42,7 +42,7 @@
 			<div class="panel-body">
 				<ul class="cases-list">
 					<li v-for="pairingCase of pairingCases">
-						<p class="case-procedures">
+						<p v-if="pairingCase.procedure_desc" class="case-procedures">
 							{{ cleanProcedureName(pairingCase.procedure_desc) }}
 						</p>
 
@@ -289,6 +289,9 @@ export default {
 			}
 		},
 		cleanProcedureName(proc) {
+			if (!proc)
+				return;
+
 			return replaceAcronyms(ucfirst(proc.toLowerCase())
 				.replace(/,(?! )/g, ', '));
 		},
