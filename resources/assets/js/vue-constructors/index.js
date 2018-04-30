@@ -7,10 +7,12 @@ export { default as createCaseOverlaps } from './case-overlaps.js';
 
 Vue.config.errorHandler = (err, vm, info) => {
 	rollbar.error(`Error from Vue: ${err}, info: ${info}`);
+	console.error(err, info);
 };
 
 Vue.config.warnHandler = (msg, vm, trace) => {
 	rollbar.warning(`Warning from Vue: ${msg}, trace: ${trace}`);
+	console.warning(msg, trace);
 };
 
 Vue.directive('visible', (el, {value, oldValue, modifiers}) => {
