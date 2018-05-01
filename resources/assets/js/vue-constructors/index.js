@@ -12,7 +12,7 @@ Vue.config.errorHandler = (err, vm, info) => {
 
 Vue.config.warnHandler = (msg, vm, trace) => {
 	rollbar.warning(`Warning from Vue: ${msg}, trace: ${trace}`);
-	console.warning(msg, trace);
+	console.warn(msg, trace);
 };
 
 Vue.directive('visible', (el, {value, oldValue, modifiers}) => {
