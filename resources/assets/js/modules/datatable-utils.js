@@ -10,6 +10,14 @@ import { NEW_ITEM_TAG, UNSEEN_EVALUATION_PRIORITY } from './constants.js';
 import { ucfirst } from './utils.js';
 import { renderDate, renderDateTime, renderDateRange } from './date-utils.js';
 
+export const TRAINING_LEVEL_ORDER = [
+	'intern',
+	'ca-1',
+	'ca-2',
+	'ca-3',
+	'fellow'
+];
+
 export function unlimitTableEvals(): void {
 	let dt = this.DataTable({
 		retrieve: true

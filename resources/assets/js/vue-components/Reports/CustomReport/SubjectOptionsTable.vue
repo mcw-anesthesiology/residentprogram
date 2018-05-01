@@ -1,45 +1,56 @@
 <template>
-	<table class="report-subject-table table table-striped">
-		<thead>
-			<tr>
-				<th>Subject</th>
-				<th v-for="option of options" class="text-right">
-					{{ option.text }}
-				</th>
-				<th class="text-right">
-					Total
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<subject-row v-for="subject of subjects" :key="subject.id"
-				:subject="subject"
-				:options="options" />
-		</tbody>
-		<tfoot>
-			<tr>
-				<th>Total</th>
-			<template v-for="optionTotal of optionTotals">
-				<td class="subject-table-cell">
-					<span class="count">
-						{{ optionTotal || '' }}
-					</span>
-					<span class="percent">
-						{{
-							(
-								optionTotal && optionTotalTotal
-								&& percent(optionTotal / optionTotalTotal)
-							) || ''
-						}}
-					</span>
-				</td>
-			</template>
-				<td class="total-cell">
-					{{ optionTotalTotal }}
-				</td>
-			</tr>
-		</tfoot>
-	</table>
+	<div>
+		<div v-for="[trainingLevel, groupSubjects] of Array.from(sortedGroupedSubjects.entries())" class="panel panel-default">
+			<div class="panel-heading">
+				<span class="panel-title">
+					{{ renderTrainingLevel(trainingLevel) }}
+				</span>
+			</div>
+			<div class="panel-body">
+				<table class="report-subject-table table table-striped">
+					<thead>
+						<tr>
+							<th>Subject</th>
+							<th v-for="option of options" class="text-right">
+								{{ option.text }}
+							</th>
+							<th class="text-right">
+								Total
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<subject-row v-for="subject of groupSubjects" :key="subject.id"
+							:subject="subject"
+							:options="options" />
+					</tbody>
+					<tfoot>
+						<tr>
+							<th>Total</th>
+							<template v-for="optionTotal of optionTotals(groupSubjects)">
+								<td class="subject-table-cell">
+									<span class="count">
+										{{ optionTotal || '' }}
+									</span>
+									<span class="percent">
+										{{
+										(
+										optionTotal && optionTotalTotal(groupSubjects)
+										&& percent(optionTotal / optionTotalTotal(groupSubjects))
+										) || ''
+										}}
+									</span>
+								</td>
+							</template>
+							<td class="total-cell">
+								{{ optionTotalTotal(groupSubjects) }}
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
 </template>
 
 <style scoped>
@@ -93,6 +104,7 @@
 import SubjectRow from './SubjectOptionsRow.vue';
 
 import { percent } from '@/modules/formatters.js';
+import { TRAINING_LEVEL_ORDER, renderTrainingLevel } from '@/modules/datatable-utils.js';
 
 export default {
 	props: {
@@ -106,17 +118,48 @@ export default {
 		}
 	},
 	computed: {
-		optionTotals() {
-			return this.options.map(option =>
-				this.sum(Object.values(option.responses))
-			);
+		groupedSubjects() {
+			const groups = new Map();
+
+			for (const subject of this.subjects) {
+				const group = groups.get(subject.training_level) || new Set();
+				group.add(subject);
+				groups.set(subject.training_level, group);
+			}
+
+			return groups;
 		},
-		optionTotalTotal() {
-			return this.sum(this.optionTotals);
+		sortedGroupedSubjects() {
+			const arr = Array.from(this.groupedSubjects.entries()).map(([trainingLevel, group]) =>
+				([trainingLevel, Array.from(group.values()).sort((a, b) => {
+					if (a.full_name < b.full_name)
+						return -1;
+					if (a.full_name > b.full_name)
+						return 1;
+					return 0;
+				})]));
+
+			arr.sort(([trainingLevelA, _g1], [trainingLevelB, _g2]) =>
+				TRAINING_LEVEL_ORDER.indexOf(trainingLevelA) - TRAINING_LEVEL_ORDER.indexOf(trainingLevelB)
+			)
+
+			return new Map(arr);
 		}
 	},
 	methods: {
 		percent,
+		renderTrainingLevel,
+		optionTotals(subjects) {
+			return this.options.map(option =>
+				this.sum(Object.entries(option.responses).filter(([subjectId, _]) =>
+					// eslint-disable-next-line eqeqeq
+					subjects.some(s => s.id == subjectId)
+				).map(([_, responses]) => responses))
+			);
+		},
+		optionTotalTotal(subjects) {
+			return this.sum(this.optionTotals(subjects));
+		},
 		sum(arr) {
 			if (!arr)
 				return 0;
