@@ -19,6 +19,10 @@ export default {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		previewing: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -40,6 +44,7 @@ export default {
 			return h(componentName, {
 				props: {
 					readonly: this.readonly,
+					previewing: this.previewing,
 					showErrors: this.showErrors,
 					user: this.user,
 					...item

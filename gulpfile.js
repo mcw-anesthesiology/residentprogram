@@ -102,30 +102,34 @@ gulp.task('buildfonts', function(){
 });
 
 gulp.task('merge-manifests', () => {
-	gulp.src(['./public/build/js/manifest.json', './public/build/rev-manifest.json'])
-		.pipe(mergeJson({
-			fileName: 'rev-manifest.json',
-			edit(json){
-				for(let key in json){
-					if(!key.startsWith('js/') && !key.startsWith('css/')){
-						let dir = (key.endsWith('.css') || key.endsWith('.css.map'))
-							? 'css'
-							: 'js';
+	try {
+		gulp.src(['./public/build/js/manifest.json', './public/build/rev-manifest.json'])
+			.pipe(mergeJson({
+				fileName: 'rev-manifest.json',
+				edit(json){
+					for(let key in json){
+						if(!key.startsWith('js/') && !key.startsWith('css/')){
+							let dir = (key.endsWith('.css') || key.endsWith('.css.map'))
+								? 'css'
+								: 'js';
 
-						let val = json[key];
+							let val = json[key];
 
-						if (dir === 'css')
-							val = val.replace('../css/', '');
+							if (dir === 'css')
+								val = val.replace('../css/', '');
 
-						delete json[key];
-						json[`${dir}/${key}`] = `${dir}/${val}`;
+							delete json[key];
+							json[`${dir}/${key}`] = `${dir}/${val}`;
+						}
 					}
-				}
 
-				return json;
-			}
-		}))
-		.pipe(gulp.dest('./public/build/'));
+					return json;
+				}
+			}))
+			.pipe(gulp.dest('./public/build/'));
+	} catch (e) {
+		console.error(e);
+	}
 });
 
 elixir(function(mix) {

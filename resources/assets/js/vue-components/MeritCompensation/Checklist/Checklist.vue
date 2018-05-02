@@ -34,6 +34,7 @@
 					<checklist-section :key="`page-${pager.pageNum}`"
 						v-bind="pager.page" :page="true"
 						:readonly="readonly" :user="user"
+						:previewing="previewing"
 						:show-errors="show.errors"
 						@input="handleInput(pager.pageNum, arguments[0])" />
 				</transition>
@@ -124,6 +125,10 @@ export default {
 		user: {
 			type: Object,
 			required: false
+		},
+		previewing: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {

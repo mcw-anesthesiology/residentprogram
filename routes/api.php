@@ -94,6 +94,7 @@ Route::resource('merits', 'Rest\MeritReportController', ['only' => [
 	'index', 'store', 'show', 'update', 'destroy'
 ]]);
 
+Route::Get('merit-forms/view/{id}', 'Rest\MeritReportFormController@view');
 Route::resource('merit-forms', 'Rest\MeritReportFormController', ['only' => [
 	'index', 'store', 'show', 'update', 'destroy'
 ]]);
