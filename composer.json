@@ -19,10 +19,10 @@
         "michelf/php-markdown": "^1.7",
         "turkeyfried/us-state-lists": "^1.0",
         "justinrainbow/json-schema": "^5.2",
-        "jenssegers/rollbar": "^1.5",
         "vinkla/hashids": "^3.3.0",
         "pusher/pusher-php-server": "~3.0",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "rollbar/rollbar-laravel": "^2.3"
     },
     "require-dev": {
 		"filp/whoops": "~2.0",
@@ -71,5 +71,12 @@
     },
     "config": {
         "preferred-install": "dist"
-    }
+    },
+	"extra": {
+		"laravel": {
+			"dont-discover": [
+				"rollbar/rollbar-laravel"
+			]
+		}
+	}
 }
