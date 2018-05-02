@@ -1,3 +1,4 @@
+
 <template>
 	<div class="checklist-item" :class="{checked, readonly, editable: !readonlyToUser}">
 		<label class="containing-label">
@@ -6,11 +7,18 @@
 
 			<span class="item-text" v-html="markedUpText"></span>
 		</label>
-		<div v-if="checked && hasQuestions" class="item-questions">
+		<div class="text-right">
+			<show-hide-button v-if="hasQuestions && previewing"
+					v-model="expanded" class="btn btn-xs btn-default">
+				followup questions
+			</show-hide-button>
+		</div>
+		<div v-if="(checked || expanded) && hasQuestions" class="item-questions">
 			<questionnaire-question v-for="(question, index) of questions"
 				:key="index"
 				:question="question"
 				:readonly="readonlyToUser"
+				:previewing="previewing"
 				:showErrors="showErrors"
 				@input="handleQuestionInput(index, arguments[0])" />
 		</div>
@@ -19,6 +27,7 @@
 
 <script>
 import QuestionnaireQuestion from '@/vue-components/Questionnaire/Question/Question.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import snarkdown from 'snarkdown';
 
@@ -57,7 +66,16 @@ export default {
 		showErrors: {
 			type: Boolean,
 			default: false
+		},
+		previewing: {
+			type: Boolean,
+			default: false
 		}
+	},
+	data() {
+		return {
+			expanded: false
+		};
 	},
 
 	computed: {
@@ -126,7 +144,8 @@ export default {
 	},
 
 	components: {
-		QuestionnaireQuestion
+		QuestionnaireQuestion,
+		ShowHideButton
 	}
 };
 </script>

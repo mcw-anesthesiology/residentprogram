@@ -1,6 +1,7 @@
 <?php
 
 return [
+	'evaluations' => env('FEATURE_EVALS', true),
 	'trainee_evaluations' => env('FEATURE_TRAINEE_EVALS', true),
 	'faculty_evaluations' => env('FEATURE_FACULTY_EVALS', true),
 	'app_evaluations' => env('FEATURE_APP_EVALS', true),

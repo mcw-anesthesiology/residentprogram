@@ -30,7 +30,25 @@ export default {
 		conditionMet: {
 			type: Boolean,
 			default: false
+		},
+		previewing: {
+			type: Boolean,
+			default: false
 		}
+	},
+
+	beforeMount() {
+		if (this.previewing && this.question.type === 'list' &&
+			(
+				!this.question.items || !this.question.items.length
+			)
+		)
+			this.question.items = [
+				{
+					type: this.question.listType,
+					...this.question.itemProps
+				}
+			];
 	},
 
 	render(h) {

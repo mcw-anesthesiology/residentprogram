@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
 
-use App\MeritReport;
+use App\MeritReportForm;
+
+use Log;
 
 class MeritReportFormController extends RestController
 {
@@ -15,6 +17,9 @@ class MeritReportFormController extends RestController
 			'store',
 			'update',
 			'destroy'
+		]);
+		$this->middleware('shared')->only([
+			'view'
 		]);
 	}
 
@@ -27,4 +32,10 @@ class MeritReportFormController extends RestController
 
 	protected $model = \App\MeritReportForm::class;
 
+	function view($id) {
+		$form = MeritReportForm::findOrFail($id);
+		$data = compact('form');
+
+		return view('merit-report.view-form', $data);
+	}
 }

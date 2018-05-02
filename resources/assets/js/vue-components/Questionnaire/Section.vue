@@ -53,6 +53,10 @@ export default {
 		conditionChecker: {
 			type: Function,
 			required: false
+		},
+		previewing: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -70,6 +74,7 @@ export default {
 			return h(componentName, {
 				props: {
 					readonly: this.readonly,
+					previewing: this.previewing,
 					showErrors: this.showErrors,
 					helpClass: this.helpClass,
 					conditionMet: item.condition && this.conditionChecker(item.condition),

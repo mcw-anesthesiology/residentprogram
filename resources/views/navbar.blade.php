@@ -12,7 +12,7 @@
 @if (Auth::check() && !empty($user))
 	<div class="navbar-collapse collapse">
 	  <ul class="nav navbar-nav navbar-right">
-
+@if (config('features.evals'))
 	@if ($user->isType("resident"))
 		@if (config('features.trainee_evaluations'))
 		<li><a href="/request">Request Evaluation</a></li>
@@ -76,16 +76,16 @@
         </li>
 
 		<li><a href="/dashboard/faculty">Faculty Evaluations</a></li>
+	@endif
+@endif
+
+	@if ($user->isType('admin'))
 		<li class="dropdown">
 		  <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
 		  <ul class="dropdown-menu">
             <li><a href="/manage/accounts">Accounts</a></li>
 
-		@if (
-			config('features.trainee_evaluations')
-			|| config('features.app_evaluations')
-			|| config('features.faculty_evaluations')
-		)
+		@if (config('features.evals'))
 			<li><a href="/manage/evaluations">Evaluations</a></li>
 			<li><a href="/manage/forms">Forms</a></li>
 			<li><a href="/manage/watched-forms">Watched forms</a></li>
@@ -118,13 +118,14 @@
         @endif
 		  </ul>
 		</li>
-	@endif
-	@if (config('features.case_log') && ($user->isType("admin") || $user->usesFeature(config("constants.FEATURES.CASE_LOG"))))
+		@if (config('features.case_log') && ($user->isType("admin") || $user->usesFeature(config("constants.FEATURES.CASE_LOG"))))
 		<li><a href="/case-log">Case log</a></li>
-	@endif
-	@if (config('features.faculty_merit') && ($user->isType('admin') || $user->isType('faculty') || $user->usesFeature('FACULTY_MERIT')))
+		@endif
+		@if (config('features.faculty_merit') && ($user->isType('admin') || $user->isType('faculty') || $user->usesFeature('FACULTY_MERIT')))
 		<li><a href="/merit">Faculty merit</a></li>
+		@endif
 	@endif
+@if (config('features.evals'))
 	@if ($user->isType("admin"))
 		<li><a href="/reports">Reports</a></li>
 	@elseif ($user->isType(['resident', 'faculty']))
@@ -151,6 +152,7 @@
           </ul>
         </li>
 	@endif
+@endif
 		<li><a href="/contact">Contact</a></li>
 
 	@if (config('features.calendar'))
@@ -196,7 +198,9 @@
 		  <ul class="dropdown-menu">
             <li class="disabled"><a>Account type: {{ ucfirst($user->specific_type) }}</a></li>
 			<li><a href="/user">Manage Account</a></li>
+	@if (config('features.evals'))
             <li><a class="pointer" data-toggle="modal" data-target=".help-modal">Help</a></li>
+	@endif
 			<li><a class="pointer" data-toggle="modal" data-target="#attribution-modal">Attributions</a></li>
 			<li><a href="/logout">Logout</a></li>
 		  </ul>

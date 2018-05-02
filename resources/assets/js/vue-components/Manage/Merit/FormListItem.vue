@@ -19,12 +19,16 @@
 						@click="$emit('delete')">
 					<span class="glyphicon glyphicon-remove"></span>
 					Delete
-					
+
 					<template slot="pressed">
 						<span class="glyphicon glyphicon-trash"></span>
 						Confirm delete
 					</template>
 				</confirmation-button>
+				<a class="btn btn-sm btn-info" _target="blank"
+						:href="`/merit-forms/view/${currentForm.id}`">
+					View form
+				</a>
 			</div>
 		</div>
 	</div>
@@ -40,19 +44,19 @@ export default {
 			required: true
 		}
 	},
-	
+
 	computed: {
 		currentForm() {
 			return this.forms[0];
 		}
 	},
-	
+
 	methods: {
 		handleClick() {
 			this.$emit('click');
 		}
 	},
-	
+
 	components: {
 		ConfirmationButton
 	}
@@ -64,22 +68,22 @@ export default {
 		border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 		padding: 5px 0;
 	}
-	
+
 	.merit-form-list-item:nth-child(even) {
 		background-color: rgba(0, 0, 0, 0.05);
 	}
-	
+
 	small {
 		font-size: 0.75em;
 		color: rgba(0, 0, 0, 0.55);
 		display: block;
 	}
-	
+
 	.name-cell {
 		position: relative;
 		bottom: 0;
 	}
-	
+
 	.name {
 		font-size: 1.25em;
 	}

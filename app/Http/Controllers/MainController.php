@@ -112,7 +112,14 @@ class MainController extends Controller
 		);
     }
 
-    public function dashboard() {
+	public function dashboard() {
+		if (config('features.evaluations'))
+			return $this->evalsDashboard();
+		if (config('features.faculty_merit'))
+			return redirect('/merit');
+	}
+
+    public function evalsDashboard() {
         $user = Auth::user();
         switch ($user->type) {
             case "resident":
