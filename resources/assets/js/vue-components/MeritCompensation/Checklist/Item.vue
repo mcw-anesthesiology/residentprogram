@@ -7,11 +7,27 @@
 
 			<span class="item-text" v-html="markedUpText"></span>
 		</label>
-		<div class="text-right">
-			<show-hide-button v-if="hasQuestions && previewing"
-					v-model="expanded" class="btn btn-xs btn-default">
-				followup questions
-			</show-hide-button>
+		<div v-if="previewing" class="previewing-info-container">
+			<div v-if="hasQuestions" class="text-right">
+				<show-hide-button v-model="expanded" class="btn btn-xs btn-default">
+					followup questions
+				</show-hide-button>
+			</div>
+			<div v-if="scoring" class="panel panel-default">
+				<div class="panel-heading">
+					<span class="panel-title">
+						Scoring information
+					</span>
+				</div>
+				<table class="table">
+					<tbody>
+						<tr v-for="(val, key) of scoring">
+							<th>{{ ucfirst(key) }}</th>
+							<td>{{ val }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<div v-if="(checked || expanded) && hasQuestions" class="item-questions">
 			<questionnaire-question v-for="(question, index) of questions"
@@ -30,6 +46,8 @@ import QuestionnaireQuestion from '@/vue-components/Questionnaire/Question/Quest
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import snarkdown from 'snarkdown';
+
+import { ucfirst } from '@/modules/utils.js';
 
 export default {
 	props: {
@@ -70,6 +88,10 @@ export default {
 		previewing: {
 			type: Boolean,
 			default: false
+		},
+		scoring: {
+			type: Object,
+			required: false
 		}
 	},
 	data() {
@@ -95,6 +117,7 @@ export default {
 	},
 
 	methods: {
+		ucfirst,
 		handleCheck() {
 			if (this.readonlyToUser)
 				return;
@@ -189,6 +212,13 @@ export default {
 	.item-questions {
 		margin-left: 1em;
 		padding: 1em;
+	}
+
+	.previewing-info-container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-around;
 	}
 
 	@media (min-width: 768px) {

@@ -4,7 +4,7 @@
 			<legend v-if="text || (fixedLength == null && itemCount)">
 				{{ text }}
 				{{ text && itemCount != null ? '-' : '' }}
-				<span v-if="fixedLength == null">
+				<span v-if="!previewing && fixedLength == null">
 					{{ itemCount }}
 					{{ itemCount === 1 ? 'item' : 'items' }}
 				</span>
@@ -15,6 +15,24 @@
 				type="error"
 				text="Please add at least one item">
 			</bootstrap-alert>
+
+			<div v-if="previewing" class="previewing-info-container">
+				<div v-if="scoring" class="panel panel-default">
+					<div class="panel-heading">
+						<span class="panel-title">
+							Scoring information
+						</span>
+					</div>
+					<table class="table">
+						<tbody>
+							<tr v-for="(val, key) of scoring">
+								<th>{{ ucfirst(key) }}</th>
+								<td>{{ val }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 
 			<list-items :ordered="ordered"
 				:items="items"
@@ -49,6 +67,8 @@ import BootstrapAlert from '@/vue-components/BootstrapAlert.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import snarkdown from 'snarkdown';
+
+import { ucfirst } from '@/modules/utils.js';
 
 export default {
 	model: {
@@ -137,6 +157,14 @@ export default {
 		helpClass: {
 			type: String,
 			required: false
+		},
+		previewing: {
+			type: Boolean,
+			default: false
+		},
+		scoring: {
+			type: Object,
+			required: false
 		}
 	},
 	data() {
@@ -176,6 +204,7 @@ export default {
 	},
 
 	methods: {
+		ucfirst,
 		ensureFixedLength() {
 			if (this.fixedLength == null)
 				return;
@@ -236,3 +265,12 @@ export default {
 	}
 };
 </script>
+
+<style>
+	.previewing-info-container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-around;
+	}
+</style>
