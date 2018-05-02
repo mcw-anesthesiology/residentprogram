@@ -21,7 +21,7 @@
     "clean": "rm -f public/js/* && rm -f public/css/*.css && rm -f public/css/*.map && rm -f public/build/js/* && rm -f public/build/css/*.css && rm -f public/build/css/*.map && rm -f public/build/rev-manifest.json",
     "wait": "sleep 2",
     "make": "run-s make:webpack wait make:gulp",
-    "make:webpack": "webpack",
+    "make:webpack": "webpack --mode development",
     "make:gulp": "gulp",
     "remake": "run-s clean make",
     "bundle": "webpack-bundle-analyzer ./public/build/js/stats.json --port 8088",
