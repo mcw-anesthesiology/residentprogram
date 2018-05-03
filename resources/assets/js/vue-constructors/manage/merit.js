@@ -67,6 +67,12 @@ export default function createManageMerit(el, propsData) {
 			},
 			currentForms() {
 				return this.groupedMeritForms.map(forms => forms[0]);
+			},
+			currentFormOptions() {
+				return this.currentForms.map(f => ({
+					text: f.name,
+					id: f.name
+				}));
 			}
 		},
 

@@ -24,7 +24,7 @@ module.exports = {
 	},
 	output: {
 		path: path.resolve(__dirname, 'public/build/js/'),
-		publicPath: '/build/js/',
+		// publicPath: '/build/js/',
 		filename: process.env.NODE_ENV === 'production'
 			? '[name]-[chunkhash].js'
 			: '[name].js',
@@ -48,6 +48,14 @@ module.exports = {
 				use: 'babel-loader'
 			},
 			{
+				test: /\.js$/,
+				include: [
+					/node_modules\/striptags/,
+					/node_modules\/uri-js/
+				],
+				use: 'babel-loader'
+			},
+			{
 				test: /\.css$/,
 				use: [
 					MiniCssExtractPlugin.loader,
@@ -57,10 +65,6 @@ module.exports = {
 			{
 				test: /\.svg$/,
 				use: 'raw-loader'
-			},
-			{
-				test: /element-dataset/,
-				use: 'apply-loader'
 			}
 		]
 	},
