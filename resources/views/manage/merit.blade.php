@@ -25,10 +25,7 @@
 			</div>
 			<json-schema-editor :past-values="pastMeritForms"
 				schema-id="https://www.residentprogram.com/schemas/merit-report.json"
-				:schema-urls="[
-					'/schemas/merit-report.json',
-					'/schemas/questionnaire.json'
-				]"
+				:schema-urls="['/schemas/merit-report.json', '/schemas/questionnaire.json']"
 				name="merit form"
 				@submit="handleMeritSubmit"
 				@close="merit = null"></json-schema-editor>
@@ -45,7 +42,7 @@
 		<alert-list v-model="alerts"></alert-list>
 	</div>
 
-	<div class="container body-block" v-cloak>
+	<div class="container body-block" v-cloak v-if="currentForms">
 		<h2>Report forms</h2>
 		<div v-for="(reportName, reportType) of meritReportTypes" class="row">
 			<div class="col-sm-4">
@@ -56,10 +53,8 @@
 					Form
 					<select-two class="form-control"
 							:value="meritReportTypeForms[reportType]"
+							:options="currentFormOptions"
 							@input="handleReportTypeInput(reportType, arguments[0])">
-						<option v-for="form of currentForms" :value="form.name">
-							@{{ form.name }}
-						</option>
 					</select-two>
 				</label>
 			</div>
