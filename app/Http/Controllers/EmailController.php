@@ -14,18 +14,18 @@ use Log;
 use Mail;
 
 class EmailController extends Controller {
-    
+
 	public function __construct(){
 		$this->middleware(['auth', 'type:admin']);
 	}
-	
+
 	public function send(Request $request){
-		
+
 	}
-	
+
 	public function reminders(Request $request){
 		$user = Auth::user();
-		
+
 		if(!$request->has('evalsRequired'))
 			throw new \Exception("There was a problem sending emails, please contact {$config('app.admin_email')}");
 		if(!$request->has('subject'))
@@ -34,7 +34,7 @@ class EmailController extends Controller {
 			throw new \Exception('Please select a recipient');
 		if(!$request->has('body'))
 			throw new \Exception('Please enter a message body');
-		
+
 		$evalsRequired = $request->input('evalsRequired');
 		$subject = $request->input('subject');
 		$bodyTemplate = $request->input('body');
@@ -63,7 +63,7 @@ class EmailController extends Controller {
 					$message->setBody($body, 'text/html');
 				});
 				$success[] = $userToRemind->id;
-				
+
 				// Prevent mailtrap from refusing rapid emails in development
 				if(config('app.env') != 'production')
 					sleep(1);
@@ -78,13 +78,13 @@ class EmailController extends Controller {
 				Log::error($e);
 			}
 		}
-		
+
 		$response = [];
 		if(count($success) > 0)
 			$response['success'] = $success;
 		if(count($error) > 0)
 			$response['error'] = $error;
-			
+
 		return response()->json($response);
 	}
 }

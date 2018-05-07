@@ -10,7 +10,7 @@
 </p>
 
 @if($numPending > 0)
-	
+
 <dl>
 	@foreach(array_keys($pendingEvals) as $evalType)
 		@if($evalType != 'total' && $pendingEvals[$evalType]->count() > 0)

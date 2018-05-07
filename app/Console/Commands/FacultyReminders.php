@@ -50,7 +50,7 @@ class FacultyReminders extends Command
 				'evaluatorEvaluations.form',
 				'evaluatorEvaluations.subject'
 			)->get();
-			
+
         foreach($users as $emailUser){
             try {
 				$pendingEvals = $emailUser->evaluatorEvaluations->where('status', 'pending');
@@ -63,8 +63,13 @@ class FacultyReminders extends Command
 					}),
 					'total' => $pendingEvals
 				];
-				
+
 				$numPending = $pendingEvals['total']->count();
+				// Not sure why this is required, but it seemed to have been
+				// empty but not zero at least once?
+				if (empty($numPending))
+					$numPending = 0;
+
 				if($emailUser->remind_only_if_pending
 						&& $emailUser->remind_only_if_pending == 'yes'
 						&& $numPending == 0)
@@ -72,14 +77,14 @@ class FacultyReminders extends Command
 
 				$data = compact('frequency', 'pendingEvals', 'emailUser',
 					'numPending');
-				
+
                 Mail::send('emails.reminders.faculty', $data, function($message) use ($emailUser){
                     $message->from('reminders@residentprogram.com', 'ResidentProgram Reminders');
                     $message->to($emailUser->email);
                     $message->replyTo(config('app.admin_email'));
                     $message->subject('Evaluation Reminder');
                 });
-				
+
 				if(config('app.env') != 'production')
 					sleep(1);
             }
