@@ -24,7 +24,7 @@
 	"extends": [
 		"eslint:recommended",
 		"plugin:import/errors",
-		"plugin:vue/recommended"
+		"plugin:vue/essential"
 	],
 	"rules": {
 		"no-console": ["warn", { "allow": ["warn", "error" ] }],
