@@ -5,7 +5,7 @@
 </p>
 
 <p>
-	You currently have <b>{{ $numPending }}</b> pending trainee evaluation
+	You currently have <b>{{ count($numPending) > 0 ? $numPending : no }}</b> pending trainee evaluation
 	{{ $numPending == 1 ? 'request' : 'requests' }}.
 </p>
 
@@ -51,6 +51,12 @@
 <p>
 	If you would like to change the frequency of these reminders, you can do so
 	via the <a href="{{ url("/user") }}">account management page</a>.
+
+@if ($numPending == 0)
+	If you would like to receive these notifications only when you have requests pending,
+	please select <b>Only send reminders if I have pending evaluations</b>.
+@endif
+
 </p>
 
 <p>
