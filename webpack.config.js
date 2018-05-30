@@ -1,9 +1,9 @@
 /* eslint-env node */
 const path = require('path');
-const webpack = require('webpack');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
 	entry: {
@@ -24,7 +24,7 @@ module.exports = {
 	},
 	output: {
 		path: path.resolve(__dirname, 'public/build/js/'),
-		publicPath: '/build/js/',
+		// publicPath: '/build/js/',
 		filename: process.env.NODE_ENV === 'production'
 			? '[name]-[chunkhash].js'
 			: '[name].js',
@@ -48,53 +48,39 @@ module.exports = {
 				use: 'babel-loader'
 			},
 			{
+				test: /\.js$/,
+				include: [
+					/node_modules\/striptags/,
+					/node_modules\/uri-js/
+				],
+				use: 'babel-loader'
+			},
+			{
 				test: /\.css$/,
-				use: ExtractTextPlugin.extract({
-					fallback: 'style-loader',
-					use: 'css-loader'
-				})
+				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader'
+				]
 			},
 			{
 				test: /\.svg$/,
 				use: 'raw-loader'
-			},
-			{
-				test: /element-dataset/,
-				use: 'apply-loader'
 			}
 		]
 	},
 	plugins: [
-		new webpack.optimize.CommonsChunkPlugin({
-			name: 'vue-global',
-			chunks: [
-				'vue-form-builder',
-				'vue-reports',
-				'vue-milestone-competency-lists',
-				'vue-request',
-				'vue-dashboard',
-				'vue-manage',
-				'vue-faculty360',
-				'vue-merit-reports',
-				'vue-alumni',
-				'vue-case-log'
-			]
-		}),
-		new webpack.optimize.CommonsChunkPlugin({
-			names: ['bundle', 'manifest'],
-			minChunks: 3
-		}),
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'disabled',
 			generateStatsFile: true
 		}),
-		new ExtractTextPlugin({
+		new MiniCssExtractPlugin({
 			filename: process.env.NODE_ENV === 'production'
 				? '../css/[name]-[contenthash].css'
 				: '../css/[name].css',
 			allChunks: true
 		}),
-		new ManifestPlugin()
+		new ManifestPlugin(),
+		new VueLoaderPlugin()
 	],
 	resolve: {
 		alias: {

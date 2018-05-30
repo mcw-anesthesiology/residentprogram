@@ -12,7 +12,7 @@
 @if (Auth::check() && !empty($user))
 	<div class="navbar-collapse collapse">
 	  <ul class="nav navbar-nav navbar-right">
-@if (config('features.evals'))
+@if (config('features.evaluations'))
 	@if ($user->isType("resident"))
 		@if (config('features.trainee_evaluations'))
 		<li><a href="/request">Request Evaluation</a></li>
@@ -85,7 +85,7 @@
 		  <ul class="dropdown-menu">
             <li><a href="/manage/accounts">Accounts</a></li>
 
-		@if (config('features.evals'))
+		@if (config('features.evaluations'))
 			<li><a href="/manage/evaluations">Evaluations</a></li>
 			<li><a href="/manage/forms">Forms</a></li>
 			<li><a href="/manage/watched-forms">Watched forms</a></li>
@@ -125,7 +125,7 @@
 		<li><a href="/merit">Faculty merit</a></li>
 		@endif
 	@endif
-@if (config('features.evals'))
+@if (config('features.evaluations'))
 	@if ($user->isType("admin"))
 		<li><a href="/reports">Reports</a></li>
 	@elseif ($user->isType(['resident', 'faculty']))
@@ -198,7 +198,7 @@
 		  <ul class="dropdown-menu">
             <li class="disabled"><a>Account type: {{ ucfirst($user->specific_type) }}</a></li>
 			<li><a href="/user">Manage Account</a></li>
-	@if (config('features.evals'))
+	@if (config('features.evaluations'))
             <li><a class="pointer" data-toggle="modal" data-target=".help-modal">Help</a></li>
 	@endif
 			<li><a class="pointer" data-toggle="modal" data-target="#attribution-modal">Attributions</a></li>

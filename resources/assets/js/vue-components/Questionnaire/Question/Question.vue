@@ -65,6 +65,7 @@ export default {
 		return h(questionComponent, {
 			props: {
 				readonly: this.readonly,
+				previewing: this.previewing,
 				showErrors: this.showErrors,
 				helpClass: this.helpClass,
 				...this.question
