@@ -1,0 +1,6 @@
+" This project is too fat to lint on keystroke
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_delay = '500'
+let g:ale_completion_delay = '500'
+let g:LanguageClient_changeThrottle = 3
+
