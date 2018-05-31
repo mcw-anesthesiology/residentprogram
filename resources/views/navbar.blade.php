@@ -79,7 +79,7 @@
 	@endif
 @endif
 
-	@if ($user->isType('admin'))
+@if ($user->isType('admin'))
 		<li class="dropdown">
 		  <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
 		  <ul class="dropdown-menu">
@@ -118,13 +118,16 @@
         @endif
 		  </ul>
 		</li>
-		@if (config('features.case_log') && ($user->isType("admin") || $user->usesFeature(config("constants.FEATURES.CASE_LOG"))))
+@endif
+
+@if (config('features.case_log') && ($user->isType("admin") || $user->usesFeature(config("constants.FEATURES.CASE_LOG"))))
 		<li><a href="/case-log">Case log</a></li>
-		@endif
-		@if (config('features.faculty_merit') && ($user->isType('admin') || $user->isType('faculty') || $user->usesFeature('FACULTY_MERIT')))
+@endif
+
+@if (config('features.faculty_merit') && ($user->isType('admin') || $user->isType('faculty') || $user->usesFeature('FACULTY_MERIT')))
 		<li><a href="/merit">Faculty merit</a></li>
-		@endif
-	@endif
+@endif
+
 @if (config('features.evaluations'))
 	@if ($user->isType("admin"))
 		<li><a href="/reports">Reports</a></li>
