@@ -4,11 +4,15 @@
 		<component :is="listElement">
 			<li v-for="(item, index) of items" :key="index"
 					class="print-view-list-item">
+				<div class="item-prop-container"
+						v-for="prop of Object.keys(item).filter(p => !['type', 'labels'].includes(p))"
+						:key="prop">
+					<span class="prop">{{ ucfirst(camelCaseToWords(prop)) }}</span>
+					<span class="value">{{ item[prop] }}</span>
+				</div>
 				<dl>
-					<template v-for="prop of Object.keys(item).filter(p => !['type', 'labels'].includes(p))">
+					<template >
 
-						<dt :key="`dt-${prop}`">{{ ucfirst(camelCaseToWords(prop)) }}</dt>
-						<dd :key="`dd-${prop}`">{{ item[prop] }}</dd>
 					</template>
 				</dl>
 			</li>
@@ -64,22 +68,34 @@ export default {
 
 	.print-view-list-item {
 		page-break-inside: avoid;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.item-prop-container {
+		margin: 0.5em;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.item-prop-container > * {
+		margin: 0.25em;
+	}
+
+	.item-prop-container .prop {
+		font-weight: bold;
+	}
+
+	.item-prop-container .prop::after {
+		content: ':';
 	}
 
 	.print-view-question-list > :global(ul),
 	.print-view-question-list > :global(ol),
 	dl {
 		margin: 0;
-	}
-
-	dt, dd {
-		display: inline-block;
-	}
-
-	dd:not(:last-child)::after {
-		content: ',';
-		display: inline-block;
-		margin-right: 1em;
 	}
 </style>
 
