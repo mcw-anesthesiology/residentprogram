@@ -1,13 +1,11 @@
 <template>
 	<div class="summary-by-id">
-		<div class="container body-block" v-if="meritReport">
-			<merit-report-summary
-				v-bind="meritReport"
-				:title="title"
-				:subject-name="meritReport.user.full_name"
-				@close="$emit('close')"
-				@alert="$emit('alert', arguments[0])" />
-		</div>
+		<merit-report-summary v-if="meritReport"
+			v-bind="meritReport"
+			:title="meritReportTitle"
+			:subject-name="meritReport.user.full_name"
+			@close="$emit('close')"
+			@alert="$emit('alert', arguments[0])" />
 	</div>
 </template>
 
@@ -53,6 +51,9 @@ export default {
 				return;
 
 			return this.reports.find(report => report.id === id);
+		},
+		meritReportTitle() {
+			return this.title || this.meritReport.form.name;
 		}
 	},
 

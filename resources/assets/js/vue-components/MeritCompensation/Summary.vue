@@ -1,31 +1,55 @@
 <template>
-	<div class="panel panel-default">
-		<div class="form-summary panel-heading">
-			<div class="row">
-				<div class="col-sm-4">
-					<small>Name</small>
-					{{ subjectName }}
-				</div>
-				<div class="col-sm-4">
-					<small>Report period</small>
-					<rich-date-range :dates="dates" />
-				</div>
-				<div class="col-sm-4">
-					<small>Checked items</small>
-					{{ checkedItems }}
-				</div>
+	<div class="container body-block root-checklist">
+		<div class="controls-container">
+			<button type="button"
+					class="btn btn-default close-report-button"
+					@click="$emit('close')">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+			</button>
+			<button type="button"
+					class="btn btn-lg btn-info print-report-button"
+					@click="handlePrint">
+				<span class="glyphicon glyphicon-print"></span>
+				Print
+			</button>
+		</div>
+		<h1>{{ title }}</h1>
+		<div class="form-summary panel panel-default">
+			<div class="panel-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Report period</th>
+							<th>Checked items</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								{{ subjectName }}
+							</td>
+							<td>
+								<rich-date-range :dates="dates" />
+							</td>
+							<td>
+								{{ checkedItems }}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
 			</div>
 		</div>
 
-		<div class="panel-body">
-			<merit-compensation-score :checklist="checklist"
-				:title="title" />
+		<merit-compensation-score :checklist="checklist"
+			:title="title" />
 
-			<merit-compensation-summary-checklist v-bind="checklist"
-				:title="title" />
-		</div>
+		<print-view-checklist :report="report">
+		</print-view-checklist>
 
-		<div class="panel panel-default notes-container">
+		<div v-if="notes" v-cloak
+				class="panel panel-default notes-container">
 			<div class="panel-heading">
 				Notes
 			</div>
@@ -35,20 +59,13 @@
 				</textarea>
 			</div>
 		</div>
-
-		<div class="panel-footer text-center">
-			<button type="button" class="btn btn-default"
-					@click="$emit('close')">
-				Close
-			</button>
-		</div>
 	</div>
 </template>
 
 <script>
 import moment from 'moment';
 
-import MeritCompensationSummaryChecklist from './Checklist/Summary/Checklist.vue';
+import PrintViewChecklist from './Checklist/PrintView/Checklist.vue';
 import MeritCompensationScore from './Checklist/Score.vue';
 
 import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
@@ -132,13 +149,16 @@ export default {
 	},
 
 	methods: {
+		handlePrint() {
+			window.print();
+		},
 		handleClose() {
 			this.$emit('close');
 		}
 	},
 
 	components: {
-		MeritCompensationSummaryChecklist,
+		PrintViewChecklist,
 		MeritCompensationScore,
 
 		AcademicYearSelector,
@@ -155,7 +175,35 @@ export default {
 		display: block;
 	}
 
+	.controls-container {
+		margin-bottom: 1em;
+	}
+
+	.print-report-button {
+		float: right;
+	}
+
 	.notes-container {
 		margin-top: 2em;
+	}
+
+	.root-checklist {
+		font-size: 1.25em;
+	}
+
+	h1 {
+		margin-top: 0.25em;
+		margin-bottom: 0.75em;
+	}
+
+	@media print {
+		.root-checklist {
+			font-size: 0.85em;
+			margin: 0;
+		}
+
+		.controls-container {
+			display: none;
+		}
 	}
 </style>

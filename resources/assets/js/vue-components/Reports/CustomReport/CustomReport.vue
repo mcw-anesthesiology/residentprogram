@@ -65,6 +65,7 @@
 						<div class="text-center">
 							<button type="button" class="btn btn-lg btn-info"
 									@click="handlePrint">
+								<span class="glyphicon glyphicon-print"></span>
 								Print
 							</button>
 						</div>
