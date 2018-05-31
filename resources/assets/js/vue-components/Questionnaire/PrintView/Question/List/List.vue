@@ -4,17 +4,14 @@
 		<component :is="listElement">
 			<li v-for="(item, index) of items" :key="index"
 					class="print-view-list-item">
-				<div class="item-prop-container"
-						v-for="prop of Object.keys(item).filter(p => !['type', 'labels'].includes(p))"
-						:key="prop">
-					<span class="prop">{{ ucfirst(camelCaseToWords(prop)) }}</span>
-					<span class="value">{{ item[prop] }}</span>
+				<div class="item-contents">
+					<div class="item-prop-container"
+							v-for="prop of Object.keys(item).filter(p => !['type', 'labels'].includes(p))"
+							:key="prop">
+						<span class="prop">{{ ucfirst(camelCaseToWords(prop)) }}</span>
+						<span class="value">{{ item[prop] }}</span>
+					</div>
 				</div>
-				<dl>
-					<template >
-
-					</template>
-				</dl>
 			</li>
 		</component>
 	</div>
@@ -68,20 +65,27 @@ export default {
 
 	.print-view-list-item {
 		page-break-inside: avoid;
+	}
+
+	.print-view-list-item ~ .print-view-list-item {
+		margin-top: 0.25em;
+	}
+
+	.item-contents {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
 	}
 
 	.item-prop-container {
-		margin: 0.5em;
+		margin: 0.2em 0.5em;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
 	}
 
 	.item-prop-container > * {
-		margin: 0.25em;
+		margin: 0 0.25em;
 	}
 
 	.item-prop-container .prop {
