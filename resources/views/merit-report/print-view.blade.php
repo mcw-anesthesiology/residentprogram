@@ -6,11 +6,24 @@
 		.root-checklist {
 			font-size: 1.25em;
 		}
+
+		@media print {
+			.root-checklist {
+				font-size: 0.85em;
+				margin: 0;
+			}
+		}
+
+		h1 {
+			margin-top: 0.25em;
+			margin-bottom: 0.75em;
+		}
 	</style>
 @endpush
 
 @section('blockless-body')
 	<div class="container body-block root-checklist">
+		<h1>{{ $report->form->name }}</h1>
 		<div class="form-summary panel panel-default">
 			<div class="panel-body">
 				<table class="table">
@@ -24,7 +37,7 @@
 					<tbody>
 						<tr>
 							<td>
-								@{{ user.full_name }}
+								{{ $report->user->full_name }}
 							</td>
 							<td>
 								<rich-date-range :dates="dates" />

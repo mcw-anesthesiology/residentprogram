@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="print-view-checklist">
 		<checklist-section v-for="(page, index) of filteredPages" :key="index"
 			v-bind="page" />
 	</div>
@@ -29,3 +29,10 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.print-view-checklist > :global(.print-view-checklist-section) {
+		margin-left: 0;
+		padding: 0;
+	}
+</style>

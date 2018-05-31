@@ -171,7 +171,7 @@ class MeritReportController extends RestController {
     }
 
     public function printView(Request $request, $id) {
-        $report = MeritReport::with('user')->findOrFail($id);
+        $report = MeritReport::with('user', 'form')->findOrFail($id);
         $data = compact('report');
 
         return view('merit-report.print-view', $data);
