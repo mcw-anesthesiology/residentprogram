@@ -9,7 +9,6 @@ import MeritSummaryById from '@/vue-components/MeritCompensation/SummaryById.vue
 import AdminSupervisorMeritReportMixin from './admin-supervisor.js';
 import FacultyMeritReportMixin from './faculty.js';
 
-export { default as createMeritReportPrintView } from './print-view.js';
 export { default as createViewMeritReportForm } from './view-form.js';
 
 import { handleError } from '@/modules/errors.js';

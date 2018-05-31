@@ -170,13 +170,6 @@ class MeritReportController extends RestController {
             : back();
     }
 
-    public function printView(Request $request, $id) {
-        $report = MeritReport::with('user', 'form')->findOrFail($id);
-        $data = compact('report');
-
-        return view('merit-report.print-view', $data);
-    }
-
     protected static function reportIsValid($form) {
         if (empty($form['pages'])) {
             return false;
