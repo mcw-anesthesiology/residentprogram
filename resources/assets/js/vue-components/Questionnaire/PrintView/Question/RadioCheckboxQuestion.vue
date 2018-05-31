@@ -1,17 +1,13 @@
 <template>
-	<tr>
-		<th>{{ text }}</th>
-		<td>
-			<ul v-if="type === 'checkbox'">
-				<li v-for="option of checkedOptions">
-					{{ option.text }}
-				</li>
-			</ul>
-			<template v-else>
-				{{ selectedOptionText }}
-			</template>
-		</td>
-	</tr>
+	<div class="print-view-radio-checkbox-question">
+		<p class="question-text">{{ text }}</p>
+		<ul v-if="type === 'checkbox'">
+			<li v-for="(option, index) of checkedOptions" :key="index">
+				{{ option.text }}
+			</li>
+		</ul>
+		<p v-else class="value">{{ selectedOptionText }}</p>
+	</div>
 </template>
 
 <script>
@@ -47,23 +43,25 @@ export default {
 </script>
 
 <style scoped>
-	th, td {
+	.print-view-radio-checkbox-question {
+		page-break-inside: avoid;
+	}
+
+	.question-text, .value {
 		padding: 0.5em;
 	}
 
-	th {
+	.question-text {
+		font-weight: bold;
+	}
+
+	.value {
 		padding-left: 1em;
 	}
 
 	@media (min-width: 768px) {
-		th {
+		.value {
 			padding-left: 5em;
-		}
-	}
-
-	@media (min-width: 1200px) {
-		th {
-			padding-left: 30vw;
 		}
 	}
 </style>

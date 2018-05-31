@@ -1,15 +1,14 @@
 <template>
-	<table class="print-view-checklist-item">
-		<thead>
-			<tr>
-				<th v-html="markedUpText"></th>
-			</tr>
-		</thead>
-		<tbody>
-			<print-view-question v-for="(question, index) of questions" :key="index"
-				:question="question" />
-		</tbody>
-	</table>
+	<div class="print-view-checklist-item">
+		<span class="glyphicon glyphicon-ok"></span>
+		<div class="item-contents">
+			<p class="print-view-item-text" v-html="markedUpText"></p>
+			<div class="item-questions">
+				<print-view-question v-for="(question, index) of questions" :key="index"
+					:question="question" />
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -48,17 +47,37 @@ export default {
 </script>
 
 <style scoped>
-	table {
+	.print-view-checklist-item {
+		margin-left: 1em;
+		display: flex;
+		flex-direction: row;
+	}
+
+	.print-view-checklist-item:not(:first-child) {
+		margin-top: 0.5em;
+	}
+
+	.glyphicon.glyphicon-ok {
+		font-size: 1.25em;
+		vertical-align: top;
+		color: rgba(0, 0, 0, 0.5);
+	}
+
+	.item-contents {
+		flex-grow: 1;
+		display: inline-block;
 		margin-left: 1em;
 	}
 
-	thead th {
+	.print-view-item-text {
 		font-size: 1.15em;
 		font-weight: normal;
+		margin: 0;
 	}
 
-	tbody {
+	.item-questions {
 		margin-left: 1em;
 		font-size: 0.85em;
 	}
 </style>
+

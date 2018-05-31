@@ -12,57 +12,34 @@ export default {
 		let items = this.items.filter(item =>
 				itemIsChecked(item)
 			).map(item => {
-			let component;
-
 			let vnodeData = {props: item};
 
 			switch (item.type) {
 				case 'section':
-					component = <print-view-checklist-section {...vnodeData} />;
-					break;
+					return <print-view-checklist-section {...vnodeData} />;
 				case 'item':
-					component = <PrintViewChecklistItem {...vnodeData} />;
-					break;
+					return <PrintViewChecklistItem {...vnodeData} />;
 			}
-
-			return (
-				<tr class={`print-view-checklist-${item.type}-row`}>
-					<td>
-						{component}
-					</td>
-				</tr>
-			);
 		});
 
 		return (
-			<table class="print-view-checklist-section">
+			<div class="print-view-checklist-section">
 		{
 			this.title && (
-				<thead>
-					<tr>
-						<th>{this.title}</th>
-					</tr>
-				</thead>
+				<p class="print-view-section-title">{this.title}</p>
 			)
 		}
-				<tbody>
-					{items}
-				</tbody>
-			</table>
+				{items}
+			</div>
 		);
 	}
 };
 </script>
 
 <style scoped>
-	.print-view-checklist-section thead th,
-	.print-view-checklist-section tbody td {
-		padding: 0.5em 0 0.5em 1em;
-	}
-
 	.print-view-checklist-section {
-		margin: 2em 0.5em;
-		width: 100%;
+		margin: 1em 0.5em;
+		padding: 0.5em 0 0.5em 1.5em;
 	}
 </style>
 
@@ -81,17 +58,17 @@ export default {
 		border-left: 2px solid #dedede;
 	}
 
-	.print-view-checklist-section > thead > tr > th {
+	.print-view-checklist-section > .print-view-section-title {
 		font-family: 'Roboto', sans-serif;
 		color: rgba(0, 0, 0, 0.65);
 		font-size: 2em;
 	}
 
-	.print-view-checklist-section .print-view-checklist-section > thead > tr > th {
+	.print-view-checklist-section .print-view-checklist-section > .print-view-item-text {
 		font-size: 1.75em;
 	}
 
-	.print-view-checklist-section .print-view-checklist-section .print-view-checklist-section > thead > tr > th {
+	.print-view-checklist-section .print-view-checklist-section .print-view-checklist-section > .print-view-item-text {
 		font-size: 1.5em;
 	}
 

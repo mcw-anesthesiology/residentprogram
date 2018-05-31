@@ -1,8 +1,8 @@
 <template>
-	<tr>
-		<th>{{ text }}</th>
-		<td>{{ value }}</td>
-	</tr>
+	<div class="print-view-value-question">
+		<p class="question-text">{{ text }}</p>
+		<span class="value">{{ value }}</span>
+	</div>
 </template>
 
 <script>
@@ -21,23 +21,25 @@ export default {
 </script>
 
 <style scoped>
-	th, td {
+	.print-view-value-question {
+		page-break-inside: avoid;
+	}
+
+	.question-text, .value {
 		padding: 0.5em;
 	}
 
-	th {
+	.question-text {
+		font-weight: bold;
+	}
+
+	.value {
 		padding-left: 1em;
 	}
 
 	@media (min-width: 768px) {
-		th {
+		.value {
 			padding-left: 5em;
-		}
-	}
-
-	@media (min-width: 1200px) {
-		th {
-			padding-left: 30vw;
 		}
 	}
 </style>
