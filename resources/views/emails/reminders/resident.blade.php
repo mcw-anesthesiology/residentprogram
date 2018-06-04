@@ -17,7 +17,7 @@
 
 <p>
 	<b>You must
-	
+
 @if($monthRequests < $requirements['evaluationRequests'])
 	request {{ $requestsNeeded }}
 	more {{ $requestsNeeded > 1 ? 'evaluations' : 'evaluation' }}
@@ -32,7 +32,7 @@
 	complete {{ $facultyEvalsNeeded }}
 	more faculty {{ $facultyEvalsNeeded > 1 ? 'evaluations' : 'evaluation' }}
 @endif
-	
+
 	before the end of the month.</b>
 </p>
 
