@@ -24,7 +24,7 @@
 						:content="submitHelp">
 					<span class="glyphicon glyphicon-question-sign"></span>
 				</bootstrap-popover>
-				<confirmation-button
+				<button type="button"
 						class="btn btn-primary button-container-primary"
 						pressed-class="btn-success"
 						:disabled="!canSubmit"
@@ -34,7 +34,7 @@
 					<template slot="pressed">
 						Confirm
 					</template>
-				</confirmation-button>
+				</button>
 			</template>
 		</div>
 	</div>

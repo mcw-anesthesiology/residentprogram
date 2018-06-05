@@ -2,7 +2,8 @@
 	<div ref="pager" class="questionnaire-pager">
 		<slot name="header"
 			:go-to-page="goToPage"
-			:pages="pages">
+			:pages="pages"
+			:page-num="currentPage">
 		</slot>
 
 		<pager-controls :current-page="currentPage"
@@ -53,7 +54,8 @@
 
 		<slot name="footer"
 			:go-to-page="goToPage"
-			:pages="pages">
+			:pages="pages"
+			:page-num="currentPage">
 		</slot>
 	</div>
 </template>
@@ -179,7 +181,8 @@ export default {
 		},
 		goToPage(page) {
 			page = page + 1;
-			const location = Object.assign({}, this.$route, { query: { page }});
+			const query = Object.assign({}, this.$route.query, { page });
+			const location = Object.assign({}, this.$route, { query });
 			this.$router.push(location);
 		},
 		submit() {
