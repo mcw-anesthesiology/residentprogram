@@ -466,7 +466,8 @@ export function reviewListItem(
 	propsRequired?: {[string]: string}
 ): Validation {
 	const map = new Map([
-		['work', "enter the name of what's being reviewed"]
+		['work', "enter the name of what's being reviewed"],
+		['reviews', 'enter the number of reviews you completed']
 	]);
 
 	return requiredListItem(item, addPropsRequired(map, propsRequired));
