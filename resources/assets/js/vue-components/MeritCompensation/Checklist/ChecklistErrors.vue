@@ -5,8 +5,10 @@
 			<ul>
 				<li v-for="(errors, pageNum) of pageErrors" v-if="errors.length > 0">
 					{{ errors.length }} error{{ errors.length === 1 ? '' : 's' }}
-					on page {{ pageNum + 1 }}.
-					<button type="button" class="btn btn-default"
+					on
+					{{ page && page === pageNum ? 'current page' : `page ${pageNum + 1}` }}.
+					<button v-if="!page || page !== pageNum"
+							type="button" class="btn btn-default"
 							@click="$emit('navigate', pageNum)">
 						Go to page
 					</button>
@@ -29,6 +31,10 @@ export default {
 		pages: {
 			type: Array,
 			required: true
+		},
+		page: {
+			type: Number,
+			required: false
 		}
 	},
 
