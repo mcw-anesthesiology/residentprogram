@@ -518,9 +518,9 @@ export default {
 
 			Promise.all([
 				import('pdfmake/build/pdfmake.js'),
-				import('../../vfs_fonts.json')
-			]).then(([pdfmake, vfs]) => {
-				pdfmake.vfs = vfs;
+				import('pdfmake/build/vfs_fonts.js')
+			]).then(([{default: pdfmake}, {default: pdfFonts}]) => {
+				pdfmake.vfs = pdfFonts.pdfMake.vfs;
 
 				// FIXME
 				const subjectName = this.report.subjects[this.subjectId];

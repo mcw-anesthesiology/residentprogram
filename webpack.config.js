@@ -23,11 +23,11 @@ module.exports = {
 		'vue-evaluation': './resources/assets/js/vue-constructors/evaluation.js'
 	},
 	output: {
-		path: path.resolve(__dirname, 'public/build/js/'),
-		publicPath: '/build/js/',
+		path: path.resolve(__dirname, 'public/build/'),
+		publicPath: '/build/',
 		filename: process.env.NODE_ENV === 'production'
-			? '[name]-[chunkhash].js'
-			: '[name].js',
+			? 'js/[name]-[chunkhash].js'
+			: 'js/[name].js',
 		libraryTarget: 'umd'
 	},
 	target: 'web',
@@ -75,8 +75,8 @@ module.exports = {
 		}),
 		new MiniCssExtractPlugin({
 			filename: process.env.NODE_ENV === 'production'
-				? '../css/[name]-[contenthash].css'
-				: '../css/[name].css',
+				? 'css/[name]-[contenthash].css'
+				: 'css/[name].css',
 			allChunks: true
 		}),
 		new ManifestPlugin(),

@@ -542,9 +542,9 @@ export default {
 
 			Promise.all([
 				import('pdfmake/build/pdfmake.js'),
-				import('../../vfs_fonts.json')
-			]).then(([pdfmake, vfs]) => {
-				pdfmake.vfs = vfs;
+				import('pdfmake/build/vfs_fonts.js')
+			]).then(([{default: pdfmake}, {default: pdfFonts}]) => {
+				pdfmake.vfs = pdfFonts.pdfMake.vfs;
 
 				const filename = hasSubject
 					? `${this.subject.full_name} - ${this.reportContents.title} - ${this.dates.startDate} -- ${this.dates.endDate}.pdf`
