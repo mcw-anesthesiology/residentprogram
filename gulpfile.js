@@ -103,7 +103,7 @@ gulp.task('buildfonts', function(){
 
 gulp.task('merge-manifests', () => {
 	try {
-		gulp.src(['./public/build/js/manifest.json', './public/build/rev-manifest.json'])
+		gulp.src(['./public/build/manifest.json', './public/build/rev-manifest.json'])
 			.pipe(mergeJson({
 				fileName: 'rev-manifest.json',
 				edit(json){
@@ -114,12 +114,10 @@ gulp.task('merge-manifests', () => {
 								: 'js';
 
 							let val = json[key];
-
-							if (dir === 'css')
-								val = val.replace('../css/', '');
+							val = val.replace(/^\/build\//, '');
 
 							delete json[key];
-							json[`${dir}/${key}`] = `${dir}/${val}`;
+							json[`${dir}/${key}`] = val;
 						}
 					}
 

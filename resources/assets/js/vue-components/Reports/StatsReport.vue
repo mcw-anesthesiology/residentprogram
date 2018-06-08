@@ -338,9 +338,9 @@ export default {
 		exportPdf(){
 			Promise.all([
 				import('pdfmake/build/pdfmake.js'),
-				import('../../vfs_fonts.json')
-			]).then(([pdfmake, vfs]) => {
-				pdfmake.vfs = vfs;
+				import('pdfmake/build/vfs_fonts.js')
+			]).then(([{default: pdfmake}, {default: pdfFonts}]) => {
+				pdfmake.vfs = pdfFonts.pdfMake.vfs;
 
 				const filename = `${this.title} - ${new Date().toLocaleString()}`;
 
