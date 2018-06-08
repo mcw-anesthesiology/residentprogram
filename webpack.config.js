@@ -24,7 +24,7 @@ module.exports = {
 	},
 	output: {
 		path: path.resolve(__dirname, 'public/build/js/'),
-		// publicPath: '/build/js/',
+		publicPath: '/build/js/',
 		filename: process.env.NODE_ENV === 'production'
 			? '[name]-[chunkhash].js'
 			: '[name].js',
