@@ -59,7 +59,8 @@
 	</style>
 @stop
 
-@section("body")
+@section("blockless-body")
+<div class="container body-block">
 	<div id="evaluation-header">
 	@if($evaluation->status == "pending" && $user->id == $evaluation->evaluator_id)
 		<h1 class="header">Complete Evaluation</h1>
@@ -295,6 +296,7 @@
 			</form>
 	@endif
 	</div>
+</div>
 
 	@if($evaluation->evaluator_id == $user->id || $user->isType("admin"))
 	<!-- Evaluation comment modal -->
