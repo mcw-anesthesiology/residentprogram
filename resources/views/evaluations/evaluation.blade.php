@@ -219,21 +219,22 @@
 				</table>
 
 	@if($evaluation->comment)
-				<div class="well evaluation-comment-section">
 		@if($evaluation->status == 'declined')
+				<div class="well evaluation-comment-section">
 					<h3 class="sub-header">Decline reason</h3>
 					<p>
 						{{ $evaluation->comment }}
 					</p>
 				</div>
 		@elseif($user->isType("admin") || $user->id == $evaluation->evaluator_id)
+				<div class="well evaluation-comment-section">
 					<h3 class="sub-header">Evaluation Comment</h3>
 					<p>
 						{{ $evaluation->comment }}
 					</p>
+				</div>
 		@endif
 	@endif
-				</div>
 
 	@if($evaluation->subject->photo_path && $evaluation->subject_id != $user->id)
 				<div class="subject-image">
