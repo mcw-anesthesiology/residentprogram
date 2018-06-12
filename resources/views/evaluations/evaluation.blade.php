@@ -155,111 +155,110 @@
 			<div class="panel-heading">
 				<h2 class="panel-title">Evaluation Information</h2>
 			</div>
-			<div class="panel-body table-responsive">
-				<table class="table" id="evaluation-info-table">
-					<thead>
-						<tr>
-							<th>#</th>
-	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
-							<th>{{ ucfirst($evaluation->subject->type) }}</th>
-	@endif
-	@if($user->isType("admin"))
-							<th>{{ ucfirst($evaluation->evaluator->type) }}</th>
-	@endif
+			<table class="table" id="evaluation-info-table">
+				<thead>
+					<tr>
+						<th>#</th>
+@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
+						<th>{{ ucfirst($evaluation->subject->type) }}</th>
+@endif
+@if($user->isType("admin"))
+						<th>{{ ucfirst($evaluation->evaluator->type) }}</th>
+@endif
+@if($evaluation->status == "complete")
+						<th>Evaluation Date</th>
+@endif
+@if(!$evaluation->isAnonymousToUser())
+						<th>
+							{{
+								($user->id == $evaluation->requested_by_id && $user->id == $evaluation->evaluator_id)
+									? 'Created'
+									: 'Requested'
+							}}
+						</th>
 	@if($evaluation->status == "complete")
-							<th>Evaluation Date</th>
+						<th>Completed</th>
 	@endif
-	@if(!$evaluation->isAnonymousToUser())
-							<th>
-								{{
-									($user->id == $evaluation->requested_by_id && $user->id == $evaluation->evaluator_id)
-										? 'Created'
-										: 'Requested'
-								}}
-							</th>
-		@if($evaluation->status == "complete")
-							<th>Completed</th>
-		@endif
-	@endif
-							<th>Status</th>
-	@if($evaluation->subject->isType("resident"))
-							<th>Training Level</th>
-	@endif
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>{{ $evaluation->viewable_id }}</td>
-	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
-							<td>{!! $subjectString !!}</td>
-	@endif
-	@if($user->isType("admin"))
-							<td>{!! $evaluatorString !!}</td>
-	@endif
+@endif
+						<th>Status</th>
+@if($evaluation->subject->isType("resident"))
+						<th>Training Level</th>
+@endif
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{ $evaluation->viewable_id }}</td>
+@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
+						<td>{!! $subjectString !!}</td>
+@endif
+@if($user->isType("admin"))
+						<td>{!! $evaluatorString !!}</td>
+@endif
+@if($evaluation->status == "complete")
+						<td>
+							{{ $evaluation->evaluation_date_start->format("F Y") == $evaluation->evaluation_date_end->format("F Y")
+								? $evaluation->evaluation_date_start->format("F Y")
+								: $evaluation->evaluation_date_start->format("F Y") . ' — ' . $evaluation->evaluation_date_end->format("F Y")
+							}}
+						</td>
+@endif
+@if(!$evaluation->isAnonymousToUser())
+						<td>{{ $evaluation->request_date }}</td>
 	@if($evaluation->status == "complete")
-							<td>
-								{{ $evaluation->evaluation_date_start->format("F Y") == $evaluation->evaluation_date_end->format("F Y")
-								 	? $evaluation->evaluation_date_start->format("F Y")
-									: $evaluation->evaluation_date_start->format("F Y") . ' — ' . $evaluation->evaluation_date_end->format("F Y")
-								}}
-							</td>
+						<td>{{ $evaluation->complete_date }}</td>
 	@endif
-	@if(!$evaluation->isAnonymousToUser())
-							<td>{{ $evaluation->request_date }}</td>
-		@if($evaluation->status == "complete")
-							<td>{{ $evaluation->complete_date }}</td>
-		@endif
-	@endif
-							<td>{!! $statusLabel !!}</td>
-	@if(!$evaluation->subject->isType("faculty"))
-							<td>{{ $evaluationTrainingLevel }}</td>
-	@endif
-						</tr>
-					</tbody>
-				</table>
-
-	@if($evaluation->comment)
-		@if($evaluation->status == 'declined')
-				<div class="well evaluation-comment-section">
-					<h3 class="sub-header">Decline reason</h3>
-					<p>
-						{{ $evaluation->comment }}
-					</p>
-				</div>
-		@elseif($user->isType("admin") || $user->id == $evaluation->evaluator_id)
-				<div class="well evaluation-comment-section">
-					<h3 class="sub-header">Evaluation Comment</h3>
-					<p>
-						{{ $evaluation->comment }}
-					</p>
-				</div>
-		@endif
-	@endif
-
-	@if($evaluation->subject->photo_path && $evaluation->subject_id != $user->id)
-				<div class="subject-image">
-					<img src="/{{ $evaluation->subject->photo_path }}" />
-				</div>
-	@endif
-
-	@if(!empty($evaluation->request_note))
-			<div class="request-note-container">
-				<p>
-					<i>
-						Note from requestor
-						({{ $evaluation->requestor->first_name }} {{$evaluation->requestor->last_name}}):
-					</i>
-				</p>
-
-				<blockquote class="evaluation-request-note">
-					<div>
-						{!! $evaluation->request_note !!}
-					</div>
-				</blockquote>
-			</div>
-	@endif
-
+@endif
+						<td>{!! $statusLabel !!}</td>
+@if(!$evaluation->subject->isType("faculty"))
+						<td>{{ $evaluationTrainingLevel }}</td>
+@endif
+					</tr>
+				</tbody>
+			</table>
 		</div>
+
+@if($evaluation->comment)
+	@if($evaluation->status == 'declined')
+		<div class="well evaluation-comment-section">
+			<h3 class="sub-header">Decline reason</h3>
+			<p>
+				{{ $evaluation->comment }}
+			</p>
+		</div>
+	@elseif($user->isType("admin") || $user->id == $evaluation->evaluator_id)
+		<div class="well evaluation-comment-section">
+			<h3 class="sub-header">Evaluation Comment</h3>
+			<p>
+				{{ $evaluation->comment }}
+			</p>
+		</div>
+	@endif
+@endif
+
+@if($evaluation->subject->photo_path && $evaluation->subject_id != $user->id)
+		<div class="subject-image">
+			<img src="/{{ $evaluation->subject->photo_path }}" />
+		</div>
+@endif
+
+@if(!empty($evaluation->request_note))
+		<div class="request-note-container">
+			<p>
+				<i>
+					Note from requestor
+					({{ $evaluation->requestor->first_name }} {{$evaluation->requestor->last_name}}):
+				</i>
+			</p>
+
+			<blockquote class="evaluation-request-note">
+				<div>
+					{!! $evaluation->request_note !!}
+				</div>
+			</blockquote>
+		</div>
+@endif
+
 	</div>
 </div>
 
