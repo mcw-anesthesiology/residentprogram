@@ -559,3 +559,7 @@ export function updateSearchParams(params: URLSearchParams) {
 		+ '?' + params.toString();
 	window.history.replaceState(null, null, newUrl);
 }
+
+export function normalizeWhitespace(str: string): string {
+	return str.replace(/\s+/g, ' ').trim();
+}
