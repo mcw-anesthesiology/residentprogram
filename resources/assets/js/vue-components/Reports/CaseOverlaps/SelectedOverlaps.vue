@@ -133,12 +133,13 @@
 				</div>
 
 				<div class="text-center">
-					<button type="button" class="btn btn-lg btn-info"
+					<processing-button type="button" class="btn btn-lg btn-info"
 							:disabled="!sendReportsValid"
+							:processing="processing"
 							@click="sendReports">
 						<span class="glyphicon glyphicon-send"></span>
 						Send reports
-					</button>
+					</processing-button>
 				</div>
 			</div>
 			<div class="panel-footer text-center">
@@ -164,19 +165,22 @@
 import { VueEditor } from 'vue2-editor';
 
 import delve from 'dlv';
+import chunk from 'lodash/chunk';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
 import DownloadButton from '@/vue-components/DownloadButton.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
+import ProcessingButton from '@/vue-components/ProcessingButton.vue';
 
 import { handleError } from '@/modules/errors.js';
 import { renderDateRange } from '@/modules/date-utils.js';
 import {
 	fetchConfig,
 	ucfirst,
-	jsonOrThrow
+	jsonOrThrow,
+	normalizeWhitespace
 } from '@/modules/utils.js';
 
 export default {
@@ -211,31 +215,31 @@ export default {
 			this.userType === 'faculty'
 			&& ['trainee', 'fellow', 'resident'].includes(this.subjectType)
 		) {
-			customMessage.intro = `<p>
+			customMessage.intro = normalizeWhitespace(`<p>
 				In an attempt to provide more feedback to our trainees and make it simpler
 				for you to complete evaluations, we will be providing a periodic report of
 				the trainees we believe you worked with the most.
-			</p>`;
-			customMessage.successLead = `<p>
+			</p>`);
+			customMessage.successLead = normalizeWhitespace(`<p>
 				Based on our records, we've selected the following trainees as top
 				candidates for evaluation for ${renderDateRange(...this.reportDates)}.
 				Please use this as a reference to complete trainee evaluations.
-			</p>`;
+			</p>`);
 		} else if (
 			['trainee', 'fellow', 'resident'].includes(this.userType)
 			&& this.subjectType === 'faculty'
 		) {
-			customMessage.intro = `<p>
+			customMessage.intro = normalizeWhitespace(`<p>
 				In an attempt to provide you more feedback and make it simpler
 				for evaluators to complete evaluations, we will be providing a periodic
 				report of the faculty we believe you worked with the most.
-			</p>`;
-			customMessage.successLead = `<p>
+			</p>`);
+			customMessage.successLead = normalizeWhitespace(`<p>
 				Based on our records, we've selected the following faculty as top
 				candidates to provide evaluations for ${renderDateRange(...this.reportDates)}.
 				Please use this as a reference to request evaluations and to
 				complete evaluations of faculty.
-			</p>`;
+			</p>`);
 		}
 
 		return {
@@ -244,7 +248,8 @@ export default {
 
 			show: {
 				sendReports: false
-			}
+			},
+			processing: false
 		};
 	},
 	computed: {
@@ -354,40 +359,51 @@ export default {
 			}
 
 			this.processing = true;
-			fetch('/reports/case-overlaps/send-reports', {
-				...fetchConfig(),
-				method: 'POST',
-				body: JSON.stringify({
-					overlaps: this.overlaps,
-					startDate: this.reportDates[0],
-					endDate: this.reportDates[1],
-					subjectType: this.subjectType,
-					emailSubject: this.emailSubject,
-					...this.customMessage
-				})
-			}).then(jsonOrThrow).then(({successes, errors}) => {
-				if (successes && successes > 0)
-					this.alerts.push({
-						type: 'success',
-						text: `${successes} reports sent successfully`
-					});
 
-				if (errors && errors.length > 0) {
+			// It's pretty gross to just resend back overlap data, but it seems simplest.
+			// Often the data is too big to send all at once so it's chunked currently.
 
-					this.alerts.push({
-						type: 'error',
-						html: `<p>${errors.length} reports unsuccessful</p>
+			const chunkSize = 15;
+			const overlapChunks = chunk(this.overlaps, chunkSize);
+			const sendingPromises = overlapChunks.map((overlapChunk, index) =>
+				fetch('/reports/case-overlaps/send-reports', {
+					...fetchConfig(),
+					method: 'POST',
+					body: JSON.stringify({
+						overlaps: overlapChunk,
+						startDate: this.reportDates[0],
+						endDate: this.reportDates[1],
+						subjectType: this.subjectType,
+						emailSubject: this.emailSubject,
+						...this.customMessage
+					})
+				}).then(jsonOrThrow).then(({successes, errors}) => {
+					if (successes && successes > 0) {
+						this.alerts.push({
+							type: 'success',
+							text: `${successes} reports sent successfully (chunk ${index + 1} of ${overlapChunks.length})`
+						});
+					}
+
+					if (errors && errors.length > 0) {
+						this.alerts.push({
+							type: 'error',
+							html: `<p>${errors.length} reports unsuccessful (chunk ${index + 1} of ${overlapChunks.length})</p>
 							<ul>
 								${errors.map(overlap =>
 									`<li>${overlap.user.full_name}</li>`
 								).join(' ')}
 							</ul>
 						`
-					});
-				}
-			}).catch(err => {
-				handleError(err, this, 'There was a problem sending reports');
-			}).finally(() => {
+						});
+					}
+
+				}).catch(err => {
+					handleError(err, this, `There was a problem sending reports (chunk ${index + 1} of ${overlapChunks.length})`);
+				})
+			);
+
+			Promise.all(sendingPromises).finally(() => {
 				this.processing = false;
 			});
 		}
@@ -396,7 +412,8 @@ export default {
 		VueEditor,
 		DownloadButton,
 		ShowHideButton,
-		ValidatedFormGroup
+		ValidatedFormGroup,
+		ProcessingButton
 	}
 };
 </script>

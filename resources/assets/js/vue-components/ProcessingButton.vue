@@ -1,5 +1,6 @@
 <template>
-	<button :class="computedClass" :title="computedTitle" :disabled="computedDisabled">
+	<button :class="computedClass" :title="computedTitle" :disabled="computedDisabled"
+			@click="handleClick">
 		<slot v-if="processing" name="processing">
 			<svg-icon :svg="ring" />
 		</slot>
@@ -18,18 +19,10 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		// title: {
-		// 	type: String,
-		// 	required: false
-		// },
 		processingTitle: {
 			type: String,
 			default: 'Processing...'
 		},
-		// class: {
-		// 	type: [String, Object],
-		// 	required: false
-		// },
 		processingClass: {
 			type: [String, Object],
 			required: false
@@ -44,20 +37,19 @@ export default {
 		computedClass() {
 			if (this.processing)
 				return this.processingClass;
-			// return this.processing
-			// 	? this.processingClass
-			// 	: this.class;
 		},
 		computedTitle() {
 			if (this.processing)
 				return this.processingTitle;
-			// return this.processing
-			// 	? this.processingTitle
-			// 	: this.title;
 		},
 		computedDisabled() {
 			if (this.processing)
 				return true;
+		}
+	},
+	methods: {
+		handleClick(...args) {
+			this.$emit('click', ...args);
 		}
 	},
 	components: {
