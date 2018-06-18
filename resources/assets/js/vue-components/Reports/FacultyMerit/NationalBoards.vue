@@ -11,7 +11,7 @@
 		</div>
 
 		<div v-if="usersWithMerit">
-			<data-table :thead="thead" :data="userParticipates"
+			<data-table :thead="thead" :data="userBoards"
 				:export-filename="exportFilename"
 				reloadable
 				exportable
@@ -25,7 +25,7 @@ import DataTable from '@/vue-components/DataTable.vue';
 import UsersWithMeritReport from './UsersWithMeritReport.vue';
 
 import { logError } from '@/modules/errors.js';
-import { getParticipatesInSimulation } from '@/modules/merits/faculty-merit/index.js';
+import { getNationalBoards } from '@/modules/merits/faculty-merit/index.js';
 import { isoDateString } from '@/modules/date-utils.js';
 
 export default {
@@ -35,31 +35,32 @@ export default {
 		thead() {
 			return [[
 				'Faculty member',
-				'Participates in simulation'
-			]];
+				'National boards'
+			]]
 		},
-		userParticipates() {
+		userBoards() {
 			if (!this.usersWithMerit)
 				return;
 
 			return this.usersWithMerit.map(user => {
-				let participates = '';
+				let boards = '';
 				try {
-					if (getParticipatesInSimulation(user.report))
-						participates = 'X';
+					boards = `<ul>${getNationalBoards(user.report).map(board =>
+						`<li>${board.name} - ${board.role}</li>`
+					).join(' ')}</ul>`;
 				} catch (e) {
 					logError(e);
-					participates = '<i>Error!</i>';
+					boards = '<i>Error!</i>';
 				}
 
 				return [
 					user.full_name,
-					participates
+					boards
 				];
-			});
+			})
 		},
 		exportFilename() {
-			return `Simulation ${isoDateString(this.dates.startDate)}--${isoDateString(this.dates.endDate)}`;
+			return `National boards ${isoDateString(this.dates.startDate)}--${isoDateString(this.dates.endDate)}`;
 		}
 	},
 

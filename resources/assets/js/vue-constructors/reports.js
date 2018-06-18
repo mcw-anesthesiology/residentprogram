@@ -13,6 +13,7 @@ import CaseOverlaps from '@/vue-components/Reports/CaseOverlaps/CaseOverlaps.vue
 import FacultyPublicationsReport from '@/vue-components/Reports/FacultyMerit/Publications.vue';
 import FacultyScholarlyActivityReport from '@/vue-components/Reports/FacultyMerit/ScholarlyActivity.vue';
 import FacultySimulationsReport from '@/vue-components/Reports/FacultyMerit/Simulations.vue';
+import FacultyNationalBoardsReport from '@/vue-components/Reports/FacultyMerit/NationalBoards.vue';
 
 import { logError } from '@/modules/errors.js';
 import {
@@ -55,7 +56,8 @@ const routes = [
 			reportTypes: [
 				'publications',
 				'scholarly-activity',
-				'simulations'
+				'simulations',
+				'national-boards'
 			]
 		},
 		children: [
@@ -70,6 +72,10 @@ const routes = [
 			{
 				path: 'simulations',
 				component: FacultySimulationsReport
+			},
+			{
+				path: 'national-boards',
+				component: FacultyNationalBoardsReport
 			}
 		]
 	},
