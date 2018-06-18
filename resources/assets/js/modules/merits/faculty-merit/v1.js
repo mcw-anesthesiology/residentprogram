@@ -1,4 +1,7 @@
+import flatMap from 'lodash/flatMap';
+
 import { logError } from '@/modules/errors.js';
+import { ucfirst } from '@/modules/utils.js';
 
 export function getAllPublicationTypes(meritReport) {
 	const publicationSection = getPublicationSection(meritReport);
@@ -368,4 +371,25 @@ export function getTeachingFormalCourses() {
 
 export function getParticipatesInSimulation(meritReport) {
 	return Boolean(meritReport.report.pages[1].items[0].items[1].items[12].checked);
+}
+
+export function getNationalBoards(meritReport) {
+	return flatMap(meritReport.report.pages[3].items[0].items
+		.filter(orgItem =>
+			orgItem.checked
+		), orgItem =>
+			orgItem.text === 'Other'
+				? orgItem.questions[0].items.map(otherItem => ({
+					name: otherItem.name,
+					role: ucfirst(otherItem.role)
+				}))
+				: {
+					name: orgItem.text,
+					role: getOrgRoles(orgItem.questions[0])
+				}
+		);
+}
+
+function getOrgRoles(question) {
+	return question.options.filter(o => o.checked).map(o => o.text).join(', ');
 }
