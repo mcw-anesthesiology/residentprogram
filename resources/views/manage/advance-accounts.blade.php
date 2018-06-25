@@ -419,7 +419,7 @@
 				</div>
 				<hr />
 				<section class="selected-users-container">
-					<h3>Selected interns</h3>
+					<h3>Selected fellows</h3>
 					<ul class="advance-accounts-selected-users list-group" data-type="fellow"></ul>
 				</section>
 			</div>
@@ -439,7 +439,7 @@
 				</div>
 				<hr />
 				<section class="selected-users-container">
-					<h3>Selected interns</h3>
+					<h3>Selected faculty</h3>
 					<ul class="advance-accounts-selected-users list-group" data-type="faculty"></ul>
 				</section>
 			</div>

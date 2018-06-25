@@ -69,7 +69,7 @@ class AdvancementController extends RestController
 			$storeRequest->replace($request->except("user_ids"));
 			$storeRequest->merge(["user_id" => $userId]);
 			try {
-				if(!$storeRequest->has("advanced_value")){
+				if(empty($storeRequest->input("advanced_value"))){
 					if($storeRequest->input("advanced_field") == "training_level"){
 						$user = User::findOrFail($userId);
 						$storeRequest->merge([
