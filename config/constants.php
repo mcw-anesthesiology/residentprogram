@@ -36,6 +36,7 @@ return [
 	],
 
 	'EVALUATION_DATE_PERIODS' => [
+		'block',
 		'month',
 		'quarter',
 		'semester',

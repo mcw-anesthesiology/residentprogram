@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from '@/vue-constructors/index.js';
 
 import AlertList from '@/vue-components/AlertList.vue';
 import AcademicYearEvaluationDataTable from '@/vue-components/AcademicYearEvaluationDataTable.vue';
@@ -9,7 +9,7 @@ import {
 } from '@/modules/datatable-utils.js';
 
 export default function createAdminFacultyDashboard(el){
-	
+
 	return new Vue({
 		el,
 		data(){
@@ -17,7 +17,7 @@ export default function createAdminFacultyDashboard(el){
 				alerts: []
 			};
 		},
-		
+
 		computed: {
 			facultyEvalsThead(){
 				return [[
@@ -68,7 +68,7 @@ export default function createAdminFacultyDashboard(el){
 				};
 			}
 		},
-		
+
 		components: {
 			AlertList,
 			AcademicYearEvaluationDataTable

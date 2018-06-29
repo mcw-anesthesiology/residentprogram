@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from '@/vue-constructors/index.js';
 import VueRouter from 'vue-router';
 
 import MeritChecklist from '@/vue-components/MeritCompensation/Checklist/Checklist.vue';

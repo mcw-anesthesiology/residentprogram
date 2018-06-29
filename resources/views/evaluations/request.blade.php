@@ -245,6 +245,8 @@
 			</div>
 		</div>
 
+		<alert-list v-model="alerts"></alert-list>
+
 	@if($user->isType("admin"))
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-8">

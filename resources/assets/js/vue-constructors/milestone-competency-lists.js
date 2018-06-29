@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from '@/vue-constructors/index.js';
 
 import MilestoneCompetencyQuestionLists from '@/vue-components/MilestoneCompetencyQuestionLists.vue';
 

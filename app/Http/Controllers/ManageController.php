@@ -215,11 +215,10 @@ class ManageController extends Controller
 
         for($i = 1; $i < count($th); $i++){
             $blocks[$i] = trim($th[$i]->innertext);
-            preg_match("/\((\d\d\/\d\d\/\d\d\d\d) \- (\d\d\/\d\d\/\d\d\d\d)\)/", $blocks[$i], $matches);
-            if(count($matches) == 3){
-                $blockStart[$i] = $matches[1];
-                $blockEnd[$i] = $matches[2];
-            }
+			$dates = substr($blocks[$i], strpos($blocks[$i], '(') + 1, -1);
+			[ $blockStart[$i], $blockEnd[$i] ] = array_map(function($d) {
+				return trim($d);
+			}, explode('-', $dates));
         }
 
         $hits = 0;
@@ -261,13 +260,20 @@ class ManageController extends Controller
 
             $block->block_name = $blockName;
 
+			Log::debug($blockStart[$blockNumber]);
+			Log::debug($blockEnd[$blockNumber]);
+
             if(isset($blockStart[$blockNumber])){
-                $nums = explode("/", $blockStart[$blockNumber]);
-                $block->start_date = $nums[2]."-".$nums[0]."-".$nums[1];
+                [ $startMonth, $startDay, $startYear ] = explode("/", $blockStart[$blockNumber]);
+				if ($startYear < 1000)
+					$startYear = 2000 + $startYear;
+				$block->start_date = Carbon::create($startYear, $startMonth, $startDay);
             }
             if(isset($blockEnd[$blockNumber])){
-                $nums = explode("/", $blockEnd[$blockNumber]);
-                $block->end_date = $nums[2]."-".$nums[0]."-".$nums[1];
+                [ $endMonth, $endDay, $endYear ] = explode("/", $blockEnd[$blockNumber]);
+				if ($endYear < 1000)
+					$endYear = 2000 + $endYear;
+				$block->end_date = Carbon::create($endYear, $endMonth, $endDay);
             }
             $block->save();
             $blockIds[$blockNumber] = $block->id;
