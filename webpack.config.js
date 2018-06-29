@@ -91,5 +91,17 @@ module.exports = {
 		moment: 'moment',
 		jquery: 'jQuery'
 	},
-	devtool: 'source-map'
+	devtool: 'source-map',
+	// optimization: {
+	// 	splitChunks: {
+	// 		cacheGroups: {
+	// 			vueCommons: {
+	// 				test: /vue/,
+	// 				name: 'vue-common',
+	// 				chunks: 'initial',
+	// 				minChunks: 3
+	// 			}
+	// 		}
+	// 	}
+	// }
 };

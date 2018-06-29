@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import EvaluationDataTable from '@/vue-components/EvaluationDataTable.vue';
 import SelectTwo from '@/vue-components/SelectTwo.vue';
 import MarkdownEditor from '@/vue-components/MarkdownEditor.vue';
@@ -8,7 +10,7 @@ import MarkdownEditor from '@/vue-components/MarkdownEditor.vue';
 import moment from 'moment';
 import indefinite from 'indefinite';
 
-import { logError } from '@/modules/errors.js';
+import { handleError, logError } from '@/modules/errors.js';
 import { groupUsers, groupForms } from '@/modules/utils.js';
 import {
 	isoDateString,
@@ -28,6 +30,7 @@ import {
 	createDateTimeCell,
 	renderDateTimeCell
 } from '@/modules/datatable-utils.js';
+import { fetchConfig, jsonOrThrow } from '@/modules/utils.js';
 
 const REQUEST_TYPES = [
 	'faculty',
@@ -40,6 +43,7 @@ const REQUEST_TYPES = [
 export function createRequest(el, propsData) {
 
 	return new Vue({
+		mixins: [HasAlerts],
 		el: el,
 		props: {
 			user: Object,
@@ -77,6 +81,8 @@ export function createRequest(el, propsData) {
 
 				schedule: false,
 				requestDate: isoDateString(new Date()),
+
+				blocks: [],
 
 				allowMultiple: {
 					subjects: false,
@@ -270,10 +276,16 @@ export function createRequest(el, propsData) {
 							);
 							break;
 						case 'month':
-						default:
 							dates = monthsInAcademicYear().filter(month =>
 								month.startDate <= requestDate
 							);
+							break;
+						case 'block':
+						default:
+							dates = this.blocks.filter(block =>
+								moment(block.start_date) <= requestDate
+							);
+							break;
 					}
 				} else {
 					let today = moment();
@@ -301,12 +313,18 @@ export function createRequest(el, propsData) {
 							);
 							break;
 						case 'month':
-						default:
 							dates = monthsInAcademicYear().filter(month =>
 								month.startDate <= today
 									&& month.endDate >= threeMonthsAgo
 							);
 							break;
+						case 'block':
+						default:
+							dates = this.blocks.filter(block =>
+								moment(block.start_date) <= today
+									&& moment(block.end_date) >= threeMonthsAgo
+							);
+							break
 					}
 				}
 
@@ -315,10 +333,18 @@ export function createRequest(el, propsData) {
 			evaluationDateOptions() {
 				if (this.evaluationDates)
 					return this.evaluationDates.map(date => {
-						return {
-							id: JSON.stringify(isoDateStringObject(date)),
-							text: renderDateRange(date.startDate, date.endDate)
-						};
+						return date.block_name
+							? {
+								id: JSON.stringify({
+									startDate: isoDateString(date.start_date),
+									endDate: isoDateString(date.end_date)
+								}),
+								text: date.block_name
+							}
+							: {
+								id: JSON.stringify(isoDateStringObject(date)),
+								text: renderDateRange(date.startDate, date.endDate)
+							};
 					});
 			},
 			requestorIsNotEvaluator() {
@@ -436,6 +462,8 @@ export function createRequest(el, propsData) {
 		},
 
 		mounted() {
+			this.fetchBlocks();
+
 			if (
 				this.filteredEvaluators
 				&& this.filteredEvaluators.length === 1
@@ -529,6 +557,20 @@ export function createRequest(el, propsData) {
 
 				if (!this.requirementsAreMet)
 					event.preventDefault();
+			},
+			fetchBlocks() {
+				const academicYear = currentYear();
+				const year = `${academicYear.startDate.year()}-${academicYear.endDate.year()}`;
+				const query = $.param({
+					year
+				});
+				fetch(`/blocks?${query}`, {
+					...fetchConfig()
+				}).then(jsonOrThrow).then(blocks => {
+					this.blocks = blocks;
+				}).catch(err => {
+					handleError(err, this, "There was a problem fetching this year's blocks");
+				});
 			}
 		},
 

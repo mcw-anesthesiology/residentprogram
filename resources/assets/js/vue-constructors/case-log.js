@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from '@/vue-constructors/index.js';
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 import 'flatpickr/dist/flatpickr.css';
 

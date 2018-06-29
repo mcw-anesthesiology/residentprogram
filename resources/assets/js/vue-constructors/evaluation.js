@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from '@/vue-constructors/index.js';
 
 import BootstrapModal from '@/vue-components/BootstrapModal.vue';
 import AlertList from '@/vue-components/AlertList.vue';

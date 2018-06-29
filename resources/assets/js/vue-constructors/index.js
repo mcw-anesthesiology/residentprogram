@@ -32,3 +32,5 @@ Vue.directive('visible', (el, {value, oldValue, modifiers}) => {
 			: 0;
 	}
 });
+
+export default Vue;

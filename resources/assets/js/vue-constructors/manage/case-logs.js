@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from '@/vue-constructors/index.js';
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';

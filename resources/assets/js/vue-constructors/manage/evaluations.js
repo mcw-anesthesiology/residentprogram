@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from '@/vue-constructors/index.js';
 
 import EvaluationDataTable from '@/vue-components/EvaluationDataTable.vue';
 
@@ -11,14 +11,14 @@ import {
 } from '@/modules/datatable-utils.js';
 
 export default function createManageEvaluations(el, propsData){
-	
+
 	return new Vue({
 		el,
 		props: {
-			
+
 		},
 		propsData,
-		
+
 		computed: {
 			thead(){
 				return [[
@@ -130,7 +130,7 @@ export default function createManageEvaluations(el, propsData){
 								glyphicon = "remove";
 								buttonText = "Disable";
 							}
-							
+
 							return `<span>
 								<button class="${buttonClass} btn btn-${buttonType} btn-xs"
 										data-id="${evaluation.id}">
@@ -160,7 +160,7 @@ export default function createManageEvaluations(el, propsData){
 				};
 			}
 		},
-		
+
 		components: {
 			EvaluationDataTable
 		}
