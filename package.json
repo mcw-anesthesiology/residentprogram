@@ -24,7 +24,7 @@
     "make:webpack": "webpack --mode development",
     "make:gulp": "gulp",
     "remake": "run-s clean make",
-    "analyze": "webpack-bundle-analyzer ./public/build/stats.json --port 8088",
+    "analyze": "BROWSER=none webpack-bundle-analyzer ./public/build/stats.json --port 8088",
     "lint": "eslint resources/assets/js --ext .js,.vue && flow",
     "test": "run-s test:*",
     "test:backend": "./vendor/bin/phpunit",
