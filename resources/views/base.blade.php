@@ -51,7 +51,6 @@
 	@endif
 		<link rel="stylesheet" href="{{ elixir("css/all.css") }}" />
 		<link rel="stylesheet" href="{{ elixir('css/vue-common.css') }}" />
-		<link rel="stylesheet" href="{{ elixir('css/vue-global.css') }}" />
 
 		@yield("head")
 		@stack('stylesheets')
