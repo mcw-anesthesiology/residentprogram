@@ -68,6 +68,7 @@
 		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
 		<script src="{{ elixir('js/vue-common.js') }}"></script>
 		<script src="{{ elixir("js/bundle.js") }}"></script>
+		<script src="{{ elixir('js/vue-global.js') }}"></script>
 		@stack('pre-scripts')
 		@yield("script")
 		@stack('scripts')
