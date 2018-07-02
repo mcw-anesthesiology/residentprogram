@@ -50,7 +50,7 @@
 		</script>
 	@endif
 		<link rel="stylesheet" href="{{ elixir("css/all.css") }}" />
-		<link rel="stylesheet" href="{{ elixir('css/vue-common.css') }}" />
+		<link rel="stylesheet" href="{{ elixir('css/common.css') }}" />
 
 		@yield("head")
 		@stack('stylesheets')
@@ -66,7 +66,7 @@
 		@yield('post-main')
 
 		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
-		<script src="{{ elixir('js/vue-common.js') }}"></script>
+		<script src="{{ elixir('js/common.js') }}"></script>
 		<script src="{{ elixir("js/bundle.js") }}"></script>
 		<script src="{{ elixir('js/vue-global.js') }}"></script>
 		@stack('pre-scripts')

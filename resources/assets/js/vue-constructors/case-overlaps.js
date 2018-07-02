@@ -17,7 +17,7 @@ import {
 } from '@/modules/utils.js';
 import { ucfirst } from '@/modules/text-utils.js';
 
-export default function createCaseOverlaps(el, propsData) {
+export function createCaseOverlaps(el, propsData) {
 	return new Vue({
 		el,
 		props: {

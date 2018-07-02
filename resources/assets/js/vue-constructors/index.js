@@ -2,9 +2,6 @@ import Vue from 'vue';
 
 import { rollbar } from '@/modules/errors.js';
 
-export { default as createNews } from './news.js';
-export { default as createCaseOverlaps } from './case-overlaps.js';
-
 Vue.config.errorHandler = (err, vm, info) => {
 	rollbar.error(`Error from Vue: ${err}, info: ${info}`);
 	console.error(err, info);

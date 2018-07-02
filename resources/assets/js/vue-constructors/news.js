@@ -5,7 +5,7 @@ import NewsList from '@/vue-components/News/List.vue';
 import { logError } from '@/modules/errors.js';
 import { fetchConfig, jsonOrThrow } from '@/modules/utils.js';
 
-export default function createNews(el) {
+export function createNews(el) {
 	return new Vue({
 		el,
 		data() {
