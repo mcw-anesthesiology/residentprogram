@@ -92,16 +92,16 @@ module.exports = {
 		jquery: 'jQuery'
 	},
 	devtool: 'source-map',
-	// optimization: {
-	// 	splitChunks: {
-	// 		cacheGroups: {
-	// 			vueCommons: {
-	// 				test: /vue/,
-	// 				name: 'vue-common',
-	// 				chunks: 'initial',
-	// 				minChunks: 3
-	// 			}
-	// 		}
-	// 	}
-	// }
+	optimization: {
+		splitChunks: {
+			cacheGroups: {
+				vueCommons: {
+					test: /vue/,
+					name: 'vue-common',
+					chunks: 'initial',
+					minChunks: 3
+				}
+			}
+		}
+	}
 };

@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from './index.js';
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';

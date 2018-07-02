@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import Vue from 'vue';
+import Vue from '@/vue-constructors/index.js';
 import VueRouter from 'vue-router';
 
 import PagerControls from './PagerControls.vue';
