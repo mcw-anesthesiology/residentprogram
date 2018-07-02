@@ -335,4 +335,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 		return $this;
 	}
+
+	public function archive() {
+		// Used to free up their username and email in case they're becoming
+		// a different user type
+
+		$this->status = 'inactive';
+		$this->username = $this->username . '~';
+		$this->email = $this->email . '~';
+		return $this->save();
+	}
 }
