@@ -100,7 +100,6 @@
 		try {
 			createAdminDashboard('main', propsData);
 		} catch (e) {
-			alert('ok');
 			console.error(e);
 		}
 	</script>

@@ -3,12 +3,13 @@ const path = require('path');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
 	entry: {
 		bundle: './resources/assets/js/modules/index.js',
-		'vue-global': './resources/assets/js/vue-constructors/index.js',
+		'vue-global': './resources/assets/js/vue-constructors/global.js',
 		'vue-form-builder': './resources/assets/js/vue-constructors/form-builder.js',
 		'vue-reports': './resources/assets/js/vue-constructors/reports.js',
 		'vue-milestone-competency-lists': './resources/assets/js/vue-constructors/milestone-competency-lists.js',
@@ -69,6 +70,14 @@ module.exports = {
 		]
 	},
 	plugins: [
+		new CleanWebpackPlugin([
+			'public/js',
+			'public/css/*.css',
+			'public/css/*.map',
+			'public/build/js',
+			'public/build/css/*.css',
+			'public/build/css/*.map'
+		]),
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'disabled',
 			generateStatsFile: true
@@ -95,9 +104,8 @@ module.exports = {
 	optimization: {
 		splitChunks: {
 			cacheGroups: {
-				vueCommons: {
-					test: /vue/,
-					name: 'vue-common',
+				commons: {
+					name: 'common',
 					chunks: 'initial',
 					minChunks: 3
 				}
