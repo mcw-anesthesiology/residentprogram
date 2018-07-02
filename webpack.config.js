@@ -79,7 +79,9 @@ module.exports = {
 			'public/build/css/*.map'
 		]),
 		new BundleAnalyzerPlugin({
-			analyzerMode: 'disabled',
+			analyzerMode: 'server',
+			analyzerPort: 8088,
+			openAnalyzer: false,
 			generateStatsFile: true
 		}),
 		new MiniCssExtractPlugin({
