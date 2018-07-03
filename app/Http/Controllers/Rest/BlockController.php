@@ -20,4 +20,8 @@ class BlockController extends RestController
 
 	protected $model = \App\Block::class;
 
+	public function __construct() {
+		$this->middleware('auth');
+		$this->middleware('type:admin')->except(['index', 'show']);
+	}
 }
