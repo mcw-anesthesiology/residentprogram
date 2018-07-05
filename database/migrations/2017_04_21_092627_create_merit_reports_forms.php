@@ -19,7 +19,7 @@ class CreateMeritReportsForms extends Migration
 			$table->integer('version');
 			$table->longText('form'); // Production db doesn't support JSON
             $table->timestamps();
-			
+
 			$table->unique(['name', 'version']);
 			$table->softDeletes();
         });

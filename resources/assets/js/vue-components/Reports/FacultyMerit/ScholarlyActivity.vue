@@ -27,6 +27,7 @@ import UserWithScholarlyActivityListItem from '@/vue-components/MeritCompensatio
 
 import { getScholarlyActivity } from '@/modules/merits/faculty-merit/index.js';
 import { isoDateString } from '@/modules/date-utils.js';
+import { logError } from '@/modules/errors.js';
 
 export default {
 	extends: UsersWithMeritReport,
@@ -54,7 +55,11 @@ export default {
 			let userScholarlyActivities = [];
 
 			for (let user of this.usersWithMerit) {
-				userScholarlyActivities.push(getScholarlyActivity(user.report, user.full_name));
+				try {
+					userScholarlyActivities.push(getScholarlyActivity(user.report, user.full_name));
+				} catch (err) {
+					logError(err, user.report);
+				}
 			}
 
 			return userScholarlyActivities;
