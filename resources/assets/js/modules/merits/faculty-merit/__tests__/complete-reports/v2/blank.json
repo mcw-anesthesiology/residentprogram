@@ -1,0 +1,1753 @@
+{
+	"pages": [
+		{
+			"type": "section",
+			"title": "Faculty merit checklist",
+			"items": [
+				{
+					"type": "instruction",
+					"text": "In completing the information in this checklist, you are creating a document to which you can refer in the future. Please fill out each section completely and accurately.\n\nPlease check off any items that apply to your involvement throughout the past academic year. The checklist consists of multiple pages, each page containing related subsections.\n\nSome checklist items may have follow-up questions, please complete them to the best of your ability.\n\nSome items may allow you to specify a list of items, you can add an item using the <span class=\"label label-info\"><span class=\"glyphicon glyphicon-plus\"></span> Add item</span> button below the list, or remove an entry using the <span class=\"label label-warning\"><span class=\"glyphicon glyphicon-remove\"></span> Remove item</span> button to the left of the list item. Lists must have at least one item to be considered valid.\n\nAny incomplete required questions will be marked using <span class=\"text-error\">a red border</span>. All items must be valid before submitting the form, so if you are unable to submit please click the <span class=\"label label-info\">Show checklist validation <span class=\"glyphicon glyphicon-ok\"></span></span> button to list the remaining items that need attention.\n\nProgress should be saved automatically as you make changes, but you can manually save your current progress using the <span class=\"label label-info\">Save and close</span> button at the bottom of the form, and you will be able to continue from where you left off. To navigate through the pages of the checklist, please use the <span class=\"label label-default\">Next page</span> and <span class=\"label label-default\">Back</span> buttons on the top and bottom of the form. On the final page, the next button will be replaced by a <span class=\"label label-primary\">Submit</span> button, which you can use to submit the form once you're finished.\n\nIf you encounter any technical issues or have questions about the checklist itself, please let Jacob Mischka know at [jmischka@mcw.edu](mailto:jmischka@mcw.edu) and he'll get to it right away.\n\nThank you!"
+				}
+			]
+		},
+		{
+			"type": "section",
+			"title": "Education",
+			"items": [
+				{
+					"type": "section",
+					"title": "Education - Departmental",
+					"items": [
+						{
+							"type": "item",
+							"text": "Departmental Lecture (Friday Conference, M & M, CSG Grand Rounds, etc.)",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "lecture",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "section",
+							"title": "Medical Students",
+							"items": [
+								{
+									"type": "item",
+									"text": "Medical Student Clerkship Director",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "text",
+											"text": "Clerkships",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "M3 or M4 course director",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "text",
+											"text": "Courses",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Preceptor"
+								},
+								{
+									"type": "item",
+									"text": "Mentor - Clinical apprenticeship",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "text",
+											"text": "Apprenticeships",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Mentor - Medical Student Research Program",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "mentorship",
+											"text": "Mentorships",
+											"itemLabels": {
+												"subject": "Project title / description"
+											},
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Lecture - Medical Student Interest Group",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "audienceLecture",
+											"text": "",
+											"itemProps": {
+												"audience": "Interest group"
+											},
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "**New** lecture for Medical Students",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "lecture",
+											"text": "",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "**Repeat** lecture for Medical Students",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "lecture",
+											"text": "",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Medical Student Advisor - Counsel > 3 sessions, write letter of recommendation",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "subjectMentorship",
+											"text": "",
+											"itemProps": {
+												"subject": "Medical student mentorship"
+											},
+											"items": [],
+											"required": true
+										}
+									]
+								}
+							]
+						},
+						{
+							"type": "section",
+							"title": "Residents & Fellows",
+							"items": [
+								{
+									"type": "item",
+									"text": "Journal Club Director"
+								},
+								{
+									"type": "item",
+									"text": "**New** lecture for residents (Wednesday morning conference, mock oral, Journal Club, etc.)",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "lecture",
+											"text": "",
+											"description": "Creation or delivery, 4-5 hours to make quality 30 min. lecture",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "**Repeat** lecture for residents",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "lecture",
+											"text": "",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Creation of a new course for residents / fellows",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "text",
+											"text": "Course names",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Intern Program Director"
+								},
+								{
+									"type": "item",
+									"text": "Residency Program Director"
+								},
+								{
+									"type": "item",
+									"text": "Fellowship Program Director",
+									"questions": [
+										{
+											"type": "radio",
+											"text": "Fellowship",
+											"options": [
+												{
+													"text": "Cardiothoracic",
+													"value": "cardiothoracic"
+												},
+												{
+													"text": "Critical care",
+													"value": "critical-care"
+												},
+												{
+													"text": "Obstetric",
+													"value": "obstetric"
+												},
+												{
+													"text": "Pain Medicine",
+													"value": "pain-medicine"
+												},
+												{
+													"text": "Pediatric",
+													"value": "pediatric"
+												},
+												{
+													"text": "Regional Anesthesia and Acute Pain Service (RAAPS)",
+													"value": "raaps"
+												}
+											]
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Associate Program Director (core or fellowship program)",
+									"questions": [
+										{
+											"type": "radio",
+											"text": "Program",
+											"options": [
+												{
+													"text": "Residency",
+													"value": "residency"
+												},
+												{
+													"text": "Cardiothoracic",
+													"value": "cardiothoracic"
+												},
+												{
+													"text": "Critical care",
+													"value": "critical-care"
+												},
+												{
+													"text": "Obstetric",
+													"value": "obstetric"
+												},
+												{
+													"text": "Pain Medicine",
+													"value": "pain-medicine"
+												},
+												{
+													"text": "Pediatric",
+													"value": "pediatric"
+												},
+												{
+													"text": "Regional Anesthesia and Acute Pain Service (RAAPS)",
+													"value": "raaps"
+												}
+											]
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Mentor / Faculty Advisor - Resident QA Project",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "mentorship",
+											"text": "",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Mentor / Faculty Advisor - Resident Scholarly Activity Project",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "mentorship",
+											"text": "",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Mentor / Faculty Advisor - MARC Project",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "mentorship",
+											"text": "",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Intern / Resident / Fellow Advisor",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "subjectMentorship",
+											"text": "Trainee names",
+											"itemProps": {
+												"subject": "Trainee mentorship"
+											},
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Simulator Session Volunteer",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "datedEvent",
+											"text": "Sessions",
+											"items": [],
+											"required": true
+										}
+									]
+								}
+							]
+						},
+						{
+							"type": "section",
+							"title": "Other",
+							"items": [
+								{
+									"type": "item",
+									"text": "Mentor - College student in a formal program (with prior approval)",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "mentorship",
+											"text": "Students",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Mentor - High School student in a formal program (with prior approval)",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "mentorship",
+											"text": "Students",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "ACLS / BCLS instructor - courses taught",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "text",
+											"text": "Courses",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Instructor in MSA Program",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "text",
+											"text": "Courses",
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "Other departmental education",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "text",
+											"text": "",
+											"items": [],
+											"required": true
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"type" : "section",
+					"title": "Education - Medical College / Hospital",
+					"items": [
+						{
+							"type": "item",
+							"text": "**New** presentation to another department (Surgery, Urology, etc.)",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "lecture",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "**Repeat** presentation to another department (Surgery Grand Rounds, etc.)",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "lecture",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "section",
+					"title": "Education - Outside the Medical College",
+					"items": [
+						{
+							"type": "item",
+							"text": "Visiting Professor (academic institution other than the Medical College or community site)",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "lecture",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "ASA Refresher Course Lecture",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "audienceLecture",
+									"text": "",
+									"itemProps": {
+										"audience": "ASA"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "ASA Panel Presentation",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "audienceLecture",
+									"text": "",
+									"itemProps": {
+										"audience": "ASA"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "ASA Problem-Based Learning Discussion",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "audienceLecture",
+									"text": "",
+									"itemProps": {
+										"audience": "asa"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "WSA Invited Lecture",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "audienceLecture",
+									"text": "",
+									"itemProps": {
+										"audience": "wsa"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Other National / International Society Lecture",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "lecture",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Lecture to local community group",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "lecture",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "item",
+					"text": "Other Education",
+					"questions": [
+						{
+							"type": "list",
+							"listType": "text",
+							"text": "Other projects",
+							"items": [],
+							"required": true
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"title": "Research",
+			"items": [
+				{
+					"type": "section",
+					"title": "Publishing (peer reviewed unless otherwise stated)",
+					"items": [
+						{
+							"type": "item",
+							"text": "Book / Text, First Ed.",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "publication",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Book / Text, Revised Ed.",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "publication",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Original Article",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "publication",
+									"text": "",
+									"itemRequired": {
+										"link": "provide a link or reference to the publication (PubMed strongly preferred)"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Review article",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "publication",
+									"text": "",
+									"itemRequired": {
+										"link": "provide a link or reference to the publication (PubMed strongly preferred)"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Book Chapter (new or revised)",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "publication",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Editorial",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "publication",
+									"text": "",
+									"itemRequired": {
+										"link": "provide a link or reference to the publication (PubMed strongly preferred)"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Abstract / Poster (Professional Society meeting)",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "publication",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Letter to the Editor",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "publication",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Case Report",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "publication",
+									"text": "",
+									"itemRequired": {
+										"link": "provide a link or reference to the publication (PubMed strongly preferred)"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Anesthesia Toolbox",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "publication",
+									"text": "",
+									"itemRequired": {
+										"link": "provide a link to the module"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "MedEd",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "publication",
+									"text": "",
+									"itemRequired": {
+										"link": "provide a link to the module"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Other publications",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "publication",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "section",
+					"title": "Research-related activities",
+					"items": [
+						{
+							"type": "item",
+							"text": "Ongoing or new studies",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "study",
+									"text": "",
+									"itemLabels": {
+										"text": "Study description"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "section",
+							"title": "Grants",
+							"items": [
+								{
+									"type": "item",
+									"text": "Existing grants / funding",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "grant",
+											"text": "",
+											"suggestions": {
+												"agency": [
+													"VA Merit Grant",
+													"NIH",
+													"FAER",
+													"AHW",
+													"DOD"
+												]
+											},
+											"items": [],
+											"required": true
+										}
+									]
+								},
+								{
+									"type": "item",
+									"text": "New grant submissions",
+									"questions": [
+										{
+											"type": "list",
+											"listType": "grant",
+											"text": "",
+											"suggestions": {
+												"agency": [
+													"VA Merit Grant",
+													"NIH",
+													"FAER",
+													"AHW",
+													"DOD"
+												]
+											},
+											"items": [],
+											"required": true
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "item",
+					"text": "Other Research",
+					"questions": [
+						{
+							"type": "list",
+							"listType": "text",
+							"text": "Other projects",
+							"itemLabels": {
+								"text": "Project description"
+							},
+							"items": [],
+							"required": true
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"title": "Service",
+			"items": [
+				{
+					"type": "section",
+					"title": "Specialty Organizations",
+					"items": [
+						{
+							"type": "item",
+							"text": "ASA",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "text",
+									"text": "Roles",
+									"required": false,
+									"suggestions": {
+										"text": [
+											"Board of directors"
+										]
+									},
+									"itemLabels": {
+										"text": "Role"
+									},
+									"items": []
+								},
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committee roles",
+									"items": [],
+									"required": false
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "WSA",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "text",
+									"text": "Roles",
+									"required": false,
+									"suggestions": {
+										"text": [
+											"Board of directors",
+											"Officer",
+											"Delegate",
+											"Alternate"
+										]
+									},
+									"itemLabels": {
+										"text": "Role"
+									},
+									"items": []
+								},
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committee roles",
+									"items": [],
+									"required": false
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "ABA",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "text",
+									"text": "Roles",
+									"required": false,
+									"suggestions": {
+										"text": [
+											"Oral board examiner",
+											"Question editor",
+											"Question writer"
+										]
+									},
+									"itemLabels": {
+										"text": "Role"
+									},
+									"items": []
+								},
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committee roles",
+									"items": [],
+									"required": false
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "ABA - Critical Care",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "text",
+									"text": "Roles",
+									"required": false,
+									"suggestions": {
+										"text": [
+											"Oral board examiner",
+											"Question editor",
+											"Question writer"
+										]
+									},
+									"itemLabels": {
+										"text": "Role"
+									},
+									"items": []
+								},
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committee roles",
+									"items": [],
+									"required": false
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "SEA",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "text",
+									"text": "Roles",
+									"required": false,
+									"suggestions": {
+										"text": [
+											"Meeting program chair",
+											"Workshop moderator"
+										]
+									},
+									"itemLabels": {
+										"text": "Role"
+									},
+									"items": []
+								},
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committee roles",
+									"items": [],
+									"required": false
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "SCA",
+							"questions": [
+								{
+									"type": "checkbox",
+									"text": "Roles",
+									"required": false,
+									"options": [
+										{
+											"text": "Meeting program chair",
+											"value": "meeting-program-chair"
+										},
+										{
+											"text": "Workshop moderator",
+											"value": "workshop-moderator"
+										}
+									]
+								},
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committee roles",
+									"items": [],
+									"required": false
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "SPA",
+							"questions": [
+								{
+									"type": "checkbox",
+									"text": "Roles",
+									"required": false,
+									"options": [
+										{
+											"text": "Meeting program chair",
+											"value": "meeting-program-chair"
+										},
+										{
+											"text": "Workshop moderator",
+											"value": "workshop-moderator"
+										}
+									]
+								},
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committee roles",
+									"items": [],
+									"required": false
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "SOAP",
+							"questions": [
+								{
+									"type": "checkbox",
+									"text": "Roles",
+									"required": false,
+									"options": [
+										{
+											"text": "Meeting program chair",
+											"value": "meeting-program-chair"
+										},
+										{
+											"text": "Workshop moderator",
+											"value": "workshop-moderator"
+										}
+									]
+								},
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committee roles",
+									"items": [],
+									"required": false
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "MARC",
+							"questions": [
+								{
+									"type": "checkbox",
+									"text": "Roles",
+									"required": false,
+									"options": [
+										{
+											"text": "Meeting program chair",
+											"value": "meeting-program-chair"
+										},
+										{
+											"text": "Workshop moderator",
+											"value": "workshop-moderator"
+										}
+									]
+								},
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committee roles",
+									"items": [],
+									"required": false
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "SNACC",
+							"questions": [
+								{
+									"type": "checkbox",
+									"text": "Roles",
+									"required": false,
+									"options": [
+										{
+											"text": "Meeting program chair",
+											"value": "meeting-program-chair"
+										},
+										{
+											"text": "Workshop moderator",
+											"value": "workshop-moderator"
+										}
+									]
+								},
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committee roles",
+									"items": [],
+									"required": false
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "FAER",
+							"questions": [
+								{
+									"type": "checkbox",
+									"text": "Roles",
+									"required": false,
+									"options": [
+										{
+											"text": "Board of Directors",
+											"value": "board-of-directors"
+										},
+										{
+											"text": "Mentor",
+											"value": "mentor"
+										}
+									]
+								},
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committee roles",
+									"items": [],
+									"required": false
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Other",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "text",
+									"text": "Other specialty organization roles",
+									"itemLabels": {
+										"text": "Organization and role"
+									},
+									"items": [],
+									"required": false
+								},
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Other specialty organization committees",
+									"itemLabels": {
+										"name": "Organization and committee"
+									},
+									"items": [],
+									"required": false
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "section",
+					"title": "Scholarly Service",
+					"items": [
+						{
+							"type": "item",
+							"text": "Hospital / School of Medicine Committee",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committees",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Ad-hoc Article Reviewer, Peer Reviewed Journal",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "review",
+									"text": "",
+									"itemLabels": {
+										"work": "Journal"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Ad-hoc Grant Reviewer (other, non-NIH)",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "review",
+									"text": "",
+									"itemLabels": {
+										"work": "Grant"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "NIH Study Section member"
+						},
+						{
+							"type": "item",
+							"text": "Institutional committees",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "Committees",
+									"itemLabels": {
+										"name": "Institution and committee name"
+									},
+									"suggestions": {
+										"name": [
+											"MCW - IRB",
+											"MCW - IACUC",
+											"MCW - Promotion and Tenure"
+										]
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Journal Editorial Board",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "editorialBoard",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "section",
+					"title": "Departmental Clinical / Administrative Service",
+					"items": [
+						{
+							"type": "item",
+							"text": "Director of a Clinical Service",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "text",
+									"text": "Services",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Director of a Simulation Center",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "text",
+									"text": "Simulation Centers",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Director of Visiting Rotators",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "text",
+									"text": "Names / groups",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Departmental committees",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "committee",
+									"text": "",
+									"suggestions": {
+										"name": [
+											"Clinical Competency Committee",
+											"Education Committee",
+											"Research Committee",
+											"Faculty Development Committee",
+											"Promotion and Tenure Committee",
+											"CQI Committee"
+										]
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Participated in interviews (Residency, Fellowship, MSA, Faculty)",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "datedEvent",
+									"itemLabels": {
+										"description": "Interview type",
+										"date": "Interview date"
+									},
+									"text": "",
+									"description": "If individual interview please list applicant name",
+									"items": [],
+									"required": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "item",
+					"text": "Other service",
+					"questions": [
+						{
+							"type": "list",
+							"listType": "text",
+							"text": "Service projects",
+							"items": [],
+							"required": true
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"title": "Professionalism / Citizenship",
+			"items": [
+				{
+					"type": "section",
+					"title": "Certification",
+					"items": [
+						{
+							"type": "item",
+							"text": "ABA",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "certification",
+									"text": "",
+									"fixedLength": 1,
+									"required": true,
+									"itemProps": {
+										"board": "ABA",
+										"specialty": "Anesthesiology"
+									},
+									"items": []
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "ABA - Peds",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "certification",
+									"text": "",
+									"fixedLength": 1,
+									"required": true,
+									"itemProps": {
+										"board": "ABA",
+										"specialty": "Pediatrics"
+									},
+									"items": []
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "ABA - Pain",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "certification",
+									"text": "",
+									"fixedLength": 1,
+									"required": true,
+									"itemProps": {
+										"board": "ABA",
+										"specialty": "Pain"
+									},
+									"items": []
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "ABA - Critical Care",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "certification",
+									"text": "",
+									"fixedLength": 1,
+									"required": true,
+									"itemProps": {
+										"board": "ABA",
+										"specialty": "Critical Care"
+									},
+									"items": []
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "ABIM",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "certification",
+									"text": "",
+									"fixedLength": 1,
+									"required": true,
+									"itemProps": {
+										"board": "ABIM",
+										"specialty": "Internal Medicine"
+									},
+									"items": []
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "CCM",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "certification",
+									"text": "",
+									"fixedLength": 1,
+									"required": true,
+									"itemProps": {
+										"specialty": "Critical Care Medicine"
+									},
+									"items": []
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "TEE",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "certification",
+									"text": "",
+									"fixedLength": 1,
+									"required": true,
+									"itemProps": {
+										"board": "National Board of Echocardiography"
+									},
+									"items": []
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "BCLS",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "certification",
+									"text": "",
+									"fixedLength": 1,
+									"required": true,
+									"itemProps": {
+										"specialty": "BCLS"
+									},
+									"items": []
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "ACLS",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "certification",
+									"text": "",
+									"fixedLength": 1,
+									"required": true,
+									"itemProps": {
+										"specialty": "ACLS"
+									},
+									"items": []
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "MOC",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "certification",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "*Other*",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "certification",
+									"text": "",
+									"items": [],
+									"required": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "section",
+					"title": "Responsibility to colleagues and department",
+					"items": [
+						{
+							"type": "instruction",
+							"text": "*To be completed by an administrator*"
+						},
+						{
+							"type": "item",
+							"text": "Completion of resident evaluations",
+							"subjectReadonly": true,
+							"questions": [
+								{
+									"type": "number",
+									"text": "Number of resident evaluations completed"
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Give appropriate breaks in OR",
+							"subjectReadonly": true
+						},
+						{
+							"type": "item",
+							"text": "Completion of credentialing information promptly",
+							"subjectReadonly": true
+						},
+						{
+							"type": "item",
+							"text": "Properly document involvement in patient care",
+							"subjectReadonly": true
+						},
+						{
+							"type": "item",
+							"text": "Service units worked",
+							"subjectReadonly": true,
+							"questions": [
+								{
+									"type": "number",
+									"text": "Service Units worked"
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Hours worked after 5pm",
+							"subjectReadonly": true,
+							"questions": [
+								{
+									"type": "number",
+									"text": "Hours worked after 5pm"
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "section",
+					"title": "Patient Safety / Quality Improvement (QI)",
+					"items": [
+						{
+							"type": "item",
+							"text": "Complete Clinical Safety & Effectiveness Course during the year",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "datedEvent",
+									"text": "",
+									"fixedLength": 1,
+									"itemProps": {
+										"description": "Completed clinical safety & effectiveness course"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Complete IHI Open School Basic Certification during the year",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "datedEvent",
+									"text": "",
+									"fixedLength": 1,
+									"itemProps": {
+										"description": "Completed IHI Open School Basic Certification"
+									},
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Lead a QI project team within the hospital system during the year",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "text",
+									"text": "Teams",
+									"items": [],
+									"required": true
+								}
+							]
+						},
+						{
+							"type": "item",
+							"text": "Lead a QI project team within the department during the year",
+							"questions": [
+								{
+									"type": "list",
+									"listType": "text",
+									"text": "Teams",
+									"items": [],
+									"required": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "item",
+					"text": "Professional development projects",
+					"questions": [
+						{
+							"type": "list",
+							"listType": "text",
+							"text": "",
+							"items": [],
+							"required": true
+						}
+					]
+				},
+				{
+					"type": "item",
+					"text": "Other Professionalism / Citizenship",
+					"questions": [
+						{
+							"type": "list",
+							"listType": "text",
+							"text": "",
+							"items": [],
+							"required": true
+						}
+					]
+				}
+			]
+		}
+	]
+}
