@@ -22,7 +22,7 @@ export function getScholarlyActivity(meritReport, fullName) {
 		getChaptersTextbooks(meritReport),
 		getGrants(meritReport),
 		getLeadershipPeerReviewRoles(meritReport) ? 'Y' : 'N',
-		getTeachingFormalCourses(meritReport) ? 'Y' : 'N',
+		'?'
 	];
 }
 
@@ -131,7 +131,7 @@ export function getOtherPresentations(meritReport) {
 		];
 		for (const i of medStudentLectureIndexes) {
 			if (medStudentSection.items[i].checked) {
-				otherPresentations += medStudentSection.item[i].questions[0].items.length;
+				otherPresentations += medStudentSection.items[i].questions[0].items.length;
 			}
 		}
 
@@ -142,7 +142,7 @@ export function getOtherPresentations(meritReport) {
 		];
 		for (const i of residentFellowLectureIndexes) {
 			if (residentFellowSection.items[i].checked) {
-				otherPresentations += residentFellowSection.item[i].questions[0].items.length;
+				otherPresentations += residentFellowSection.items[i].questions[0].items.length;
 			}
 		}
 

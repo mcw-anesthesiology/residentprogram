@@ -481,6 +481,7 @@
 						{
 							"type": "item",
 							"text": "ASA Refresher Course Lecture",
+							"checked": true,
 							"questions": [
 								{
 									"type": "list",
@@ -489,7 +490,20 @@
 									"itemProps": {
 										"audience": "ASA"
 									},
-									"items": [],
+									"items": [
+										{
+											"type": "lecture",
+											"title": "A lecture",
+											"date": "2018-06-01",
+											"audience": "ASA"
+										},
+										{
+											"type": "lecture",
+											"title": "A lecture",
+											"date": "2018-06-01",
+											"audience": "ASA"
+										}
+									],
 									"required": true
 								}
 							]
@@ -497,6 +511,7 @@
 						{
 							"type": "item",
 							"text": "ASA Panel Presentation",
+							"checked": true,
 							"questions": [
 								{
 									"type": "list",
@@ -505,7 +520,14 @@
 									"itemProps": {
 										"audience": "ASA"
 									},
-									"items": [],
+									"items": [
+										{
+											"type": "lecture",
+											"title": "A lecture",
+											"date": "2018-06-01",
+											"audience": "ASA"
+										}
+									],
 									"required": true
 								}
 							]
@@ -513,6 +535,7 @@
 						{
 							"type": "item",
 							"text": "ASA Problem-Based Learning Discussion",
+							"checked": true,
 							"questions": [
 								{
 									"type": "list",
@@ -521,7 +544,14 @@
 									"itemProps": {
 										"audience": "asa"
 									},
-									"items": [],
+									"items": [
+										{
+											"type": "lecture",
+											"title": "A lecture",
+											"date": "2018-06-01",
+											"audience": "asa"
+										}
+									],
 									"required": true
 								}
 							]
@@ -529,6 +559,7 @@
 						{
 							"type": "item",
 							"text": "WSA Invited Lecture",
+							"checked": true,
 							"questions": [
 								{
 									"type": "list",
@@ -537,7 +568,14 @@
 									"itemProps": {
 										"audience": "wsa"
 									},
-									"items": [],
+									"items": [
+										{
+											"type": "lecture",
+											"title": "A lecture",
+											"date": "2018-06-01",
+											"audience": "wsa"
+										}
+									],
 									"required": true
 								}
 							]
@@ -545,12 +583,26 @@
 						{
 							"type": "item",
 							"text": "Other National / International Society Lecture",
+							"checked": true,
 							"questions": [
 								{
 									"type": "list",
 									"listType": "lecture",
 									"text": "",
-									"items": [],
+									"items": [
+										{
+											"type": "lecture",
+											"title": "A lecture",
+											"date": "2018-06-01",
+											"audience": "Some other people"
+										},
+										{
+											"type": "lecture",
+											"title": "A lecture",
+											"date": "2018-06-01",
+											"audience": "Some people"
+										}
+									],
 									"required": true
 								}
 							]
@@ -796,7 +848,6 @@
 								{
 									"type": "item",
 									"text": "Existing grants / funding",
-									"checked": true,
 									"questions": [
 										{
 											"type": "list",
@@ -811,20 +862,7 @@
 													"DOD"
 												]
 											},
-											"items": [
-												{
-													"type": "grant",
-													"agency": "FAER",
-													"project": "Some text",
-													"amount": 100000
-												},
-												{
-													"type": "grant",
-													"agency": "Something else",
-													"project": "Some text",
-													"amount": 100000
-												}
-											],
+											"items": [],
 											"required": true
 										}
 									]
@@ -832,7 +870,6 @@
 								{
 									"type": "item",
 									"text": "New grant submissions",
-									"checked": true,
 									"questions": [
 										{
 											"type": "list",
@@ -847,14 +884,7 @@
 													"DOD"
 												]
 											},
-											"items": [
-												{
-													"type": "grant",
-													"agency": "Something else",
-													"project": "Some text",
-													"amount": 100000
-												}
-											],
+											"items": [],
 											"required": true
 										}
 									]
