@@ -79,7 +79,9 @@ module.exports = {
 			'public/build/css/*.map'
 		]),
 		new BundleAnalyzerPlugin({
-			analyzerMode: 'server',
+			analyzerMode: process.env.NODE_ENV === 'production'
+				? 'disabled'
+				: 'server',
 			analyzerPort: 8088,
 			openAnalyzer: false,
 			generateStatsFile: true
