@@ -796,7 +796,6 @@
 								{
 									"type": "item",
 									"text": "Existing grants / funding",
-									"checked": true,
 									"questions": [
 										{
 											"type": "list",
@@ -811,20 +810,7 @@
 													"DOD"
 												]
 											},
-											"items": [
-												{
-													"type": "grant",
-													"agency": "FAER",
-													"project": "Some text",
-													"amount": 100000
-												},
-												{
-													"type": "grant",
-													"agency": "Something else",
-													"project": "Some text",
-													"amount": 100000
-												}
-											],
+											"items": [],
 											"required": true
 										}
 									]
@@ -832,7 +818,6 @@
 								{
 									"type": "item",
 									"text": "New grant submissions",
-									"checked": true,
 									"questions": [
 										{
 											"type": "list",
@@ -847,14 +832,7 @@
 													"DOD"
 												]
 											},
-											"items": [
-												{
-													"type": "grant",
-													"agency": "Something else",
-													"project": "Some text",
-													"amount": 100000
-												}
-											],
+											"items": [],
 											"required": true
 										}
 									]
@@ -892,6 +870,7 @@
 						{
 							"type": "item",
 							"text": "ASA",
+							"checked": true,
 							"questions": [
 								{
 									"type": "list",
@@ -912,7 +891,14 @@
 									"type": "list",
 									"listType": "committee",
 									"text": "Committee roles",
-									"items": [],
+									"items": [
+										{
+											"type": "committee",
+											"name": "Some committee",
+											"role": "chair",
+											"meetingsPerYear": 4
+										}
+									],
 									"required": false
 								}
 							]

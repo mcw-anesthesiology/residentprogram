@@ -596,12 +596,21 @@
 						{
 							"type": "item",
 							"text": "Book / Text, First Ed.",
+							"checked": true,
 							"questions": [
 								{
 									"type": "list",
 									"listType": "publication",
 									"text": "",
-									"items": [],
+									"items": [
+										{
+											"type": "publication",
+											"title": "Title",
+											"author": "Me",
+											"link": "",
+											"role": "Primary author"
+										}
+									],
 									"required": true
 								}
 							]
@@ -796,7 +805,6 @@
 								{
 									"type": "item",
 									"text": "Existing grants / funding",
-									"checked": true,
 									"questions": [
 										{
 											"type": "list",
@@ -811,20 +819,7 @@
 													"DOD"
 												]
 											},
-											"items": [
-												{
-													"type": "grant",
-													"agency": "FAER",
-													"project": "Some text",
-													"amount": 100000
-												},
-												{
-													"type": "grant",
-													"agency": "Something else",
-													"project": "Some text",
-													"amount": 100000
-												}
-											],
+											"items": [],
 											"required": true
 										}
 									]
@@ -832,7 +827,6 @@
 								{
 									"type": "item",
 									"text": "New grant submissions",
-									"checked": true,
 									"questions": [
 										{
 											"type": "list",
@@ -847,14 +841,7 @@
 													"DOD"
 												]
 											},
-											"items": [
-												{
-													"type": "grant",
-													"agency": "Something else",
-													"project": "Some text",
-													"amount": 100000
-												}
-											],
+											"items": [],
 											"required": true
 										}
 									]

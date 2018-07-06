@@ -601,7 +601,15 @@
 									"type": "list",
 									"listType": "publication",
 									"text": "",
-									"items": [],
+									"items": [
+										{
+											"type": "publication",
+											"title": "Title",
+											"author": "Me",
+											"link": "pmid:12412",
+											"role": "Primary author"
+										}
+									],
 									"required": true
 								}
 							]
@@ -796,7 +804,6 @@
 								{
 									"type": "item",
 									"text": "Existing grants / funding",
-									"checked": true,
 									"questions": [
 										{
 											"type": "list",
@@ -811,20 +818,7 @@
 													"DOD"
 												]
 											},
-											"items": [
-												{
-													"type": "grant",
-													"agency": "FAER",
-													"project": "Some text",
-													"amount": 100000
-												},
-												{
-													"type": "grant",
-													"agency": "Something else",
-													"project": "Some text",
-													"amount": 100000
-												}
-											],
+											"items": [],
 											"required": true
 										}
 									]
@@ -832,7 +826,6 @@
 								{
 									"type": "item",
 									"text": "New grant submissions",
-									"checked": true,
 									"questions": [
 										{
 											"type": "list",
@@ -847,14 +840,7 @@
 													"DOD"
 												]
 											},
-											"items": [
-												{
-													"type": "grant",
-													"agency": "Something else",
-													"project": "Some text",
-													"amount": 100000
-												}
-											],
+											"items": [],
 											"required": true
 										}
 									]

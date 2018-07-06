@@ -796,7 +796,6 @@
 								{
 									"type": "item",
 									"text": "Existing grants / funding",
-									"checked": true,
 									"questions": [
 										{
 											"type": "list",
@@ -811,20 +810,7 @@
 													"DOD"
 												]
 											},
-											"items": [
-												{
-													"type": "grant",
-													"agency": "FAER",
-													"project": "Some text",
-													"amount": 100000
-												},
-												{
-													"type": "grant",
-													"agency": "Something else",
-													"project": "Some text",
-													"amount": 100000
-												}
-											],
+											"items": [],
 											"required": true
 										}
 									]
@@ -832,7 +818,6 @@
 								{
 									"type": "item",
 									"text": "New grant submissions",
-									"checked": true,
 									"questions": [
 										{
 											"type": "list",
@@ -847,14 +832,7 @@
 													"DOD"
 												]
 											},
-											"items": [
-												{
-													"type": "grant",
-													"agency": "Something else",
-													"project": "Some text",
-													"amount": 100000
-												}
-											],
+											"items": [],
 											"required": true
 										}
 									]
@@ -1253,6 +1231,7 @@
 						{
 							"type": "item",
 							"text": "Ad-hoc Article Reviewer, Peer Reviewed Journal",
+							"checked": true,
 							"questions": [
 								{
 									"type": "list",
@@ -1261,7 +1240,13 @@
 									"itemLabels": {
 										"work": "Journal"
 									},
-									"items": [],
+									"items": [
+										{
+											"type": "review",
+											"work": "Something",
+											"reviews": 3
+										}
+									],
 									"required": true
 								}
 							]

@@ -622,6 +622,7 @@
 						{
 							"type": "item",
 							"text": "Original Article",
+							"checked": true,
 							"questions": [
 								{
 									"type": "list",
@@ -630,7 +631,15 @@
 									"itemRequired": {
 										"link": "provide a link or reference to the publication (PubMed strongly preferred)"
 									},
-									"items": [],
+									"items": [
+										{
+											"type": "publication",
+											"title": "Publication",
+											"author": "Me",
+											"link": "pmid:12345",
+											"role": "Primary author"
+										}
+									],
 									"required": true
 								}
 							]
@@ -638,6 +647,7 @@
 						{
 							"type": "item",
 							"text": "Review article",
+							"checked": true,
 							"questions": [
 								{
 									"type": "list",
@@ -646,7 +656,15 @@
 									"itemRequired": {
 										"link": "provide a link or reference to the publication (PubMed strongly preferred)"
 									},
-									"items": [],
+									"items": [
+										{
+											"type": "publication",
+											"title": "Publication",
+											"author": "Me",
+											"link": "'https://www.ncbi.nlm.nih.gov/pubmed/45678/'",
+											"role": "Primary author"
+										}
+									],
 									"required": true
 								}
 							]
@@ -654,12 +672,21 @@
 						{
 							"type": "item",
 							"text": "Book Chapter (new or revised)",
+							"checked": true,
 							"questions": [
 								{
 									"type": "list",
 									"listType": "publication",
 									"text": "",
-									"items": [],
+									"items": [
+										{
+											"type": "publication",
+											"title": "Publication",
+											"author": "Me",
+											"link": "pubmed: 91011",
+											"role": "Primary author"
+										}
+									],
 									"required": true
 								}
 							]
@@ -796,7 +823,6 @@
 								{
 									"type": "item",
 									"text": "Existing grants / funding",
-									"checked": true,
 									"questions": [
 										{
 											"type": "list",
@@ -811,20 +837,7 @@
 													"DOD"
 												]
 											},
-											"items": [
-												{
-													"type": "grant",
-													"agency": "FAER",
-													"project": "Some text",
-													"amount": 100000
-												},
-												{
-													"type": "grant",
-													"agency": "Something else",
-													"project": "Some text",
-													"amount": 100000
-												}
-											],
+											"items": [],
 											"required": true
 										}
 									]
@@ -832,7 +845,6 @@
 								{
 									"type": "item",
 									"text": "New grant submissions",
-									"checked": true,
 									"questions": [
 										{
 											"type": "list",
@@ -847,14 +859,7 @@
 													"DOD"
 												]
 											},
-											"items": [
-												{
-													"type": "grant",
-													"agency": "Something else",
-													"project": "Some text",
-													"amount": 100000
-												}
-											],
+											"items": [],
 											"required": true
 										}
 									]
