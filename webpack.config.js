@@ -6,7 +6,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 
-module.exports = {
+module.exports = (env, argv) => ({
 	entry: {
 		bundle: './resources/assets/js/modules/index.js',
 		'vue-global': './resources/assets/js/vue-constructors/global.js',
@@ -27,8 +27,8 @@ module.exports = {
 		path: path.resolve(__dirname, 'public/build/'),
 		publicPath: '/build/',
 		filename: process.env.NODE_ENV === 'production'
-			? 'js/[name]-[chunkhash].js'
-			: 'js/[name].js',
+		? 'js/[name]-[chunkhash].js'
+		: 'js/[name].js',
 		libraryTarget: 'umd'
 	},
 	target: 'web',
@@ -79,17 +79,17 @@ module.exports = {
 			'public/build/css/*.map'
 		]),
 		new BundleAnalyzerPlugin({
-			analyzerMode: process.env.NODE_ENV === 'production'
-				? 'disabled'
-				: 'server',
+			analyzerMode: argv.watch
+				? 'server'
+				: 'disabled',
 			analyzerPort: 8088,
 			openAnalyzer: false,
 			generateStatsFile: true
 		}),
 		new MiniCssExtractPlugin({
 			filename: process.env.NODE_ENV === 'production'
-				? 'css/[name]-[contenthash].css'
-				: 'css/[name].css',
+			? 'css/[name]-[contenthash].css'
+			: 'css/[name].css',
 			allChunks: true
 		}),
 		new ManifestPlugin(),
@@ -116,4 +116,4 @@ module.exports = {
 			}
 		}
 	}
-};
+});

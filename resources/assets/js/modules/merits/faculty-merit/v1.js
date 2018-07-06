@@ -358,7 +358,7 @@ export function getTeachingFormalCourses() {
 	 *  or conferences.
 	 */
 
-	let teachingFormalCourses = 'N';
+	let teachingFormalCourses = '?';
 
 	try {
 		// TODO
