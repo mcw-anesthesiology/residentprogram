@@ -199,7 +199,7 @@ class QuestionnaireReportColumn extends ReportColumn {
 				array_map(function($item) use ($question) {
 					switch ($question['listType']) {
 					case 'text':
-						return $item['text'];
+						return empty($item['text']) ? '' : $item['text'];
 					default:
 						return self::displayListItemObject($item);
 					}
