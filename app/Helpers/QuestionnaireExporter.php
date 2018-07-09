@@ -11,7 +11,10 @@ class QuestionnaireExporter {
 			->whereHas('form', function ($query) use ($formProps) {
 				return $query->where($formProps);
 			})
-			->get();
+			->get()
+			->sortBy('user.full_name')
+			->values()
+			->all();
 
 		return self::meritReportsToArray($meritReports);
 	}
