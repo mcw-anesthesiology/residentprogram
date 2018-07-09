@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\MeritReport;
 use App\User;
 
+use App\Helpers\QuestionnaireExporter;
 use App\Helpers\QuestionnaireValidation;
 
 use Auth;
@@ -169,6 +170,14 @@ class MeritReportController extends RestController {
             ? 'success'
             : back();
     }
+
+	public function export(Request $request) {
+		return QuestionnaireExporter::exportReportsByForm(
+			$request->input('formProps'),
+			$request->input('startDate'),
+			$request->input('endDate')
+		);
+	}
 
     protected static function reportIsValid($form) {
         if (empty($form['pages'])) {

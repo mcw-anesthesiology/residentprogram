@@ -118,7 +118,7 @@ class RestController extends Controller
 		else
 			$query->orderBy("id", $request->input("order", "desc"));
 
-		$results = $query->get();
+		$results = $query->get($request->get('only'));
 
 		if ($request->has('revealing') && !empty($this->revealable)) {
 			$results->makeVisible(array_intersect(

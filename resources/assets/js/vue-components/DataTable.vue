@@ -71,6 +71,10 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		sortExport: {
+			type: Boolean,
+			default: true
+		},
 		exportFilename: {
 			type: String,
 			default(){
@@ -136,7 +140,11 @@ export default {
 				row.map(cell =>
 					escapeCsv(cell.toString())
 				).join(',')
-			).sort(sortIgnoreCase);
+			);
+
+			if (this.sortExport)
+				rows = rows.sort(sortIgnoreCase);
+
 			let table = header.concat(rows);
 			download(table.join('\n'), `${this.exportFilename}.csv`, 'text/csv');
 		}

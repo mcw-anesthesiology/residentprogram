@@ -10,6 +10,7 @@ import PendingEvalsReport from '@/vue-components/Reports/PendingEvalsReport.vue'
 import FacultyMeritReport from '@/vue-components/Reports/FacultyMeritReport.vue';
 import CaseOverlaps from '@/vue-components/Reports/CaseOverlaps/CaseOverlaps.vue';
 
+import ExportMeritReport from '@/vue-components/Reports/FacultyMerit/Export.vue';
 import FacultyPublicationsReport from '@/vue-components/Reports/FacultyMerit/Publications.vue';
 import FacultyScholarlyActivityReport from '@/vue-components/Reports/FacultyMerit/ScholarlyActivity.vue';
 import FacultySimulationsReport from '@/vue-components/Reports/FacultyMerit/Simulations.vue';
@@ -54,6 +55,7 @@ const routes = [
 		component: FacultyMeritReport,
 		props: {
 			reportTypes: [
+				'export',
 				'publications',
 				'scholarly-activity',
 				'simulations',
@@ -61,6 +63,10 @@ const routes = [
 			]
 		},
 		children: [
+			{
+				path: 'export',
+				component: ExportMeritReport
+			},
 			{
 				path: 'publications',
 				component: FacultyPublicationsReport

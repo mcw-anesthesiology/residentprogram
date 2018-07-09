@@ -73,10 +73,11 @@ export function csvHeader(
 }
 
 export function getHeaderCellText(cell: string | number | {text: string | number}): string {
-	if (cell.text && (typeof cell.text === 'string' || typeof cell.text === 'number'))
-		return `${cell.text}`;
-	else if (typeof cell === 'string' || typeof cell === 'number')
-		return `${cell}`;
+	const value = cell.text ? cell.text : cell;
+	if (typeof value === 'string')
+		return `"${value}"`;
+	if (typeof value === 'number')
+		return `${value}`;
 
 	return '';
 }

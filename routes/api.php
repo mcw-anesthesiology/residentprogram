@@ -89,6 +89,7 @@ Route::resource('case_log_details_schemas', 'Rest\CaseLogDetailsSchemaController
 ]]);
 
 Route::get('merits/by-user', 'Rest\MeritReportController@byUser');
+Route::post('merits/export', 'Rest\MeritReportController@export');
 Route::resource('merits', 'Rest\MeritReportController', ['only' => [
 	'index', 'store', 'show', 'update', 'destroy'
 ]]);
