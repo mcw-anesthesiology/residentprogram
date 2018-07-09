@@ -189,19 +189,23 @@ class QuestionnaireReportColumn extends ReportColumn {
 	}
 
 	private function walkListQuestion($question) {
-		$this->addCell(implode("\n", array_map(
-			function ($itemDisplay) {
-				return '- ' . $itemDisplay;
-			},
-			array_map(function($item) use ($question) {
-				switch ($question['listType']) {
-				case 'text':
-					return $item['text'];
-				default:
-					return self::displayListItemObject($item);
-				}
-			}, $question['items'])
-		)));
+		if (empty($question['items'])) {
+			$this->addCell('');
+		} else {
+			$this->addCell(implode("\n", array_map(
+				function ($itemDisplay) {
+					return '- ' . $itemDisplay;
+				},
+				array_map(function($item) use ($question) {
+					switch ($question['listType']) {
+					case 'text':
+						return $item['text'];
+					default:
+						return self::displayListItemObject($item);
+					}
+				}, $question['items'])
+			)));
+		}
 	}
 
 	private static function displayListItemObject($item, $keysToInclude = null) {
