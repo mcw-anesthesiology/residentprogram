@@ -1,6 +1,6 @@
 <template>
 	<div class="container body-block">
-		<form @submit="fetchExport">
+		<form @submit="handleSubmit">
 			<div class="controls-row row">
 				<div class="col-sm-6">
 					<label class="containing-label">
@@ -23,13 +23,25 @@
 			</div>
 
 			<div class="btn-lg-submit-container">
-				<button type="submit" class="btn btn-primary btn-lg">
+				<button type="submit" class="btn btn-primary btn-lg" name="display"
+						:disabled="!canSubmit">
 					Submit
+				</button>
+			</div>
+			<div v-if="exportResults" class="btn-lg-submit-container">
+				<show-hide-button v-model="show.results" class="btn btn-primary btn-lg">
+					<span slot="left-glyph" class="glyphicon glyphicon-list-alt"></span>
+					results
+				</show-hide-button>
+				<button type="button" class="btn btn-default btn-lg"
+						@click="handleDownload">
+					<span class="glyphicon glyphicon-download-alt"></span>
+					Download
 				</button>
 			</div>
 		</form>
 
-		<div v-if="thead && tbody" class="export-table-container">
+		<div v-if="show.results && thead && tbody" class="export-table-container">
 			<data-table
 				:thead="thead"
 				:data="tbody"
@@ -53,10 +65,12 @@
 <script>
 import DataTable from '@/vue-components/DataTable.vue';
 import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
+import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import { FEATURE_RELEASE_DATES } from '@/modules/constants.js';
 import { handleError } from '@/modules/errors.js';
 import { isoDateString, isoDateStringObject, lastYear } from '@/modules/date-utils.js';
+import { downloadCsv } from '@/modules/report-utils.js';
 import { jsonOrThrow, fetchConfig } from '@/modules/utils.js';
 
 export default {
@@ -67,7 +81,10 @@ export default {
 
 			forms: [],
 
-			exportResults: null
+			exportResults: null,
+			show: {
+				results: false
+			}
 		};
 	},
 	mounted() {
@@ -78,13 +95,13 @@ export default {
 			return FEATURE_RELEASE_DATES.FACULTY_MERIT;
 		},
 		thead() {
-			if (!this.exportResults)
+			if (!this.exportResults || !this.show.results)
 				return;
 
 			return this.exportResults.slice(0, 1);
 		},
 		tbody() {
-			if (!this.exportResults)
+			if (!this.exportResults || !this.show.results)
 				return;
 
 			return this.exportResults.slice(1);
@@ -102,6 +119,9 @@ export default {
 		},
 		exportFilename() {
 			return `National boards ${isoDateString(this.dates.startDate)}--${isoDateString(this.dates.endDate)}`;
+		},
+		canSubmit() {
+			return this.formId;
 		}
 	},
 	methods: {
@@ -123,6 +143,17 @@ export default {
 				handleError(err, this, 'There was a problem fetching forms');
 			});
 		},
+		handleSubmit(event) {
+			event.preventDefault();
+
+			if (!this.canSubmit)
+				return;
+
+			this.fetchExport();
+		},
+		handleDownload() {
+			downloadCsv(this.exportResults, 'Merit export results', this.dates);
+		},
 		fetchExport() {
 			fetch('/merits/export', {
 				...fetchConfig(),
@@ -143,7 +174,8 @@ export default {
 
 	components: {
 		DataTable,
-		AcademicYearSelector
+		AcademicYearSelector,
+		ShowHideButton
 	}
 };
 </script>

@@ -15,7 +15,7 @@ export function quoteValue(value: string | number): string {
 export function downloadCsv(
 	csv: Array<Array<string | number>>,
 	name: string,
-	dates: {startDate: DateLike, endDate: DateLike}
+	dates?: {startDate: DateLike, endDate: DateLike}
 ): void {
 
 	let filename = `${name}`;
