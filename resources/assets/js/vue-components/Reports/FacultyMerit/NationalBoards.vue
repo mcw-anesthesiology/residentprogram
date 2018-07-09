@@ -36,7 +36,7 @@ export default {
 			return [[
 				'Faculty member',
 				'National boards'
-			]]
+			]];
 		},
 		userBoards() {
 			if (!this.usersWithMerit)
@@ -57,7 +57,7 @@ export default {
 					user.full_name,
 					boards
 				];
-			})
+			});
 		},
 		exportFilename() {
 			return `National boards ${isoDateString(this.dates.startDate)}--${isoDateString(this.dates.endDate)}`;

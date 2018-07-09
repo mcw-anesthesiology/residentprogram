@@ -2,10 +2,27 @@
 
 namespace App\Helpers;
 
+use App\MeritReport;
+
 class QuestionnaireExporter {
-	// This is pretty memory-intensive because they need to be laid out vertically instead of horizontally.
-	// Could maybe use generators instead?
+	static function exportReportsByForm($formProps, $startDate = null, $endDate = null) {
+		$meritReports = MeritReport::with('user')
+			->where('status', 'complete')
+			->whereHas('form', function ($query) use ($formProps) {
+				return $query->where($formProps);
+			})
+			->get();
+
+		return self::meritReportsToArray($meritReports);
+	}
+
 	static function meritReportsToArray($meritReports) {
+		// This is pretty memory-intensive because they need to be laid out vertically instead of horizontally.
+		// Could maybe use generators instead?
+
+		if (empty($meritReports))
+			return [];
+
 		$header = new QuestionnaireReportHeader($meritReports[0]->report);
 		$sheet = self::addColumn([], $header->toArray());
 
@@ -196,6 +213,9 @@ class QuestionnaireReportColumn extends ReportColumn {
 		return implode("\n", array_map(function ($display) {
 			return "\t" . $display;
 		}, array_map(function ($key, $val) {
+			if ($key == 'type')
+				$val = ucfirst(camelCaseToWords($val));
+
 			return ucfirst(camelCaseToWords($key)) . ': ' . $val;
 		}, array_keys($item), $item)));
 	}
@@ -203,7 +223,7 @@ class QuestionnaireReportColumn extends ReportColumn {
 
 
 function camelCaseToWords($str) {
-	$words = preg_split('/[A-Z]/', $str, -1, PREG_SPLIT_NO_EMPTY);
+	$words = preg_split('/([[:upper:]][[:lower:]]+)/', $str, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 	if ($words === false)
 		return $str;
 
