@@ -1,6 +1,9 @@
 import Vue from 'vue';
+import VueRouter from 'vue-router';
 
 import { rollbar } from '@/modules/errors.js';
+
+Vue.use(VueRouter);
 
 Vue.config.errorHandler = (err, vm, info) => {
 	rollbar.error(`Error from Vue: ${err}, info: ${info}`);

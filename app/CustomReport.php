@@ -48,8 +48,6 @@ class CustomReport extends Model
 
 		$structure = $this->structure;
 
-        Log::debug($structure);
-
         $query->where(function ($query) use ($responseTable, $structure) {
             foreach ($structure['forms_questions'] as $form => $questions) {
                 $query->orWhere(function ($query) use ($responseTable, $form, $questions) {

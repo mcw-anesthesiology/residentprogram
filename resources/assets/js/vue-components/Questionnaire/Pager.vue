@@ -61,14 +61,9 @@
 </template>
 
 <script>
-import Vue from '@/vue-constructors/index.js';
-import VueRouter from 'vue-router';
-
 import PagerControls from './PagerControls.vue';
 
 import { getHeaderHeight } from '@/modules/dom-utils.js';
-
-Vue.use(VueRouter);
 
 export default {
 	props: {

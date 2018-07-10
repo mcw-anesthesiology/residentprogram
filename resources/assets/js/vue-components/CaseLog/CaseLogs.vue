@@ -26,13 +26,6 @@
 			:config="tconfig"
 			:data="caseLogs">
 		</data-table>
-
-		<component :is="detailsComponent"
-			v-if="detailsCaseLog"
-			:case-log="detailsCaseLog"
-			:locations="locations"
-			@close="closeCaseLog">
-		</component>
 	</div>
 </template>
 
@@ -43,14 +36,12 @@ import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import DataTable from '@/vue-components/DataTable.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
-import CaseLogViewer from './Viewer.vue';
 import CaseLogSummary from './Summary.vue';
 
-import CaseLogDetailsV1 from './V1/Details.vue';
 import CaseLogSummaryV1 from './V1/DetailsReport.vue';
 
 import { renderDateCell, createDateCell } from '@/modules/datatable-utils.js';
-import { emitError, logError } from '@/modules/errors.js';
+import { emitError } from '@/modules/errors.js';
 import { getFetchHeaders, okOrThrow } from '@/modules/utils.js';
 
 export default {
@@ -62,6 +53,10 @@ export default {
 		locations: {
 			type: Array,
 			required: true
+		},
+		editable: {
+			type: Boolean,
+			default: false
 		},
 		removable: {
 			type: Boolean,
@@ -79,20 +74,6 @@ export default {
 	},
 
 	computed: {
-		caseLogVersion() {
-			try {
-				return Number(this.detailsCaseLog.details_schema.case_log_version);
-			} catch (e) {
-				logError(e);
-			}
-
-			return 1;
-		},
-		detailsComponent() {
-			return this.caseLogVersion === 2
-				? 'CaseLogViewer'
-				: 'CaseLogDetailsV1';
-		},
 		v1CaseLogs() {
 			return this.caseLogs
 				.filter(caseLog => Number(caseLog.details_schema.case_log_version) !== 2);
@@ -111,9 +92,10 @@ export default {
 			]];
 		},
 		tconfig() {
-			let removeCaseLog = this.removeCaseLog;
-			let renderCaseLog = this.renderCaseLog;
-			let removable = this.removable;
+			const deleteCaseLog = this.deleteCaseLog;
+			const removable = this.removable;
+			const editable = this.editable;
+			const $router = this.$router;
 
 			let columns = [
 				{data: 'id'},
@@ -133,12 +115,22 @@ export default {
 						let parts = [];
 						parts.push('<span>');
 						parts.push(
-							`<button class="btn btn-sm btn-info"
+							`<button type="button" class="btn btn-info btn-sm"
 									@click="viewCaseLog">
 								<span class="glyphicon glyphicon-list-alt"></span>
 								View
 							</button>`
 						);
+
+						if (editable) {
+							parts.push(
+								`<button type="button" class="btn btn-info btn-sm"
+										@click="editCaseLog">
+									<span class="glyphicon glyphicon-pencil"></span>
+									Edit
+								</button>`
+							);
+						}
 
 						if (removable)
 							parts.push(
@@ -160,22 +152,14 @@ export default {
 						new Vue({
 							el,
 							methods: {
-								deleteCaseLog() {
-									fetch(`/case_logs/${caseLog.id}`, {
-										method: 'POST', // DELETE
-										headers: getFetchHeaders(),
-										credentials: 'same-origin',
-										body: JSON.stringify({
-											_method: 'DELETE'
-										})
-									}).then(okOrThrow).then(() => {
-										removeCaseLog(caseLog.id);
-									}).catch(err => {
-										emitError(err, this, 'There was a problem deleting the case log entry');
-									});
-								},
 								viewCaseLog() {
-									renderCaseLog(caseLog);
+									$router.push(`/${caseLog.id}/view`);
+								},
+								editCaseLog() {
+									$router.push(`/${caseLog.id}/edit`);
+								},
+								deleteCaseLog() {
+									deleteCaseLog(caseLog.id);
 								}
 							},
 							components: {
@@ -194,26 +178,17 @@ export default {
 	},
 
 	methods: {
-		renderCaseLog(caseLog) {
-			this.detailsCaseLog = caseLog;
-		},
-		removeCaseLog(caseLogId) {
+		deleteCaseLog(caseLogId) {
 			this.$emit('delete', caseLogId);
-		},
-		closeCaseLog() {
-			this.detailsCaseLog = null;
 		}
 	},
 
 	components: {
 		DataTable,
 		ShowHideButton,
-		CaseLogViewer,
 		CaseLogSummary,
 
-		CaseLogDetailsV1,
-		CaseLogSummaryV1,
-
+		CaseLogSummaryV1
 	}
 };
 </script>

@@ -23,8 +23,6 @@ import {
 	groupUsers
 } from '@/modules/utils.js';
 
-Vue.use(VueRouter);
-
 const routes = [
 	{
 		path: '/trainee',
