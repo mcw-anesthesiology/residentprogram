@@ -5,8 +5,6 @@ import ManageAlumni from '@/vue-components/Manage/Alumni.vue';
 import EditAlumni from '@/vue-components/Alumni/Edit.vue';
 import ImportAlumni from '@/vue-components/Alumni/Import.vue';
 
-Vue.use(VueRouter);
-
 export default function createAlumni(el){
 	return new Vue({
 		el,

@@ -46,6 +46,10 @@ const incompleteMessage = 'Please complete all required questions before submitt
 
 export default {
 	props: {
+		caseLog: {
+			type: Object,
+			required: false
+		},
 		formTitle: {
 			type: String,
 			required: false
@@ -73,16 +77,20 @@ export default {
 	},
 
 	data() {
-		return {
-			location: null,
-			caseDate: isoDateString(new Date()),
-			comments: '',
+		const schema = this.caseLog && this.caseLog.details
+			? this.caseLog.details
+			: this.schema;
 
-			schemaTitle: this.schema
-				? this.schema.title || ''
+		return {
+			location: this.caseLog ? this.caseLog.location_id : null,
+			caseDate: this.caseLog ? this.caseLog.case_date : isoDateString(new Date()),
+			comments: this.caseLog ? this.caseLog.comment : null,
+
+			schemaTitle: schema
+				? schema.title || ''
 				: '',
-			sections: this.schema
-				? this.schema.sections || []
+			sections: schema
+				? schema.sections || []
 				: []
 		};
 	},
@@ -116,19 +124,27 @@ export default {
 				return;
 			}
 
-			fetch('/case_logs', {
+			let target = '/case_logs';
+			let body = {
+				location_id: this.location,
+				case_date: this.caseDate,
+				comment: this.comments,
+				details_schema_id: this.detailsSchemaId,
+				details: {
+					title: this.schemaTitle,
+					sections: this.sections
+				}
+			};
+
+			if (this.caseLog) {
+				target += `/${this.caseLog.id}`;
+				body._method = 'PATCH';
+			}
+
+			fetch(target, {
 				method: 'POST',
 				...fetchConfig(),
-				body: JSON.stringify({
-					location_id: this.location,
-					case_date: this.caseDate,
-					comment: this.comments,
-					details_schema_id: this.detailsSchemaId,
-					details: {
-						title: this.schemaTitle,
-						sections: this.sections
-					}
-				})
+				body: JSON.stringify(body)
 			}).then(okOrThrow).then(() => {
 				this.$emit('submit');
 			}).catch(err => {

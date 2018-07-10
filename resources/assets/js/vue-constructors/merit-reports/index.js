@@ -19,8 +19,6 @@ import {
 } from '@/modules/merit-utils.js';
 import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
 
-Vue.use(VueRouter);
-
 const router = new VueRouter({
 	routes: [
 		{

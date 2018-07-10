@@ -39,39 +39,32 @@
 		</template>
 	</component-list>
 	<div v-else v-cloak>
-		<case-logs :case-logs="caseLogs"
-			:locations="locations">
+		<case-logs
+			:case-logs="caseLogs"
+			:locations="locations"
+			editable
+			removable
+			@delete="deleteCaseLog">
 		</case-logs>
 	</div>
 
-	@if($canLog)
-	<show-hide-button class="btn btn-primary center-block"
-			v-model="show.addCaseLog" v-cloak>
-		entry
-		<template slot="true">
-			Cancel add
-		</template>
-		<template slot="false">
-			Add
-		</template>
-		<template slot="glyph"></template>
-	</show-hide-button>
-	@endif
+	<router-link to="/new" class="btn btn-primary center-block">
+		Add entry
+	</router-link>
 
 </div>
 
-	@if($canLog)
-	<component v-if="show.addCaseLog" :is="editorComponent"
+	<router-view
 		form-title="RAAPS"
+		:case-logs="caseLogs"
 		:schema="detailsSchema.schema"
 		:details-schema-id="detailsSchema.id"
 		:locations="locations"
 		help-class="is-required"
 		@alert="alerts.push(arguments[0])"
-		@close="show.addCaseLog = false"
+		@close="$router.push('/')"
 		@submit="handleEditorSubmit">
-	</component>
-	@endif
+	</router-view>
 
 <div class="container">
 	<alert-list v-model="alerts"></alert-list>

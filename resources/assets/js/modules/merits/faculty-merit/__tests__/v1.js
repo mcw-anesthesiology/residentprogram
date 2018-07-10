@@ -177,8 +177,8 @@ describe('faculty merit v1 utils', () => {
 	});
 
 	describe('getTeachingFormalCourses', () => {
-		test('always returns N for now', () => {
-			expect(getTeachingFormalCourses()).toBe('N');
+		test('always returns ? for now', () => {
+			expect(getTeachingFormalCourses()).toBe('?');
 		});
 	});
 });

@@ -1,4 +1,5 @@
 import Vue from '@/vue-constructors/index.js';
+import VueRouter from 'vue-router';
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 import 'flatpickr/dist/flatpickr.css';
 
@@ -12,6 +13,8 @@ import CaseLogs from '@/vue-components/CaseLog/CaseLogs.vue';
 import CaseLogEditor from '@/vue-components/CaseLog/Editor.vue';
 import CaseLogEditorV1 from '@/vue-components/CaseLog/V1/Editor.vue';
 
+import { EditorById, ViewerById } from '@/vue-components/CaseLog/conditional-loaders.js';
+
 import { handleError } from '@/modules/errors.js';
 import {
 	getFetchHeaders,
@@ -21,9 +24,18 @@ import {
 } from '@/modules/utils.js';
 import { currentQuarter, isoDateStringObject } from '@/modules/date-utils.js';
 
+const router = new VueRouter({
+	routes: [
+		{ path: '/:id/view', component: ViewerById },
+		{ path: '/:id/edit', component: EditorById },
+		{ path: '/new', component: CaseLogEditor }
+	]
+});
+
 export function createCaseLog(el, propsData) {
 	return new Vue({
 		mixins: [ HasAlerts ],
+		router,
 		el,
 		props: {
 			user: {
@@ -145,7 +157,7 @@ export function createCaseLog(el, propsData) {
 				);
 			},
 			handleEditorSubmit() {
-				this.show.addCaseLog = false;
+				this.$router.push('/');
 				this.fetchCaseLogs();
 			}
 		},

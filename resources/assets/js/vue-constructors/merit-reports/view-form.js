@@ -3,8 +3,6 @@ import VueRouter from 'vue-router';
 
 import MeritChecklist from '@/vue-components/MeritCompensation/Checklist/Checklist.vue';
 
-Vue.use(VueRouter);
-
 const router = new VueRouter();
 
 router.afterEach(() => {
