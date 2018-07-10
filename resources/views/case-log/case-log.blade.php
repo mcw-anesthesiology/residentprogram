@@ -48,9 +48,12 @@
 		</case-logs>
 	</div>
 
-	<router-link to="/new" class="btn btn-primary center-block">
-		Add entry
-	</router-link>
+	<div class="btn-lg-submit-container">
+		<router-link to="/new" class="btn btn-primary btn-lg">
+			<span class="glyphicon glyphicon-plus"></span>
+			Add entry
+		</router-link>
+	</div>
 
 </div>
 
