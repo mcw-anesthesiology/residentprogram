@@ -7,7 +7,7 @@
 <table>
 	<thead>
 		<tr>
-			<th>www.residentprogram.com</th>
+			<th>{{ env('APP_URL') }}</th>
 		</tr>
 	</thead>
 	<tbody>
