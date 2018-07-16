@@ -58,7 +58,7 @@ class ReportColumn {
 	}
 
 	protected function addCell($val) {
-		$this->column[] = $this->getIndent() . $val;
+		$this->column[] = $this->getIndent() . addslashes($val);
 	}
 
 	public function toArray() {
