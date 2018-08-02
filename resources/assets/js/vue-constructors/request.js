@@ -148,8 +148,13 @@ export function createRequest(el, propsData) {
 						|| (this.requestType === 'app' && this.user.type === 'faculty')
 						|| (
 							this.requestType === 'intern360'
-							&& this.user.type === 'resident'
-							&& ['ca-1', 'ca-2', 'ca-3', 'fellow'].includes(this.user.training_level)
+							&& (
+								this.user.type === 'faculty'
+								|| (
+									this.user.type === 'resident'
+									&& ['ca-1', 'ca-2', 'ca-3', 'fellow'].includes(this.user.training_level)
+								)
+							)
 						)
 						|| (this.requestType === 'self'))
 					required.evaluatorId = false;
