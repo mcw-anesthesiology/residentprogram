@@ -115,7 +115,7 @@
 				mentorshipsDatatable.ajax.reload();
 			}).fail(function(response){
 				appendAlert(response, modal.find(".modal-header"));
-			}).finally(function(response) {
+			}).always(function(response) {
 				button.prop("disabled", false).removeClass("disabled");
 			});
 		});
@@ -136,7 +136,6 @@
 				url: "/mentorships/" + mentorshipId,
 				data: data
 			}).done(function(response){
-				button.prop("disabled", false).removeClass("disabled");
 				if(response === "success")
 					row.velocity("fadeOut", function(){
 						mentorshipsDatatable.row(row).remove().draw(false);
@@ -145,6 +144,7 @@
 					appendAlert(response, "#alert-container");
 			}).fail(function(response){
 				appendAlert(response, "#alert-container");
+			}).always(function(response) {
 				button.prop("disabled", false).removeClass("disabled");
 			});
 		});
