@@ -239,16 +239,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	}
 
 	public function scopeFormerResidents($query){
-		return $query->where(function($userQuery){
-			$userQuery->where("type", "!=", "resident")->orWhere(function($inactiveQuery){
-				$inactiveQuery->where("type", "resident")->where("status", "!=", "active");
-			});
-		})->whereHas("subjectEvaluations", function($evalsQuery){
-			$evalsQuery->where("status", "complete")->whereHas("form", function($formQuery){
-				$formQuery->where("type", "resident");
-			});
-		});
-
+		return $query->where('type', 'resident')->where('status', '!=', 'active');
 	}
 
 	public function scopeOfType($query, $type) {

@@ -39,7 +39,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="resident">Resident</label>
+            <label for="resident">Trainee</label>
             <select class="form-control select2" id="resident" name="mentee_id" style="width: 100%">
 		@foreach(array_keys($residentGroups) as $residentGroupLabel)
 			@if(count($residentGroups[$residentGroupLabel]) > 0)
@@ -112,17 +112,11 @@
 				method: method,
 				data: data
 			}).done(function(response){
-				button.prop("disabled", false).removeClass("disabled");
-				if(response === "success"){
-					modal.modal("hide");
-					mentorshipsDatatable.ajax.reload();
-				}
-				else{
-					appendAlert(response, modal.find(".modal-header"));
-				}
+				mentorshipsDatatable.ajax.reload();
 			}).fail(function(response){
-				button.prop("disabled", false).removeClass("disabled");
 				appendAlert(response, modal.find(".modal-header"));
+			}).finally(function(response) {
+				button.prop("disabled", false).removeClass("disabled");
 			});
 		});
 
