@@ -7,7 +7,11 @@
 <table>
 	<thead>
 		<tr>
-			<th>www.residentprogram.com</th>
+			<th>
+				<a href="{{ url('/') }}">
+					{{ url('/') }}
+				</a>
+			</th>
 		</tr>
 	</thead>
 	<tbody>
