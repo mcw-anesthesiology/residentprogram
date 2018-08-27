@@ -130,7 +130,7 @@ class FormReader {
 					: 'radio';
 
 				$result .= "<div class='question-option {$questionName} na-option-container'><label><span title='{$description}'>
-					<input type='{$inputType}' name='{$questionName}' data-n-a />
+					<input type='{$inputType}' name='{$questionName}' data-n-a value='' />
 					<br />
 					<span class='question-option-text'>" . self::NA_TEXT . "</span>
 				</span></label></div>";
