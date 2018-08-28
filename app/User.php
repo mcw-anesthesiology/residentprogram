@@ -285,18 +285,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			"password" => $password
 		];
 		$email = $this->email;
-		try{
+
+		try {
 			Mail::send("emails.new-account", $data, function($message) use ($email){
-				$message->from("admin@residentprogram.com", "ResidentProgram");
+				$message->from("accounts@residentprogram.com", "Resident Program Accounts");
 				$message->to($email);
 				$message->replyTo(config("app.admin_email"));
-				$message->subject("Welcome!");
+				$message->subject("Welcome to the MCW Department of Anesthesiology!");
 			});
 			return true;
-		}
-		catch(\Exception $e){
+		} catch(\Exception $e) {
 			Log::error("Problem sending email: ".$e);
 		}
+
 		return false;
 	}
 

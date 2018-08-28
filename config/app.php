@@ -6,6 +6,8 @@ return [
 
     'admin_email' => env('ADMIN_EMAIL', 'jmischka@mcw.edu'),
 
+	'include_intranet_welcome' => env('INCLUDE_INTRANET_WELCOME', true),
+
 	'external_links' => [
 		'Directory' => 'https://intranet.mcwanesthesiology.org/administration/department-directory/',
 		'Day Off' => 'https://www.dayoff.site'

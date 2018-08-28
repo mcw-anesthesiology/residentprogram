@@ -837,4 +837,8 @@ class MainController extends Controller
     public function calendar(Request $request) {
         return view("calendar");
     }
+
+	public function help() {
+		return view('help');
+	}
 }
