@@ -21,6 +21,7 @@ Route::get('/', function(){
 Route::get('home', function(){
 	return redirect('dashboard');
 });
+Route::get('help', 'MainController@help');
 
 Route::get('dashboard', 'MainController@dashboard');
 Route::get('dashboard/faculty', 'MainController@dashboardFaculty');
