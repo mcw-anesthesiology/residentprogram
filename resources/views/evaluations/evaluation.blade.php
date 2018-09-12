@@ -226,7 +226,7 @@
 				{{ $evaluation->comment }}
 			</p>
 		</div>
-	@elseif($user->isType("admin") || $user->id == $evaluation->evaluator_id)
+	@elseif($evaluation->userFullDisclosure($user))
 		<div class="well evaluation-comment-section">
 			<h3 class="sub-header">Evaluation Comment</h3>
 			<p>

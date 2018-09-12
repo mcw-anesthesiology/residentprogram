@@ -175,11 +175,12 @@ export default {
 			return this.itemsWithAccessors;
 		},
 		sortedItems() {
-			if (this.sortBy && this.sortOrder) {
+			const sortedItems = this.filteredItems.slice();
 
+			if (this.sortBy && this.sortOrder) {
 				return sortFunctions.has(this.sortBy)
-					? this.filteredItems.sort(sortFunctions.get(this.sortBy))
-					: this.filteredItems.sort((a, b) => {
+					? sortedItems.sort(sortFunctions.get(this.sortBy))
+					: sortedItems.sort((a, b) => {
 						let aValue;
 						let bValue;
 
@@ -209,7 +210,7 @@ export default {
 					});
 			}
 
-			return this.filteredItems;
+			return sortedItems;
 		},
 		paginatedItems() {
 			if (!this.paginate)
