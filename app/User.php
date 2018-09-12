@@ -154,6 +154,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $this->hasMany('App\UserSetting');
 	}
 
+	public function administratedPrograms() {
+		return $this->hasMany('App\ProgramAdministrator');
+	}
+
+	public function administratesEvaluation($evaluation) {
+		return $this->administratedPrograms->contains(function ($program) use ($evaluation) {
+			return $program->evaluationInProgram($evaluation);
+		});
+	}
+
 	public function saveSetting($name, $value) {
 		$setting = UserSetting::firstOrNew([
 			'user_id' => $this->id,
