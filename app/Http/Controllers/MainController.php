@@ -660,6 +660,7 @@ class MainController extends Controller
                     'ca-3'
                 ])
                 || ($user->usesFeature('FACULTY_EVALS') && $evaluation->form->type == 'faculty')
+				|| ($evaluation->status == 'complete' && $user->administratesEvaluation($evaluation))
             ) {
 
 				if ($user->isType("admin") || $evaluation->evaluator_id == $user->id) {

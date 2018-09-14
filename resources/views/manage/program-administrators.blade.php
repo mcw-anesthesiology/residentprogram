@@ -2,6 +2,16 @@
 
 @push('stylesheets')
 	<link rel="stylesheet" href="{{ elixir('css/vue-manage.css') }}" />
+	<style>
+		.component-list-header {
+			border-bottom: 1px solid #888;
+		}
+
+		.component-item-heading {
+			font-weight: bold;
+			font-size: 1.1em;
+		}
+	</style>
 @endpush
 
 @section('blockless-body')
@@ -23,42 +33,48 @@
 
 	<component-list v-if="programAdministrators"
 				 :items="programAdministrators"
-				 :fields="programAdministratorFields">
+				 :fields="programAdministratorFields"
+				 reloadable
+				 @reload="fetchProgramAdministrators">
 		<template slot="header">
-			<div class="row">
-				<div class="col-sm-3">
-					<span>User</span>
+			<div class="row component-list-header">
+				<div class="col-xs-3">
+					<span class="component-item-heading">User</span>
 				</div>
-				<div class="col-sm-2">
-					<span>Type</span>
+				<div class="col-xs-2">
+					<span class="component-item-heading">Type</span>
 				</div>
-				<div class="col-sm-3">
-					<span>Training level</span>
+				<div class="col-xs-2">
+					<span class="component-item-heading">Training level</span>
 				</div>
-				<div class="col-sm-3">
-					<span>Secondary training level</span>
+				<div class="col-xs-2">
+					<span class="component-item-heading">Secondary training level</span>
 				</div>
 			</div>
 		</template>
 		<template slot-scope="pa">
-			<div class="row">
-				<div class="col-sm-3">
+			<div class="row component-list-item">
+				<div class="col-xs-3">
 					<span>{{ pa.user.full_name }}</span>
 				</div>
-				<div class="col-sm-2">
+				<div class="col-xs-2">
 					<span>{{ ucfirst(pa.type) }}</span>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-xs-2">
 					<span>{{ renderTrainingLevel(pa.training_level) }}</span>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-xs-2">
 					<span>{{ renderSecondaryTrainingLevel(pa.secondary_training_level) }}</span>
 				</div>
-				<div class="col-sm-1">
+				<div class="col-xs-3">
 					<router-link :to="`edit/${pa.id}`" class="btn btn-sm btn-info">
 						<span class="glyphicon glyphicon-pencil"></span>
 						Edit
 					</router-link>
+					<confirmation-button class="btn btn-sm btn-danger" @click="handleDelete(pa.id)">
+						<span class="glyphicon glyphicon-remove"></span>
+						Delete
+					</confirmation-button>
 				</div>
 			</div>
 		</template>
