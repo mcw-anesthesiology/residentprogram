@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Vuex from 'vuex';
 
 import { rollbar } from '@/modules/errors.js';
 
+Vue.use(Vuex);
 Vue.use(VueRouter);
 
 Vue.config.errorHandler = (err, vm, info) => {

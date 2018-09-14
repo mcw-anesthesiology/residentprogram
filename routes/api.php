@@ -144,3 +144,7 @@ Route::resource('custom-reports', 'Rest\CustomReportController', ['only' => [
 Route::resource('blocks', 'Rest\BlockController', ['only' => [
 	'index', 'store', 'create', 'show', 'update', 'destroy'
 ]]);
+
+Route::resource('program-administrators', 'Rest\ProgramAdministratorController', ['only' => [
+	'index', 'store', 'create', 'show', 'update', 'destroy'
+]]);

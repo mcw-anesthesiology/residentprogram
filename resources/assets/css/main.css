@@ -409,11 +409,18 @@ body {
 	cursor: help;
 }
 
+.form-group > label,
 .containing-label {
 	width: 100%;
 	margin-bottom: 0;
 }
 
+.form-group > label input,
+.form-group > label textarea,
+.form-group > label select,
+.form-group > label .select2,
+.form-group > label button,
+.form-group > label .form-control,
 .containing-label input,
 .containing-label textarea,
 .containing-label select,
