@@ -7,13 +7,14 @@ import store from '@/vue-constructors/store.js';
 
 import ProgramAdministratorEditor from '@/vue-components/Manage/ProgramAdministrator/Editor.vue';
 import ComponentList from '@/vue-components/ComponentList.vue';
+import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 
 import { handleError, emitError } from '@/modules/errors.js';
 import {
 	renderTrainingLevel,
 	renderSecondaryTrainingLevel
 } from '@/modules/datatable-utils.js';
-import { fetchConfig, jsonOrThrow, okOrThrow, ucfirst } from '@/modules/utils.js';
+import { ucfirst } from '@/modules/utils.js';
 
 export default function createManageProgramAdministrators(el, propsData) {
 	return new Vue({
@@ -34,12 +35,7 @@ export default function createManageProgramAdministrators(el, propsData) {
 						`,
 						methods: {
 							handleSubmit(pa) {
-								fetch('/program-administrators', {
-									...fetchConfig(),
-									method: 'POST',
-									body: JSON.stringify(pa)
-								}).then(okOrThrow).then(() => {
-									this.$emit('reload');
+								this.$store.dispatch('programAdministrators/create', pa).then(() => {
 									this.$router.push('/');
 								}).catch(err => {
 									emitError(err, this, 'There was a problem saving.');
@@ -54,15 +50,6 @@ export default function createManageProgramAdministrators(el, propsData) {
 				{
 					path: '/edit/:id',
 					component: {
-						props: {
-							programAdministrators: {
-								type: Array,
-								required: true,
-								default() {
-									return [];
-								}
-							}
-						},
 						template: `
 							<program-administrator-editor v-if="editedPA"
 								:initialValue="editedPA"
@@ -73,22 +60,17 @@ export default function createManageProgramAdministrators(el, propsData) {
 						`,
 						computed: {
 							editedPA() {
-								return this.programAdministrators.find(pa =>
+								return this.$store.state.programAdministrators.programAdministrators.find(pa =>
 									pa.id == this.$route.params.id // eslint-disable-line eqeqeq
 								);
 							}
 						},
 						methods: {
 							handleSubmit(pa) {
-								fetch(`/program-administrators/${this.$route.params.id}`, {
-									...fetchConfig(),
-									method: 'POST',
-									body: JSON.stringify({
-										_method: 'PATCH',
-										...pa
-									})
-								}).then(okOrThrow).then(() => {
-									this.$emit('reload');
+								this.$store.dispatch('programAdministrators/update', {
+									id: this.$route.params.id,
+									...pa
+								}).then(() => {
 									this.$router.push('/');
 								}).catch(err => {
 									emitError(err, this, 'There was a problem saving.');
@@ -109,7 +91,6 @@ export default function createManageProgramAdministrators(el, propsData) {
 
 		data() {
 			return {
-				programAdministrators: [],
 				programAdministratorFields: [
 					'user_name',
 					'type',
@@ -125,9 +106,19 @@ export default function createManageProgramAdministrators(el, propsData) {
 		},
 
 		computed: {
+			programAdministrators() {
+				return this.$store.state.programAdministrators.programAdministrators;
+			}
 		},
 
 		mounted() {
+			this.$store.commit('programAdministrators/query', {
+				with: {
+					user: ['full_name']
+				}
+
+			});
+
 			this.fetchProgramAdministrators();
 		},
 
@@ -136,24 +127,20 @@ export default function createManageProgramAdministrators(el, propsData) {
 			renderTrainingLevel,
 			renderSecondaryTrainingLevel,
 			fetchProgramAdministrators() {
-				const q = $.param({
-					with: {
-						user: ['full_name']
-					}
-				});
-
-				fetch(`/program-administrators?${q}`, {
-					...fetchConfig()
-				}).then(jsonOrThrow).then(programAdministrators => {
-					this.programAdministrators = programAdministrators;
-				}).catch(err => {
+				this.$store.dispatch('programAdministrators/fetch').catch(err => {
 					handleError(err, this, 'There was a problem fetching program administrators');
+				});
+			},
+			handleDelete(id) {
+				this.$store.dispatch('programAdministrators/delete', id).catch(err => {
+					handleError(err, this, 'There was a problem deleting the program administrator');
 				});
 			}
 		},
 
 		components: {
-			ComponentList
+			ComponentList,
+			ConfirmationButton
 		}
 	});
 }

@@ -220,7 +220,10 @@ class Evaluation extends Model
 		return (
 			$user->isType('admin')
 			|| $user->id == $this->evaluator_id
-			|| $user->administratesEvaluation($this)
+			|| (
+				$this->status == 'complete'
+			   	&& $user->administratesEvaluation($this)
+			)
 		);
 	}
 
