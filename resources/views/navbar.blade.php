@@ -95,6 +95,7 @@
 			<li><a href="/manage/milestones-competencies">Milestones/Competencies</a></li>
 			<li><a href="/manage/mentors">Mentors</a></li>
 			<li><a href="/manage/block-assignments">Block Assignments</a></li>
+			<li><a href="/manage/program-administrators">Program Administrators</a></li>
 		@endif
 
 		@if (config('features.alumni'))

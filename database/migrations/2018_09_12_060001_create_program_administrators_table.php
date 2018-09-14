@@ -20,8 +20,6 @@ class CreateProgramAdministratorsTable extends Migration
 			$table->string('training_level')->nullable();
 			$table->string('secondary_training_level')->nullable();
 			$table->timestamps();
-
-			$table->foreign('user_id')->references('id')->on('users');
         });
     }
 
