@@ -5,7 +5,7 @@ import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
 import store from '@/vue-constructors/store.js';
 
-import ProgramAdministratorEditor from '@/vue-components/Manage/ProgramAdministrator/Editor.vue';
+import ProgramEditor from '@/vue-components/Manage/Programs/Editor.vue';
 import ComponentList from '@/vue-components/ComponentList.vue';
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 
@@ -16,7 +16,7 @@ import {
 } from '@/modules/datatable-utils.js';
 import { ucfirst } from '@/modules/utils.js';
 
-export default function createManageProgramAdministrators(el, propsData) {
+export default function createManagePrograms(el, propsData) {
 	return new Vue({
 		el,
 		store,
@@ -27,15 +27,15 @@ export default function createManageProgramAdministrators(el, propsData) {
 					path: '/add',
 					component: {
 						template: `
-							<program-administrator-editor
+							<program-editor
 								@submit="handleSubmit"
 								@alert="$emit('alert', ...arguments)"
 								@cancel="$router.push('/')">
-							</program-administrator-editor>
+							</program-editor>
 						`,
 						methods: {
 							handleSubmit(pa) {
-								this.$store.dispatch('programAdministrators/create', pa).then(() => {
+								this.$store.dispatch('programs/create', pa).then(() => {
 									this.$router.push('/');
 								}).catch(err => {
 									emitError(err, this, 'There was a problem saving.');
@@ -43,7 +43,7 @@ export default function createManageProgramAdministrators(el, propsData) {
 							}
 						},
 						components: {
-							ProgramAdministratorEditor
+							ProgramEditor
 						}
 					}
 				},
@@ -51,23 +51,23 @@ export default function createManageProgramAdministrators(el, propsData) {
 					path: '/edit/:id',
 					component: {
 						template: `
-							<program-administrator-editor v-if="editedPA"
+							<program-editor v-if="editedPA"
 								:initialValue="editedPA"
 								@submit="handleSubmit"
 								@alert="$emit('alert', ...arguments)"
 								@cancel="$router.push('/')">
-							</program-administrator-editor>
+							</program-editor>
 						`,
 						computed: {
 							editedPA() {
-								return this.$store.state.programAdministrators.programAdministrators.find(pa =>
+								return this.$store.state.programs.programs.find(pa =>
 									pa.id == this.$route.params.id // eslint-disable-line eqeqeq
 								);
 							}
 						},
 						methods: {
 							handleSubmit(pa) {
-								this.$store.dispatch('programAdministrators/update', {
+								this.$store.dispatch('programs/update', {
 									id: this.$route.params.id,
 									...pa
 								}).then(() => {
@@ -78,7 +78,7 @@ export default function createManageProgramAdministrators(el, propsData) {
 							}
 						},
 						components: {
-							ProgramAdministratorEditor
+							ProgramEditor
 						}
 					}
 				}
@@ -91,13 +91,13 @@ export default function createManageProgramAdministrators(el, propsData) {
 
 		data() {
 			return {
-				programAdministratorFields: [
+				programFields: [
 					'user_name',
 					'type',
 					'training_level',
 					'secondary_training_level'
 				],
-				programAdministratorAccessors: {
+				programAccessors: {
 					user_name(pa) {
 						return pa.user ? pa.user.full_name : '';
 					}
@@ -106,34 +106,27 @@ export default function createManageProgramAdministrators(el, propsData) {
 		},
 
 		computed: {
-			programAdministrators() {
-				return this.$store.state.programAdministrators.programAdministrators;
+			programs() {
+				return this.$store.state.programs.programs;
 			}
 		},
 
 		mounted() {
-			this.$store.commit('programAdministrators/query', {
-				with: {
-					user: ['full_name']
-				}
-
-			});
-
-			this.fetchProgramAdministrators();
+			this.fetchPrograms();
 		},
 
 		methods: {
 			ucfirst,
 			renderTrainingLevel,
 			renderSecondaryTrainingLevel,
-			fetchProgramAdministrators() {
-				this.$store.dispatch('programAdministrators/fetch').catch(err => {
-					handleError(err, this, 'There was a problem fetching program administrators');
+			fetchPrograms() {
+				this.$store.dispatch('programs/fetch').catch(err => {
+					handleError(err, this, 'There was a problem fetching programs');
 				});
 			},
 			handleDelete(id) {
-				this.$store.dispatch('programAdministrators/delete', id).catch(err => {
-					handleError(err, this, 'There was a problem deleting the program administrator');
+				this.$store.dispatch('programs/delete', id).catch(err => {
+					handleError(err, this, 'There was a problem deleting the program');
 				});
 			}
 		},

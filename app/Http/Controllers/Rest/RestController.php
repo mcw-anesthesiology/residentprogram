@@ -42,6 +42,8 @@ class RestController extends Controller
 						if (!in_array('type', $fields))
 							$fields[] = 'type';
 					}
+
+					// FIXME: This doesn't work with many-to-many relationships
 					$withArray[$relationship] = function($query) use ($fields) {
 						$query->select(array_merge(["id"], $fields));
 					};

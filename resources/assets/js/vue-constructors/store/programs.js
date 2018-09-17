@@ -1,30 +1,32 @@
 import { fetchConfig, jsonOrThrow, okOrThrow } from '@/modules/utils.js';
 
-const API_ROUTE = '/program-administrators';
+const API_ROUTE = '/programs';
+
+const QUERY = $.param({
+	with: {
+		administrators: true
+	}
+});
 
 export default {
 	namespaced: true,
 	state: {
-		programAdministrators: [],
-		query: ''
+		programs: []
 	},
 	mutations: {
-		query(state, query) {
-			state.query = $.param(query);
-		},
 		set(state, pas) {
-			state.programAdministrators = pas;
+			state.programs = pas;
 		},
 		add(state, pa) {
-			state.programAdministrators.push(pa);
+			state.programs.push(pa);
 		},
 		remove(state, id) {
-			state.programAdministrators = state.programAdministrators.filter(pa => Number(pa.id) !== Number(id));
+			state.programs = state.programs.filter(pa => Number(pa.id) !== Number(id));
 		}
 	},
 	actions: {
-		fetch({ state, commit }) {
-			return fetch(`${API_ROUTE}?${state.query}`, {
+		fetch({ commit }) {
+			return fetch(`${API_ROUTE}?${QUERY}`, {
 				...fetchConfig()
 			}).then(jsonOrThrow).then(pas => {
 				commit('set', pas);

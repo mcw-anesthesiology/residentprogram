@@ -402,7 +402,7 @@ class ManageController extends Controller
         return view('manage.highlighted-questions');
     }
 
-	public function programAdministrators() {
-		return view('manage.program-administrators');
+	public function programs() {
+		return view('manage.programs');
 	}
 }
