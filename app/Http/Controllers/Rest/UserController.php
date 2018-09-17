@@ -27,7 +27,8 @@ class UserController extends RestController
 		'mentees',
 		'watchedForms',
 		'meritReports',
-		'userSettings'
+		'userSettings',
+		'administratedPrograms'
 	];
 
 	protected $attributes = [

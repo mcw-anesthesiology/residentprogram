@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
 
-class ProgramAdministratorController extends RestController
+class ProgramController extends RestController
 {
 
 	public function __construct() {
@@ -15,16 +15,16 @@ class ProgramAdministratorController extends RestController
 	}
 
 	protected $relationships = [
-		'user'
+		'administrators'
 	];
 
 	protected $attributes = [
 		'id',
-		'user_id',
+		'name',
 		'type',
 		'training_level',
 		'secondary_training_level'
 	];
 
-	protected $model = \App\ProgramAdministrator::class;
+	protected $model = \App\Program::class;
 }

@@ -145,6 +145,6 @@ Route::resource('blocks', 'Rest\BlockController', ['only' => [
 	'index', 'store', 'create', 'show', 'update', 'destroy'
 ]]);
 
-Route::resource('program-administrators', 'Rest\ProgramAdministratorController', ['only' => [
+Route::resource('programs', 'Rest\ProgramController', ['only' => [
 	'index', 'store', 'create', 'show', 'update', 'destroy'
 ]]);

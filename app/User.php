@@ -155,7 +155,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	}
 
 	public function administratedPrograms() {
-		return $this->hasMany('App\ProgramAdministrator');
+		return $this->belongsToMany('App\Program', 'program_administrators', 'user_id', 'program_id');
 	}
 
 	public function administratesEvaluation($evaluation) {

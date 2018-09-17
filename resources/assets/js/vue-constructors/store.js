@@ -1,12 +1,12 @@
 import { Store } from 'vuex';
 
 import users from './store/users.js';
-import programAdministrators from './store/program-administrators.js';
+import programs from './store/programs.js';
 
 const store = new Store({
 	modules: {
 		users,
-		programAdministrators
+		programs
 	}
 });
 

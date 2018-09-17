@@ -3,22 +3,24 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<span class="panel-title">
-					Edit program administrator
+					Edit program
 				</span>
 			</div>
 			<div class="panel-body">
 				<div class="form">
 					<div class="form-group col-sm-6">
 						<label>
-							User
-							<select-two class="form-control" :options="users" v-model="user_id" />
+							Name
+							<input type="text" class="form-control" v-model="name" />
 						</label>
 					</div>
 					<div class="form-group col-sm-6">
 						<label>
 							Type
 							<select class="form-control" v-model="type">
-								<option value="resident">Trainee</option>
+								<option v-for="typeOption of types" :value="typeOption">
+									{{ ucfirst(typeOption) }}
+								</option>
 							</select>
 						</label>
 					</div>
@@ -49,11 +51,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
-import SelectTwo from '@/vue-components/SelectTwo.vue';
-
 import { renderTrainingLevel } from '@/modules/datatable-utils.js';
+import { ucfirst } from '@/modules/utils.js';
 
 export default {
 	props: {
@@ -64,10 +63,15 @@ export default {
 	},
 	data() {
 		const data = {
-			user_id: null,
+			name: '',
 			type: 'resident',
 			training_level: null,
 			secondary_training_level: null,
+
+			types: [
+				'resident',
+				'fellow'
+			],
 
 			trainingLevels: [
 				'intern',
@@ -85,14 +89,6 @@ export default {
 		return data;
 	},
 
-	mounted() {
-		this.$store.dispatch('users/fetch');
-	},
-
-	computed: mapGetters('users', {
-		users: 'groupedUsers'
-	}),
-
 	watch: {
 		initialValue(initialValue) {
 			Object.assign(this, initialValue);
@@ -101,12 +97,13 @@ export default {
 
 	methods: {
 		renderTrainingLevel,
+		ucfirst,
 		handleSubmit(event) {
 			event.preventDefault();
 
 			this.$emit('submit',
 				{
-					user_id: this.user_id,
+					name: this.name,
 					type: this.type,
 					training_level: this.training_level,
 					secondary_training_level: this.secondary_training_level
@@ -116,10 +113,6 @@ export default {
 		handleCancel() {
 			this.$emit('cancel');
 		}
-	},
-
-	components: {
-		SelectTwo
 	}
 };
 </script>

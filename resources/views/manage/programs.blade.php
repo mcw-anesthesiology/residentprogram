@@ -26,20 +26,20 @@
 		Add
 	</router-link>
 
-	<router-view :program-administrators="programAdministrators"
+	<router-view :program-administrators="programs"
 		@alert="alerts.push"
-		@reload="fetchProgramAdministrators">
+		@reload="fetchPrograms">
 	</router-view>
 
-	<component-list v-if="programAdministrators"
-				 :items="programAdministrators"
-				 :fields="programAdministratorFields"
+	<component-list v-if="programs"
+				 :items="programs"
+				 :fields="programFields"
 				 reloadable
-				 @reload="fetchProgramAdministrators">
+				 @reload="fetchPrograms">
 		<template slot="header">
 			<div class="row component-list-header">
 				<div class="col-xs-3">
-					<span class="component-item-heading">User</span>
+					<span class="component-item-heading">Name</span>
 				</div>
 				<div class="col-xs-2">
 					<span class="component-item-heading">Type</span>
@@ -53,28 +53,33 @@
 			</div>
 		</template>
 		<template slot-scope="pa">
-			<div class="row component-list-item">
-				<div class="col-xs-3">
-					<span>{{ pa.user.full_name }}</span>
+			<div class="component-list-item">
+				<div class="row">
+					<div class="col-xs-3">
+						<span>{{ pa.name }}</span>
+					</div>
+					<div class="col-xs-2">
+						<span>{{ ucfirst(pa.type) }}</span>
+					</div>
+					<div class="col-xs-2">
+						<span>{{ renderTrainingLevel(pa.training_level) }}</span>
+					</div>
+					<div class="col-xs-2">
+						<span>{{ renderSecondaryTrainingLevel(pa.secondary_training_level) }}</span>
+					</div>
+					<div class="col-xs-3">
+						<router-link :to="`edit/${pa.id}`" class="btn btn-sm btn-info">
+							<span class="glyphicon glyphicon-pencil"></span>
+							Edit
+						</router-link>
+						<confirmation-button class="btn btn-sm btn-danger" @click="handleDelete(pa.id)">
+							<span class="glyphicon glyphicon-remove"></span>
+							Delete
+						</confirmation-button>
+					</div>
 				</div>
-				<div class="col-xs-2">
-					<span>{{ ucfirst(pa.type) }}</span>
-				</div>
-				<div class="col-xs-2">
-					<span>{{ renderTrainingLevel(pa.training_level) }}</span>
-				</div>
-				<div class="col-xs-2">
-					<span>{{ renderSecondaryTrainingLevel(pa.secondary_training_level) }}</span>
-				</div>
-				<div class="col-xs-3">
-					<router-link :to="`edit/${pa.id}`" class="btn btn-sm btn-info">
-						<span class="glyphicon glyphicon-pencil"></span>
-						Edit
-					</router-link>
-					<confirmation-button class="btn btn-sm btn-danger" @click="handleDelete(pa.id)">
-						<span class="glyphicon glyphicon-remove"></span>
-						Delete
-					</confirmation-button>
+				<div class="row">
+
 				</div>
 			</div>
 		</template>
@@ -86,6 +91,6 @@
 @push('scripts')
 	<script src="{{ elixir('js/vue-manage.js') }}"></script>
 	<script>
-		createManageProgramAdministrators('main');
+		createManagePrograms('main');
 	</script>
 @endpush

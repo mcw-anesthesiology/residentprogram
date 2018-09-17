@@ -4,19 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProgramAdministrator extends Model
+class Program extends Model
 {
-	protected $table = 'program_administrators';
+	protected $table = 'programs';
 
 	protected $fillable = [
-		'user_id',
+		'name',
 		'type',
 		'training_level',
 		'secondary_training_level'
 	];
 
-	public function user() {
-		return $this->belongsTo('App\User');
+	public function administrators() {
+		return $this->belongsToMany('App\User', 'program_administrators', 'program_id', 'user_id');
 	}
 
 	// Similar logic also in app/Scopes/EvluationScope.php
