@@ -26,6 +26,8 @@ Route::get('help', 'MainController@help');
 Route::get('dashboard', 'MainController@dashboard');
 Route::get('dashboard/faculty', 'MainController@dashboardFaculty');
 
+Route::get('programs', 'ProgramsController@dashboard');
+
 Route::get('evaluation/{id}', 'MainController@evaluation');
 Route::post('evaluation/{id}', 'MainController@saveEvaluation');
 
