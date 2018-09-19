@@ -6,15 +6,10 @@ import HasAlerts from '@/vue-mixins/HasAlerts.js';
 import store from '@/vue-constructors/store.js';
 
 import ProgramEditor from '@/vue-components/Manage/Programs/Editor.vue';
+import ProgramListItem from '@/vue-components/Manage/Programs/ListItem.vue';
 import ComponentList from '@/vue-components/ComponentList.vue';
-import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 
 import { handleError, emitError } from '@/modules/errors.js';
-import {
-	renderTrainingLevel,
-	renderSecondaryTrainingLevel
-} from '@/modules/datatable-utils.js';
-import { ucfirst } from '@/modules/utils.js';
 
 export default function createManagePrograms(el, propsData) {
 	return new Vue({
@@ -116,24 +111,16 @@ export default function createManagePrograms(el, propsData) {
 		},
 
 		methods: {
-			ucfirst,
-			renderTrainingLevel,
-			renderSecondaryTrainingLevel,
 			fetchPrograms() {
 				this.$store.dispatch('programs/fetch').catch(err => {
 					handleError(err, this, 'There was a problem fetching programs');
 				});
 			},
-			handleDelete(id) {
-				this.$store.dispatch('programs/delete', id).catch(err => {
-					handleError(err, this, 'There was a problem deleting the program');
-				});
-			}
 		},
 
 		components: {
-			ComponentList,
-			ConfirmationButton
+			ProgramListItem,
+			ComponentList
 		}
 	});
 }
