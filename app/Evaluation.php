@@ -402,4 +402,8 @@ class Evaluation extends Model
 
 		return $this;
 	}
+
+	public function scopeComplete($query) {
+		return $query->where('status', 'complete');
+	}
 }

@@ -6263,6 +6263,10 @@ known-css-properties@^0.6.0:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/known-css-properties/-/known-css-properties-0.6.1.tgz#31b5123ad03d8d1a3f36bd4155459c981173478b"
 
+ky@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ky/-/ky-0.3.0.tgz#f783f5f621932d796db0f41c5628f94f42f85924"
+
 laravel-elixir@^6.0.0-15:
   version "6.0.0-18"
   resolved "https://registry.yarnpkg.com/laravel-elixir/-/laravel-elixir-6.0.0-18.tgz#138b22e5f456f926823dd8b6acf9a8d9de10de22"

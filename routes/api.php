@@ -145,6 +145,9 @@ Route::resource('blocks', 'Rest\BlockController', ['only' => [
 	'index', 'store', 'create', 'show', 'update', 'destroy'
 ]]);
 
+Route::get('programs/{id}/evaluations', 'Rest\ProgramController@evaluations');
+Route::post('programs/{id}/administrators/{userId}', 'Rest\ProgramController@addAdministrator');
+Route::delete('programs/{id}/administrators/{userId}', 'Rest\ProgramController@removeAdministrator');
 Route::resource('programs', 'Rest\ProgramController', ['only' => [
 	'index', 'store', 'create', 'show', 'update', 'destroy'
 ]]);

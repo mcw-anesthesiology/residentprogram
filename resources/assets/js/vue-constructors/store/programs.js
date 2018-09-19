@@ -1,17 +1,30 @@
-import { fetchConfig, jsonOrThrow, okOrThrow } from '@/modules/utils.js';
+import ky from '@/modules/ky.js';
+
 
 const API_ROUTE = '/programs';
 
 const QUERY = $.param({
-	with: {
-		administrators: true
+	withMany: {
+		administrators: ['users.id', 'full_name']
 	}
 });
 
 export default {
 	namespaced: true,
 	state: {
-		programs: []
+		programs: [],
+		evaluationsMap: new Map()
+	},
+	getters: {
+		withEvaluations({ programs, evaluationsMap }) {
+			return programs.map(p => ({
+				...p,
+				evaluations: evaluationsMap.get(p.id) || []
+			}));
+		},
+		evaluations({ evaluationsMap }, id) {
+			return evaluationsMap.get(id);
+		}
 	},
 	mutations: {
 		set(state, pas) {
@@ -20,50 +33,46 @@ export default {
 		add(state, pa) {
 			state.programs.push(pa);
 		},
+		addEvaluations(state, { id, evaluations }) {
+			state.evaluationMap.set(id, evaluations);
+		},
 		remove(state, id) {
 			state.programs = state.programs.filter(pa => Number(pa.id) !== Number(id));
 		}
 	},
 	actions: {
 		fetch({ commit }) {
-			return fetch(`${API_ROUTE}?${QUERY}`, {
-				...fetchConfig()
-			}).then(jsonOrThrow).then(pas => {
+			return ky.get(`${API_ROUTE}?${QUERY}`).json().then(pas => {
 				commit('set', pas);
 			});
 		},
-		create({ dispatch }, pa) {
-			return fetch(API_ROUTE, {
-				...fetchConfig(),
-				method: 'POST',
-				body: JSON.stringify(pa)
-			}).then(okOrThrow).then(() => {
-				// TODO: Don't refetch everyone
+		async fetchEvaluations({ commit }, id) {
+			const evaluations = await ky.get(`${API_ROUTE}/${id}/evaluations`).json();
+			commit('addEvaluations', { id, evaluations });
+		},
+		create({ dispatch }, program) {
+			return ky.post(API_ROUTE, { json: program }).then(() => {
 				dispatch('fetch');
 			});
 		},
-		update({ dispatch }, { id, ...pa }) {
-			return fetch(`${API_ROUTE}/${id}`, {
-				...fetchConfig(),
-				method: 'POST',
-				body: JSON.stringify({
-					_method: 'PATCH',
-					...pa
-				})
-			}).then(okOrThrow).then(() => {
-				// TODO: Don't refetch everyone
+		update({ dispatch }, { id, ...program }) {
+			return ky.patch(`${API_ROUTE}/${id}`, { json: program }).then(() => {
 				dispatch('fetch');
 			});
 		},
 		delete({ commit }, id) {
-			return fetch(`${API_ROUTE}/${id}`, {
-				...fetchConfig(),
-				method: 'POST', // DELETE
-				body: JSON.stringify({
-					_method: 'DELETE'
-				})
-			}).then(okOrThrow).then(() => {
+			return ky.delete(`${API_ROUTE}/${id}`).then(() => {
 				commit('remove', id);
+			});
+		},
+		addAdministrator({ dispatch }, { id, userId }) {
+			return ky.post(`${API_ROUTE}/${id}/administrators/${userId}`).then(() => {
+				dispatch('fetch');
+			});
+		},
+		removeAdministrator({ dispatch }, { id, userId }) {
+			return ky.delete(`${API_ROUTE}/${id}/administrators/${userId}`).then(() => {
+				dispatch('fetch');
 			});
 		}
 	}

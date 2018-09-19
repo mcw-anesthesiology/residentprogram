@@ -52,36 +52,8 @@
 				</div>
 			</div>
 		</template>
-		<template slot-scope="pa">
-			<div class="component-list-item">
-				<div class="row">
-					<div class="col-xs-3">
-						<span>{{ pa.name }}</span>
-					</div>
-					<div class="col-xs-2">
-						<span>{{ ucfirst(pa.type) }}</span>
-					</div>
-					<div class="col-xs-2">
-						<span>{{ renderTrainingLevel(pa.training_level) }}</span>
-					</div>
-					<div class="col-xs-2">
-						<span>{{ renderSecondaryTrainingLevel(pa.secondary_training_level) }}</span>
-					</div>
-					<div class="col-xs-3">
-						<router-link :to="`edit/${pa.id}`" class="btn btn-sm btn-info">
-							<span class="glyphicon glyphicon-pencil"></span>
-							Edit
-						</router-link>
-						<confirmation-button class="btn btn-sm btn-danger" @click="handleDelete(pa.id)">
-							<span class="glyphicon glyphicon-remove"></span>
-							Delete
-						</confirmation-button>
-					</div>
-				</div>
-				<div class="row">
-
-				</div>
-			</div>
+		<template slot-scope="program">
+			<program-list-item :program="program" @alert="alerts.push" />
 		</template>
 	</component-list>
 </div>
