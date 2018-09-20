@@ -68,8 +68,8 @@ class CreateTableHighlightedQuestions extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('highlighted_questions');
-        Schema::dropIfExists('highlighted_questions_questions');
 		Schema::dropIfExists('highlighted_questions_questions_values');
+		Schema::dropIfExists('highlighted_questions_questions');
+        Schema::dropIfExists('highlighted_questions');
     }
 }

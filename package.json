@@ -10,6 +10,9 @@
   "private": true,
   "scripts": {
     "start": "yarn watch",
+    "up": "cd laradock && docker-compose up -d apache2 mysql",
+    "shell": "cd laradock && docker-compose exec --user=laradock workspace bash",
+    "down": "cd laradock && docker-compose down",
     "build": "run-s build:webpack wait build:gulp",
     "rebuild": "run-s remake build",
     "build:webpack": "NODE_ENV=production webpack -p --mode production",
