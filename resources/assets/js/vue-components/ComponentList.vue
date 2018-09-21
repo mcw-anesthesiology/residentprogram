@@ -130,7 +130,7 @@ export default {
 						.reduce((i, [field, accessor]) => {
 							i[field] = accessor(item, 'search');
 							return i;
-						}, item);
+						}, {...item});
 				})
 				: this.items;
 		},

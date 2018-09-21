@@ -7,47 +7,69 @@
 
 		<fieldset>
 			<legend>Filters</legend>
-			<label>
-				Status
-				<v-select v-model="statusFilter" :options="statusOptions.map(o => ({label: ucfirst(o), value: o}))" />
-			</label>
 
-			<label v-if="subjects">
-				Subject
-				<v-select :options="subjects" v-model="subjectFilter"
-					multiple
-				/>
-			</label>
+			<div class="filters-container">
+				<label>
+					Status
+					<v-select v-model="statusFilter" :options="statusOptions.map(o => ({label: ucfirst(o), value: o}))" />
+				</label>
 
-			<label v-if="evaluators">
-				Evaluator
-				<v-select :options="evaluators" v-model="evaluatorFilter"
-					multiple
-				/>
-			</label>
-			<label v-if="forms">
-				Form
-				<v-select :options="forms" v-model="formFilter"
-					multiple
-				/>
-			</label>
+				<label v-if="subjects">
+					Subject
+					<v-select :options="subjects" v-model="subjectFilter"
+						multiple
+					/>
+				</label>
+
+				<label v-if="evaluators">
+					Evaluator
+					<v-select :options="evaluators" v-model="evaluatorFilter"
+						multiple
+					/>
+				</label>
+				<label v-if="forms">
+					Form
+					<v-select :options="forms" v-model="formFilter"
+						multiple
+					/>
+				</label>
+			</div>
 		</fieldset>
 
-		<component-list>
+		<component-list :items="evaluationsToShow" :fields="fields" :fieldAccessors="fieldAccessors">
 			<template slot-scope="evaluation">
-				<pre>{{ JSON.stringify(evaluation) }}</pre>
+				<slot v-bind="evaluation">
+					<evaluation-list-item :evaluation="evaluation" />
+				</slot>
 			</template>
 		</component-list>
 	</section>
 </template>
 
+<style>
+
+@supports (display: grid) {
+	.filters-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, 200px);
+		grid-gap: 1em;
+		justify-content: end;
+	}
+}
+</style>
+
 <script>
 import dlv from 'dlv';
 
+import VSelect from 'vue-select';
+
+import EvaluationListItem from './EvaluationListItem.vue';
+import ComponentList from './ComponentList.vue';
 import StartEndDate from './StartEndDate.vue';
 
 import { logError } from '@/modules/errors.js';
 import * as dateUtils from '@/modules/date-utils.js';
+import { ucfirst } from '@/modules/utils.js';
 
 export default {
 	props: {
@@ -55,29 +77,33 @@ export default {
 			type: Array,
 			required: true
 		},
+		range: {
+			type: String,
+			default: dateUtils.DATE_RANGES.CURRENT_QUARTER
+		},
 
 		fields: {
 			type: Array,
 			default() {
 				return [
 					'id',
-					'subject',
-					'evaluator',
-					'form',
+					'subject_name',
+					'evaluator_name',
+					'form_title',
 					'evaluation_date',
-					'request_date',
-					'complete_date',
+					'requested',
+					'completed',
 					'status'
 				];
 			}
 		},
-		fieldAccesssors: {
+		fieldAccessors: {
 			type: Object,
 			default() {
 				return {
-					subject: e => dlv(e, 'subject.full_name'),
-					evaluator: e => dlv(e, 'evaluator.full_name'),
-					form: e => dlv(e, 'form.title'),
+					subject_name: e => dlv(e, 'subject.full_name'),
+					evaluator_name: e => dlv(e, 'evaluator.full_name'),
+					form_title: e => dlv(e, 'form.title'),
 					evaluation_date: e => (e.evaluation_date_start && e.evaluation_date_end)
 						? dateUtils.renderDateRange(
 							e.evaluation_date_start,
@@ -85,8 +111,8 @@ export default {
 							true
 						)
 						: '',
-					request_date: e => dateUtils.renderDate(e.request_date),
-					complete_date: e => dateUtils.renderDate(e.complete_date)
+					requested: e => dateUtils.renderDate(e.request_date),
+					completed: e => dateUtils.renderDate(e.complete_date)
 				};
 			}
 		}
@@ -96,10 +122,10 @@ export default {
 			// eslint-disable-next-line import/namespace
 			dates: dateUtils.isoDateStringObject(dateUtils[this.range]()),
 
-			statusFilter: '',
-			subjectFilter: null,
-			evaluatorFilter: null,
-			formFilter: null,
+			statusFilter: null,
+			subjectFilter: [],
+			evaluatorFilter: [],
+			formFilter: [],
 
 
 			statusOptions: [
@@ -152,21 +178,21 @@ export default {
 
 			if (this.statusFilter) {
 				evaluations = evaluations.filter(evaluation =>
-					evaluation.status.includes(this.statusFilter)
+					evaluation.status.includes(this.statusFilter.value)
 				);
 			}
 
-			if (this.subjectFilter) {
+			if (this.subjectFilter && this.subjectFilter.length > 0) {
 				const subjectIds = this.subjectFilter.map(v => v.value);
 				evaluations = evaluations.filter(e => subjectIds.includes(e.subject_id));
 			}
 
-			if (this.evaluatorFilter) {
+			if (this.evaluatorFilter && this.evaluatorFilter.length > 0) {
 				const evaluatorIds = this.evaluatorFilter.map(v => v.value);
 				evaluations = evaluations.filter(e => evaluatorIds.includes(e.evaluator_id));
 			}
 
-			if (this.formFilter) {
+			if (this.formFilter && this.formFilter.length > 0) {
 				const formIds = this.formFilter.map(v => v.value);
 				evaluations = evaluations.filter(e => formIds.includes(e.form_id));
 			}
@@ -174,7 +200,13 @@ export default {
 			return evaluations;
 		}
 	},
+	methods: {
+		ucfirst
+	},
 	components: {
+		VSelect,
+		EvaluationListItem,
+		ComponentList,
 		StartEndDate
 	}
 };

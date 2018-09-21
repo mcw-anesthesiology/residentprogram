@@ -406,4 +406,13 @@ class Evaluation extends Model
 	public function scopeComplete($query) {
 		return $query->where('status', 'complete');
 	}
+
+	public function getContentsAttribute() {
+		$formContents = $this->form->contents;
+
+		// TODO
+		Log::debug($formContents);
+
+		return $formContents;
+	}
 }

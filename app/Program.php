@@ -4,8 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Scopes\ProgramScope;
+
 class Program extends Model
 {
+	protected static function boot() {
+		parent::boot();
+
+		static::addGlobalScope(new ProgramScope);
+	}
+
 	protected $table = 'programs';
 
 	protected $fillable = [
@@ -31,7 +39,11 @@ class Program extends Model
 
 	public function getEvaluationsAttribute() {
 		$type = $this->type;
-		$query = Evaluation::complete()->whereHas('form', function ($formQuery) use ($type) {
+		$query = Evaluation::complete()->with([
+			'subject',
+			'evaluator',
+			'form'
+		])->whereHas('form', function ($formQuery) use ($type) {
 			return $formQuery->where('type', $type);
 		});
 

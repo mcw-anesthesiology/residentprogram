@@ -25,7 +25,8 @@ class EvaluationController extends RestController
 			'sendHash',
 			'saveComment',
 			'userEdit',
-			'decline'
+			'decline',
+			'contents'
 		]]);
 
 		$this->middleware(function ($request, $next) {
@@ -290,5 +291,9 @@ class EvaluationController extends RestController
 			return "success";
 		else
 			return back();
+	}
+
+	public function contents($id) {
+		return Evaluation::findOrFail($id)->contents;
 	}
 }

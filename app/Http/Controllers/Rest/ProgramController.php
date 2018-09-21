@@ -16,19 +16,15 @@ class ProgramController extends RestController
 
 	public function __construct() {
 		$this->middleware('auth');
-		$this->middleware('type:admin')->except(['evaluations']);
+		$this->middleware('type:admin')->except(['evaluations', 'index']);
 		$this->middleware(function ($request, Closure $next) {
 			$user = Auth::user();
 			$id = $request->route()->parameters()['id'];
 
-			if (!empty($user) && (
-				$user->isType('admin')
-				|| $user->administratedPrograms()->get(['id'])->contains($id)
-			)) {
-				return $next($request);
-			}
+			// Will fail if scope hides from user
+			Program::findOrFail($id);
 
-			abort(403);
+			return $next($request);
 		})->only(['evaluations']);
 	}
 
