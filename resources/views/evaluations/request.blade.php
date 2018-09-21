@@ -192,12 +192,12 @@
 					<div class="input-group">
 	@endif
 						<select-two class="form-control" id="evaluation-date"
-								placeholder="Select a month" required
+								placeholder="Select evaluation period" required
 								:options="evaluationDateOptions" v-model="evaluationDateJson"
 								:multiple="allowMultiple.evaluationDate"
 								:disabled="useCustomEvaluationDate && customEvaluationDate">
 							<option value="" v-if="!allowMultiple.evaluationDate">
-								Select an evaluation period
+								Select evaluation period
 							</option>
 						</select-two>
 
