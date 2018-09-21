@@ -2,24 +2,19 @@
 	<div class="container body-block">
 		<h1>Programs</h1>
 
-		<div class="program" v-for="program of programs">
-			<h2>{{ program.name }}</h2>
-
-			<evaluation-list :evaluations="program.evaluations"></evaluation-list>
-		</div>
+		<dashboard-program v-for="program of programs" :key="program.id"
+			:program="program" />
 	</div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 
-import EvaluationList from '@/vue-components/EvaluationList.vue';
+import DashboardProgram from './DashboardProgram.vue';
 
 export default {
 	mounted() {
-		this.$store.dispatch('programs/fetch').then(() => {
-			this.$store.dispatch('programs/fetchAllEvaluations');
-		});
+		this.$store.dispatch('programs/fetch');
 	},
 	computed: {
 		...mapGetters('programs', {
@@ -27,7 +22,7 @@ export default {
 		})
 	},
 	components: {
-		EvaluationList
+		DashboardProgram
 	}
 };
 </script>

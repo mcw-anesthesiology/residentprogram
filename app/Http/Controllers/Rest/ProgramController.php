@@ -52,9 +52,18 @@ class ProgramController extends RestController
 		$program->administrators()->detach($userId);
 	}
 
-	public function evaluations($id) {
+	public function evaluations(Request $request, $id) {
 		$program = Program::findOrFail($id);
+		$query = $program->evaluations();
 
-		return $program->evaluations;
+		if ($request->has('start')) {
+			$query->where('evaluation_date_end', '>=', $request->input('start'));
+		}
+
+		if ($request->has('end')) {
+			$query->where('evaluation_date_start', '<=', $request->input('end'));
+		}
+
+		return $query->get();
 	}
 }

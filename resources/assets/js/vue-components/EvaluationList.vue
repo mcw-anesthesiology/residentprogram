@@ -1,42 +1,39 @@
 <template>
 	<section class="evaluation-list">
 		<fieldset>
-			<legend>Evaluation Date filter</legend>
-			<start-end-date v-model="dates" all-time />
-		</fieldset>
-
-		<fieldset>
 			<legend>Filters</legend>
 
 			<div class="filters-container">
-				<label>
-					Status
-					<v-select v-model="statusFilter" :options="statusOptions.map(o => ({label: ucfirst(o), value: o}))" />
-				</label>
-
-				<label v-if="subjects">
-					Subject
-					<v-select :options="subjects" v-model="subjectFilter"
-						multiple
-					/>
-				</label>
-
-				<label v-if="evaluators">
-					Evaluator
-					<v-select :options="evaluators" v-model="evaluatorFilter"
-						multiple
-					/>
-				</label>
-				<label v-if="forms">
+				<label v-if="forms && forms.length > 1">
 					Form
 					<v-select :options="forms" v-model="formFilter"
 						multiple
 					/>
 				</label>
+				<label v-if="subjects && subjects.length > 1">
+					Subject
+					<v-select :options="subjects" v-model="subjectFilter"
+						multiple
+					/>
+				</label>
+				<label v-if="evaluators && evaluators.length > 1">
+					Evaluator
+					<v-select :options="evaluators" v-model="evaluatorFilter"
+						multiple
+					/>
+				</label>
+				<label v-if="statusOptions && statusOptions.length > 1">
+					Status
+					<v-select :options="statusOptions" v-model="statusFilter" />
+				</label>
+
 			</div>
 		</fieldset>
 
-		<component-list :items="evaluationsToShow" :fields="fields" :fieldAccessors="fieldAccessors">
+		<component-list :items="evaluationsToShow" :fields="fields"
+				:fieldAccessors="fieldAccessors"
+				defaultSortBy="id"
+				defaultSortOrder="desc">
 			<template slot-scope="evaluation">
 				<slot v-bind="evaluation">
 					<evaluation-list-item :evaluation="evaluation" />
@@ -65,10 +62,9 @@ import VSelect from 'vue-select';
 
 import EvaluationListItem from './EvaluationListItem.vue';
 import ComponentList from './ComponentList.vue';
-import StartEndDate from './StartEndDate.vue';
 
 import { logError } from '@/modules/errors.js';
-import * as dateUtils from '@/modules/date-utils.js';
+import { renderDate, renderDateRange } from '@/modules/date-utils.js';
 import { ucfirst } from '@/modules/utils.js';
 
 export default {
@@ -76,10 +72,6 @@ export default {
 		evaluations: {
 			type: Array,
 			required: true
-		},
-		range: {
-			type: String,
-			default: dateUtils.DATE_RANGES.CURRENT_QUARTER
 		},
 
 		fields: {
@@ -105,44 +97,51 @@ export default {
 					evaluator_name: e => dlv(e, 'evaluator.full_name'),
 					form_title: e => dlv(e, 'form.title'),
 					evaluation_date: e => (e.evaluation_date_start && e.evaluation_date_end)
-						? dateUtils.renderDateRange(
+						? renderDateRange(
 							e.evaluation_date_start,
 							e.evaluation_date_end,
 							true
 						)
 						: '',
-					requested: e => dateUtils.renderDate(e.request_date),
-					completed: e => dateUtils.renderDate(e.complete_date)
+					requested: e => renderDate(e.request_date),
+					completed: e => renderDate(e.complete_date)
 				};
 			}
 		}
 	},
 	data() {
 		return {
-			// eslint-disable-next-line import/namespace
-			dates: dateUtils.isoDateStringObject(dateUtils[this.range]()),
-
 			statusFilter: null,
 			subjectFilter: [],
 			evaluatorFilter: [],
-			formFilter: [],
-
-
-			statusOptions: [
-				'pending',
-				'complete',
-				'disabled',
-				'cancelled'
-			]
+			formFilter: []
 		};
 	},
 	computed: {
+		statusOptions() {
+			try {
+				if (this.evaluations.length > 0 && this.evaluations[0].subject) {
+					const set = new Set(this.evaluations.map(e => e.status));
+					return Array.from(set.values()).map(s => ({
+						label: ucfirst(s),
+						value: s
+					}));
+				}
+			} catch (e) {
+				logError(e);
+			}
+		},
 		subjects() {
 			try {
 				if (this.evaluations.length > 0 && this.evaluations[0].subject) {
-					return this.evaluations.map(e => ({
-						value: e.subject.id,
-						label: e.subject.full_name
+					const map = new Map();
+					for (const e of this.evaluations) {
+						map.set(e.subject_id, e.subject);
+					}
+
+					return Array.from(map.values()).map(s => ({
+						value: s.id,
+						label: s.full_name
 					}));
 				}
 			} catch (e) {
@@ -152,9 +151,14 @@ export default {
 		evaluators() {
 			try {
 				if (this.evaluations.length > 0 && this.evaluations[0].evaluator) {
-					return this.evaluations.map(e => ({
-						value: e.evaluator.id,
-						label: e.evaluator.full_name
+					const map = new Map();
+					for (const e of this.evaluations) {
+						map.set(e.evaluator_id, e.evaluator);
+					}
+
+					return Array.from(map.values()).map(e => ({
+						value: e.id,
+						label: e.full_name
 					}));
 				}
 			} catch (e) {
@@ -164,9 +168,14 @@ export default {
 		forms() {
 			try {
 				if (this.evaluations.length > 0 && this.evaluations[0].form) {
-					return this.evaluations.map(e => ({
-						value: e.form.id,
-						label: e.form.title
+					const map = new Map();
+					for (const e of this.evaluations) {
+						map.set(e.form_id, e.form);
+					}
+
+					return Array.from(map.values()).map(f => ({
+						value: f.id,
+						label: f.title
 					}));
 				}
 			} catch (e) {
@@ -178,7 +187,7 @@ export default {
 
 			if (this.statusFilter) {
 				evaluations = evaluations.filter(evaluation =>
-					evaluation.status.includes(this.statusFilter.value)
+					evaluation.status === this.statusFilter.value
 				);
 			}
 
@@ -206,8 +215,7 @@ export default {
 	components: {
 		VSelect,
 		EvaluationListItem,
-		ComponentList,
-		StartEndDate
+		ComponentList
 	}
 };
 </script>

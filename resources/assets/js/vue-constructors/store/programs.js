@@ -34,7 +34,7 @@ export default {
 			state.programs.push(pa);
 		},
 		addEvaluations(state, { id, evaluations }) {
-			const map = new Map(...state.evaluationsMap);
+			const map = new Map(state.evaluationsMap);
 			map.set(id, evaluations);
 
 			state.evaluationsMap = map;
@@ -52,8 +52,15 @@ export default {
 		fetchAllEvaluations({ state, dispatch }) {
 			return Promise.all(state.programs.map(p => dispatch('fetchEvaluations', p.id)));
 		},
-		async fetchEvaluations({ commit }, id) {
-			const evaluations = await ky.get(`${API_ROUTE}/${id}/evaluations`).json();
+		async fetchEvaluations({ commit }, { id, start, end }) {
+			const queryObj = {};
+			if (start)
+				queryObj.start = start;
+			if (end)
+				queryObj.end = end;
+
+			const query = $.param(queryObj);
+			const evaluations = await ky.get(`${API_ROUTE}/${id}/evaluations?${query}`).json();
 			commit('addEvaluations', { id, evaluations });
 		},
 		create({ dispatch }, program) {
