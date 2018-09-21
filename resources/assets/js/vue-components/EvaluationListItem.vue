@@ -1,5 +1,8 @@
 <template>
-	<li class="evaluation-list-item">
+	<li class="evaluation-list-item" @click="handleListItemClick">
+		<a :href="`/evaluation/${evaluation.id}`" class="value eval-id">
+			{{ evaluation.id }}
+		</a>
 		<div class="evaluation-details display-labels">
 			<div class="form-date-group value-group">
 				<span class="value subject">
@@ -31,14 +34,13 @@
 			</div>
 		</div>
 
-		<show-hide-button v-model="showEvaluation" class="btn btn-lg btn-info">
-			Evaluation
-		</show-hide-button>
-
-		<form-reader v-if="showEvaluation && contents"
-			:title="evaluation.form.title"
-			:contents="contents"
-			readonly />
+		<a :href="`/evaluation/${evaluation.id}`" target="_blank"
+				class="evaluation-link btn btn-lg btn-info">
+			<span>
+				View
+				<span class="glyphicon glyphicon-arrow-right"></span>
+			</span>
+		</a>
 	</li>
 </template>
 
@@ -46,17 +48,44 @@
 .evaluation-list-item {
 	border: 1px solid rgba(0, 0, 0, 0.15);
 	border-radius: 2px;
+	margin: 0.25em 0;
+	font-size: 1em;
+}
+
+.evaluation-list-item:nth-child(even) {
+	background-color: rgba(0, 0, 0, 0.03);
+}
+
+.evaluation-list-item:hover {
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.05);
 }
 
 /* TODO: Fallback for grid */
+
+.evaluation-list-item {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.evaluation-details {
+	flex: 1 1;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.value-group {
+	flex: 1 1;
+	display: flex;
+	flex-direction: column;
+}
 
 @supports (display: grid) {
 	.evaluation-list-item {
 		padding: 1em;
 		display: grid;
-		font-size: 1.1em;
 		grid-gap: 1em;
-		grid-template-columns: 1fr minmax(150px, 0.25fr);
+		grid-template-columns: 2em 1fr 7em;
 	}
 
 	.evaluation-details {
@@ -78,6 +107,14 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.eval-id {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: rgba(0, 0, 0, 0.55);
+	font-size: 1.15em;
 }
 
 .subject {
@@ -154,6 +191,11 @@ export default {
 	methods: {
 		async fetchContents() {
 			this.contents = await ky.get(`/evaluations/${this.evaluation.id}/contents`).json();
+		},
+		handleListItemClick(event) {
+			if (!event.defaultPrevented) {
+				window.open(`/evaluation/${this.evaluation.id}`);
+			}
 		}
 	},
 	components: {

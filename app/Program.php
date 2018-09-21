@@ -37,7 +37,7 @@ class Program extends Model
 		return $this->belongsToMany('App\User', 'program_administrators', 'program_id', 'user_id');
 	}
 
-	public function getEvaluationsAttribute() {
+	public function evaluations() {
 		$type = $this->type;
 		$query = Evaluation::complete()->with([
 			'subject',
@@ -62,7 +62,11 @@ class Program extends Model
 			});
 		}
 
-		return $query->get();
+		return $query;
+	}
+
+	public function getEvaluationsAttribute() {
+		return $this->evaluations()->get();
 	}
 
 	// Similar logic also in app/Scopes/EvluationScope.php

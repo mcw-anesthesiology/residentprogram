@@ -56,6 +56,7 @@ class UsersSeeder extends Seeder
 			'username' => 'fellow',
 			'type' => 'resident',
 			'training_level' => 'fellow',
+			'secondary_training_level' => 'Pediatric',
 			'status' => 'active',
 			'first_name' => 'Sample',
 			'last_name' => 'Fellow',

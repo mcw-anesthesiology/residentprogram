@@ -56,6 +56,10 @@
 		hr {
 			page-break-before: always;
 		}
+
+		.bottom-comment-container {
+			margin: 2em;
+		}
 	</style>
 @stop
 
@@ -278,6 +282,23 @@
 				{!! App\Helpers\FormReader::read($evaluation->form->xml_path) !!}
 
 				<hr />
+
+	@if($evaluation->evaluator_id == $user->id)
+		<div class="bottom-comment-container text-center">
+			<button type="button"
+					class="btn btn-primary"
+					data-toggle="modal"
+					data-target="#evaluation-comment-modal"
+		@if(!in_array($evaluation->status, ['pending', 'complete']))
+					disabled
+					title="Cannot add a comment to a disabled evaluation"
+		@endif
+					id="comment-evaluation">
+				<span class="glyphicon glyphicon-pencil"></span>
+				Evaluation comment
+			</button>
+		</div>
+	@endif
 
 	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 				<div class="submit-container text-center">

@@ -156,7 +156,8 @@ $factory->defineAs(App\Evaluation::class, "complete", function(Faker $faker) use
         "status" => "complete",
         "training_level" => $trainingLevel,
         "complete_date" => $faker->dateTimeBetween($evaluation["request_date"]),
-        "complete_ip" => str_random(10)
+		"complete_ip" => str_random(10),
+		'comment' => $faker->text
     ]);
 });
 

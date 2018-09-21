@@ -77,6 +77,10 @@
 
 		<li><a href="/dashboard/faculty">Faculty Evaluations</a></li>
 	@endif
+
+	@if (!empty($user->administratedPrograms))
+		<li><a href="/dashboard/programs">Programs</a></li>
+	@endif
 @endif
 
 @if ($user->isType('admin'))
