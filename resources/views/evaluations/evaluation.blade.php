@@ -84,7 +84,7 @@
 		@endif
 					id="comment-evaluation">
 				<span class="glyphicon glyphicon-pencil"></span>
-				Evaluation comment
+				Confidential evaluation comments
 			</button>
 			<button type="button"
 					class="btn btn-info"
@@ -295,7 +295,7 @@
 		@endif
 					id="comment-evaluation">
 				<span class="glyphicon glyphicon-pencil"></span>
-				Evaluation comment
+				Add confidential evaluation comments
 			</button>
 		</div>
 	@endif
