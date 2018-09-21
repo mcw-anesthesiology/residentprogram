@@ -7,3 +7,4 @@ export { default as createManageMilestonesCompetencies } from './milestones-comp
 export { default as createManageScheduledRequests } from './scheduled-requests.js';
 export { default as createManageNewsItems } from './news-items.js';
 export { default as createManageHighlightedQuestions } from './highlighted-questions.js';
+export { default as createManagePrograms } from './programs.js';

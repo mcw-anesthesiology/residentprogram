@@ -9,7 +9,7 @@
 		<meta name="author" content="Jacob Mischka">
 		<link rel="shortcut icon" href="/favicon.ico">
 
-		<title>Resident Program Evaluation System</title>
+		<title>{{ $user->full_name }} | {{ config('app.name') }}</title>
 
 	@if(App::environment("production"))
 		<script>

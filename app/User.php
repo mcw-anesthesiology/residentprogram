@@ -154,6 +154,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $this->hasMany('App\UserSetting');
 	}
 
+	public function administratedPrograms() {
+		return $this->belongsToMany('App\Program', 'program_administrators', 'user_id', 'program_id');
+	}
+
+	public function administratesEvaluation($evaluation) {
+		return $this->administratedPrograms->contains(function ($program) use ($evaluation) {
+			return $program->evaluationInProgram($evaluation);
+		});
+	}
+
 	public function saveSetting($name, $value) {
 		$setting = UserSetting::firstOrNew([
 			'user_id' => $this->id,
@@ -239,16 +249,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	}
 
 	public function scopeFormerResidents($query){
-		return $query->where(function($userQuery){
-			$userQuery->where("type", "!=", "resident")->orWhere(function($inactiveQuery){
-				$inactiveQuery->where("type", "resident")->where("status", "!=", "active");
-			});
-		})->whereHas("subjectEvaluations", function($evalsQuery){
-			$evalsQuery->where("status", "complete")->whereHas("form", function($formQuery){
-				$formQuery->where("type", "resident");
-			});
-		});
-
+		return $query->where('type', 'resident')->where('status', '!=', 'active');
 	}
 
 	public function scopeOfType($query, $type) {
@@ -294,18 +295,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			"password" => $password
 		];
 		$email = $this->email;
-		try{
+
+		try {
 			Mail::send("emails.new-account", $data, function($message) use ($email){
-				$message->from("admin@residentprogram.com", "ResidentProgram");
+				$message->from("accounts@residentprogram.com", "Resident Program Accounts");
 				$message->to($email);
 				$message->replyTo(config("app.admin_email"));
-				$message->subject("Welcome!");
+				$message->subject("Welcome to the MCW Department of Anesthesiology!");
 			});
 			return true;
-		}
-		catch(\Exception $e){
+		} catch(\Exception $e) {
 			Log::error("Problem sending email: ".$e);
 		}
+
 		return false;
 	}
 

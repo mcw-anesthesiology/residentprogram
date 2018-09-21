@@ -10,6 +10,7 @@ module.exports = (env, argv) => ({
 	entry: {
 		bundle: './resources/assets/js/modules/index.js',
 		'vue-global': './resources/assets/js/vue-constructors/global.js',
+		'vue-programs': './resources/assets/js/vue-constructors/programs.js',
 		'vue-form-builder': './resources/assets/js/vue-constructors/form-builder.js',
 		'vue-reports': './resources/assets/js/vue-constructors/reports.js',
 		'vue-milestone-competency-lists': './resources/assets/js/vue-constructors/milestone-competency-lists.js',

@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
 <form>
-	<title>Test Evaluation Form</title>
+	<title>Sample Fellow Evaluation Form</title>
 	<question name="q1" required="required" type="radio" weight="100">
-		<text>Rate the overall performance of this resident.</text>
-		<option description="Not at PGY-1" value="0">Not at PGY-1</option><option description="" value="1"/>
-		<option description="PGY-1" value="2">PGY-1</option><option description="" value="3"/>
-		<option description="CA-1" value="4">CA-1</option><option description="" value="5"/>
-		<option description="CA-2" value="6">CA-2</option><option description="" value="7"/>
-		<option description="CA-3" value="8">CA-3</option><option description="" value="9"/>
+		<text>Rate the overall performance of this fellow.</text>
+		<option description="Below fellow level" value="0">Below fellow</option><option description="" value="1"/>
+		<option description="Beginning fellow" value="2">Beginning fellow</option><option description="" value="3"/>
+		<option description="First-quarter fellow" value="4">First-quarter fellow</option><option description="" value="5"/>
+		<option description="Second-quarter fellow" value="6">Second-quarter fellow</option><option description="" value="7"/>
+		<option description="Third-quarter fellow" value="8">Third-quarter fellow</option><option description="" value="9"/>
 		<option description="Attending (aspirational)" value="10">Attending</option>
 	</question>
 	<question name="q2" required="required" type="radio" weight="100">
-		<text>Overall assessment for this time period. Based on the resident's current level of training (e.g. CA1, CA2, CA3), I feel that this resident:</text>
+		<text>Overall assessment for this time period. Based on the fellow's current level of training, I feel that this fellow:</text>
 		<option description="Did not meet expectations" value="0">Did not meet expectations</option>
 		<option description="Met expectations with concerns" value="1">Met expectations with concerns</option>
 		<option description="Met expectations" value="2">Met expectations</option>
 	</question>
 	<question name="q3" required="required" type="text" weight="100">
-		<text>Please write any comments, concerns, or recommendations you have for this resident.</text>
+		<text>Please write any comments, concerns, or recommendations you have for this fellow.</text>
 	</question>
 </form>

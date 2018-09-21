@@ -24,6 +24,7 @@ Route::resource('users', 'Rest\UserController', ['only' => [
 Route::resource('forms', 'Rest\FormController', ['only' => [
 	'index', 'store', 'show', 'update'
 ]]);
+Route::get('evaluations/{id}/contents', 'Rest\EvaluationController@contents');
 Route::patch('evaluations/{id}/remind', 'Rest\EvaluationController@remind');
 Route::patch('evaluations/{id}/cancel', 'Rest\EvaluationController@cancel');
 Route::patch('evaluations/{id}/hash', 'Rest\EvaluationController@sendHash');
@@ -142,5 +143,12 @@ Route::resource('custom-reports', 'Rest\CustomReportController', ['only' => [
 ]]);
 
 Route::resource('blocks', 'Rest\BlockController', ['only' => [
+	'index', 'store', 'create', 'show', 'update', 'destroy'
+]]);
+
+Route::get('programs/{id}/evaluations', 'Rest\ProgramController@evaluations');
+Route::post('programs/{id}/administrators/{userId}', 'Rest\ProgramController@addAdministrator');
+Route::delete('programs/{id}/administrators/{userId}', 'Rest\ProgramController@removeAdministrator');
+Route::resource('programs', 'Rest\ProgramController', ['only' => [
 	'index', 'store', 'create', 'show', 'update', 'destroy'
 ]]);

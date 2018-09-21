@@ -6263,6 +6263,10 @@ known-css-properties@^0.6.0:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/known-css-properties/-/known-css-properties-0.6.1.tgz#31b5123ad03d8d1a3f36bd4155459c981173478b"
 
+ky@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ky/-/ky-0.3.0.tgz#f783f5f621932d796db0f41c5628f94f42f85924"
+
 laravel-elixir@^6.0.0-15:
   version "6.0.0-18"
   resolved "https://registry.yarnpkg.com/laravel-elixir/-/laravel-elixir-6.0.0-18.tgz#138b22e5f456f926823dd8b6acf9a8d9de10de22"
@@ -10982,6 +10986,10 @@ vue-router@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"
 
+vue-select@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-2.5.1.tgz#9886e7123150a52dc8dbfe3202d0387268835aaa"
+
 vue-style-loader@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-4.1.0.tgz#7588bd778e2c9f8d87bfc3c5a4a039638da7a863"
@@ -11018,6 +11026,10 @@ vue2-editor@^2.4.2:
 vue@2.5.15:
   version "2.5.15"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.15.tgz#fdb67861dde967cd8d1b53116380f2f269b45202"
+
+vuex@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.0.1.tgz#e761352ebe0af537d4bb755a9b9dc4be3df7efd2"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"

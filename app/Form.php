@@ -60,9 +60,10 @@ class Form extends Model
 					if($item['type'] == 'question'){
 						$item['id'] = $childNode->getAttribute('name');
 						// Remove `q` from beginning of id
+						$item['questionId'] = $item['id'];
 						$item['questionIdNum'] = intval(substr($item['id'], 1));
 						$item['questionType'] = $childNode->getAttribute('type');
-						$item['weight'] = $childNode->getAttribute('weight');
+						$item['weight'] = intval($childNode->getAttribute('weight'));
 						$item['text'] = $childNode->getElementsByTagName('text')->item(0)->textContent;
 						$item['required'] = $childNode->hasAttribute('required');
 						$item['milestones'] = $this->milestoneQuestions->where('question_id', $item['id'])->pluck('milestone_id');

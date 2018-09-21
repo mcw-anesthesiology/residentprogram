@@ -36,7 +36,12 @@ $factory->defineAs(App\User::class, "resident", function(Faker $faker) use ($fac
     $user = $factory->raw(App\User::class);
     $resident = [
         "type" => "resident",
-        "training_level" => "ca-1"
+		"training_level" => $faker->randomElement([
+			'intern',
+			'ca-1',
+			'ca-2',
+			'ca-3'
+		])
     ];
     return array_merge($user, $resident);
 });
@@ -151,7 +156,8 @@ $factory->defineAs(App\Evaluation::class, "complete", function(Faker $faker) use
         "status" => "complete",
         "training_level" => $trainingLevel,
         "complete_date" => $faker->dateTimeBetween($evaluation["request_date"]),
-        "complete_ip" => str_random(10)
+		"complete_ip" => str_random(10),
+		'comment' => $faker->text
     ]);
 });
 

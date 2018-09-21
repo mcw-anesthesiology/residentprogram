@@ -197,7 +197,7 @@ class QuestionnaireReportColumn extends ReportColumn {
 		} else {
 			$this->addCell(implode("\n", array_map(
 				function ($itemDisplay) {
-					return '- ' . $itemDisplay;
+					return ' * ' . $itemDisplay;
 				},
 				array_map(function($item) use ($question) {
 					switch ($question['listType']) {
