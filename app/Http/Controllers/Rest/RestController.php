@@ -23,31 +23,53 @@ class RestController extends Controller
         $this->middleware("type:admin");
     }
 
+	protected function addFieldsAttributeRequirements($fields, $relationship = null) {
+		if(in_array("full_name", $fields)){
+			$index = array_search("full_name", $fields);
+			unset($fields[$index]);
+			$fields = array_values($fields);
+			$fields[] = "first_name";
+			$fields[] = "last_name";
+		}
+
+		if ($relationship == "form") {
+			if (!in_array("visibility", $fields))
+				$fields[] = "visibility";
+			if (!in_array('type', $fields))
+				$fields[] = 'type';
+		}
+
+		return $fields;
+	}
+
 	protected function getWithArray(Request $request) {
 		$withArray = [];
 
-		if($request->has("with")){
+		if ($request->has("with")) {
 			foreach(array_only($request->input("with"), $this->relationships) as $relationship => $fields){
 				if(is_array($fields)){
-					if(in_array("full_name", $fields)){
-						$index = array_search("full_name", $fields);
-						unset($fields[$index]);
-						array_values($fields);
-						$fields[] = "first_name";
-						$fields[] = "last_name";
-					}
-					if ($relationship == "form") {
-						if (!in_array("visibility", $fields))
-							$fields[] = "visibility";
-						if (!in_array('type', $fields))
-							$fields[] = 'type';
-					}
+
+					$fields = static::addFieldsAttributeRequirements($fields, $relationship);
+					$fields = array_merge(['id'], $fields);
+
 					$withArray[$relationship] = function($query) use ($fields) {
-						$query->select(array_merge(["id"], $fields));
+						$query->select($fields);
 					};
+				} else if ($fields && $fields !== "false") {
+						$withArray[] = $relationship;
 				}
-				else {
-					if ($fields && $fields !== "false")
+			}
+		}
+
+		// NOTE: The primary key of the relationship must be manually included if fields are filtered
+		if ($request->has('withMany')) {
+			foreach (array_only($request->input('withMany'), $this->relationships) as $relationship => $fields) {
+				if (is_array($fields)) {
+					$fields = static::addFieldsAttributeRequirements($fields, $relationship);
+					$withArray[$relationship] = function($query) use ($fields) {
+						$query->select($fields);
+					};
+				} else if ($fields && $fields !== "false") {
 						$withArray[] = $relationship;
 				}
 			}

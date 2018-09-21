@@ -156,6 +156,17 @@ class Evaluation extends Model
 		return empty($visibility) ? $this->form->visibility : $visibility;
 	}
 
+	public function getCommentAttribute($comment) {
+		if (Auth::check()) {
+			if ($this->userFullDisclosure(Auth::user()))
+				return $comment;
+
+			return null;
+		}
+
+		return $comment;
+	}
+
 	public function getUrlAttribute() {
 		return "<a href='/evaluation/{$this->id}'>{$this->id}</a>";
 	}
@@ -200,6 +211,20 @@ class Evaluation extends Model
 					]))
 				&& Auth::user()->id != $this->requested_by_id
 				&& Auth::user()->id != $this->evaluator_id);
+	}
+
+	public function userFullDisclosure($user) {
+		if (empty($user))
+			return false;
+
+		return (
+			$user->isType('admin')
+			|| $user->id == $this->evaluator_id
+			|| (
+				$this->status == 'complete'
+			   	&& $user->administratesEvaluation($this)
+			)
+		);
 	}
 
 	public function scopeNotHidden($query) {
@@ -376,5 +401,18 @@ class Evaluation extends Model
 			$this->addHidden(['responses', 'textResponses']);
 
 		return $this;
+	}
+
+	public function scopeComplete($query) {
+		return $query->where('status', 'complete');
+	}
+
+	public function getContentsAttribute() {
+		$formContents = $this->form->contents;
+
+		// TODO
+		Log::debug($formContents);
+
+		return $formContents;
 	}
 }

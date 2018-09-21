@@ -9,7 +9,7 @@
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
 			<label class="containing-label">
-				Lecture title
+				{{ titleLabel }}
 				<textarea class="form-control"
 					:value="title"
 					:readonly="isReadonly('title')"
@@ -25,7 +25,7 @@
 					:value="date"
 					:readonly="isReadonly('date')"
 					@input="$emit('input', {date: arguments[0]})">
-				Lecture date
+				{{ dateLabel }}
 			</multiple-unknown-date-selector>
 		</validated-form-group>
 		<validated-form-group prop="audience"
@@ -33,7 +33,7 @@
 				:show-errors="showErrors"
 				:invalid-class="helpClass">
 			<label class="containing-label">
-				Lecture audience (department, society, group, location, etc.)
+				{{ audienceLabel }}
 				<textarea class="form-control"
 					:value="audience"
 					:readonly="isReadonly('audience')"
@@ -74,10 +74,29 @@ export default {
 		audience: {
 			type: String,
 			default: ''
+		},
+		labels: {
+			type: Object,
+			required: false
 		}
 	},
 
 	computed: {
+		titleLabel() {
+			return (this.labels && this.labels.title)
+				? this.labels.title
+				: 'Title';
+		},
+		dateLabel() {
+			return (this.labels && this.labels.date)
+				? this.labels.date
+				: 'Date';
+		},
+		audienceLabel() {
+			return (this.labels && this.labels.audience)
+				? this.labels.audience
+				: 'Audience (department, society, group, location, etc.)';
+		},
 		validation() {
 			return validate(this);
 		},

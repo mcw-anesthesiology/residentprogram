@@ -401,4 +401,8 @@ class ManageController extends Controller
     public function highlightedQuestions() {
         return view('manage.highlighted-questions');
     }
+
+	public function programs() {
+		return view('manage.programs');
+	}
 }

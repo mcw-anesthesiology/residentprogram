@@ -77,6 +77,10 @@
 
 		<li><a href="/dashboard/faculty">Faculty Evaluations</a></li>
 	@endif
+
+	@if (!empty($user->administratedPrograms))
+		<li><a href="/dashboard/programs">Programs</a></li>
+	@endif
 @endif
 
 @if ($user->isType('admin'))
@@ -95,6 +99,7 @@
 			<li><a href="/manage/milestones-competencies">Milestones/Competencies</a></li>
 			<li><a href="/manage/mentors">Mentors</a></li>
 			<li><a href="/manage/block-assignments">Block Assignments</a></li>
+			<li><a href="/manage/programs">Programs</a></li>
 		@endif
 
 		@if (config('features.alumni'))
@@ -202,7 +207,7 @@
             <li class="disabled"><a>Account type: {{ ucfirst($user->specific_type) }}</a></li>
 			<li><a href="/user">Manage Account</a></li>
 	@if (config('features.evaluations'))
-            <li><a class="pointer" data-toggle="modal" data-target=".help-modal">Help</a></li>
+			<li><a href="/help">Help</a></li>
 	@endif
 			<li><a class="pointer" data-toggle="modal" data-target="#attribution-modal">Attributions</a></li>
 			<li><a href="/logout">Logout</a></li>

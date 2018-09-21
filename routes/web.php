@@ -21,9 +21,11 @@ Route::get('/', function(){
 Route::get('home', function(){
 	return redirect('dashboard');
 });
+Route::get('help', 'MainController@help');
 
 Route::get('dashboard', 'MainController@dashboard');
 Route::get('dashboard/faculty', 'MainController@dashboardFaculty');
+Route::get('dashboard/programs', 'ProgramsController@dashboard');
 
 Route::get('evaluation/{id}', 'MainController@evaluation');
 Route::post('evaluation/{id}', 'MainController@saveEvaluation');
@@ -66,6 +68,7 @@ Route::post('manage/block-assignments/table', 'ManageController@blockAssignments
 Route::post('manage/block-assignments/get', 'ManageController@getBlockAssignments');
 Route::get('manage/watched-forms', 'ManageController@watchedForms');
 Route::get('manage/user-features', 'ManageController@userFeatures');
+Route::get('manage/programs', 'ManageController@programs');
 Route::get('manage/highlighted-questions', 'ManageController@highlightedQuestions');
 
 Route::get('manage/scheduled-requests', 'ManageController@scheduledRequests');

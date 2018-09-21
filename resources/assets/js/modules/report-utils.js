@@ -9,7 +9,10 @@ import type { DateLike } from './date-utils.js';
 import type { User } from './utils.js';
 
 export function quoteValue(value: string | number): string {
-	return `"${value}"`;
+	if (typeof value === 'number')
+		return value.toString();
+
+	return `"${value.replace(/"/g, '""')}"`;
 }
 
 export function downloadCsv(

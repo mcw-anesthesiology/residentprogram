@@ -10,6 +10,9 @@
   "private": true,
   "scripts": {
     "start": "yarn watch",
+    "up": "cd laradock && docker-compose up -d apache2 mysql",
+    "shell": "cd laradock && docker-compose exec --user=laradock workspace bash",
+    "down": "cd laradock && docker-compose down",
     "build": "run-s build:webpack wait build:gulp",
     "rebuild": "run-s remake build",
     "build:webpack": "NODE_ENV=production webpack -p --mode production",
@@ -54,6 +57,7 @@
     "intl": "^1.2.5",
     "jsonschema": "^1.1.0",
     "jszip": "^3.1.3",
+    "ky": "^0.3.0",
     "localforage": "^1.5.0",
     "lodash": "^4.17.2",
     "lunr": "^0.7.2",
@@ -72,7 +76,9 @@
     "v-tooltip": "^2.0.0-beta.5",
     "vue": "2.5.15",
     "vue-router": "^3.0.1",
+    "vue-select": "^2.5.1",
     "vue2-editor": "^2.4.2",
+    "vuex": "^3.0.1",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {

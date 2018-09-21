@@ -31,7 +31,7 @@
         "phpspec/phpspec": "~2.1",
 		"symfony/dom-crawler": "^3.4.0",
 		"symfony/css-selector": "^3.1",
-        "laravel/homestead": "^4.0",
+        "laravel/homestead": "^7.17.0",
         "laravel/browser-kit-testing": "^2.0"
     },
     "autoload": {
