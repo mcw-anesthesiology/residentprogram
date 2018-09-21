@@ -1,8 +1,10 @@
 @extends('app')
 
-@section('blockless-body')
-	<h1>Programs</h1>
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir('css/vue-programs.css') }}" />
+@endpush
 
+@section('blockless-body')
 	<programs-dashboard></programs-dashboard>
 @endsection
 

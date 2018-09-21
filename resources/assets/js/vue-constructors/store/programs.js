@@ -22,8 +22,8 @@ export default {
 				evaluations: evaluationsMap.get(p.id) || []
 			}));
 		},
-		evaluations({ evaluationsMap }, id) {
-			return evaluationsMap.get(id);
+		evaluations({ evaluationsMap }) {
+			return id => evaluationsMap.get(id);
 		}
 	},
 	mutations: {
@@ -34,7 +34,10 @@ export default {
 			state.programs.push(pa);
 		},
 		addEvaluations(state, { id, evaluations }) {
-			state.evaluationMap.set(id, evaluations);
+			const map = new Map(...state.evaluationsMap);
+			map.set(id, evaluations);
+
+			state.evaluationsMap = map;
 		},
 		remove(state, id) {
 			state.programs = state.programs.filter(pa => Number(pa.id) !== Number(id));
@@ -45,6 +48,9 @@ export default {
 			return ky.get(`${API_ROUTE}?${QUERY}`).json().then(pas => {
 				commit('set', pas);
 			});
+		},
+		fetchAllEvaluations({ state, dispatch }) {
+			return Promise.all(state.programs.map(p => dispatch('fetchEvaluations', p.id)));
 		},
 		async fetchEvaluations({ commit }, id) {
 			const evaluations = await ky.get(`${API_ROUTE}/${id}/evaluations`).json();

@@ -27,7 +27,7 @@ class RestController extends Controller
 		if(in_array("full_name", $fields)){
 			$index = array_search("full_name", $fields);
 			unset($fields[$index]);
-			array_values($fields);
+			$fields = array_values($fields);
 			$fields[] = "first_name";
 			$fields[] = "last_name";
 		}
@@ -50,7 +50,7 @@ class RestController extends Controller
 				if(is_array($fields)){
 
 					$fields = static::addFieldsAttributeRequirements($fields, $relationship);
-					$fields = array_merge(['id', $fields]);
+					$fields = array_merge(['id'], $fields);
 
 					$withArray[$relationship] = function($query) use ($fields) {
 						$query->select($fields);
