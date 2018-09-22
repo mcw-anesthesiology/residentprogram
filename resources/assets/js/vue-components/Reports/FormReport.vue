@@ -23,7 +23,10 @@
 
 		<div v-if="report" class="container body-block">
 			<div class="report-evaluations">
-				<bootstrap-alert v-if="report.evals.length > 0" type="info">
+				<bootstrap-alert v-if="report.evals.length === 0" type="warning"
+					:text="`No evaluations found for ${report.formContents.title} in report parameters.`" />
+
+				<bootstrap-alert v-else-if="allSubjects.length > 1" type="info">
 
 					<div class="row">
 						<div class="col-md-8">
@@ -43,17 +46,14 @@
 						:thead="evalsThead" :config="allEvalsConfig" />
 
 				</bootstrap-alert>
-				<bootstrap-alert v-else type="warning"
-					:text="`No evaluations found for ${report.formContents.title} in report parameters.`" />
-
-				<section>
+					<section>
 					<div class="form-horizontal">
 
 						<div class="form-group">
 							<div class="col-sm-10">
 								<label class="containing-label">
 									User
-									<select-two class="form-control" :options="groupedUsers"
+									<select-two class="form-control" :options="userOptions"
 											v-model="subjectId">
 										<option value="">All</option>
 									</select-two>
@@ -162,6 +162,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import moment from 'moment';
 import round from 'lodash/round';
 
@@ -190,7 +191,7 @@ import {
 import {
 	getFetchHeaders,
 	jsonOrThrow,
-	fetchFormGroups
+	groupUsers
 } from '@/modules/utils.js';
 import {
 	isoDateStringObject,
@@ -220,9 +221,6 @@ export default {
 	props: {
 		users: {
 			type: Array
-		},
-		groupedUsers: {
-			type: Array
 		}
 	},
 	data() {
@@ -232,7 +230,6 @@ export default {
 			subjectId: null,
 			report: null,
 
-			groupedForms: [],
 			subjectEvals: [],
 
 			hideQuestions: [],
@@ -254,9 +251,24 @@ export default {
 		};
 	},
 
+	mounted() {
+		this.$store.dispatch('forms/fetch');
+	},
+
 	computed: {
+		...mapGetters('forms', ['groupedForms']),
+		allSubjects() {
+			if (!this.report)
+				return [];
+
+
+			return Array.from(Object.keys(this.report.subjectEvals)).map(subjectId => this.users.find(u => u.id === Number(subjectId)));
+		},
+		userOptions() {
+			return groupUsers(this.allSubjects);
+		},
 		subject() {
-			if(this.subjectId)
+			if (this.subjectId)
 				return this.users.find(user => user.id === Number(this.subjectId));
 		},
 		reportContents() {
@@ -389,6 +401,10 @@ export default {
 		}
 	},
 	watch: {
+		allSubjects(allSubjects) {
+			if (allSubjects.length === 1)
+				this.subjectId = allSubjects[0].id;
+		},
 		subjectId() {
 			this.fetchSubjectEvals();
 		},
@@ -403,14 +419,6 @@ export default {
 			this.disregardOption = Array(report.formContents.items.length)
 				.fill(DISREGARD_OPTION.get('faculty'));
 		}
-	},
-
-	created() {
-		fetchFormGroups().then(groupedForms => {
-			this.groupedForms = groupedForms;
-		}).catch(err => {
-			handleError(err, this, 'There was a problem fetching the list of forms');
-		});
 	},
 
 	methods: {

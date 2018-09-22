@@ -17,6 +17,7 @@ class RestController extends Controller
 	protected $attributes = [];
 	protected $relationshipAttributes = [];
 	protected $revealable = [];
+	protected $scopes = [];
 
     public function __construct() {
         $this->middleware("auth");
@@ -86,6 +87,12 @@ class RestController extends Controller
     public function index(Request $request){
 		$user = Auth::user();
         $query = $this->model::with($this->getWithArray($request));
+
+		if (!empty($this->scopes)) {
+			foreach ($this->scopes as $name => $scope) {
+				$query = $query->withGlobalScope($name, $scope);
+			}
+		}
 
 		foreach(array_filter($request->only($this->attributes)) as $name => $value){
 			if(is_array($value)){
@@ -187,10 +194,18 @@ class RestController extends Controller
      */
     public function show($id) {
 		$user = Auth::user();
+		$query = $this->model::with($this->relationships);
+
+		if (!empty($this->scopes)) {
+			foreach ($this->scopes as $name => $scope) {
+				$query = $query->withGlobalScope($name, $scope);
+			}
+		}
+
 		try {
-			$result = $this->model::with($this->relationships)->findOrFail($id);
+			$result = $query->findOrFail($id);
 		} catch (\Exception $e) {
-			$result = $this->model::with($this->relationships)->findOrFail(Hashids::decode($id)[0]);
+			$result = $query->findOrFail(Hashids::decode($id)[0]);
 		}
 
 		if (!$user->isType("admin")) {

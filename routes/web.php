@@ -85,6 +85,8 @@ Route::post('reports/case-overlaps/send-reports', 'AnesthesiaCaseController@send
 
 Route::post('report/aggregate', 'ReportController@aggregate');
 Route::post('report/specific', 'ReportController@specific');
+
+Route::get('report/form', 'ReportController@formReportPage');
 Route::post('report/form', 'ReportController@formReport');
 Route::post('report/export', 'ReportController@getTSV');
 Route::post('report/pdf', 'ReportController@getPDF');

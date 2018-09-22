@@ -156,6 +156,7 @@
                 </a>
             </li>
         @endif
+			<li><a href="/report/form">Form</a></li>
             <li><a href="/case-overlaps">Case overlaps</a></li>
           </ul>
         </li>

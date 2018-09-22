@@ -32,6 +32,8 @@ class ReportController extends Controller
         $this->middleware("auth");
         $this->middleware("shared");
         $this->middleware("type:admin", ["except" => [
+			'formReportPage',
+			'formReport',
 			"specific",
 			"getPDF"
 		]]);
@@ -699,8 +701,12 @@ class ReportController extends Controller
         return view("report.individual", $data);
     }
 
+	public function formReportPage(Request $request) {
+		return view('report.form-report');
+	}
+
     public function formReport(Request $request) {
-        // TODO: Allow not having to select a subject
+		$user = Auth::user();
         $startDate = Carbon::parse($request->input("startDate"));
         $startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($request->input("endDate"));
@@ -771,6 +777,15 @@ class ReportController extends Controller
             ->where("evaluation_date_start", "<", $endDate)
 			->orderBy('responses.id');
 
+		$userIsSubjectOrEvaluator = function($query) use ($user) {
+			return $query->where('subject_id' , $user->id)
+				->orWhere('evaluator_id', $user->id);
+		};
+
+		if (!$user->isType('admin')) {
+			$query = $query->where($userIsSubjectOrEvaluator);
+		}
+
 		$query->select("evaluation_id", "evaluator_id", "subject_id", "response",
 			"question_id", "evaluation_date_start", "evaluation_date_end",
 			"evaluators.first_name as evaluator_first",
@@ -788,6 +803,10 @@ class ReportController extends Controller
             ->where("evaluation_date_end", ">=", $startDate)
             ->where("evaluation_date_start", "<=", $endDate)
             ->orderBy('text_responses.id');
+
+		if (!$user->isType('admin')) {
+			$query = $query->where($userIsSubjectOrEvaluator);
+		}
 
         $textQuery->select("evaluation_id", "evaluator_id", "subject_id", "response",
 			"question_id", "evaluation_date_start", "evaluation_date_end",
@@ -823,10 +842,29 @@ class ReportController extends Controller
 
 		$formContents = $form->contents;
 
-        $data = compact("evals", "subjectEvals", "subjectResponses",
-			"averageResponses", "subjectPercentages", "averagePercentages",
-			"questionResponses", "subjectResponseValues", "startDate", "endDate",
-			"formContents", "evaluators", "evaluations");
+		// TODO: Think of some way to make showing averages work safely with text responses
+		// if (!$user->isType('admin')) {
+		// 	$isUser = function ($subjectId) use ($user) {
+		// 		return $subjectId == $user->id;
+		// 	};
+		//
+		// 	$subjectEvals = array_filter($subjectEvals, $isUser, ARRAY_FILTER_USE_KEY);
+		// 	$subjectResponses = array_filter($subjectResponses, $isUser, ARRAY_FILTER_USE_KEY);
+		// 	$subjectPercentages = array_filter($subjectPercentages, $isUser, ARRAY_FILTER_USE_KEY);
+		// 	$subjectResponseValues = array_filter($subjectResponseValues, $isUser, ARRAY_FILTER_USE_KEY);
+		// }
+
+		$data = compact(
+			"evals",
+			"subjectEvals",
+			"subjectResponses",
+			"averageResponses",
+			"subjectPercentages",
+			"averagePercentages",
+			"subjectResponseValues",
+			"formContents",
+			"evaluators"
+		);
 
     	return $data;
     }
