@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
 
+use App\Scopes\UserScope;
+
 use App\User;
 
 use Auth;
 
 class UserController extends RestController
 {
-
 	public function __construct() {
         $this->middleware('auth');
 		$this->middleware('type:admin', ['except' => [
@@ -18,6 +19,10 @@ class UserController extends RestController
 			'show',
 			'settings'
 		]]);
+
+		$this->scopes = [
+			'user' => new UserScope()
+		];
     }
 
 	protected $relationships = [

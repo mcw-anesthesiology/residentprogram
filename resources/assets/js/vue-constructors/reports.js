@@ -1,5 +1,8 @@
 import Vue from '@/vue-constructors/index.js';
 import VueRouter from 'vue-router';
+import { mapState } from 'vuex';
+
+import store from './store.js';
 
 import TraineeReport from '@/vue-components/Reports/TraineeReport.vue';
 import FacultyReport from '@/vue-components/Reports/FacultyReport.vue';
@@ -95,6 +98,7 @@ export function createReports(el){
 		router: new VueRouter({
 			routes
 		}),
+		store,
 		data(){
 			return {
 				reportType: 'trainee',
@@ -118,6 +122,22 @@ export function createReports(el){
 
 		methods: {
 			kebabCaseToWords
+		}
+	});
+}
+
+export function createFormReport(el) {
+	return new Vue({
+		el,
+		store,
+		mounted() {
+			this.$store.dispatch('users/fetch');
+		},
+		computed: {
+			...mapState('users', ['users'])
+		},
+		components: {
+			FormReport
 		}
 	});
 }

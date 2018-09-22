@@ -890,26 +890,6 @@ class ReportTest extends BrowserKitTestCase
 					]
 				]
 	        ],
-			"questionResponses" => [
-	            "q1" => [
-	                $this->responses["q1"][0]->response,
-	                $this->responses["q1"][1]->response,
-	                $this->responses["q1"][2]->response,
-	                $this->responses["q1"][3]->response
-	            ],
-	            "q2" => [
-	                $this->responses["q2"][0]->response,
-	                $this->responses["q2"][1]->response,
-	                $this->responses["q2"][2]->response,
-	                $this->responses["q2"][3]->response
-	            ],
-	            "q3" => [
-	                $this->textResponses[0]->response,
-	                $this->textResponses[1]->response,
-	                $this->textResponses[2]->response,
-	                $this->textResponses[3]->response
-	            ]
-	        ],
 			"subjectPercentages" => [
 				$this->residents[0]->id => [
 					"q1" => [

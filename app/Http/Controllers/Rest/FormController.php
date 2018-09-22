@@ -15,6 +15,10 @@ use App\MilestoneQuestion;
 
 class FormController extends RestController
 {
+	public function __construct() {
+		$this->middleware('auth');
+		$this->middleware('type:admin')->except(['index']);
+	}
 
 	protected $relationships = [
 		"evaluations",

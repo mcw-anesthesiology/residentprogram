@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Scopes\FormScope;
+
 use Storage;
 use Log;
 
@@ -11,6 +13,12 @@ use \DOMDocument;
 
 class Form extends Model
 {
+	protected static function boot(){
+		parent::boot();
+
+		static::addGlobalScope(new FormScope());
+	}
+
 	protected $table = "forms";
 
 	protected $casts = [

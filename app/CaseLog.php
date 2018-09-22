@@ -17,7 +17,7 @@ class CaseLog extends Model
 	protected static function boot(){
 		parent::boot();
 
-		static::addGlobalScope(new CaseLogScope);
+		static::addGlobalScope(new CaseLogScope());
 	}
 
 	protected $table = "case_logs";
