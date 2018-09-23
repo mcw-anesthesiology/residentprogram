@@ -1,5 +1,9 @@
 @extends('app')
 
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir('css/vue-reports.css') }}" />
+@endpush
+
 @section('blockless-body')
 
 <div class="container body-block">
