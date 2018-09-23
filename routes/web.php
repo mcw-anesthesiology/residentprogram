@@ -83,9 +83,8 @@ Route::post('reports/case-overlaps/pairings', 'AnesthesiaCaseController@getPairi
 Route::post('reports/case-overlaps/pairings/{userId}', 'AnesthesiaCaseController@getUserPairings');
 Route::post('reports/case-overlaps/send-reports', 'AnesthesiaCaseController@sendPairingReports');
 
-Route::post('report/aggregate', 'ReportController@aggregate');
-Route::post('report/specific', 'ReportController@specific');
-
+Route::get('report/trainee', 'ReportController@traineeReport');
+Route::post('report/trainee', 'ReportController@trainee');
 Route::get('report/form', 'ReportController@formReportPage');
 Route::post('report/form', 'ReportController@formReport');
 Route::post('report/export', 'ReportController@getTSV');

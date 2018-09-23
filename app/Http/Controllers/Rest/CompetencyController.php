@@ -8,6 +8,10 @@ use App\Competency;
 
 class CompetencyController extends RestController
 {
+	public function __construct() {
+		$this->middleware('auth');
+		$this->middleware('type:admin')->except(['index']);
+	}
 
 	protected $relationships = [
 		"competencies_questions",
@@ -22,7 +26,7 @@ class CompetencyController extends RestController
 	];
 
 	protected $model = \App\Competency::class;
-	
+
 	public function saveOrder(Request $request){
 		Competency::whereNotNull('order')->update(['order' => null]);
 		$successes = [];
@@ -38,13 +42,13 @@ class CompetencyController extends RestController
 					: 'Unknown';
 			}
 		}
-		
+
 		$results = [];
 		if(!empty($successes))
 			$results['success'] = $successes;
 		if(!empty($errors))
 			$results['error'] = $errors;
-			
+
 		return $results;
 	}
 

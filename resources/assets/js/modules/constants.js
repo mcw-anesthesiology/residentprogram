@@ -80,7 +80,7 @@ export const FELLOWSHIP_VALUE_MAPS: Map<?string, Map<number, string>> = new Map(
 		[10, 'Outstanding']
 	])],
 	['Pediatric', new Map([
-		[0, 'Bellow fellow level'],
+		[0, 'Below fellow level'],
 		[3, 'Developing, Not consistent'],
 		[5, 'Acceptable, Not yet secure'],
 		[7, 'Secure, Consistent'],

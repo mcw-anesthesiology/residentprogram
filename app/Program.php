@@ -26,7 +26,7 @@ class Program extends Model
 	// 	'evaluations'
 	// ];
 
-	const RESIDENT_TRAINING_LEVELS = [
+	public const RESIDENT_TRAINING_LEVELS = [
 		'intern',
 		'ca-1',
 		'ca-2',
@@ -70,6 +70,7 @@ class Program extends Model
 	}
 
 	// Similar logic also in app/Scopes/EvluationScope.php
+	// also in ReportController@trainee
 	public function evaluationInProgram($evaluation) {
 		if ($evaluation->form->type == $this->type) {
 			if (!empty($this->training_level)) {
@@ -82,6 +83,66 @@ class Program extends Model
 				!empty($this->secondary_training_level)
 				&& $this->secondary_training_level != $evaluation->subject->secondary_training_level
 			)
+				return false;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	// Very similar logic also in ReportsController@trainee
+	public function traineeInProgramQuery($query) {
+		if ($this->type == 'fellow') {
+			$type = 'resident';
+			$trainingLevel = 'fellow';
+		} else {
+			$type = $this->type;
+			$trainingLevel = $this->training_level;
+		}
+
+		$query->where('type', $type);
+
+		if (!empty($trainingLevel)) {
+			if ($this->training_level === 'resident') {
+				$query->whereIn('training_level', self::RESIDENT_TRAINING_LEVELS);
+			} else {
+				$query->where('training_level', $trainingLevel);
+			}
+		}
+
+		if (!empty($this->secondary_training_level)) {
+			$query->where('secondary_training_level', $this->secondary_training_level);
+		}
+
+		return $query;
+	}
+
+	public function trainees() {
+		return User::active()->where(function ($query) use ($program) { $program->traineeInProgramQuery($query); });
+	}
+
+	public function getTraineesAttribute() {
+		return $this->trainees()->get();
+	}
+
+	public function traineeInProgram($trainee) {
+		if ($trainee->type == $this->type) {
+			if (!empty($this->training_level)) {
+				if ($this->training_level == 'resident') {
+					if (!in_array($trainee->training_level, self::RESIDENT_TRAINING_LEVEL)) {
+						return false;
+					}
+				} else {
+					if ($trainee->training_level != $this->training_level)
+						return false;
+				}
+			}
+
+			if (
+				!empty($this->secondary_training_level)
+			   	&& $trainee->secondary_training_level != $this->secondary_training_level
+		   	)
 				return false;
 
 			return true;

@@ -1,6 +1,6 @@
 import Vue from '@/vue-constructors/index.js';
 import VueRouter from 'vue-router';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 import store from './store.js';
 
@@ -19,12 +19,7 @@ import FacultyScholarlyActivityReport from '@/vue-components/Reports/FacultyMeri
 import FacultySimulationsReport from '@/vue-components/Reports/FacultyMerit/Simulations.vue';
 import FacultyNationalBoardsReport from '@/vue-components/Reports/FacultyMerit/NationalBoards.vue';
 
-import { logError } from '@/modules/errors.js';
-import {
-	kebabCaseToWords,
-	fetchUsers,
-	groupUsers
-} from '@/modules/utils.js';
+import { kebabCaseToWords, } from '@/modules/utils.js';
 
 const routes = [
 	{
@@ -101,27 +96,39 @@ export function createReports(el){
 		store,
 		data(){
 			return {
-				reportType: 'trainee',
-				users: []
+				reportType: 'trainee'
 			};
 		},
+		mounted() {
+			this.$store.dispatch('users/fetch');
+		},
 		computed: {
+			...mapState('users', ['users']),
+			...mapGetters('users', ['groupedUsers']),
 			reportTypes(){
 				return routes.map(route => route.path.substring(1));
-			},
-			groupedUsers(){
-				return groupUsers(this.users);
 			}
-		},
-
-		created(){
-			fetchUsers().then(users => {
-				this.users = users;
-			}).catch(logError);
 		},
 
 		methods: {
 			kebabCaseToWords
+		}
+	});
+}
+
+export function createTraineeReport(el) {
+	return new Vue({
+		el,
+		store,
+		mounted() {
+			this.$store.dispatch('users/fetch');
+		},
+		computed: {
+			...mapState('users', ['users']),
+			...mapGetters('users', ['groupedUsers'])
+		},
+		components: {
+			TraineeReport
 		}
 	});
 }

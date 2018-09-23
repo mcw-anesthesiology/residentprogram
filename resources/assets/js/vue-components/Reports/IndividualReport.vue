@@ -133,7 +133,7 @@
 		</template>
 		<bootstrap-alert v-else type="warning">
 			No <strong>{{ trainingLevelDisplay }}</strong> evaluations found for
-			<strong>{{ subject.full_name }}</strong>
+			<strong>{{ report.subjects[subjectId] }}</strong>
 			between <strong>{{ renderDateCell(report.startDate.date) }}</strong>
 			and <strong>{{ renderDateCell(report.endDate.date) }}</strong>.
 		</bootstrap-alert>
@@ -143,7 +143,6 @@
 <script>
 import Color from 'color';
 import download from 'downloadjs';
-import groupBy from 'lodash/groupBy';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
@@ -184,9 +183,13 @@ import {
 export default {
 	mixins: [HasAlerts],
 	props: {
+		subjectId: {
+			type: Number,
+			required: true
+		},
 		subject: {
 			type: Object,
-			required: true
+			required: false
 		},
 		report: {
 			type: Object,
@@ -207,9 +210,6 @@ export default {
 		};
 	},
 	computed: {
-		subjectId(){
-			return this.subject.id;
-		},
 		trainingLevelDisplay(){
 			if(this.report.trainingLevel === 'all')
 				return;
@@ -217,7 +217,7 @@ export default {
 			return renderTrainingLevel(this.report.trainingLevel);
 		},
 		valueMap(){
-			if(this.report.trainingLevel === 'fellow')
+			if (this.report.trainingLevel === 'fellow')
 				return FELLOWSHIP_VALUE_MAPS.get(this.subject.secondary_training_level)
 					|| FELLOWSHIP_VALUE_MAPS.get(null);
 

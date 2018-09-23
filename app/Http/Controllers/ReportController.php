@@ -32,28 +32,12 @@ class ReportController extends Controller
         $this->middleware("auth");
         $this->middleware("shared");
         $this->middleware("type:admin", ["except" => [
+			'traineeReport',
 			'formReportPage',
 			'formReport',
-			"specific",
+			'trainee',
 			"getPDF"
 		]]);
-
-        $this->middleware(function ($request, $next) {
-			$user = Auth::user();
-	        $resident = User::find($request->input("resident"));
-	        if (
-				$resident == $user
-				|| $user->isType("admin")
-				|| $user->mentees->contains($resident)
-				|| (
-					$resident->isType('RESIDENT')
-					&& $user->usesFeature('RESIDENT_REPORTS')
-				)
-			)
-            	return $next($request);
-
-			return redirect('/dashboard')->with("error", "Requested report not authorized");
-		})->only('specific');
     }
 
 	public function reports() {
@@ -288,7 +272,42 @@ class ReportController extends Controller
 		return sqrt(array_sum(array_map(array($this, "sd_square"), $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
 	}
 
-    public function report($startDate, $endDate, $trainingLevel, $currentTrainingLevel = "all", $milestonesFilter = [], $reportSubject = null, $graphOption = null, $graphOrientation = null) {
+    public function trainee(Request $request) {
+		$user = Auth::user();
+		$startDate = $request->input("startDate");
+		$endDate = $request->input("endDate");
+		$trainingLevel = $request->input("trainingLevel");
+		$currentTrainingLevel = $request->input("currentTrainingLevel", "all");
+		$milestonesFilter = $request->input("milestones", []);
+
+		$filterNonAdminQuery = function($query) use ($user) {
+			if ($user->isType('trainee'))
+				return $query->where('subject_id', $user->id);
+
+			$query = $query->whereIn(
+				'subject_id',
+				$user->mentees->map(function($m) { return $m->id; })->toArray()
+			);
+
+			foreach ($user->administratedPrograms as $program) {
+				$query->orWhere(function($query) use ($program) {
+					$query->where('forms.type', $program->type);
+
+					if (!empty($program->training_level)) {
+						if ($program->training_level == 'resident') {
+							$query->whereIn('evaluations.training_level', App\Program::RESIDENT_TRAINING_LEVELS);
+						} else {
+							$query->where('evaluations.training_level', $program->training_level);
+						}
+					}
+
+					if (!empty($program->secondary_training_level)) {
+						$query->where('subjects.secondary_training_level', $program->secondary_training_level);
+					}
+				});
+			}
+		};
+
         $startDate = Carbon::parse($startDate);
         $startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($endDate);
@@ -341,7 +360,7 @@ class ReportController extends Controller
             })
             ->join("competencies", "competencies.id", "=", "competencies_questions.competency_id")
             ->join("forms", "forms.id", "=", "evaluations.form_id")
-            ->join("users", "users.id", "=", "evaluations.subject_id")
+            ->join("users as subjects", "subjects.id", "=", "evaluations.subject_id")
             ->whereIn("forms.type", ["resident", "fellow"])
             ->where("forms.evaluator_type", "faculty")
             ->where("evaluations.status", "complete")
@@ -359,8 +378,12 @@ class ReportController extends Controller
             $query->where("evaluations.training_level", $trainingLevel);
 
 		if ($currentTrainingLevel != "all") {
-			$query->where("users.type", "resident")
-				->where("users.training_level", $currentTrainingLevel);
+			$query->where("subjects.type", "resident")
+				->where("subjects.training_level", $currentTrainingLevel);
+		}
+
+		if (!$user->isType('admin')) {
+			$query->where($filterNonAdminQuery);
 		}
 
         $query->select("milestone_id", "milestones.title as milestone_title",
@@ -518,6 +541,9 @@ class ReportController extends Controller
             $reqQuery->where("evaluations.training_level", $trainingLevel);
 		if ($currentTrainingLevel != "all")
 			$reqQuery->where("subjects.training_level", $currentTrainingLevel);
+		if (!$user->isType('admin')) {
+			$reqQuery->where($filterNonAdminQuery);
+		}
 
         $reqQuery->select("subject_id", "evaluator_id", "requested_by_id",
 			"subjects.last_name as subject_last", "subjects.first_name as subject_first",
@@ -547,14 +573,8 @@ class ReportController extends Controller
             }
         });
 
-		if (isset($reportSubject)) {
-            $subjects = [];
-            $subject = User::find($reportSubject);
-            $subjects[$subject->id] = $subject->last_name.", ".$subject->first_name;
-        }
-
         $graphs = [];
-        $maxResponse = 10; // assuming
+        $maxResponse = 10; // FIXME
 
 		asort($subjects);
 		ksort($averageMilestone);
@@ -569,137 +589,42 @@ class ReportController extends Controller
             "averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate",
 			"subjectEvaluations");
 
-		if (!is_null($reportSubject)) {
-            $textQuery = DB::table("text_responses")
-                ->join("evaluations", "evaluations.id", "=", "evaluation_id")
-                ->join("users as evaluators", "evaluators.id", "=", "evaluations.evaluator_id")
-				->join("users as subjects", "subjects.id", "=", "evaluations.subject_id")
-                ->join("forms", "evaluations.form_id", "=", "forms.id")
-                ->where("evaluators.type", "faculty")
-                ->where("evaluations.status", "complete")
-                ->where("evaluations.evaluation_date_end", ">=", $startDate)
-                ->where("evaluations.evaluation_date_start", "<=", $endDate)
-                ->where("evaluations.subject_id", $reportSubject)
-                ->whereIn("forms.type", ["resident", "fellow"])
-                ->whereIn("forms.evaluator_type", ["faculty"])
-                ->orderBy('text_responses.id');
+		$textQuery = DB::table("text_responses")
+			->join("evaluations", "evaluations.id", "=", "evaluation_id")
+			->join("users as evaluators", "evaluators.id", "=", "evaluations.evaluator_id")
+			->join("users as subjects", "subjects.id", "=", "evaluations.subject_id")
+			->join("forms", "evaluations.form_id", "=", "forms.id")
+			->where("evaluators.type", "faculty")
+			->where("evaluations.status", "complete")
+			->where("evaluations.evaluation_date_end", ">=", $startDate)
+			->where("evaluations.evaluation_date_start", "<=", $endDate)
+			->whereIn("evaluations.subject_id", array_keys($subjects))
+			->whereIn("forms.type", ["resident", "fellow"])
+			->whereIn("forms.evaluator_type", ["faculty"])
+			->orderBy('text_responses.id');
 
-            if ($trainingLevel != "all")
-                $textQuery->where("evaluations.training_level", $trainingLevel);
-			if ($currentTrainingLevel != "all")
-				$textQuery->where("subjects.training_level", $currentTrainingLevel);
-
-            $textQuery->select("subject_id", "evaluators.first_name", "evaluators.last_name",
-                "forms.title as form_title", "evaluation_date_start", "evaluation_date_end",
-				"response");
-
-            $subjectTextResponses = $textQuery->get()->all();
-
-            $data["subjectTextResponses"] = $subjectTextResponses;
-
-            $reportEvaluationsQuery = DB::table("evaluations")
-				->join("users as evaluators", "evaluators.id", "=", "evaluations.evaluator_id")
-				->join("users as subjects", "subjects.id", "=", "evaluations.subject_id")
-                ->join("forms", "evaluations.form_id", "=", "forms.id")
-				->where("evaluators.type", "faculty")
-                ->where("evaluations.status", "complete")
-                ->where("evaluations.evaluation_date_end", ">=", $startDate)
-                ->where("evaluations.evaluation_date_start", "<=", $endDate)
-                ->where("evaluations.subject_id", $reportSubject)
-                ->whereIn("forms.type", ["resident", "fellow"])
-                ->whereIn("forms.evaluator_type", ["faculty"])
-                ->orderBy('evaluations.id');
-
-            if ($trainingLevel != "all")
-                $reportEvaluationsQuery->where("evaluations.training_level", $trainingLevel);
-			if ($currentTrainingLevel != "all")
-				$reportEvaluationsQuery->where("subjects.training_level", $currentTrainingLevel);
-
-            $reportEvaluationsQuery->select("evaluations.id as evaluation_id", "subject_id",
-                "evaluators.first_name", "evaluators.last_name", "forms.title as form_title",
-				"evaluation_date_start", "evaluation_date_end");
-
-            $data["subjectReportEvaluations"] = $reportEvaluationsQuery->get()->all();
-        }
-		else {
-			$textQuery = DB::table("text_responses")
-				->join("evaluations", "evaluations.id", "=", "evaluation_id")
-				->join("users as evaluators", "evaluators.id", "=", "evaluations.evaluator_id")
-				->join("users as subjects", "subjects.id", "=", "evaluations.subject_id")
-				->join("forms", "evaluations.form_id", "=", "forms.id")
-				->where("evaluators.type", "faculty")
-				->where("evaluations.status", "complete")
-				->where("evaluations.evaluation_date_end", ">=", $startDate)
-				->where("evaluations.evaluation_date_start", "<=", $endDate)
-				->whereIn("evaluations.subject_id", array_keys($subjects))
-				->whereIn("forms.type", ["resident", "fellow"])
-				->whereIn("forms.evaluator_type", ["faculty"])
-                ->orderBy('text_responses.id');
-
-			if ($trainingLevel != "all")
-				$textQuery->where("evaluations.training_level", $trainingLevel);
-			if ($currentTrainingLevel != "all")
-				$textQuery->where("subjects.training_level", $currentTrainingLevel);
-
-			$textQuery->select("subject_id", "evaluators.first_name", "evaluators.last_name",
-				"forms.title as form_title", "evaluation_date_start", "evaluation_date_end",
-				"response", "evaluation_id");
-
-			$subjectTextResponses = $textQuery->get()->groupBy('subject_id');
-
-			$data["subjectTextResponses"] = $subjectTextResponses;
+		if ($trainingLevel != "all")
+			$textQuery->where("evaluations.training_level", $trainingLevel);
+		if ($currentTrainingLevel != "all")
+			$textQuery->where("subjects.training_level", $currentTrainingLevel);
+		if (!$user->isType('admin')) {
+			$textQuery->where($filterNonAdminQuery);
 		}
+
+		$textQuery->select("subject_id", "evaluators.first_name", "evaluators.last_name",
+			"forms.title as form_title", "evaluation_date_start", "evaluation_date_end",
+			"response", "evaluation_id");
+
+		$subjectTextResponses = $textQuery->get()->groupBy('subject_id');
+
+		$data["subjectTextResponses"] = $subjectTextResponses;
 
         return $data;
     }
 
-    public function aggregate(Request $request) {
-        return response()->json($this->report($request->input("startDate"),
-            $request->input("endDate"), $request->input("trainingLevel"),
-			$request->input("currentTrainingLevel", "all"),
-			$request->input("milestones")));
-    }
-
-    public function specific(Request $request) {
-        $data = [];
-
-        $input = $request->all();
-        foreach ($input as $key => $value) {
-            if (strpos($key, "startDate") !== FALSE) {
-                $startDates[] = $value;
-            } elseif (strpos($key, "endDate") !== FALSE) {
-                $endDates[] = $value;
-            } elseif (strpos($key, "trainingLevel") !== FALSE) {
-                $trainingLevels[] = $value;
-            }
-        }
-
-        if (!isset($startDates))
-            return back()->with("error", "Please select a starting date for the report");
-        if (!isset($endDates))
-            return back()->with("error", "Please select an ending date for the report");
-        if (!isset($trainingLevels))
-            return back()->with("error", "Please select a training level for the report");
-        if (!(count($startDates) == count($endDates) && count($endDates) == count($trainingLevels)))
-            return back()->with("error", "Please be sure to complete all fields for each report");
-
-        for($i = 0; $i < count($startDates); $i++) {
-            $data["reportData"][$i] = $this->report($startDates[$i], $endDates[$i],
-                $trainingLevels[$i], "all", $request->input("milestones"), $request->input("resident"),
-				$request->input('graphs'), 'vertical');
-			$data["reportData"][$i]["startDate"] = Carbon::parse($startDates[$i]);
-			$data["reportData"][$i]["endDate"] = Carbon::parse($endDates[$i]);
-			$data["reportData"][$i]["trainingLevel"] = $trainingLevels[$i];
-        }
-
-		$data["numReports"] = count($startDates);
-        $data["specificSubject"] = User::find($request->input("resident"));
-		$data["graphOption"] = $request->input('graphs');
-
-		$request->session()->put("individualReportData", $data);
-
-        return view("report.individual", $data);
-    }
+	public function traineeReport() {
+		return view('report.trainee-report');
+	}
 
 	public function formReportPage(Request $request) {
 		return view('report.form-report');

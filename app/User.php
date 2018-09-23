@@ -72,25 +72,25 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 	protected $deepFeatures = null;
 
-	public function getFullNameAttribute(){
+	public function getFullNameAttribute() {
 		return $this->last_name . ", " . $this->first_name;
 	}
 
-	public function getProfileLinkAttribute(){
+	public function getProfileLinkAttribute() {
 		return "<a href=\"/profile/{$this->id}\">{$this->full_name}</a>";
 	}
 
-	public function isType($types){
-		if(!is_array($types))
+	public function isType($types) {
+		if (!is_array($types))
 			$types = [$types];
-		foreach($types as $type){
+		foreach ($types as $type) {
 			// Allow to query for 'trainee' even though they're currently all residents
 			// In the future, plan to change resident -> trainee
-			if($type == "trainee")
+			if ($type == "trainee")
 				$type = "resident";
 
 			// Specifically not a fellow
-			if($type == 'RESIDENT' && $this->type == 'resident' && in_array($this->training_level, [
+			if ($type == 'RESIDENT' && $this->type == 'resident' && in_array($this->training_level, [
 				'intern',
 				'ca-1',
 				'ca-2',
@@ -98,55 +98,55 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			]))
 				return true;
 
-			if($this->type == $type || $this->type == "resident" && $this->training_level == $type)
+			if ($this->type == $type || $this->type == "resident" && $this->training_level == $type)
 				return true;
 		}
 		return false;
 	}
 
-	public function getSpecificTypeAttribute(){
+	public function getSpecificTypeAttribute() {
 		// TODO: Do the same for interns?
-		if($this->type == "resident" && $this->training_level == "fellow")
+		if ($this->type == "resident" && $this->training_level == "fellow")
 			return "fellow";
 
 		return $this->type;
 	}
 
-	public function evaluatorEvaluations(){
+	public function evaluatorEvaluations() {
 		return $this->hasMany("App\Evaluation", "evaluator_id");
 	}
 
-	public function subjectEvaluations(){
+	public function subjectEvaluations() {
 		return $this->hasMany("App\Evaluation", "subject_id");
 	}
 
-	public function requestedEvaluations(){
+	public function requestedEvaluations() {
 		return $this->hasMany("App\Evaluation", "requested_by_id");
 	}
 
-	public function blockAssignments(){
+	public function blockAssignments() {
 		return $this->hasMany("App\BlockAssignment");
 	}
 
-	public function mentors(){
+	public function mentors() {
 		return $this->belongsToMany("App\User", "mentorships", "mentee_id", "mentor_id")
 			->where("mentorships.status", "active");
 	}
 
-	public function mentees(){
+	public function mentees() {
 		return $this->belongsToMany("App\User", "mentorships", "mentor_id", "mentee_id")
 			->where("mentorships.status", "active");
 	}
 
-	public function watchedForms(){
+	public function watchedForms() {
 		return $this->hasMany("App\WatchedForm");
 	}
 
-	public function formsBeingWatched(){
+	public function formsBeingWatched() {
 		return $this->belongsToMany("App\Form", "watched_forms");
 	}
 
-	public function userFeatures(){
+	public function userFeatures() {
 		return $this->hasMany("App\UserFeature");
 	}
 
@@ -175,9 +175,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $setting->save();
 	}
 
-	public function typeFeatures(){
+	public function typeFeatures() {
 		return DB::table("users")
-			->join("user_features", function($join){
+			->join("user_features", function($join) {
 				$join->on("users.type", "=", "user_features.user_type")
 					->whereNull("user_features.user_id")
 					->whereNull("user_features.user_training_level")
@@ -187,9 +187,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			->pluck("feature");
 	}
 
-	public function trainingLevelFeatures(){
+	public function trainingLevelFeatures() {
 		return DB::table("users")
-			->join("user_features", function($join){
+			->join("user_features", function($join) {
 				$join->on("users.type", "=", "user_features.user_type")
 					->on("users.training_level", "=", "user_features.user_training_level")
 					->whereNull("user_features.user_id")
@@ -199,9 +199,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			->pluck("feature");
 	}
 
-	public function secondaryTrainingLevelFeatures(){
+	public function secondaryTrainingLevelFeatures() {
 		return DB::table("users")
-			->join("user_features", function($join){
+			->join("user_features", function($join) {
 				$join->on("users.type", "=", "user_features.user_type")
 					->on("users.training_level", "=", "user_features.user_training_level")
 					->on("users.secondary_training_level", "=", "user_features.user_secondary_training_level")
@@ -211,7 +211,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			->pluck("feature");
 	}
 
-	public function usesFeature($feature, $deep = true){
+	public function usesFeature($feature, $deep = true) {
 		if ($deep) {
 			if (empty($this->deepFeatures))
 				$this->deepFeatures = $this->userFeatures->pluck("feature")
@@ -225,7 +225,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $this->userFeatures->pluck('feature')->contains($feature);
 	}
 
-	public function caseLogs(){
+	public function caseLogs() {
 		return $this->hasMany("App\CaseLog");
 	}
 
@@ -248,7 +248,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			->wherePivot('stop_time', '>=', $start);
 	}
 
-	public function scopeFormerResidents($query){
+	public function scopeFormerResidents($query) {
 		return $query->where('type', 'resident')->where('status', '!=', 'active');
 	}
 
@@ -263,7 +263,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $query->where('status', 'active');
 	}
 
-	public function resetPassword(){
+	public function resetPassword() {
 		$password = str_random(12);
 		$this->password = bcrypt($password);
 		try{
@@ -273,20 +273,20 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			];
 			$email = $this->email;
 			$this->save();
-			Mail::send("emails.manual-password-reset", $data, function($message) use ($email){
+			Mail::send("emails.manual-password-reset", $data, function($message) use ($email) {
 				$message->from("admin@residentprogram.com", "ResidentProgram");
 				$message->to($email);
 				$message->replyTo(config("app.admin_email"));
 				$message->subject("Password reset");
 			});
 			return true;
-		} catch(\Exception $e){
+		} catch(\Exception $e) {
 			Log::error("Problem resetting password: ".$e);
 		}
 		return false;
 	}
 
-	public function sendNewAccountEmail($password = null){
+	public function sendNewAccountEmail($password = null) {
 		$data = [
 			"firstName" => $this->first_name,
 			"lastName" => $this->last_name,
@@ -297,7 +297,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		$email = $this->email;
 
 		try {
-			Mail::send("emails.new-account", $data, function($message) use ($email){
+			Mail::send("emails.new-account", $data, function($message) use ($email) {
 				$message->from("accounts@residentprogram.com", "Resident Program Accounts");
 				$message->to($email);
 				$message->replyTo(config("app.admin_email"));
@@ -329,7 +329,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		});
 	}
 
-	public function hideFields(){
+	public function hideFields() {
 		$this->addHidden($this->userHidden);
 
 		if (Auth::check() && Auth::id() != $this->id)
