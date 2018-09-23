@@ -143,10 +143,14 @@
           </a>
           <ul class="dropdown-menu">
         @if (
-            $user->isType('resident')
+            $user->isType('trainee')
             || (
                 $user->isType('faculty')
-                && !empty($reportableUserGroups)
+				&& (
+					$user->mentees->count() > 0
+					|| $user->administratedPrograms->count() > 0
+				)
+
             )
         )
             <li>
@@ -156,7 +160,7 @@
                 </a>
             </li>
         @endif
-			<li><a href="/report/form">Form</a></li>
+			<li><a href="/report/form">Evaluation form report</a></li>
             <li><a href="/case-overlaps">Case overlaps</a></li>
           </ul>
         </li>
