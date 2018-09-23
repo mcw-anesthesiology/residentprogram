@@ -5,6 +5,8 @@ use App\User;
 use App\Form;
 use App\Evaluation;
 
+use App\Helpers\CaseParser;
+
 use anlutro\LaravelSettings\Facade as Setting;
 
 use Faker\Generator as Faker;
@@ -267,4 +269,50 @@ $factory->define(App\DirectoryEntry::class, function(Faker $faker){
         "last_name" => $faker->lastName,
         "pager" => $faker->phoneNumber
     ];
+});
+
+$factory->define(App\AnesthesiaCase::class, function(Faker $faker) {
+	$reportTypes = [
+		CaseParser::EGRESS_FILE_TYPE,
+		CaseParser::CHW_TRAINEE_FILE_TYPE,
+		CaseParser::VA_TRAINEE_SUPERVISOR_FILE_TYPE,
+	];
+
+	$times = [$faker->time, $faker->time];
+	asort($times);
+	$times = array_values($times);
+
+	$procedureDate = $faker->dateTimeThisMonth()->setTime(0, 0, 0);
+	$procDateStr = $procedureDate->format('Y-m-d');
+
+	return [
+		'report_type' => $faker->randomElement($reportTypes),
+		'report_case_id' => $faker->uuid,
+		'procedure_date' => $procedureDate,
+		'start_time' => new DateTime("$procDateStr $times[0]"),
+		'stop_time' => new DateTime("$procDateStr $times[1]"),
+		'procedure_desc' => $faker->text,
+		'location' => $faker->city,
+		'surgeon_name' => $faker->name
+	];
+});
+
+$factory->defineAs(App\AnesthesiaCase::class, 'fmlh', function(Faker $faker) use ($factory) {
+    $case = $factory->raw(App\AnesthesiaCase::class);
+	return array_merge($case, [
+		'report_type' => CaseParser::EGRESS_FILE_TYPE
+	]);
+});
+
+$factory->defineAs(App\AnesthesiaCase::class, 'chw', function(Faker $faker) use ($factory) {
+    $case = $factory->raw(App\AnesthesiaCase::class);
+	return array_merge($case, [
+		'report_type' => CaseParser::CHW_TRAINEE_FILE_TYPE
+	]);
+});
+$factory->defineAs(App\AnesthesiaCase::class, 'va', function(Faker $faker) use ($factory) {
+    $case = $factory->raw(App\AnesthesiaCase::class);
+	return array_merge($case, [
+		'report_type' => CaseParser::VA_TRAINEE_SUPERVISOR_FILE_TYPE
+	]);
 });
