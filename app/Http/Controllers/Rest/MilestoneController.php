@@ -10,6 +10,11 @@ use App\MilestoneLevel;
 class MilestoneController extends RestController
 {
 
+	public function __construct() {
+		$this->middleware('auth');
+		$this->middleware('type:admin')->except(['index']);
+	}
+
 	protected $relationships = [
 		"milestonesQuestions",
 		"levels",
@@ -23,7 +28,7 @@ class MilestoneController extends RestController
 	];
 
 	protected $model = \App\Milestone::class;
-	
+
 	public function saveOrder(Request $request){
 		Milestone::whereNotNull('order')->update(['order' => null]);
 		$successes = [];
@@ -39,13 +44,13 @@ class MilestoneController extends RestController
 					: 'Unknown';
 			}
 		}
-		
+
 		$results = [];
 		if(!empty($successes))
 			$results['success'] = $successes;
 		if(!empty($errors))
 			$results['error'] = $errors;
-			
+
 		return $results;
 	}
 

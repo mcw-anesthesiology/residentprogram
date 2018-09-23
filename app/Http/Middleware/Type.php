@@ -16,8 +16,11 @@ class Type
      */
     public function handle($request, Closure $next, $type)
     {
-        if(!Auth::user()->isType($type))
-            return redirect("dashboard")->with("error", "You do not have permission to access that page");
+		if (!Auth::user()->isType($type)) {
+			return $request->ajax()
+				? response('Unauthorized', 403)
+				: redirect("dashboard")->with("error", "You do not have permission to access that page");
+		}
 
         return $next($request);
     }

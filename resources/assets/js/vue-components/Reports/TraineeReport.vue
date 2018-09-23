@@ -80,8 +80,8 @@
 							<label class="containing-label">
 								Subject
 								<div class="input-group">
-									<select-two class="form-control" v-if="filteredUsers"
-											:options="filteredUsers" v-model="traineeId"
+									<select-two class="form-control" v-if="reportSubjects"
+											:options="reportSubjects" v-model="traineeId"
 											:multiple="multipleTrainees">
 										<option v-if="!multipleTrainees" value="">All</option>
 									</select-two>
@@ -115,7 +115,7 @@
 					</div>
 
 					<div class="btn-lg-submit-container">
-						<button v-if="report && subjects && subjects.length > 0"
+						<button v-if="report && subjectIds && subjectIds.length > 0"
 								type="button" class="btn btn-lg btn-primary"
 								@click="printAll">
 							Export all
@@ -125,10 +125,11 @@
 				</div>
 			</div>
 
-			<template v-if="subjects && subjects.length > 0">
-				<individual-report v-for="subject of subjects" :key="subject.id"
+			<template v-if="subjectIds && subjectIds.length > 0">
+				<individual-report v-for="subjectId of subjectIds" :key="subjectId"
 					:report="report"
-					:subject="subject"
+					:subjectId="subjectId"
+					:subject="users.find(u => u.id === subjectId)"
 					ref="individualReports" />
 			</template>
 			<template v-else>
@@ -156,6 +157,8 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
+
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
 import AggregateReport from './AggregateReport.vue';
@@ -168,13 +171,7 @@ import SelectTwo from '../SelectTwo.vue';
 import SvgIcon from '../SvgIcon.vue';
 
 import { handleError } from '@/modules/errors.js';
-import {
-	getFetchHeaders,
-	jsonOrThrow,
-	fetchMilestones,
-	groupMilestones,
-	fetchCompetencies
-} from '@/modules/utils.js';
+import { getFetchHeaders } from '@/modules/utils.js';
 import { isoDateStringObject, currentQuarter } from '@/modules/date-utils.js';
 
 export default {
@@ -205,24 +202,13 @@ export default {
 
 			report: null,
 			subjectStats: null,
-			evaluatorStats: null,
-
-			milestones: [],
-			competencies: []
+			evaluatorStats: null
 		};
 	},
 	mounted(){
-		fetchMilestones().then(milestones => {
-			this.milestones = milestones;
-		}).catch(err => {
-			handleError(err, this, 'There was a problem fetching milestones');
-		});
+		this.$store.dispatch('milestones/fetch');
+		this.$store.dispatch('competencies/fetch');
 
-		fetchCompetencies().then(competencies => {
-			this.competencies = competencies;
-		}).catch(err => {
-			handleError(err, this, 'There was a problem fetching competencies');
-		});
 
 		$(this.$refs.currentTrainingLevelHintGlyph).popover({
 			title: 'Current training level',
@@ -259,28 +245,41 @@ export default {
 	},
 
 	computed: {
-		milestoneGroups(){
-			return groupMilestones(this.milestones);
-		},
-		filteredUsers(){
-			let groupedUsers = this.currentTrainingLevel === 'all'
-				? this.groupedUsers.filter(userGroup =>
-					userGroup.text.toLowerCase() !== 'faculty')
-				: this.groupedUsers.filter(userGroup =>
-					userGroup.text.toLowerCase() === this.currentTrainingLevel.toLowerCase());
+		...mapState('competencies', ['competencies']),
+		...mapState('milestones', ['milestones']),
+		...mapGetters('milestones', {
+			milestoneGroups: 'groupedMilestones'
+		}),
+		reportSubjects() {
+			if (!this.report)
+				return;
 
-			return this.show.inactiveUsers
-				? groupedUsers
-				: groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');
+			return Array.from(Object.entries(this.report.subjects)).map(([id, text]) => ({
+				id,
+				text
+			})).sort((a, b) => {
+				if (a.text < b.text)
+					return -1;
+				if (a.text > b.text)
+					return 1;
 
+				return 0;
+			});
 		},
-		subjects(){
-			if(this.traineeId){
-				let traineeId = Array.isArray(this.traineeId)
+		subjectIds() {
+			if (this.traineeId) {
+				let subjectIds = Array.isArray(this.traineeId)
 					? this.traineeId
 					: [this.traineeId];
-				return this.users.filter(user => traineeId.includes(user.id.toString()));
+
+				return subjectIds.map(Number);
 			}
+		}
+	},
+	watch: {
+		reportSubjects(reportSubjects) {
+			if (reportSubjects && reportSubjects.length === 1)
+				this.traineeId = reportSubjects[0].id;
 		}
 	},
 	methods: {
@@ -308,7 +307,7 @@ export default {
 			this.traineeId = users.map(u => u.id);
 		},
 		runReport(){
-			fetch('/report/aggregate', {
+			fetch('/report/trainee', {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
@@ -328,8 +327,16 @@ export default {
 			}).then(report => {
 				this.report = Object.assign({}, this.report, report);
 			}).catch(err => {
-				handleError(err, this, 'There was a problem fetching the aggregate report');
+				handleError(err, this, 'There was a problem fetching the report');
 			});
+
+			const jsonIfAuthorized = response => {
+				if (response.ok)
+					return response.json();
+
+				if (response.status !== 403)
+					throw new Error(response.status);
+			};
 
 			fetch('/report/stats/trainee/trainee', {
 				method: 'POST',
@@ -338,9 +345,10 @@ export default {
 				body: JSON.stringify(Object.assign({}, this.dates, {
 					trainingLevel: this.currentTrainingLevel
 				}))
-			}).then(jsonOrThrow).then(stats => {
+			}).then(jsonIfAuthorized).then(stats => {
 				this.subjectStats = stats;
 			}).catch(err => {
+				console.er
 				handleError(err, this, 'There was a problem fetching the trainee statistics');
 			});
 
@@ -351,7 +359,7 @@ export default {
 				body: JSON.stringify(Object.assign({}, this.dates, {
 					trainingLevel: this.currentTrainingLevel
 				}))
-			}).then(jsonOrThrow).then(stats => {
+			}).then(jsonIfAuthorized).then(stats => {
 				this.evaluatorStats = stats;
 			}).catch(err => {
 				handleError(err, this, 'There was a problem fetching the faculty statistics');

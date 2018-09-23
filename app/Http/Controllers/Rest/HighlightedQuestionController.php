@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Evaluation;
 use App\HighlightedQuestion;
+use App\User;
+
+use App\Scopes\UserScope;
 
 use DB;
 use Log;
@@ -16,9 +19,17 @@ class HighlightedQuestionController extends RestController
 	public function __construct() {
 		$this->middleware([
 			'auth',
-			'type:admin',
 			'site-feature:highlighted-questions'
 		]);
+
+		// FIXME: Safe?
+		$this->middleware('admin')->except(['index', 'responsesForUser']);
+		$this->middleware(function($request, $next) {
+			$userId = $request->route()->parameters()['userId'];
+			User::withGlobalScope('user', new UserScope())->findOrFail($userId);
+
+			return $next($request);
+		})->only('responsesForUser');
 	}
 
 	protected $relationships = [

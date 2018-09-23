@@ -78,7 +78,7 @@
 		<li><a href="/dashboard/faculty">Faculty Evaluations</a></li>
 	@endif
 
-	@if (!empty($user->administratedPrograms))
+	@if ($user->administratedPrograms->count() > 0)
 		<li><a href="/dashboard/programs">Programs</a></li>
 	@endif
 @endif
