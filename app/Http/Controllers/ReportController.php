@@ -731,7 +731,7 @@ class ReportController extends Controller
             ->orderBy('text_responses.id');
 
 		if (!$user->isType('admin')) {
-			$query = $query->where($userIsSubjectOrEvaluator);
+			$textQuery = $textQuery->where($userIsSubjectOrEvaluator);
 		}
 
         $textQuery->select("evaluation_id", "evaluator_id", "subject_id", "response",
