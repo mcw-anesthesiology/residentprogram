@@ -42,31 +42,28 @@ class ReportController extends Controller
 		$this->filterNonAdminQuery = function ($query) {
 			$user = Auth::user();
 
-			if ($user->isType('trainee')) {
-				return $query->where('subject_id', $user->id);
-			} else {
-				$query = $query->whereIn(
+			$query->where('subject_id', $user->id)
+				->orWhereIn(
 					'subject_id',
 					$user->mentees->map(function($m) { return $m->id; })->toArray()
 				);
 
-				foreach ($user->administratedPrograms as $program) {
-					$query->orWhere(function($query) use ($program) {
-						$query->where('forms.type', $program->type);
+			foreach ($user->administratedPrograms as $program) {
+				$query->orWhere(function($query) use ($program) {
+					$query->where('forms.type', $program->type);
 
-						if (!empty($program->training_level)) {
-							if ($program->training_level == 'resident') {
-								$query->whereIn('evaluations.training_level', App\Program::RESIDENT_TRAINING_LEVELS);
-							} else {
-								$query->where('evaluations.training_level', $program->training_level);
-							}
+					if (!empty($program->training_level)) {
+						if ($program->training_level == 'resident') {
+							$query->whereIn('evaluations.training_level', App\Program::RESIDENT_TRAINING_LEVELS);
+						} else {
+							$query->where('evaluations.training_level', $program->training_level);
 						}
+					}
 
-						if (!empty($program->secondary_training_level)) {
-							$query->where('subjects.secondary_training_level', $program->secondary_training_level);
-						}
-					});
-				}
+					if (!empty($program->secondary_training_level)) {
+						$query->where('subjects.secondary_training_level', $program->secondary_training_level);
+					}
+				});
 			}
 		};
     }
@@ -586,12 +583,27 @@ class ReportController extends Controller
         ksort($averageCompetency);
         ksort($competencies);
 
-        $data = compact("milestones", "competencies", "subjectMilestone",
-			"subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency",
-			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals",
-            "subjectRequests", "subjects", "subjectEvaluators", "averageMilestone",
-            "averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate",
-			"subjectEvaluations");
+		$data = compact(
+			"milestones",
+			"competencies",
+			"subjectMilestone",
+			"subjectMilestoneDeviations",
+			"subjectMilestoneEvals",
+			"subjectCompetency",
+			"subjectCompetencyDeviations",
+			"subjectCompetencyEvals",
+			"subjectEvals",
+			"subjectRequests",
+			"subjects",
+			"subjectEvaluators",
+			"averageMilestone",
+			"averageCompetency",
+			"graphOption",
+			"trainingLevel",
+			"startDate",
+			"endDate",
+			"subjectEvaluations"
+		);
 
 		$textQuery = DB::table("text_responses")
 			->join("evaluations", "evaluations.id", "=", "evaluation_id")
