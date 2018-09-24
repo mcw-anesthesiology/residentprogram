@@ -29,8 +29,6 @@ class AnesthesiaCaseSeeder extends Seeder
 				$faker->randomElement($trainees)
 			];
 
-			Log::debug($users);
-
 			foreach ($users as $user) {
 				$times = [
 					$faker->dateTimeBetween($case->start_time, $case->stop_time),

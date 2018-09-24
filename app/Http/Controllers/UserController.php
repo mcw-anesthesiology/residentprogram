@@ -11,8 +11,7 @@ class UserController extends Controller {
 		$this->middleware('auth');
 		$this->middleware('shared')->only('user');
 		$this->middleware('type:faculty')->only([
-			'saveUserReminders',
-			'saveUserNotifications'
+			'saveUserReminders'
 		]);
 	}
 
