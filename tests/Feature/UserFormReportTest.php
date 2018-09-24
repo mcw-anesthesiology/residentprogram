@@ -10,8 +10,12 @@ use Carbon\Carbon;
 use App\User;
 use App\Evaluation;
 use App\Form;
+use App\Mentorship;
+use App\Program;
 use App\Response;
 use App\TextResponse;
+
+use Log;
 
 class UserFormReportTest extends TestCase
 {
@@ -29,24 +33,30 @@ class UserFormReportTest extends TestCase
 		$this->form = factory(Form::class, 'resident')->create();
 
 		factory(User::class, 'resident', 3)->create()->each(function ($otherResident) {
-			$this->createEval($otherResident, 20);
+			$this->createEval($otherResident, $this->faculty, 20);
 		});
 	}
 
-	private function createEval($subject, $num = 1) {
+	private function createEval($subject, $evaluator, $num = 1, $overrides = []) {
 		$evalDateStart = $this->faker->dateTimeBetween($this->startDate, $this->endDate);
 		$evalDateEnd = $this->faker->dateTimeBetween($evalDateStart, $this->endDate);
 
 		$return = [];
 
-		factory(Evaluation::class, 'complete', $num)->create([
-			'form_id' => $this->form->id,
-			'subject_id' => $subject->id,
-			'evaluator_id' => $this->faculty->id,
-			'requested_by_id' => $subject->id,
-			'evaluation_date_start' => $evalDateStart,
-			'evaluation_date_end' => $evalDateEnd
-		])->each(function ($evaluation) use (&$return) {
+		factory(Evaluation::class, 'complete', $num)->create(
+			array_merge(
+				[
+					'form_id' => $this->form->id,
+					'subject_id' => $subject->id,
+					'evaluator_id' => $evaluator->id,
+					'requested_by_id' => $subject->id,
+					'evaluation_date_start' => $evalDateStart,
+					'evaluation_date_end' => $evalDateEnd,
+					'training_level' => $subject->training_level
+				],
+				$overrides
+			)
+		)->each(function ($evaluation) use (&$return) {
 			$responses = [
 				'q1' => factory(Response::class)->create([
 					'evaluation_id' => $evaluation->id,
@@ -97,7 +107,7 @@ class UserFormReportTest extends TestCase
 
 	public function testOwn() {
 
-		[$evaluation, $responses, $textResponses] = $this->createEval($this->resident);
+		[$evaluation, $responses, $textResponses] = $this->createEval($this->resident, $this->faculty);
 
 		$this->actingAs($this->resident)
 			->post('/report/form', [
@@ -181,36 +191,16 @@ class UserFormReportTest extends TestCase
 	}
 
 	public function testMentee() {
-		$evalDateStart = $this->faker->dateTimeBetween($this->startDate, $this->endDate);
-		$evalDateEnd = $this->faker->dateTimeBetween($evalDateStart, $this->endDate);
-
-		$evaluation = factory(Evaluation::class, 'complete')->create([
-			'form_id' => $this->form->id,
-			'subject_id' => $this->resident->id,
-			'evaluator_id' => $this->faculty->id,
-			'requested_by_id' => $this->resident->id,
-			'evaluation_date_start' => $evalDateStart,
-			'evaluation_date_end' => $evalDateEnd
+		$user = factory(User::class, 'faculty')->create();
+		Mentorship::create([
+			'mentor_id' => $user->id,
+			'mentee_id' => $this->resident->id,
+			'status' => 'active'
 		]);
 
-		$responses = [
-			'q1' => factory(Response::class)->create([
-				'evaluation_id' => $evaluation->id,
-				'question_id' => 'q1'
-			]),
-			'q2' => factory(Response::class)->create([
-				'evaluation_id' => $evaluation->id,
-				'question_id' => 'q2'
-			])
-		];
-		$textResponses = [
-			'q3' => factory(TextResponse::class)->create([
-				'evaluation_id' => $evaluation->id,
-				'question_id' => 'q3'
-			])
-		];
+		[$evaluation, $responses, $textResponses] = $this->createEval($this->resident, $this->faculty);
 
-		$this->actingAs($this->resident)
+		$this->actingAs($user)
 			->post('/report/form', [
 				'form_id' => $this->form->id,
 				'startDate' => $this->startDate,
@@ -291,4 +281,103 @@ class UserFormReportTest extends TestCase
 			]);
 	}
 
+	public function testProgram() {
+		$fellowship = $this->faker->word;
+		$user = factory(User::class, 'faculty')->create();
+		$fellow = factory(User::class, 'fellow')->create([
+			'secondary_training_level' => $fellowship
+		]);
+		$fellowForm = factory(Form::class, 'fellow')->create();
+
+		$program = Program::create([
+			'name' => $this->faker->word,
+			'type' => 'fellow',
+			'secondary_training_level' => $fellowship
+		]);
+		$program->administrators()->attach($user->id);
+
+		[$evaluation, $responses, $textResponses] = $this->createEval($fellow, $this->faculty, 1, [
+			'form_id' => $fellowForm->id
+		]);
+
+		$this->actingAs($user)
+			->post('/report/form', [
+				'form_id' => $fellowForm->id,
+				'startDate' => $this->startDate,
+				'endDate' => $this->endDate
+			])->assertJson([
+				'evals' => [$evaluation->id],
+				'subjectEvals' => [
+					$fellow->id => [$evaluation->id]
+				],
+				'subjectResponses' => [
+					$fellow->id => [
+						'q1' => [
+							$responses['q1']->response => 1
+						],
+						'q2' => [
+							$responses['q2']->response => 1
+						],
+						'q3' => [
+							$textResponses['q3']->response => 1
+						]
+					]
+				],
+				'averageResponses' => [
+					'q1' => [
+						$responses['q1']->response => 1
+					],
+					'q2' => [
+						$responses['q2']->response => 1
+					],
+					'q3' => [
+						$textResponses['q3']->response => 1
+					]
+				],
+				'subjectPercentages' => [
+					$fellow->id => [
+						'q1' => [
+							$responses['q1']->response => 100
+						],
+						'q2' => [
+							$responses['q2']->response => 100
+						],
+						'q3' => [
+							$textResponses['q3']->response => 100
+						]
+					]
+				],
+				'averagePercentages' => [
+					'q1' => [
+						$responses['q1']->response => 100
+					],
+					'q2' => [
+						$responses['q2']->response => 100
+					],
+					'q3' => [
+						$textResponses['q3']->response => 100
+					]
+				],
+				'subjectResponseValues' => [
+					$fellow->id => [
+						'q1' => [
+							$evaluation->id => $responses['q1']->response
+						],
+						'q2' => [
+							$evaluation->id => $responses['q2']->response
+						],
+						'q3' => [
+							$evaluation->id => $textResponses['q3']->response
+						]
+
+					]
+				],
+				'evaluators' => [
+					$evaluation->id => [
+						'id' => $this->faculty->id,
+						'full_name' => $this->faculty->full_name
+					]
+				]
+			]);
+	}
 }
