@@ -130,7 +130,8 @@ $factory->defineAs(App\Form::class, "faculty", function(Faker $faker) use ($fact
         "xml_path" => "tests/faculty_form.xml",
         "type" => "faculty",
         "evaluator_type" => "resident",
-        "visibility" => "anonymous"
+		"visibility" => "anonymous",
+		'evaluation_period_type' => 'year'
     ];
     return array_merge($form, $faculty);
 });
