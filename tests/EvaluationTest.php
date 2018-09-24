@@ -205,7 +205,7 @@ class EvaluationTest extends BrowserKitTestCase
 			->select($responseMap['q1'], 'q1')
 			->select($responseMap['q2'], 'q2')
 			->type('Comments', 'q3')
-			->select('on', 'q4')
+			->select('', 'q4')
 			->press('Submit completed evaluation');
 
 		foreach ($responseMap as $q => $v) {

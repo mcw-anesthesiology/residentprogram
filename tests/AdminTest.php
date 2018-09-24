@@ -800,7 +800,8 @@ class AdminTest extends BrowserKitTestCase
 			->seeJson(["id" => $hiddenEval->id]);
     }
 
-    public function testResidentReminders(){
+	// FIXME: This test is finnicky, unsure why exactly
+    public function testResidentReminders() {
 		$faker = Faker::create();
         $otherResident = factory(App\User::class, 'resident')->create();
         $evals = [
