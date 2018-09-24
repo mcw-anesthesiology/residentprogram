@@ -38,6 +38,37 @@ class ReportController extends Controller
 			'trainee',
 			"getPDF"
 		]]);
+
+		$this->filterNonAdminQuery = function ($query) {
+			$user = Auth::user();
+
+			if ($user->isType('trainee')) {
+				return $query->where('subject_id', $user->id);
+			} else {
+				$query = $query->whereIn(
+					'subject_id',
+					$user->mentees->map(function($m) { return $m->id; })->toArray()
+				);
+
+				foreach ($user->administratedPrograms as $program) {
+					$query->orWhere(function($query) use ($program) {
+						$query->where('forms.type', $program->type);
+
+						if (!empty($program->training_level)) {
+							if ($program->training_level == 'resident') {
+								$query->whereIn('evaluations.training_level', App\Program::RESIDENT_TRAINING_LEVELS);
+							} else {
+								$query->where('evaluations.training_level', $program->training_level);
+							}
+						}
+
+						if (!empty($program->secondary_training_level)) {
+							$query->where('subjects.secondary_training_level', $program->secondary_training_level);
+						}
+					});
+				}
+			}
+		};
     }
 
 	public function reports() {
@@ -272,6 +303,7 @@ class ReportController extends Controller
 		return sqrt(array_sum(array_map(array($this, "sd_square"), $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
 	}
 
+
     public function trainee(Request $request) {
 		$user = Auth::user();
 		$startDate = $request->input("startDate");
@@ -279,34 +311,6 @@ class ReportController extends Controller
 		$trainingLevel = $request->input("trainingLevel");
 		$currentTrainingLevel = $request->input("currentTrainingLevel", "all");
 		$milestonesFilter = $request->input("milestones", []);
-
-		$filterNonAdminQuery = function($query) use ($user) {
-			if ($user->isType('trainee'))
-				return $query->where('subject_id', $user->id);
-
-			$query = $query->whereIn(
-				'subject_id',
-				$user->mentees->map(function($m) { return $m->id; })->toArray()
-			);
-
-			foreach ($user->administratedPrograms as $program) {
-				$query->orWhere(function($query) use ($program) {
-					$query->where('forms.type', $program->type);
-
-					if (!empty($program->training_level)) {
-						if ($program->training_level == 'resident') {
-							$query->whereIn('evaluations.training_level', App\Program::RESIDENT_TRAINING_LEVELS);
-						} else {
-							$query->where('evaluations.training_level', $program->training_level);
-						}
-					}
-
-					if (!empty($program->secondary_training_level)) {
-						$query->where('subjects.secondary_training_level', $program->secondary_training_level);
-					}
-				});
-			}
-		};
 
         $startDate = Carbon::parse($startDate);
         $startDate->timezone = "America/Chicago";
@@ -383,7 +387,7 @@ class ReportController extends Controller
 		}
 
 		if (!$user->isType('admin')) {
-			$query->where($filterNonAdminQuery);
+			$query->where($this->filterNonAdminQuery);
 		}
 
         $query->select("milestone_id", "milestones.title as milestone_title",
@@ -542,7 +546,7 @@ class ReportController extends Controller
 		if ($currentTrainingLevel != "all")
 			$reqQuery->where("subjects.training_level", $currentTrainingLevel);
 		if (!$user->isType('admin')) {
-			$reqQuery->where($filterNonAdminQuery);
+			$reqQuery->where($this->filterNonAdminQuery);
 		}
 
         $reqQuery->select("subject_id", "evaluator_id", "requested_by_id",
@@ -608,7 +612,7 @@ class ReportController extends Controller
 		if ($currentTrainingLevel != "all")
 			$textQuery->where("subjects.training_level", $currentTrainingLevel);
 		if (!$user->isType('admin')) {
-			$textQuery->where($filterNonAdminQuery);
+			$textQuery->where($this->filterNonAdminQuery);
 		}
 
 		$textQuery->select("subject_id", "evaluators.first_name", "evaluators.last_name",
@@ -703,13 +707,8 @@ class ReportController extends Controller
             ->where("evaluation_date_start", "<", $endDate)
 			->orderBy('responses.id');
 
-		$userIsSubjectOrEvaluator = function($query) use ($user) {
-			return $query->where('subject_id' , $user->id)
-				->orWhere('evaluator_id', $user->id);
-		};
-
 		if (!$user->isType('admin')) {
-			$query = $query->where($userIsSubjectOrEvaluator);
+			$query = $query->where($this->filterNonAdminQuery);
 		}
 
 		$query->select("evaluation_id", "evaluator_id", "subject_id", "response",
@@ -731,7 +730,7 @@ class ReportController extends Controller
             ->orderBy('text_responses.id');
 
 		if (!$user->isType('admin')) {
-			$textQuery = $textQuery->where($userIsSubjectOrEvaluator);
+			$textQuery = $textQuery->where($this->filterNonAdminQuery);
 		}
 
         $textQuery->select("evaluation_id", "evaluator_id", "subject_id", "response",
