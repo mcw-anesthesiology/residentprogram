@@ -646,6 +646,7 @@ class ReportController extends Controller
 		$evaluators = [];
 		$questions = [];
 		$questionResponses = [];
+		$subjectPercentages = [];
 		$averagePercentages = [];
 		$subjectResponseValues = [];
 

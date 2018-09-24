@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
+use TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use App\Helpers\CaseParser;
