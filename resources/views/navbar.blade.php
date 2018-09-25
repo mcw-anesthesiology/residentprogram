@@ -142,24 +142,7 @@
             Reports<b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-        @if (
-            $user->isType('trainee')
-            || (
-                $user->isType('faculty')
-				&& (
-					$user->mentees->count() > 0
-					|| $user->administratedPrograms->count() > 0
-				)
-
-            )
-        )
-            <li>
-                <a class="viewSpecRpt pointer" data-toggle="modal"
-                        data-target=".bs-specRpt-modal" id="viewSpecRpt">
-                    Trainee report
-                </a>
-            </li>
-        @endif
+			<li><a href="/report/trainee">Trainee report</a></li>
 			<li><a href="/report/form">Evaluation form report</a></li>
             <li><a href="/case-overlaps">Case overlaps</a></li>
           </ul>

@@ -1,29 +1,29 @@
 import Vue from '@/vue-constructors/index.js';
+import { mapState } from 'vuex';
+
+import store from '@/vue-constructors/store.js';
 
 import NewsList from '@/vue-components/News/List.vue';
-
-import { logError } from '@/modules/errors.js';
-import { fetchConfig, jsonOrThrow } from '@/modules/utils.js';
 
 export function createNews(el) {
 	return new Vue({
 		el,
+		store,
 		data() {
 			return {
 				open: false,
-				left: false,
-				newsItems: null
+				left: false
 			};
 		},
 		mounted() {
-			this.fetchUnseenNewsItems();
-		},
-		updated() {
-
+			this.$store.dispatch('news/fetchUnseen');
 		},
 		beforeDestroy() {
 			this.open = false;
 		},
+		computed: mapState('news', {
+			newsItems: 'unseenNewsItems'
+		}),
 		watch: {
 			open(open, oldOpen) {
 				if (open && !oldOpen) {
@@ -42,16 +42,6 @@ export function createNews(el) {
 			}
 		},
 		methods: {
-			fetchUnseenNewsItems() {
-				fetch('/news-items/unseen', {
-					...fetchConfig()
-				}).then(jsonOrThrow).then(newsItems => {
-					this.newsItems = newsItems;
-				}).catch(err => {
-					// FIXME: Show this somewhere
-					logError(err);
-				});
-			},
 			ignoreDropdownClick(event) {
 				event.stopPropagation();
 			},
