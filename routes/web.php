@@ -22,6 +22,9 @@ Route::get('home', function(){
 	return redirect('dashboard');
 });
 Route::get('help', 'MainController@help');
+Route::get('about', function() {
+	return view('about');
+});
 
 Route::get('dashboard', 'MainController@dashboard');
 Route::get('dashboard/faculty', 'MainController@dashboardFaculty');

@@ -9,7 +9,7 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}" />
 		<link rel="shortcut icon" href="/favicon.ico">
 
-		<title>{{ $user->full_name }} | {{ config('app.name') }}</title>
+		<title>{{ config('app.name') }}{{ Auth::check() ? ' | ' . Auth::user()->full_name : '' }}</title>
 
 	@if (Auth::check())
 		<script>

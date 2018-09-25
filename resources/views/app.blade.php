@@ -44,20 +44,9 @@
 			@stack('bodies')
 @endsection
 
-@section('post-main')
-	{{-- TODO: Should not do this, use inheretence --}}
-	@if(Auth::user() && (empty($noNavbar) || !$noNavbar))
-		@include("modals")
-	@endif
-@endsection
-
 @push('pre-scripts')
 	<script>
-		var newsPropsData = {
-			user: {!! $user->toJson() !!}
-		};
-
-		createNews('#global-news-dropdown', newsPropsData);
+		createNews('#global-news-dropdown');
 
 		checkCookies(
 			document.getElementById('alert-container'),
