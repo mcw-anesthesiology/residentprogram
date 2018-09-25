@@ -10,7 +10,6 @@ const mergeJson = require('gulp-merge-json');
 const bowerPath = './bower_components/';
 const npmPath = './node_modules/';
 const scripts = [
-	npmPath + 'babel-polyfill/dist/polyfill.js',
 	bowerPath + 'jquery/dist/jquery.js',
 	bowerPath + 'bootstrap/dist/js/bootstrap.js',
 	bowerPath + 'datatables.net/js/jquery.dataTables.js',
