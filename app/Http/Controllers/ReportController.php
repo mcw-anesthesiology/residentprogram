@@ -305,7 +305,7 @@ class ReportController extends Controller
 		$user = Auth::user();
 		$startDate = $request->input("startDate");
 		$endDate = $request->input("endDate");
-		$trainingLevel = $request->input("trainingLevel");
+		$trainingLevel = $request->input("trainingLevel", 'all');
 		$currentTrainingLevel = $request->input("currentTrainingLevel", "all");
 		$milestonesFilter = $request->input("milestones", []);
 

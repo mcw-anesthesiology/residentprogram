@@ -143,15 +143,13 @@ class UserTraineeReportTest extends TestCase
 	}
 
 	public function testOwn() {
-		// TODO: Fix this?
 		[$evaluation, $responses, $textResponses] = $this->createEval($this->resident, $this->faculty);
-		Log::debug($evaluation);
-		Log::debug($evaluation->responses()->with('milestoneQuestions')->get());
+
 		$this->actingAs($this->resident)
 			->post('/report/trainee', [
 				'startDate' => $this->startDate,
 				'endDate' => $this->endDate
-			])->assertJsonFragment([
+			])->assertJson([
 				'subjectMilestone' => [
 					$this->resident->id => [
 						$this->milestones[0]->id => $responses['q1']->response,
@@ -160,26 +158,25 @@ class UserTraineeReportTest extends TestCase
 				],
 				'subjectMilestoneEvals' => [
 					$this->resident->id => [
-						$evaluation->id => 1
+						$this->milestones[0]->id => 1,
+						$this->milestones[1]->id => 1
 					]
 				],
 				'subjectCompetency' => [
+					$this->resident->id => [
 						$this->competencies[0]->id => $responses['q1']->response,
 						$this->competencies[1]->id => $responses['q2']->response
+					]
 				],
 				'subjectCompetencyEvals' => [
 					$this->resident->id => [
-						$evaluation->id => true
-					]
-				],
-				'subjectEvaluations' => [
-					$this->resident->id => [
-						$evaluation->id => 1
+						$this->competencies[0]->id => 1,
+						$this->competencies[1]->id => 1
 					]
 				],
 				'subjectRequests' => [
 					$this->resident->id => [
-						$evaluation->id => 2
+						$evaluation->id => 1
 					]
 				],
 				'subjects' => [
@@ -201,194 +198,157 @@ class UserTraineeReportTest extends TestCase
 			]);
 	}
 
-	// public function testMentee() {
-	// 	$user = factory(User::class, 'faculty')->create();
-	// 	Mentorship::create([
-	// 		'mentor_id' => $user->id,
-	// 		'mentee_id' => $this->resident->id,
-	// 		'status' => 'active'
-	// 	]);
-	//
-	// 	[$evaluation, $responses, $textResponses] = $this->createEval($this->resident, $this->faculty);
-	//
-	// 	$this->actingAs($user)
-	// 		->post('/report/form', [
-	// 			'form_id' => $this->form->id,
-	// 			'startDate' => $this->startDate,
-	// 			'endDate' => $this->endDate
-	// 		])->assertJson([
-	// 			'evals' => [$evaluation->id],
-	// 			'subjectEvals' => [
-	// 				$this->resident->id => [$evaluation->id]
-	// 			],
-	// 			'subjectResponses' => [
-	// 				$this->resident->id => [
-	// 					'q1' => [
-	// 						$responses['q1']->response => 1
-	// 					],
-	// 					'q2' => [
-	// 						$responses['q2']->response => 1
-	// 					],
-	// 					'q3' => [
-	// 						$textResponses['q3']->response => 1
-	// 					]
-	// 				]
-	// 			],
-	// 			'averageResponses' => [
-	// 				'q1' => [
-	// 					$responses['q1']->response => 1
-	// 				],
-	// 				'q2' => [
-	// 					$responses['q2']->response => 1
-	// 				],
-	// 				'q3' => [
-	// 					$textResponses['q3']->response => 1
-	// 				]
-	// 			],
-	// 			'subjectPercentages' => [
-	// 				$this->resident->id => [
-	// 					'q1' => [
-	// 						$responses['q1']->response => 100
-	// 					],
-	// 					'q2' => [
-	// 						$responses['q2']->response => 100
-	// 					],
-	// 					'q3' => [
-	// 						$textResponses['q3']->response => 100
-	// 					]
-	// 				]
-	// 			],
-	// 			'averagePercentages' => [
-	// 				'q1' => [
-	// 					$responses['q1']->response => 100
-	// 				],
-	// 				'q2' => [
-	// 					$responses['q2']->response => 100
-	// 				],
-	// 				'q3' => [
-	// 					$textResponses['q3']->response => 100
-	// 				]
-	// 			],
-	// 			'subjectResponseValues' => [
-	// 				$this->resident->id => [
-	// 					'q1' => [
-	// 						$evaluation->id => $responses['q1']->response
-	// 					],
-	// 					'q2' => [
-	// 						$evaluation->id => $responses['q2']->response
-	// 					],
-	// 					'q3' => [
-	// 						$evaluation->id => $textResponses['q3']->response
-	// 					]
-	//
-	// 				]
-	// 			],
-	// 			'evaluators' => [
-	// 				$evaluation->id => [
-	// 					'id' => $this->faculty->id,
-	// 					'full_name' => $this->faculty->full_name
-	// 				]
-	// 			]
-	// 		]);
-	// }
-	//
-	// public function testProgram() {
-	// 	$fellowship = $this->faker->word;
-	// 	$user = factory(User::class, 'faculty')->create();
-	// 	$fellow = factory(User::class, 'fellow')->create([
-	// 		'secondary_training_level' => $fellowship
-	// 	]);
-	// 	$fellowForm = factory(Form::class, 'fellow')->create();
-	//
-	// 	$program = Program::create([
-	// 		'name' => $this->faker->word,
-	// 		'type' => 'fellow',
-	// 		'secondary_training_level' => $fellowship
-	// 	]);
-	// 	$program->administrators()->attach($user->id);
-	//
-	// 	[$evaluation, $responses, $textResponses] = $this->createEval($fellow, $this->faculty, 1, [
-	// 		'form_id' => $fellowForm->id
-	// 	]);
-	//
-	// 	$this->actingAs($user)
-	// 		->post('/report/form', [
-	// 			'form_id' => $fellowForm->id,
-	// 			'startDate' => $this->startDate,
-	// 			'endDate' => $this->endDate
-	// 		])->assertJson([
-	// 			'evals' => [$evaluation->id],
-	// 			'subjectEvals' => [
-	// 				$fellow->id => [$evaluation->id]
-	// 			],
-	// 			'subjectResponses' => [
-	// 				$fellow->id => [
-	// 					'q1' => [
-	// 						$responses['q1']->response => 1
-	// 					],
-	// 					'q2' => [
-	// 						$responses['q2']->response => 1
-	// 					],
-	// 					'q3' => [
-	// 						$textResponses['q3']->response => 1
-	// 					]
-	// 				]
-	// 			],
-	// 			'averageResponses' => [
-	// 				'q1' => [
-	// 					$responses['q1']->response => 1
-	// 				],
-	// 				'q2' => [
-	// 					$responses['q2']->response => 1
-	// 				],
-	// 				'q3' => [
-	// 					$textResponses['q3']->response => 1
-	// 				]
-	// 			],
-	// 			'subjectPercentages' => [
-	// 				$fellow->id => [
-	// 					'q1' => [
-	// 						$responses['q1']->response => 100
-	// 					],
-	// 					'q2' => [
-	// 						$responses['q2']->response => 100
-	// 					],
-	// 					'q3' => [
-	// 						$textResponses['q3']->response => 100
-	// 					]
-	// 				]
-	// 			],
-	// 			'averagePercentages' => [
-	// 				'q1' => [
-	// 					$responses['q1']->response => 100
-	// 				],
-	// 				'q2' => [
-	// 					$responses['q2']->response => 100
-	// 				],
-	// 				'q3' => [
-	// 					$textResponses['q3']->response => 100
-	// 				]
-	// 			],
-	// 			'subjectResponseValues' => [
-	// 				$fellow->id => [
-	// 					'q1' => [
-	// 						$evaluation->id => $responses['q1']->response
-	// 					],
-	// 					'q2' => [
-	// 						$evaluation->id => $responses['q2']->response
-	// 					],
-	// 					'q3' => [
-	// 						$evaluation->id => $textResponses['q3']->response
-	// 					]
-	//
-	// 				]
-	// 			],
-	// 			'evaluators' => [
-	// 				$evaluation->id => [
-	// 					'id' => $this->faculty->id,
-	// 					'full_name' => $this->faculty->full_name
-	// 				]
-	// 			]
-	// 		]);
-	// }
+	public function testMentee() {
+		$user = factory(User::class, 'faculty')->create();
+		[$evaluation, $responses, $textResponses] = $this->createEval($this->resident, $this->faculty);
+		Mentorship::create([
+			'mentor_id' => $user->id,
+			'mentee_id' => $this->resident->id,
+			'status' => 'active'
+		]);
+
+		$this->actingAs($user)
+			->post('/report/trainee', [
+				'startDate' => $this->startDate,
+				'endDate' => $this->endDate
+			])->assertJson([
+				'subjectMilestone' => [
+					$this->resident->id => [
+						$this->milestones[0]->id => $responses['q1']->response,
+						$this->milestones[1]->id => $responses['q2']->response
+					]
+				],
+				'subjectMilestoneEvals' => [
+					$this->resident->id => [
+						$this->milestones[0]->id => 1,
+						$this->milestones[1]->id => 1
+					]
+				],
+				'subjectCompetency' => [
+					$this->resident->id => [
+						$this->competencies[0]->id => $responses['q1']->response,
+						$this->competencies[1]->id => $responses['q2']->response
+					]
+				],
+				'subjectCompetencyEvals' => [
+					$this->resident->id => [
+						$this->competencies[0]->id => 1,
+						$this->competencies[1]->id => 1
+					]
+				],
+				'subjectRequests' => [
+					$this->resident->id => [
+						$evaluation->id => 1
+					]
+				],
+				'subjects' => [
+					$this->resident->id => $this->resident->full_name
+				],
+				'subjectEvaluators' => [
+					$this->resident->id => [
+						$this->faculty->id => 1
+					]
+				],
+				'averageMilestone' => [
+					$this->milestones[0]->id => $responses['q1']->response,
+					$this->milestones[1]->id => $responses['q2']->response
+				],
+				'averageCompetency' => [
+					$this->competencies[0]->id => $responses['q1']->response,
+					$this->competencies[1]->id => $responses['q2']->response
+				],
+			]);
+	}
+
+	public function testProgram() {
+		$fellowship = $this->faker->word;
+		$user = factory(User::class, 'faculty')->create();
+		$fellow = factory(User::class, 'fellow')->create([
+			'secondary_training_level' => $fellowship
+		]);
+		$fellowForm = factory(Form::class, 'fellow')->create();
+		factory(MilestoneQuestion::class)->create([
+			"form_id" => $fellowForm->id,
+			"question_id" => "q1",
+			"milestone_id" => $this->milestones[0]->id
+		]);
+		factory(MilestoneQuestion::class)->create([
+			"form_id" => $fellowForm->id,
+			"question_id" => "q2",
+			"milestone_id" => $this->milestones[1]->id
+		]);
+		factory(CompetencyQuestion::class)->create([
+			"form_id" => $fellowForm->id,
+			"question_id" => "q1",
+			"competency_id" => $this->competencies[0]->id
+		]);
+		factory(CompetencyQuestion::class)->create([
+			"form_id" => $fellowForm->id,
+			"question_id" => "q2",
+			"competency_id" => $this->competencies[1]->id
+		]);
+
+		$program = Program::create([
+			'name' => $this->faker->word,
+			'type' => 'fellow',
+			'secondary_training_level' => $fellowship
+		]);
+		$program->administrators()->attach($user->id);
+
+		[$evaluation, $responses, $textResponses] = $this->createEval($fellow, $this->faculty, 1, [
+			'form_id' => $fellowForm->id
+		]);
+
+		$this->actingAs($user)
+			->post('/report/trainee', [
+				'startDate' => $this->startDate,
+				'endDate' => $this->endDate
+			])->assertJson([
+				'subjectMilestone' => [
+					$fellow->id => [
+						$this->milestones[0]->id => $responses['q1']->response,
+						$this->milestones[1]->id => $responses['q2']->response
+					]
+				],
+				'subjectMilestoneEvals' => [
+					$fellow->id => [
+						$this->milestones[0]->id => 1,
+						$this->milestones[1]->id => 1
+					]
+				],
+				'subjectCompetency' => [
+					$fellow->id => [
+						$this->competencies[0]->id => $responses['q1']->response,
+						$this->competencies[1]->id => $responses['q2']->response
+					]
+				],
+				'subjectCompetencyEvals' => [
+					$fellow->id => [
+						$this->competencies[0]->id => 1,
+						$this->competencies[1]->id => 1
+					]
+				],
+				'subjectRequests' => [
+					$fellow->id => [
+						$evaluation->id => 1
+					]
+				],
+				'subjects' => [
+					$fellow->id => $fellow->full_name
+				],
+				'subjectEvaluators' => [
+					$fellow->id => [
+						$this->faculty->id => 1
+					]
+				],
+				'averageMilestone' => [
+					$this->milestones[0]->id => $responses['q1']->response,
+					$this->milestones[1]->id => $responses['q2']->response
+				],
+				'averageCompetency' => [
+					$this->competencies[0]->id => $responses['q1']->response,
+					$this->competencies[1]->id => $responses['q2']->response
+				],
+			]);
+	}
 }
