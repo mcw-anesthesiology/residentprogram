@@ -14,7 +14,7 @@ module.exports = api => {
 						'ie >= 9'
 					]
 				},
-				useBuiltIns: 'usage',
+				useBuiltIns: 'entry',
 				debug: false,
 				modules: false
 			}]
@@ -45,7 +45,7 @@ module.exports = api => {
 						targets: {
 							'node': 'current'
 						},
-						useBuiltIns: 'usage',
+						useBuiltIns: 'entry',
 						debug: false
 					}]
 				],
