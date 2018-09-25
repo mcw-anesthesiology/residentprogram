@@ -18,7 +18,7 @@ class EvaluationController extends RestController
 
 	public function __construct() {
 		$this->middleware("auth");
-		$this->middleware("type:admin", ["except" => [
+		$this->middleware("type:admin")->except([
 			'index',
 			'show',
 			'cancel',
@@ -27,7 +27,7 @@ class EvaluationController extends RestController
 			'userEdit',
 			'decline',
 			'contents'
-		]]);
+		]);
 
 		$this->middleware(function ($request, $next) {
 			try {

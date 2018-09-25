@@ -249,6 +249,12 @@ class Evaluation extends Model
 		});
 	}
 
+	public function scopeTrainee($query) {
+		return $query->whereHas('form', function ($q) {
+			return $q->whereIn('type', ['resident', 'fellow']);
+		});
+	}
+
 	public function sendNotification($reminder = false) {
 		try {
 			$this->showAll = true;
@@ -373,7 +379,7 @@ class Evaluation extends Model
 					'ca-2',
 					'ca-3'
 				])) {
-			return;
+			return $this;
 		}
 
 		if($this->isAnonymousToUser()) {

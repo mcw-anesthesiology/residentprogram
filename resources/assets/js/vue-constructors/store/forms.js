@@ -1,4 +1,3 @@
-import { logError } from '@/modules/errors.js';
 import { fetchForms, groupForms } from '@/modules/utils.js';
 
 export default {
@@ -17,12 +16,12 @@ export default {
 		}
 	},
 	actions: {
-		fetch(context) {
-			if (context.state.forms.length === 0) {
+		fetch({ state, commit }) {
+			if (state.forms.length === 0) {
 				fetchForms().then(forms => {
-					context.commit('set', forms);
+					commit('set', forms);
 				}).catch(err => {
-					logError(err);
+					commit('error', err, { root: true });
 				});
 			}
 		}

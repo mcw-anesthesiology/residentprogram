@@ -152,3 +152,6 @@ Route::delete('programs/{id}/administrators/{userId}', 'Rest\ProgramController@r
 Route::resource('programs', 'Rest\ProgramController', ['only' => [
 	'index', 'store', 'create', 'show', 'update', 'destroy'
 ]]);
+
+Route::get('api/dashboard/subject', 'DashboardController@subjectEvaluations');
+Route::get('api/dashboard/evaluator', 'DashboardController@evaluatorEvaluations');
