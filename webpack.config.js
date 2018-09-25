@@ -46,17 +46,16 @@ module.exports = (env, argv) => ({
 			},
 			{
 				test: /\.js$/,
-				exclude: /node_modules/,
 				use: 'babel-loader'
 			},
-			{
-				test: /\.js$/,
-				include: [
-					/node_modules\/striptags/,
-					/node_modules\/uri-js/
-				],
-				use: 'babel-loader'
-			},
+			// {
+			// 	test: /\.js$/,
+			// 	include: [
+			// 		/node_modules\/striptags/,
+			// 		/node_modules\/uri-js/
+			// 	],
+			// 	use: 'babel-loader'
+			// },
 			{
 				test: /\.css$/,
 				use: [
