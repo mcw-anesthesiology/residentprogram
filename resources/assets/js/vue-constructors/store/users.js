@@ -1,4 +1,3 @@
-import { logError } from '@/modules/errors.js';
 import { fetchUsers, groupUsers } from '@/modules/utils.js';
 
 export default {
@@ -17,12 +16,12 @@ export default {
 		}
 	},
 	actions: {
-		fetch(context) {
-			if (context.state.users.length === 0) {
+		fetch({ state, commit }) {
+			if (state.users.length === 0) {
 				fetchUsers().then(users => {
-					context.commit('set', users);
+					commit('set', users);
 				}).catch(err => {
-					logError(err);
+					commit('error', err, { root: true });
 				});
 			}
 		}

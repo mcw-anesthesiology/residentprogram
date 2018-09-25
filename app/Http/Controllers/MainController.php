@@ -113,10 +113,7 @@ class MainController extends Controller
     }
 
 	public function dashboard() {
-		if (config('features.evaluations'))
-			return $this->evalsDashboard();
-		if (config('features.faculty_merit'))
-			return redirect('/merit');
+		return view('dashboard');
 	}
 
     public function evalsDashboard() {

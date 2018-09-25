@@ -1,4 +1,3 @@
-import { logError } from '@/modules/errors.js';
 import { fetchCompetencies } from '@/modules/utils.js';
 
 export default {
@@ -12,12 +11,12 @@ export default {
 		}
 	},
 	actions: {
-		fetch(context) {
-			if (context.state.competencies.length === 0) {
+		fetch({ state, commit }) {
+			if (state.competencies.length === 0) {
 				fetchCompetencies().then(competencies => {
-					context.commit('set', competencies);
+					commit('set', competencies);
 				}).catch(err => {
-					logError(err);
+					commit('error', err, { root: true });
 				});
 			}
 		}

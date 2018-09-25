@@ -14,10 +14,10 @@
 			</div>
 
 			<div class="value-group">
-				<span class="value form">
+				<span v-if="evaluation.form" class="value form">
 					{{ evaluation.form.title }}
 				</span>
-				<span class="value evaluator">
+				<span v-if="evaluation.evaluator" class="value evaluator">
 					{{ evaluation.evaluator.full_name }}
 				</span>
 			</div>

@@ -1,4 +1,3 @@
-import { logError } from '@/modules/errors.js';
 import { fetchMilestones, groupMilestones } from '@/modules/utils.js';
 
 export default {
@@ -17,12 +16,12 @@ export default {
 		}
 	},
 	actions: {
-		fetch(context) {
-			if (context.state.milestones.length === 0) {
+		fetch({ state, commit }) {
+			if (state.milestones.length === 0) {
 				fetchMilestones().then(milestones => {
-					context.commit('set', milestones);
+					commit('set', milestones);
 				}).catch(err => {
-					logError(err);
+					commit('error', err, { root: true });
 				});
 			}
 		}

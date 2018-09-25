@@ -563,3 +563,7 @@ export function updateSearchParams(params: URLSearchParams) {
 export function normalizeWhitespace(str: string): string {
 	return str.replace(/\s+/g, ' ').trim();
 }
+
+export function queryParams(obj) {
+	return $.param(obj);
+}
