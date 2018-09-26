@@ -70,8 +70,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 	protected $appends = ["full_name", "specific_type", "profile_link"];
 
-	protected $deepFeatures = null;
-
 	public function getFullNameAttribute() {
 		return $this->last_name . ", " . $this->first_name;
 	}
@@ -175,37 +173,32 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $setting->save();
 	}
 
-	public function typeFeatures() {
-		return DB::table("users")
-			->join("user_features", function($join) {
-				$join->on("users.type", "=", "user_features.user_type")
-					->whereNull("user_features.user_id")
-					->whereNull("user_features.user_training_level")
-					->whereNull("user_features.user_secondary_training_level");
-			})
-			->where("users.id", $this->id)
-			->pluck("feature");
+	private function getWhereNullOrEmpty($col) {
+		return function ($query) use ($col) {
+			$query->whereNull($col)
+				->orWhere($col, '');
+		};
 	}
 
-	public function trainingLevelFeatures() {
+	public function deepFeatures() {
 		return DB::table("users")
 			->join("user_features", function($join) {
-				$join->on("users.type", "=", "user_features.user_type")
-					->on("users.training_level", "=", "user_features.user_training_level")
-					->whereNull("user_features.user_id")
-					->whereNull("user_features.user_secondary_training_level");
-			})
-			->where("users.id", $this->id)
-			->pluck("feature");
-	}
-
-	public function secondaryTrainingLevelFeatures() {
-		return DB::table("users")
-			->join("user_features", function($join) {
-				$join->on("users.type", "=", "user_features.user_type")
-					->on("users.training_level", "=", "user_features.user_training_level")
-					->on("users.secondary_training_level", "=", "user_features.user_secondary_training_level")
-					->whereNull("user_features.user_id");
+				$join->on(function ($join) {
+					$join->on("users.type", "=", "user_features.user_type")
+						->where($this->getWhereNullOrEmpty("user_features.user_id"))
+						->where($this->getWhereNullOrEmpty("user_features.user_training_level"))
+						->where($this->getWhereNullOrEmpty("user_features.user_secondary_training_level"));
+				})->orOn(function ($join) {
+					$join->on("users.type", "=", "user_features.user_type")
+						->on("users.training_level", "=", "user_features.user_training_level")
+						->where($this->getWhereNullOrEmpty("user_features.user_id"))
+						->where($this->getWhereNullOrEmpty("user_features.user_secondary_training_level"));
+				})->orOn(function ($join) {
+					$join->on("users.type", "=", "user_features.user_type")
+						->on("users.training_level", "=", "user_features.user_training_level")
+						->on("users.secondary_training_level", "=", "user_features.user_secondary_training_level")
+						->where($this->getWhereNullOrEmpty("user_features.user_id"));
+				});
 			})
 			->where("users.id", $this->id)
 			->pluck("feature");
@@ -213,13 +206,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 	public function usesFeature($feature, $deep = true) {
 		if ($deep) {
-			if (empty($this->deepFeatures))
-				$this->deepFeatures = $this->userFeatures->pluck("feature")
-					->merge($this->typeFeatures())
-					->merge($this->trainingLevelFeatures())
-					->merge($this->secondaryTrainingLevelFeatures());
-
-			return $this->deepFeatures->contains($feature);
+			return $this->deepFeatures()->contains($feature);
 		}
 
 		return $this->userFeatures->pluck('feature')->contains($feature);

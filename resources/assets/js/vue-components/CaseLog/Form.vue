@@ -11,6 +11,7 @@
 									:disabled="readonly"
 									required
 									@change="$emit('location-input', Number($event.target.value))">
+								<option value="">Please select a location</option>
 								<option v-for="loc of locations"
 										:value="loc.id">
 									{{ loc.name }}

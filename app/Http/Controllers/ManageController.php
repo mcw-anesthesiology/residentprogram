@@ -260,9 +260,6 @@ class ManageController extends Controller
 
             $block->block_name = $blockName;
 
-			Log::debug($blockStart[$blockNumber]);
-			Log::debug($blockEnd[$blockNumber]);
-
             if(isset($blockStart[$blockNumber])){
                 [ $startMonth, $startDay, $startYear ] = explode("/", $blockStart[$blockNumber]);
 				if ($startYear < 1000)
