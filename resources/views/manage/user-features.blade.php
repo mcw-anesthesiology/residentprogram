@@ -53,9 +53,11 @@
 								<select class="form-control select2" id="user-feature-id" name="user_id" data-placeholder="Select user" required>
 	@foreach($userTypeLabels as $userType => $userTypeLabel)
 									<optgroup label="{{ $userTypeLabel }}">
-		@foreach($featureUsers[$userType] as $featureUser)
-										<option value="{{ $featureUser->id }}">{{ $featureUser->full_name }}</option>
-		@endforeach
+		@if (!empty($featureUsers[$userType]))
+			@foreach($featureUsers[$userType] as $featureUser)
+									<option value="{{ $featureUser->id }}">{{ $featureUser->full_name }}</option>
+			@endforeach
+		@endif
 									</optgroup>
 	@endforeach
 								</select>
@@ -160,10 +162,7 @@
 				method: "POST",
 				data: data
 			}).done(function(response){
-				if(response === "success")
-					userFeaturesTable.ajax.reload();
-				else
-					appendAlert("There was a problem saving the feature.");
+				userFeaturesTable.ajax.reload();
 			}).fail(function(err){
 				appendAlert("There was a problem saving the feature.");
 			}).always(function(){
@@ -185,10 +184,7 @@
 					_method: "DELETE"
 				}
 			}).done(function(response){
-				if(response === "success")
-					userFeaturesTable.ajax.reload();
-				else
-					appendAlert("There was a problem deleting the feature.");
+				userFeaturesTable.ajax.reload();
 			}).fail(function(err){
 				appendAlert("There was a problem deleting the feature.");
 			}).always(function(){
