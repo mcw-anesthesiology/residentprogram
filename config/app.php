@@ -1,8 +1,6 @@
 <?php
 use App\Providers\BroadcastServiceProvider;
 
-use Log;
-
 // This is pretty gross, but seems simplest
 $gitRev = 'UNKNOWN';
 
