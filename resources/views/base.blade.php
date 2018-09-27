@@ -25,10 +25,16 @@
 		<script>
 
 			var _rollbarConfig = {
-				accessToken: "a93e639dab554778a17abb196dd88916",
+				accessToken: "{{ env('ROLLBAR_ACCESS_TOKEN') }}",
 				captureUncaught: true,
 				captureUnhandledRejections: false,
 				payload: {
+					client: {
+						javascript: {
+							source_map_enabled: true,
+							code_version: "{{ config('app.git_rev') }}"
+						}
+					},
 					environment: "production",
 		@if(Auth::check())
 					person: RESIDENTPROGRAM_USER
