@@ -320,7 +320,6 @@ export default {
 				return [];
 
 			let questions = this.reportContents.items.filter(item => item.type === 'question');
-			this.hideQuestions = Array(questions.length).fill(false);
 
 			return questions;
 		},
@@ -418,6 +417,9 @@ export default {
 				.fill(CUSTOM_OPTION_VALUES.get('faculty'));
 			this.disregardOption = Array(report.formContents.items.length)
 				.fill(DISREGARD_OPTION.get('faculty'));
+		},
+		reportQuestions(questions) {
+			this.hideQuestions = Array(questions.length).fill(false);
 		}
 	},
 

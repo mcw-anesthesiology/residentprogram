@@ -145,7 +145,7 @@ export default {
 			if (this.readonly)
 				return;
 
-			let options = Array.slice(this.options);
+			let options = this.options.slice();
 			options[index] = Object.assign({}, options[index], {text: value, value});
 
 			this.$emit('input', {options});

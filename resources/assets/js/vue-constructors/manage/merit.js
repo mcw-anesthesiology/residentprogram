@@ -115,7 +115,7 @@ export default function createManageMerit(el, propsData) {
 				};
 			},
 			editMeritForm(forms) {
-				this.pastMeritForms = Array.slice(forms);
+				this.pastMeritForms = forms.slice();
 				let currentForm = forms[0];
 				this.merit = {
 					id: currentForm.id,

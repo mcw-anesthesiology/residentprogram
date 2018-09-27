@@ -41,8 +41,6 @@ import CaseLogSummary from './Summary.vue';
 import CaseLogSummaryV1 from './V1/DetailsReport.vue';
 
 import { renderDateCell, createDateCell } from '@/modules/datatable-utils.js';
-import { emitError } from '@/modules/errors.js';
-import { getFetchHeaders, okOrThrow } from '@/modules/utils.js';
 
 export default {
 	props: {
