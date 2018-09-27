@@ -5,11 +5,9 @@ use App\Providers\BroadcastServiceProvider;
 $gitRev = 'UNKNOWN';
 
 try {
-	$headDef = trim(file_get_contents(base_path('.git/HEAD')));
-	$headPath = trim(substr($headDef, strpos($headDef, ':') + 1));
-	$gitRev = trim(file_get_contents(base_path(".git/$headPath")));
+	$gitRev = trim(file_get_contents(base_path('public/build/version.txt')));
 } catch (\Exception $e) {
-	Log::error('Failed getting git revision sha', $e);
+	Log::error('Failed getting git revision', $e);
 }
 
 return [
