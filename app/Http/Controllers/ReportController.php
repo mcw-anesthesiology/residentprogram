@@ -800,7 +800,8 @@ class ReportController extends Controller
 			"averagePercentages",
 			"subjectResponseValues",
 			"formContents",
-			"evaluators"
+			"evaluators",
+			"evaluations"
 		);
 
     	return $data;

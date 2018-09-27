@@ -329,7 +329,7 @@ class CaseParser {
 				'stop_time' => $stopTime
 			]);
 		} catch (ModelNotFoundException $e) {
-			Log::debug('User not found: ' . $e);
+			Log::debug('User not found: ', $e);
 		}
 	}
 
