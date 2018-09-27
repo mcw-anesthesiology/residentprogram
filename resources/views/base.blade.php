@@ -19,7 +19,6 @@
 				email: "{{ Auth::user()->email }}"
 			};
 		</script>
-		<meta name="asdfkjl" content="{{ config('app.git_rev') }}" />
 	@endif
 
 	@if(App::environment("production"))
