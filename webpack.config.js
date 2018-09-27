@@ -13,7 +13,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 const { APP_URL, ROLLBAR_ACCESS_TOKEN } = process.env;
-const publicPath = `${APP_URL}/build/`;
 
 const GIT_REV = gitRev.long();
 
@@ -39,10 +38,10 @@ module.exports = (env, argv) => {
 		},
 		output: {
 			path: path.resolve(__dirname, 'public/build/'),
-			publicPath,
-			filename: env.mode === 'production'
-			? 'js/[name]-[chunkhash].js'
-			: 'js/[name].js',
+			publicPath: '/build/',
+			filename: argv.mode === 'production'
+				? 'js/[name]-[chunkhash].js'
+				: 'js/[name].js',
 			libraryTarget: 'umd'
 		},
 		target: 'web',
@@ -61,14 +60,6 @@ module.exports = (env, argv) => {
 					test: /\.js$/,
 					use: 'babel-loader'
 				},
-				// {
-				// 	test: /\.js$/,
-				// 	include: [
-				// 		/node_modules\/striptags/,
-				// 		/node_modules\/uri-js/
-				// 	],
-				// 	use: 'babel-loader'
-				// },
 				{
 					test: /\.css$/,
 					use: [
@@ -89,32 +80,32 @@ module.exports = (env, argv) => {
 				'ADMIN_EMAIL'
 			]),
 			new CleanWebpackPlugin([
-				'public/js',
-				'public/css/*.css',
-				'public/css/*.map',
+				// 'public/js',
+				// 'public/css/*.css',
+				// 'public/css/*.map',
 				'public/build/js',
 				'public/build/css/*.css',
 				'public/build/css/*.map'
 			]),
 			new BundleAnalyzerPlugin({
 				analyzerMode: argv.watch
-				? 'server'
-				: 'disabled',
+					? 'server'
+					: 'disabled',
 				analyzerPort: 8088,
 				openAnalyzer: false,
 				generateStatsFile: true
 			}),
 			new MiniCssExtractPlugin({
-				filename: env.mode === 'production'
+				filename: argv.mode === 'production'
 					? 'css/[name]-[contenthash].css'
 					: 'css/[name].css',
 				allChunks: true
 			}),
 			new ManifestPlugin(),
 			new VueLoaderPlugin(),
-			env.mode === 'production' && new RollbarSourceMapPlugin({
+			argv.mode === 'production' && new RollbarSourceMapPlugin({
 				accessToken: ROLLBAR_ACCESS_TOKEN,
-				publicPath,
+				publicPath: `${APP_URL}/build/`,
 				version: GIT_REV
 			})
 		].filter(Boolean),
