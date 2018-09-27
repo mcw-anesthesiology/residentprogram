@@ -1,10 +1,20 @@
 <?php
 use App\Providers\BroadcastServiceProvider;
 
+$gitRev = 'UNKNOWN';
+
+try {
+	$gitRev = exec('git rev-parse HEAD');
+} catch (\Exception $e) {
+	Log::error('Failed getting git revision sha', $e);
+}
+
 return [
 
 
     'admin_email' => env('ADMIN_EMAIL', 'jmischka@mcw.edu'),
+
+	'git_rev' => $gitRev,
 
 	'include_intranet_welcome' => env('INCLUDE_INTRANET_WELCOME', true),
 
