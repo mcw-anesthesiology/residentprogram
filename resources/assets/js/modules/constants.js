@@ -1,14 +1,13 @@
 /* @flow */
+/* global process */
 
-export const ADMIN_EMAIL = 'jmischka@mcw.edu';
+export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 export const NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
 
 export const UNSEEN_EVALUATION_PRIORITY = 1000000;
 
 export const PLACEHOLDER_USER_IMAGE_PATH = '/img/avatar.png';
-
-export const ROLLBAR_TOKEN = 'a93e639dab554778a17abb196dd88916';
 
 // FIXME: A lot of these should be configurable and saved instead of hardcoded
 export const STANDARD_OPTIONS = {

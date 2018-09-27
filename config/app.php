@@ -1,10 +1,25 @@
 <?php
 use App\Providers\BroadcastServiceProvider;
 
+use Log;
+
+// This is pretty gross, but seems simplest
+$gitRev = 'UNKNOWN';
+
+try {
+	$headDef = trim(file_get_contents(base_path('.git/HEAD')));
+	$headPath = trim(substr($headDef, strpos($headDef, ':') + 1));
+	$gitRev = trim(file_get_contents(base_path(".git/$headPath")));
+} catch (\Exception $e) {
+	Log::error('Failed getting git revision sha', $e);
+}
+
 return [
 
 
     'admin_email' => env('ADMIN_EMAIL', 'jmischka@mcw.edu'),
+
+	'git_rev' => $gitRev,
 
 	'include_intranet_welcome' => env('INCLUDE_INTRANET_WELCOME', true),
 

@@ -3,7 +3,6 @@
 
 import Rollbar from 'rollbar';
 
-import { ROLLBAR_TOKEN } from '@/modules/constants.js';
 import { simpleErrorAlert } from '@/modules/utils.js';
 
 import type { BootstrapAlertItem } from '@/modules/utils.js';
@@ -18,7 +17,7 @@ type AlertContainer = {
 
 export const rollbar = new Rollbar({
 	enabled: process.env.NODE_ENV === 'production',
-	accessToken: ROLLBAR_TOKEN,
+	accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
 	captureUncaught: true,
 	captureUnhandledRejections: false,
 	payload: {
