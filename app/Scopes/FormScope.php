@@ -18,6 +18,11 @@ class FormScope implements Scope {
 				$user->specificType
 			];
 
+			// Gross intern360 workaround
+			if ($user->isType('trainee')) {
+				$userTypes[] = 'ca-1';
+			}
+
 			return $builder->where(function($query) use ($user, $userTypes) {
 				return $query->whereIn('type', $userTypes)
 					->orWhereIn('evaluator_type', $userTypes);
