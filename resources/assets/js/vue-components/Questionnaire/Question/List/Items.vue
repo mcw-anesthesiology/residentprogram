@@ -77,13 +77,13 @@ export default {
 				},
 				on: {
 					input: item => {
-						let items = Array.slice(this.items);
+						let items = this.items.slice();
 						items[index] = Object.assign({}, items[index], item);
 
 						this.$emit('change', items);
 					},
 					remove: () => {
-						let items = Array.slice(this.items);
+						let items = this.items.slice();
 						items.splice(index, 1);
 
 						this.$emit('change', items);

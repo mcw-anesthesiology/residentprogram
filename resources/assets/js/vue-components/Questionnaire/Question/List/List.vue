@@ -210,7 +210,7 @@ export default {
 				return;
 
 			if (this.itemCount > this.fixedLength) {
-				let items = Array.slice(this.items);
+				let items = this.items.slice();
 				while (this.itemCount > this.fixedLength) {
 					items.pop();
 				}
@@ -233,7 +233,7 @@ export default {
 			if (this.readonly)
 				return;
 
-			let items = Array.slice(this.items);
+			let items = this.items.slice();
 			items.push(...newItems);
 
 			this.$emit('input', {items});
