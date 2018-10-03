@@ -23,7 +23,8 @@ module.exports = api => {
 			['module-resolver', {
 				alias: {
 					'vue-flatpickr': '@jacobmischka/vue-flatpickr',
-					'@': './resources/assets/js'
+					'@': './resources/assets/js',
+					'#': './resources/assets/js/vue-components'
 				},
 				extensions: [
 					'.js',

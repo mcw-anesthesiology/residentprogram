@@ -17,7 +17,8 @@ class UserController extends RestController
 		$this->middleware('type:admin', ['except' => [
 			'index',
 			'show',
-			'settings'
+			'settings',
+			'user'
 		]]);
 
 		$this->scopes = [
@@ -51,6 +52,10 @@ class UserController extends RestController
 	];
 
 	protected $model = \App\User::class;
+
+	public function user() {
+		return Auth::user();
+	}
 
 	public function store(Request $request) {
 		if (!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))

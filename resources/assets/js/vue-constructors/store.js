@@ -1,5 +1,8 @@
 import { Store } from 'vuex';
 
+import ky from '@/modules/ky.js';
+import { logError } from '@/modules/errors.js';
+
 import competencies from './store/competencies.js';
 import evaluations from './store/evaluations.js';
 import forms from './store/forms.js';
@@ -9,7 +12,6 @@ import news from './store/news.js';
 import programs from './store/programs.js';
 import users from './store/users.js';
 
-import { logError } from '@/modules/errors.js';
 
 const store = new Store({
 	modules: {
@@ -23,9 +25,13 @@ const store = new Store({
 		users
 	},
 	state: {
+		user: null,
 		alerts: []
 	},
 	mutations: {
+		setUser(state, user) {
+			state.user = user;
+		},
 		error(state, text) {
 
 			logError(text);
@@ -40,8 +46,19 @@ const store = new Store({
 		removeAlert(state, alert) {
 			state.alerts = state.alerts.filter(a => a !== alert);
 		}
+	},
+	actions: {
+		fetchUser({ commit }) {
+			ky.get('/me').json().then(user => {
+				commit('setUser', user);
+			}).catch(err => {
+				commit('error', err);
+			});
+		}
 	}
 });
+
+store.dispatch('fetchUser');
 
 export default store;
 

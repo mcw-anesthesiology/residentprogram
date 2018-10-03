@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="component-list">
 		<div class="list-header-controls form-inline">
 			<div class="form-group">
 				<label class="containing-label">

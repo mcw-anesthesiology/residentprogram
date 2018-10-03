@@ -73,9 +73,9 @@ module.exports = (env, argv) => ({
 	},
 	plugins: [
 		new CleanWebpackPlugin([
-			'public/js',
-			'public/css/*.css',
-			'public/css/*.map',
+			// 'public/js',
+			// 'public/css/*.css',
+			// 'public/css/*.map',
 			'public/build/js',
 			'public/build/css/*.css',
 			'public/build/css/*.map'

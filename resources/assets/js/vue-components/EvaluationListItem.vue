@@ -5,7 +5,7 @@
 		</a>
 		<div class="evaluation-details display-labels">
 			<div class="form-date-group value-group">
-				<span class="value subject">
+				<span v-if="evaluation.subject && evaluation.subject_id !== user.id" class="value subject">
 					{{ evaluation.subject.full_name }}
 				</span>
 				<span class="value evaluation-date">
@@ -17,7 +17,7 @@
 				<span v-if="evaluation.form" class="value form">
 					{{ evaluation.form.title }}
 				</span>
-				<span v-if="evaluation.evaluator" class="value evaluator">
+				<span v-if="evaluation.evaluator && evaluation.evaluator_id !== user.id" class="value evaluator">
 					{{ evaluation.evaluator.full_name }}
 				</span>
 			</div>
@@ -25,11 +25,11 @@
 
 			<div class="value-group">
 				<span class="value request-date">
-					<rich-date :date="evaluation.request_date" />
+					<rich-date :date="evaluation.request_date" time />
 				</span>
 
-				<span class="value complete-date">
-					<rich-date :date="evaluation.complete_date" />
+				<span v-if="evaluation.complete_date" class="value complete-date">
+					<rich-date :date="evaluation.complete_date" time />
 				</span>
 			</div>
 		</div>
@@ -44,21 +44,19 @@
 	</li>
 </template>
 
-<style>
+<style scoped>
 .evaluation-list-item {
-	border: 1px solid rgba(0, 0, 0, 0.15);
-	border-radius: 2px;
-	margin: 0.25em 0;
 	font-size: 1em;
+	background-color: #fff;
 }
 
 .evaluation-list-item:nth-child(even) {
-	background-color: rgba(0, 0, 0, 0.03);
+	background-color: #fefefe;
 }
 
 .evaluation-list-item:hover {
 	cursor: pointer;
-	background-color: rgba(0, 0, 0, 0.05);
+	background-color: #eee;
 }
 
 /* TODO: Fallback for grid */
@@ -161,6 +159,7 @@
 </style>
 
 <script>
+import { mapState } from 'vuex';
 import ky from '@/modules/ky.js';
 
 import RichDate from './RichDate.vue';
@@ -180,6 +179,9 @@ export default {
 			showEvaluation: false,
 			contents: null
 		};
+	},
+	computed: {
+		...mapState(['user'])
 	},
 	watch: {
 		showEvaluation(show) {
