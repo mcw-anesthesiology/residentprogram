@@ -3,41 +3,32 @@
 @push('stylesheets')
 	<link rel="stylesheet" href="{{ elixir('css/dashboard.css') }}" />
 	<style>
-		h2 {
-			margin-top: 2em;
+		a.router-link-active {
+			opacity: 0.75;
+			pointer-events: none;
 		}
 	</style>
 @endpush
 
 @section('main')
-@verbatim
 	<div class="container body-block">
 		<h1>Dashboard</h1>
 
 		<start-end-date v-model="dates"></start-end-date>
 
-		<div v-if="subjectEvaluations">
-			<h2>
-				My evaluations
-				<button type="button" class="btn btn-sm btn-default" @click="$store.dispatch('evaluations/subject/fetch', dates)">
-					<span class="glyphicon glyphicon-refresh"></span>
-				</button>
-			</h2>
-			<subject-evaluations-block :evaluations="subjectEvaluations"></subject-evaluations-block>
-		</div>
-
-		<div v-if="evaluatorEvaluations">
-			<h2>
-				Evaluations for me to complete
-				<button type="button" class="btn btn-sm btn-default" @click="$store.dispatch('evaluations/evaluator/fetch', dates)">
-					<span class="glyphicon glyphicon-refresh"></span>
-				</button>
-			</h2>
-			<evaluator-evaluations-block :evaluations="evaluatorEvaluations"></evaluator-evaluations-block>
-		</div>
+		<nav v-cloak>
+			<ul>
+				<li>
+					<router-link to="/">Home</router-link>
+				</li>
+				<li>
+					<router-link to="/mentees">Mentees</router-link>
+				</li>
+			</ul>
+		</nav>
 	</div>
 
-@endverbatim
+	<router-view :dates="dates"></router-view>
 @endsection
 
 @push('scripts')
