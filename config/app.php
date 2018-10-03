@@ -20,7 +20,7 @@ return [
 	'include_intranet_welcome' => env('INCLUDE_INTRANET_WELCOME', true),
 
 	'external_links' => [
-		'Directory' => 'https://intranet.mcwanesthesiology.org/administration/department-directory/',
+		'Directory' => 'https://www.mcwanet.com/directory/',
 		'Day Off' => 'https://www.dayoff.site'
 	],
 
