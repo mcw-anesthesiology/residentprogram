@@ -14,10 +14,12 @@
 	<div class="container body-block">
 		<h1>Dashboard</h1>
 
+		<start-end-date v-model="dates"></start-end-date>
+
 		<div v-if="subjectEvaluations">
 			<h2>
 				My evaluations
-				<button type="button" class="btn btn-sm btn-default" @click="$store.dispatch('evaluations/subject/fetch')">
+				<button type="button" class="btn btn-sm btn-default" @click="$store.dispatch('evaluations/subject/fetch', dates)">
 					<span class="glyphicon glyphicon-refresh"></span>
 				</button>
 			</h2>
@@ -26,8 +28,8 @@
 
 		<div v-if="evaluatorEvaluations">
 			<h2>
-				Evaluations I completed
-				<button type="button" class="btn btn-sm btn-default" @click="$store.dispatch('evaluations/evaluator/fetch')">
+				Evaluations for me to complete
+				<button type="button" class="btn btn-sm btn-default" @click="$store.dispatch('evaluations/evaluator/fetch', dates)">
 					<span class="glyphicon glyphicon-refresh"></span>
 				</button>
 			</h2>

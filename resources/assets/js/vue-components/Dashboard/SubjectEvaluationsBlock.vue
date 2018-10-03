@@ -7,19 +7,19 @@
 </template>
 
 <style scoped>
-.subject-evaluations-block {
-	background: #ddd;
-	border: 1px solid #ccc;
-	border-radius: 3px;
-}
-
-@supports (display: grid) {
 	.subject-evaluations-block {
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-gap: 2px;
+		background: #ddd;
+		border: 1px solid #ccc;
+		border-radius: 3px;
 	}
-}
+
+	@supports (display: grid) {
+		.subject-evaluations-block {
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-gap: 2px;
+		}
+	}
 </style>
 
 <script>
