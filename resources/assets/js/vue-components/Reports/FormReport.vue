@@ -106,57 +106,60 @@
 				</button>
 			</div>
 
-			<div v-if="this.reportContents && this.subjectId && this.reportContents.items.length > 0"
-					class="panel panel-default">
-				<div class="panel-body">
-					<fieldset>
-						<legend>
-							Evaluation list style
-						</legend>
+			<div v-if="reportContents">
+				<div v-if="subjectId && reportContents.items.length > 0"
+						class="panel panel-default">
+					<div class="panel-body">
+						<fieldset>
+							<legend>
+								Evaluation list style
+							</legend>
 
-						<label>
-							<input type="radio" value="details"
-								v-model="pdfOptions.evaluationListStyle" />
-							Detailed
-						</label>
-						<label>
-							<input type="radio" value="summary"
-								v-model="pdfOptions.evaluationListStyle" />
-							Summary
-						</label>
-					</fieldset>
+							<label>
+								<input type="radio" value="details"
+									v-model="pdfOptions.evaluationListStyle" />
+								Detailed
+							</label>
+							<label>
+								<input type="radio" value="summary"
+									v-model="pdfOptions.evaluationListStyle" />
+								Summary
+							</label>
+						</fieldset>
 
-					<div class="text-center">
-						<button type="button" class="btn btn-default"
-								@click="exportPdf">
-							Export PDF
-							<svg-icon src="/img/icons/pdf.svg" />
-						</button>
+						<div class="text-center">
+							<button type="button" class="btn btn-default"
+									@click="exportPdf">
+								Export PDF
+								<svg-icon src="/img/icons/pdf.svg" />
+							</button>
 
 
-						<button type="button" class="btn btn-default"
-								@click="runCsvReport">
-							Export CSV
-						</button>
+							<button type="button" class="btn btn-default"
+									@click="runCsvReport">
+								Export CSV
+							</button>
+						</div>
 					</div>
 				</div>
+
+				<h2 class="form-title" v-if="reportContents.title">
+					{{ reportContents.title }}
+				</h2>
+				<form-report-question v-for="(question, index) of reportQuestions"
+					:key="index"
+					v-bind="question"
+					:hide="hideQuestions[index]"
+					:score-question="scoreQuestions[index]"
+					:custom-option-values="customOptionValues[index]"
+					:disregard-option="disregardOption[index]"
+					@hide="hideQuestion(index, arguments[0])"
+					@score-question="scoreQuestion(index, arguments[0])"
+					@custom-option="handleCustomOption(index, arguments[0])"
+					@disregard-option="handleDisregardOption(index, arguments[0])" />
+				<hr />
 			</div>
 
-			<h2 class="form-title" v-if="reportContents.title">
-				{{ reportContents.title }}
-			</h2>
-			<form-report-question v-for="(question, index) of reportQuestions"
-				:key="index"
-				v-bind="question"
-				:hide="hideQuestions[index]"
-				:score-question="scoreQuestions[index]"
-				:custom-option-values="customOptionValues[index]"
-				:disregard-option="disregardOption[index]"
-				@hide="hideQuestion(index, arguments[0])"
-				@score-question="scoreQuestion(index, arguments[0])"
-				@custom-option="handleCustomOption(index, arguments[0])"
-				@disregard-option="handleDisregardOption(index, arguments[0])" />
-			<hr />
 		</div>
 	</div>
 </template>
@@ -272,6 +275,9 @@ export default {
 				return this.users.find(user => user.id === Number(this.subjectId));
 		},
 		reportContents() {
+			if (!this.report)
+				return null;
+
 			let reportContents = this.report.formContents;
 
 			reportContents.items.map(item => {
