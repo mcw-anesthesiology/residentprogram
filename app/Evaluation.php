@@ -74,7 +74,7 @@ class Evaluation extends Model
 		'flag'
 	];
 
-	protected $appends = ['url'];
+	protected $appends = ['url', 'type'];
 
 	private $showAll = false;
 	private $hashids = false;
@@ -165,6 +165,29 @@ class Evaluation extends Model
 		}
 
 		return $comment;
+	}
+
+	public function getTypeAttribute() {
+		if (empty($this->form))
+			$this->load('form');
+
+		if ($this->form->evaluator_type == 'self')
+			return 'self';
+
+		switch ($this->form->type) {
+		case 'faculty':
+			return 'faculty';
+		case 'resident':
+			return 'trainee';
+		case 'fellow':
+			return 'fellow';
+		case 'intern':
+			return 'intern';
+		case 'app':
+			return 'app';
+		}
+
+		return null;
 	}
 
 	public function getUrlAttribute() {

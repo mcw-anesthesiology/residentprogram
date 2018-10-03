@@ -1,5 +1,7 @@
 import ky from '@/modules/ky.js';
 
+import { queryParams } from '@/modules/utils.js';
+
 export default {
 	namespaced: true,
 	modules: {
@@ -17,6 +19,14 @@ function createRouteModule(route) {
 		getters: {
 			list(state) {
 				return Array.from(state.evaluations.values());
+			},
+			listBetween(state, { list }) {
+				return ({ startDate, endDate }) => {
+					return list.filter(e =>
+						(!endDate || e.evaluation_date_start <= endDate)
+						&& (!startDate || e.evaluation_date_end >= startDate)
+					);
+				};
 			}
 		},
 		mutations: {
@@ -29,8 +39,10 @@ function createRouteModule(route) {
 			},
 		},
 		actions: {
-			fetch({ commit }) {
-				ky.get(route).json().then(evals => {
+			fetch({ commit }, { startDate, endDate }) {
+				const query = queryParams({ startDate, endDate });
+
+				ky.get(`${route}?${query}`).json().then(evals => {
 					commit('add', evals);
 				}).catch(err => {
 					commit('error', err, { root: true });

@@ -3,34 +3,42 @@
 		<a :href="`/evaluation/${evaluation.id}`" class="value eval-id">
 			{{ evaluation.id }}
 		</a>
-		<div class="evaluation-details display-labels">
-			<div class="form-date-group value-group">
-				<span v-if="evaluation.form" class="value form">
-					{{ evaluation.form.title }}
-				</span>
-				<span class="value evaluation-date">
-					<rich-date-range :dates="evaluation" start="evaluation_date_start" end="evaluation_date_end" />
+		<div class="evaluation-main">
+			<div class="evaluation-header">
+				<span class="evaluation-type">
+					{{ evaluationTypeDisplay }}
 				</span>
 			</div>
 
-			<div class="value-group">
-				<span v-if="evaluation.subject && evaluation.subject_id !== user.id" class="value subject">
-					{{ evaluation.subject.full_name }}
-				</span>
-				<span v-if="evaluation.evaluator && evaluation.evaluator_id !== user.id" class="value evaluator">
-					{{ evaluation.evaluator.full_name }}
-				</span>
-			</div>
+			<div class="evaluation-details display-labels">
+				<div class="form-date-group value-group">
+					<span v-if="evaluation.form" class="value form">
+						{{ evaluation.form.title }}
+					</span>
+					<span class="value evaluation-date">
+						<rich-date-range :dates="evaluation" start="evaluation_date_start" end="evaluation_date_end" />
+					</span>
+				</div>
+
+				<div class="value-group">
+					<span v-if="evaluation.subject && evaluation.subject_id !== user.id" class="value subject">
+						{{ evaluation.subject.full_name }}
+					</span>
+					<span v-if="evaluation.evaluator && evaluation.evaluator_id !== user.id" class="value evaluator">
+						{{ evaluation.evaluator.full_name }}
+					</span>
+				</div>
 
 
-			<div class="value-group">
-				<span class="value request-date">
-					<rich-date :date="evaluation.request_date" time />
-				</span>
+				<div class="value-group">
+					<span class="value request-date">
+						<rich-date :date="evaluation.request_date" time />
+					</span>
 
-				<span v-if="evaluation.complete_date" class="value complete-date">
-					<rich-date :date="evaluation.complete_date" time />
-				</span>
+					<span v-if="evaluation.complete_date" class="value complete-date">
+						<rich-date :date="evaluation.complete_date" time />
+					</span>
+				</div>
 			</div>
 		</div>
 
@@ -62,7 +70,7 @@
 }
 
 .evaluation-list-item:nth-child(even) {
-	background-color: #fefefe;
+	background-color: #fbfbfb;
 }
 
 .evaluation-list-item:hover {
@@ -77,6 +85,15 @@
 	flex-wrap: wrap;
 }
 
+.evaluation-header {
+	margin-bottom: 0.5em;
+}
+
+.evaluation-type {
+	font-size: 1.5em;
+	color: rgba(0, 0, 0, 0.55);
+}
+
 .evaluation-details {
 	flex: 1 1;
 	display: flex;
@@ -87,24 +104,44 @@
 	flex: 1 1;
 	display: flex;
 	flex-direction: column;
+	max-width: 100%;
+}
+
+.value {
+	white-space: normal;
+}
+
+.evaluation-list-item {
+	padding: 1em;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.evaluation-details {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.value-group {
+	margin: 1em;
 }
 
 @supports (display: grid) {
 	.evaluation-list-item {
-		padding: 1em;
 		display: grid;
 		grid-gap: 1em;
-		grid-template-columns: 2em 1fr 7em;
+		grid-template-columns: 2em 8fr minmax(6em, 1fr);
 	}
 
 	.evaluation-details {
 		display: grid;
 		grid-gap: 1em;
-		grid-template-columns: repeat(auto-fit, minmax(min-content, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
 		align-items: stretch;
 	}
 
 	.value-group {
+		margin: 0;
 		display: grid;
 		grid-template-columns: 1fr;
 		grid-gap: 0.25em;
@@ -114,8 +151,12 @@
 	.controls-container {
 		display: grid;
 		grid-gap: 0.5em;
-		grid-template-columns: repeat(auto-fit, minmax(min-content, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(6em, 1fr));
 	}
+}
+
+.controls-container .btn {
+	white-space: normal;
 }
 
 .evaluation-link {
@@ -133,15 +174,15 @@
 }
 
 .subject {
-	font-size: 1.75em;
+	font-size: 1.4em;
 }
 
 .form {
-	font-size: 1.6em;
+	font-size: 1.3em;
 }
 
 .evaluation-date {
-	font-size: 1.25em;
+	font-size: 1.1em;
 }
 
 .display-labels .value::before {
@@ -184,6 +225,8 @@ import RichDateRange from './RichDateRange.vue';
 import ShowHideButton from './ShowHideButton.vue';
 import FormReader from './FormReader/FormReader.vue';
 
+import { renderEvaluationType } from '@/modules/datatable-utils.js';
+
 export default {
 	props: {
 		evaluation: {
@@ -199,7 +242,10 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(['user'])
+		...mapState(['user']),
+		evaluationTypeDisplay() {
+			return renderEvaluationType(this.evaluation);
+		}
 	},
 	watch: {
 		showEvaluation(show) {

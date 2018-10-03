@@ -8,19 +8,19 @@
 </template>
 
 <style scoped>
-@supports (display: grid) {
 	.evaluator-evaluations-block {
-		display: grid;
-		grid-template-rows: 1fr;
-		grid-gap: 1px;
+		background: #ddd;
+		border: 1px solid #ccc;
+		border-radius: 3px;
 	}
-}
 
-.evaluator-evaluations-block {
-	background: #ccc;
-	border: 1px solid #ccc;
-	border-radius: 3px;
-}
+	@supports (display: grid) {
+		.evaluator-evaluations-block {
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-gap: 2px;
+		}
+	}
 </style>
 
 <script>
@@ -35,10 +35,10 @@ export default {
 	},
 	computed: {
 		newRequests() {
-			return this.evaluations.filter(e => !e.seen_by_evaluator && e.status === 'pending');
+			return this.evaluations.filter(e => !e.seen_by_evaluator_at && e.status === 'pending');
 		},
 		requests() {
-			return this.evaluations.filter(e => e.seen_by_evaluator && e.status === 'pending');
+			return this.evaluations.filter(e => e.seen_by_evaluator_at && e.status === 'pending');
 		},
 		inProgressEvaluations() {
 			return this.evaluations.filter(e => e.status === 'saved');
