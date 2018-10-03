@@ -55,6 +55,12 @@
 	</div>
 </template>
 
+<style scoped>
+	.list-header-controls {
+		padding: 1em;
+	}
+</style>
+
 <script>
 import ListPaginator from './ListPaginator.vue';
 
@@ -102,6 +108,10 @@ export default {
 			type: Boolean,
 			default: true
 		},
+		defaultItemsPerPage: {
+			type: Number,
+			default: 10
+		},
 		reloadable: {
 			type: Boolean,
 			default: false
@@ -117,7 +127,7 @@ export default {
 		return {
 			query: null,
 			page: 0,
-			itemsPerPage: 10,
+			itemsPerPage: this.defaultItemsPerPage,
 			sortBy: this.defaultSortBy || this.fields[0],
 			sortOrder: this.defaultSortOrder
 		};

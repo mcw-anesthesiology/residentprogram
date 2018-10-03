@@ -33,10 +33,11 @@
 		<component-list :items="evaluationsToShow" :fields="fields"
 				:fieldAccessors="fieldAccessors"
 				defaultSortBy="id"
-				defaultSortOrder="desc">
+				defaultSortOrder="desc"
+				:defaultItemsPerPage="5">
 			<template slot-scope="evaluation">
 				<slot v-bind="evaluation">
-					<evaluation-list-item :evaluation="evaluation" />
+					<evaluation-list-item :key="evaluation.id" :evaluation="evaluation" />
 				</slot>
 			</template>
 		</component-list>
