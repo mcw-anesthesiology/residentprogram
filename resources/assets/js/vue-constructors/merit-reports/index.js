@@ -11,7 +11,7 @@ import FacultyMeritReportMixin from './faculty.js';
 
 export { default as createViewMeritReportForm } from './view-form.js';
 
-import { handleError } from '@/modules/errors.js';
+import { logWarning, handleError } from '@/modules/errors.js';
 import {
 	fetchAllMeritReports,
 	getYearlyFacultyMeritForm,
@@ -78,6 +78,25 @@ export function createMeritReportsHub(el, propsData) {
 
 		router,
 
+		computed: {
+			yearlyFacultyForm() {
+				const form = getYearlyFacultyMeritForm(
+					this.meritForms,
+					this.meritReportTypes,
+					this.meritReportTypeForms
+				);
+
+				if (form)
+					return form;
+
+				logWarning('No merit checklist form was returned', {
+					meritForms: JSON.parse(JSON.stringify(this.meritForms)),
+					meritReportTypes: JSON.parse(JSON.stringify(this.meritReportTypes)),
+					meritReportTypeForms: JSON.parse(JSON.stringify(this.meritReportTypeForms))
+				});
+			}
+		},
+
 		methods: {
 			fetchReports() {
 				this.fetchAllMeritReports();
@@ -102,11 +121,9 @@ export function createMeritReportsHub(el, propsData) {
 				});
 			},
 			addMeritReport() {
-				const form = getYearlyFacultyMeritForm(
-					this.meritForms,
-					this.meritReportTypes,
-					this.meritReportTypeForms
-				);
+				if (!this.yearlyFacultyForm)
+					return;
+
 				const dates = getCurrentYearlyMeritDateRange();
 
 				fetch('/merits', {
@@ -115,10 +132,10 @@ export function createMeritReportsHub(el, propsData) {
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						user_id: this.user.id,
-						form_id: form.id,
+						form_id: this.yearlyFacultyForm.id,
 						period_start: dates.startDate,
 						period_end: dates.endDate,
-						report: JSON.parse(form.form),
+						report: JSON.parse(this.yearlyFacultyForm.form),
 						status: 'pending'
 					})
 				}).then(jsonOrThrow).then(merit => {

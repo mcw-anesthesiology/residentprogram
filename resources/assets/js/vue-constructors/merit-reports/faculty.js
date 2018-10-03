@@ -1,3 +1,4 @@
+import BootstrapAlert from '@/vue-components/BootstrapAlert.vue';
 import ComponentList from '@/vue-components/ComponentList.vue';
 import MeritCompensationReport from '@/vue-components/MeritCompensation/Report.vue';
 import MeritReportListItem from '@/vue-components/MeritCompensation/ReportListItem.vue';
@@ -85,6 +86,7 @@ export default {
 	},
 
 	components: {
+		BootstrapAlert,
 		ComponentList,
 		MeritCompensationReport,
 		MeritReportListItem,

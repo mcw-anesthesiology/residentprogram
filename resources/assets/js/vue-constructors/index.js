@@ -8,12 +8,12 @@ Vue.use(Vuex);
 Vue.use(VueRouter);
 
 Vue.config.errorHandler = (err, vm, info) => {
-	rollbar.error(`Error from Vue: ${err}, info: ${info}`);
+	rollbar.error(`Error from Vue: ${err}`, { info, vm });
 	console.error(err, info);
 };
 
 Vue.config.warnHandler = (msg, vm, trace) => {
-	rollbar.warning(`Warning from Vue: ${msg}, trace: ${trace}`);
+	rollbar.warning(`Warning from Vue: ${msg}`, { trace, vm });
 	console.warn(msg, trace);
 };
 

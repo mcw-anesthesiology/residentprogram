@@ -26,9 +26,14 @@ export const rollbar = new Rollbar({
 	}
 });
 
-export function logError(...errs: Array<Error | string>) {
+export function logError(...errs: Array<Error | string | Object>) {
 	console.error(...errs);
 	rollbar.error(...errs);
+}
+
+export function logWarning(...errs: Array<Error | string | Object>) {
+	console.warn(...errs);
+	rollbar.warning(...errs);
 }
 
 export function handleError(err: Error, vm: ?AlertContainer, message: ?string) {

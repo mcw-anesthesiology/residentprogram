@@ -74,11 +74,11 @@ module.exports = (env, argv) => {
 			]
 		},
 		plugins: [
-			new webpack.EnvironmentPlugin([
-				'NODE_ENV',
-				'ROLLBAR_ACCESS_TOKEN',
-				'ADMIN_EMAIL'
-			]),
+			new webpack.EnvironmentPlugin({
+				NODE_ENV: 'development',
+				ROLLBAR_ACCESS_TOKEN: '',
+				ADMIN_EMAIL: 'jmischka@mcw.edu'
+			}),
 			new CleanWebpackPlugin([
 				// 'public/js',
 				// 'public/css/*.css',
