@@ -43,9 +43,17 @@
 	</section>
 </template>
 
-<style>
-
+<style scoped>
 @supports (display: grid) {
+	.evaluation-list :global(.component-list .list-container ol) {
+		display: grid;
+		grid-gap: 1px;
+		grid-template-columns: 1fr;
+		background-color: #ddd;
+		border-top: 1px solid #ddd;
+		border-bottom: 1px solid #ddd;
+	}
+
 	.filters-container {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, 200px);

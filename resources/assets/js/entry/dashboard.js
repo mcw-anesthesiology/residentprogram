@@ -3,7 +3,8 @@ import { mapGetters } from 'vuex';
 
 import store from '@/vue-constructors/store.js';
 
-import EvaluationTypeBlock from '@/vue-components/Dashboard/EvaluationTypeBlock.vue';
+import SubjectEvaluationsBlock from '#/Dashboard/SubjectEvaluationsBlock.vue';
+import EvaluatorEvaluationsBlock from '#/Dashboard/EvaluatorEvaluationsBlock.vue';
 
 new Vue({
 	el: 'main',
@@ -26,6 +27,7 @@ new Vue({
 		this.$store.dispatch('evaluations/evaluator/fetch');
 	},
 	components: {
-		EvaluationTypeBlock
+		SubjectEvaluationsBlock,
+		EvaluatorEvaluationsBlock
 	}
 });

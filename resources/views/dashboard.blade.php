@@ -6,15 +6,17 @@
 
 @section('main')
 @verbatim
-	<div class="container body-block" v-if="subjectEvaluations">
-		<h2>My evaluations</h2>
-		<evaluation-type-block :evaluations="subjectEvaluations"></evaluation-type-block>
+	<div class="container body-block">
+		<div v-if="subjectEvaluations">
+			<h2>My evaluations</h2>
+			<subject-evaluations-block :evaluations="subjectEvaluations"></subject-evaluations-block>
+		</div>
+		<div v-if="evaluatorEvaluations">
+			<h2>Evaluations I completed</h2>
+			<evaluator-evaluations-block :evaluations="evaluatorEvaluations"></evaluator-evaluations-block>
+		</div>
 	</div>
 
-	<div class="container body-block" v-if="evaluatorEvaluations">
-		<h2>Evaluations I completed</h2>
-		<evaluation-type-block :evaluations="evaluatorEvaluations"></evaluation-type-block>
-	</div>
 @endverbatim
 @endsection
 
