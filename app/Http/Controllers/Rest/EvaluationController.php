@@ -26,7 +26,8 @@ class EvaluationController extends RestController
 			'saveComment',
 			'userEdit',
 			'decline',
-			'contents'
+			'contents',
+			'acknowledge'
 		]);
 
 		$this->middleware(function ($request, $next) {
@@ -97,6 +98,22 @@ class EvaluationController extends RestController
 		// $this->middleware("create.evaluation", ["only" => [
 		// 	"store"
 		// ]]);
+		//
+
+		$this->middleware(function ($request, $next) {
+			$evaluation = Evaluation::findOrFail($request->route()->parameters()['id']);
+
+			if ($evaluation->status != 'complete') {
+				throw new \Exception('Evaluation must be complete to acknowledge it');
+			}
+
+			if (Auth::id() == $evaluation->subject_id) {
+			} else {
+				throw new \Exception('Only subjects can acknowledge their evaluations');
+			}
+
+			return $next($request);
+		})->only('acknowledge');
 	}
 
 	protected $relationships = [
@@ -295,5 +312,11 @@ class EvaluationController extends RestController
 
 	public function contents($id) {
 		return Evaluation::findOrFail($id)->contents;
+	}
+
+	public function acknowledge($id) {
+		$evaluation = Evaluation::findOrFail($id);
+		$evaluation->seen_by_subject_at = Carbon::now();
+		return $evaluation->save() ? response('Success') : response('Failure', 500);
 	}
 }

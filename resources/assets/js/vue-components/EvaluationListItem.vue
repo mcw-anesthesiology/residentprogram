@@ -5,8 +5,8 @@
 		</a>
 		<div class="evaluation-details display-labels">
 			<div class="form-date-group value-group">
-				<span v-if="evaluation.subject && evaluation.subject_id !== user.id" class="value subject">
-					{{ evaluation.subject.full_name }}
+				<span v-if="evaluation.form" class="value form">
+					{{ evaluation.form.title }}
 				</span>
 				<span class="value evaluation-date">
 					<rich-date-range :dates="evaluation" start="evaluation_date_start" end="evaluation_date_end" />
@@ -14,8 +14,8 @@
 			</div>
 
 			<div class="value-group">
-				<span v-if="evaluation.form" class="value form">
-					{{ evaluation.form.title }}
+				<span v-if="evaluation.subject && evaluation.subject_id !== user.id" class="value subject">
+					{{ evaluation.subject.full_name }}
 				</span>
 				<span v-if="evaluation.evaluator && evaluation.evaluator_id !== user.id" class="value evaluator">
 					{{ evaluation.evaluator.full_name }}
@@ -34,13 +34,24 @@
 			</div>
 		</div>
 
-		<a :href="`/evaluation/${evaluation.id}`" target="_blank"
-				class="evaluation-link btn btn-lg btn-info">
-			<span>
-				View
-				<span class="glyphicon glyphicon-arrow-right"></span>
-			</span>
-		</a>
+		<div class="controls-container">
+			<a :href="`/evaluation/${evaluation.id}`" target="_blank"
+					class="evaluation-link btn btn-sm btn-primary">
+				<span>
+					View
+					<span class="glyphicon glyphicon-arrow-right"></span>
+				</span>
+			</a>
+			<button type="button" v-if="evaluation.status === 'complete' && evaluation.subject_id === user.id && !evaluation.seen_by_subject_at"
+					class="btn btn-sm btn-info" @click="markAsSeen" :disabled="acknowledged">
+				<template v-if="acknowledged">
+					<span class="glyphicon glyphicon-ok"></span>
+				</template>
+				<template v-else>
+					Mark as seen
+				</template>
+			</button>
+		</div>
 	</li>
 </template>
 
@@ -89,7 +100,7 @@
 	.evaluation-details {
 		display: grid;
 		grid-gap: 1em;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min-content, 1fr));
 		align-items: stretch;
 	}
 
@@ -98,6 +109,12 @@
 		grid-template-columns: 1fr;
 		grid-gap: 0.25em;
 		align-items: center;
+	}
+
+	.controls-container {
+		display: grid;
+		grid-gap: 0.5em;
+		grid-template-columns: repeat(auto-fit, minmax(min-content, 1fr));
 	}
 }
 
@@ -177,6 +194,7 @@ export default {
 	data() {
 		return {
 			showEvaluation: false,
+			acknowledged: false,
 			contents: null
 		};
 	},
@@ -193,6 +211,15 @@ export default {
 	methods: {
 		async fetchContents() {
 			this.contents = await ky.get(`/evaluations/${this.evaluation.id}/contents`).json();
+		},
+		async markAsSeen(event) {
+			event.preventDefault();
+
+			if (this.acknowledged)
+				return;
+
+			const response = await ky.post(`/evaluations/${this.evaluation.id}/acknowledge`);
+			this.acknowledged = response.ok;
 		},
 		handleListItemClick(event) {
 			if (!event.defaultPrevented) {

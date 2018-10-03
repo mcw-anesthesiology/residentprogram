@@ -7,18 +7,18 @@
 </template>
 
 <style scoped>
+.subject-evaluations-block {
+	background: #ddd;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
 @supports (display: grid) {
 	.subject-evaluations-block {
 		display: grid;
-		grid-template-rows: 1fr;
-		grid-gap: 1px;
+		grid-template-columns: 1fr;
+		grid-gap: 2px;
 	}
-}
-
-.subject-evaluations-block {
-	background: #ccc;
-	border: 1px solid #ccc;
-	border-radius: 3px;
 }
 </style>
 
@@ -34,7 +34,7 @@ export default {
 	},
 	computed: {
 		newEvaluations() {
-			return this.evaluations.filter(e => !e.seen_by_subject);
+			return this.evaluations.filter(e => e.status === 'complete' && !e.seen_by_subject_at);
 		},
 		pendingEvaluations() {
 			return this.evaluations.filter(e => e.status === 'pending');

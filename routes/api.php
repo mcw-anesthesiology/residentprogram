@@ -25,6 +25,7 @@ Route::resource('users', 'Rest\UserController', ['only' => [
 Route::resource('forms', 'Rest\FormController', ['only' => [
 	'index', 'store', 'show', 'update'
 ]]);
+Route::post('evaluations/{id}/acknowledge', 'Rest\EvaluationController@acknowledge');
 Route::get('evaluations/{id}/contents', 'Rest\EvaluationController@contents');
 Route::patch('evaluations/{id}/remind', 'Rest\EvaluationController@remind');
 Route::patch('evaluations/{id}/cancel', 'Rest\EvaluationController@cancel');

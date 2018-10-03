@@ -24,23 +24,58 @@
 			</div>
 		</div>
 		<nav v-if="itemsPerPage && paginatedItems.length > 1">
-			<div class="btn-group">
-				<paginator-link :value="value - 1" text="← Prev"
-					:active="value === 0" @click="setPage" />
+			<paginator-link :value="value - 1" text="← Prev"
+				:active="value === 0" @click="setPage" />
 
+			<div class="btn-group">
 				<paginator-link v-for="(pageItems, pageNum) of paginatedItems"
 					:key="pageNum"
 					:value="pageNum"
 					:active="pageNum === value"
 					@click="setPage" />
-
-				<paginator-link :value="value + 1" text="Next →"
-					:active="value === paginatedItems.length - 1"
-					@click="setPage" />
 			</div>
+
+			<paginator-link :value="value + 1" text="Next →"
+				:active="value === paginatedItems.length - 1"
+				@click="setPage" />
 		</nav>
 	</section>
 </template>
+
+<style scoped>
+	.paginator {
+		padding: 1em;
+	}
+
+	.form-inline {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.form-inline > .form-group {
+		margin: 1em;
+	}
+
+	nav {
+		margin: 0.5em 0;
+	}
+
+	.btn-group {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	@supports (display: grid) {
+
+		nav {
+			display: grid;
+			grid-template-columns: 6em 1fr 6em;
+			grid-gap: 1em;
+		}
+	}
+</style>
 
 <script>
 import PaginatorLink from './PaginatorLink.vue';

@@ -9,34 +9,42 @@
 				list
 			</show-hide-button>
 		</aside>
-		<div class="list-container">
-			<evaluation-list v-if="showList && evaluations.length > 0" :evaluations="evaluations" pageSize="5" />
+		<div class="list-container" v-if="showList && evaluations.length > 0">
+			<evaluation-list :evaluations="evaluations" pageSize="5" />
 		</div>
 	</section>
 </template>
 
 <style scoped>
+.evaluation-type-container {
+	box-sizing: border-box;
+	background-color: #f3f3f3;
+}
+
 @supports (display: grid) {
 
 	.evaluation-type-container {
 		display: grid;
-		grid-template-columns: 8em 1fr;
-		padding: 1em 0;
+		grid-template-columns: 1fr;
 	}
-}
 
-.evaluation-type-container {
-	border-radius: 2px;
+	@media (min-width: 768px) {
+
+		.evaluation-type-container {
+			grid-template-columns: 8em 1fr;
+		}
+	}
 }
 
 aside {
 	padding: 1em;
-	background-color: #f3f3f3;
+	text-align: center;
 }
 
 .list-container {
+	padding: 1em 0;
 	background-color: #fafafa;
-	border-left: 1px solid #dedede;
+	border: 1px solid #dedede;
 }
 
 .list-container :global(.evaluation-list fieldset) {
