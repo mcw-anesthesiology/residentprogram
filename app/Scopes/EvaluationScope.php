@@ -15,7 +15,7 @@ class EvaluationScope implements Scope {
 	public function apply(Builder $builder, Model $model){
 		$user = Auth::user();
 
-		if(Auth::check() && !$user->isType("admin")) {
+		if (Auth::check() && !$user->isType("admin")) {
 			$builder = $builder->where("evaluator_id", $user->id)
 				->orWhere(function($query) use ($user){
 					$query->where("subject_id", $user->id)->notHidden();

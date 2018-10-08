@@ -118,7 +118,7 @@ module.exports = (env, argv) => {
 			moment: 'moment',
 			jquery: 'jQuery'
 		},
-		devtool: 'source-map',
+		devtool: argv.mode === 'production' ? 'source-map' : 'eval-source-map',
 		optimization: {
 			splitChunks: {
 				cacheGroups: {
