@@ -10,21 +10,23 @@ use App\Http\Controllers\Controller;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
-use DB;
-use Log;
-use Session;
+
+use DateInterval;
+use DateTime;
 
 use Auth;
-use DateTime;
-use DateInterval;
+use DB;
 use Debugbar;
+use Log;
 use Mail;
 use PDF;
+use Session;
 
-use App\Milestone;
 use App\Competency;
-use App\User;
 use App\Form;
+use App\Milestone;
+use App\Program;
+use App\User;
 
 class ReportController extends Controller
 {
@@ -54,7 +56,7 @@ class ReportController extends Controller
 
 					if (!empty($program->training_level)) {
 						if ($program->training_level == 'resident') {
-							$query->whereIn('evaluations.training_level', App\Program::RESIDENT_TRAINING_LEVELS);
+							$query->whereIn('evaluations.training_level', Program::RESIDENT_TRAINING_LEVELS);
 						} else {
 							$query->where('evaluations.training_level', $program->training_level);
 						}
