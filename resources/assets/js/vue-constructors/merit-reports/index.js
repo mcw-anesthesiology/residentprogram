@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
+import BootstrapAlert from '@/vue-components/BootstrapAlert.vue';
 import MeritReportById from '@/vue-components/MeritCompensation/ReportById.vue';
 import MeritSummaryById from '@/vue-components/MeritCompensation/SummaryById.vue';
 
@@ -80,6 +81,9 @@ export function createMeritReportsHub(el, propsData) {
 
 		computed: {
 			yearlyFacultyForm() {
+				if (!this.meritForms)
+					return;
+
 				const form = getYearlyFacultyMeritForm(
 					this.meritForms,
 					this.meritReportTypes,
@@ -159,6 +163,9 @@ export function createMeritReportsHub(el, propsData) {
 				this.handleReload();
 				this.$router.push({ path: '/' });
 			}
+		},
+		components: {
+			BootstrapAlert
 		}
 	});
 }

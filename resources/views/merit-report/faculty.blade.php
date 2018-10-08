@@ -23,7 +23,7 @@
 	</style>
 @endpush
 
-<div id="faculty-merit-reports-container" class="container">
+<div v-if="meritForms" v-cloak id="faculty-merit-reports-container" class="container">
 	<bootstrap-alert v-if="inProgressReport" type="info">
 		<p class="lead">
 			You have a merit checklist in progress:
