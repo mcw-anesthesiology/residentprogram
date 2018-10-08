@@ -1,7 +1,9 @@
-import flatMap from 'lodash/flatMap';
+/** @format */
 
-import { getPubMedIdFromLink } from './v1.js';
-import { logError } from '@/modules/errors.js';
+import flatMap from "lodash/flatMap";
+
+import { getPubMedIdFromLink } from "./v1.js";
+import { logError } from "@/modules/errors.js";
 
 export function getAllPublicationTypes(meritReport) {
 	// TODO
@@ -21,8 +23,8 @@ export function getScholarlyActivity(meritReport, fullName) {
 		getOtherPresentations(meritReport),
 		getChaptersTextbooks(meritReport),
 		getGrants(meritReport),
-		getLeadershipPeerReviewRoles(meritReport) ? 'Y' : 'N',
-		'?'
+		getLeadershipPeerReviewRoles(meritReport) ? "Y" : "N",
+		"?"
 	];
 }
 
@@ -31,7 +33,7 @@ export function getPublicationSection(meritReport) {
 }
 
 export function getPubMedIds(meritReport) {
-	const pubMedIds = Array(4).fill('');
+	const pubMedIds = Array(4).fill("");
 
 	try {
 		const publicationsWithLinks = getAllPublications(meritReport).filter(pub =>
@@ -44,7 +46,7 @@ export function getPubMedIds(meritReport) {
 			}
 		}
 	} catch (e) {
-		logError('Error getting PubMed IDs: ', e);
+		logError("Error getting PubMed IDs: ", e);
 	}
 
 	return pubMedIds;
@@ -81,17 +83,18 @@ export function getConferencePresentations(meritReport) {
 			2, // ASA panel presentation
 			3, // ASA problem-based learning discussion
 			4, // WSA lecture
-			5, // Other national / international society invited lecture
+			5 // Other national / international society invited lecture
 		];
 
 		for (let conferenceIndex of conferenceIndexes) {
-			const conferenceSection = educationOutsideMCWSection.items[conferenceIndex];
+			const conferenceSection =
+				educationOutsideMCWSection.items[conferenceIndex];
 			if (conferenceSection.checked) {
 				conferencePresentations += conferenceSection.questions[0].items.length;
 			}
 		}
 	} catch (e) {
-		logError('Error getting conference presentations: ', e);
+		logError("Error getting conference presentations: ", e);
 	}
 
 	return conferencePresentations;
@@ -111,8 +114,8 @@ export function getOtherPresentations(meritReport) {
 
 	try {
 		// Presentations without PubMed IDs
-		let publicationsWithoutLinks = getAllPublications(meritReport).filter(pub =>
-			!getPubMedIdFromLink(pub.link)
+		let publicationsWithoutLinks = getAllPublications(meritReport).filter(
+			pub => !getPubMedIdFromLink(pub.link)
 		);
 		otherPresentations += publicationsWithoutLinks.length;
 
@@ -131,7 +134,8 @@ export function getOtherPresentations(meritReport) {
 		];
 		for (const i of medStudentLectureIndexes) {
 			if (medStudentSection.items[i].checked) {
-				otherPresentations += medStudentSection.items[i].questions[0].items.length;
+				otherPresentations +=
+					medStudentSection.items[i].questions[0].items.length;
 			}
 		}
 
@@ -142,7 +146,8 @@ export function getOtherPresentations(meritReport) {
 		];
 		for (const i of residentFellowLectureIndexes) {
 			if (residentFellowSection.items[i].checked) {
-				otherPresentations += residentFellowSection.items[i].questions[0].items.length;
+				otherPresentations +=
+					residentFellowSection.items[i].questions[0].items.length;
 			}
 		}
 
@@ -161,13 +166,14 @@ export function getOtherPresentations(meritReport) {
 		];
 
 		for (let conferenceIndex of nonConferenceIndexes) {
-			const conferenceSection = educationOutsideMCWSection.items[conferenceIndex];
+			const conferenceSection =
+				educationOutsideMCWSection.items[conferenceIndex];
 			if (conferenceSection.checked) {
 				otherPresentations += conferenceSection.questions[0].items.length;
 			}
 		}
 	} catch (e) {
-		logError('Error getting other presentations: ', e);
+		logError("Error getting other presentations: ", e);
 	}
 
 	return otherPresentations;
@@ -184,17 +190,20 @@ export function getChaptersTextbooks(meritReport) {
 		const publicationSection = getPublicationSection(meritReport);
 		// Book / Text, First Ed.
 		if (publicationSection.items[0].checked)
-			chaptersTextbooks += publicationSection.items[0].questions[0].items.length;
+			chaptersTextbooks +=
+				publicationSection.items[0].questions[0].items.length;
 
 		// Book / Text, Revised Ed.
 		if (publicationSection.items[1].checked)
-			chaptersTextbooks += publicationSection.items[1].questions[0].items.length;
+			chaptersTextbooks +=
+				publicationSection.items[1].questions[0].items.length;
 
 		// Book Chapter Author
 		if (publicationSection.items[4].checked)
-			chaptersTextbooks += publicationSection.items[4].questions[0].items.length;
+			chaptersTextbooks +=
+				publicationSection.items[4].questions[0].items.length;
 	} catch (e) {
-		logError('Error getting chapters/textbooks: ', e);
+		logError("Error getting chapters/textbooks: ", e);
 	}
 
 	return chaptersTextbooks;
@@ -211,11 +220,10 @@ export function getGrants(meritReport) {
 	try {
 		const grantSection = meritReport.report.pages[2].items[1].items[1];
 		for (let grantType of grantSection.items) {
-			if (grantType.checked)
-				grants += grantType.questions[0].items.length;
+			if (grantType.checked) grants += grantType.questions[0].items.length;
 		}
 	} catch (e) {
-		logError('Error getting grants: ', e);
+		logError("Error getting grants: ", e);
 	}
 
 	return grants;
@@ -229,9 +237,8 @@ export function getLeadershipPeerReviewRoles(meritReport) {
 	 * previous academic year
 	 */
 
-	const isCommitteeChair = question => question.items.some(item =>
-		item.role === 'chair'
-	);
+	const isCommitteeChair = question =>
+		question.items.some(item => item.role === "chair");
 
 	try {
 		const specialtyOrgSection = meritReport.report.pages[3].items[0];
@@ -247,8 +254,8 @@ export function getLeadershipPeerReviewRoles(meritReport) {
 			const org = specialtyOrgSection.items[i];
 			if (org.checked) {
 				if (
-					org.questions[0].items.length > 0
-					|| isCommitteeChair(org.questions[1])
+					org.questions[0].items.length > 0 ||
+					isCommitteeChair(org.questions[1])
 				)
 					return true;
 			}
@@ -266,8 +273,8 @@ export function getLeadershipPeerReviewRoles(meritReport) {
 			const org = specialtyOrgSection.items[i];
 			if (org.checked) {
 				if (
-					org.questions[0].options.some(o => o.checked)
-					|| isCommitteeChair(org.questions[1])
+					org.questions[0].options.some(o => o.checked) ||
+					isCommitteeChair(org.questions[1])
 				)
 					return true;
 			}
@@ -277,15 +284,13 @@ export function getLeadershipPeerReviewRoles(meritReport) {
 
 		// Ad-hoc Article Reviewer
 		const articleReviewer = meritReport.report.pages[3].items[1].items[1];
-		if (articleReviewer.checked)
-			return true;
+		if (articleReviewer.checked) return true;
 
 		// Journal Editorial Board
 		const editorialBoard = meritReport.report.pages[3].items[1].items[5];
-		if (editorialBoard.checked)
-			return true;
+		if (editorialBoard.checked) return true;
 	} catch (e) {
-		logError('Error getting leadership/peer-review roles: ', e);
+		logError("Error getting leadership/peer-review roles: ", e);
 	}
 
 	return false;
@@ -307,35 +312,40 @@ export function getTeachingFormalCourses() {
 }
 
 export function getParticipatesInSimulation(meritReport) {
-	return Boolean(meritReport.report.pages[1].items[0].items[2].items[12].checked);
+	return Boolean(
+		meritReport.report.pages[1].items[0].items[2].items[12].checked
+	);
 }
 
 export function getNationalBoards(meritReport) {
-	return flatMap(meritReport.report.pages[3].items[0].items
-		.filter(orgItem =>
-			orgItem.checked
-		), orgItem =>
-			orgItem.text === 'Other'
+	/* eslint-disable no-mixed-spaces-and-tabs */
+	return flatMap(
+		meritReport.report.pages[3].items[0].items.filter(
+			orgItem => orgItem.checked
+		),
+		orgItem =>
+			orgItem.text === "Other" && orgItem.questions[0].items
 				? orgItem.questions[0].items.map(otherItem => ({
-					name: 'Other',
-					role: otherItem.text
-				}))
+						name: "Other",
+						role: otherItem.text
+				  }))
 				: {
-					name: orgItem.text,
-					role: getOrgRoles(orgItem.questions[0])
-				}
-		);
+						name: orgItem.text,
+						role: getOrgRoles(orgItem.questions[0])
+				  }
+	);
+	/* eslint-enable no-mixed-spaces-and-tabs */
 }
 
 function getOrgRoles(question) {
 	switch (question.type) {
-		case 'list':
-			return question.items.map(o => o.text).join(', ');
-		case 'checkbox':
+		case "list":
+			return question.items.map(o => o.text).join(", ");
+		case "checkbox":
 			return question.options.filter(o => o.checked).map(o => o.text);
-		case 'text':
+		case "text":
 			return question.text;
 		default:
-			return '<i>Unknown</i>';
+			return "<i>Unknown</i>";
 	}
 }
