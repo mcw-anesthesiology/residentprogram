@@ -571,7 +571,7 @@ class MainController extends Controller
 
     public function evaluationByHashLink(Request $request, $hash) {
         try {
-            $eval = Evaluation::where("completion_hash", $hash)->where("status", "pending")->where("hash_expires", ">", Carbon::now())->firstOrFail();
+            $eval = Evaluation::withoutGlobalScopes()->where("completion_hash", $hash)->where("status", "pending")->where("hash_expires", ">", Carbon::now())->firstOrFail();
             Auth::onceUsingId($eval->evaluator_id);
             return $this->evaluation($request, $eval->id)->with(["noNavbar" => true, "user" => Auth::user()]);
         } catch (ModelNotFoundException $e) {
@@ -581,7 +581,7 @@ class MainController extends Controller
 
     public function saveEvaluationByHashLink(Request $request, $hash) {
         try {
-            $eval = Evaluation::where("completion_hash", $hash)->where("status", "pending")->where("hash_expires", ">", Carbon::now())->firstOrFail();
+            $eval = Evaluation::withoutGlobalScopes()->where("completion_hash", $hash)->where("status", "pending")->where("hash_expires", ">", Carbon::now())->firstOrFail();
             Auth::onceUsingId($eval->evaluator_id);
             $this->saveEvaluation($request, $eval->id);
             $eval = $eval->fresh();
@@ -589,8 +589,9 @@ class MainController extends Controller
                 $eval->completion_hash = null;
                 $eval->save();
                 return view("evaluations.complete")->with(["noNavbar" => true]);
-            } else
-                return view("evaluations.saved")->with(["noNavbar" => true, "evalExpiration" => $eval->hash_expires->toDayDateTimeString()]);
+			} else {
+				return view("evaluations.saved")->with(["noNavbar" => true, "evalExpiration" => $eval->hash_expires->toDayDateTimeString()]);
+			}
         } catch (ModelNotFoundException $e) {
             return view("evaluations.invalid-hash-link")->with(["noNavbar" => true]);
         }
@@ -607,18 +608,25 @@ class MainController extends Controller
 				$id = Hashids::decode($id)[0];
 				$evaluation = Evaluation::with('form.milestoneQuestions.milestone', 'form.competencyQuestions.competency')->findOrFail($id);
 			}
-	        if ($user->isType("admin") || $user->mentees->contains($evaluation->subject) || $user->id == $evaluation->subject_id
-					|| ($user->usesFeature('RESIDENT_EVALS') && $evaluation->subject->isType('RESIDENT')))
-	            $subjectString = "<a href='/profile/{$evaluation->subject_id}'>{$evaluation->subject->full_name}</a>";
-	        else
-	            $subjectString = $evaluation->subject->full_name;
 
-	        if ($user->isType("admin") || $user->id == $evaluation->evaluator_id)
-	            $evaluatorString = "<a href='/profile/{$evaluation->evaluator_id}'>{$evaluation->evaluator->full_name}</a>";
-	        elseif ($evaluation->evaluator)
-	            $evaluatorString = $evaluation->evaluator->full_name;
-			else
+			if (
+				$user->isType("admin")
+				|| $user->mentees->contains($evaluation->subject)
+				|| $user->id == $evaluation->subject_id
+				|| ($user->usesFeature('RESIDENT_EVALS') && $evaluation->subject->isType('RESIDENT'))
+			) {
+				$subjectString = "<a href='/profile/{$evaluation->subject_id}'>{$evaluation->subject->full_name}</a>";
+			} else {
+				$subjectString = $evaluation->subject->full_name;
+			}
+
+			if ($user->isType("admin") || $user->id == $evaluation->evaluator_id) {
+				$evaluatorString = "<a href='/profile/{$evaluation->evaluator_id}'>{$evaluation->evaluator->full_name}</a>";
+			} elseif ($evaluation->evaluator) {
+				$evaluatorString = $evaluation->evaluator->full_name;
+			} else {
 				$evaluatorString = "<i>Anonymous</i>";
+			}
 
 			switch ($evaluation->status) {
 				case "complete":
@@ -648,8 +656,11 @@ class MainController extends Controller
 
 	        $data = compact('evaluation', 'subjectString', 'evaluatorString',
 				'statusLabel', 'evaluationTrainingLevel');
-	        if ((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject))
-				&& in_array($evaluation->visibility, ["visible", "anonymous"]))
+			if (
+				(
+					($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject))
+					&& in_array($evaluation->visibility, ["visible", "anonymous"])
+				)
 				|| $evaluation->evaluator_id == $user->id
 				|| $user->watchedForms->pluck("form_id")->contains($evaluation->form_id)
 				|| $user->isType("admin")
@@ -659,7 +670,7 @@ class MainController extends Controller
                     'ca-2',
                     'ca-3'
                 ])
-                || ($user->usesFeature('FACULTY_EVALS') && $evaluation->form->type == 'faculty')
+				|| ($user->usesFeature('FACULTY_EVALS') && $evaluation->form->type == 'faculty')
 				|| ($evaluation->status == 'complete' && $user->administratesEvaluation($evaluation))
             ) {
 
@@ -699,8 +710,9 @@ class MainController extends Controller
 
 
 	            return view("evaluations.evaluation", $data);
-			} else
+			} else {
 				throw new \Exception("Insufficient permissions to view the requested evaluation");
+			}
 		} catch(\Exception $e) {
 			Debugbar::info($e);
 			return redirect('/dashboard')->with("error", "Insufficient permissions to view the requested evaluation");
