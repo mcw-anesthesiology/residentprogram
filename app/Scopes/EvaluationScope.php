@@ -71,8 +71,6 @@ class EvaluationScope implements Scope {
 								$subjectQuery->where('secondary_training_level', $p->secondary_training_level);
 							});
 						}
-
-						Log::debug($query->toSql());
 					});
 				}
 			}

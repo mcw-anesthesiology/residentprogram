@@ -408,10 +408,9 @@ class Evaluation extends Model
 	}
 
 	public function getContentsAttribute() {
-		$formContents = $this->form->contents;
-
 		// TODO
-		Log::debug($formContents);
+
+		$formContents = $this->form->contents;
 
 		return $formContents;
 	}
