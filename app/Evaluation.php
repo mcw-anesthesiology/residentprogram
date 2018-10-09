@@ -278,6 +278,18 @@ class Evaluation extends Model
 		});
 	}
 
+	public function scopeBetween($query, $startDate = null, $endDate = null) {
+		if (!empty($startDate)) {
+			$query->where('evaluation_date_end', '>=', $startDate);
+		}
+
+		if (!empty($endDate)) {
+			$query->where('evaluation_date_start', '<=', $endDate);
+		}
+
+		return $query;
+	}
+
 	public function sendNotification($reminder = false) {
 		try {
 			$this->showAll = true;

@@ -1,8 +1,6 @@
 <template>
 	<section class="evaluation-list">
 		<fieldset>
-			<legend>Filters</legend>
-
 			<div class="filters-container">
 				<label v-if="forms && forms.length > 1">
 					Form
@@ -26,7 +24,6 @@
 					Status
 					<v-select :options="statusOptions" v-model="statusFilter" />
 				</label>
-
 			</div>
 		</fieldset>
 

@@ -71,8 +71,13 @@
 
 		nav {
 			display: grid;
-			grid-template-columns: 6em 1fr 6em;
 			grid-gap: 1em;
+		}
+
+		@media (min-width: 500px) {
+			nav {
+				grid-template-columns: 6em 1fr 6em;
+			}
 		}
 	}
 </style>

@@ -1,13 +1,18 @@
+/** @format */
 /* @flow */
 
-import type { Evaluation } from './utils.js';
+import moment from "moment";
 
-export function processQuestionTemplates(evaluation: Evaluation, templates: Array<[string, Function]>) {
-	if (!evaluation || !evaluation.contents || !evaluation.contents.items)
-		return;
+import type { Evaluation } from "./utils.js";
+import type { DateLike } from "./date-utils.js";
 
-	if (!templates || templates.size === 0)
-		return evaluation.contents;
+export function processQuestionTemplates(
+	evaluation: Evaluation,
+	templates: Array<[string, Function]>
+) {
+	if (!evaluation || !evaluation.contents || !evaluation.contents.items) return;
+
+	if (!templates || templates.length === 0) return evaluation.contents;
 
 	let items = evaluation.contents.items.map(item => {
 		item = Object.assign({}, item);
@@ -20,5 +25,18 @@ export function processQuestionTemplates(evaluation: Evaluation, templates: Arra
 		return item;
 	});
 
-	return Object.assign({}, evaluation.contents, {items});
+	return Object.assign({}, evaluation.contents, { items });
+}
+
+export function evaluationDateBetween(
+	evaluation: Evaluation,
+	{ startDate, endDate }: { startDate: DateLike, endDate: DateLike }
+) {
+	if (startDate && moment(evaluation.evaluation_date_end) < moment(startDate))
+		return false;
+
+	if (endDate && moment(evaluation.evaluation_date_start) > moment(endDate))
+		return false;
+
+	return true;
 }

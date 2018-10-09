@@ -1,5 +1,5 @@
 <template>
-	<div class="dashboard" :class="`${user && user.type}`">
+	<div class="dashboard" :class="`${user ? user.type : ''}`">
 		<div v-if="subjectEvaluations" class="container body-block subject-evaluations-block">
 			<h2>
 				My evaluations
@@ -38,6 +38,8 @@
 </style>
 
 <script>
+import { mapState } from 'vuex';
+
 import SubjectEvaluationsBlock from './SubjectEvaluationsBlock.vue';
 import EvaluatorEvaluationsBlock from './EvaluatorEvaluationsBlock.vue';
 
@@ -49,6 +51,7 @@ export default {
 		}
 	},
 	computed: {
+		...mapState(['user']),
 		subjectEvaluations() {
 			return this.$store.getters['evaluations/subject/listBetween'](this.dates);
 		},
