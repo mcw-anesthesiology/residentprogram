@@ -57,7 +57,45 @@
 
 <style scoped>
 	.list-header-controls {
+		text-align: right;
 		padding: 1em;
+	}
+
+	.list-header-controls input[type="search"] {
+		max-width: 300px;
+	}
+
+	.list-header-controls.form-inline .input-group > .form-control {
+		width: auto;
+	}
+
+	.list-container {
+		margin: 3em 0;
+	}
+
+	.list {
+		padding: 0;
+	}
+
+	.list li {
+		list-style: none;
+	}
+
+	.containing-label {
+		text-align: left;
+	}
+
+	.containing-label > * {
+		display: block;
+	}
+
+	.no-items-text {
+		padding: 0.5em 0;
+		border: 1px solid rgba(0, 0, 0, 0.15);
+		border-left: none;
+		border-right: none;
+		text-align: center;
+		font-size: 1.25em;
 	}
 </style>
 
@@ -257,46 +295,3 @@ export default {
 };
 </script>
 
-<style scoped>
-	.list-header-controls {
-		text-align: right;
-	}
-
-	.list-header-controls input[type="search"] {
-		width: 300px;
-		max-width: 100%;
-	}
-
-	.list-header-controls.form-inline .input-group > .form-control {
-		width: auto;
-	}
-
-	.list-container {
-		margin: 3em 0;
-	}
-
-	.list {
-		padding: 0;
-	}
-
-	.list li {
-		list-style: none;
-	}
-
-	.containing-label {
-		text-align: left;
-	}
-
-	.containing-label > * {
-		display: block;
-	}
-
-	.no-items-text {
-		padding: 0.5em 0;
-		border: 1px solid rgba(0, 0, 0, 0.15);
-		border-left: none;
-		border-right: none;
-		text-align: center;
-		font-size: 1.25em;
-	}
-</style>

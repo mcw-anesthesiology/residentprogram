@@ -7,7 +7,7 @@ import { ucfirst } from './text-utils.js';
 
 import type { DateLike } from './date-utils.js';
 
-// All the $FlowFixMes in this file are due to
+// All the FlowFixMes in this file are due to
 // https://github.com/facebook/flow/issues/2221
 
 type DateString = string;
@@ -92,7 +92,7 @@ export type Evaluation = {
 	request_date: DateString,
 	complete_date: DateString,
 	evaluation_date_start: DateString,
-	evaluationDate_end: DateString,
+	evaluation_date_end: DateString,
 	archive_date: DateString,
 	hash_expires: DateString,
 	request_ip: string,

@@ -7,6 +7,7 @@ import competencies from './store/competencies.js';
 import evaluations from './store/evaluations.js';
 import forms from './store/forms.js';
 import highlightedQuestions from './store/highlightedQuestions.js';
+import mentorships from './store/mentorships.js';
 import milestones from './store/milestones.js';
 import news from './store/news.js';
 import programs from './store/programs.js';
@@ -19,6 +20,7 @@ const store = new Store({
 		evaluations,
 		forms,
 		highlightedQuestions,
+		mentorships,
 		milestones,
 		news,
 		programs,

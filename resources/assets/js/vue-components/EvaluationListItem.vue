@@ -131,6 +131,7 @@
 		display: grid;
 		grid-gap: 1em;
 		grid-template-columns: 2em 8fr minmax(6em, 1fr);
+		overflow: auto;
 	}
 
 	.evaluation-details {
@@ -213,6 +214,14 @@
 }
 .display-labels .complete-date::before {
 	content: 'Completed: ';
+}
+
+@media (max-width: 600px) {
+
+	.eval-id,
+	.controls-container {
+		display: none;
+	}
 }
 </style>
 

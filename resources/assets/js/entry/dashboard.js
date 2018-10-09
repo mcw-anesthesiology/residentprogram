@@ -5,7 +5,7 @@ import store from '@/vue-constructors/store.js';
 
 import StartEndDate from '#/StartEndDate.vue';
 import HomeDashboard from '#/Dashboard/Dashboard.vue';
-import MenteeDashboard from '#/Dashboard/Mentees.vue';
+import MenteeDashboard from '#/Dashboard/Mentees/Mentees.vue';
 import { isoDateStringObject, currentYear } from '@/modules/date-utils.js';
 
 new Vue({

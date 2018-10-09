@@ -39,6 +39,9 @@ Route::resource('evaluations', 'Rest\EvaluationController', ['only' => [
 Route::resource('watched_forms', 'Rest\WatchedFormController', ['only' => [
 	'index', 'store', 'show', 'update', 'destroy'
 ]]);
+Route::get('mentorships/mentees', 'Rest\MentorshipController@mentees');
+Route::get('mentorships/mentors', 'Rest\MentorshipController@mentors');
+Route::get('mentorships/evaluations', 'Rest\MentorshipController@menteeEvaluations');
 Route::resource('mentorships', 'Rest\MentorshipController', ['only' => [
 	'index', 'store', 'show', 'update', 'destroy'
 ]]);
