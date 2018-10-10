@@ -3,7 +3,7 @@
 		<label>
 			Status
 			<select class="form-control" v-model="status">
-				<option></option>
+				<option value="">(No change)</option>
 				<option v-for="option of statusOptions" :value="option">
 					{{ ucfirst(option) }}
 				</option>
@@ -12,7 +12,7 @@
 		<label>
 			Visibility
 			<select class="form-control" v-model="visibility">
-				<option></option>
+				<option value="">(No change)</option>
 				<option v-for="option of visibilityOptions" :value="option">
 					{{ ucfirst(option) }}
 				</option>
