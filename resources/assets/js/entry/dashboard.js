@@ -1,5 +1,6 @@
 import Vue from '@/vue-constructors/index.js';
 import VueRouter from 'vue-router';
+import { mapState } from 'vuex';
 
 import store from '@/vue-constructors/store.js';
 
@@ -27,6 +28,16 @@ new Vue({
 		return {
 			dates: isoDateStringObject(currentYear())
 		};
+	},
+	mounted() {
+		this.$store.dispatch('fetchUser');
+		this.$store.dispatch('mentorships/fetchMentees');
+	},
+	computed: {
+		...mapState(['user']),
+		...mapState('mentorships', [
+			'mentees'
+		])
 	},
 	components: {
 		StartEndDate

@@ -2,12 +2,6 @@
 
 @push('stylesheets')
 	<link rel="stylesheet" href="{{ elixir('css/dashboard.css') }}" />
-	<style>
-		a.router-link-active {
-			opacity: 0.75;
-			pointer-events: none;
-		}
-	</style>
 @endpush
 
 @section('main')
@@ -17,13 +11,17 @@
 		<start-end-date v-model="dates"></start-end-date>
 
 		<nav v-cloak>
-			<ul>
-				<li>
-					<router-link to="/">Home</router-link>
-				</li>
-				<li>
-					<router-link to="/mentees">Mentees</router-link>
-				</li>
+			<ul class="nav nav-pills">
+				<router-link tag="li" to="/" active-class="active" exact>
+					<a>
+						Home
+					</a>
+				</router-link>
+				<router-link v-if="mentees.length" tag="li" to="/mentees" active-class="active">
+					<a>
+						Mentees
+					</a>
+				</router-link>
 			</ul>
 		</nav>
 	</div>

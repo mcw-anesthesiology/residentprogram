@@ -27,7 +27,6 @@ export default {
 		}
 	},
 	mounted() {
-		this.$store.dispatch('mentorships/fetchMentees');
 		this.$store.dispatch('mentorships/fetchEvaluations', this.dates);
 	},
 	computed: {
