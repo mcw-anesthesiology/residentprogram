@@ -28,11 +28,11 @@
 		flex-direction: column;
 	}
 
-	.dashboard.faculty.evaluator-evaluations-block {
+	.dashboard.faculty .evaluator-evaluations-block {
 		order: 1;
 	}
 
-	.dashboard.faculty.subject-evaluations-block {
+	.dashboard.faculty .subject-evaluations-block {
 		order: 2;
 	}
 </style>

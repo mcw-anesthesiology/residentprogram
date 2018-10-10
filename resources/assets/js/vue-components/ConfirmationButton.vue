@@ -1,6 +1,5 @@
 <template>
-	<button type="button" :class="currentClass" :disabled="disabled"
-			@click="handleClick">
+	<button :type="type" :class="currentClass" :disabled="disabled" @click="handleClick">
 		<slot v-if="pressed" name="pressed">
 			<span class="glyphicon glyphicon-warning-sign"></span>
 			Click again to confirm
@@ -12,6 +11,10 @@
 <script>
 export default {
 	props: {
+		type: {
+			type: String,
+			default: 'button'
+		},
 		unpressedClass: {
 			type: String,
 			required: false
@@ -52,6 +55,7 @@ export default {
 				if(this.pressedTimeout)
 					clearTimeout(this.pressedTimeout);
 			} else {
+				event.preventDefault();
 				this.pressed = true;
 				this.pressedTimeout = setTimeout(() => {
 					this.pressed = false;

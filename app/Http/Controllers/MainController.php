@@ -116,6 +116,13 @@ class MainController extends Controller
 		return view('dashboard');
 	}
 
+	public function oldDashboard() {
+		if (config('features.evaluations'))
+			return $this->evalsDashboard();
+		if (config('features.faculty_merit'))
+			return redirect('/merit');
+	}
+
     public function evalsDashboard() {
         $user = Auth::user();
         switch ($user->type) {

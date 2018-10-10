@@ -48,7 +48,7 @@
 
 			<slot name="footer"></slot>
 		</div>
-		<list-paginator v-if="paginate"
+		<list-paginator v-if="paginate && filteredItems.length > 5"
 			v-model="page" :paginatedItems="paginatedItems"
 			:itemsPerPage="itemsPerPage"
 			@pageSize="itemsPerPage = arguments[0]" />

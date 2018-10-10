@@ -1,13 +1,24 @@
 <template>
-	<li class="evaluation-list-item" @click="handleListItemClick">
+	<li class="evaluation-list-item">
 		<a :href="`/evaluation/${evaluation.id}`" class="value eval-id">
 			{{ evaluation.id }}
 		</a>
-		<div class="evaluation-main">
+		<div class="evaluation-main" @click="handleListItemClick">
 			<div class="evaluation-header">
 				<span class="evaluation-type">
 					{{ evaluationTypeDisplay }}
 				</span>
+				<div class="evaluation-flags">
+					<span v-if="evaluationUnseen" class="evaluation-unseen-flag">
+						New
+					</span>
+					<span v-if="evaluationVisibility" class="evaluation-visibility">
+						{{ ucfirst(evaluationVisibility) }}
+					</span>
+					<span class="evaluation-status" :class="evaluationStatusClass">
+						{{ evaluationStatus }}
+					</span>
+				</div>
 			</div>
 
 			<div class="evaluation-details display-labels">
@@ -59,12 +70,173 @@
 					Mark as seen
 				</template>
 			</button>
+
+			<confirmation-button v-if="user && user.id === evaluation.requested_by_id && evaluation.status === 'pending'" class="btn btn-sm btn-danger"
+					@click="handleCancel" :disabled="canceled">
+				<template v-if="canceled">
+					<span class="glyphicon glyphicon-ok"></span>
+				</template>
+				<template v-else>
+					Cancel
+				</template>
+			</confirmation-button>
+			<confirmation-button v-else-if="user && user.id === evaluation.evaluator_id && evaluation.status === 'pending'" class="btn btn-sm btn-danger"
+					@click="handleDecline" :disabled="declined">
+				<template v-if="declined">
+					<span class="glyphicon glyphicon-ok"></span>
+				</template>
+				<template v-else>
+					Decline
+				</template>
+			</confirmation-button>
+
+			<show-hide-button v-if="user && user.type === 'admin'" v-model="showAdminControls" class="btn btn-info btn-sm">
+				admin controls
+			</show-hide-button>
 		</div>
+
+		<admin-controls v-if="user && user.type === 'admin' && showAdminControls" :evaluation="evaluation" />
 	</li>
 </template>
 
+<script>
+import { mapState } from 'vuex';
+import ky from '@/modules/ky.js';
+
+import ConfirmationButton from '#/ConfirmationButton.vue';
+import AdminControls from './Evaluations/AdminControls.vue';
+import RichDate from './RichDate.vue';
+import RichDateRange from './RichDateRange.vue';
+import ShowHideButton from './ShowHideButton.vue';
+import FormReader from './FormReader/FormReader.vue';
+
+import { storeError } from '@/modules/errors.js';
+import { renderEvaluationType } from '@/modules/datatable-utils.js';
+import { ucfirst } from '@/modules/utils.js';
+
+export default {
+	props: {
+		evaluation: {
+			type: Object,
+			required: true
+		}
+	},
+	data() {
+		return {
+			acknowledged: false,
+			canceled: false,
+			declined: false,
+			contents: null,
+
+			showEvaluation: false,
+			showAdminControls: false
+		};
+	},
+	computed: {
+		...mapState(['user']),
+		evaluationTypeDisplay() {
+			return renderEvaluationType(this.evaluation);
+		},
+		evaluationStatus() {
+			return ucfirst(this.evaluation.status);
+		},
+		evaluationStatusClass() {
+			if (this.evaluation.status.includes('canceled'))
+				return 'canceled';
+
+			return this.evaluation.status;
+		},
+		evaluationUnseen() {
+			return (
+				this.user
+				&& (
+					this.user.id === this.evaluation.subject_id
+					&& !this.evaluation.seen_by_subject_at
+				)
+				|| (
+					this.user.id === this.evaluation.evaluator_id
+					&& !this.evaluation.seen_by_evaluator_at
+				)
+			);
+		},
+		evaluationVisibility() {
+			if (!this.user || this.user.type !== 'admin')
+				return;
+
+			try {
+				return this.evaluation.visibility || this.evaluation.form.visibility;
+			} catch (err) {
+				console.warn("EvaluationListItem: Couldn't get visibility", err);
+			}
+		}
+	},
+	watch: {
+		showEvaluation(show) {
+			if (show && !this.contents) {
+				this.fetchContents();
+			}
+		}
+	},
+	methods: {
+		ucfirst,
+		async fetchContents() {
+			this.contents = await ky.get(`/evaluations/${this.evaluation.id}/contents`).json();
+		},
+		async markAsSeen(event) {
+			event.preventDefault();
+
+			if (this.acknowledged)
+				return;
+
+			try {
+				const response = await ky.post(`/evaluations/${this.evaluation.id}/acknowledge`);
+				this.acknowledged = response.ok;
+			} catch (err) {
+				storeError(err, this, 'There was a problem acknowledging the evaluation');
+			}
+		},
+		handleListItemClick(event) {
+			if (!event.defaultPrevented) {
+				window.open(`/evaluation/${this.evaluation.id}`);
+			}
+		},
+		async handleCancel(event) {
+			event.preventDefault();
+
+			try {
+				const response = await ky.patch(`/evaluations/${this.evaluation.id}/cancel`);
+				this.canceled = response.ok;
+			} catch (err) {
+				storeError(err, this, 'There was a problem cancelling the request');
+			}
+		},
+		async handleDecline(event) {
+			event.preventDefault();
+
+			try {
+				const response = await ky.patch(`/evaluations/${this.evaluation.id}/decline`);
+				this.declined = response.ok;
+			} catch (err) {
+				storeError(err, this, 'There was a problem declining the request');
+			}
+		}
+	},
+	components: {
+		ConfirmationButton,
+		AdminControls,
+		RichDate,
+		RichDateRange,
+		ShowHideButton,
+		FormReader
+	}
+};
+</script>
+
 <style scoped>
 .evaluation-list-item {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 1em;
 	font-size: 1em;
 	background-color: #fff;
 }
@@ -74,19 +246,55 @@
 }
 
 .evaluation-list-item:hover {
-	cursor: pointer;
 	background-color: #eee;
 }
 
-/* TODO: Fallback for grid */
-
-.evaluation-list-item {
-	display: flex;
-	flex-wrap: wrap;
+.evaluation-main:hover {
+	cursor: pointer;
 }
 
 .evaluation-header {
 	margin-bottom: 0.5em;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.evaluation-flags {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.evaluation-flags span {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 0.25em 0.5em;
+	border-bottom: 3px solid;
+	border-color: #888;
+}
+
+.evaluation-flags .evaluation-unseen-flag {
+	border-color: #03a9f4;
+}
+
+.evaluation-status.disabled {
+	border-color: #f44336;
+}
+
+.evaluation-status.canceled {
+	border-color: #795548;
+}
+
+.evaluation-status.declined {
+	border-color: #e57373;
+}
+
+.evaluation-status.complete {
+	border-color: #8bc34a;
+}
+
+.evaluation-status.pending {
+	border-color: #ffc107;
 }
 
 .evaluation-type {
@@ -105,36 +313,42 @@
 	display: flex;
 	flex-direction: column;
 	max-width: 100%;
+	margin: 1em;
 }
 
 .value {
 	white-space: normal;
 }
 
-.evaluation-list-item {
-	padding: 1em;
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.evaluation-details {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.value-group {
-	margin: 1em;
-}
-
 @supports (display: grid) {
 	.evaluation-list-item {
 		display: grid;
 		grid-gap: 1em;
+		grid-template-areas:
+			'id main user-controls'
+			'admin-controls admin-controls admin-controls';
 		grid-template-columns: 2em 8fr minmax(6em, 1fr);
 		overflow: auto;
 	}
 
+	.eval-id {
+		grid-area: id;
+	}
+
+	.evaluation-main {
+		grid-area: main;
+	}
+
+	.controls-container {
+		grid-area: user-controls;
+	}
+
+	.evaluation-list-item :global(.admin-controls) {
+		grid-area: admin-controls;
+	}
+
 	.evaluation-details {
+		grid-area: details;
 		display: grid;
 		grid-gap: 1em;
 		grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
@@ -156,14 +370,12 @@
 	}
 }
 
-.controls-container .btn {
-	white-space: normal;
-}
-
+.controls-container .btn,
 .evaluation-link {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	white-space: normal;
 }
 
 .eval-id {
@@ -225,68 +437,3 @@
 }
 </style>
 
-<script>
-import { mapState } from 'vuex';
-import ky from '@/modules/ky.js';
-
-import RichDate from './RichDate.vue';
-import RichDateRange from './RichDateRange.vue';
-import ShowHideButton from './ShowHideButton.vue';
-import FormReader from './FormReader/FormReader.vue';
-
-import { renderEvaluationType } from '@/modules/datatable-utils.js';
-
-export default {
-	props: {
-		evaluation: {
-			type: Object,
-			required: true
-		}
-	},
-	data() {
-		return {
-			showEvaluation: false,
-			acknowledged: false,
-			contents: null
-		};
-	},
-	computed: {
-		...mapState(['user']),
-		evaluationTypeDisplay() {
-			return renderEvaluationType(this.evaluation);
-		}
-	},
-	watch: {
-		showEvaluation(show) {
-			if (show && !this.contents) {
-				this.fetchContents();
-			}
-		}
-	},
-	methods: {
-		async fetchContents() {
-			this.contents = await ky.get(`/evaluations/${this.evaluation.id}/contents`).json();
-		},
-		async markAsSeen(event) {
-			event.preventDefault();
-
-			if (this.acknowledged)
-				return;
-
-			const response = await ky.post(`/evaluations/${this.evaluation.id}/acknowledge`);
-			this.acknowledged = response.ok;
-		},
-		handleListItemClick(event) {
-			if (!event.defaultPrevented) {
-				window.open(`/evaluation/${this.evaluation.id}`);
-			}
-		}
-	},
-	components: {
-		RichDate,
-		RichDateRange,
-		ShowHideButton,
-		FormReader
-	}
-};
-</script>

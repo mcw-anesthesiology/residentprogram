@@ -34,7 +34,7 @@
 				:defaultItemsPerPage="5">
 			<template slot-scope="evaluation">
 				<slot v-bind="evaluation">
-					<evaluation-list-item :key="evaluation.id" :evaluation="evaluation" />
+					<evaluation-list-item :key="evaluation.id" :evaluation="evaluation" @reload="$emit('reload', evaluation.id)" />
 				</slot>
 			</template>
 		</component-list>

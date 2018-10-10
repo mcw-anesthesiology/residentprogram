@@ -1,6 +1,5 @@
 <template>
-	<button type="button" class="btn"
-			@click="$emit('input', !value)">
+	<button type="button" class="btn" @click="handleClick">
 
 		<slot name="left-glyph"></slot>
 
@@ -33,6 +32,13 @@ export default {
 		text: {
 			type: String,
 			required: false
+		}
+	},
+	methods: {
+		handleClick(event) {
+			event.preventDefault();
+
+			this.$emit('input', !this.value);
 		}
 	}
 };
