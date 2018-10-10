@@ -3,7 +3,7 @@
 		<h1>Programs</h1>
 
 		<dashboard-program v-for="program of programs" :key="program.id"
-			:program="program" />
+			:program="program" :dates="dates" />
 	</div>
 </template>
 
@@ -13,8 +13,11 @@ import { mapGetters } from 'vuex';
 import DashboardProgram from './DashboardProgram.vue';
 
 export default {
-	mounted() {
-		this.$store.dispatch('programs/fetch');
+	props: {
+		dates: {
+			type: Object,
+			required: true
+		}
 	},
 	computed: {
 		...mapGetters('programs', {

@@ -4,6 +4,7 @@ import { queryParams } from '@/modules/utils.js';
 
 export default {
 	namespaced: true,
+	...createRouteModule('/api/evaluations'),
 	modules: {
 		subject: createRouteModule('/api/dashboard/subject'),
 		evaluator: createRouteModule('/api/dashboard/evaluator')
@@ -44,6 +45,13 @@ function createRouteModule(route) {
 
 				ky.get(`${route}?${query}`).json().then(evals => {
 					commit('add', evals);
+				}).catch(err => {
+					commit('error', err, { root: true });
+				});
+			},
+			fetchOne({ commit }, { id }) {
+				ky.get(`${route}/${id}`).json().then(evaluation => {
+					commit('add', [evaluation]);
 				}).catch(err => {
 					commit('error', err, { root: true });
 				});

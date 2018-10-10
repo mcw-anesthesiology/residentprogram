@@ -17,7 +17,7 @@ module.exports = (env, argv) => ({
 		'vue-reports': './resources/assets/js/vue-constructors/reports.js',
 		'vue-milestone-competency-lists': './resources/assets/js/vue-constructors/milestone-competency-lists.js',
 		'vue-request': './resources/assets/js/vue-constructors/request.js',
-		// 'vue-dashboard': './resources/assets/js/vue-constructors/dashboard/index.js',
+		'vue-dashboard': './resources/assets/js/vue-constructors/dashboard/index.js',
 		'vue-manage': './resources/assets/js/vue-constructors/manage/index.js',
 		'vue-faculty360': './resources/assets/js/vue-constructors/faculty360/index.js',
 		'vue-merit-reports': './resources/assets/js/vue-constructors/merit-reports/index.js',
