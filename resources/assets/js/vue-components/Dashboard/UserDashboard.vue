@@ -2,7 +2,7 @@
 	<div class="dashboard" :class="`${user ? user.type : ''}`">
 		<div v-if="subjectEvaluations" class="container body-block subject-evaluations-block">
 			<h2>
-				My evaluations
+				Evaluations of me
 				<button type="button" class="btn btn-sm btn-default" @click="$store.dispatch('evaluations/subject/fetch', dates)">
 					<span class="glyphicon glyphicon-refresh"></span>
 				</button>
@@ -12,7 +12,7 @@
 
 		<div v-if="evaluatorEvaluations" class="container body-block evaluator-evaluations-block">
 			<h2>
-				Evaluations for me to complete
+				Evaluations by me
 				<button type="button" class="btn btn-sm btn-default" @click="$store.dispatch('evaluations/evaluator/fetch', dates)">
 					<span class="glyphicon glyphicon-refresh"></span>
 				</button>

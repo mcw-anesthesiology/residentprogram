@@ -138,10 +138,13 @@ export default {
 			return renderEvaluationType(this.evaluation);
 		},
 		evaluationStatus() {
+			if (!this.evaluation.status)
+				return '';
+
 			return ucfirst(this.evaluation.status);
 		},
 		evaluationStatusClass() {
-			if (this.evaluation.status.includes('canceled'))
+			if (this.evaluation.status && this.evaluation.status.includes('canceled'))
 				return 'canceled';
 
 			return this.evaluation.status;
@@ -247,6 +250,10 @@ export default {
 
 .evaluation-list-item:hover {
 	background-color: #eee;
+}
+
+.evaluation-main {
+	flex: 1 1;
 }
 
 .evaluation-main:hover {

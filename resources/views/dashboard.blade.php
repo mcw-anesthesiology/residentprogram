@@ -6,6 +6,10 @@
 			.dashboard-welcome-alert p {
 				margin-bottom: 1em;
 			}
+
+			.dashboard-welcome-alert .btn {
+				white-space: normal;
+			}
 		</style>
 @endpush
 
@@ -29,7 +33,8 @@
 				If you find yourself doing so, Please let me know which
 				features are missing from the new version via the
 				<a href="/contact" class="alert-link">contact page</a> or by emailing me at
-				<a href="mailto:{{ config('app.admin_email') }}" class="alert-link">{{ config('app.admin_email') }}</a>.
+				<a href="mailto:{{ config('app.admin_email') }}" class="alert-link">{{ config('app.admin_email') }}</a>
+				so I can fix the new one.
 			</p>
 
 			<p>

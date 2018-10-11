@@ -18,15 +18,19 @@
 <style scoped>
 	.evaluation-type-container {
 		box-sizing: border-box;
+		display: flex;
+		flex-wrap: wrap;
 		background-color: #f3f3f3;
 	}
 
 	aside {
+		flex-basis: 8em;
 		padding: 1em;
 		text-align: center;
 	}
 
 	.list-container {
+		flex: 1 1;
 		padding: 1em 0;
 		background-color: #fafafa;
 		border-color: #dedede;

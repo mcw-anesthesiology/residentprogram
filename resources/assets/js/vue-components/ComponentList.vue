@@ -100,9 +100,9 @@
 </style>
 
 <script>
-import ListPaginator from './ListPaginator.vue';
-
 import lunr from 'lunr';
+
+import ListPaginator from './ListPaginator.vue';
 
 import { snakeCaseToWords } from '@/modules/utils.js';
 import { sortFunctions } from '@/modules/report-utils.js';
@@ -214,9 +214,14 @@ export default {
 		},
 		filteredItems() {
 			if (this.query && this.index) {
-				let refs = this.index.search(this.query);
-				return refs.map(ref => {
-					return this.itemMap.get(ref.ref);
+				let results = this.index.search(`*${this.query}*`);
+				return results.map(result => {
+					const numberRef = Number(result.ref);
+					const ref = Number.isNaN(numberRef)
+						? ref
+						: numberRef;
+
+					return this.itemMap.get(ref);
 				});
 			}
 
@@ -279,6 +284,11 @@ export default {
 		},
 		itemsToShow() {
 			return this.filteredItems && this.filteredItems.length > 0;
+		}
+	},
+	watch: {
+		paginatedItems(paginatedItems) {
+			this.page = 0;
 		}
 	},
 	methods: {
