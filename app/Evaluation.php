@@ -74,7 +74,7 @@ class Evaluation extends Model
 		'flag'
 	];
 
-	protected $appends = ['url'];
+	protected $appends = ['url', 'type'];
 
 	private $showAll = false;
 	private $hashids = false;
@@ -167,6 +167,29 @@ class Evaluation extends Model
 		return $comment;
 	}
 
+	public function getTypeAttribute() {
+		if (empty($this->form))
+			$this->load('form');
+
+		if ($this->form->evaluator_type == 'self')
+			return 'self';
+
+		switch ($this->form->type) {
+		case 'faculty':
+			return 'faculty';
+		case 'resident':
+			return 'trainee';
+		case 'fellow':
+			return 'fellow';
+		case 'intern':
+			return 'intern';
+		case 'app':
+			return 'app';
+		}
+
+		return null;
+	}
+
 	public function getUrlAttribute() {
 		return "<a href='/evaluation/{$this->id}'>{$this->id}</a>";
 	}
@@ -247,6 +270,24 @@ class Evaluation extends Model
 		return $query->whereHas('form', function($innerQuery) use ($type) {
 			$innerQuery->where('type', $type);
 		});
+	}
+
+	public function scopeTrainee($query) {
+		return $query->whereHas('form', function ($q) {
+			return $q->whereIn('type', ['resident', 'fellow']);
+		});
+	}
+
+	public function scopeBetween($query, $startDate = null, $endDate = null) {
+		if (!empty($startDate)) {
+			$query->where('evaluation_date_end', '>=', $startDate);
+		}
+
+		if (!empty($endDate)) {
+			$query->where('evaluation_date_start', '<=', $endDate);
+		}
+
+		return $query;
 	}
 
 	public function sendNotification($reminder = false) {
@@ -373,7 +414,7 @@ class Evaluation extends Model
 					'ca-2',
 					'ca-3'
 				])) {
-			return;
+			return $this;
 		}
 
 		if($this->isAnonymousToUser()) {

@@ -1,8 +1,6 @@
 <template>
 	<section class="evaluation-list">
 		<fieldset>
-			<legend>Filters</legend>
-
 			<div class="filters-container">
 				<label v-if="forms && forms.length > 1">
 					Form
@@ -26,26 +24,34 @@
 					Status
 					<v-select :options="statusOptions" v-model="statusFilter" />
 				</label>
-
 			</div>
 		</fieldset>
 
 		<component-list :items="evaluationsToShow" :fields="fields"
 				:fieldAccessors="fieldAccessors"
 				defaultSortBy="id"
-				defaultSortOrder="desc">
+				defaultSortOrder="desc"
+				:defaultItemsPerPage="5">
 			<template slot-scope="evaluation">
 				<slot v-bind="evaluation">
-					<evaluation-list-item :evaluation="evaluation" />
+					<evaluation-list-item :key="evaluation.id" :evaluation="evaluation" @reload="$emit('reload', evaluation.id)" />
 				</slot>
 			</template>
 		</component-list>
 	</section>
 </template>
 
-<style>
-
+<style scoped>
 @supports (display: grid) {
+	.evaluation-list :global(.component-list .list-container ol) {
+		display: grid;
+		grid-gap: 1px;
+		grid-template-columns: 1fr;
+		background-color: #ddd;
+		border-top: 1px solid #ddd;
+		border-bottom: 1px solid #ddd;
+	}
+
 	.filters-container {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, 200px);
@@ -96,15 +102,21 @@ export default {
 					subject_name: e => dlv(e, 'subject.full_name'),
 					evaluator_name: e => dlv(e, 'evaluator.full_name'),
 					form_title: e => dlv(e, 'form.title'),
-					evaluation_date: e => (e.evaluation_date_start && e.evaluation_date_end)
-						? renderDateRange(
-							e.evaluation_date_start,
-							e.evaluation_date_end,
-							true
-						)
+					evaluation_date: (e, accessType) => (e.evaluation_date_start && e.evaluation_date_end)
+						? accessType === 'search'
+							? renderDateRange(
+								e.evaluation_date_start,
+								e.evaluation_date_end,
+								true
+							)
+							: new Date(e.evaluation_date_start)
 						: '',
-					requested: e => renderDate(e.request_date),
-					completed: e => renderDate(e.complete_date)
+					requested: (e, accessType) => accessType === 'search'
+						? renderDate(e.request_date)
+						: new Date(e.request_date),
+					completed: (e, accessType) => accessType === 'search'
+						? renderDate(e.complete_date)
+						: new Date(e.complete_date),
 				};
 			}
 		}

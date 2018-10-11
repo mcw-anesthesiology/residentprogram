@@ -47,3 +47,8 @@ export function emitError(err: Error, vm: ViewModel, message: string, event: str
 	logError(err);
 	vm.$emit(event, simpleErrorAlert(message));
 }
+
+export function storeError(err: Error, vm: ViewModel, message: string) {
+	logError(message, err);
+	vm.$store.dispatch('error', message);
+}

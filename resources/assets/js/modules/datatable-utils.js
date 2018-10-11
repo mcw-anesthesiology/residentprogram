@@ -105,6 +105,26 @@ export function renderAccountStatus(status: string): string {
 	return `<span class="label ${labelContext}">${ucfirst(status)}</span>`;
 }
 
+export function renderEvaluationType(evaluation: Evaluation): string {
+	switch (evaluation.type) {
+		case 'resident':
+		case 'trainee':
+			return 'Trainee evaluation';
+		case 'fellow':
+			return 'Fellow evaluation';
+		case 'intern':
+			return 'Intern 360 evaluation';
+		case 'faculty':
+			return 'Faculty evaluation';
+		case 'app':
+			return 'APP evaluation';
+		case 'self':
+			return 'Self evaluation';
+		default:
+			return 'Evaluation';
+	}
+}
+
 export function getEvaluationStatusLabelType(status: string): string {
 	switch (status) {
 		case 'complete':
