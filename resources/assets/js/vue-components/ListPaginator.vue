@@ -28,7 +28,7 @@
 				:active="value === 0" @click="setPage" />
 
 			<div class="btn-group">
-				<paginator-link v-for="(pageItems, pageNum) of paginatedItems"
+				<paginator-link v-for="pageNum of pageLinkButtons"
 					:key="pageNum"
 					:value="pageNum"
 					:active="pageNum === value"
@@ -45,6 +45,7 @@
 <style scoped>
 	.paginator {
 		padding: 1em;
+		text-align: center;
 	}
 
 	.form-inline {
@@ -59,6 +60,10 @@
 
 	nav {
 		margin: 0.5em 0;
+	}
+
+	nav span {
+		margin: 0 0.25em;
 	}
 
 	.btn-group {
@@ -102,18 +107,43 @@ export default {
 			this.$emit('input', page);
 		}
 	},
+	computed: {
+		pageLinkButtons() {
+			if (this.paginatedItems.length <= 10)
+				return Array(this.paginatedItems.length).fill().map((_, i) => i);
+
+			let buttons = [0, 1, 2, 3, 4];
+			for (let i = this.paginatedItems.length - 5; i < this.paginatedItems.length; i++) {
+				buttons.push(i);
+			}
+
+			let buttonsAdded = false;
+			if (!buttons.includes(this.value)) {
+				buttons.push(this.value);
+				buttonsAdded = true;
+			}
+
+			if (this.value > 0 && !buttons.includes(this.value - 1)) {
+				buttons.push(this.value - 1);
+				buttonsAdded = true;
+			}
+
+			if (this.value < this.paginatedItems.length - 1 && !buttons.includes(this.value + 1)) {
+				buttons.push(this.value + 1);
+				buttonsAdded = true;
+			}
+
+			if (buttonsAdded) {
+				buttons = Array.from(new Set(buttons).values());
+				buttons.sort((a, b) => Number(a) - Number(b));
+			}
+
+			return buttons;
+		}
+	},
 	components: {
 		PaginatorLink
 	}
 };
 </script>
 
-<style scoped>
-	.paginator {
-		text-align: center;
-	}
-
-	nav span {
-		margin: 0 0.25em;
-	}
-</style>
