@@ -200,7 +200,7 @@ export default {
 		},
 		handleListItemClick(event) {
 			if (!event.defaultPrevented) {
-				window.open(`/evaluation/${this.evaluation.id}`);
+				window.location = `/evaluation/${this.evaluation.id}`;
 			}
 		},
 		async handleCancel(event) {

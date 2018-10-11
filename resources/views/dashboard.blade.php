@@ -50,7 +50,7 @@
 
 		<start-end-date v-model="dates"></start-end-date>
 
-		<nav v-cloak>
+		<nav v-cloak v-if="mentees.length || programs.length">
 			<ul class="nav nav-pills">
 				<router-link tag="li" to="/" active-class="active" exact>
 					<a>
