@@ -1,7 +1,5 @@
 import ky from '@/modules/ky.js';
 
-import { logError } from '@/modules/errors.js';
-
 export default {
 	namespaced: true,
 	state: {
@@ -13,12 +11,12 @@ export default {
 		}
 	},
 	actions: {
-		fetch(context) {
-			if (context.state.highlightedQuestions.length === 0) {
+		fetch({ state, commit }) {
+			if (state.highlightedQuestions.length === 0) {
 				ky.get('/highlighted-questions').json().then(highlightedQuestions => {
-					context.commit('set', highlightedQuestions);
+					commit('set', highlightedQuestions);
 				}).catch(err => {
-					logError(err);
+					commit('error', err, { root: true });
 				});
 			}
 		}

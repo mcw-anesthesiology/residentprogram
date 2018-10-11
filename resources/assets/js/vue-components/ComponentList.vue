@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="component-list">
 		<div class="list-header-controls form-inline">
 			<div class="form-group">
 				<label class="containing-label">
@@ -48,17 +48,61 @@
 
 			<slot name="footer"></slot>
 		</div>
-		<list-paginator v-if="paginate"
+		<list-paginator v-if="paginate && filteredItems.length > 5"
 			v-model="page" :paginatedItems="paginatedItems"
 			:itemsPerPage="itemsPerPage"
 			@pageSize="itemsPerPage = arguments[0]" />
 	</div>
 </template>
 
-<script>
-import ListPaginator from './ListPaginator.vue';
+<style scoped>
+	.list-header-controls {
+		text-align: right;
+		padding: 1em;
+	}
 
+	.list-header-controls input[type="search"] {
+		max-width: 300px;
+	}
+
+	.list-header-controls.form-inline .input-group > .form-control {
+		width: auto;
+	}
+
+	.list-container {
+		margin: 3em 0;
+	}
+
+	.list {
+		padding: 0;
+	}
+
+	.list li {
+		list-style: none;
+	}
+
+	.containing-label {
+		text-align: left;
+	}
+
+	.containing-label > * {
+		display: block;
+	}
+
+	.no-items-text {
+		padding: 0.5em 0;
+		border: 1px solid rgba(0, 0, 0, 0.15);
+		border-left: none;
+		border-right: none;
+		text-align: center;
+		font-size: 1.25em;
+	}
+</style>
+
+<script>
 import lunr from 'lunr';
+
+import ListPaginator from './ListPaginator.vue';
 
 import { snakeCaseToWords } from '@/modules/utils.js';
 import { sortFunctions } from '@/modules/report-utils.js';
@@ -102,6 +146,10 @@ export default {
 			type: Boolean,
 			default: true
 		},
+		defaultItemsPerPage: {
+			type: Number,
+			default: 10
+		},
 		reloadable: {
 			type: Boolean,
 			default: false
@@ -117,7 +165,7 @@ export default {
 		return {
 			query: null,
 			page: 0,
-			itemsPerPage: 10,
+			itemsPerPage: this.defaultItemsPerPage,
 			sortBy: this.defaultSortBy || this.fields[0],
 			sortOrder: this.defaultSortOrder
 		};
@@ -166,9 +214,14 @@ export default {
 		},
 		filteredItems() {
 			if (this.query && this.index) {
-				let refs = this.index.search(this.query);
-				return refs.map(ref => {
-					return this.itemMap.get(ref.ref);
+				let results = this.index.search(`*${this.query}*`);
+				return results.map(result => {
+					const numberRef = Number(result.ref);
+					const ref = Number.isNaN(numberRef)
+						? ref
+						: numberRef;
+
+					return this.itemMap.get(ref);
 				});
 			}
 
@@ -233,6 +286,11 @@ export default {
 			return this.filteredItems && this.filteredItems.length > 0;
 		}
 	},
+	watch: {
+		paginatedItems(paginatedItems) {
+			this.page = 0;
+		}
+	},
 	methods: {
 		renderFieldName(field) {
 			if (field === 'id')
@@ -247,46 +305,3 @@ export default {
 };
 </script>
 
-<style scoped>
-	.list-header-controls {
-		text-align: right;
-	}
-
-	.list-header-controls input[type="search"] {
-		width: 300px;
-		max-width: 100%;
-	}
-
-	.list-header-controls.form-inline .input-group > .form-control {
-		width: auto;
-	}
-
-	.list-container {
-		margin: 3em 0;
-	}
-
-	.list {
-		padding: 0;
-	}
-
-	.list li {
-		list-style: none;
-	}
-
-	.containing-label {
-		text-align: left;
-	}
-
-	.containing-label > * {
-		display: block;
-	}
-
-	.no-items-text {
-		padding: 0.5em 0;
-		border: 1px solid rgba(0, 0, 0, 0.15);
-		border-left: none;
-		border-right: none;
-		text-align: center;
-		font-size: 1.25em;
-	}
-</style>

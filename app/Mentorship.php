@@ -4,8 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Mentorship extends Model
-{
+use App\Scopes\MentorshipScope;
+
+class Mentorship extends Model {
+
+	protected static function boot() {
+		parent::boot();
+
+		static::addGlobalScope(new MentorshipScope());
+	}
+
 	protected $table = "mentorships";
 
 	protected $casts = [

@@ -64,8 +64,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		"email",
 		"notifications",
 		"reminder_frequency",
-		"remind_only_if_pending",
-		"photo_path"
+		"remind_only_if_pending"
 	];
 
 	protected $appends = ["full_name", "specific_type", "profile_link"];
@@ -76,6 +75,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 	public function getProfileLinkAttribute() {
 		return "<a href=\"/profile/{$this->id}\">{$this->full_name}</a>";
+	}
+
+	public function getPhotoPathAttribute($photoPath) {
+		return !empty($photoPath) ? $photoPath : '/img/avatar.png';
 	}
 
 	public function isType($types) {

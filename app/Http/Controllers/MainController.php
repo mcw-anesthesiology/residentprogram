@@ -113,6 +113,10 @@ class MainController extends Controller
     }
 
 	public function dashboard() {
+		return view('dashboard');
+	}
+
+	public function oldDashboard() {
 		if (config('features.evaluations'))
 			return $this->evalsDashboard();
 		if (config('features.faculty_merit'))

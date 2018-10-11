@@ -15,6 +15,7 @@ Route::resource('setting', 'SettingController', ['only' => [
 	'index', 'show', 'update', 'destroy'
 ]]);
 
+Route::get('me', 'Rest\UserController@user');
 Route::patch('users/{id}/password', 'Rest\UserController@password');
 Route::patch('users/{id}/welcome', 'Rest\UserController@welcome');
 Route::post('users/settings', 'Rest\UserController@settings');
@@ -24,6 +25,7 @@ Route::resource('users', 'Rest\UserController', ['only' => [
 Route::resource('forms', 'Rest\FormController', ['only' => [
 	'index', 'store', 'show', 'update'
 ]]);
+Route::post('evaluations/{id}/acknowledge', 'Rest\EvaluationController@acknowledge');
 Route::get('evaluations/{id}/contents', 'Rest\EvaluationController@contents');
 Route::patch('evaluations/{id}/remind', 'Rest\EvaluationController@remind');
 Route::patch('evaluations/{id}/cancel', 'Rest\EvaluationController@cancel');
@@ -37,6 +39,9 @@ Route::resource('evaluations', 'Rest\EvaluationController', ['only' => [
 Route::resource('watched_forms', 'Rest\WatchedFormController', ['only' => [
 	'index', 'store', 'show', 'update', 'destroy'
 ]]);
+Route::get('mentorships/mentees', 'Rest\MentorshipController@mentees');
+Route::get('mentorships/mentors', 'Rest\MentorshipController@mentors');
+Route::get('mentorships/evaluations', 'Rest\MentorshipController@menteeEvaluations');
 Route::resource('mentorships', 'Rest\MentorshipController', ['only' => [
 	'index', 'store', 'show', 'update', 'destroy'
 ]]);
@@ -152,3 +157,11 @@ Route::delete('programs/{id}/administrators/{userId}', 'Rest\ProgramController@r
 Route::resource('programs', 'Rest\ProgramController', ['only' => [
 	'index', 'store', 'create', 'show', 'update', 'destroy'
 ]]);
+
+
+Route::resource('api/evaluations', 'EvaluationsController', ['only' => [
+	'index', 'store', 'show', 'update', 'destroy'
+]]);
+
+Route::get('api/dashboard/subject', 'DashboardController@subjectEvaluations');
+Route::get('api/dashboard/evaluator', 'DashboardController@evaluatorEvaluations');

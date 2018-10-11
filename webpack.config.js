@@ -21,6 +21,7 @@ module.exports = (env, argv) => {
 	return {
 		entry: {
 			bundle: './resources/assets/js/modules/index.js',
+			dashboard: './resources/assets/js/entry/dashboard.js',
 			'vue-global': './resources/assets/js/vue-constructors/global.js',
 			'vue-programs': './resources/assets/js/vue-constructors/programs.js',
 			'vue-form-builder': './resources/assets/js/vue-constructors/form-builder.js',
@@ -80,9 +81,6 @@ module.exports = (env, argv) => {
 				ADMIN_EMAIL: 'jmischka@mcw.edu'
 			}),
 			new CleanWebpackPlugin([
-				// 'public/js',
-				// 'public/css/*.css',
-				// 'public/css/*.map',
 				'public/build/js',
 				'public/build/css/*.css',
 				'public/build/css/*.map'
