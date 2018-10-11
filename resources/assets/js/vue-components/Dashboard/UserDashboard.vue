@@ -3,6 +3,9 @@
 		<div v-if="subjectEvaluations" class="container body-block subject-evaluations-block">
 			<h2>
 				Evaluations of me
+				<small>
+					<RichDateRange :dates="dates" />
+				</small>
 				<button type="button" class="btn btn-sm btn-default" @click="$store.dispatch('evaluations/subject/fetch', dates)">
 					<span class="glyphicon glyphicon-refresh"></span>
 				</button>
@@ -13,6 +16,9 @@
 		<div v-if="evaluatorEvaluations" class="container body-block evaluator-evaluations-block">
 			<h2>
 				Evaluations by me
+				<small>
+					<RichDateRange :dates="dates" />
+				</small>
 				<button type="button" class="btn btn-sm btn-default" @click="$store.dispatch('evaluations/evaluator/fetch', dates)">
 					<span class="glyphicon glyphicon-refresh"></span>
 				</button>
@@ -35,6 +41,10 @@
 	.dashboard.faculty .subject-evaluations-block {
 		order: 2;
 	}
+
+	h2 button {
+		float: right;
+	}
 </style>
 
 <script>
@@ -42,6 +52,7 @@ import { mapState } from 'vuex';
 
 import SubjectEvaluationsBlock from './SubjectEvaluationsBlock.vue';
 import EvaluatorEvaluationsBlock from './EvaluatorEvaluationsBlock.vue';
+import RichDateRange from '#/RichDateRange.vue';
 
 export default {
 	props: {
@@ -75,7 +86,8 @@ export default {
 	},
 	components: {
 		SubjectEvaluationsBlock,
-		EvaluatorEvaluationsBlock
+		EvaluatorEvaluationsBlock,
+		RichDateRange
 	}
 };
 </script>
