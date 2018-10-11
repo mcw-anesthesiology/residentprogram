@@ -1,6 +1,6 @@
 <template>
 	<div class="mentee-list-item list-group-item">
-		<section class="mentee-details">
+		<aside>
 			<img v-if="photo_path" :src="photo_path" alt="" height="100" />
 			<div class="mentee-info">
 				<h3>{{ full_name }}</h3>
@@ -9,6 +9,8 @@
 					{{ secondaryTrainingLevel }}
 				</span>
 			</div>
+		</aside>
+		<section class="mentee-details">
 			<div class="highlight-card">
 				<span>{{ evaluations.length }}</span>
 				<small>
@@ -29,13 +31,28 @@
 </template>
 
 <style scoped>
-.mentee-list-item{
-	padding: 1em;
+.mentee-list-item {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+aside {
+	flex: 3 1;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+aside > * {
+	margin: 0.5em;
 }
 
 .mentee-details {
+	flex: 1 1;
+	padding: 0.5em;
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
 .mentee-info {
@@ -43,6 +60,7 @@
 }
 
 .mentee-details .highlight-card {
+	flex: 1 1;
 	font-size: 1.25em;
 	padding: 0.5em 1em;
 	text-align: center;
@@ -68,15 +86,6 @@ small {
 	border: 1px solid #ddd;
 	border-radius: 2px;
 	background-color: #fdfdfd;
-}
-
-@supports (display: grid) {
-	.mentee-details {
-		display: grid;
-		grid-template-columns: 100px repeat(auto-fit, minmax(200px, 1fr));
-		grid-template-rows: 100px;
-		grid-gap: 1em;
-	}
 }
 
 @media (min-width: 600px) {

@@ -102,15 +102,21 @@ export default {
 					subject_name: e => dlv(e, 'subject.full_name'),
 					evaluator_name: e => dlv(e, 'evaluator.full_name'),
 					form_title: e => dlv(e, 'form.title'),
-					evaluation_date: e => (e.evaluation_date_start && e.evaluation_date_end)
-						? renderDateRange(
-							e.evaluation_date_start,
-							e.evaluation_date_end,
-							true
-						)
+					evaluation_date: (e, accessType) => (e.evaluation_date_start && e.evaluation_date_end)
+						? accessType === 'search'
+							? renderDateRange(
+								e.evaluation_date_start,
+								e.evaluation_date_end,
+								true
+							)
+							: new Date(e.evaluation_date_start)
 						: '',
-					requested: e => renderDate(e.request_date),
-					completed: e => renderDate(e.complete_date)
+					requested: (e, accessType) => accessType === 'search'
+						? renderDate(e.request_date)
+						: new Date(e.request_date),
+					completed: (e, accessType) => accessType === 'search'
+						? renderDate(e.complete_date)
+						: new Date(e.complete_date),
 				};
 			}
 		}
