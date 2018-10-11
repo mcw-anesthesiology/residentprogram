@@ -1,12 +1,18 @@
 <template>
 	<div class="container body-block">
-		<h2>All evaluations</h2>
+		<h2>
+			All evaluations
+			<small>
+				<RichDateRange :dates="dates" />
+			</small>
+		</h2>
 		<evaluation-list :evaluations="evaluations" />
 	</div>
 </template>
 
 <script>
 import EvaluationList from '#/EvaluationList.vue';
+import RichDateRange from '#/RichDateRange.vue';
 
 export default {
 	props: {
@@ -34,7 +40,8 @@ export default {
 		}
 	},
 	components: {
-		EvaluationList
+		EvaluationList,
+		RichDateRange
 	}
 };
 </script>

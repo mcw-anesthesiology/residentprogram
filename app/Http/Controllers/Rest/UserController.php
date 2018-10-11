@@ -54,7 +54,10 @@ class UserController extends RestController
 	protected $model = \App\User::class;
 
 	public function user() {
-		return Auth::user();
+		$user = Auth::user();
+		$user->load('userSettings');
+
+		return $user;
 	}
 
 	public function store(Request $request) {
