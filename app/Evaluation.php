@@ -115,41 +115,45 @@ class Evaluation extends Model
 	}
 
 	public function getIdAttribute($id) {
-		if($this->hashids)
+		if ($this->hashids)
 			return Hashids::encode($id);
 
 		return $id;
 	}
 
 	public function getViewableIdAttribute() {
-		if($this->isAnonymousToUser())
+		if ($this->isAnonymousToUser())
 			return Hashids::encode($this->id);
 
 		return $this->id;
 	}
 
 	public function getEvaluatorIdAttribute($evaluatorId) {
-		if(Auth::check() && !Auth::user()->isType('admin')
-				&& $this->visibility == 'anonymous'
-				&& Auth::user()->id != $evaluatorId
-				&& !$this->showAll)
+		if (
+			!Auth::user()->isType('admin')
+			&& $this->visibility == 'anonymous'
+			&& Auth::user()->id != $evaluatorId
+			&& !$this->showAll
+		)
 			return null;
 
 		return $evaluatorId;
 	}
 
 	public function getRequestedByIdAttribute($requestedById) {
-		if(Auth::check() && !Auth::user()->isType('admin')
-				&& $this->visibility == 'anonymous'
-				&& Auth::user()->id != $requestedById
-				&& $this->showAll)
+		if (
+			!Auth::user()->isType('admin')
+			&& $this->visibility == 'anonymous'
+			&& Auth::user()->id != $requestedById
+			&& $this->showAll
+		)
 			return null;
 
 		return $requestedById;
 	}
 
 	public function getVisibilityAttribute($visibility) {
-		if(empty($this->form))
+		if(empty($this->form) || empty($this->form->visibility))
 			$this->load('form');
 		if(empty($this->form))
 			return $visibility;
@@ -157,14 +161,10 @@ class Evaluation extends Model
 	}
 
 	public function getCommentAttribute($comment) {
-		if (Auth::check()) {
-			if ($this->userFullDisclosure(Auth::user()))
-				return $comment;
+		if ($this->userFullDisclosure(Auth::user()))
+			return $comment;
 
-			return null;
-		}
-
-		return $comment;
+		return null;
 	}
 
 	public function getTypeAttribute() {
@@ -223,17 +223,16 @@ class Evaluation extends Model
 	}
 
 	public function isAnonymousToUser() {
-		return (Auth::check() && !Auth::user()->isType('admin')
-				&& in_array($this->visibility, ['anonymous', 'under faculty threshold'])
-				&& !(Auth::user()->usesFeature('RESIDENT_EVALS')
-					&& in_array($this->training_level, [
-						'intern',
-						'ca-1',
-						'ca-2',
-						'ca-3'
-					]))
-				&& Auth::user()->id != $this->requested_by_id
-				&& Auth::user()->id != $this->evaluator_id);
+		return (
+			(
+				empty($this->visibility)
+				|| $this->visibility != 'visible'
+			)
+			&& !(
+				Auth::user()->isType('admin')
+				|| Auth::id() === $this->evaluator_id
+			)
+		);
 	}
 
 	public function userFullDisclosure($user) {
@@ -417,7 +416,9 @@ class Evaluation extends Model
 			return $this;
 		}
 
-		if($this->isAnonymousToUser()) {
+		Log::debug($this->isAnonymousToUser());
+
+		if ($this->isAnonymousToUser()) {
 			$this->hashids = true;
 			foreach($this->responses as $eval) {
 				$eval->hashEvaluationId();
@@ -425,12 +426,16 @@ class Evaluation extends Model
 			foreach($this->textResponses as $eval) {
 				$eval->hashEvaluationId();
 			}
+			$this->evaluator = null;
+			$this->requestor = null;
 		}
 
 		if($this->isAnonymousToUser() && $this->form->type == 'faculty')
 			$this->addHidden([
 				'request_date',
-				'complete_date'
+				'complete_date',
+				'evaluator_id',
+				'requested_by_id'
 			]);
 
 		if(!Auth::check() || $user->id != $this->subject_id)
