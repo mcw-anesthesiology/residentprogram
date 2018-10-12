@@ -130,34 +130,66 @@ class Evaluation extends Model
 
 	public function getEvaluatorIdAttribute($evaluatorId) {
 		if (
-			!Auth::user()->isType('admin')
-			&& $this->visibility == 'anonymous'
-			&& Auth::user()->id != $evaluatorId
-			&& !$this->showAll
-		)
-			return null;
+			$this->visibility == 'visible'
+			|| (
+				Auth::check()
+				&& (
+					Auth::user()->isType('admin')
+					|| Auth::id() == $evaluatorId
+				)
+			)
+			|| (
+				!Auth::check()
+				&& (
+					app()->runningInConsole()
+					|| app()->runningUnitTests()
+				)
+			)
+			|| $this->showAll
+		) {
+			return $evaluatorId;
+		}
 
-		return $evaluatorId;
+		return null;
 	}
 
 	public function getRequestedByIdAttribute($requestedById) {
 		if (
-			!Auth::user()->isType('admin')
-			&& $this->visibility == 'anonymous'
-			&& Auth::user()->id != $requestedById
-			&& $this->showAll
-		)
-			return null;
+			$this->visibility == 'visible'
+			|| (
+				Auth::check()
+				&& (
+					Auth::user()->isType('admin')
+					|| Auth::id() == $requestedById
+				)
+			)
+			|| (
+				!Auth::check()
+				&& (
+					app()->runningInConsole()
+					|| app()->runningUnitTests()
+				)
+			)
+			|| $this->showAll
+		) {
+			return $requestedById;
+		}
 
-		return $requestedById;
+		return null;
 	}
 
 	public function getVisibilityAttribute($visibility) {
-		if(empty($this->form) || empty($this->form->visibility))
-			$this->load('form');
-		if(empty($this->form))
+		if (!empty($visibility))
 			return $visibility;
-		return empty($visibility) ? $this->form->visibility : $visibility;
+
+		if (empty($this->form) || empty($this->form->visibility))
+			$this->load('form');
+
+
+		if (!empty($this->form))
+			return $this->form->visibility;
+
+		return 'hidden';
 	}
 
 	public function getCommentAttribute($comment) {
@@ -168,7 +200,7 @@ class Evaluation extends Model
 	}
 
 	public function getTypeAttribute() {
-		if (empty($this->form))
+		if (empty($this->form) || !is_object($this->form) || empty($this->form->evaluator_type) || empty($this->form->type))
 			$this->load('form');
 
 		if ($this->form->evaluator_type == 'self')

@@ -56,13 +56,13 @@ class ResidentReminders extends Command
 				'evaluatorEvaluations.subject'
 			)->get();
 
-		if(!empty($this->argument('user'))){
+		if (!empty($this->argument('user'))) {
 			$userId = $this->argument('user');
-			$residents = $residents->filter(function($resident) use ($userId){
+			$residents = $residents->filter(function($resident) use ($userId) {
 				return $resident->id == $userId;
 			});
 
-			if(count($residents) == 0){
+			if (count($residents) == 0) {
 				throw new \DomainException("There is no active resident with id {$userId}");
 			}
 		}
@@ -73,7 +73,7 @@ class ResidentReminders extends Command
 
 		$progress = $this->output->createProgressBar(count($residents));
 
-		foreach($residents as $resident){
+		foreach ($residents as $resident) {
 			try {
 				$monthRequests = $resident->subjectEvaluations
 					->where('requested_by_id', $resident->id)
@@ -81,15 +81,15 @@ class ResidentReminders extends Command
 					->count();
 
 				$monthFacultyEvals = $resident->evaluatorEvaluations
-					->filter(function($eval){
+					->filter(function($eval) {
 						return $eval->form->type == 'faculty'
 							&& $eval->subject->type == 'faculty'
 							&& $eval->status == 'complete'
 							&& $eval->complete_date >= Carbon::now()->firstOfMonth();
 					})->count();
 
-				if($monthRequests < $requirements['evaluationRequests']
-						|| $monthFacultyEvals < $requirements['facultyEvaluations']){
+				if ($monthRequests < $requirements['evaluationRequests']
+						|| $monthFacultyEvals < $requirements['facultyEvaluations']) {
 
 					$requestsNeeded = $requirements['evaluationRequests'] - $monthRequests;
 					$facultyEvalsNeeded = $requirements['facultyEvaluations'] - $monthFacultyEvals;
@@ -103,7 +103,7 @@ class ResidentReminders extends Command
 						'facultyEvalsNeeded'
 					);
 
-					Mail::send('emails.reminders.resident', $data, function($message) use ($resident){
+					Mail::send('emails.reminders.resident', $data, function($message) use ($resident) {
 						$message->from('reminders@residentprogram.com', 'ResidentProgram Reminders')
 							->to($resident->email)
 							->replyTo(config('app.admin_email'))
@@ -112,12 +112,12 @@ class ResidentReminders extends Command
 
 					$success[] = $resident;
 
-					if(config('app.env') != 'production')
+					if (config('app.env') != 'production')
 						sleep(1);
 				} else {
 					$notNeeded[] = $resident;
 				}
-			} catch (\Exception $e){
+			} catch (\Exception $e) {
 				$fail[] = $resident;
 				Log::error($e);
 			}

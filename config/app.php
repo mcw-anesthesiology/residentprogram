@@ -7,7 +7,7 @@ $gitRev = 'UNKNOWN';
 try {
 	$gitRev = trim(file_get_contents(base_path('public/build/version.txt')));
 } catch (\Exception $e) {
-	Log::error('Failed getting git revision', $e);
+	// Log::error('Failed getting git revision', $e);
 }
 
 return [
