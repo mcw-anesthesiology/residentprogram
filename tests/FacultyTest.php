@@ -296,10 +296,6 @@ class FacultyTest extends BrowserKitTestCase
         ]);
 
         $this->actingAs($this->user)
-            ->visit("/dashboard")
-            ->see($this->resident->full_name);
-
-        $this->actingAs($this->user)
             ->get("/evaluations", [
                 "_token" => csrf_token(),
                 "subject_id" => $this->resident->id
