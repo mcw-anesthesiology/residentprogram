@@ -97,9 +97,7 @@ class UserFormReportTest extends TestCase
 				'evals' => [],
 				'subjectEvals' => [],
 				'subjectResponses' => [],
-				'averageResponses' => [],
 				'subjectPercentages' => [],
-				'averagePercentages' => [],
 				'subjectResponseValues' => [],
 				'evaluators' => []
 			]);
@@ -132,17 +130,6 @@ class UserFormReportTest extends TestCase
 						]
 					]
 				],
-				'averageResponses' => [
-					'q1' => [
-						$responses['q1']->response => 1
-					],
-					'q2' => [
-						$responses['q2']->response => 1
-					],
-					'q3' => [
-						$textResponses['q3']->response => 1
-					]
-				],
 				'subjectPercentages' => [
 					$this->resident->id => [
 						'q1' => [
@@ -154,17 +141,6 @@ class UserFormReportTest extends TestCase
 						'q3' => [
 							$textResponses['q3']->response => 100
 						]
-					]
-				],
-				'averagePercentages' => [
-					'q1' => [
-						$responses['q1']->response => 100
-					],
-					'q2' => [
-						$responses['q2']->response => 100
-					],
-					'q3' => [
-						$textResponses['q3']->response => 100
 					]
 				],
 				'subjectResponseValues' => [
@@ -223,17 +199,6 @@ class UserFormReportTest extends TestCase
 						]
 					]
 				],
-				'averageResponses' => [
-					'q1' => [
-						$responses['q1']->response => 1
-					],
-					'q2' => [
-						$responses['q2']->response => 1
-					],
-					'q3' => [
-						$textResponses['q3']->response => 1
-					]
-				],
 				'subjectPercentages' => [
 					$this->resident->id => [
 						'q1' => [
@@ -245,17 +210,6 @@ class UserFormReportTest extends TestCase
 						'q3' => [
 							$textResponses['q3']->response => 100
 						]
-					]
-				],
-				'averagePercentages' => [
-					'q1' => [
-						$responses['q1']->response => 100
-					],
-					'q2' => [
-						$responses['q2']->response => 100
-					],
-					'q3' => [
-						$textResponses['q3']->response => 100
 					]
 				],
 				'subjectResponseValues' => [
@@ -323,17 +277,6 @@ class UserFormReportTest extends TestCase
 						]
 					]
 				],
-				'averageResponses' => [
-					'q1' => [
-						$responses['q1']->response => 1
-					],
-					'q2' => [
-						$responses['q2']->response => 1
-					],
-					'q3' => [
-						$textResponses['q3']->response => 1
-					]
-				],
 				'subjectPercentages' => [
 					$fellow->id => [
 						'q1' => [
@@ -345,17 +288,6 @@ class UserFormReportTest extends TestCase
 						'q3' => [
 							$textResponses['q3']->response => 100
 						]
-					]
-				],
-				'averagePercentages' => [
-					'q1' => [
-						$responses['q1']->response => 100
-					],
-					'q2' => [
-						$responses['q2']->response => 100
-					],
-					'q3' => [
-						$textResponses['q3']->response => 100
 					]
 				],
 				'subjectResponseValues' => [

@@ -797,7 +797,9 @@ class ReportController extends Controller
 		foreach ($formContents['items'] as &$item) {
 			if ($item['type'] == 'question' && in_array($item['questionType'], ['checkbox', 'radio', 'radiononnumeric'])) {
 				if ($item['questionType'] == 'radio') {
-					$item['averageResponses'] = $averageResponses[$item['id']];
+					if (!empty($averageResponses[$item['id']])) {
+						$item['averageResponses'] = $averageResponses[$item['id']];
+					}
 				}
 
 				foreach ($item['options'] as &$option) {
