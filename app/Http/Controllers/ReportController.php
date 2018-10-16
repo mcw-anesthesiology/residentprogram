@@ -704,11 +704,19 @@ class ReportController extends Controller
 
                 if (!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = 1;
-				if (!isset($evaluators[$response->evaluation_id]))
+				if (
+					(
+						$response->visibility == 'visible'
+						|| empty($response->visibility && $response->form_visibility == 'visible')
+					)
+					&& !isset($evaluators[$response->evaluation_id])
+				) {
 					$evaluators[$response->evaluation_id] = [
 						'id' => $response->evaluator_id,
 						'full_name' => "{$response->evaluator_last}, {$response->evaluator_first}"
 					];
+				}
+
                 if (!isset($questions[$response->question_id]))
                     $questions[$response->question_id] = 1;
                 if (!isset($questionResponses[$response->question_id][$response->response]))
@@ -730,10 +738,14 @@ class ReportController extends Controller
             ->where("evaluation_date_start", "<", $endDate)
 			->orderBy('responses.id');
 
-		$query->select("evaluation_id", "evaluator_id", "subject_id", "response",
+		$query->select(
+			"evaluation_id", "evaluator_id", "subject_id", "response",
 			"question_id", "evaluation_date_start", "evaluation_date_end",
 			"evaluators.first_name as evaluator_first",
-			"evaluators.last_name as evaluator_last");
+			"evaluators.last_name as evaluator_last",
+			"evaluations.visibility as visibility",
+			"forms.visibility as form_visibility"
+		);
 
 		$query->chunk(10000, $averageCallback);
 
@@ -754,10 +766,14 @@ class ReportController extends Controller
             ->where("evaluation_date_start", "<=", $endDate)
             ->orderBy('text_responses.id');
 
-		$textQuery->select("evaluation_id", "evaluator_id", "subject_id", "response",
+		$textQuery->select(
+			"evaluation_id", "evaluator_id", "subject_id", "response",
 			"question_id", "evaluation_date_start", "evaluation_date_end",
 			"evaluators.first_name as evaluator_first",
-			"evaluators.last_name as evaluator_last");
+			"evaluators.last_name as evaluator_last",
+			"evaluations.visibility as visibility",
+			"forms.visibility as form_visibility"
+		);
 
 		$textQuery->chunk(10000, $averageCallback);
 
