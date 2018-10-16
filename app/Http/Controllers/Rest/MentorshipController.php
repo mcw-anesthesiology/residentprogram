@@ -65,13 +65,6 @@ class MentorshipController extends RestController
 		return $menteeQuery->with([
 			'subjectEvaluations' => function ($query) use ($request) {
 				$query->between($request->input('startDate'), $request->input('endDate'));
-				// if ($request->has('startDate')) {
-				// 	$query->where('evaluation_date_end', '>=', $request->input('startDate'));
-				// }
-				//
-				// if ($request->has('endDate')) {
-				// 	$query->where('evaluation_date_start', '<=', $request->input('endDate'));
-				// }
 			},
 			'subjectEvaluations.subject:id,first_name,last_name',
 			'subjectEvaluations.evaluator:id,first_name,last_name',
