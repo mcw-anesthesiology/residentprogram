@@ -711,7 +711,7 @@ class ReportController extends Controller
 				if (
 					(
 						$response->visibility == 'visible'
-						|| empty($response->visibility && $response->form_visibility == 'visible')
+						|| empty($response->visibility) && $response->form_visibility == 'visible'
 					)
 					&& !isset($evaluators[$response->evaluation_id])
 				) {
