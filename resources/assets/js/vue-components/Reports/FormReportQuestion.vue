@@ -38,7 +38,7 @@
 							</tr>
 							<tr v-for="(response, evalId) of subjectResponseValues">
 								<td>
-									<a :href="`/evaluations/${evalId}`">
+									<a :href="`/evaluation/${evalId}`">
 										{{ evalId }}
 									</a>
 								</td>
