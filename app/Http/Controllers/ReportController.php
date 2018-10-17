@@ -17,6 +17,7 @@ use DateTime;
 use Auth;
 use DB;
 use Debugbar;
+use Hashids;
 use Log;
 use Mail;
 use PDF;
@@ -675,10 +676,17 @@ class ReportController extends Controller
 
 		$averageCallback = function ($responses) use (&$averageResponses, &$averageEvals) {
 			foreach ($responses as $response) {
+				$evalId = (
+					$response->visibility == 'visible'
+					|| empty($response->visibility) && $response->form_visibility == 'visible'
+				)
+					? $response->evaluation_id
+					: Hashids::encode($response->evaluation_id);
+
 				if (!isset($averageResponses[$response->question_id][$response->response]))
 					$averageResponses[$response->question_id][$response->response] = 0;
-				if (!in_array($response->evaluation_id, $averageEvals))
-					$averageEvals[] = $response->evaluation_id;
+				if (!in_array($evalId, $averageEvals))
+					$averageEvals[] = $evalId;
 
 				$averageResponses[$response->question_id][$response->response]++;
 			}
@@ -688,6 +696,13 @@ class ReportController extends Controller
 				&$subjectEvals, &$evals, &$subjects, &$evaluators,
 				&$evaluations, &$questions, &$questionResponses, &$subjectResponseValues) {
             foreach ($responses as $response) {
+				$evalId = (
+					$response->visibility == 'visible'
+					|| empty($response->visibility) && $response->form_visibility == 'visible'
+				)
+					? $response->evaluation_id
+					: Hashids::encode($response->evaluation_id);
+
 				if (!isset($totalResponses[$response->question_id][$response->response]))
 					$totalResponses[$response->question_id][$response->response] = 0;
                 if (!isset($subjectResponses[$response->subject_id][$response->question_id][$response->response]))
@@ -695,13 +710,13 @@ class ReportController extends Controller
 
 				if (!isset($subjectEvals[$response->subject_id]))
 					$subjectEvals[$response->subject_id] = [];
-				if (!in_array($response->evaluation_id, $subjectEvals[$response->subject_id]))
-                    $subjectEvals[$response->subject_id][] = $response->evaluation_id;
-                if (!in_array($response->evaluation_id, $evals))
-                    $evals[] = $response->evaluation_id;
-				if (!isset($evaluations[$response->evaluation_id]))
-					$evaluations[$response->evaluation_id] = [
-						'id' => $response->evaluation_id,
+				if (!in_array($evalId, $subjectEvals[$response->subject_id]))
+                    $subjectEvals[$response->subject_id][] = $evalId;
+                if (!in_array($evalId, $evals))
+                    $evals[] = $evalId;
+				if (!isset($evaluations[$evalId]))
+					$evaluations[$evalId] = [
+						'id' => $evalId,
 						'evaluation_date_start' => $response->evaluation_date_start,
 						'evaluation_date_end' => $response->evaluation_date_end
 					];
@@ -713,9 +728,9 @@ class ReportController extends Controller
 						$response->visibility == 'visible'
 						|| empty($response->visibility) && $response->form_visibility == 'visible'
 					)
-					&& !isset($evaluators[$response->evaluation_id])
+					&& !isset($evaluators[$evalId])
 				) {
-					$evaluators[$response->evaluation_id] = [
+					$evaluators[$evalId] = [
 						'id' => $response->evaluator_id,
 						'full_name' => "{$response->evaluator_last}, {$response->evaluator_first}"
 					];
@@ -727,7 +742,7 @@ class ReportController extends Controller
                     $questionResponses[$response->question_id][$response->response] = 1;
 
 				$subjectResponses[$response->subject_id][$response->question_id][$response->response]++;
-                $subjectResponseValues[$response->subject_id][$response->question_id][$response->evaluation_id] = $response->response;
+                $subjectResponseValues[$response->subject_id][$response->question_id][$evalId] = $response->response;
             }
         };
 
