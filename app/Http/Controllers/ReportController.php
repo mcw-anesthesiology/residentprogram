@@ -649,6 +649,10 @@ class ReportController extends Controller
 	}
 
     public function formReport(Request $request) {
+		// Text responses are hidden for `hidden` evaluations, though not regular responses.
+		// I think this is probably how it should be done, since we'd still probably want
+		// those values included in averages.
+
 		$user = Auth::user();
         $startDate = Carbon::parse($request->input("startDate"));
         $startDate->timezone = "America/Chicago";
@@ -659,6 +663,7 @@ class ReportController extends Controller
 		$subjectEvals = [];
 		$averageResponses = [];
 		$evals = [];
+		$averageEvals = [];
 		$evaluations = [];
 		$subjects = [];
 		$evaluators = [];
@@ -668,16 +673,25 @@ class ReportController extends Controller
 		$averagePercentages = [];
 		$subjectResponseValues = [];
 
+		$averageCallback = function ($responses) use (&$averageResponses, &$averageEvals) {
+			foreach ($responses as $response) {
+				if (!isset($averageResponses[$response->question_id][$response->response]))
+					$averageResponses[$response->question_id][$response->response] = 0;
+				if (!in_array($response->evaluation_id, $averageEvals))
+					$averageEvals[] = $response->evaluation_id;
+
+				$averageResponses[$response->question_id][$response->response]++;
+			}
+		};
+
 		$chunkCallback = function($responses) use(&$subjectResponses,
-				&$subjectEvals, &$averageResponses, &$evals, &$subjects, &$evaluators,
+				&$subjectEvals, &$evals, &$subjects, &$evaluators,
 				&$evaluations, &$questions, &$questionResponses, &$subjectResponseValues) {
             foreach ($responses as $response) {
 				if (!isset($totalResponses[$response->question_id][$response->response]))
 					$totalResponses[$response->question_id][$response->response] = 0;
                 if (!isset($subjectResponses[$response->subject_id][$response->question_id][$response->response]))
                     $subjectResponses[$response->subject_id][$response->question_id][$response->response] = 0;
-                if (!isset($averageResponses[$response->question_id][$response->response]))
-                    $averageResponses[$response->question_id][$response->response] = 0;
 
 				if (!isset($subjectEvals[$response->subject_id]))
 					$subjectEvals[$response->subject_id] = [];
@@ -694,11 +708,19 @@ class ReportController extends Controller
 
                 if (!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = 1;
-				if (!isset($evaluators[$response->evaluation_id]))
+				if (
+					(
+						$response->visibility == 'visible'
+						|| empty($response->visibility) && $response->form_visibility == 'visible'
+					)
+					&& !isset($evaluators[$response->evaluation_id])
+				) {
 					$evaluators[$response->evaluation_id] = [
 						'id' => $response->evaluator_id,
 						'full_name' => "{$response->evaluator_last}, {$response->evaluator_first}"
 					];
+				}
+
                 if (!isset($questions[$response->question_id]))
                     $questions[$response->question_id] = 1;
                 if (!isset($questionResponses[$response->question_id][$response->response]))
@@ -706,7 +728,6 @@ class ReportController extends Controller
 
 				$subjectResponses[$response->subject_id][$response->question_id][$response->response]++;
                 $subjectResponseValues[$response->subject_id][$response->question_id][$response->evaluation_id] = $response->response;
-                $averageResponses[$response->question_id][$response->response]++;
             }
         };
 
@@ -721,14 +742,20 @@ class ReportController extends Controller
             ->where("evaluation_date_start", "<", $endDate)
 			->orderBy('responses.id');
 
+		$query->select(
+			"evaluation_id", "evaluator_id", "subject_id", "response",
+			"question_id", "evaluation_date_start", "evaluation_date_end",
+			"evaluators.first_name as evaluator_first",
+			"evaluators.last_name as evaluator_last",
+			"evaluations.visibility as visibility",
+			"forms.visibility as form_visibility"
+		);
+
+		$query->chunk(10000, $averageCallback);
+
 		if (!$user->isType('admin')) {
 			$query = $query->where($this->filterNonAdminQuery);
 		}
-
-		$query->select("evaluation_id", "evaluator_id", "subject_id", "response",
-			"question_id", "evaluation_date_start", "evaluation_date_end",
-			"evaluators.first_name as evaluator_first",
-			"evaluators.last_name as evaluator_last");
 
     	$query->chunk(10000, $chunkCallback);
 
@@ -741,20 +768,33 @@ class ReportController extends Controller
             ->where("forms.id", $request->input("form_id"))
             ->where("evaluation_date_end", ">=", $startDate)
             ->where("evaluation_date_start", "<=", $endDate)
+			->where(function ($query) {
+				$query->whereIn('evaluations.visibility', ['visible', 'anonymous'])
+					->orWhere(function ($query) {
+						$query->whereNull('evaluations.visibility')
+							->whereIn('forms.visibility', ['visible', 'anonymous']);
+					});
+			})
             ->orderBy('text_responses.id');
+
+		$textQuery->select(
+			"evaluation_id", "evaluator_id", "subject_id", "response",
+			"question_id", "evaluation_date_start", "evaluation_date_end",
+			"evaluators.first_name as evaluator_first",
+			"evaluators.last_name as evaluator_last",
+			"evaluations.visibility as visibility",
+			"forms.visibility as form_visibility"
+		);
+
+		$textQuery->chunk(10000, $averageCallback);
 
 		if (!$user->isType('admin')) {
 			$textQuery = $textQuery->where($this->filterNonAdminQuery);
 		}
 
-        $textQuery->select("evaluation_id", "evaluator_id", "subject_id", "response",
-			"question_id", "evaluation_date_start", "evaluation_date_end",
-			"evaluators.first_name as evaluator_first",
-			"evaluators.last_name as evaluator_last");
-
     	$textQuery->chunk(10000, $chunkCallback);
 
-        $numEvals = count($evals);
+        $numAverageEvals = count($averageEvals);
         $subjects = array_keys($subjects);
         $questions = array_keys($questions);
         foreach ($questions as $question_id) {
@@ -763,7 +803,7 @@ class ReportController extends Controller
 
         foreach ($questions as $question_id) {
             foreach ($questionResponses[$question_id] as $response) {
-                $averagePercentages[$question_id][$response] = round(($averageResponses[$question_id][$response]/$numEvals)*100);
+                $averagePercentages[$question_id][$response] = round(($averageResponses[$question_id][$response]/$numAverageEvals)*100);
                 foreach ($subjects as $subject_id) {
                     if (isset($subjectResponses[$subject_id][$question_id][$response]))
                         $subjectPercentages[$subject_id][$question_id][$response] =
@@ -781,25 +821,30 @@ class ReportController extends Controller
 
 		$formContents = $form->contents;
 
-		// TODO: Think of some way to make showing averages work safely with text responses
-		// if (!$user->isType('admin')) {
-		// 	$isUser = function ($subjectId) use ($user) {
-		// 		return $subjectId == $user->id;
-		// 	};
-		//
-		// 	$subjectEvals = array_filter($subjectEvals, $isUser, ARRAY_FILTER_USE_KEY);
-		// 	$subjectResponses = array_filter($subjectResponses, $isUser, ARRAY_FILTER_USE_KEY);
-		// 	$subjectPercentages = array_filter($subjectPercentages, $isUser, ARRAY_FILTER_USE_KEY);
-		// 	$subjectResponseValues = array_filter($subjectResponseValues, $isUser, ARRAY_FILTER_USE_KEY);
-		// }
+		foreach ($formContents['items'] as &$item) {
+			if ($item['type'] == 'question' && in_array($item['questionType'], ['checkbox', 'radio', 'radiononnumeric'])) {
+				if ($item['questionType'] == 'radio') {
+					if (!empty($averageResponses[$item['id']])) {
+						$item['averageResponses'] = $averageResponses[$item['id']];
+					}
+				}
+
+				foreach ($item['options'] as &$option) {
+					$option['averagePercentage'] = (
+						!empty($averagePercentages[$item['id']])
+					   	&& !empty($averagePercentages[$item['id']][$option['value']])
+				   	)
+						? $averagePercentages[$item['id']][$option['value']]
+						: 0;
+				}
+			}
+		}
 
 		$data = compact(
 			"evals",
 			"subjectEvals",
 			"subjectResponses",
-			"averageResponses",
 			"subjectPercentages",
-			"averagePercentages",
 			"subjectResponseValues",
 			"formContents",
 			"evaluators",

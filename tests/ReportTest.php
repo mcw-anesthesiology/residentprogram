@@ -702,26 +702,6 @@ class ReportTest extends BrowserKitTestCase
 		                $this->textResponses[3]->response => 50
 		            ]
 				]
-	        ],
-			"averagePercentages" => [
-	            "q1" => [
-	                (string)$this->responses["q1"][0]->response => 25,
-	                (string)$this->responses["q1"][1]->response => 25,
-	                (string)$this->responses["q1"][2]->response => 25,
-	                (string)$this->responses["q1"][3]->response => 25
-	            ],
-	            "q2" => [
-	                (string)$this->responses["q2"][0]->response => 25,
-	                (string)$this->responses["q2"][1]->response => 25,
-	                (string)$this->responses["q2"][2]->response => 25,
-	                (string)$this->responses["q2"][3]->response => 25
-	            ],
-	            "q3" => [
-	                $this->textResponses[0]->response => 25,
-	                $this->textResponses[1]->response => 25,
-	                $this->textResponses[2]->response => 25,
-	                $this->textResponses[3]->response => 25
-	            ]
 	        ]
 		]);
     }
