@@ -73,11 +73,15 @@ export function generateScoresReportCsv(
 				row.push(!Number.isNaN(subjectStdDev) ? subjectStdDev : '');
 			}
 
-			row.push(average(getResponseValues(
-				report.averageResponses[item.id],
-				questionCustomOptionValues,
-				questionDisregardOption
-			)));
+			row.push(
+				item.averageResponses
+				? average(getResponseValues(
+					item.averageResponses,
+					questionCustomOptionValues,
+					questionDisregardOption
+				))
+				: ''
+			);
 
 		} else {
 			row.push('', '', '');

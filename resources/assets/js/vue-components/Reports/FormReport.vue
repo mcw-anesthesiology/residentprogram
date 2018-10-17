@@ -289,13 +289,10 @@ export default {
 					item.subjectResponseValues = this.report.subjectResponseValues[this.subjectId]
 						? this.report.subjectResponseValues[this.subjectId][item.id]
 						: null;
-				}
-				else {
+				} else {
 					item.subjectResponses = null;
 					item.subjectResponseValues = null;
 				}
-
-				item.averageResponses = this.report.averageResponses[item.id];
 
 				if(item.type === 'question' && ['checkbox', 'radio', 'radiononnumeric']
 						.includes(item.questionType)){
@@ -307,14 +304,10 @@ export default {
 							option.percentage = this.report.subjectPercentages[this.subjectId]
 								? this.report.subjectPercentages[this.subjectId][item.id][option.value]
 								: 0;
-						}
-						else {
+						} else {
 							option.responses = null;
 							option.percentage = null;
 						}
-						option.averagePercentage = this.report.averagePercentages[item.id]
-							? this.report.averagePercentages[item.id][option.value]
-							: 0;
 					});
 				}
 			});
@@ -640,8 +633,8 @@ export default {
 									].map(tableHeader),
 									...this.subjectEvals.map(subjectEval => [
 										subjectEval.id,
-										subjectEval.evaluator.full_name,
-										subjectEval.requestor.full_name,
+										subjectEval.evaluator ? subjectEval.evaluator.full_name : '',
+										subjectEval.requestor ? subjectEval.requestor.full_name : '',
 										subjectEval.form.title,
 										renderDateRange(
 											subjectEval.evaluation_date_start,
@@ -773,7 +766,7 @@ export default {
 												].concat(
 													Object.keys(item.subjectResponseValues).map(evaluationId => [
 														evaluationId,
-														this.report.evaluators[evaluationId].full_name,
+														this.report.evaluators[evaluationId] ? this.report.evaluators[evaluationId].full_name : '',
 														renderDateRange(
 															this.report.evaluations[evaluationId].evaluation_date_start,
 															this.report.evaluations[evaluationId].evaluation_date_end
@@ -798,12 +791,12 @@ export default {
 								)
 									? [{
 										columns: [
-											{
+											item.averageResponses && {
 												table: {
 													body: [
 														['Total average'],
 														[round(average(getResponseValues(
-															this.report.averageResponses[item.id],
+															item.averageResponses,
 															this.customOptionValues[item.originalIndex],
 															this.disregardOption[item.originalIndex]
 														)), 2)]
@@ -836,7 +829,7 @@ export default {
 														]
 													}
 												}
-											]
+											].filter(Boolean)
 											: []
 										)
 									}]

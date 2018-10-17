@@ -49,7 +49,7 @@ class UserFormReportTest extends TestCase
 					'form_id' => $this->form->id,
 					'subject_id' => $subject->id,
 					'evaluator_id' => $evaluator->id,
-					'requested_by_id' => $subject->id,
+					'requested_by_id' => $this->faker->randomElement([$subject->id, $evaluator->id]),
 					'evaluation_date_start' => $evalDateStart,
 					'evaluation_date_end' => $evalDateEnd,
 					'training_level' => $subject->training_level
@@ -97,9 +97,7 @@ class UserFormReportTest extends TestCase
 				'evals' => [],
 				'subjectEvals' => [],
 				'subjectResponses' => [],
-				'averageResponses' => [],
 				'subjectPercentages' => [],
-				'averagePercentages' => [],
 				'subjectResponseValues' => [],
 				'evaluators' => []
 			]);
@@ -132,17 +130,6 @@ class UserFormReportTest extends TestCase
 						]
 					]
 				],
-				'averageResponses' => [
-					'q1' => [
-						$responses['q1']->response => 1
-					],
-					'q2' => [
-						$responses['q2']->response => 1
-					],
-					'q3' => [
-						$textResponses['q3']->response => 1
-					]
-				],
 				'subjectPercentages' => [
 					$this->resident->id => [
 						'q1' => [
@@ -154,17 +141,6 @@ class UserFormReportTest extends TestCase
 						'q3' => [
 							$textResponses['q3']->response => 100
 						]
-					]
-				],
-				'averagePercentages' => [
-					'q1' => [
-						$responses['q1']->response => 100
-					],
-					'q2' => [
-						$responses['q2']->response => 100
-					],
-					'q3' => [
-						$textResponses['q3']->response => 100
 					]
 				],
 				'subjectResponseValues' => [
@@ -223,17 +199,6 @@ class UserFormReportTest extends TestCase
 						]
 					]
 				],
-				'averageResponses' => [
-					'q1' => [
-						$responses['q1']->response => 1
-					],
-					'q2' => [
-						$responses['q2']->response => 1
-					],
-					'q3' => [
-						$textResponses['q3']->response => 1
-					]
-				],
 				'subjectPercentages' => [
 					$this->resident->id => [
 						'q1' => [
@@ -245,17 +210,6 @@ class UserFormReportTest extends TestCase
 						'q3' => [
 							$textResponses['q3']->response => 100
 						]
-					]
-				],
-				'averagePercentages' => [
-					'q1' => [
-						$responses['q1']->response => 100
-					],
-					'q2' => [
-						$responses['q2']->response => 100
-					],
-					'q3' => [
-						$textResponses['q3']->response => 100
 					]
 				],
 				'subjectResponseValues' => [
@@ -323,17 +277,6 @@ class UserFormReportTest extends TestCase
 						]
 					]
 				],
-				'averageResponses' => [
-					'q1' => [
-						$responses['q1']->response => 1
-					],
-					'q2' => [
-						$responses['q2']->response => 1
-					],
-					'q3' => [
-						$textResponses['q3']->response => 1
-					]
-				],
 				'subjectPercentages' => [
 					$fellow->id => [
 						'q1' => [
@@ -345,17 +288,6 @@ class UserFormReportTest extends TestCase
 						'q3' => [
 							$textResponses['q3']->response => 100
 						]
-					]
-				],
-				'averagePercentages' => [
-					'q1' => [
-						$responses['q1']->response => 100
-					],
-					'q2' => [
-						$responses['q2']->response => 100
-					],
-					'q3' => [
-						$textResponses['q3']->response => 100
 					]
 				],
 				'subjectResponseValues' => [
@@ -376,6 +308,150 @@ class UserFormReportTest extends TestCase
 					$evaluation->id => [
 						'id' => $this->faculty->id,
 						'full_name' => $this->faculty->full_name
+					]
+				]
+			]);
+	}
+
+	public function testHiddenEvaluations() {
+		[
+			$eval,
+			$responses,
+			$textResponses
+		] = $this->createEval($this->resident, $this->faculty, 1, [
+			'visibility' => 'hidden'
+		]);
+
+		$this->actingAs($this->resident)
+			->post('/report/form', [
+				'form_id' => $this->form->id,
+				'startDate' => $this->startDate,
+				'endDate' => $this->endDate
+			])->assertJsonMissing([
+				'subjectResponses' => [
+					$this->resident->id => [
+						'q3' => [
+							$textResponses['q3']->response => 1
+						]
+					]
+				],
+				'subjectPercentages' => [
+					$this->resident->id => [
+						'q3' => [
+							$textResponses['q3']->response => 100
+						]
+					]
+				],
+				'subjectResponseValues' => [
+					$this->resident->id => [
+						$textResponses['q3']->id => [
+							$eval->id => $textResponses['q3']->response
+					   	]
+					]
+				],
+				'evaluators' => [
+					$eval->id => [
+						'id' => $this->faculty->id,
+						'full_name' => $this->faculty->full_name
+					]
+				]
+			]);
+
+		$hiddenForm = factory(Form::class, 'resident')->create([
+			'visibility' => 'hidden'
+		]);
+		[
+			$eval,
+			$responses,
+			$textResponses
+		] = $this->createEval($this->resident, $this->faculty, 1, [
+			'form_id' => $hiddenForm->id,
+			'visibility' => null
+		]);
+
+		$this->actingAs($this->resident)
+			->post('/report/form', [
+				'form_id' => $hiddenForm->id,
+				'startDate' => $this->startDate,
+				'endDate' => $this->endDate
+			])->assertJsonMissing([
+				'subjectResponses' => [
+					$this->resident->id => [
+						'q3' => [
+							$textResponses['q3']->response => 1
+						]
+					]
+				],
+				'subjectPercentages' => [
+					$this->resident->id => [
+						'q3' => [
+							$textResponses['q3']->response => 100
+						]
+					]
+				],
+				'subjectResponseValues' => [
+					$this->resident->id => [
+						'q3' => [
+							$eval->id => $textResponses['q3']->response
+					   	]
+					]
+				],
+				'evaluators' => [
+					$eval->id => [
+						'id' => $this->faculty->id,
+						'full_name' => $this->faculty->full_name
+					]
+				]
+			]);
+	}
+
+	public function testAnonymousEvaluations() {
+		$anonymousForm = factory(Form::class, 'resident')->create([
+			'visibility' => 'anonymous'
+		]);
+		[
+			$anonymousResidentEval,
+		   	$anonymousResidentResponses,
+			$anonymousResidentTextResponses
+		] = $this->createEval($this->resident, $this->faculty, 1, [
+			'form_id' => $anonymousForm
+		]);
+
+		$this->actingAs($this->resident)
+			->post('/report/form', [
+				'form_id' => $anonymousForm->id,
+				'startDate' => $this->startDate,
+				'endDate' => $this->endDate
+			])->assertJsonMissing([
+				'evaluators' => [
+					$anonymousResidentEval->id => [
+						'id' => $this->faculty->id,
+						'full_name' => $this->faculty->full_name
+					]
+				]
+			]);
+
+		$facultyForm = factory(Form::class, 'faculty')->create();
+		[
+			$facultyEval,
+			$facultyResponses,
+			$facultyTextResponses
+		] = $this->createEval($this->faculty, $this->resident, 1, [
+			'form_id' => $facultyForm,
+			'visibility' => 'anonymous'
+	   	]);
+
+		// All responses are textResponses in faculty form
+		$this->actingAs($this->faculty)
+			->post('/report/form', [
+				'form_id' => $facultyForm->id,
+				'startDate' => $this->startDate,
+				'endDate' => $this->endDate
+			])->assertJsonMissing([
+				'evaluators' => [
+					$facultyEval->id => [
+						'id' => $this->resident->id,
+						'full_name' => $this->resident->full_name
 					]
 				]
 			]);
