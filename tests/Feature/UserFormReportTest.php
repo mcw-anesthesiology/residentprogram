@@ -16,6 +16,7 @@ use App\Response;
 use App\TextResponse;
 
 use Log;
+use Hashids;
 
 class UserFormReportTest extends TestCase
 {
@@ -417,14 +418,30 @@ class UserFormReportTest extends TestCase
 			'form_id' => $anonymousForm
 		]);
 
+		$evalId = Hashids::encode($anonymousResidentEval->id);
+
 		$this->actingAs($this->resident)
 			->post('/report/form', [
 				'form_id' => $anonymousForm->id,
 				'startDate' => $this->startDate,
 				'endDate' => $this->endDate
+			])->assertJson([
+				'evals' => [$evalId],
+				'evaluations' => [
+					$evalId => [
+						'id' => $evalId
+					]
+				],
+				'subjectResponseValues' => [
+					$this->resident->id => [
+						'q3' => [
+							$evalId => $anonymousResidentTextResponses['q3']->response
+						]
+					]
+				]
 			])->assertJsonMissing([
 				'evaluators' => [
-					$anonymousResidentEval->id => [
+					$evalId => [
 						'id' => $this->faculty->id,
 						'full_name' => $this->faculty->full_name
 					]
@@ -441,15 +458,31 @@ class UserFormReportTest extends TestCase
 			'visibility' => 'anonymous'
 	   	]);
 
+		$evalId = Hashids::encode($facultyEval->id);
+
 		// All responses are textResponses in faculty form
 		$this->actingAs($this->faculty)
 			->post('/report/form', [
 				'form_id' => $facultyForm->id,
 				'startDate' => $this->startDate,
 				'endDate' => $this->endDate
+			])->assertJson([
+				'evals' => [$evalId],
+				'evaluations' => [
+					$evalId => [
+						'id' => $evalId
+					]
+				],
+				'subjectResponseValues' => [
+					$this->faculty->id => [
+						'q3' => [
+							$evalId => $facultyTextResponses['q3']->response
+						]
+					]
+				]
 			])->assertJsonMissing([
 				'evaluators' => [
-					$facultyEval->id => [
+					$evalId => [
 						'id' => $this->resident->id,
 						'full_name' => $this->resident->full_name
 					]

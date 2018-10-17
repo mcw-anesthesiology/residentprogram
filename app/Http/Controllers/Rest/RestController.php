@@ -108,10 +108,17 @@ class RestController extends Controller
 						'>=',
 						'<=',
 						'!='
-					]))
+					])) {
 						$query->where($name, $valueEntry[0], $valueEntry[1]);
-					else
+					} else {
+						if ($name == 'id') {
+							$valueEntry = array_map(function ($id) {
+								return is_numeric($id) ? $id : Hashids::decode($id);
+							}, $valueEntry);
+						}
+
 						$query->whereIn($name, $valueEntry);
+					}
 				}
 			} else {
 				$query->where($name, $value);
