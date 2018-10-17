@@ -649,6 +649,10 @@ class ReportController extends Controller
 	}
 
     public function formReport(Request $request) {
+		// Text responses are hidden for `hidden` evaluations, though not regular responses.
+		// I think this is probably how it should be done, since we'd still probably want
+		// those values included in averages.
+
 		$user = Auth::user();
         $startDate = Carbon::parse($request->input("startDate"));
         $startDate->timezone = "America/Chicago";
@@ -764,6 +768,13 @@ class ReportController extends Controller
             ->where("forms.id", $request->input("form_id"))
             ->where("evaluation_date_end", ">=", $startDate)
             ->where("evaluation_date_start", "<=", $endDate)
+			->where(function ($query) {
+				$query->whereIn('evaluations.visibility', ['visible', 'anonymous'])
+					->orWhere(function ($query) {
+						$query->whereNull('evaluations.visibility')
+							->whereIn('forms.visibility', ['visible', 'anonymous']);
+					});
+			})
             ->orderBy('text_responses.id');
 
 		$textQuery->select(
