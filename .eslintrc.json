@@ -45,7 +45,8 @@
 		"polyfills": [
 			"promises",
 			"fetch",
-			"dataset"
+			"dataset",
+			"urlsearchparams"
 		],
 		"coverage": false,
 		"compiler": "babel",

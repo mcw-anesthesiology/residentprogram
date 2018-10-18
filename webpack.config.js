@@ -22,6 +22,7 @@ module.exports = (env, argv) => {
 		entry: {
 			bundle: './resources/assets/js/modules/index.js',
 			dashboard: './resources/assets/js/entry/dashboard.js',
+			createExternalEvaluation: './resources/assets/js/entry/createExternalEvaluation.js',
 			'vue-global': './resources/assets/js/vue-constructors/global.js',
 			'vue-programs': './resources/assets/js/vue-constructors/programs.js',
 			'vue-form-builder': './resources/assets/js/vue-constructors/form-builder.js',

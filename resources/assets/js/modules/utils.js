@@ -322,6 +322,10 @@ export function groupUsers(users: Array<User>): Array<Select2OptGroup> {
 			text: 'APP',
 			children: []
 		},
+		external: {
+			text: 'External',
+			children: []
+		},
 		admin: {
 			text: 'Administrator',
 			children: []
