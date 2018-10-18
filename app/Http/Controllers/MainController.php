@@ -65,8 +65,7 @@ class MainController extends Controller
 					'app',
 					'staff',
 					'self',
-					'intern360',
-					'external'
+					'intern360'
 				]))
 					throw new \DomainException("Sorry, {$requestType} is not currently a valid request type");
 
@@ -96,13 +95,6 @@ class MainController extends Controller
 						throw new \DomainException('That evalutaion type is not currently enabled');
 
 					if (!$user->isType(['admin', 'intern', 'ca-1', 'ca-2', 'ca-3', 'fellow', 'faculty']))
-						throw new \DomainException('Sorry, you are not currently allowed to make that kind of request');
-				}
-
-				if ($requestType == 'external') {
-					if (!config('features.external_evaluations'))
-						throw new \DomainException('That evalutaion type is not currently enabled');
-					if (!$user->isType('admin'))
 						throw new \DomainException('Sorry, you are not currently allowed to make that kind of request');
 				}
 
@@ -204,10 +196,6 @@ class MainController extends Controller
 					$evaluatorTypes = ['ca-1', 'ca-2', 'ca-3', 'fellow', 'faculty'];
 					$requestorTypes = array_merge($subjectTypes, $evaluatorTypes, ['admin']);
 					break;
-				case 'external':
-					$subjectTypes = ['resident', 'fellow'];
-					$evaluatorTypes = ['external'];
-					$requestorTypes = ['admin'];
 				default:
 					$subjectTypes = ["resident", "fellow"];
 					$evaluatorTypes = ["faculty"];
@@ -340,15 +328,6 @@ class MainController extends Controller
 					->get()
 					->each($hideModelFields);
             }
-			if (!$user->isType('external') && in_array('external', $evaluationTypes)) {
-				$externals[0] = User::ofType('external')
-					->active()
-					->orderBy('last_name')
-					->get()
-					->each($hideModelFields);
-                if (empty($externals))
-                    throw new \Exception('There are not any registered external accounts');
-			}
 
 			if ($user->isType($subjectTypes)) {
 				$specificTypes = [$user->specificType];
@@ -468,15 +447,6 @@ class MainController extends Controller
 					$subjectTypeTextPlural = 'interns';
 					$evaluatorTypeText = 'evaluator';
 					$requestTypeText = 'intern 360';
-					break;
-				case 'external':
-					$subjects = $residents;
-					$evaluators = $externals;
-
-					$subjectTypeText = 'trainee';
-					$subjectTypeTextPlural = 'trainees';
-					$evaluatorTypeText = 'evaluator';
-					$requestTypeText = 'external';
 					break;
 			}
 
