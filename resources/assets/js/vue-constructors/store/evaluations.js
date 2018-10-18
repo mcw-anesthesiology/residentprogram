@@ -7,7 +7,8 @@ export default {
 	...createRouteModule('/api/evaluations'),
 	modules: {
 		subject: createRouteModule('/api/dashboard/subject'),
-		evaluator: createRouteModule('/api/dashboard/evaluator')
+		evaluator: createRouteModule('/api/dashboard/evaluator'),
+		external: createRouteModule('/api/external-evaluations')
 	}
 };
 

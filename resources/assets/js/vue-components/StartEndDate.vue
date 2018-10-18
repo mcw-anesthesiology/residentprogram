@@ -77,6 +77,8 @@ export default {
 			default() {
 				return {
 					[dateUtils.DATE_RANGES.CUSTOM]: null,
+					[dateUtils.DATE_RANGES.THIS_MONTH]: dateUtils.thisMonth(),
+					[dateUtils.DATE_RANGES.LAST_MONTH]: dateUtils.lastMonth(),
 					[dateUtils.DATE_RANGES.CURRENT_QUARTER]: dateUtils.currentQuarter(),
 					[dateUtils.DATE_RANGES.LAST_QUARTER]: dateUtils.lastQuarter(),
 					[dateUtils.DATE_RANGES.CURRENT_SEMESTER]: dateUtils.currentSemester(),

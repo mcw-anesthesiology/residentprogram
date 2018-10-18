@@ -25,7 +25,8 @@
 	</style>
 @stop
 
-@section("body")
+@section("blockless-body")
+<div class="container body-block">
 	<nav class="jump-to-container">
 		<ul class="jump-to-items nav nav-pills nav-justified">
 			<li role="presentation"><a href="#residents-heading">Residents</a></li>
@@ -52,8 +53,8 @@
 					<option>Inactive</option>
 				</select>
 			</div>
-			<div class="col-sm-3 pull-right">
 				<label for="filter-residents-by-training-level">Training Level</label>
+				<div class="col-sm-3 pull-right">
 				<select class="form-control table-filter-select" data-filter-column="3" data-filter-table="#manage-resident-table" id="filter-residents-by-training-level">
 					<option value="">All</option>
 					<option>Intern</option>
@@ -196,6 +197,14 @@
 <div class="container body-block">
 	<div class="row">
 		<h2 class="sub-header" id="staff-heading">Staff  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="staff" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<div class="row filter-row">
+			<div class="col-xs-1 pull-right refresh-container">
+				<span role="button" title="refresh"
+					class="glyphicon glyphicon-refresh refresh-table-glyph"
+					data-toggle="tooltip" data-table="#manage-staff-table">
+				</span>
+			</div>
+		</div>
 		<div class="table-responsive">
 			<table class="table table-striped account-table" data-type="staff" id="manage-staff-table" width="100%">
 				<thead>
@@ -214,6 +223,34 @@
 
 <div class="container body-block">
 	<div class="row">
+		<h2 class="sub-header" id="external-heading">External  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="external" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<div class="row filter-row">
+			<div class="col-xs-1 pull-right refresh-container">
+				<span role="button" title="refresh"
+					class="glyphicon glyphicon-refresh refresh-table-glyph"
+					data-toggle="tooltip" data-table="#manage-external-table">
+				</span>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped account-table" data-type="external" id="manage-external-table" width="100%">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Username</th>
+						<th>Email</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+<div class="container body-block">
+	<div class="row">
 		<h2 class="sub-header" id="admin-heading">Administrator  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="admin" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped account-table" data-type="admin" id="manage-admin-table" width="100%">
@@ -229,6 +266,7 @@
 			</table>
 		</div>
 	</div>
+</div>
 
 <!-- Edit Modal -->
 <div class="modal fade bs-edit-modal" tabindex="-1" role="dialog" aria-labelledby="modalEdit" aria-hidden="true" id="editModal">
@@ -242,7 +280,7 @@
 		  {!! csrf_field() !!}
 		<input type="hidden" name="_method" value="PUT" />
         <div class="modal-body modal-edit">
-          <div class="form-group">
+          <div class="form-group" id="edit-username-container">
             <label for="edit-username">Username</label>
             <input type="text" class="form-control" id="edit-username" name="username" readonly>
           </div>
@@ -305,7 +343,7 @@
       <form id="add-form" enctype="multipart/form-data" method="POST" action="/users">
 		{!! csrf_field() !!}
         <div class="modal-body modal-add">
-          <div class="form-group">
+          <div class="form-group" id="add-username-container">
             <label for="add-username">Username</label>
             <input type="text" class="form-control" id="add-username" name="username" placeholder="Username" required>
           </div>
@@ -344,7 +382,7 @@
             <label for="add-type">Account Type</label>
             <input type="text" class="form-control account-type" id="add-type" name="type" readonly>
           </div>
-		  <div class="form-group">
+		  <div class="form-group" id="add-status-container">
 			<label for="add-status">Account status</label>
 			<select class="form-control" id="add-status" name="status">
 				<option value="active">Active</option>
@@ -352,7 +390,7 @@
 				<option value="pending">Pending</option>
 			</select>
 		  </div>
-		  <div class="form-group">
+		  <div class="form-group" id="new-account-email-container">
 			  <label>
 				  <input type="checkbox" id="new-account-email" name="send_email" value="true" checked>
 				  Send welcome email
@@ -503,9 +541,17 @@
 					+ '<span class="glyphicon ' + glyphType + '"></span> '
 					+ buttonText + '</button></span>';
 
-				return editButton + " " + sendIntroEmailButton + " "
-					+ passwordButton + " " + enableDisableContainer;
+				var actionItems = [
+					editButton
+				];
 
+				if (user.specific_type !== 'external') {
+					actionItems.push(sendIntroEmailButton);
+					actionItems.push(passwordButton);
+					actionItems.push(enableDisableContainer);
+				}
+
+				return actionItems.join(' ');
 			}});
 
 			$(this).DataTable({
@@ -734,10 +780,19 @@
 				$("#edit-secondary-training-level").val(secondaryTrainingLevel)
 					.prop("disabled", false);
 				$("#edit-secondary-training-level-container").show();
-			}
-			else {
+			} else {
 				$("#edit-secondary-training-level").prop("disabled", true);
 				$("#edit-secondary-training-level-container").hide();
+			}
+
+			if (type === 'external') {
+				$('#edit-username').prop('required', false);
+				$('#edit-username-container').hide();
+				$('#edit-photo-container').hide();
+			} else {
+				$('#edit-username').prop('required', true);
+				$('#edit-username-container').show();
+				$('#edit-photo-container').show();
 			}
 		});
 
@@ -767,6 +822,20 @@
 			else {
 				$("#add-secondary-training-level").prop("disabled", true);
 				$("#add-secondary-training-level-container").hide();
+			}
+
+			if (type === 'external') {
+				$('#add-username').prop('required', false);
+				$('#add-username-container').hide();
+				$('#add-photo-container').hide();
+				$('#add-status-container').hide();
+				$('#new-account-email-container').hide();
+			} else {
+				$('#add-username').prop('required', true);
+				$('#add-username-container').show();
+				$('#add-photo-container').show();
+				$('#add-status-container').show();
+				$('#new-account-email-container').show();
 			}
 		});
 

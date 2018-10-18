@@ -66,53 +66,78 @@ class UserController extends RestController
 		elseif ($request->hasFile("photo") && !$request->file("photo")->isValid())
 			throw new \Exception("Problem with photo");
 
-		$password = str_random(12);
 		$user = new User();
-		$user->username = $request->input("username");
 		$user->email = $request->input("email");
-		$user->password = bcrypt($password);
 		$user->first_name = $request->input("first_name");
 		$user->last_name = $request->input("last_name");
-		$user->status = $request->input("status", "active");
 		$user->reminder_frequency = $request->input("reminder_frequency", "weekly");
 		$user->notifications = $request->input("notifications", "no");
-		if ($request->hasFile("photo") && $request->file("photo")->isValid()) {
-			$photoExtension = $this->getExtension($request->file("photo"));
-			$photoName = uniqid() . "." . $photoExtension;
-			$request->file("photo")->move(storage_path("app/photos/"), $photoName);
-			$user->photo_path = "photos/".$photoName;
-		}
-		if ($request->input("type") == "resident") {
-			$user->type = $request->input("type");
-			$user->training_level = $request->input("training_level");
-		} elseif ($request->input("type") == "fellow") {
-			$user->type = "resident";
-			$user->training_level = "fellow";
-		} else {
-			$user->type = $request->input("type");
-		}
-		$user->save();
-		if ($request->has("send_email"))
-			$user->sendNewAccountEmail($password);
 
-		return $request->ajax()
-			? 'success'
-			: back();
+		if ($request->input('type') == 'external') {
+			$user->username = $user->email;
+			$user->password = bcrypt(str_random(32));
+			$user->status = 'external';
+			$user->type = 'external';
+			$user->save();
+
+			return $user;
+		} else {
+			$password = str_random(12);
+			$user->username = $request->input("username");
+			$user->password = bcrypt($password);
+			$user->status = $request->input("status", "active");
+
+			if ($request->hasFile("photo") && $request->file("photo")->isValid()) {
+				$photoExtension = $this->getExtension($request->file("photo"));
+				$photoName = uniqid() . "." . $photoExtension;
+				$request->file("photo")->move(storage_path("app/photos/"), $photoName);
+				$user->photo_path = "photos/".$photoName;
+			}
+
+			if ($request->input("type") == "resident") {
+				$user->type = $request->input("type");
+				$user->training_level = $request->input("training_level");
+			} elseif ($request->input("type") == "fellow") {
+				$user->type = "resident";
+				$user->training_level = "fellow";
+			} else {
+				$user->type = $request->input("type");
+			}
+
+			$user->save();
+
+			if ($request->has("send_email")) {
+				$user->sendNewAccountEmail($password);
+			}
+
+			return $request->ajax()
+				? 'success'
+				: back();
+		}
 	}
 
 	public function update(Request $request, $id) {
 		if ($request->has("email")
 				&& !filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
 			throw new \Exception("Email appears invalid");
+
 		if ($request->hasFile("photo")
 				&& !$request->file("photo")->isValid())
 			throw new \Exception("Problem with photo");
+
 		if ($request->has("status")
 				&& !in_array($request->input("status"), ["active", "inactive"]))
 			throw new \Exception("Unknown status");
 
 		$user = User::findOrFail($id);
-		$user->update($request->all());
+
+		$updates = $request->all();
+
+		if ($user->type == 'external' && $request->has('email')) {
+			$updates['username'] = $updates['email'];
+		}
+
+		$user->update($updates);
 
 		if ($request->hasFile("photo") && $request->file("photo")->isValid()) {
 			$photoExtension = $this->getExtension($request->file("photo"));

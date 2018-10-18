@@ -165,3 +165,7 @@ Route::resource('api/evaluations', 'EvaluationsController', ['only' => [
 
 Route::get('api/dashboard/subject', 'DashboardController@subjectEvaluations');
 Route::get('api/dashboard/evaluator', 'DashboardController@evaluatorEvaluations');
+
+Route::resource('api/external-evaluations', 'ExternalEvaluationController', ['only' => [
+	'index', 'store', 'show'
+]]);

@@ -72,6 +72,9 @@
         @if (config('features.intern360_evaluations'))
                 <li><a href="/request/intern360">Intern 360 Evaluation</a></li>
         @endif
+		@if (config('features.external_evaluations'))
+				<li><a href="/request/external">External Evaluation</a></li>
+		@endif
             </ul>
         </li>
 

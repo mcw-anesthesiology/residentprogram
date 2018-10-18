@@ -36,6 +36,7 @@ Route::post('evaluation/{id}', 'MainController@saveEvaluation');
 Route::get('evaluate/{hash}', 'MainController@evaluationByHashLink');
 Route::post('evaluate/{hash}', 'MainController@saveEvaluationByHashLink');
 
+Route::get('request/external', 'ExternalEvaluationController@route');
 Route::get('request/{requestType?}', 'MainController@request');
 Route::post('request/{requestType?}', 'MainController@createRequest');
 

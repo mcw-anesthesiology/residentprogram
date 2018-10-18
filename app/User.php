@@ -254,6 +254,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	}
 
 	public function resetPassword() {
+		if ($this->type == 'external')
+			throw new \Exception('Cannot do that for external users');
+
 		$password = str_random(12);
 		$this->password = bcrypt($password);
 		try{
@@ -277,6 +280,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	}
 
 	public function sendNewAccountEmail($password = null) {
+		if ($this->type == 'external')
+			throw new \Exception('Cannot do that for external users');
+
 		$data = [
 			"firstName" => $this->first_name,
 			"lastName" => $this->last_name,
@@ -302,6 +308,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	}
 
 	public function sendPasswordResetNotification($token) {
+		if ($this->type == 'external')
+			throw new \Exception('Cannot do that for external users');
+
 		$data = [
 			'title' => in_array($this->type, ['faculty', 'resident'])
 				? 'Dr.'

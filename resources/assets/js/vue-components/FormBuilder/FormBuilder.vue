@@ -199,7 +199,8 @@ export default {
 				faculty: 'Faculty',
 				staff: 'Staff',
 				app: 'APP',
-				intern360: 'Intern 360'
+				intern360: 'Intern 360',
+				external: 'External'
 			};
 		},
 		periodTypes() {

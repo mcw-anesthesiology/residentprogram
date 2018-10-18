@@ -93,6 +93,11 @@ class FormController extends RestController
 				$form->evaluator_type = 'ca-1';
 				$form->visibility = 'anonymous';
 				break;
+			case 'external':
+				$form->type = 'resident';
+				$form->evaluator_type = 'external';
+				$form->visibility = 'visible';
+				break;
             case "resident":
             default:
                 $form->type = "resident";

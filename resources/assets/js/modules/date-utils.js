@@ -89,6 +89,8 @@ export function renderDateRangeExplicit(startDate: DateLike, endDate: DateLike):
 
 export const DATE_RANGES = {
 	CUSTOM: 'custom',
+	THIS_MONTH: 'thisMonth',
+	LAST_MONTH: 'lastMonth',
 	CURRENT_QUARTER: 'currentQuarter',
 	LAST_QUARTER: 'lastQuarter',
 	CURRENT_SEMESTER: 'currentSemester',
@@ -97,6 +99,23 @@ export const DATE_RANGES = {
 	LAST_YEAR: 'lastYear',
 	ALL_TIME: 'allTime'
 };
+
+export function thisMonth() {
+	return {
+		startDate: moment().startOf('month'),
+		endDate: moment().endOf('month')
+	};
+}
+
+export function lastMonth() {
+	const startDate = moment().startOf('month').subtract(1, 'month');
+	const endDate = moment(startDate).endOf('month');
+
+	return {
+		startDate,
+		endDate
+	};
+}
 
 export function currentQuarter() {
 	let startDate = moment().startOf('month');
