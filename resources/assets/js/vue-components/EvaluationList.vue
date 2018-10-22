@@ -33,9 +33,10 @@
 				defaultSortOrder="desc"
 				:defaultItemsPerPage="5">
 			<template slot-scope="evaluation">
-				<slot v-bind="evaluation">
-					<evaluation-list-item :key="evaluation.id" :evaluation="evaluation" @reload="$emit('reload', evaluation.id)" />
-				</slot>
+
+				<evaluation-list-item :key="evaluation.id" :evaluation="evaluation" @reload="$emit('reload', evaluation.id)">
+					<slot v-bind="evaluation"></slot>
+				</evaluation-list-item>
 			</template>
 		</component-list>
 	</section>

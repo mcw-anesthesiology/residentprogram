@@ -55,7 +55,33 @@
 			</button>
 		</form>
 
+		<bootstrap-alert v-if="newEvaluation" type="success" dismissable @close="newEvaluation = null">
+			<p slot="header" class="lead">
+				Evaluation created!
+			</p>
+
+			<p>Please send the completion link to the evaluator.</p>
+
+			<p>
+				<a :href="`/evaluate/${newEvaluation.completion_hash}`">
+					{{ url('/evaluate') }}/@{{ newEvaluation.completion_hash }}
+				</a>
+			</p>
+		</bootstrap-alert>
+
 		<stored-alert-list></stored-alert-list>
+	</div>
+
+
+	<div class="container body-block">
+		<h2>All external evaluations</h2>
+
+		<fieldset>
+			<legend>Filter</legend>
+			<start-end-date v-model="listDates"></start-end-date>
+		</fieldset>
+
+		<evaluation-list :evaluations="evaluations"></evaluation-list>
 	</div>
 @endsection
 

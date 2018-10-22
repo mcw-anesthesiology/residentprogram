@@ -5,10 +5,12 @@ import ky from '@/modules/ky.js';
 
 import store from '@/vue-constructors/store.js';
 
+import BootstrapAlert from '#/BootstrapAlert.vue';
 import ClearableDate from '#/ClearableDate.vue';
 import StoredAlertList from '#/StoredAlertList.vue';
 import StartEndDate from '#/StartEndDate.vue';
 import SelectTwo from '#/SelectTwo.vue';
+import EvaluationList from '#/EvaluationList.vue';
 
 import ExternalUserEditor from '#/Request/ExternalUserEditor.vue';
 
@@ -35,6 +37,7 @@ new Vue({
 			form_id: null,
 			hash_expires: null,
 
+			newEvaluation: null,
 			listDates: isoDateStringObject(currentYear())
 		};
 	},
@@ -97,7 +100,7 @@ new Vue({
 				evaluation_date_start: this.evaluationDates.startDate,
 				evaluation_date_end: this.evaluationDates.endDate,
 				hash_expires: this.hash_expires || 'never'
-			}}).then(evaluation => {
+			}}).json().then(evaluation => {
 				this.newEvaluation = evaluation;
 				this.$store.commit('evaluations/external/add', [evaluation]);
 			}).catch(err => {
@@ -106,9 +109,11 @@ new Vue({
 		}
 	},
 	components: {
+		BootstrapAlert,
 		ClearableDate,
 		StoredAlertList,
 		StartEndDate,
-		SelectTwo
+		SelectTwo,
+		EvaluationList
 	}
 });

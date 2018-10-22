@@ -46,6 +46,7 @@ class Evaluation extends Model
 		'archive_date',
 		'request_ip',
 		'complete_ip',
+		'hash_expires',
 		'request_note'
 	];
 

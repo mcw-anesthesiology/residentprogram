@@ -96,6 +96,8 @@
 		</div>
 
 		<admin-controls v-if="user && user.type === 'admin' && showAdminControls" :evaluation="evaluation" />
+
+		<slot></slot>
 	</li>
 </template>
 
