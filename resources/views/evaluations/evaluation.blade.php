@@ -242,7 +242,7 @@
 
 @if($evaluation->subject->photo_path && $evaluation->subject_id != $user->id)
 		<div class="subject-image">
-			<img src="/{{ $evaluation->subject->photo_path }}" />
+			<img src="{{ url($evaluation->subject->photo_path) }}" />
 		</div>
 @endif
 

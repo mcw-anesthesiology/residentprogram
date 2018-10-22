@@ -23,7 +23,7 @@ class ExternalEvaluationController extends Controller
 	}
 
 	public function index(Request $request) {
-		return Evaluation::with([
+		return Evaluation::enabled()->with([
 			'form:id,title,type,visibility',
 			'subject:id,first_name,last_name',
 			'evaluator:id,first_name,last_name',
