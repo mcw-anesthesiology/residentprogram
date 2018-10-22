@@ -29,7 +29,7 @@ class ExternalEvaluationController extends Controller
 			'evaluator:id,first_name,last_name',
 			'requestor:id,first_name,last_name'
 		])->whereHas('form', function($query) {
-			$query->where('type', 'external');
+			$query->where('evaluator_type', 'external');
 		})->between($request->input('startDate'), $request->input('endDate'))
 		->get();
 	}
@@ -38,16 +38,21 @@ class ExternalEvaluationController extends Controller
 		$data = array_merge($request->all(), [
 			'requested_by_id' => Auth::id(),
 			'status' => 'pending',
-			'completion_hash' => str_random(40),
 			'request_date' => Carbon::now(),
 			'request_ip' => $request->ip()
 		]);
 		$eval = new Evaluation($data);
 		$eval->training_level = $eval->subject->training_level;
+		$eval->completion_hash = str_random(40);
+		$eval->hash_expires = $request->input('hash_expires', '9999-12-31');
 
 		$eval->save();
 
-		return $eval->fresh();
+		$eval->fresh();
+
+		$eval->load(['subject', 'evaluator']);
+
+		return $eval;
 	}
 
 	public function show(Evaluation $evaluation) {
