@@ -486,6 +486,11 @@ class Evaluation extends Model
 		return $query->where('status', 'complete');
 	}
 
+	public function scopeEnabled($query) {
+		return $query->where('status', '!=', 'disabled')
+			->where('status', 'not like', 'canceled%');
+	}
+
 	public function getContentsAttribute() {
 		// TODO
 

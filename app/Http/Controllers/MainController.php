@@ -575,7 +575,10 @@ class MainController extends Controller
 
     public function evaluationByHashLink(Request $request, $hash) {
         try {
-            $eval = Evaluation::withoutGlobalScopes()->where("completion_hash", $hash)->where("status", "pending")->where("hash_expires", ">", Carbon::now())->firstOrFail();
+			$eval = Evaluation::withoutGlobalScopes()->where("completion_hash", $hash)->where("status", "pending")->where(function ($query) {
+				$query->whereNull('hash_expires')
+					->orWhere("hash_expires", ">", Carbon::now());
+			})->firstOrFail();
             Auth::onceUsingId($eval->evaluator_id);
             return $this->evaluation($request, $eval->id)->with(["noNavbar" => true, "user" => Auth::user()]);
         } catch (ModelNotFoundException $e) {
@@ -682,20 +685,22 @@ class MainController extends Controller
 					switch ($evaluation->evaluator->type) {
 	                    // FIXME: These subjectTypes aren't correct
 						case "faculty":
-							$subjectType = "Resident/Fellow";
+						case 'external':
+							$subjectType = "Trainee";
 							$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
 							$possibleForms = Form::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("title")->get();
 							break;
+						case "staff":
+							$subjectType = "Trainee";
+							$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
+							$possibleForms = Form::where("status", "active")->where("type", "resident")->where("evaluator_type", "staff")->orderBy("title")->get();
+							break;
 						case "resident":
 						case "fellow":
+						default:
 							$subjectType = "Faculty";
 							$possibleSubjects = User::where("status", "active")->where("type", "faculty")->orderBy("last_name")->get();
 							$possibleForms = Form::where("status", "active")->where("type", "faculty")->orderBy("title")->get();
-							break;
-						case "staff":
-							$subjectType = "Resident/Fellow";
-							$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
-							$possibleForms = Form::where("status", "active")->where("type", "resident")->where("evaluator_type", "staff")->orderBy("title")->get();
 							break;
 					}
 					$flaggedActions = config('constants.FLAGGED_ACTIONS');

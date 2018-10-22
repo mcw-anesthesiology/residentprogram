@@ -33,6 +33,7 @@
 			<li role="presentation"><a href="#fellows-heading">Fellows</a></li>
 			<li role="presentation"><a href="#faculty-heading">Faculty</a></li>
 			<li role="presentation"><a href="#staff-heading">Staff</a></li>
+			<li role="presentation"><a href="#external-heading">External</a></li>
 			<li role="presentation"><a href="#admin-heading">Administrator</a></li>
 		</ul>
 	</nav>

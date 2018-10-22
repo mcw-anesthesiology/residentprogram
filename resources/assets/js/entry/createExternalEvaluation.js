@@ -2,6 +2,7 @@ import Vue from '@/vue-constructors/index.js';
 import VueRouter from 'vue-router';
 import { mapState } from 'vuex';
 import ky from '@/modules/ky.js';
+import moment from 'moment';
 
 import store from '@/vue-constructors/store.js';
 
@@ -76,6 +77,9 @@ new Vue({
 		}
 	},
 	methods: {
+		hashExpired(evaluation) {
+			return evaluation && evaluation.hash_expires && moment(evaluation.hash_expires) < moment();
+		},
 		fetchEvaluations() {
 			this.$store.dispatch('evaluations/external/fetch', this.listDates);
 		},
@@ -99,7 +103,7 @@ new Vue({
 				form_id: this.form_id,
 				evaluation_date_start: this.evaluationDates.startDate,
 				evaluation_date_end: this.evaluationDates.endDate,
-				hash_expires: this.hash_expires || 'never'
+				hash_expires: this.hash_expires
 			}}).json().then(evaluation => {
 				this.newEvaluation = evaluation;
 				this.$store.commit('evaluations/external/add', [evaluation]);

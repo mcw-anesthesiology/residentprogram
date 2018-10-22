@@ -95,9 +95,11 @@
 			</show-hide-button>
 		</div>
 
-		<admin-controls v-if="user && user.type === 'admin' && showAdminControls" :evaluation="evaluation" />
+		<div class="evaluation-list-item-foot">
+			<admin-controls v-if="user && user.type === 'admin' && showAdminControls" :evaluation="evaluation" />
 
-		<slot></slot>
+			<slot></slot>
+		</div>
 	</li>
 </template>
 
@@ -335,7 +337,7 @@ export default {
 		grid-gap: 1em;
 		grid-template-areas:
 			'id main user-controls'
-			'admin-controls admin-controls admin-controls';
+			'foot foot foot';
 		grid-template-columns: 2em 8fr minmax(6em, 1fr);
 		overflow: auto;
 	}
@@ -352,8 +354,9 @@ export default {
 		grid-area: user-controls;
 	}
 
-	.evaluation-list-item :global(.admin-controls) {
-		grid-area: admin-controls;
+
+	.evaluation-list-item .evaluation-list-item-foot {
+		grid-area: foot;
 	}
 
 	.evaluation-details {

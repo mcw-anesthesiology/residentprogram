@@ -46,7 +46,10 @@
 
 @push('pre-scripts')
 	<script>
+
+	@if(empty($noNavbar) || !$noNavbar)
 		createNews('#global-news-dropdown');
+	@endif
 
 		checkCookies(
 			document.getElementById('alert-container'),
