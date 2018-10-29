@@ -18,5 +18,5 @@ return [
     'failed' => 'Username or password seems to be incorrect, please try again.',
 	'failed-multiple' => "If you are unable to login, please try to reset your password with the button below. If you still experience problems, please contact me at <a href='mailto:{$adminEmail}'>{$adminEmail}</a>.",
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+	'no-account' => "Login was successful, but no Resident Program account was found. Please contact me at <a href='mailto:{$adminEmail}'>{$adminEmail}</a> and one will be created or reenabled for you."
 ];

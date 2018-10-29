@@ -13,6 +13,8 @@ return [
     |
     */
 
+	'mcw_auth_endpoint' => env('MCW_AUTH_ENDPOINT', 'https://auth.mcw-anesthesiology.tech/auth'),
+
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
