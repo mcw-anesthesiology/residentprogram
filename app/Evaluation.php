@@ -137,6 +137,7 @@ class Evaluation extends Model
 				&& (
 					Auth::user()->isType('admin')
 					|| Auth::id() == $evaluatorId
+					|| Auth::id() == $this->requested_by_id
 				)
 			)
 			|| (
@@ -162,6 +163,7 @@ class Evaluation extends Model
 				&& (
 					Auth::user()->isType('admin')
 					|| Auth::id() == $requestedById
+					|| Auth::id() == $this->evaluator_id
 				)
 			)
 			|| (
