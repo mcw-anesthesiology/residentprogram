@@ -37,7 +37,7 @@ return [
 
 	'rollbar' => [
 		'access_token' => env('ROLLBAR_TOKEN'),
-		'level' => env('ROLLBAR_LEVEL')
+		'level' => env('ROLLBAR_LEVEL', 'error')
 	]
 
 ];
