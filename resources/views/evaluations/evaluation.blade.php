@@ -251,7 +251,9 @@
 			<p>
 				<i>
 					Note from requestor
+	@if (!empty($evaluation->requestor))
 					({{ $evaluation->requestor->first_name }} {{$evaluation->requestor->last_name}}):
+	@endif
 				</i>
 			</p>
 
