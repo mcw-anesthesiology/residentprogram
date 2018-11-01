@@ -6,8 +6,8 @@
 		<div class="row">
 			<div class="col-md-5 col-md-offset-1 col-sm-8 col-sm-offset-2 col-xs-12">
 				<div class="form-group">
-					<label for="username">Username</label>
-					<input class="form-control" placeholder="Username" name="username" required autofocus autocomplete="off" autocapitalize="off" autocorrect="off" />
+					<label for="username">Email address</label>
+					<input type="email" class="form-control" placeholder="Email" name="username" required autofocus autocapitalize="off" autocorrect="off" />
 				</div>
 			</div>
 			<div class="col-md-5 col-md-offset-0 col-sm-8 col-sm-offset-2 col-xs-12">
