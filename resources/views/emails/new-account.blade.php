@@ -21,7 +21,7 @@
 	should be able to access them from any device that connects to the internet.
 </p>
 <p>
-	The username
+	The email address
 @if (!empty($password))
 	and temporary password
 @endif
@@ -42,9 +42,9 @@
 	</thead>
 	<tbody>
 		<tr>
-			<th>Username</th>
+			<th>Email address</th>
 			<td>
-				<kbd>{{ $username }}</kbd>
+				<kbd>{{ $email }}</kbd>
 			</td>
 		</tr>
 @if (!empty($password))

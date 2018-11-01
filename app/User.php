@@ -286,6 +286,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		$data = [
 			"firstName" => $this->first_name,
 			"lastName" => $this->last_name,
+			"email" => $this->email,
 			"username" => $this->username,
 			"userType" => $this->specific_type,
 			"password" => $password
