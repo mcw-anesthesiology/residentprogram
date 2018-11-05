@@ -5,7 +5,7 @@
 </p>
 
 <p>
-	You currently have <b>{{ $numPending > 0 ? $numPending : no }}</b> pending trainee evaluation
+	You currently have <b>{{ $numPending > 0 ? $numPending : 'no' }}</b> pending trainee evaluation
 	{{ $numPending == 1 ? 'request' : 'requests' }}.
 </p>
 
