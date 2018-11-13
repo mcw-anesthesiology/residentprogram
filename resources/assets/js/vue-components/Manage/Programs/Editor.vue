@@ -70,7 +70,8 @@ export default {
 
 			types: [
 				'resident',
-				'fellow'
+				'fellow',
+				'self'
 			],
 
 			trainingLevels: [
