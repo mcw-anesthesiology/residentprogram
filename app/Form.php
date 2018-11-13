@@ -13,11 +13,11 @@ use \DOMDocument;
 
 class Form extends Model
 {
-	protected static function boot(){
-		parent::boot();
-
-		static::addGlobalScope(new FormScope());
-	}
+	// protected static function boot(){
+	// 	parent::boot();
+	//
+	// 	static::addGlobalScope(new FormScope());
+	// }
 
 	protected $table = "forms";
 
