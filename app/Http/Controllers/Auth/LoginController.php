@@ -75,6 +75,14 @@ class LoginController extends Controller
 
 	public function login(Request $request) {
 
+		if (config('app.env') !== 'production') {
+			if (Auth::attempt($this->credentials($request))) {
+				return redirect()->intended('dashboard');
+			}
+
+			return $this->sendFailedLoginResponse($request);
+		}
+
 		try {
 			try {
 
