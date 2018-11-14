@@ -51,6 +51,7 @@ class CaseParser {
 		'DATE' => 2,
 		'SUPERVISOR' => 3,
 		'SUPERVISOR_TITLE' => 4,
+		'CPT_NAME' => 8,
 		'ANES_START' => 17,
 		'ANES_STOP' => 24,
 		'TECHNIQUES' => 27
@@ -307,7 +308,9 @@ class CaseParser {
 		$stopTime = Carbon::parse(
 			$row[self::VA_TRAINEE_SUPERVISOR_COLS['ANES_STOP']]
 		);
+		$cptName = $row[self::VA_TRAINEE_SUPERVISOR_COLS['CPT_NAME']];
 		$techniques = $row[self::VA_TRAINEE_SUPERVISOR_COLS['TECHNIQUES']];
+
 
 		$traineeName = $row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE']];
 		$traineeRole = $this->VA_TRAINEE_ROLE_MAP[
@@ -329,7 +332,8 @@ class CaseParser {
 			[
 				'procedure_date' => $procDate,
 				'start_time' => $startTime,
-				'stop_time' => $stopTime
+				'stop_time' => $stopTime,
+				'procedure_desc' => $cptName . '; ' . $techniques
 			]
 		);
 
