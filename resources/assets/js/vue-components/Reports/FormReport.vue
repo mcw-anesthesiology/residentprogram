@@ -298,10 +298,10 @@ export default {
 						.includes(item.questionType)){
 					item.options.map(option => {
 						if(this.subjectId && this.report.subjectEvals[this.subjectId]){
-							option.responses = this.report.subjectResponses[this.subjectId]
+							option.responses = this.report.subjectResponses[this.subjectId] && this.report.subjectResponses[this.subjectId][item.id]
 								? this.report.subjectResponses[this.subjectId][item.id][option.value]
 								: 0;
-							option.percentage = this.report.subjectPercentages[this.subjectId]
+							option.percentage = this.report.subjectPercentages[this.subjectId] && this.report.subjectResponses[this.subjectId][item.id]
 								? this.report.subjectPercentages[this.subjectId][item.id][option.value]
 								: 0;
 						} else {
