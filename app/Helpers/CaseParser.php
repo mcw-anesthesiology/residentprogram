@@ -319,7 +319,7 @@ class CaseParser {
 		$supervisorId = $this->getUserId($supervisorName, self::FACULTY_ROLE);
 
 		// This is gross but idk what else to do
-		$logId = $startTime->toISOString() . $stopTime->toISOString() . $traineeName . $supervisorName;
+		$logId = $startTime->toDateTimeString() . $stopTime->toDateTimeString() . $traineeName . $supervisorName;
 
 		$anesthesiaCase = AnesthesiaCase::updateOrCreate(
 			[
