@@ -46,13 +46,14 @@ class CaseParser {
 		'SURGEON' => 14
 	];
 	const VA_TRAINEE_SUPERVISOR_COLS = [
-		'ID' => 0,
-		'TRAINEE' => 1,
-		'TRAINEE_ROLE' => 2,
+		'TRAINEE' => 0,
+		'TRAINEE_ROLE' => 1,
+		'DATE' => 2,
 		'SUPERVISOR' => 3,
 		'SUPERVISOR_TITLE' => 4,
-		'CASE_START' => 5,
-		'CASE_STOP' => 6
+		'ANES_START' => 17,
+		'ANES_STOP' => 24,
+		'TECHNIQUES' => 27
 	];
 
 	const FACULTY_ROLE = 'faculty';
@@ -117,6 +118,10 @@ class CaseParser {
 
 
 	static function parseFilename($filename, $type = self::EGRESS_FILE_TYPE) {
+		if ($type == self::VA_TRAINEE_SUPERVISOR_FILE_TYPE) {
+			self::fixVaTraineeSupervisorCsv($filename);
+		}
+
 		$fp = fopen($filename, 'r');
 		return self::parseCsv($fp, $type);
 	}
@@ -239,7 +244,7 @@ class CaseParser {
 	}
 
 	function parseCHWTraineeProcedureCase($row) {
-		$logId = $row[self::CHW_TRAINEE_REPORT_COLS['ID']];
+		$logId =
 		$procDate = self::parseDate($row[self::CHW_TRAINEE_REPORT_COLS['DATE']]);
 		$procedure = $row[self::CHW_TRAINEE_REPORT_COLS['PROCEDURE']];
 		$location = $row[self::CHW_TRAINEE_REPORT_COLS['LOCATION']];
@@ -293,44 +298,45 @@ class CaseParser {
 	}
 
 	function parseVATraineeReportCase($row) {
-		$logId = $row[self::VA_TRAINEE_SUPERVISOR_COLS['ID']];
+		$procDate = Carbon::parse(
+			$row[self::VA_TRAINEE_SUPERVISOR_COLS['DATE']]
+		);
 		$startTime = Carbon::parse(
-			$row[self::VA_TRAINEE_SUPERVISOR_COLS['CASE_START']]
+			$row[self::VA_TRAINEE_SUPERVISOR_COLS['ANES_START']]
 		);
 		$stopTime = Carbon::parse(
-			$row[self::VA_TRAINEE_SUPERVISOR_COLS['CASE_STOP']]
+			$row[self::VA_TRAINEE_SUPERVISOR_COLS['ANES_STOP']]
 		);
-		$procDate = $startTime->copy()->startOfDay();
+		$techniques = $row[self::VA_TRAINEE_SUPERVISOR_COLS['TECHNIQUES']];
 
-		try {
-			$traineeName = $row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE']];
-			$traineeRole = $this->VA_TRAINEE_ROLE_MAP[
-				$row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE_ROLE']]
-			];
-			$traineeId = $this->getUserId($traineeName, $traineeRole);
+		$traineeName = $row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE']];
+		$traineeRole = $this->VA_TRAINEE_ROLE_MAP[
+			$row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE_ROLE']]
+		];
+		$traineeId = $this->getUserId($traineeName, $traineeRole);
 
-			$supervisorName = $row[self::VA_TRAINEE_SUPERVISOR_COLS['SUPERVISOR']];
-			$supervisorId = $this->getUserId($supervisorName, self::FACULTY_ROLE);
+		$supervisorName = $row[self::VA_TRAINEE_SUPERVISOR_COLS['SUPERVISOR']];
+		$supervisorId = $this->getUserId($supervisorName, self::FACULTY_ROLE);
 
-			$anesthesiaCase = AnesthesiaCase::updateOrCreate(
-				[
-					'report_type' => self::VA_TRAINEE_SUPERVISOR_FILE_TYPE,
-					'report_case_id' => $logId
-				],
-				[
-					'procedure_date' => $procDate,
-					'start_time' => $startTime,
-					'stop_time' => $stopTime
-				]
-			);
+		// This is gross but idk what else to do
+		$logId = $startTime->toISOString() . $stopTime->toISOString() . $traineeName . $supervisorName;
 
-			$anesthesiaCase->users()->attach([$traineeId, $supervisorId], [
+		$anesthesiaCase = AnesthesiaCase::updateOrCreate(
+			[
+				'report_type' => self::VA_TRAINEE_SUPERVISOR_FILE_TYPE,
+				'report_case_id' => $logId
+			],
+			[
+				'procedure_date' => $procDate,
 				'start_time' => $startTime,
 				'stop_time' => $stopTime
-			]);
-		} catch (ModelNotFoundException $e) {
-			Log::debug('User not found: ', $e);
-		}
+			]
+		);
+
+		$anesthesiaCase->users()->attach([$traineeId, $supervisorId], [
+			'start_time' => $startTime,
+			'stop_time' => $stopTime
+		]);
 	}
 
 	static function parseDate($date) {
@@ -405,5 +411,48 @@ class CaseParser {
 
 
 		throw new ModelNotFoundException();
+	}
+
+	static function fixVaTraineeSupervisorCsv($filename) {
+		$fp = fopen($filename, 'r');
+
+		$name = null;
+		$role = null;
+
+		$rows = [];
+
+		$firstLine = true;
+		while (($row = fgetcsv($fp)) !== false) {
+			if ($firstLine) {
+				$firstLine = false;
+				$rows[] = $row;
+				continue;
+			}
+
+			try {
+				if (!empty($row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE']])) {
+					$name = $row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE']];
+				}
+				if (!empty($row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE_ROLE']])) {
+					$role = $row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE_ROLE']];
+				}
+
+				$row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE']] = $name;
+				$row[self::VA_TRAINEE_SUPERVISOR_COLS['TRAINEE_ROLE']] = $role;
+
+				$rows[] = $row;
+			} catch (\Exception $e) {
+				Log::debug('Unable to fix VA row: ' . $e);
+			}
+		}
+
+		fclose($fp);
+
+		$fp = fopen($filename, 'w');
+		foreach($rows as $row) {
+			fputcsv($fp, $row);
+		}
+
+		fclose($fp);
 	}
 }
