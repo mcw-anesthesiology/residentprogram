@@ -299,6 +299,13 @@ class CaseParser {
 	}
 
 	function parseVATraineeReportCase($row) {
+		if (
+			empty($row[self::VA_TRAINEE_SUPERVISOR_COLS['ANES_START']])
+			|| empty($row[self::VA_TRAINEE_SUPERVISOR_COLS['ANES_STOP']])
+		) {
+			throw new \Exception('Missing dates, skipping');
+		}
+
 		$procDate = Carbon::parse(
 			$row[self::VA_TRAINEE_SUPERVISOR_COLS['DATE']]
 		);
