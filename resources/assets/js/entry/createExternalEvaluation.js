@@ -56,7 +56,7 @@ new Vue({
 		},
 		formOptions() {
 			return this.forms.filter(f =>
-				f.type === 'resident' && f.evaluator_type === 'external'
+				f.type === 'resident' && f.evaluator_type === 'external' && f.status === 'active'
 			).map(f => ({
 				id: `${f.id}`,
 				text: f.title
