@@ -21,6 +21,12 @@ export const rollbar = new Rollbar({
 	captureUncaught: true,
 	captureUnhandledRejections: false,
 	payload: {
+		client: {
+			javascript: {
+				source_map_enabled: true,
+				code_version: "{{ config('app.git_rev') }}"
+			}
+		},
 		environment: process.env.NODE_ENV,
 		person: window.RESIDENTPROGRAM_USER
 	}
