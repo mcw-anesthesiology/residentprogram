@@ -49,11 +49,11 @@ export default {
 					data = arrToCsv(data);
 
 				download(data, this.filename, this.contentType);
+				this.processing = false;
 				resolve();
 			}).catch(err => {
-				emitError(err, this, 'There was a problem exporting your data');
-			}).finally(() => {
 				this.processing = false;
+				emitError(err, this, 'There was a problem exporting your data');
 			});
 		}
 	}
