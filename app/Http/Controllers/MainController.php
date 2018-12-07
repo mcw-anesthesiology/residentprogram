@@ -579,7 +579,9 @@ class MainController extends Controller
 				$query->whereNull('hash_expires')
 					->orWhere("hash_expires", ">", Carbon::now());
 			})->firstOrFail();
+
             Auth::onceUsingId($eval->evaluator_id);
+
             return $this->evaluation($request, $eval->id)->with(["noNavbar" => true, "user" => Auth::user()]);
         } catch (ModelNotFoundException $e) {
             return view("evaluations.invalid-hash-link")->with(["noNavbar" => true]);
@@ -588,8 +590,13 @@ class MainController extends Controller
 
     public function saveEvaluationByHashLink(Request $request, $hash) {
         try {
-            $eval = Evaluation::withoutGlobalScopes()->where("completion_hash", $hash)->where("status", "pending")->where("hash_expires", ">", Carbon::now())->firstOrFail();
+			$eval = Evaluation::withoutGlobalScopes()->where("completion_hash", $hash)->where("status", "pending")->where(function ($query) {
+				$query->whereNull('hash_expires')
+					->orWhere("hash_expires", ">", Carbon::now());
+			})->firstOrFail();
+
             Auth::onceUsingId($eval->evaluator_id);
+
             $this->saveEvaluation($request, $eval->id);
             $eval = $eval->fresh();
             if ($eval->status == "complete") {
