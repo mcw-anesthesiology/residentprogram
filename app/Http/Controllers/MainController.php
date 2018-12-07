@@ -604,7 +604,12 @@ class MainController extends Controller
                 $eval->save();
                 return view("evaluations.complete")->with(["noNavbar" => true]);
 			} else {
-				return view("evaluations.saved")->with(["noNavbar" => true, "evalExpiration" => $eval->hash_expires->toDayDateTimeString()]);
+				$evalExpiration = null;
+				if (!empty($eval->hash_expires)) {
+					$evalExpiration = $eval->hash_expires->toDayDateTimeString();
+				}
+
+				return view("evaluations.saved")->with(["noNavbar" => true, "evalExpiration" => $evalExpiration]);
 			}
         } catch (ModelNotFoundException $e) {
             return view("evaluations.invalid-hash-link")->with(["noNavbar" => true]);
