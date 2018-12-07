@@ -209,23 +209,31 @@ class Evaluation extends Model
 	}
 
 	public function getTypeAttribute() {
-		if (empty($this->form) || !is_object($this->form) || empty($this->form->evaluator_type) || empty($this->form->type))
-			$this->load('form');
+		if (!$this->form_id) {
+			return null;
+		}
 
-		if ($this->form->evaluator_type == 'self')
-			return 'self';
+		try {
+			if (empty($this->form) || !is_object($this->form) || empty($this->form->evaluator_type) || empty($this->form->type))
+				$this->load('form');
 
-		switch ($this->form->type) {
-		case 'faculty':
-			return 'faculty';
-		case 'resident':
-			return 'trainee';
-		case 'fellow':
-			return 'fellow';
-		case 'intern':
-			return 'intern';
-		case 'app':
-			return 'app';
+			if ($this->form->evaluator_type == 'self')
+				return 'self';
+
+			switch ($this->form->type) {
+			case 'faculty':
+				return 'faculty';
+			case 'resident':
+				return 'trainee';
+			case 'fellow':
+				return 'fellow';
+			case 'intern':
+				return 'intern';
+			case 'app':
+				return 'app';
+			}
+		} catch (\Exception $e) {
+			Log::error('Failed getting type attribute', ['exception' => $e]);
 		}
 
 		return null;
