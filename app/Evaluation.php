@@ -465,8 +465,6 @@ class Evaluation extends Model
 			return $this;
 		}
 
-		Log::debug($this->isAnonymousToUser());
-
 		if ($this->isAnonymousToUser()) {
 			$this->hashids = true;
 			foreach($this->responses as $eval) {
