@@ -28,7 +28,7 @@
 	<h2 class="heading">{{ $profileUser->full_name }}</h2>
 	@if(!empty($profileUser->photo_path))
 	<figure class="profile-image">
-		<img src="/{{ $profileUser->photo_path }}" alt="{{ $profileUser->full_name }}" />
+		<img src="{{ url($profileUser->photo_path) }}" alt="{{ $profileUser->full_name }}" />
 	</figure>
 	@endif
 
