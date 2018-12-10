@@ -761,11 +761,12 @@
 			$("#edit-last-name").val(lastName);
 			$("#edit-form").data("id", id);
 			$("#edit-type").val(type);
-			if(!photoPath)
-				$("#editModal #photo-preview").hide();
-			else{
-				$("#editModal #photo-preview").attr("src", "/"+photoPath);
+
+			if (photoPath) {
+				$("#editModal #photo-preview").attr("src", photoPath);
 				$("#editModal #photo-preview").show();
+			} else {
+				$("#editModal #photo-preview").hide();
 			}
 
 			if(type === "resident"){

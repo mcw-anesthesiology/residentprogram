@@ -1,7 +1,7 @@
 <template>
 	<li class="component-list-item">
 		<div class="subject">
-			<fallback-img :src="`/${subject.photo_path}`" alt="" />
+			<fallback-img :src="`${subject.photo_path}`" alt="" />
 			<p class="subject-name">
 				{{ subject.full_name }}
 			</p>

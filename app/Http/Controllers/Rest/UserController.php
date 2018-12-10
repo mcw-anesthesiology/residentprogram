@@ -91,7 +91,7 @@ class UserController extends RestController
 				$photoExtension = $this->getExtension($request->file("photo"));
 				$photoName = uniqid() . "." . $photoExtension;
 				$request->file("photo")->move(storage_path("app/photos/"), $photoName);
-				$user->photo_path = "photos/".$photoName;
+				$user->photo_path = "/photos/".$photoName;
 			}
 
 			if ($request->input("type") == "resident") {
@@ -150,7 +150,7 @@ class UserController extends RestController
 
 				}
 			}
-			$user->photo_path = "photos/".$photoName;
+			$user->photo_path = "/photos/".$photoName;
 		}
 
 		$user->save();
