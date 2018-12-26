@@ -17,7 +17,7 @@
 	<script src="{{ elixir('js/vue-form-builder.js') }}"></script>
 	<script>
 		var propsData = {
-			oldFormContents: {!! $formContents or 'null' !!}
+			oldFormContents: {!! $formContents ?? 'null' !!}
 		};
 
 		var vm = createFormBuilder("#form-builder", propsData);
