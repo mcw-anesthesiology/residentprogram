@@ -293,6 +293,7 @@ class Evaluation extends Model
 			|| $user->id == $this->evaluator_id
 			|| (
 				$this->status == 'complete'
+				&& !$this->isAnonymousToUser()
 			   	&& $user->administratesEvaluation($this)
 			)
 		);
