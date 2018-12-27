@@ -12,6 +12,9 @@
 					<span v-if="evaluationUnseen" class="evaluation-unseen-flag">
 						New
 					</span>
+					<span v-if="evaluationHasComment" class="evaluation-comment-flag">
+						Has comment
+					</span>
 					<span v-if="evaluationVisibility" class="evaluation-visibility">
 						{{ ucfirst(evaluationVisibility) }}
 					</span>
@@ -90,12 +93,19 @@
 				</template>
 			</confirmation-button>
 
+			<show-hide-button v-if="evaluationHasComment" v-model="showComment"
+					class="show-comment-button btn btn-default btn-sm">
+				comment
+			</show-hide-button>
+
 			<show-hide-button v-if="user && user.type === 'admin'" v-model="showAdminControls" class="btn btn-info btn-sm">
 				admin controls
 			</show-hide-button>
 		</div>
 
 		<div class="evaluation-list-item-foot">
+			<div v-if="evaluationHasComment && showComment" class="evaluation-comment-container well well-sm">{{ evaluation.comment }}</div>
+
 			<admin-controls v-if="user && user.type === 'admin' && showAdminControls" :evaluation="evaluation" />
 
 			<slot></slot>
@@ -133,6 +143,7 @@ export default {
 			contents: null,
 
 			showEvaluation: false,
+			showComment: false,
 			showAdminControls: false
 		};
 	},
@@ -165,6 +176,9 @@ export default {
 					&& !this.evaluation.seen_by_evaluator_at
 				)
 			);
+		},
+		evaluationHasComment() {
+			return Boolean(this.evaluation.comment);
 		},
 		evaluationVisibility() {
 			if (!this.user || this.user.type !== 'admin')
@@ -288,6 +302,10 @@ export default {
 	border-color: #03a9f4;
 }
 
+.evaluation-flags .evaluation-comment-flag {
+	border-color: #d500f9;
+}
+
 .evaluation-status.disabled {
 	border-color: #f44336;
 }
@@ -388,6 +406,10 @@ export default {
 	justify-content: center;
 	align-items: center;
 	white-space: normal;
+}
+
+.show-comment-button {
+	background-color: #ffb2ff;
 }
 
 .eval-id {
