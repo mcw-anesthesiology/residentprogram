@@ -2,13 +2,17 @@
 	<div class="container body-block">
 		<h1>Programs</h1>
 
-		<dashboard-program v-for="program of programs" :key="program.id"
-			:program="program" :dates="dates" />
+		<vue-tabs>
+			<v-tab v-for="program of programs" :key="program.id" :title="program.name">
+				<dashboard-program :program="program" :dates="dates" />
+			</v-tab>
+		</vue-tabs>
 	</div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import { VueTabs, VTab } from 'vue-nav-tabs';
 
 import DashboardProgram from './DashboardProgram.vue';
 
@@ -25,6 +29,8 @@ export default {
 		})
 	},
 	components: {
+		VueTabs,
+		VTab,
 		DashboardProgram
 	}
 };
