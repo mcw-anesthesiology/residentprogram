@@ -199,8 +199,7 @@ class DashboardTest extends TestCase
 						'subject_id' => $this->resident->id,
 						'subject' => [
 							'full_name' => $this->resident->full_name
-						],
-						'requested_by_id' => $eval->requested_by_id
+						]
 					]
 				]
 			])

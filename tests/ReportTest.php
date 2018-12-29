@@ -17,7 +17,9 @@ class ReportTest extends BrowserKitTestCase
         parent::setUp();
 
 		$this->admin = factory(App\User::class, "admin")->create();
-        $this->residents = factory(App\User::class, "resident", 2)->create();
+		$this->residents = factory(App\User::class, "resident", 2)->create([
+			'training_level' => 'ca-1'
+		]);
 		$this->faculty = factory(App\User::class, "faculty")->create();
         $this->staff = factory(App\User::class, "staff")->create();
 		$this->form = factory(App\Form::class, "resident")->create();
