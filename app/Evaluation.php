@@ -477,21 +477,26 @@ class Evaluation extends Model
 			$this->requestor = null;
 		}
 
-		if($this->isAnonymousToUser() && $this->form->type == 'faculty')
+		if ($this->isAnonymousToUser()) {
 			$this->addHidden([
 				'request_date',
 				'complete_date',
 				'evaluator_id',
 				'requested_by_id'
 			]);
+		}
 
-		if(!Auth::check() || $user->id != $this->subject_id)
+		if (!Auth::check() || $user->id != $this->subject_id) {
 			$this->addHidden('seen_by_subject_at');
-		if(!Auth::check() || $user->id != $this->evaluator_id)
-			$this->addHidden('seen_by_evaluator_at');
+		}
 
-		if($this->status != 'complete')
+		if (!Auth::check() || $user->id != $this->evaluator_id) {
+			$this->addHidden('seen_by_evaluator_at');
+		}
+
+		if ($this->status != 'complete') {
 			$this->addHidden(['responses', 'textResponses']);
+		}
 
 		return $this;
 	}
