@@ -80,14 +80,6 @@ gulp.task('vendorimg', function(){
 		.pipe(gulp.dest('./public/build/css/images'));
 });
 
-gulp.task("vendorimg", function(){
-    gulp.src(imgs)
-        .pipe(gulp.dest("./public/build/img"));
-
-    gulp.src(cssimgs)
-        .pipe(gulp.dest("./public/build/css/images"));
-});
-
 gulp.task('buildfonts', function(){
 	return gulp.src(['./resources/assets/ttf/*'])
 		.pipe(each(function (content, file, callback) {
