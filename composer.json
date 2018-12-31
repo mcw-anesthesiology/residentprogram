@@ -23,7 +23,8 @@
         "laravel/tinker": "^1.0",
         "rollbar/rollbar-laravel": "^2.3",
 		"fideloper/proxy": "^4.0",
-		"vinkla/hashids": "^5.1"
+		"vinkla/hashids": "^5.1",
+        "nuwave/lighthouse": "^2.6"
     },
     "require-dev": {
 		"filp/whoops": "~2.0",
