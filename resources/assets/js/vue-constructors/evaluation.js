@@ -1,4 +1,4 @@
-import Vue from '@/vue-constructors/index.js';
+import Vue, { apolloProvider } from '@/vue-constructors/index.js';
 
 import BootstrapModal from '@/vue-components/BootstrapModal.vue';
 import AlertList from '@/vue-components/AlertList.vue';
@@ -9,6 +9,7 @@ import { fetchConfig, okOrThrow } from '@/modules/utils.js';
 export function createEvaluationPage(el, propsData) {
 	return new Vue({
 		el,
+		apolloProvider,
 		props: {
 			user: {
 				type: Object,
