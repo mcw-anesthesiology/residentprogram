@@ -79,7 +79,8 @@ module.exports = (env, argv) => {
 			new webpack.EnvironmentPlugin({
 				NODE_ENV: 'development',
 				ROLLBAR_ACCESS_TOKEN: '',
-				ADMIN_EMAIL: 'jmischka@mcw.edu'
+				ADMIN_EMAIL: 'jmischka@mcw.edu',
+				APP_URL: 'http://localhost:8000'
 			}),
 			new CleanWebpackPlugin([
 				'public/build/js',
