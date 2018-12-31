@@ -271,6 +271,10 @@ class Evaluation extends Model
 		return $this->hasOne('App\FlaggedEvaluation');
 	}
 
+	public function scenarioResponses() {
+		return $this->hasMany('App\BeyondMilestiones\ScenarioResponse');
+	}
+
 	public function isAnonymousToUser() {
 		return (
 			(

@@ -1,11 +1,14 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
+import VueApollo from 'vue-apollo';
 
 import { rollbar } from '@/modules/errors.js';
+import apolloClient from '@/modules/apollo-client.js';
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
+Vue.use(VueApollo);
 
 Vue.config.errorHandler = (err, vm, info) => {
 	rollbar.error(`Error from Vue: ${err}`, { info, vm });
@@ -36,3 +39,7 @@ Vue.directive('visible', (el, {value, oldValue, modifiers}) => {
 });
 
 export default Vue;
+
+export const apolloProvider = new VueApollo({
+	defaultClient: apolloClient
+});

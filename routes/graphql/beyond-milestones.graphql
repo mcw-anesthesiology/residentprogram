@@ -1,0 +1,65 @@
+enum ScenarioType {
+	GENERAL
+	CARDIO
+	OB
+	NEURO
+	TRAUMA
+}
+
+enum ScenarioDifficulty {
+	BEGINNER
+	ADVANCED
+}
+
+type ScenarioOption {
+	text: String
+	value: Float!
+}
+
+input ScenarioOptionInput {
+	text: String
+	value: Float!
+}
+
+type Scenario {
+	id: ID!
+	scenario_type: ScenarioType!
+	scenario_difficulty: ScenarioDifficulty!
+	intro: String
+	text: String!
+	options: [ScenarioOption!]!
+	created_at: Date!
+	updated_at: Date!
+	deleted_at: Date
+
+	responses: [ScenarioResponse]! @hasMany
+}
+
+input ScenarioInput {
+	scenario_type: ScenarioType!
+	scenario_difficulty: ScenarioDifficulty!
+	intro: String
+	text: String!
+	options: [ScenarioOptionInput!]!
+}
+
+type ScenarioResponse {
+	id: ID!
+	scenario_id: ID!
+	scenario: Scenario! @belongsTo
+	# forms: [Form]! @belongsTo
+	evaluation_id: ID!
+	text: String
+	value: Float
+
+	created_at: Date!
+	updated_at: Date!
+	deleted_at: Date
+}
+
+type FormScenario {
+	id: ID!
+	form_id: ID!
+	scenario_id: ID!
+	scenario: Scenario! @belongsTo
+}
