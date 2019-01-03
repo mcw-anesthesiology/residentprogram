@@ -1,7 +1,6 @@
 @extends('app')
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir('css/vue-case-log.css') }}" />
+@push('styles')
 	<style>
 		#case-log-table tr {
 			cursor: pointer;
@@ -75,7 +74,6 @@
 @stop
 
 @push('scripts')
-	<script src="{{ elixir('js/vue-case-log.js') }}"></script>
 	<script>
 		var propsData = {
 			user: {!! $user->toJson() !!},

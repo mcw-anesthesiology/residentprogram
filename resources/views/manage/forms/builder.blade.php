@@ -14,7 +14,6 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-form-builder.js') }}"></script>
 	<script>
 		var propsData = {
 			oldFormContents: {!! $formContents ?? 'null' !!}

@@ -1,4 +1,4 @@
-import Vue, { apolloProvider } from '@/vue-constructors/index.js';
+import Vue, { apolloProvider } from '@/vue-constructors/vue.js';
 
 import BootstrapModal from '@/vue-components/BootstrapModal.vue';
 import AlertList from '@/vue-components/AlertList.vue';

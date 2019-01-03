@@ -1,7 +1,6 @@
 @extends("app")
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir("css/vue-reports.css") }}" />
+@push('styles')
 	<style>
 		.report-type-option {
 			margin: 0 1em;
@@ -36,7 +35,6 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-reports.js') }}"></script>
 	<script>
 		var vm = createReports('main');
 	</script>

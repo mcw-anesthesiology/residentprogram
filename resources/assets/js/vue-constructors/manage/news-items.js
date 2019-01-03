@@ -1,4 +1,4 @@
-import Vue from '@/vue-constructors/index.js';
+import Vue from '@/vue-constructors/vue.js';
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
 import ComponentList from '@/vue-components/ComponentList.vue';
