@@ -285,6 +285,7 @@
 
 				<hr />
 
+				<beyond-milestones :evaluation="evaluation"></beyond-milestones>
 	@if($evaluation->evaluator_id == $user->id)
 		<div class="bottom-comment-container text-center">
 			<button type="button"
@@ -754,6 +755,6 @@
 		evaluation: {!! $evaluation->toJson() !!}
 	};
 
-	createEvaluationPage('#evaluation-header', propsData);
+	createEvaluationPage('main', propsData);
 	</script>
 @stop

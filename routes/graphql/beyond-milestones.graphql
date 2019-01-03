@@ -47,7 +47,7 @@ type ScenarioResponse {
 	id: ID!
 	scenario_id: ID!
 	scenario: Scenario! @belongsTo
-	# forms: [Form]! @belongsTo
+	forms: [Form]! @belongsTo
 	evaluation_id: ID!
 	text: String
 	value: Float
@@ -62,4 +62,6 @@ type FormScenario {
 	form_id: ID!
 	scenario_id: ID!
 	scenario: Scenario! @belongsTo
+	form_id: ID!
+	form: Form! @belongsTo
 }

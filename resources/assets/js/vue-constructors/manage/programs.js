@@ -5,9 +5,10 @@ import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
 import store from '@/vue-constructors/store.js';
 
-import ProgramEditor from '@/vue-components/Manage/Programs/Editor.vue';
-import ProgramListItem from '@/vue-components/Manage/Programs/ListItem.vue';
 import ComponentList from '@/vue-components/ComponentList.vue';
+
+const ProgramEditor = () => import('#/Manage/Programs/Editor.vue');
+const ProgramListItem = () => import('#/Manage/Programs/ListItem.vue');
 
 import { handleError, emitError } from '@/modules/errors.js';
 
