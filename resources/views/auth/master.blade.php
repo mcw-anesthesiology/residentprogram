@@ -21,16 +21,10 @@
 			ga('create', 'UA-70580800-1', 'auto');
 			ga('send', 'pageview');
 		</script>
+		<link href="{{ mix("vendor-styles.css") }}" rel="stylesheet" />
+		<link href="{{ mix("global-styles.css") }}" rel="stylesheet" />
 	@endif
 
-		<link href="{{ elixir("css/all.css") }}" rel="stylesheet" />
-
-
-		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
 		<style>
 			.form-signin .form-signin-heading,
 			.form-signin .checkbox {
@@ -155,7 +149,12 @@
 				@yield("body")
 			</div>
 		</div>
-		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
+		<script src="{{ mix('vendor-styles.js') }}"></script>
+		<script src="{{ mix('global-styles.js') }}"></script>
+		<script src="{{ mix('polyfills.js') }}"></script>
+		<script src="{{ mix('common.js') }}"></script>
+		<script src="{{ mix('vendor.js') }}"></script>
+		<script src="{{ mix('app.js') }}"></script>
 		<script>
 			checkCookies(
 				document.getElementsByClassName('content-section')[0].children[0],

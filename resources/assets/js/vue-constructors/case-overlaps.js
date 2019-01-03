@@ -1,8 +1,6 @@
-import Vue from '@/vue-constructors/index.js';
+import Vue from '@/vue-constructors/vue.js';
 
 import moment from 'moment';
-
-import CaseOverlap from '@/vue-components/CaseOverlaps/CaseOverlap.vue';
 
 import StartEndDate from '@/vue-components/StartEndDate.vue';
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
@@ -113,7 +111,7 @@ export function createCaseOverlaps(el, propsData) {
 			}
 		},
 		components: {
-			CaseOverlap,
+			CaseOverlap: () => import('@/vue-components/CaseOverlaps/CaseOverlap.vue'),
 			StartEndDate,
 			VueFlatpickr
 		}

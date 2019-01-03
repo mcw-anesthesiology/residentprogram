@@ -1,8 +1,10 @@
 @extends('app')
 
-@push('stylesheets')
-	{{-- <link rel="stylesheet" href="{{ elixir('css/createExternalEvaluation.css') }}" /> --}}
-@endpush
+@if (App::environment('production'))
+	@push('stylesheets')
+		<link rel="stylesheet" href="{{ mix('createExternalEvaluation.css') }}" />
+	@endpush
+@endif
 
 @section('blockless-body')
 	<div class="container body-block">
@@ -124,5 +126,5 @@
 @endsection
 
 @push('scripts')
-	<script src="{{ elixir('js/createExternalEvaluation.js') }}"></script>
+	<script src="{{ mix('createExternalEvaluation.js') }}"></script>
 @endpush

@@ -474,7 +474,6 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-evaluation.js') }}"></script>
 	<script>
 		var evaluationId = "{{ $evaluation->viewable_id }}";
 		$(".evaluation-hash-edit").click(function(){

@@ -1,9 +1,5 @@
 @extends('app')
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir('css/vue-faculty360.css') }}" />
-@endpush
-
 @section('blockless-body')
 	<div class="container body-block">
 		<div v-if="newFormId" v-cloak>
@@ -28,7 +24,6 @@
 @stop
 
 @push('scripts')
-	<script src="{{ elixir('js/vue-faculty360.js') }}"></script>
 	<script>
 		createFaculty360CreateForm('main');
 	</script>

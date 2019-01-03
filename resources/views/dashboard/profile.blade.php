@@ -52,31 +52,6 @@
 	</table>
 </div>
 <div class="container body-block">
-	<div id="line-chart-container">
-		<h3>Evaluation History</h3>
-		<canvas id="line-chart"></canvas>
-		<div id="line-chart-legend"></div>
-	</div>
-	<div class="col-sm-3 col-sm-offset-3">
-		<label for="line-chart-range">Chart range</label>
-		<select class="form-control" id="line-chart-range">
-			<option value="1-year">1 year</option>
-			<option value="3-month">3 months</option>
-			<option value="1-month">1 month</option>
-			<option value="training-level">Training level</option>
-			<option value="all-time">All time</option>
-		</select>
-	</div>
-	<div class="col-sm-3">
-		<label for="line-chart-increment">Chart increment</label>
-		<select class="form-control" id="line-chart-increment">
-			<option value="1-month">Monthly</option>
-			<option value="1-week">Weekly</option>
-			<option value="1-day">Daily</option>
-		</select>
-	</div>
-</div>
-<div class="container body-block">
 	<table class="table table-striped datatable" id="user-profile-evaluations" width="100%">
 		<thead>
 			<tr>
@@ -128,32 +103,6 @@
 			createdRow: function(row){
 				$(row).addClass("view-evaluation");
 			}
-		});
-
-		function drawChart(){
-			var range = $("#line-chart-range").val();
-			var startDate;
-			if(range == "training-level"){
-				startDate = moment(yearStart);
-			}
-			else if(range == "all-time"){
-				startDate = moment(evals[0].request_date);
-			}
-			else{
-				range = range.split("-");
-				startDate = moment().subtract(range[0], range[1]);
-			}
-			var increment = $("#line-chart-increment").val().split("-");
-			startDate.startOf(increment[1]);
-			var endDate = moment();
-			var chartData = getChartEvalData(evals, startDate, endDate, increment[1], increment[0]);
-			drawLineChart("#line-chart", chartData[0], chartData[1]);
-		}
-
-		$("#line-chart-range, #line-chart-increment").change(drawChart);
-
-		$(document).ready(function(){
-			drawChart();
 		});
 	</script>
 @stop

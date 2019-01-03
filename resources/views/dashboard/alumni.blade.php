@@ -35,10 +35,6 @@
 	</style>
 @stop
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir('css/vue-alumni.css') }}" />
-@endpush
-
 @section("blockless-body")
 	<div class="container body-block">
 		<div class="intro-container">
@@ -80,7 +76,6 @@
 @stop
 
 @push('scripts')
-	<script src="{{ elixir('js/vue-alumni.js') }}"></script>
 	<script>
 		var propsData = {
 			defaultAlum: {!! json_encode($alum) !!},

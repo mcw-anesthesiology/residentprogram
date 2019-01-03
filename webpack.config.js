@@ -1,8 +1,9 @@
 /* eslint-env node */
 const path = require('path');
 const webpack = require('webpack');
+const ConcatPlugin = require('webpack-concat-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin');
@@ -16,34 +17,58 @@ const { APP_URL, ROLLBAR_ACCESS_TOKEN } = process.env;
 
 const GIT_REV = gitRev.long();
 
+const scripts = [
+	'jquery/dist/jquery.js',
+	'bootstrap/dist/js/bootstrap.js',
+	'datatables.net/js/jquery.dataTables.js',
+	'datatables.net-bs/js/dataTables.bootstrap.js',
+	'datatables.net-fixedcolumns/js/dataTables.fixedColumns.js',
+	'datatables.net-fixedheader/js/dataTables.fixedHeader.js',
+	'datatables.net-responsive/js/dataTables.responsive.js',
+	'datatables.net-responsive-bs/js/responsive.bootstrap.js',
+	'moment/moment.js',
+	'multiselect/js/jquery.multi-select.js',
+	'select2/dist/js/select2.js',
+	'bootstrap-switch/dist/js/bootstrap-switch.js',
+	'country-region-selector/dist/jquery.crs.js',
+	'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+	'velocity-animate/velocity.min.js'
+];
+
+const styles = [
+	'bootstrap/dist/css/bootstrap.css',
+	'datatables.net-bs/css/dataTables.bootstrap.css',
+	'datatables.net-fixedcolumns-bs/css/fixedColumns.bootstrap.css',
+	'datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.css',
+	'datatables.net-responsive-bs/css/responsive.bootstrap.css',
+	'multiselect/css/multi-select.css',
+	'select2/dist/css/select2.css',
+	'select2-bootstrap-theme/dist/select2-bootstrap.css',
+	'bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css',
+	'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
+];
+
 module.exports = (env, argv) => {
 
 	return {
 		entry: {
-			bundle: './resources/assets/js/modules/index.js',
+			polyfills: './resources/assets/js/modules/polyfills.js',
+			app: './resources/assets/js/modules/index.js',
 			dashboard: './resources/assets/js/entry/dashboard.js',
 			createExternalEvaluation: './resources/assets/js/entry/createExternalEvaluation.js',
-			'vue-global': './resources/assets/js/vue-constructors/global.js',
-			'vue-programs': './resources/assets/js/vue-constructors/programs.js',
-			'vue-form-builder': './resources/assets/js/vue-constructors/form-builder.js',
-			'vue-reports': './resources/assets/js/vue-constructors/reports.js',
-			'vue-milestone-competency-lists': './resources/assets/js/vue-constructors/milestone-competency-lists.js',
-			'vue-request': './resources/assets/js/vue-constructors/request.js',
-			'vue-dashboard': './resources/assets/js/vue-constructors/dashboard/index.js',
-			'vue-manage': './resources/assets/js/vue-constructors/manage/index.js',
-			'vue-faculty360': './resources/assets/js/vue-constructors/faculty360/index.js',
-			'vue-merit-reports': './resources/assets/js/vue-constructors/merit-reports/index.js',
-			'vue-alumni': './resources/assets/js/vue-constructors/alumni.js',
-			'vue-case-log': './resources/assets/js/vue-constructors/case-log.js',
-			'vue-user': './resources/assets/js/vue-constructors/user.js',
-			'vue-evaluation': './resources/assets/js/vue-constructors/evaluation.js'
+			'vendor-styles': styles,
+			'global-styles': [
+				'main.css',
+				'navbar.css'
+			].map(p => `./resources/assets/css/${p}`),
+			iframeResizer: 'iframe-resizer'
 		},
 		output: {
 			path: path.resolve(__dirname, 'public/build/'),
 			publicPath: '/build/',
 			filename: argv.mode === 'production'
-				? 'js/[name]-[chunkhash].js'
-				: 'js/[name].js',
+				? '[name].[chunkhash].js'
+				: '[name].js',
 			libraryTarget: 'umd'
 		},
 		target: 'web',
@@ -63,15 +88,28 @@ module.exports = (env, argv) => {
 					use: 'babel-loader'
 				},
 				{
-					test: /\.css$/,
-					use: [
-						MiniCssExtractPlugin.loader,
-						'css-loader'
-					]
+					issuer: path.join(__dirname, 'resources/assets/js/modules/global/index.js'),
+					use: 'script-loader',
+					sideEffects: true
 				},
 				{
-					test: /\.svg$/,
-					use: 'raw-loader'
+					test: /\.css$/,
+					use: [
+						argv.mode === 'production'
+							?  ExtractCssChunks.loader
+							: 'vue-style-loader',
+						'css-loader'
+					],
+					sideEffects: true
+				},
+				{
+					test: /\.(jpg|jpeg|png|eot|svg|ttf|woff|woff2)(\?.*)?$/,
+					use: {
+						loader: 'url-loader',
+						options: {
+							name: '[name].[ext]'
+						}
+					}
 				}
 			]
 		},
@@ -79,13 +117,11 @@ module.exports = (env, argv) => {
 			new webpack.EnvironmentPlugin({
 				NODE_ENV: 'development',
 				ROLLBAR_ACCESS_TOKEN: '',
-				ADMIN_EMAIL: 'jmischka@mcw.edu',
-				APP_URL: 'http://localhost:8000'
+				ADMIN_EMAIL: 'jmischka@mcw.edu'
 			}),
 			new CleanWebpackPlugin([
-				'public/build/js',
-				'public/build/css/*.css',
-				'public/build/css/*.map'
+				'public/mix-manifest.json',
+				'public/build'
 			]),
 			new BundleAnalyzerPlugin({
 				analyzerMode: argv.watch
@@ -95,18 +131,26 @@ module.exports = (env, argv) => {
 				openAnalyzer: false,
 				generateStatsFile: true
 			}),
-			new MiniCssExtractPlugin({
+			new ExtractCssChunks({
 				filename: argv.mode === 'production'
-					? 'css/[name]-[contenthash].css'
-					: 'css/[name].css',
+					? '[name].[contenthash].css'
+					: '[name].css',
 				allChunks: true
 			}),
-			new ManifestPlugin(),
+			new ManifestPlugin({
+				fileName: '../mix-manifest.json',
+				basePath: '/'
+			}),
 			new VueLoaderPlugin(),
 			argv.mode === 'production' && new RollbarSourceMapPlugin({
 				accessToken: ROLLBAR_ACCESS_TOKEN,
 				publicPath: `${APP_URL}/build/`,
 				version: GIT_REV
+			}),
+			new ConcatPlugin({
+				name: 'vendor',
+				fileName: 'vendor.[hash].js',
+				filesToConcat: scripts
 			})
 		].filter(Boolean),
 		resolve: {
@@ -118,7 +162,7 @@ module.exports = (env, argv) => {
 			moment: 'moment',
 			jquery: 'jQuery'
 		},
-		devtool: argv.mode === 'production' ? 'source-map' : 'eval-source-map',
+		devtool: 'source-map',
 		optimization: {
 			splitChunks: {
 				cacheGroups: {

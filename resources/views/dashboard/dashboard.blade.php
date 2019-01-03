@@ -1,9 +1,5 @@
 @extends("app")
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir("css/vue-dashboard.css") }}" />
-@endpush
-
 @section("blockless-body")
 	<div class="container">
 		<alert-list v-model="alerts"></alert-list>
@@ -32,7 +28,6 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-dashboard.js') }}"></script>
 	<script>
 		$(document).on("click", ".cancel-eval-button", function(event){
 			event.stopPropagation();

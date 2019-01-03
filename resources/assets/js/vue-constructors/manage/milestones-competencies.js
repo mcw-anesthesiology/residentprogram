@@ -1,4 +1,4 @@
-import Vue from '@/vue-constructors/index.js';
+import Vue from '@/vue-constructors/vue.js';
 
 import AlertList from '@/vue-components/AlertList.vue';
 import DataTable from '@/vue-components/DataTable.vue';
