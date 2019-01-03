@@ -71,7 +71,8 @@ export function createEvaluationPage(el, propsData) {
 		},
 		components: {
 			BootstrapModal,
-			AlertList
+			AlertList,
+			BeyondMilestones: () => import('#/BeyondMilestones/BeyondMilestones.vue')
 		}
 	});
 }

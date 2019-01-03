@@ -5,31 +5,34 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
 type Query {
-    users: [User!]! @paginate(type: "paginator" model: "App\\User")
+    users: [User!]! @all(model: "App\\User")
     user(id: ID! @eq): User @find(model: "App\\User")
+
+    forms: [Form!]! @all(model: "App\\Form")
+    form(id: ID! @eq): Form @find(model: "App\\Form")
 
 	scenarios: [Scenario!]! @all(model: "App\\BeyondMilestones\\Scenario")
 	scenario(id: ID! @eq): Scenario @find(model: "App\\BeyondMilestones\\Scenario")
 
-	scenario_responses(evaluation_id: ID @eq): [ScenarioResponse!]! @all(model: "App\\BeyondMilestones\\ScenarioResponse")
-	scenario_response(id: ID! @eq): ScenarioResponse @find(model: "App\\BeyondMilestones\\ScenarioResponse")
+	scenarioResponses(evaluation_id: ID @eq): [ScenarioResponse!]! @all(model: "App\\BeyondMilestones\\ScenarioResponse")
+	scenarioResponse(id: ID @eq, scenario_id: ID @eq, evaluation_id: ID @eq): ScenarioResponse @find(model: "App\\BeyondMilestones\\ScenarioResponse")
 
-	form_scenarios(form_id: ID @eq, scenario_id: ID @eq): [FormScenario!]! @all(model: "App\\BeyondMilestones\\FormScenario")
+	formScenarios(form_id: ID @eq, scenario_id: ID @eq): [FormScenario!]! @all(model: "App\\BeyondMilestones\\FormScenario")
 }
 
 type Mutation {
     createUser(
-        name: String @rules(apply: ["required"])
-        email: String @rules(apply: ["required", "email", "unique:users,email"])
-    ): User @create(model: "App\\User")
+        name: String!
+        email: String! @rules(apply: ["email"])
+    ): User @create
     updateUser(
-        id: ID @rules(apply: ["required"])
+        id: ID!
         name: String
         email: String @rules(apply: ["email"])
-    ): User @update(model: "App\\User")
+    ): User @update
     deleteUser(
-        id: ID @rules(apply: ["required"])
-    ): User @delete(model: "App\\User")
+        id: ID!
+    ): User @delete
 
 
 	createScenario(
@@ -72,4 +75,5 @@ type Mutation {
 }
 
 #import user.graphql
+#import form.graphql
 #import beyond-milestones.graphql

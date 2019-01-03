@@ -402,4 +402,8 @@ class ManageController extends Controller
 	public function programs() {
 		return view('manage.programs');
 	}
+
+	public function scenarios() {
+		return view('manage.scenarios');
+	}
 }

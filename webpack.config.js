@@ -117,7 +117,8 @@ module.exports = (env, argv) => {
 			new webpack.EnvironmentPlugin({
 				NODE_ENV: 'development',
 				ROLLBAR_ACCESS_TOKEN: '',
-				ADMIN_EMAIL: 'jmischka@mcw.edu'
+				ADMIN_EMAIL: 'jmischka@mcw.edu',
+				APP_URL: ''
 			}),
 			new CleanWebpackPlugin([
 				'public/mix-manifest.json',
