@@ -22,6 +22,7 @@ class Evaluation extends Model
 		static::addGlobalScope(new EvaluationScope);
 	}
 
+	protected $connection = 'mysql';
 	protected $table = 'evaluations';
 
 	protected $casts = [

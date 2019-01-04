@@ -5,19 +5,19 @@ namespace App\BeyondMilestones;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ScenarioResponse extends Model
+class ProfessionalismResponse extends Model
 {
 	use SoftDeletes;
 
 	protected $connection = 'beyond_milestones';
-	protected $table = 'scenario_responses';
+	protected $table = 'professionalism_responses';
 	protected $casts = [
 		'id' => 'integer',
-		'value' => 'float'
+		'value' => 'boolean'
 	];
 
 	protected $fillable = [
-		'scenario_id',
+		'question_id',
 		'evaluation_id',
 		'text',
 		'value'
@@ -29,14 +29,8 @@ class ScenarioResponse extends Model
 		'deleted_at'
 	];
 
-	protected static function boot() {
-		parent::boot();
-
-		// TODO: Add scope ?
-	}
-
-	public function scenario() {
-		return $this->belongsTo('App\BeyondMilestones\Scenario');
+	public function question() {
+		return $this->belongsTo('App\BeyondMilestones\ProfessionalismQuestion');
 	}
 
 	public function evaluation() {

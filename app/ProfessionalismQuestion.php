@@ -5,20 +5,18 @@ namespace App\BeyondMilestones;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Scenario extends Model
+class ProfessionalismQuestion extends Model
 {
 	use SoftDeletes;
 
 	protected $connection = 'beyond_milestones';
-	protected $table = 'scenarios';
+	protected $table = 'professionalism_questions';
 	protected $casts = [
 		'id' => 'integer',
 		'options' => 'array'
 	];
 
 	protected $fillable = [
-		'scenario_type',
-		'scenario_difficulty',
 		'title',
 		'intro',
 		'text',
@@ -31,17 +29,7 @@ class Scenario extends Model
 		'deleted_at'
 	];
 
-	protected static function boot() {
-		parent::boot();
-
-		// TODO: Add scope ?
-	}
-
 	public function responses() {
-		return $this->hasMany('App\BeyondMilestones\ScenarioResponse');
-	}
-
-	public function forms() {
-		return $this->belongsToMany('App\Form', 'form_scenarios');
+		return $this->hasMany('App\BeyondMilestones\ProfessionalismResponse');
 	}
 }
