@@ -27,7 +27,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.$store.dispatch('mentorships/fetchEvaluations', this.dates);
+		this.fetchEvaluations();
 	},
 	computed: {
 		...mapState('mentorships', [
@@ -35,7 +35,15 @@ export default {
 			'menteeEvaluations'
 		])
 	},
+	watch: {
+		dates() {
+			this.fetchEvaluations();
+		}
+	},
 	methods: {
+		fetchEvaluations() {
+			this.$store.dispatch('mentorships/fetchEvaluations', this.dates);
+		},
 		getDateRangeEvaluations(menteeId) {
 			return this.$store.getters['mentorships/dateRangeEvaluations'](menteeId, this.dates);
 		}
