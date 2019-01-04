@@ -11,6 +11,7 @@ use Illuminate\Foundation\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 use Illuminate\Session\TokenMismatchException;
+use App\Http\Middleware\ApiTokenMismatchException;
 
 use Auth;
 use Log;
@@ -42,10 +43,10 @@ class Handler extends ExceptionHandler
     public function report(Exception $e)
     {
 		if ($this->shouldReport($e)) {
-			
+
 			try {
 	            $logger = $this->container->make(LoggerInterface::class);
-				
+
 				$context = [];
 				if(Auth::check()){
 					$context['person'] = [
@@ -54,7 +55,7 @@ class Handler extends ExceptionHandler
 						'email' => Auth::user()->email
 					];
 				}
-				
+
 				$logger->error($e, $context);
 	        } catch (Exception $ex) {
 	            throw $e; // throw the original exception
@@ -62,23 +63,6 @@ class Handler extends ExceptionHandler
         }
     }
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
-     * @return \Illuminate\Http\Response
-     */
-    public function render($request, Exception $e)
-    {
-        if($e instanceof TokenMismatchException){
-            return back()->withInput($request->except("_token"))
-                ->with("error", "It looks like the session expired after being inactive for too long. Please try again.");
-        }
-
-		return parent::render($request, $e);
-    }
-	
 	/**
 	 * Convert an authentication exception into an unauthenticated response.
 	 *

@@ -1,0 +1,70 @@
+extend type Query @middleware(checks: ["auth", "type:admin"]) {
+	professionalismQuestions: [ProfessionalismQuestion!]! @all(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
+	professionalismQuestion(id: ID! @eq): ProfessionalismQuestion! @find(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
+
+	professionalismResponses(evaluation_id: ID! @eq): [ProfessionalismResponse!]! @all(model: "App\\BeyondMilestones\\ProfessionalismResponse")
+	professionalismResponse(id: ID @eq, question_id: ID @eq, evaluation_id: ID @eq): ProfessionalismResponse! @find(model: "App\\BeyondMilestones\\ProfessionalismResponse")
+}
+
+extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
+	createProfessionalismQuestion(
+		input: ProfessionalismQuestionInput!
+	): ProfessionalismQuestion @create(model:  "App\\BeyondMilestones\\ProfessionalismQuestion")
+	updateProfessionalismQuestion(
+		id: ID!
+		title: String
+		intro: String
+		text: String
+		options: [ProfessionalismQuestionOptionInput!]
+	): ProfessionalismQuestion @update(model:  "App\\BeyondMilestones\\ProfessionalismQuestion")
+	deleteProfessionalismQuestion(
+		id: ID!
+	): ProfessionalismQuestion @delete(model:  "App\\BeyondMilestones\\ProfessionalismQuestion")
+
+	createProfessionalismResponse(
+		input: ProfessionalismResponseInput!
+	): ProfessionalismResponse @create(model:  "App\\BeyondMilestones\\ProfessionalismResponse")
+	deleteProfessionalismResponse(
+		id: ID!
+	): ProfessionalismResponse @delete(model:  "App\\BeyondMilestones\\ProfessionalismResponse")
+
+}
+
+type ProfessionalismQuestion {
+	id: ID!
+	title: String
+	intro: String
+	text: String!
+	options: [ProfessionalismQuestionOption!]!
+}
+
+input ProfessionalismQuestionInput {
+	title: String
+	intro: String
+	text: String!
+	options: [ProfessionalismQuestionOptionInput!]
+}
+
+type ProfessionalismQuestionOption {
+	text: String!
+	value: Boolean!
+}
+
+input ProfessionalismQuestionOptionInput {
+	text: String!
+	value: Boolean!
+}
+
+type ProfessionalismResponse {
+	id: ID!
+	question_id: ID!
+	question: ProfessionalismQuestion! @belongsTo
+	evaluation_id: ID!
+	value: Boolean!
+}
+
+input ProfessionalismResponseInput {
+	question_id: ID!
+	evaluation_id: ID!
+	value: Boolean!
+}

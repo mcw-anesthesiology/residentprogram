@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="beyond-milestones">
 		<beyond-milestones-scenario v-for="({scenario}, index) of formScenarios" :key="index"
 			v-bind="scenario"
 			:evaluationId="evaluation.id"

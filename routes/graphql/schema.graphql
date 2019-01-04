@@ -4,76 +4,16 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 "A date string with format 'Y-m-d', e.g. '2011-05-23'."
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
-type Query {
-    users: [User!]! @all(model: "App\\User")
-    user(id: ID! @eq): User @find(model: "App\\User")
-
-    forms: [Form!]! @all(model: "App\\Form")
-    form(id: ID! @eq): Form @find(model: "App\\Form")
-
-	scenarios: [Scenario!]! @all(model: "App\\BeyondMilestones\\Scenario")
-	scenario(id: ID! @eq): Scenario @find(model: "App\\BeyondMilestones\\Scenario")
-
-	scenarioResponses(evaluation_id: ID @eq): [ScenarioResponse!]! @all(model: "App\\BeyondMilestones\\ScenarioResponse")
-	scenarioResponse(id: ID @eq, scenario_id: ID @eq, evaluation_id: ID @eq): ScenarioResponse @find(model: "App\\BeyondMilestones\\ScenarioResponse")
-
-	formScenarios(form_id: ID @eq, scenario_id: ID @eq): [FormScenario!]! @all(model: "App\\BeyondMilestones\\FormScenario")
+type Query @middleware(checks: ["auth"]) {
+	me: User @auth
 }
 
-type Mutation {
-    createUser(
-        name: String!
-        email: String! @rules(apply: ["email"])
-    ): User @create
-    updateUser(
-        id: ID!
-        name: String
-        email: String @rules(apply: ["email"])
-    ): User @update
-    deleteUser(
-        id: ID!
-    ): User @delete
-
-
-	createScenario(
-		scenario_type: ScenarioType!
-		scenario_difficulty: ScenarioDifficulty!
-		intro: String
-		text: String!
-		options: [ScenarioOptionInput!]!
-	): Scenario @create(model: "App\\BeyondMilestones\\Scenario")
-	updateScenario(
-		id: ID!
-		scenario_type: ScenarioType!
-		scenario_difficulty: ScenarioDifficulty!
-		intro: String
-		text: String!
-		options: [ScenarioOptionInput!]!
-	): Scenario @update(model: "App\\BeyondMilestones\\Scenario")
-	deleteScenario(
-		id: ID!
-	): Scenario @delete(model: "App\\BeyondMilestones\\Scenario")
-
-	createScenarioResponse(
-		scenario_id: ID!
-		evaluation_id: ID!
-		text: String
-		value: Float!
-	): ScenarioResponse @create(model: "App\\BeyondMilestones\\ScenarioResponse")
-	deleteScenarioResponse(
-		id: ID!
-	): ScenarioResponse @delete(model: "App\\BeyondMilestones\\ScenarioResponse")
-
-	attachFormScenario(
-		form_id: ID!
-		scenario_id: ID!
-	): FormScenario @create(model: "App\\BeyondMilestones\\FormScenario")
-	deleteFormScenario(
-		form_id: ID!
-		scenario_id: ID!
-	): FormScenario @delete(model: "App\\BeyondMilestones\\FormScenario")
+type Mutation @middleware(checks: ["auth"]) {
+	updateMe(
+		email: String @rules(apply: ["email"])
+	): User @update
 }
 
 #import user.graphql
 #import form.graphql
-#import beyond-milestones.graphql
+#import beyond-milestones/*.graphql

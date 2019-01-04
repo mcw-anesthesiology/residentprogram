@@ -1,3 +1,8 @@
+extend type Query @middleware(checks: ["auth", "type:admin"]) {
+    forms: [Form!]! @all(model: "App\\Form")
+    form(id: ID! @eq): Form @find(model: "App\\Form")
+}
+
 enum FormStatus {
 	active
 	inactive
