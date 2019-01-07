@@ -3,7 +3,7 @@ extend type Query @middleware(checks: ["auth", "type:admin"]) {
 	scenario(id: ID! @eq): Scenario @find(model: "App\\BeyondMilestones\\Scenario")
 
 	scenarioResponses(evaluation_id: ID @eq): [ScenarioResponse!]! @all(model: "App\\BeyondMilestones\\ScenarioResponse")
-	scenarioResponse(id: ID @eq, scenario_id: ID @eq, evaluation_id: ID @eq): ScenarioResponse @find(model: "App\\BeyondMilestones\\ScenarioResponse")
+	scenarioResponse(scenario_id: ID @eq, evaluation_id: ID @eq): ScenarioResponse @find(model: "App\\BeyondMilestones\\ScenarioResponse")
 
 	formScenarios(form_id: ID @eq, scenario_id: ID @eq): [FormScenario!]! @all(model: "App\\BeyondMilestones\\FormScenario")
 }
@@ -23,9 +23,11 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 		id: ID!
 	): Scenario @delete(model: "App\\BeyondMilestones\\Scenario")
 
-	createScenarioResponse(
-		input: ScenarioResponseInput
-	): ScenarioResponse @create(model: "App\\BeyondMilestones\\ScenarioResponse")
+	setScenarioResponse(
+		scenario_id: ID!,
+		evaluation_id: ID!,
+		value: Float!
+	): ScenarioResponse
 	deleteScenarioResponse(
 		id: ID!
 	): ScenarioResponse @delete(model: "App\\BeyondMilestones\\ScenarioResponse")

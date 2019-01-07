@@ -2,10 +2,10 @@ extend type Query @middleware(checks: ["auth", "type:admin"]) {
 	professionalismQuestions: [ProfessionalismQuestion!]! @all(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
 	professionalismQuestion(id: ID! @eq): ProfessionalismQuestion! @find(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
 
-	randomProfessionalismQuestions(count: Int!): [ProfessionalismQuestion!]!
+	randomProfessionalismQuestions(id: ID!, count: Int!): [ProfessionalismQuestion!]!
 
 	professionalismResponses(evaluation_id: ID! @eq): [ProfessionalismResponse!]! @all(model: "App\\BeyondMilestones\\ProfessionalismResponse")
-	professionalismResponse(id: ID @eq, question_id: ID @eq, evaluation_id: ID @eq): ProfessionalismResponse @find(model: "App\\BeyondMilestones\\ProfessionalismResponse")
+	professionalismResponse(question_id: ID @eq, evaluation_id: ID @eq): ProfessionalismResponse @find(model: "App\\BeyondMilestones\\ProfessionalismResponse")
 }
 
 extend type Mutation @middleware(checks: ["auth", "type:admin"]) {

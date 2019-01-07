@@ -21,6 +21,21 @@ class RandomProfessionalismQuestions
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
-		return ProfessionalismQuestion::all()->random($args['count']);
+		$items = fisherYatesShuffle(ProfessionalismQuestion::all(), $args['id']);
+		return $items->slice(0, $args['count'])->values();
     }
 }
+
+// https://stackoverflow.com/questions/6557805/randomize-a-php-array-with-a-seed
+function fisherYatesShuffle($items, $seed) {
+    @mt_srand($seed);
+    for ($i = count($items) - 1; $i > 0; $i--) {
+        $j = @mt_rand(0, $i);
+        $tmp = $items[$i];
+        $items[$i] = $items[$j];
+        $items[$j] = $tmp;
+    }
+
+	return $items;
+}
+

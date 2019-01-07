@@ -9,8 +9,9 @@
 			<label v-for="option of options">
 				<input type="radio" :value="option.value"
 					:checked="isSelected(option)"
-					:readonly="$apollo.loading || professionalismResponse !== null"
-					@change="handleSelect(option)"
+					:disabled="readonly"
+					:name="name"
+					@change="handleSelect($event, option)"
 				/>
 				{{ option.text }}
 			</label>
@@ -65,7 +66,7 @@ export default {
 		};
 	},
 	apollo: {
-		profesionalismResponse: {
+		professionalismResponse: {
 			query: PROFESSIONALISM_RESPONSE_QUERY,
 			variables() {
 				return {
@@ -75,37 +76,44 @@ export default {
 			}
 		}
 	},
+	computed: {
+		name() {
+			return `professionalism-question:${this.id}`;
+		}
+	},
 	methods: {
 		isSelected(option) {
 			return this.professionalismResponse !== null && this.professionalismResponse.value === option.value;
 		},
-		handleSelect(option) {
+		handleSelect(event, option) {
 			if (this.readonly)
 				return;
 
-			this.$apollo.mutate({
-				mutation: gql`
-					mutation AddProfessionalismResponse($question_id: ID!, $evaluation_id: ID!, $value: Number!) {
-						addProfessionalismResponse(question_id: $question_id, evaluation_id: $evaluation_id, value: $value) {
-							id
-							value
+			if (event.target.checked) {
+				this.$apollo.mutate({
+					mutation: gql`
+						mutation SetProfessionalismResponse($question_id: ID!, $evaluation_id: ID!, $value: Boolean!) {
+							setProfessionalismResponse(question_id: $question_id, evaluation_id: $evaluation_id, value: $value) {
+								id
+								value
+							}
 						}
+					`,
+					variables: {
+						question_id: this.id,
+						evaluation_id: this.evaluationId,
+						value: option.value
+					},
+					update(store, { data: { setProfessionalismResponse } }) {
+						store.writeQuery({
+							query: PROFESSIONALISM_RESPONSE_QUERY,
+							data: {
+								professionalismResponse: setProfessionalismResponse
+							}
+						});
 					}
-				`,
-				variables: {
-					question_id: this.id,
-					evaluation_id: this.evaluationId,
-					value: option.value
-				},
-				update(store, { data: { addProfessionalismResponse } }) {
-					store.writeQuery({
-						query: PROFESSIONALISM_RESPONSE_QUERY,
-						data: {
-							professionalismResponse: addProfessionalismResponse
-						}
-					});
-				}
-			});
+				});
+			}
 		}
 	}
 };
