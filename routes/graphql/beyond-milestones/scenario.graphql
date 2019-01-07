@@ -9,7 +9,7 @@ extend type Query @middleware(checks: ["auth", "type:admin"]) {
 }
 
 extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
-	createScenario(input: ScenarioInput!): Scenario @create(model: "App\\BeyondMilestones\\Scenario")
+	createScenario(input: ScenarioInput!): Scenario @create(model: "App\\BeyondMilestones\\Scenario", flatten: true)
 	updateScenario(
 		id: ID!
 		scenario_type: ScenarioType

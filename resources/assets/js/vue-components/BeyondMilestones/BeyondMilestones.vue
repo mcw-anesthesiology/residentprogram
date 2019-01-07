@@ -1,7 +1,12 @@
 <template>
 	<div class="beyond-milestones">
-		<beyond-milestones-scenario v-for="({scenario}, index) of formScenarios" :key="index"
+		<beyond-milestones-scenario v-for="{scenario} of formScenarios" :key="scenario.id"
 			v-bind="scenario"
+			:evaluationId="evaluation.id"
+		/>
+
+		<beyond-milestones-professionalism-question v-for="pq of randomProfessionalismQuestions" :key="pq.id"
+			v-bind="pq"
 			:evaluationId="evaluation.id"
 		/>
 	</div>
@@ -10,13 +15,16 @@
 <script>
 import gql from 'graphql-tag';
 
+const NUM_PROFESSIONALISM_QUESTIONS = 2;
+
 export default {
 	props: {
 		evaluation: Object
 	},
 	data() {
 		return {
-			formScenarios: []
+			formScenarios: [],
+			randomProfessionalismQuestions: [],
 		};
 	},
 	apollo: {
@@ -42,10 +50,30 @@ export default {
 					form_id: this.evaluation.form_id
 				};
 			}
+		},
+		randomProfessionalismQuestions: {
+			query: gql`
+				query BeyondMilestonesRandomProfessionalismQuestions($count: Int!) {
+					randomProfessionalismQuestions(count: $count) {
+						id
+						title
+						intro
+						text
+						options {
+							text
+							value
+						}
+					}
+				}
+			`,
+			variables: {
+				count: NUM_PROFESSIONALISM_QUESTIONS
+			}
 		}
 	},
 	components: {
-		BeyondMilestonesScenario: () => import('./Scenario.vue')
+		BeyondMilestonesScenario: () => import('./Scenario.vue'),
+		BeyondMilestonesProfessionalismQuestion: () => import('./ProfessionalismQuestion.vue')
 	}
 };
 </script>

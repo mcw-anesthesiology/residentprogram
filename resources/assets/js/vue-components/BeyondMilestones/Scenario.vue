@@ -27,12 +27,13 @@ export default {
 		intro: String,
 		text: String,
 		options: Array,
-		evaluationId: Number
+
+		evaluationId: Number,
+		value: Number
 	},
 	data() {
 		return {
-			scenarioResponse: null,
-			selectedValue: null
+			scenarioResponse: null
 		};
 	},
 	apollo: {
@@ -41,7 +42,6 @@ export default {
 				query ScenarioResponse($scenario_id: ID!, $evaluation_id: ID!) {
 					scenarioResponse(scenario_id: $scenario_id, evaluation_id: $evaluation_id) {
 						id
-						text
 						value
 					}
 				}
@@ -54,22 +54,17 @@ export default {
 			}
 		}
 	},
-	watch: {
-		options() {
-			this.selectedValue = null;
-		}
-	},
 	methods: {
 		handleSelect(option) {
 			if (this.scenarioResponse)
 				return;
 
-			this.selectedValue = option.value;
+			this.$emit('input', option.value);
 		},
 		isSelected(option) {
 			return this.scenarioResponse
 				? this.scenarioResponse.value === option.value
-				: this.selectedValue === option.value;
+				: this.value === option.value;
 
 		}
 	},
