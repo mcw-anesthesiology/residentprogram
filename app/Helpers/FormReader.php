@@ -119,7 +119,7 @@ class FormReader {
 				$result .= "<div class='description well collapse'>" . nl2br($description) . "</div>";
 			$result .= "</div>"; // .question-option
 		} elseif ($name == "text") {
-			$result .= "</h3></div><div class='question-body panel-body'>"; // .question-title
+			$result .= "</h3></div>"; // .question-title
 
 			if (
 				in_array($questionType, ['radio', 'radiononnumeric', 'checkbox'])
@@ -129,12 +129,21 @@ class FormReader {
 					? 'checkbox'
 					: 'radio';
 
-				$result .= "<div class='question-option {$questionName} na-option-container'><label><span title='{$description}'>
-					<input type='{$inputType}' name='{$questionName}' data-n-a value='' />
-					<br />
-					<span class='question-option-text'>" . self::NA_TEXT . "</span>
-				</span></label></div>";
+				$result .= "<div class='na-option-container'>
+					<div class='question-option na-question-option'>
+						<label>
+							<span title='{$description}'>
+								<input type='{$inputType}' name='{$questionName}' data-n-a value='' />
+								<br />
+								<span class='question-option-text'>" . self::NA_TEXT . "</span>
+							</span>
+						</label>
+					</div>
+				</div>";
 			}
+
+			$result .= "<div class='question-body panel-body'>";
+
 		} elseif ($name == "title") {
 			$result .= "</h2>";
 		} elseif ($name == "instruction") {
