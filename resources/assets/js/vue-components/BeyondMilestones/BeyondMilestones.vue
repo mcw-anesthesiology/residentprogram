@@ -3,11 +3,13 @@
 		<beyond-milestones-scenario v-for="{scenario} of formScenarios" :key="scenario.id"
 			v-bind="scenario"
 			:evaluationId="evaluation.id"
+			:readonly="evaluation.status !== 'pending'"
 		/>
 
 		<beyond-milestones-professionalism-question v-for="pq of randomProfessionalismQuestions" :key="pq.id"
 			v-bind="pq"
 			:evaluationId="evaluation.id"
+			:readonly="evaluation.status !== 'pending'"
 		/>
 	</div>
 </template>
@@ -53,8 +55,8 @@ export default {
 		},
 		randomProfessionalismQuestions: {
 			query: gql`
-				query BeyondMilestonesRandomProfessionalismQuestions($count: Int!) {
-					randomProfessionalismQuestions(count: $count) {
+				query BeyondMilestonesRandomProfessionalismQuestions($id: ID!, $count: Int!) {
+					randomProfessionalismQuestions(id: $id, count: $count) {
 						id
 						title
 						intro
@@ -66,8 +68,11 @@ export default {
 					}
 				}
 			`,
-			variables: {
-				count: NUM_PROFESSIONALISM_QUESTIONS
+			variables() {
+				return {
+					id: this.evaluation.id,
+					count: NUM_PROFESSIONALISM_QUESTIONS
+				};
 			}
 		}
 	},

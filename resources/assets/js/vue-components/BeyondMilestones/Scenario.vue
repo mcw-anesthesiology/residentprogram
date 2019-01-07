@@ -5,8 +5,9 @@
 
 		<scenario-option v-for="(option, index) of options" :key="index"
 			v-bind="option"
+			:id="id"
 			:selected="isSelected(option)"
-			:readonly="$apollo.loading || scenarioResponse !== null"
+			:readonly="readonly"
 			@select="handleSelect(option)"
 		/>
 	</div>
@@ -19,6 +20,15 @@
 <script>
 import gql from 'graphql-tag';
 
+const SCENARIO_RESPONSE_QUERY = gql`
+	query ScenarioResponse($scenario_id: ID!, $evaluation_id: ID!) {
+		scenarioResponse(scenario_id: $scenario_id, evaluation_id: $evaluation_id) {
+			id
+			value
+		}
+	}
+`;
+
 export default {
 	props: {
 		id: String,
@@ -29,7 +39,7 @@ export default {
 		options: Array,
 
 		evaluationId: Number,
-		value: Number
+		readonly: Boolean
 	},
 	data() {
 		return {
@@ -38,14 +48,7 @@ export default {
 	},
 	apollo: {
 		scenarioResponse: {
-			query: gql`
-				query ScenarioResponse($scenario_id: ID!, $evaluation_id: ID!) {
-					scenarioResponse(scenario_id: $scenario_id, evaluation_id: $evaluation_id) {
-						id
-						value
-					}
-				}
-			`,
+			query: SCENARIO_RESPONSE_QUERY,
 			variables() {
 				return {
 					scenario_id: this.id,
@@ -56,16 +59,35 @@ export default {
 	},
 	methods: {
 		handleSelect(option) {
-			if (this.scenarioResponse)
+			if (this.readonly)
 				return;
 
-			this.$emit('input', option.value);
+			this.$apollo.mutate({
+				mutation: gql`
+					mutation SetScenarioResponse($scenario_id: ID!, $evaluation_id: ID!, $value: Float!) {
+						setScenarioResponse(scenario_id: $scenario_id, evaluation_id: $evaluation_id, value: $value) {
+							id
+							value
+						}
+					}
+				`,
+				variables: {
+					scenario_id: this.id,
+					evaluation_id: this.evaluationId,
+					value: option.value
+				},
+				update(store, { data: { setScenarioResponse } }) {
+					store.writeQuery({
+						query: SCENARIO_RESPONSE_QUERY,
+						data: {
+							scenarioResponse: setScenarioResponse
+						}
+					});
+				}
+			});
 		},
 		isSelected(option) {
-			return this.scenarioResponse
-				? this.scenarioResponse.value === option.value
-				: this.value === option.value;
-
+			return this.scenarioResponse && this.scenarioResponse.value === option.value;
 		}
 	},
 	components: {

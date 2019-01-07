@@ -1,7 +1,7 @@
 <template>
 	<div class="scenario-option form-group">
 		<label>
-			<input type="radio" :value="value" :checked="selected" @change="handleChange" :readonly="readonly" />
+			<input type="radio" :value="value" :checked="selected" @change="handleChange" :disabled="readonly" />
 			{{ text }}
 		</label>
 	</div>
@@ -17,10 +17,8 @@ export default {
 	},
 	methods: {
 		handleChange(event) {
-			event.preventDefault();
-			if (event.checked) {
+			if (event.target.checked)
 				this.$emit('select');
-			}
 		}
 	}
 };

@@ -4,12 +4,11 @@ namespace App\Http\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Nuwave\Lighthouse\Exceptions\AuthorizationException;
 
 use App\Evaluation;
-use App\BeyondMilestones\ProfessionalismResponse;
+use App\BeyondMilestones\ScenarioResponse;
 
-class SetProfessionalismResponse
+class SetScenarioResponse
 {
     /**
      * Return a value for the field.
@@ -27,9 +26,9 @@ class SetProfessionalismResponse
 		if ($eval->status != 'pending')
 			throw new AuthorizationException;
 
-		return ProfessionalismResponse::updateOrCreate(
+		return ScenarioResponse::updateOrCreate(
 			[
-				'question_id' => $args['question_id'],
+				'scenario_id' => $args['scenario_id'],
 				'evaluation_id' => $args['evaluation_id']
 			],
 			[
