@@ -26,17 +26,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	protected $table = 'users';
 
 	protected $fillable = [
-		"username",
-		"training_level",
-		"secondary_training_level",
-		"first_name",
-		"last_name",
-		"email",
-		"status"
+		'username',
+		'training_level',
+		'secondary_training_level',
+		'first_name',
+		'last_name',
+		'email',
+		'status',
+		'notifications',
+		'reminder_frequency'
 	];
 
 	protected $casts = [
-		"id" => "integer"
+		'id' => 'integer'
 	];
 
 	protected $hidden = [

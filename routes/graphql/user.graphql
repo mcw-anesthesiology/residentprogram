@@ -49,6 +49,11 @@ enum YesNoBoolean {
 	NO @enum(value: "no")
 }
 
+enum UserStatus {
+	ACTIVE @enum(value: "active")
+	INACTIVE @enum(value: "inactive")
+}
+
 type User {
     id: ID!
     username: String!
@@ -57,6 +62,7 @@ type User {
 	last_name: String!
 	full_name: String!
 	type: UserType!
+	status: UserStatus!
 	training_level: TrainingLevel
 	secondary_training_level: String
 	notifications: YesNoBoolean!
@@ -65,4 +71,14 @@ type User {
 	photo_path: String
     created_at: DateTime!
     updated_at: DateTime!
+}
+
+input UserInput {
+	username: String!
+	email: String! @rules(apply: ["email"])
+	first_name: String!
+	last_name: String!
+	training_level: TrainingLevel
+	secondary_training_level: String
+	status: UserStatus!
 }

@@ -2,14 +2,16 @@ extend type Query @middleware(checks: ["auth", "type:admin"]) {
 	professionalismQuestions: [ProfessionalismQuestion!]! @all(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
 	professionalismQuestion(id: ID! @eq): ProfessionalismQuestion! @find(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
 
+	randomProfessionalismQuestions(count: Int!): [ProfessionalismQuestion!]!
+
 	professionalismResponses(evaluation_id: ID! @eq): [ProfessionalismResponse!]! @all(model: "App\\BeyondMilestones\\ProfessionalismResponse")
-	professionalismResponse(id: ID @eq, question_id: ID @eq, evaluation_id: ID @eq): ProfessionalismResponse! @find(model: "App\\BeyondMilestones\\ProfessionalismResponse")
+	professionalismResponse(id: ID @eq, question_id: ID @eq, evaluation_id: ID @eq): ProfessionalismResponse @find(model: "App\\BeyondMilestones\\ProfessionalismResponse")
 }
 
 extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 	createProfessionalismQuestion(
 		input: ProfessionalismQuestionInput!
-	): ProfessionalismQuestion @create(model:  "App\\BeyondMilestones\\ProfessionalismQuestion")
+	): ProfessionalismQuestion @create(model:  "App\\BeyondMilestones\\ProfessionalismQuestion", flatten: true)
 	updateProfessionalismQuestion(
 		id: ID!
 		title: String
@@ -21,9 +23,11 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 		id: ID!
 	): ProfessionalismQuestion @delete(model:  "App\\BeyondMilestones\\ProfessionalismQuestion")
 
-	createProfessionalismResponse(
-		input: ProfessionalismResponseInput!
-	): ProfessionalismResponse @create(model:  "App\\BeyondMilestones\\ProfessionalismResponse")
+	setProfessionalismResponse(
+		question_id: ID!,
+		evaluation_id: ID!,
+		value: Boolean!
+	): ProfessionalismResponse
 	deleteProfessionalismResponse(
 		id: ID!
 	): ProfessionalismResponse @delete(model:  "App\\BeyondMilestones\\ProfessionalismResponse")

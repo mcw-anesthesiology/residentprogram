@@ -76,7 +76,7 @@ class UserController extends RestController
 		if ($request->input('type') == 'external') {
 			$user->username = $user->email;
 			$user->password = bcrypt(str_random(32));
-			$user->status = 'external';
+			$user->status = 'active';
 			$user->type = 'external';
 			$user->save();
 
