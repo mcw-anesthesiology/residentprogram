@@ -174,6 +174,18 @@ module.exports = (env, argv) => {
 					}
 				}
 			}
+		},
+		devServer: {
+			port: 8000,
+			https: true,
+			index: '',
+			proxy: {
+				context: () => true,
+				target: APP_URL,
+				changeOrigin: true,
+				secure: false
+			},
+			writeToDisk: true
 		}
 	};
 };
