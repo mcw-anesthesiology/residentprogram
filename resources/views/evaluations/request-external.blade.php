@@ -1,10 +1,8 @@
 @extends('app')
 
-@if (App::environment('production'))
-	@push('stylesheets')
-		<link rel="stylesheet" href="{{ mix('createExternalEvaluation.css') }}" />
-	@endpush
-@endif
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ mix('createExternalEvaluation.css') }}" />
+@endpush
 
 @section('blockless-body')
 	<div class="container body-block">

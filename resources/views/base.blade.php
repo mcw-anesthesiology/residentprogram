@@ -31,11 +31,11 @@
 			ga('create', 'UA-70580800-1', 'auto');
 			ga('send', 'pageview');
 		</script>
+	@endif
 		<link rel="stylesheet" href="{{ mix('vendor-styles.css') }}" />
 		<link rel="stylesheet" href="{{ mix('global-styles.css') }}" />
 		<link rel="stylesheet" href="{{ mix('common.css') }}" />
 		<link rel="stylesheet" href="{{ mix('app.css') }}" />
-	@endif
 
 		@yield('head')
 		@stack('stylesheets')
@@ -53,8 +53,6 @@
 
 		<script src="{{ mix('polyfills.js') }}"></script>
 		<script src="{{ mix('common.js') }}"></script>
-		<script src="{{ mix('vendor-styles.js') }}"></script>
-		<script src="{{ mix('global-styles.js') }}"></script>
 		<script src="{{ mix('vendor.js') }}"></script>
 		<script src="{{ mix('app.js') }}"></script>
 

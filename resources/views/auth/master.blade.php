@@ -21,9 +21,10 @@
 			ga('create', 'UA-70580800-1', 'auto');
 			ga('send', 'pageview');
 		</script>
+	@endif
+
 		<link href="{{ mix("vendor-styles.css") }}" rel="stylesheet" />
 		<link href="{{ mix("global-styles.css") }}" rel="stylesheet" />
-	@endif
 
 		<style>
 			.form-signin .form-signin-heading,
@@ -149,8 +150,6 @@
 				@yield("body")
 			</div>
 		</div>
-		<script src="{{ mix('vendor-styles.js') }}"></script>
-		<script src="{{ mix('global-styles.js') }}"></script>
 		<script src="{{ mix('polyfills.js') }}"></script>
 		<script src="{{ mix('common.js') }}"></script>
 		<script src="{{ mix('vendor.js') }}"></script>
