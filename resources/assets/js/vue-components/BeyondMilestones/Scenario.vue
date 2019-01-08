@@ -1,20 +1,36 @@
 <template>
-	<div class="scenario">
+	<div class="beyond-milestones-question scenario">
+		<h3 v-if="title">{{ title }}</h3>
+
 		<div v-if="intro" class="intro">{{ intro }}</div>
 		<div class="text">{{ text }}</div>
 
-		<scenario-option v-for="(option, index) of options" :key="index"
-			v-bind="option"
-			:id="id"
-			:selected="isSelected(option)"
-			:readonly="readonly"
-			@select="handleSelect(option)"
-		/>
+		<fieldset>
+			<scenario-option v-for="(option, index) of options" :key="index"
+				v-bind="option"
+				:id="id"
+				:selected="isSelected(option)"
+				:readonly="readonly"
+				@select="handleSelect(option)"
+			/>
+		</fieldset>
 	</div>
 </template>
 
 <style scoped>
+	h3 {
+		margin-top: 0;
+	}
 
+	.intro,
+	.text {
+		margin: 0.5em;
+	}
+
+	fieldset {
+		display: flex;
+		flex-wrap: wrap;
+	}
 </style>
 
 <script>
@@ -34,6 +50,7 @@ export default {
 		id: String,
 		scenario_type: String,
 		scenario_difficulty: String,
+		title: String,
 		intro: String,
 		text: String,
 		options: Array,
