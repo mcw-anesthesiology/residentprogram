@@ -48,7 +48,11 @@ const styles = [
 	'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
 ];
 
+const DEV_SERVER_HOST = 'www.localhost';
+const DEV_SERVER_PORT = 8000;
+
 module.exports = (env, argv) => {
+	const runningDevServer = argv.$0.includes('webpack-dev-server');
 
 	return {
 		entry: {
@@ -65,7 +69,9 @@ module.exports = (env, argv) => {
 		},
 		output: {
 			path: path.resolve(__dirname, 'public/build/'),
-			publicPath: '/build/',
+			publicPath: runningDevServer
+				? `https://${DEV_SERVER_HOST}:${DEV_SERVER_PORT}/build/`
+				: '/build/',
 			filename: argv.mode === 'production'
 				? '[name].[chunkhash].js'
 				: '[name].js',
@@ -77,10 +83,7 @@ module.exports = (env, argv) => {
 				{
 					test: /\.vue$/,
 					use: {
-						loader: 'vue-loader',
-						options: {
-							extractCSS: true
-						}
+						loader: 'vue-loader'
 					}
 				},
 				{
@@ -95,9 +98,7 @@ module.exports = (env, argv) => {
 				{
 					test: /\.css$/,
 					use: [
-						argv.mode === 'production'
-							?  ExtractCssChunks.loader
-							: 'vue-style-loader',
+						ExtractCssChunks.loader,
 						'css-loader'
 					],
 					sideEffects: true
@@ -136,6 +137,7 @@ module.exports = (env, argv) => {
 				filename: argv.mode === 'production'
 					? '[name].[contenthash].css'
 					: '[name].css',
+				hot: argv.mode !== 'production',
 				allChunks: true
 			}),
 			new ManifestPlugin({
@@ -150,7 +152,9 @@ module.exports = (env, argv) => {
 			}),
 			new ConcatPlugin({
 				name: 'vendor',
-				fileName: 'vendor.[hash].js',
+				fileName: argv.mode === 'production'
+					? 'vendor.[hash].js'
+					: 'vendor.js',
 				filesToConcat: scripts
 			})
 		].filter(Boolean),
@@ -163,7 +167,9 @@ module.exports = (env, argv) => {
 			moment: 'moment',
 			jquery: 'jQuery'
 		},
-		devtool: 'source-map',
+		devtool: argv.mode === 'production'
+			? 'source-map'
+			: 'cheap-eval-source-map',
 		optimization: {
 			splitChunks: {
 				cacheGroups: {
@@ -176,16 +182,28 @@ module.exports = (env, argv) => {
 			}
 		},
 		devServer: {
-			port: 8000,
+			host: DEV_SERVER_HOST,
+			port: DEV_SERVER_PORT,
 			https: true,
+			hot: true,
+			inline: true,
 			index: '',
+			contentBase: path.join(__dirname, 'public'),
+			disableHostCheck: true,
+			allowedHosts: [
+				'*'
+			],
+			headers: { 'Access-Control-Allow-Origin': '*' },
 			proxy: {
 				context: () => true,
 				target: APP_URL,
 				changeOrigin: true,
-				secure: false
+				secure: false,
 			},
-			writeToDisk: true
+			writeToDisk: true,
+			watchOptions: {
+				poll: false
+			}
 		}
 	};
 };

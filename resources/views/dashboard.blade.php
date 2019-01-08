@@ -1,10 +1,8 @@
 @extends('app')
 
-@if (App::environment("production"))
-	@push('stylesheets')
-		<link rel="stylesheet" href="{{ mix('dashboard.css') }}" />
-	@endpush
-@endif
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ mix('dashboard.css') }}" />
+@endpush
 @push('styles')
 	<style>
 		.dashboard-welcome-alert p {
