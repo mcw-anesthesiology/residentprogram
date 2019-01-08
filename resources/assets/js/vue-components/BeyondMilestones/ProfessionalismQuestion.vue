@@ -1,6 +1,6 @@
 <template>
-	<section class="professionalism-question">
-		<h2 v-if="title">{{ title }}</h2>
+	<section class="beyond-milestones-question professionalism-question">
+		<h3 v-if="title">{{ title }}</h3>
 		<div v-if="intro" class="intro">{{ intro }}</div>
 
 		<div class="text">{{ text }}</div>
@@ -20,12 +20,21 @@
 </template>
 
 <style scoped>
+	h3 {
+		margin-top: 0;
+	}
+
+	.intro,
+	.text {
+		margin: 0.5em;
+	}
+
 	fieldset {
 		display: flex;
 		flex-wrap: wrap;
 	}
 
-	fieldset label {
+	label {
 		display: flex;
 		align-items: center;
 		margin: 0.5em;

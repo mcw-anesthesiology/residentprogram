@@ -23,6 +23,7 @@ export function createEvaluationPage(el, propsData) {
 		propsData,
 		data() {
 			return {
+				saveForm: false,
 				decline: {
 					reason: null,
 					alerts: []
@@ -43,6 +44,43 @@ export function createEvaluationPage(el, propsData) {
 			}
 		},
 		methods: {
+			checkForm(event) {
+				//Checks the evaluation to make sure every question is answered before submitting the form
+				let firstInput = null;
+				let alertText = '';
+
+				$('#evaluation input:radio').each(function(){
+					const name = $(this).attr('name');
+					if (
+						$(this).attr('required') === 'required'
+						&& $(`input:radio[name="${name}"]:checked`).length === 0
+					) {
+						if (!firstInput) {
+							firstInput = this;
+						}
+						alertText = 'Please complete each required question';
+						event.preventDefault();
+					}
+				});
+
+				$('#evaluation textarea').each(function(){
+					if ($(this).attr('required') === 'required' && this.value === '') {
+						if (!firstInput) {
+							firstInput = this;
+						}
+						alertText = 'Please complete each required question';
+						event.preventDefault();
+					}
+				});
+
+				if (firstInput) {
+					$(firstInput).focus();
+				}
+
+				if (alertText) {
+					alert(alertText);
+				}
+			},
 			declineEvaluation() {
 				if (!this.decline.reason) {
 					this.decline.alerts.push({

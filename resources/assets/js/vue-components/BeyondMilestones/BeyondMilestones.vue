@@ -1,5 +1,7 @@
 <template>
-	<div class="beyond-milestones">
+	<section class="beyond-milestones">
+		<h2>Beyond Milestones</h2>
+
 		<beyond-milestones-scenario v-for="{scenario} of formScenarios" :key="scenario.id"
 			v-bind="scenario"
 			:evaluationId="evaluation.id"
@@ -11,8 +13,31 @@
 			:evaluationId="evaluation.id"
 			:readonly="evaluation.status !== 'pending'"
 		/>
-	</div>
+	</section>
 </template>
+
+<style scoped>
+	.beyond-milestones {
+		border: 1px solid #aaa;
+		border-radius: 3px;
+		padding: 1em;
+	}
+
+	.beyond-milestones :global(.beyond-milestones-question) {
+		border: 1px solid blue;
+		border-radius: 5px;
+		padding: 1em;
+		margin-bottom: 1em;
+	}
+
+	.beyond-milestones :global(.beyond-milestones-question:last-child) {
+		margin-bottom: 0;
+	}
+
+	h2 {
+		margin-top: 0;
+	}
+</style>
 
 <script>
 import gql from 'graphql-tag';
