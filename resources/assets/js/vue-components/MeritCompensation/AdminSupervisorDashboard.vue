@@ -1,18 +1,72 @@
+<template>
+	<div id="admin-supervisor-merit-reports-container">
+		<div class="container body-block">
+			<h2>All merit reports</h2>
+			<div v-if="usersWithReports">
+				<component-list :fields="['full_name']"
+					:items="usersWithReports"
+					:paginate="false"
+					reloadable
+					@reload="handleReload"
+				>
+					<template slot-scope="reportUser">
+						<user-with-merit-report-list-item v-bind="reportUser"
+							:user="user"
+							@change="handleChange"
+							@close="handleClose"
+						/>
+					</template>
+				</component-list>
+			</div>
+
+			<alert-list v-model="alerts"></alert-list>
+		</div>
+
+		<div class="container body-block">
+			<h2>Create checklist</h2>
+			<form @submit="createUserReport">
+				<div class="form-group">
+					<label class="containing-label">
+						Checklist period
+						<academic-year-selector v-model="createDates"></academic-year-selector>
+					</label>
+				</div>
+				<div class="form-group">
+					<label class="containing-label">
+						User
+						<select-two v-model="userToCreateReport"
+							:options="usersWithoutReportsOptions"
+						/>
+					</label>
+				</div>
+
+				<button type="submit" class="btn btn-primary"
+					:disabled="!userToCreateReport"
+				>
+					Create report
+				</button>
+			</form>
+		</div>
+	</div>
+</template>
+
+<script>
 import gql from 'graphql-tag';
 
-import AlertList from '@/vue-components/AlertList.vue';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 import ComponentList from '@/vue-components/ComponentList.vue';
 
 import { handleError } from '@/modules/errors.js';
 import { isoDateStringObject } from '@/modules/date-utils.js';
 import { getCurrentYearlyMeritDateRange } from '@/modules/merit-utils.js';
 import {
-	getFetchHeaders,
-	jsonOrThrow,
 	isAdmin,
 	usesFeature,
 	groupUsers
 } from '@/modules/utils.js';
+
+import { MERIT_REPORT_LIST_FIELDS } from '@/graphql/merit.js';
 
 const USERS_QUERY = gql`
 	query AdminSupervisorMeritUsers {
@@ -25,30 +79,25 @@ const USERS_QUERY = gql`
 			training_level
 			status
 			meritReports {
-				id
+				...MeritReportListFields
 			}
 		}
 	}
+	${MERIT_REPORT_LIST_FIELDS}
 `;
 
 export default {
+	mixins: [
+		HasAlerts
+	],
 	props: {
 		user: {
-			type: Object,
-			required: true
-		},
-		meritReportTypes: {
-			type: Object,
-			required: true
-		},
-		meritReportTypeForms: {
 			type: Object,
 			required: true
 		}
 	},
 	data() {
 		return {
-			usersWithReports: null,
 			users: [],
 
 			userToCreateReport: null,
@@ -65,6 +114,9 @@ export default {
 		currentUserIsAdminOrSupervisor() {
 			return isAdmin(this.user) || usesFeature(this.user, 'FACULTY_MERIT');
 		},
+		usersWithReports() {
+			return this.users.filter(u => u.meritReports.length > 0);
+		},
 		usersWithoutReports() {
 			return this.users.filter(u => u.meritReports.length === 0);
 		},
@@ -74,20 +126,6 @@ export default {
 	},
 
 	methods: {
-		fetchUsersWithReports() {
-			if (!this.currentUserIsAdminOrSupervisor)
-				return;
-
-			fetch('/merits/by-user', {
-				method: 'GET',
-				headers: getFetchHeaders(),
-				credentials: 'same-origin'
-			}).then(jsonOrThrow).then(usersWithReports => {
-				this.usersWithReports = usersWithReports;
-			}).catch(err => {
-				handleError(err, this, 'There was a problem fetching users with reports');
-			});
-		},
 		createUserReport(event) {
 			event.preventDefault();
 
@@ -136,14 +174,36 @@ export default {
 			}).catch(err => {
 				handleError(err, this, 'There was a problem creating the checklist');
 			});
+		},
+		handleReload() {
+			this.$apollo.queries.users.refetch();
+		},
+		handleChange(id) {
+			this.$apollo.query({
+				query: gql`
+					query RefetchMeritReport($id: ID!) {
+						meritReport(id: $id) {
+							...MeritReportListFields
+						}
+					}
+					${MERIT_REPORT_LIST_FIELDS}
+				`,
+				variables: {
+					id
+				},
+				fetchPolicy: 'network-only'
+			});
+		},
+		handleClose() {
+			this.$router.push({ path: '/' });
 		}
 	},
 
 	components: {
-		AlertList,
 		ComponentList,
 		UserWithMeritReportListItem: () => import('#/MeritCompensation/UserWithReportListItem.vue'),
 		AcademicYearSelector: () => import('#/AcademicYearSelector.vue'),
 		SelectTwo: () => import('#/SelectTwo.vue')
 	}
 };
+</script>

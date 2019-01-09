@@ -3,7 +3,7 @@
 import moment from 'moment';
 import { logError } from './errors.js';
 import { isoDateStringObject, academicYearForDate } from './date-utils.js';
-import { getFetchHeaders, jsonOrThrow } from './utils.js';
+import { ucfirst, getFetchHeaders, jsonOrThrow } from './utils.js';
 import * as validateQuestionnaire from './questionnaire/validate.js';
 import * as validateMerit from './merits/validate.js';
 
@@ -181,4 +181,34 @@ export function fetchAllMeritReports(): Promise<Array<MeritReport>> {
 		headers: getFetchHeaders(),
 		credentials: 'same-origin'
 	}).then(jsonOrThrow);
+}
+
+export function getStatusLabel(status: string): string {
+	switch (status.toUpperCase()) {
+		case 'PENDING':
+			return 'warning';
+		case 'COMPLETE':
+			return 'success';
+		case 'OPEN':
+			return 'info';
+		case 'DISABLED':
+			return 'danger';
+		default:
+			return 'default';
+	}
+}
+
+export function getStatusText(status: string): string {
+	switch (status.toUpperCase()) {
+		case 'PENDING':
+			return 'Pending';
+		case 'COMPLETE':
+			return 'Complete';
+		case 'OPEN':
+			return 'Open for editing';
+		case 'DISABLED':
+			return 'Disabled';
+		default:
+			return ucfirst(status.toLowerCase());
+	}
 }

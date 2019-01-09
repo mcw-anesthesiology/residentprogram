@@ -14,20 +14,15 @@
 </template>
 
 <script>
-import MeritReport from './Report.vue';
+import { MERIT_REPORT_QUERY } from '@/graphql/merit.js';
 
-import { emitError } from '@/modules/errors.js';
-import { fetchAllMeritReports } from '@/modules/merit-utils.js';
+import MeritReport from './Report.vue';
 
 export default {
 	props: {
 		id: {
 			type: [ Number, String ],
 			required: true
-		},
-		meritReports: {
-			type: Array,
-			required: false
 		},
 		title: {
 			type: String,
@@ -41,40 +36,17 @@ export default {
 
 	data() {
 		return {
-			fetchedReports: null
+			meritReport: null
 		};
 	},
-
-	computed: {
-		reports() {
-			return this.meritReports || this.fetchedReports;
-		},
-		meritReport() {
-			let id = Number(this.id);
-			if (Number.isNaN(id) || !this.reports)
-				return;
-
-			return this.reports.find(report => report.id === id);
-		}
-	},
-
-	mounted() {
-		if (
-			!this.meritReports
-			|| !Array.isArray(this.meritReports)
-			|| this.meritReports.length === 0
-		) {
-			this.fetchReports();
-		}
-	},
-
-	methods: {
-		fetchReports() {
-			fetchAllMeritReports().then(merits => {
-				this.fetchedReports = merits;
-			}).catch(err => {
-				emitError(err, this, 'There was a problem fetching past merit reports');
-			});
+	apollo: {
+		meritReport: {
+			query: MERIT_REPORT_QUERY,
+			variables() {
+				return {
+					id: this.id
+				};
+			}
 		}
 	},
 

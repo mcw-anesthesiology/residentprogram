@@ -10,20 +10,15 @@
 </template>
 
 <script>
-import MeritReportSummary from './Summary.vue';
+import { MERIT_REPORT_QUERY } from '@/graphql/merit.js';
 
-import { handleError } from '@/modules/errors.js';
-import { fetchAllMeritReports } from '@/modules/merit-utils.js';
+import MeritReportSummary from './Summary.vue';
 
 export default {
 	props: {
 		id: {
 			type: [ Number, String ],
 			required: true
-		},
-		meritReports: {
-			type: Array,
-			required: false
 		},
 		title: {
 			type: String,
@@ -37,43 +32,24 @@ export default {
 
 	data() {
 		return {
-			fetchedReports: null
+			meritReport: null
 		};
 	},
 
-	computed: {
-		reports() {
-			return this.meritReports || this.fetchedReports;
-		},
-		meritReport() {
-			let id = Number(this.id);
-			if (Number.isNaN(id) || !this.reports)
-				return;
+	apollo: {
+		meritReport: {
+			query: MERIT_REPORT_QUERY,
+			variables() {
+				return {
+					id: this.id
+				};
+			}
+		}
+	},
 
-			return this.reports.find(report => report.id === id);
-		},
+	computed: {
 		meritReportTitle() {
 			return this.title || this.meritReport.form.name;
-		}
-	},
-
-	mounted() {
-		if (
-			!this.meritReports
-			|| !Array.isArray(this.meritReports)
-			|| this.meritReports.length === 0
-		) {
-			this.fetchReports();
-		}
-	},
-
-	methods: {
-		fetchReports() {
-			fetchAllMeritReports().then(merits => {
-				this.fetchedReports = merits;
-			}).catch(err => {
-				handleError(err, this, 'There was a problem fetching past merit reports');
-			});
 		}
 	},
 

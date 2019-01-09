@@ -67,6 +67,15 @@ export default {
 	},
 
 	methods: {
+		addMeritReport() {
+			this.$apollo.mutate({
+				mutation: gql`
+					createMyMeritChecklist {
+						id
+					}
+				`
+			})
+		},
 		finishMeritReport() {
 			if (!this.inProgressReport)
 				return;

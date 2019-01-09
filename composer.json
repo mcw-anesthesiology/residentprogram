@@ -24,7 +24,8 @@
         "rollbar/rollbar-laravel": "^2.3",
 		"fideloper/proxy": "^4.0",
 		"vinkla/hashids": "^5.1",
-        "nuwave/lighthouse": "^2.6"
+        "nuwave/lighthouse": "^2.6",
+		"mll-lab/graphql-php-scalars": "^1.0"
     },
     "require-dev": {
 		"filp/whoops": "~2.0",

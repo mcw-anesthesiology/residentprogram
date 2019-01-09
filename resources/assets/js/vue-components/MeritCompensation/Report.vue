@@ -102,7 +102,7 @@ import { isAdmin, getFetchHeaders, okOrThrow } from '@/modules/utils.js';
 export default {
 	props: {
 		id: {
-			type: Number,
+			type: [Number, String],
 			required: false
 		},
 		period_start: {

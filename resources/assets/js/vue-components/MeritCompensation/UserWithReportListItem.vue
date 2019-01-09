@@ -7,16 +7,14 @@
 						<h3>{{ full_name }}</h3>
 					</div>
 					<div class="col-sm-10">
-						<component-list :fields="meritReportFields" :items="merit_reports"
+						<component-list :fields="meritReportFields" :items="meritReports"
 								:field-accessors="meritReportFieldAccessors"
 								:paginate="false"
 								default-sort-order="desc">
 							<template slot-scope="item">
 								<merit-report-list-item v-bind="item"
 									:user="user"
-									@click="handleReportClick"
-									@summary="handleViewSummary"
-									@change="$emit('change')" />
+									@change="$emit('change', item.id)" />
 							</template>
 						</component-list>
 					</div>
@@ -43,7 +41,7 @@ export default {
 			type: String,
 			required: true
 		},
-		merit_reports: {
+		meritReports: {
 			type: Array,
 			required: true
 		},
@@ -51,14 +49,6 @@ export default {
 			type: Object,
 			required: false
 		}
-	},
-	data() {
-		return {
-			viewedReport: null,
-			viewedReportSummary: null,
-			saving: false,
-			savingSuccessful: false
-		};
 	},
 
 	computed: {
@@ -72,28 +62,6 @@ export default {
 			return {
 				'form_name': meritReport => meritReport.form.name
 			};
-		}
-	},
-
-	watch: {
-		merit_reports(meritReports) {
-			if (this.viewedReport)
-				this.viewedReport = meritReports.find(meritReport =>
-					meritReport.id === this.viewedReport.id);
-
-			if (this.viewedReportSummary)
-				this.viewedReportSummary = meritReports.find(meritReport =>
-					meritReport.id === this.viewedReportSummary.id
-				);
-		}
-	},
-
-	methods: {
-		handleReportClick(reportId) {
-			this.$emit('view-report', reportId);
-		},
-		handleViewSummary(reportId) {
-			this.$emit('view-summary', reportId);
 		}
 	},
 

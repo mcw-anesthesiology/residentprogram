@@ -1,3 +1,4 @@
+export * from './alerts.js';
 export * from './alumni.js';
 export * from './case-log.js';
 export * from './case-overlaps.js';
