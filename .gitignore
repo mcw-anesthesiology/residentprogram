@@ -10,4 +10,5 @@ public/build/js/stats.json
 /public/build/
 /public/css/
 /public/js/
+/public/mix-manifest.json
 /*.log

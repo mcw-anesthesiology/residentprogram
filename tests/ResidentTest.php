@@ -333,7 +333,8 @@ class ResidentTest extends BrowserKitTestCase
 			->seeJson(["id" => $evals[1]->id])
 			->seeJson(["id" => $anotherEval->id])
 			->dontSeeJson(["id" => $anonymousEval->id])
-			->seeJson(["id" => Hashids::encode($anonymousEval->id), "evaluator_id" => null]);
+			->seeJson(["id" => Hashids::encode($anonymousEval->id)])
+			->dontSeeJson(['id' => $hiddenEval->id]);
     }
 
     public function testFacultyProfile(){

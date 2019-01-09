@@ -17,10 +17,6 @@
 	</style>
 @stop
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir("css/vue-manage.css") }}" />
-@endpush
-
 @section("blockless-body")
 <div class="container body-block">
 	<div class="row" v-if="milestones">
@@ -330,7 +326,6 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-manage.js') }}"></script>
 	<script>
 		createManageMilestonesCompetencies('main');
 	</script>

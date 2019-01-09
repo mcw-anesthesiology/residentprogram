@@ -65,6 +65,19 @@ return [
             'strict'    => false,
         ],
 
+		'beyond_milestones' => [
+            'driver'    => 'mysql',
+            'host'      => env('BEYOND_MILESTONES_DB_HOST', 'localhost'),
+			'port'		=> env('BEYOND_MILESTONES_DB_PORT', 3306),
+            'database'  => env('BEYOND_MILESTONES_DB_DATABASE', 'forge'),
+            'username'  => env('BEYOND_MILESTONES_DB_USERNAME', 'forge'),
+            'password'  => env('BEYOND_MILESTONES_DB_PASSWORD', ''),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+		],
+
         'mysql_testing' => [
             'driver'    => 'mysql',
             'host'      => env('TESTING_DB_HOST', 'localhost'),

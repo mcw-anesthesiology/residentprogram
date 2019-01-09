@@ -1,8 +1,6 @@
-import Vue from '@/vue-constructors/index.js';
+import Vue from '@/vue-constructors/vue.js';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
-
-import FormBuilder from '@/vue-components/FormBuilder/FormBuilder.vue';
 
 import { handleError } from '@/modules/errors.js';
 import { getFetchHeaders } from '@/modules/utils.js';
@@ -43,7 +41,7 @@ export function createFormBuilder(el, propsData){
 		},
 
 		components: {
-			FormBuilder
+			FormBuilder: () => import('@/vue-components/FormBuilder/FormBuilder.vue')
 		}
 	});
 }

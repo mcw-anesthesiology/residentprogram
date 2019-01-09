@@ -13,10 +13,6 @@
 	</style>
 @stop
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir("css/vue-milestone-competency-lists.css") }}" />
-@endpush
-
 @section("body")
 	<div id="form">
 		{!! App\Helpers\FormReader::read($form->xml_path) !!}
@@ -24,7 +20,6 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-milestone-competency-lists.js') }}"></script>
 	<script>
 		var milestoneQuestions = {!! $form->milestoneQuestions->groupBy('question_id')->toJson() !!};
 		var competencyQuestions = {!! $form->competencyQuestions->groupBy('question_id')->toJson() !!};

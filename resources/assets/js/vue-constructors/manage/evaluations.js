@@ -1,4 +1,4 @@
-import Vue from '@/vue-constructors/index.js';
+import Vue from '@/vue-constructors/vue.js';
 
 import EvaluationDataTable from '@/vue-components/EvaluationDataTable.vue';
 

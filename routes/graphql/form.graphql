@@ -1,0 +1,48 @@
+extend type Query @middleware(checks: ["auth", "type:admin"]) {
+    forms: [Form!]! @all(model: "App\\Form")
+    form(id: ID! @eq): Form @find(model: "App\\Form")
+}
+
+enum FormStatus {
+	active
+	inactive
+}
+
+enum FormType {
+	resident
+	fellow
+	faculty
+	app
+	intern
+}
+
+enum EvaluatorType {
+	resident
+	self
+	staff
+	faculty
+	ca1 @enum(value: "ca-1")
+}
+
+enum Visibility {
+	visible
+	anonymous
+	hidden
+}
+
+enum EvaluationPeriodType {
+	month
+	year
+	block
+}
+
+type Form {
+	id: ID!
+	title: String!
+	xml_path: String!
+	status: FormStatus!
+	type: FormType!
+	evaluator_type: EvaluatorType!
+	visibility: Visibility!
+	evaluation_period_type: EvaluationPeriodType
+}

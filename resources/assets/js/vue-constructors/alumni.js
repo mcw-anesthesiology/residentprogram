@@ -1,9 +1,6 @@
-import Vue from '@/vue-constructors/index.js';
+import Vue from '@/vue-constructors/vue.js';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
-
-import EditAlumni from '@/vue-components/Alumni/Edit.vue';
-import AlumniSubscription from '@/vue-components/Alumni/Subscription.vue';
 
 import { handleError } from '@/modules/errors.js';
 import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
@@ -63,8 +60,8 @@ export function createAlumni(el, propsData) {
 		},
 
 		components: {
-			EditAlumni,
-			AlumniSubscription
+			EditAlumni: () => import('@/vue-components/Alumni/Edit.vue'),
+			AlumniSubscription: () => import('@/vue-components/Alumni/Subscription.vue')
 		}
 	});
 }

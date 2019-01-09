@@ -98,7 +98,6 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-user.js') }}"></script>
 	<script>
 		$("#new-password-confirm").keyup(function(){
 			if($("#new-password").val() == $("#new-password-confirm").val())

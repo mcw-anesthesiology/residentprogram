@@ -1,3 +1,4 @@
+/** @format */
 /* @flow */
 
 import moment from 'moment';
@@ -133,27 +134,27 @@ export function appendAlert(
 	alertType: string = 'danger',
 	dismissable: boolean = true
 ): void {
-	let alert = document.createElement("div");
-	alert.className = "alert alert-" + alertType;
+	let alert = document.createElement('div');
+	alert.className = 'alert alert-' + alertType;
 	alert.setAttribute('role', 'alert');
 
 	if (dismissable) {
-		alert.className += " alert-dismissable";
-		let close = document.createElement("button");
-		close.type = "button";
-		close.className = "close";
-		close.setAttribute("data-dismiss", "alert");
-		close.setAttribute("aria-label", "Close");
+		alert.className += ' alert-dismissable';
+		let close = document.createElement('button');
+		close.type = 'button';
+		close.className = 'close';
+		close.setAttribute('data-dismiss', 'alert');
+		close.setAttribute('aria-label', 'Close');
 
-		let innerClose = document.createElement("span");
-		innerClose.setAttribute("aria-hidden", "true");
-		innerClose.innerHTML = "&times;";
+		let innerClose = document.createElement('span');
+		innerClose.setAttribute('aria-hidden', 'true');
+		innerClose.innerHTML = '&times;';
 		close.appendChild(innerClose);
 
 		alert.appendChild(close);
 	}
 
-	alert.insertAdjacentHTML("beforeend", alertText);
+	alert.insertAdjacentHTML('beforeend', alertText);
 
 	$(parent).append(alert);
 }
@@ -163,30 +164,30 @@ export function escapeCsv(text: string): string {
 }
 
 export function getFetchHeaders(
-	options: {contentType?: string} = {}
+	options: { contentType?: string } = {}
 ): Headers {
-	let contentType = ('contentType' in options)
-		? options.contentType
-		: 'application/json';
+	let contentType =
+		'contentType' in options ? options.contentType : 'application/json';
 
 	let headers = new Headers();
-	headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+	headers.append(
+		'Access-Control-Allow-Methods',
+		'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+	);
 
-	if (contentType)
-		headers.append('Content-Type', contentType);
+	if (contentType) headers.append('Content-Type', contentType);
 
 	headers.append('X-Requested-With', 'XMLHttpRequest');
 
 	const csrfToken = getCsrfToken();
-	if (csrfToken)
-		headers.append('X-CSRF-TOKEN', csrfToken);
+	if (csrfToken) headers.append('X-CSRF-TOKEN', csrfToken);
 
 	return headers;
 }
 
 export function fetchConfig(
-	options: {contentType?: string} = {}
-): {headers: Headers, credentials: 'same-origin'} {
+	options: { contentType?: string } = {}
+): { headers: Headers, credentials: 'same-origin' } {
 	return {
 		headers: getFetchHeaders(options),
 		credentials: 'same-origin'
@@ -196,22 +197,19 @@ export function fetchConfig(
 export function getCsrfToken(): ?string {
 	let tokenMeta = document.querySelector('meta[name="csrf-token"]');
 
-	if (!tokenMeta)
-		return;
+	if (!tokenMeta) return;
 
 	return tokenMeta.getAttribute('content');
 }
 
 export function okOrThrow(response: Response): Response {
-	if (response.ok)
-		return response;
+	if (response.ok) return response;
 
 	throw new Error(response.statusText);
 }
 
 export function jsonOrThrow(response: Response): Object {
-	if (response.ok)
-		return response.json();
+	if (response.ok) return response.json();
 
 	throw new Error(response.statusText);
 }
@@ -221,9 +219,9 @@ export function fetchCompetencies(): Promise<Object> {
 		method: 'GET',
 		headers: getFetchHeaders(),
 		credentials: 'same-origin'
-	}).then(jsonOrThrow).then(competencies =>
-		competencies.sort(sortPropNumbers('order'))
-	);
+	})
+		.then(jsonOrThrow)
+		.then(competencies => competencies.sort(sortPropNumbers('order')));
 }
 
 export function fetchMilestoneGroups(): Promise<Array<Select2OptGroup>> {
@@ -235,40 +233,41 @@ export function fetchMilestones(): Promise<Array<Milestone>> {
 		method: 'GET',
 		headers: getFetchHeaders(),
 		credentials: 'same-origin'
-	}).then(jsonOrThrow).then(milestones =>
-		milestones.sort(sortPropNumbers('order'))
-	);
+	})
+		.then(jsonOrThrow)
+		.then(milestones => milestones.sort(sortPropNumbers('order')));
 }
 
-export function groupMilestones(milestones: Array<Milestone>): Array<Select2OptGroup> {
-	let milestoneGroups: {[string]: Select2OptGroup} = {};
+export function groupMilestones(
+	milestones: Array<Milestone>
+): Array<Select2OptGroup> {
+	let milestoneGroups: { [string]: Select2OptGroup } = {};
 
-	for(let milestone of milestones) {
+	for (let milestone of milestones) {
 		let groupTitle = ucfirst(milestone.type);
 
-		if (milestone.training_level)
-			groupTitle += ` — ${milestone.training_level}`;
+		if (milestone.training_level) {
+			groupTitle = `${groupTitle} — ${milestone.training_level}`;
+		}
 
-		if (!milestoneGroups[groupTitle])
+		if (!milestoneGroups[groupTitle]) {
 			milestoneGroups[groupTitle] = {
 				text: groupTitle,
 				children: []
 			};
+		}
 
 		milestoneGroups[groupTitle].children.push({
 			id: milestone.id.toString(),
 			text: milestone.title
 		});
 	}
-	for(let groupTitle in milestoneGroups) {
+	for (let groupTitle in milestoneGroups) {
 		let milestoneGroup = milestoneGroups[groupTitle];
 		milestoneGroup.children.sort((a, b) => {
-			if (a.text < b.text)
-				return 1;
-			else if (a.text > b.text)
-				return -1;
-			else
-				return 0;
+			if (a.text < b.text) return 1;
+			else if (a.text > b.text) return -1;
+			else return 0;
 		});
 	}
 
@@ -344,17 +343,17 @@ export function groupUsers(users: Array<User>): Array<Select2OptGroup> {
 
 		if (user.status === 'active') {
 			if (user.type) {
-				if (user.type === 'resident' && user.training_level
-				&& groups[user.training_level]) {
-
+				if (
+					user.type === 'resident' &&
+					user.training_level &&
+					groups[user.training_level]
+				) {
 					groups[user.training_level].children.push(select2Obj);
-				}
-				else if (groups[user.type]) {
+				} else if (groups[user.type]) {
 					groups[user.type].children.push(select2Obj);
 				}
 			}
-		}
-		else {
+		} else {
 			groups.inactive.children.push(select2Obj);
 		}
 	});
@@ -381,7 +380,7 @@ export function fetchFormGroups(): Promise<Array<Select2OptGroup>> {
 }
 
 export function groupForms(forms: Array<Form>): Array<Select2OptGroup> {
-	let groups: {[string]: Select2OptGroup} = {};
+	let groups: { [string]: Select2OptGroup } = {};
 
 	for (const form of forms) {
 		if (form.type) {
@@ -409,74 +408,73 @@ export function groupForms(forms: Array<Form>): Array<Select2OptGroup> {
 }
 
 export function sortSelect2Objects(a: Select2Option, b: Select2Option): number {
-	if (a.text < b.text)
-		return -1;
-	if (a.text > b.text)
-		return 1;
+	if (a.text < b.text) return -1;
+	if (a.text > b.text) return 1;
 
 	return 0;
 }
 
 export function sortEmptyLast(a: any, b: any): ?number {
-	let aEmpty = (a == null || (typeof a === 'string' && a.trim() === ''));
-	let bEmpty = (b == null || (typeof b === 'string' && b.trim() === ''));
+	let aEmpty = a == null || (typeof a === 'string' && a.trim() === '');
+	let bEmpty = b == null || (typeof b === 'string' && b.trim() === '');
 
-	if (aEmpty && bEmpty)
-		return 0;
-	if (aEmpty)
-		return 1;
-	if (bEmpty)
-		return -1;
+	if (aEmpty && bEmpty) return 0;
+	if (aEmpty) return 1;
+	if (bEmpty) return -1;
 }
 
 export function sortNumbers(a: number, b: number): number {
 	let emptyVal = sortEmptyLast(a, b);
-	if (emptyVal != null)
-		return emptyVal;
+	if (emptyVal != null) return emptyVal;
 
 	return Number(a) - Number(b);
 }
 
-export function sortPropNumbers(prop: string): ({prop: number}, {prop: number}) => number {
+export function sortPropNumbers(
+	prop: string
+): ({ prop: number }, { prop: number }) => number {
 	return (a, b) => sortNumbers(a[prop], b[prop]);
 }
 
 export function sortDates(a: DateLike, b: DateLike): number {
 	let emptyVal = sortEmptyLast(a, b);
-	if (emptyVal != null)
-		return emptyVal;
+	if (emptyVal != null) return emptyVal;
 
 	return moment(a) - moment(b);
 }
 
-export function sortPropDates(prop: string): ({prop: DateLike}, {prop: DateLike}) => number {
+export function sortPropDates(
+	prop: string
+): ({ prop: DateLike }, { prop: DateLike }) => number {
 	return (a, b) => sortDates(a[prop], b[prop]);
 }
 
 export function sortIgnoreCase(a: string, b: string): number {
 	let emptyVal = sortEmptyLast(a, b);
-	if (emptyVal != null)
-		return emptyVal;
+	if (emptyVal != null) return emptyVal;
 
 	a = a.toLowerCase();
 	b = b.toLowerCase();
 
-	if (a < b)
-		return -1;
-	if (a > b)
-		return 1;
+	if (a < b) return -1;
+	if (a > b) return 1;
 
 	return 0;
 }
 
-export function sortPropIgnoreCase(prop: string): ({prop: string}, {prop: string}) => number {
+export function sortPropIgnoreCase(
+	prop: string
+): ({ prop: string }, { prop: string }) => number {
 	return (a, b) => sortIgnoreCase(a[prop], b[prop]);
 }
 
-export function htmlLabelReplacements(html: string, replacements: Array<string>) {
-	html = html.replace(/<span class="label label-info">/g, '[[')
+export function htmlLabelReplacements(
+	html: string,
+	replacements: Array<string>
+) {
+	html = html
+		.replace(/<span class="label label-info">/g, '[[')
 		.replace(/<\/span>/g, ']]');
-
 
 	replacements.map(replacement => {
 		const pattern = new RegExp(`\\[\\[${replacement}\\]\\]`, 'g');
@@ -487,7 +485,9 @@ export function htmlLabelReplacements(html: string, replacements: Array<string>)
 	return html;
 }
 
-export type BootstrapAlertItem = BootstrapAlertTextItem | BootstrapAlertHtmlItem;
+export type BootstrapAlertItem =
+	| BootstrapAlertTextItem
+	| BootstrapAlertHtmlItem;
 
 type BootstrapAlertBaseItem = {
 	type?: 'info' | 'success' | 'warning' | 'error' | 'danger',
@@ -519,7 +519,7 @@ export function simpleErrorAlert(message: string): BootstrapAlertItem {
 }
 
 export function userIsType(user: User, type: string) {
-	return (user != null && 'type' in user && user.type === type);
+	return user != null && 'type' in user && user.type === type;
 }
 
 export function isAdmin(user: User) {
@@ -529,8 +529,7 @@ export function isAdmin(user: User) {
 export function usesFeature(user: User, feature: string) {
 	if ('user_features' in user && Array.isArray(user.user_features)) {
 		for (let userFeature of user.user_features) {
-			if (userFeature.feature === feature)
-				return true;
+			if (userFeature.feature === feature) return true;
 		}
 	}
 
@@ -539,8 +538,7 @@ export function usesFeature(user: User, feature: string) {
 
 export function arraysIntersect(arr1: Array<any>, arr2: Array<any>): boolean {
 	for (const item of arr1) {
-		if (arr2.includes(item))
-			return true;
+		if (arr2.includes(item)) return true;
 	}
 
 	return false;
@@ -561,10 +559,12 @@ export function getRandom(arr: Array<any>): any {
 }
 
 export function updateSearchParams(params: URLSearchParams) {
-	const newUrl = window.location.origin
-		+ window.location.hash
-		+ window.location.pathname
-		+ '?' + params.toString();
+	const newUrl =
+		window.location.origin +
+		window.location.hash +
+		window.location.pathname +
+		'?' +
+		params.toString();
 	window.history.replaceState(null, null, newUrl);
 }
 
@@ -574,4 +574,42 @@ export function normalizeWhitespace(str: string): string {
 
 export function queryParams(obj) {
 	return $.param(obj);
+}
+
+export function decimalAdjust(type, value, exp) {
+	// If the exp is undefined or zero...
+	if (typeof exp === 'undefined' || +exp === 0) {
+		return Math[type](value);
+	}
+	value = +value;
+	exp = +exp;
+	// If the value is not a number or the exp is not an integer...
+	if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+		return NaN;
+	}
+	// Shift
+	value = value.toString().split('e');
+	value = Math[type](+(value[0] + 'e' + (value[1] ? +value[1] - exp : -exp)));
+	// Shift back
+	value = value.toString().split('e');
+	return +(value[0] + 'e' + (value[1] ? +value[1] + exp : exp));
+}
+
+// Decimal round
+if (!Math.round10) {
+	Math.round10 = function(value, exp) {
+		return decimalAdjust('round', value, exp);
+	};
+}
+// Decimal floor
+if (!Math.floor10) {
+	Math.floor10 = function(value, exp) {
+		return decimalAdjust('floor', value, exp);
+	};
+}
+// Decimal ceil
+if (!Math.ceil10) {
+	Math.ceil10 = function(value, exp) {
+		return decimalAdjust('ceil', value, exp);
+	};
 }

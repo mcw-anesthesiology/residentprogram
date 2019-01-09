@@ -1,7 +1,6 @@
 @extends('app')
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir('css/vue-manage.css') }}" />
+@push('styles')
 	<style>
 		.component-list-header {
 			border-bottom: 1px solid #888;
@@ -61,7 +60,6 @@
 @endsection
 
 @push('scripts')
-	<script src="{{ elixir('js/vue-manage.js') }}"></script>
 	<script>
 		createManagePrograms('main');
 	</script>

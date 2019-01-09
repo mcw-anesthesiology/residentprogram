@@ -1,5 +1,3 @@
-import Vue from '@/vue-constructors/index.js';
-
 import EditorV2 from './Editor.vue';
 import EditorV1 from './V1/Editor.vue';
 
