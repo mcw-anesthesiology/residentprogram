@@ -1,0 +1,92 @@
+extend type Query @middleware(checks: ["auth", "type:admin", "site-feature:faculty_merit"]) {
+	meritReports: [MeritReport!]! @all(model: "App\\MeritReport")
+
+	meritReportForms: [MeritReportForm!]! @all
+}
+
+extend type Mutation @middleware(checks: ["auth", "type:admin", "site-feature:faculty_merit"]) {
+	createUserMerit(
+		user_id: ID!
+		form_id: ID!
+		period_start: Date!
+		period_end: Date!
+		notes: String
+		status: MeritReportStatus
+	): MeritReport @create
+
+	updateUserMerit(
+		id: ID!
+		user_id: ID
+		form_id: ID
+		period_start: Date
+		period_end: Date
+		notes: String
+		status: MeritReportStatus
+	): MeritReport @update
+}
+
+extend type Query @middleware(checks: ["auth", "site-feature:faculty_merit"]) {
+	meritReport(id: ID! @eq): MeritReport @find
+	meritReportForm(id: ID! @eq): MeritReportForm @find
+	facultyMeritChecklistForm: MeritReportForm
+}
+
+extend type Mutation @middleware(checks: ["auth", "type:faculty", "site-feature:faculty_merit"]) {
+	createMyMeritChecklist: MeritReport
+}
+
+type MeritReport {
+	id: ID!
+	user_id: ID!
+	user: User! @belongsTo
+	form_id: ID!
+	form: MeritReportForm! @belongsTo
+	period_start: Date!
+	period_end: Date!
+	status: MeritReportStatus
+	report: Mixed!
+	notes: String
+	title: String
+	created_at: Date!
+	updated_at: Date!
+}
+
+enum MeritReportStatus {
+	COMPLETE @enum(value: "complete")
+	PENDING @enum(value: "pending")
+	OPEN @enum(value: "open for editing")
+	DISABLED @enum(value: "disabled")
+}
+
+type MeritReportForm {
+	id: ID!
+	name: String!
+	version: Int!
+	form: Mixed!
+	created_at: Date!
+	updated_at: Date!
+	deleted_at: Date
+}
+
+# type MeritReportContents {
+# 	pages: [MeritSection!]!
+# }
+#
+# type MeritSection {
+# 	title: String
+# 	items: [MeritObject!]!
+# }
+#
+# union MeritObject = MeritSection | MeritItem | MeritInstruction
+#
+# type MeritInstruction {
+# 	text: String
+# }
+#
+# type MeritItem {
+# 	text: String!
+# 	checked: Boolean
+# 	subjectReadonly: Boolean
+# 	questions: [QuestionnaireQuestion!]!
+# 	scoring: QuestionnaireScoringDefinition
+# }

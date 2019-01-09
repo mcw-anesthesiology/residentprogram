@@ -14,6 +14,9 @@ type Mutation @middleware(checks: ["auth"]) {
 	): User @update
 }
 
+scalar Mixed @scalar(class: "MLL\\GraphQLScalars\\Mixed")
+
 #import user.graphql
 #import form.graphql
+#import merit.graphql
 #import beyond-milestones/*.graphql

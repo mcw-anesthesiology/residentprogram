@@ -12,6 +12,7 @@
     "start": "yarn serve",
     "up": "cd laradock && docker-compose up -d apache2 mysql",
     "shell": "cd laradock && docker-compose exec --user=laradock workspace bash",
+    "db": "cd laradock && docker-compose exec mysql mysql -u root -p default",
     "down": "cd laradock && docker-compose down",
     "build": "run-s build:*",
     "build:webpack": "NODE_ENV=production webpack -p --progress --mode production",

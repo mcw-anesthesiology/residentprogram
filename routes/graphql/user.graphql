@@ -1,5 +1,8 @@
 extend type Query @middleware(checks: ["auth", "type:admin"]) {
-    users: [User!]! @all(model: "App\\User")
+	users(
+		type: UserType @eq
+		status: UserStatus @eq
+	): [User!]! @all(model: "App\\User")
     user(id: ID! @eq): User @find(model: "App\\User")
 
 }
@@ -52,6 +55,7 @@ enum YesNoBoolean {
 enum UserStatus {
 	ACTIVE @enum(value: "active")
 	INACTIVE @enum(value: "inactive")
+	EXTERNAL @enum(value: "external")
 }
 
 type User {
@@ -69,6 +73,12 @@ type User {
 	reminder_frequency: ReminderFrequency!
 	remind_only_if_pending: YesNoBoolean!
 	photo_path: String
+
+	meritReports(
+		period_start: Date @where(operator: "<=")
+		period_end: Date @where(operator: ">=")
+	): [MeritReport]! @hasMany
+
     created_at: DateTime!
     updated_at: DateTime!
 }

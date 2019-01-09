@@ -4,23 +4,20 @@
 	<transition name="merit-view">
 		<router-view :user="user"
 			:current-user="user"
-			:merit-reports="meritReports"
-			:merit-forms="meritForms"
 			:merit-report-types="meritReportTypes"
 			:merit-report-type-forms="meritReportTypeForms"
 			@close="handleClose"
-			@reload="handleReload"
 			@alert="alerts.push(arguments[0])">
 		</router-view>
 	</transition>
 
 	<div class="merit-reports-container">
 		@if($user->isType('faculty'))
-			@include('merit-report.faculty')
+			<faculty-dashboard></faculty-dashboard>
 		@endif
 
 		@if($user->isType('admin') || $user->usesFeature('FACULTY_MERIT'))
-			@include("merit-report.admin-supervisor")
+			<admin-supervisor-dashboard :user="user"></admin-supervisor-dashboard>
 		@endif
 	</div>
 @stop

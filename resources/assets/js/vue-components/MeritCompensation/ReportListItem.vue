@@ -13,43 +13,38 @@
 				<small>Period</small>
 				<rich-date-range :dates="dates" />
 			</div>
-			<div class="col-sm-2 checked-items-cell">
-				<small>Checked items</small>
-				{{ checkedItems }}
-			</div>
 			<div class="col-sm-2">
 				<span class="label" :class="statusLabel">
-					{{ ucfirst(status) }}
+					{{ statusText }}
 				</span>
 			</div>
-			<div class="col-sm-2 controls-cell">
-				<button type="button" class="btn btn-info btn-xs"
-						@click="$emit('click', id)">
+			<div class="col-sm-4 controls-cell">
+				<router-link :to="`/checklist/${id}`" class="btn btn-info btn-xs">
+
 					<span class="glyphicon" :class="viewEditGlyph"></span>
 					{{ viewEditText }}
-				</button>
+				</router-link>
 
-				<button type="button" class="btn btn-info btn-xs"
-						@click="$emit('summary', id)">
+				<router-link :to="`/summary/${id}`" class="btn btn-info btn-xs">
 					<span class="glyphicon glyphicon-list-alt"></span>
 					View summary
-				</button>
+				</router-link>
 
 				<template v-if="userIsAdmin">
-					<confirmation-button v-if="status === 'complete'"
+					<confirmation-button v-if="status === 'COMPLETE'"
 							class="btn btn-xs btn-primary"
 							@click="openForEditing">
 						<span class="glyphicon glyphicon-edit"></span>
 						Open for editing
 					</confirmation-button>
-					<confirmation-button v-else-if="status === 'open for editing'"
+					<confirmation-button v-else-if="status === 'OPEN'"
 							class="btn btn-xs btn-primary"
 							@click="closeEditing">
 						<span class="glyphicon glyphicon-check"></span>
 						Close editing
 					</confirmation-button>
 
-					<confirmation-button v-if="status === 'disabled'"
+					<confirmation-button v-if="status === 'DISABLED'"
 							class="btn btn-xs btn-success"
 							@click="enableReport">
 						<span class="glyphicon glyphicon-check"></span>
@@ -82,14 +77,13 @@ import ConfirmationYesNo from '@/vue-components/ConfirmationYesNo.vue';
 import RichDateRange from '@/vue-components/RichDateRange.vue';
 
 import { emitError } from '@/modules/errors.js';
-import { getEvaluationStatusLabel } from '@/modules/datatable-utils.js';
-import { getCheckedItemCount } from '@/modules/merit-utils.js';
+import { getStatusLabel, getStatusText } from '@/modules/merit-utils.js';
 import { getFetchHeaders, okOrThrow, ucfirst } from '@/modules/utils.js';
 
 export default {
 	props: {
 		id: {
-			type: Number,
+			type: [Number, String],
 			required: true
 		},
 		period_start: {
@@ -98,10 +92,6 @@ export default {
 		},
 		period_end: {
 			type: String,
-			required: true
-		},
-		report: {
-			type: Object,
 			required: true
 		},
 		status: {
@@ -129,27 +119,27 @@ export default {
 			};
 		},
 		viewEditText() {
-			return ['pending', 'open for editing'].includes(this.status)
+			return ['PENDING', 'OPEN'].includes(this.status)
 				? 'Continue'
 				: 'View';
 		},
 		viewEditGlyph() {
-			return ['pending', 'open for editing'].includes(this.status)
+			return ['PENDING', 'OPEN'].includes(this.status)
 				? 'glyphicon-pencil'
 				: 'glyphicon-list-alt';
 		},
 		statusLabel() {
-			return getEvaluationStatusLabel(this.status);
+			return `label-${getStatusLabel(this.status)}`;
 		},
-		checkedItems() {
-			return getCheckedItemCount(this.report);
+		statusText() {
+			return getStatusText(this.status);
 		}
 	},
 
 	methods: {
 		ucfirst,
 		openForEditing() {
-			if (this.user.type !== 'admin' || this.status !== 'complete')
+			if (this.user.type !== 'admin' || this.status !== 'COMPLETE')
 				return;
 
 			this.updateReport({
@@ -157,7 +147,7 @@ export default {
 			});
 		},
 		closeEditing() {
-			if (this.user.type !== 'admin' || this.status !== 'open for editing')
+			if (this.user.type !== 'admin' || this.status !== 'OPEN')
 				return;
 
 			this.updateReport({
@@ -225,7 +215,8 @@ export default {
 		text-align: right;
 	}
 
-	.controls-cell button {
+	.controls-cell button,
+	.controls-cell a {
 		margin: 0.1em;
 	}
 </style>

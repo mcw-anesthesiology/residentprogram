@@ -341,16 +341,17 @@ export function groupUsers(users: Array<User>): Array<Select2OptGroup> {
 			text: user.full_name
 		};
 
-		if (user.status === 'active') {
+		if (user.status && user.status.toLowerCase() === 'active') {
 			if (user.type) {
+				const type = user.type.toLowerCase();
 				if (
-					user.type === 'resident' &&
+					type === 'resident' &&
 					user.training_level &&
 					groups[user.training_level]
 				) {
 					groups[user.training_level].children.push(select2Obj);
-				} else if (groups[user.type]) {
-					groups[user.type].children.push(select2Obj);
+				} else if (groups[type]) {
+					groups[type].children.push(select2Obj);
 				}
 			}
 		} else {
