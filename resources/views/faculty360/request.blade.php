@@ -8,10 +8,6 @@
 	</style>
 @stop
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir('css/vue-faculty360.css') }}" />
-@endpush
-
 @section('blockless-body')
 	<div class="container body-block">
 		<div class="row">
@@ -98,7 +94,6 @@
 @stop
 
 @push('scripts')
-	<script src="{{ elixir('js/vue-faculty360.js') }}"></script>
 	<script>
 		var propsData = {
 			user: {!! Auth::check() ? $user->toJson() : 'null' !!},

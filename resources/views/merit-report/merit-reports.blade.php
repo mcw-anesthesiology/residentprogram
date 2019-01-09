@@ -1,9 +1,5 @@
 @extends('app')
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir("css/vue-merit-reports.css") }}" />
-@endpush
-
 @section('blockless-body')
 	<transition name="merit-view">
 		<router-view :user="user"
@@ -55,7 +51,6 @@
 @endpush
 
 @push('scripts')
-	<script src="{{ elixir('js/vue-merit-reports.js') }}"></script>
 	<script>
 		var propsData = {
 			user: {!! $user->toJson() !!},

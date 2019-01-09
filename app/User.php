@@ -22,37 +22,25 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
 	use Authenticatable, Authorizable, CanResetPassword, Notifiable;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
+	protected $connection = 'mysql';
 	protected $table = 'users';
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
 	protected $fillable = [
-		"username",
-		"training_level",
-		"secondary_training_level",
-		"first_name",
-		"last_name",
-		"email",
-		"status"
+		'username',
+		'training_level',
+		'secondary_training_level',
+		'first_name',
+		'last_name',
+		'email',
+		'status',
+		'notifications',
+		'reminder_frequency'
 	];
 
 	protected $casts = [
-		"id" => "integer"
+		'id' => 'integer'
 	];
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
 	protected $hidden = [
 		'password',
 		'remember_token',

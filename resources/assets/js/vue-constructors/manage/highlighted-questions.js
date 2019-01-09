@@ -1,4 +1,4 @@
-import Vue from '@/vue-constructors/index.js';
+import Vue from '@/vue-constructors/vue.js';
 
 import HighlightedQuestion from '@/vue-components/Manage/HighlightedQuestions/HighlightedQuestion.vue';
 import HighlightedQuestionEditor from '@/vue-components/Manage/HighlightedQuestions/HighlightedQuestionEditor.vue';

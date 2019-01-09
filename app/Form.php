@@ -19,6 +19,7 @@ class Form extends Model
 	// 	static::addGlobalScope(new FormScope());
 	// }
 
+	protected $connection = 'mysql';
 	protected $table = "forms";
 
 	protected $casts = [

@@ -1,17 +1,9 @@
-import Vue from '@/vue-constructors/index.js';
+import Vue from '@/vue-constructors/vue.js';
 import VueRouter from 'vue-router';
 import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 import 'flatpickr/dist/flatpickr.css';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
-
-import ComponentList from '@/vue-components/ComponentList.vue';
-import ShowHideButton from '@/vue-components/ShowHideButton.vue';
-import StartEndDate from '@/vue-components/StartEndDate.vue';
-
-import CaseLogs from '@/vue-components/CaseLog/CaseLogs.vue';
-import CaseLogEditor from '@/vue-components/CaseLog/Editor.vue';
-import CaseLogEditorV1 from '@/vue-components/CaseLog/V1/Editor.vue';
 
 import { EditorById, ViewerById } from '@/vue-components/CaseLog/conditional-loaders.js';
 
@@ -28,7 +20,7 @@ const router = new VueRouter({
 	routes: [
 		{ path: '/:id/view', component: ViewerById },
 		{ path: '/:id/edit', component: EditorById },
-		{ path: '/new', component: CaseLogEditor }
+		{ path: '/new', component: () => import('@/vue-components/CaseLog/Editor.vue') }
 	]
 });
 
@@ -163,13 +155,15 @@ export function createCaseLog(el, propsData) {
 		},
 
 		components: {
-			ComponentList,
-			ShowHideButton,
-			StartEndDate,
-			CaseLogs,
+			ComponentList: () => import('@/vue-components/ComponentList.vue'),
+			ShowHideButton: () => import('@/vue-components/ShowHideButton.vue'),
+			StartEndDate: () => import('@/vue-components/StartEndDate.vue'),
+
+			CaseLogs: () => import('@/vue-components/CaseLog/CaseLogs.vue'),
+			CaseLogEditor: () => import('@/vue-components/CaseLog/Editor.vue'),
+			CaseLogEditorV1: () => import('@/vue-components/CaseLog/V1/Editor.vue'),
+
 			VueFlatpickr,
-			CaseLogEditor,
-			CaseLogEditorV1
 		}
 	});
 }
