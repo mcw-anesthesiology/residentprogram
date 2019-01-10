@@ -403,7 +403,7 @@ class ManageController extends Controller
 		return view('manage.programs');
 	}
 
-	public function scenarios() {
-		return view('manage.scenarios');
+	public function beyondMilestones() {
+		return view('manage.beyond-milestones');
 	}
 }

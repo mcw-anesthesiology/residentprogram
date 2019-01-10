@@ -285,7 +285,7 @@
 
 				<hr />
 
-				<beyond-milestones :evaluation="evaluation"></beyond-milestones>
+				<beyond-milestones :user="user" :evaluation="evaluation"></beyond-milestones>
 
 	@if($evaluation->evaluator_id == $user->id)
 		<div class="bottom-comment-container text-center">

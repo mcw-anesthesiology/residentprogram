@@ -23,15 +23,18 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 		id: ID!
 	): ProfessionalismQuestion @delete(model:  "App\\BeyondMilestones\\ProfessionalismQuestion")
 
+	deleteProfessionalismResponse(
+		id: ID!
+	): ProfessionalismResponse @delete(model:  "App\\BeyondMilestones\\ProfessionalismResponse")
+
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
 	setProfessionalismResponse(
 		question_id: ID!,
 		evaluation_id: ID!,
 		value: Boolean!
 	): ProfessionalismResponse
-	deleteProfessionalismResponse(
-		id: ID!
-	): ProfessionalismResponse @delete(model:  "App\\BeyondMilestones\\ProfessionalismResponse")
-
 }
 
 type ProfessionalismQuestion {
