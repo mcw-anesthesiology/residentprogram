@@ -7,7 +7,7 @@
 				:current-user="currentUser"
 				:form_id="meritReport.form.id"
 				@close="$emit('close')"
-				@reload="$emit('reload')"
+				@reload="handleReload"
 				@alert="$emit('alert', arguments[0])" />
 		</div>
 	</div>
@@ -47,6 +47,13 @@ export default {
 					id: this.id
 				};
 			}
+		}
+	},
+
+	methods: {
+		handleReload() {
+			this.$apollo.queries.meritReport.refetch();
+			this.$emit('reload', this.id);
 		}
 	},
 

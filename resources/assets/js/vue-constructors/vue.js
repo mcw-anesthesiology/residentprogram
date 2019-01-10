@@ -41,5 +41,11 @@ Vue.directive('visible', (el, {value, oldValue, modifiers}) => {
 export default Vue;
 
 export const apolloProvider = new VueApollo({
-	defaultClient: apolloClient
+	defaultClient: apolloClient,
+	defaultOptions: {
+		$query: {
+			// So much is done with REST requests still
+			fetchPolicy: 'cache-and-network'
+		}
+	}
 });

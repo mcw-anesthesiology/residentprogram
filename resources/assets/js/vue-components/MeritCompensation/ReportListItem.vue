@@ -143,7 +143,7 @@ export default {
 				return;
 
 			this.updateReport({
-				status: 'open for editing'
+				status: 'OPEN'
 			});
 		},
 		closeEditing() {
@@ -151,7 +151,7 @@ export default {
 				return;
 
 			this.updateReport({
-				status: 'complete'
+				status: 'COMPLETE'
 			});
 		},
 		disableReport() {
@@ -159,7 +159,7 @@ export default {
 				return;
 
 			this.updateReport({
-				status: 'disabled'
+				status: 'DISABLED'
 			});
 		},
 		enableReport() {
@@ -167,7 +167,7 @@ export default {
 				return;
 
 			this.updateReport({
-				status: 'open for editing'
+				status: 'OPEN'
 			});
 		},
 		updateReport(changes) {

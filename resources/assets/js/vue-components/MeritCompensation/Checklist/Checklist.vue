@@ -65,26 +65,37 @@
 				</div>
 
 				<div class="text-center">
-					<button type="button" v-if="readonly" class="btn btn-default"
+					<confirmation-button v-if="!readonly && unsaved" class="btn btn-default"
+							pressed-class="btn btn-warning"
+							:disabled="saving"
 							@click="handleClose">
-						Close
-					</button>
-					<confirmation-button v-else class="btn btn-default"
-							pressed-class="btn btn-warning" @click="handleClose">
 						Close
 						<template slot="pressed">
 							Yes, close without saving
 						</template>
 					</confirmation-button>
+					<button type="button" v-else class="btn btn-default"
+							:disabled="saving"
+							@click="handleClose">
+						Close
+					</button>
 
 					<button v-if="!readonly" type="button" class="btn btn-info"
+							:disabled="saving || saveSuccessful"
 							@click="handleSave">
-						Save and close
+						<template v-if="saveSuccessful">
+							<span class="glyphicon glyphicon-saved"></span>
+							Saved!
+						</template>
+						<template v-else>
+							Save
+						</template>
 					</button>
 
 					<button v-if="!readonly" type="button"
 							class="btn btn-primary"
 							pressed-class="btn-success"
+							:disabled="saving"
 							@click="handleSubmit">
 						Submit
 					</button>
@@ -135,6 +146,18 @@ export default {
 		previewing: {
 			type: Boolean,
 			default: false
+		},
+		unsaved: {
+			type: Boolean,
+			required: false
+		},
+		saving: {
+			type: Boolean,
+			required: false
+		},
+		saveSuccessful: {
+			type: Boolean,
+			required: false
 		}
 	},
 

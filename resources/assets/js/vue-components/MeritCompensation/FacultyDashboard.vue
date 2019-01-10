@@ -36,9 +36,11 @@
 				<p class="lead">
 					You've already completed your merit checklist for this year. Thanks!
 				</p>
-				<router-link :to="`/checklist/${me.meritReports[me.meritReports.length - 1].id}`" class="btn btn-info center-block">
-					View your submission
-				</router-link>
+				<div class="btn-lg-submit-container">
+					<router-link :to="`/checklist/${me.meritReports[me.meritReports.length - 1].id}`" class="btn btn-lg btn-success">
+						View your submission
+					</router-link>
+				</div>
 			</bootstrap-alert>
 
 		</div>
@@ -108,19 +110,7 @@ import RichDateRange from '@/vue-components/RichDateRange.vue';
 import { datesEqual } from '@/modules/date-utils.js';
 import { getCurrentYearlyMeritDateRange } from '@/modules/merit-utils.js';
 
-import { MERIT_REPORT_LIST_FIELDS } from '@/graphql/merit.js';
-
-const ME_QUERY = gql`
-	query {
-		me {
-			id
-			meritReports {
-				...MeritReportListFields
-			}
-		}
-	}
-	${MERIT_REPORT_LIST_FIELDS}
-`;
+import { MY_MERIT_REPORTS_QUERY, MERIT_REPORT_LIST_FIELDS } from '@/graphql/merit.js';
 
 export default {
 	mixins: [
@@ -133,7 +123,7 @@ export default {
 	},
 	apollo: {
 		me: {
-			query: ME_QUERY
+			query: MY_MERIT_REPORTS_QUERY
 		}
 	},
 
@@ -191,7 +181,7 @@ export default {
 					${MERIT_REPORT_LIST_FIELDS}
 				`,
 				update(store, { data: { createMyMeritChecklist } }) {
-					const query = ME_QUERY;
+					const query = MY_MERIT_REPORTS_QUERY;
 					const data = store.readQuery({ query });
 
 					if (data.me) {
