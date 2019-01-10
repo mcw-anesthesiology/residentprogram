@@ -23,11 +23,6 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 		id: ID!
 	): Scenario @delete(model: "App\\BeyondMilestones\\Scenario")
 
-	setScenarioResponse(
-		scenario_id: ID!,
-		evaluation_id: ID!,
-		value: Float!
-	): ScenarioResponse
 	deleteScenarioResponse(
 		id: ID!
 	): ScenarioResponse @delete(model: "App\\BeyondMilestones\\ScenarioResponse")
@@ -40,6 +35,14 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 		form_id: ID!
 		scenario_id: ID!
 	): FormScenario @delete(model: "App\\BeyondMilestones\\FormScenario")
+}
+
+extend type Mutation @middleware(checks: ["auth"]) {
+	setScenarioResponse(
+		scenario_id: ID!,
+		evaluation_id: ID!,
+		value: Float!
+	): ScenarioResponse
 }
 
 enum ScenarioType {

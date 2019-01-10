@@ -5,13 +5,13 @@
 		<beyond-milestones-scenario v-for="{scenario} of formScenarios" :key="scenario.id"
 			v-bind="scenario"
 			:evaluationId="evaluation.id"
-			:readonly="evaluation.status !== 'pending'"
+			:readonly="isReadonly"
 		/>
 
 		<beyond-milestones-professionalism-question v-for="pq of randomProfessionalismQuestions" :key="pq.id"
 			v-bind="pq"
 			:evaluationId="evaluation.id"
-			:readonly="evaluation.status !== 'pending'"
+			:readonly="isReadonly"
 		/>
 	</section>
 </template>
@@ -46,7 +46,14 @@ const NUM_PROFESSIONALISM_QUESTIONS = 2;
 
 export default {
 	props: {
-		evaluation: Object
+		user: {
+			type: Object,
+			required: true,
+		},
+		evaluation: {
+			type: Object,
+			required: true,
+		}
 	},
 	data() {
 		return {
@@ -99,6 +106,14 @@ export default {
 					count: NUM_PROFESSIONALISM_QUESTIONS
 				};
 			}
+		}
+	},
+	computed: {
+		isReadonly() {
+			return (
+				this.evaluation.status !== 'pending'
+				|| this.evaluation.evaluator_id !== this.user.id
+			);
 		}
 	},
 	components: {
