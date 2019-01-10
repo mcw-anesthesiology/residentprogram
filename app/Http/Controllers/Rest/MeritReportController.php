@@ -79,8 +79,8 @@ class MeritReportController extends RestController {
                         Auth::id() == $report->user_id
                         && Auth::id() == $request->input('user_id')
                         && in_array($report->status, [
-                            'pending',
-                            'open for editing'
+                            'PENDING',
+                            'OPEN'
                         ])
                     ) || (
                         Auth::user()->isType('admin')

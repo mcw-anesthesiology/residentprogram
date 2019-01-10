@@ -1,10 +1,30 @@
 import Vue, { apolloProvider } from '@/vue-constructors/vue.js';
 import VueRouter from 'vue-router';
 
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
+
 export { default as createViewMeritReportForm } from './view-form.js';
+import { isAdmin } from '@/modules/utils.js';
 
 const router = new VueRouter({
 	routes: [
+		{
+			path: '/',
+			component: {
+				props: {
+					user: Object
+				},
+				template: `<component :is="homeComponent" :user="user" @close="$emit('close')" />`,
+				computed: {
+					homeComponent() {
+						return isAdmin(this.user)
+							? () => import('#/MeritCompensation/AdminSupervisorDashboard.vue')
+							: () => import('#/MeritCompensation/FacultyDashboard.vue');
+					}
+				}
+			},
+			props: true
+		},
 		{
 			path: '/checklist/:id',
 			component: () => import('#/MeritCompensation/ReportById.vue'),
@@ -28,6 +48,7 @@ router.afterEach(() => {
 export function createMeritReportsHub(el, propsData) {
 	return new Vue({
 		el,
+		mixins: [HasAlerts],
 		apolloProvider,
 		props: {
 			user: {
@@ -47,19 +68,9 @@ export function createMeritReportsHub(el, propsData) {
 		router,
 
 		methods: {
-			viewReport(id) {
-				this.$router.push({ path: `/checklist/${id}` });
-			},
-			viewReportSummary(id) {
-				this.$router.push({ path: `/summary/${id}` });
-			},
 			handleClose() {
 				this.$router.push({ path: '/' });
 			}
-		},
-		components: {
-			FacultyDashboard: () => import('#/MeritCompensation/FacultyDashboard.vue'),
-			AdminSupervisorDashboard: () => import('#/MeritCompensation/AdminSupervisorDashboard.vue')
 		}
 	});
 }

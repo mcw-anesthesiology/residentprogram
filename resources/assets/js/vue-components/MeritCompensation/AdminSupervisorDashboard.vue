@@ -22,9 +22,15 @@
 			<alert-list v-model="alerts"></alert-list>
 		</div>
 
-		<div class="container body-block">
+		<div class="container body-block" v-if="facultyMeritChecklistForm">
 			<h2>Create checklist</h2>
 			<form @submit="createUserReport">
+				<div class="form-group">
+					<label class="containing-label">
+						Form
+						<input type="text" class="form-control" :value="facultyMeritChecklistForm.name" readonly />
+					</label>
+				</div>
 				<div class="form-group">
 					<label class="containing-label">
 						Checklist period
@@ -68,22 +74,29 @@ import {
 
 import { MERIT_REPORT_LIST_FIELDS } from '@/graphql/merit.js';
 
-const USERS_QUERY = gql`
-	query AdminSupervisorMeritUsers {
-		users(status: ACTIVE, type: FACULTY) {
-			id
-			first_name
-			last_name
-			full_name
-			type
-			training_level
-			status
-			meritReports {
-				...MeritReportListFields
-			}
+const USER_FIELDS = gql`
+	fragment AdminSupervisorMeritUserFields on User {
+		id
+		first_name
+		last_name
+		full_name
+		type
+		training_level
+		status
+		meritReports {
+			...MeritReportListFields
 		}
 	}
 	${MERIT_REPORT_LIST_FIELDS}
+`;
+
+const USERS_QUERY = gql`
+	query AdminSupervisorMeritUsers {
+		users(status: ACTIVE, type: FACULTY) {
+			...AdminSupervisorMeritUserFields
+		}
+	}
+	${USER_FIELDS}
 `;
 
 export default {
@@ -107,6 +120,16 @@ export default {
 	apollo: {
 		users: {
 			query: USERS_QUERY
+		},
+		facultyMeritChecklistForm: {
+			query: gql`
+				query {
+					facultyMeritChecklistForm {
+						id
+						name
+					}
+				}
+			`
 		}
 	},
 
@@ -153,8 +176,12 @@ export default {
 						) {
 							id
 							user_id
+							user {
+								...AdminSupervisorMeritUserFields
+							}
 						}
 					}
+					${USER_FIELDS}
 				`,
 				variables: {
 					user_id: this.userToCreateReport,
@@ -162,15 +189,14 @@ export default {
 					period_start: this.createDates.startDate,
 					period_end: this.createDates.endDate
 				},
-				update(store, { data: { createUserMerit: { user_id } } }) {
+				update(store, { data: { createUserMerit: { user } } }) {
 					const query = USERS_QUERY;
 					const data = store.readQuery({ query });
-					data.users = data.users.filter(u => u.id !== user_id);
+					data.users = data.users.filter(u => u.id === user.id ? user : u);
 					store.writeQuery({ query, data });
 				}
 			}).then(() => {
 				this.userToCreateReport = null;
-				this.fetchUsersWithReports();
 			}).catch(err => {
 				handleError(err, this, 'There was a problem creating the checklist');
 			});

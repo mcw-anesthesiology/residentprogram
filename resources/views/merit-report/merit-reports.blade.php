@@ -10,24 +10,10 @@
 			@alert="alerts.push(arguments[0])">
 		</router-view>
 	</transition>
-
-	<div class="merit-reports-container">
-		@if($user->isType('faculty'))
-			<faculty-dashboard></faculty-dashboard>
-		@endif
-
-		@if($user->isType('admin') || $user->usesFeature('FACULTY_MERIT'))
-			<admin-supervisor-dashboard :user="user"></admin-supervisor-dashboard>
-		@endif
-	</div>
 @stop
 
 @push('stylesheets')
 	<style>
-		div + .merit-reports-container {
-			display: none;
-		}
-
 		.merit-view-enter-active,
 		.merit-view-leave-active {
 			transition: transform 0.2s ease, opacity 0.2s ease;

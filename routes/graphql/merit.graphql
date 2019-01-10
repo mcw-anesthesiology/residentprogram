@@ -52,10 +52,10 @@ type MeritReport {
 }
 
 enum MeritReportStatus {
-	COMPLETE @enum(value: "complete")
-	PENDING @enum(value: "pending")
-	OPEN @enum(value: "open for editing")
-	DISABLED @enum(value: "disabled")
+	COMPLETE
+	PENDING
+	OPEN
+	DISABLED
 }
 
 type MeritReportForm {

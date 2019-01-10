@@ -22,6 +22,7 @@ export const MERIT_REPORT_FIELDS = gql`
 			...MeritFormFields
 		}
 		user {
+			id
 			full_name
 		}
 	}
@@ -45,8 +46,22 @@ export const MERIT_REPORT_LIST_FIELDS = gql`
 export const MERIT_REPORT_QUERY = gql`
 	query MeritReportByIdQuery($id: ID!) {
 		meritReport(id: $id) {
+			...MeritReportListFields
 			...MeritReportFields
 		}
 	}
 	${MERIT_REPORT_FIELDS}
+	${MERIT_REPORT_LIST_FIELDS}
+`;
+
+export const MY_MERIT_REPORTS_QUERY = gql`
+	query {
+		me {
+			id
+			meritReports {
+				...MeritReportListFields
+			}
+		}
+	}
+	${MERIT_REPORT_LIST_FIELDS}
 `;

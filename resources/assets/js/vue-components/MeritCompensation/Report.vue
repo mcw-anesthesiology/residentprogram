@@ -35,6 +35,9 @@
 			:title="title"
 			:readonly="readonly"
 			:user="currentUser"
+			:unsaved="unsaved"
+			:saving="saving"
+			:save-successful="savingSuccessful"
 			@input="handleChecklistInput"
 			@save="handleSave"
 			@close="handleClose"
@@ -152,6 +155,7 @@ export default {
 			inputNotes: this.notes || '',
 			savingNotes: '',
 
+			unsaved: false,
 			saving: false,
 			savingSuccessful: false,
 
@@ -167,8 +171,8 @@ export default {
 		},
 		readonly() {
 			return ![
-				'pending',
-				'open for editing'
+				'PENDING',
+				'OPEN'
 			].includes(this.status);
 		},
 		checkedItems() {
@@ -191,6 +195,11 @@ export default {
 		},
 		notes(notes) {
 			this.inputNotes = notes;
+		},
+		savingSuccessful() {
+			window.setTimeout(() => {
+				this.savingSuccessful = false;
+			}, 2000);
 		}
 	},
 
@@ -200,6 +209,7 @@ export default {
 				return;
 
 			this.checklist = Object.assign({}, this.checklist, checklist);
+			this.unsaved = true;
 			if (this.currentUser.id === this.user_id) {
 				this.handleSubmit(false);
 			}
@@ -215,14 +225,17 @@ export default {
 		},
 		handleSave() {
 			this.handleSubmit(false).then(() => {
-				this.$emit('reload');
-				this.handleClose(); // FIXME: Probably shouldn't close here
+				if (this.savingSuccessful) {
+					this.$emit('reload');
+				}
 			});
 		},
 		handleComplete() {
 			this.handleSubmit(true).then(() => {
-				this.$emit('reload');
-				this.handleClose();
+				if (this.savingSuccessful) {
+					this.$emit('reload');
+					this.handleClose();
+				}
 			});
 		},
 		handleSubmit(isComplete) {
@@ -266,6 +279,7 @@ export default {
 				credentials: 'same-origin',
 				body: JSON.stringify(meritReport)
 			}).then(okOrThrow).then(() => {
+				this.unsaved = false;
 				this.savingSuccessful = true;
 				this.saving = false;
 			}).catch(err => {
