@@ -5,14 +5,14 @@
 	</div>
 </template>
 
-<style>
+<style scoped>
 .labeled-value {
 
 }
 
 small {
-	font-size: 0.8em;
-	color: rgba(0, 0, 0, 0.75);
+	font-size: 0.9em;
+	color: rgba(0, 0, 0, 0.65);
 	display: block;
 	margin-bottom: 1em;
 }

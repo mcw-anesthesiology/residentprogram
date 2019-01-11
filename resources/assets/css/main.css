@@ -4,6 +4,10 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 
+html {
+	font-size: 16px;
+}
+
 body {
 	padding-top: 55px;
 	padding-bottom: 40px;

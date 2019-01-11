@@ -1,6 +1,8 @@
 extend type Query @middleware(checks: ["auth", "type:admin"]) {
     forms: [Form!]! @all(model: "App\\Form")
     form(id: ID! @eq): Form @find(model: "App\\Form")
+
+	formGroups(sortByTitle: Boolean): [FormGroup!]!
 }
 
 enum FormStatus {
@@ -45,4 +47,11 @@ type Form {
 	evaluator_type: EvaluatorType!
 	visibility: Visibility!
 	evaluation_period_type: EvaluationPeriodType
+
+	scenarios: [Scenario!]! @belongsToMany
+}
+
+type FormGroup {
+	type: FormType!
+	forms: [Form!]!
 }
