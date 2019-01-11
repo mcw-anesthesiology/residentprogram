@@ -4,10 +4,22 @@
 @verbatim
 
 <div>
-	<h1>Beyond milestones</h1>
+	<div class="container body-block">
+		<h1>Beyond milestones</h1>
+		<nav>
+			<ul class="nav nav-pills">
+				<router-link tag="li" to="/scenarios" active-class="active">
+					<a>Scenarios</a>
+				</router-link>
+				<router-link tag="li" to="/professionalism-questions" active-class="active">
+					<a>Professionalism Questions</a>
+				</router-link>
+			</ul>
+		</nav>
+	</div>
 
-	<manage-scenarios></manage-scenarios>
-	<manage-professionalism-questions></manage-professionalism-questions>
+
+	<router-view></router-view>
 </div>
 
 @endverbatim

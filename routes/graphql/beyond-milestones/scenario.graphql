@@ -35,6 +35,10 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 		form_id: ID!
 		scenario_id: ID!
 	): FormScenario @delete(model: "App\\BeyondMilestones\\FormScenario")
+	setScenarioForms(
+		scenario_id: ID!
+		form_ids: [ID!]!
+	): Scenario
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
@@ -80,6 +84,7 @@ type Scenario {
 	updated_at: Date!
 	deleted_at: Date
 
+	forms: [Form]! @belongsToMany
 	responses: [ScenarioResponse]! @hasMany
 }
 

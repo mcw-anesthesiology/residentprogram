@@ -37,11 +37,17 @@ class Scenario extends Model
 		// TODO: Add scope ?
 	}
 
+	public function getOptionsAttribute($options) {
+		$options = json_decode($options);
+
+		return empty($options) ? [] : $options;
+	}
+
 	public function responses() {
 		return $this->hasMany('App\BeyondMilestones\ScenarioResponse');
 	}
 
 	public function forms() {
-		return $this->belongsToMany('App\Form', 'form_scenarios');
+		return $this->belongsToMany('App\Form', 'beyond_milestones.form_scenarios');
 	}
 }

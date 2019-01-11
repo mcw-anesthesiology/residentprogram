@@ -13,11 +13,6 @@ use \DOMDocument;
 
 class Form extends Model
 {
-	// protected static function boot(){
-	// 	parent::boot();
-	//
-	// 	static::addGlobalScope(new FormScope());
-	// }
 
 	protected $connection = 'mysql';
 	protected $table = "forms";
@@ -133,6 +128,10 @@ class Form extends Model
 
 	public function watchers(){
 		return $this->belongsToMany("App\User", "watched_forms");
+	}
+
+	public function scenarios() {
+		return $this->belongsToMany('App\BeyondMilestones\Scenario', 'beyond_milestones.form_scenarios');
 	}
 
 	public function hideFields(){
