@@ -1,35 +1,49 @@
 <template>
-	<div class="beyond-milestones-question scenario">
-		<h3 v-if="title">{{ title }}</h3>
+	<section class="beyond-milestones-question scenario">
+		<header>
+			<h3 v-if="title">{{ title }}</h3>
 
-		<div v-if="intro" class="intro">{{ intro }}</div>
-		<div class="text">{{ text }}</div>
+			<div v-if="intro" class="intro">{{ intro }}</div>
+			<div class="text">{{ text }}</div>
 
-		<fieldset>
-			<scenario-option v-for="(option, index) of options" :key="index"
-				v-bind="option"
-				:id="id"
-				:selected="isSelected(option)"
-				:readonly="readonly"
-				@select="handleSelect(option)"
-			/>
-		</fieldset>
-	</div>
+			<span class="saved-label">
+				<timeout-label v-model="saved" />
+			</span>
+		</header>
+
+		<beyond-milestones-options
+			:options="options"
+			:value="scenarioResponse ? scenarioResponse.value : null"
+			:name="name"
+			:readonly="readonly"
+			@change="handleSelect"
+		/>
+	</section>
 </template>
 
 <style scoped>
+	.scenario {
+
+	}
+
+	header {
+		position: relative;
+		padding: 1.5em;
+	}
+
 	h3 {
 		margin-top: 0;
 	}
 
-	.intro,
-	.text {
-		margin: 0.5em;
+	.intro:not(:last-child),
+	.text:not(:last-child) {
+		margin-bottom: 1em;
 	}
 
-	fieldset {
-		display: flex;
-		flex-wrap: wrap;
+	.saved-label {
+		position: absolute;
+		right: 1em;
+		bottom: 1em;
 	}
 </style>
 
@@ -60,7 +74,8 @@ export default {
 	},
 	data() {
 		return {
-			scenarioResponse: null
+			scenarioResponse: null,
+			saved: false
 		};
 	},
 	apollo: {
@@ -72,6 +87,11 @@ export default {
 					evaluation_id: this.evaluationId
 				};
 			}
+		}
+	},
+	computed: {
+		name() {
+			return `scenario:${this.id}`;
 		}
 	},
 	methods: {
@@ -101,6 +121,8 @@ export default {
 						}
 					});
 				}
+			}).then(() => {
+				this.saved = true;
 			});
 		},
 		isSelected(option) {
@@ -108,7 +130,8 @@ export default {
 		}
 	},
 	components: {
-		ScenarioOption: () => import('./ScenarioOption.vue')
+		BeyondMilestonesOptions: () => import('./Options.vue'),
+		TimeoutLabel: () => import('#/TimeoutLabel.vue')
 	}
 };
 </script>

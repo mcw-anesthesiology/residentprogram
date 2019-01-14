@@ -19,24 +19,16 @@
 
 <style scoped>
 	.beyond-milestones {
-		border: 1px solid #aaa;
-		border-radius: 3px;
-		padding: 1em;
+
 	}
 
 	.beyond-milestones :global(.beyond-milestones-question) {
-		border: 1px solid blue;
-		border-radius: 5px;
-		padding: 1em;
-		margin-bottom: 1em;
+		border: 1px solid #ddd;
+		border-radius: 3px;
 	}
 
-	.beyond-milestones :global(.beyond-milestones-question:last-child) {
-		margin-bottom: 0;
-	}
-
-	h2 {
-		margin-top: 0;
+	.beyond-milestones :global(.beyond-milestones-question + .beyond-milestones-question) {
+		margin-top: 2em;
 	}
 </style>
 

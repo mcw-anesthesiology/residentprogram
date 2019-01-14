@@ -1,48 +1,49 @@
 <template>
 	<section class="beyond-milestones-question professionalism-question">
-		<h3 v-if="title">{{ title }}</h3>
-		<div v-if="intro" class="intro">{{ intro }}</div>
+		<header>
+			<h3 v-if="title">{{ title }}</h3>
+			<div v-if="intro" class="intro">{{ intro }}</div>
 
-		<div class="text">{{ text }}</div>
+			<div class="text">{{ text }}</div>
 
-		<fieldset>
-			<label v-for="option of options">
-				<input type="radio" :value="option.value"
-					:checked="isSelected(option)"
-					:disabled="readonly"
-					:name="name"
-					@change="handleSelect($event, option)"
-				/>
-				{{ option.text }}
-			</label>
-		</fieldset>
+			<span class="saved-label">
+				<timeout-label v-model="saved" />
+			</span>
+		</header>
+
+		<beyond-milestones-options
+			:options="options"
+			:value="professionalismResponse ? professionalismResponse.value : null"
+			:name="name"
+			:readonly="readonly"
+			@change="handleSelect"
+		/>
 	</section>
 </template>
 
 <style scoped>
+	.professionalism-question {
+
+	}
+
+	header {
+		position: relative;
+		padding: 1.5em;
+	}
+
 	h3 {
 		margin-top: 0;
 	}
 
-	.intro,
-	.text {
-		margin: 0.5em;
+	.intro:not(:last-child),
+	.text:not(:last-child) {
+		margin-bottom: 1em;
 	}
 
-	fieldset {
-		display: flex;
-		flex-wrap: wrap;
-	}
-
-	label {
-		display: flex;
-		align-items: center;
-		margin: 0.5em;
-	}
-
-	label input {
-		vertical-align: middle;
-		margin: 0 0.25em 0 0;
+	.saved-label {
+		position: absolute;
+		right: 1em;
+		bottom: 1em;
 	}
 </style>
 
@@ -71,7 +72,8 @@ export default {
 	},
 	data() {
 		return {
-			professionalismResponse: null
+			professionalismResponse: null,
+			saved: false
 		};
 	},
 	apollo: {
@@ -91,16 +93,9 @@ export default {
 		}
 	},
 	methods: {
-		isSelected(option) {
-			return this.professionalismResponse !== null && this.professionalismResponse.value === option.value;
-		},
-		handleSelect(event, option) {
-			if (this.readonly)
-				return;
-
-			if (event.target.checked) {
-				this.$apollo.mutate({
-					mutation: gql`
+		handleSelect(option) {
+			this.$apollo.mutate({
+				mutation: gql`
 						mutation SetProfessionalismResponse($question_id: ID!, $evaluation_id: ID!, $value: Boolean!) {
 							setProfessionalismResponse(question_id: $question_id, evaluation_id: $evaluation_id, value: $value) {
 								id
@@ -108,22 +103,27 @@ export default {
 							}
 						}
 					`,
-					variables: {
-						question_id: this.id,
-						evaluation_id: this.evaluationId,
-						value: option.value
-					},
-					update(store, { data: { setProfessionalismResponse } }) {
-						store.writeQuery({
-							query: PROFESSIONALISM_RESPONSE_QUERY,
-							data: {
-								professionalismResponse: setProfessionalismResponse
-							}
-						});
-					}
-				});
-			}
+				variables: {
+					question_id: this.id,
+					evaluation_id: this.evaluationId,
+					value: option.value
+				},
+				update(store, { data: { setProfessionalismResponse } }) {
+					store.writeQuery({
+						query: PROFESSIONALISM_RESPONSE_QUERY,
+						data: {
+							professionalismResponse: setProfessionalismResponse
+						}
+					});
+				}
+			}).then(() => {
+				this.saved = true;
+			});
 		}
+	},
+	components: {
+		BeyondMilestonesOptions: () => import('./Options.vue'),
+		TimeoutLabel: () => import('#/TimeoutLabel.vue')
 	}
 };
 </script>
