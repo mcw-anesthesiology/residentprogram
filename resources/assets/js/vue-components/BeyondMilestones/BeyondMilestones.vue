@@ -2,7 +2,8 @@
 	<section class="beyond-milestones">
 		<h2>Beyond Milestones</h2>
 
-		<beyond-milestones-scenario v-for="{scenario} of formScenarios" :key="scenario.id"
+		<beyond-milestones-scenario v-if="form"
+			v-for="scenario of form.scenarios" :key="scenario.id"
 			v-bind="scenario"
 			:evaluationId="evaluation.id"
 			:readonly="isReadonly"
@@ -57,17 +58,17 @@ export default {
 	},
 	data() {
 		return {
-			formScenarios: [],
+			form: [],
 			randomProfessionalismQuestions: [],
 		};
 	},
 	apollo: {
-		formScenarios: {
+		form: {
 			query: gql`
-				query BeyondMilestonesScenarios($form_id: ID) {
-					formScenarios(form_id: $form_id) {
+				query BeyondMilestonesFormScenarios($form_id: ID!) {
+					form(id: $form_id) {
 						id
-						scenario {
+						scenarios {
 							id
 							intro
 							text
