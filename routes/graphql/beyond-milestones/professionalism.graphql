@@ -1,14 +1,16 @@
-extend type Query @middleware(checks: ["auth", "type:admin"]) {
+extend type Query @middleware(checks: ["auth", "type:admin", "site-feature:beyond-milestones"]) {
 	professionalismQuestions: [ProfessionalismQuestion!]! @all(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
 	professionalismQuestion(id: ID! @eq): ProfessionalismQuestion! @find(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
+}
 
+extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
 	randomProfessionalismQuestions(id: ID!, count: Int!): [ProfessionalismQuestion!]!
 
 	professionalismResponses(evaluation_id: ID! @eq): [ProfessionalismResponse!]! @all(model: "App\\BeyondMilestones\\ProfessionalismResponse")
 	professionalismResponse(question_id: ID @eq, evaluation_id: ID @eq): ProfessionalismResponse @find(model: "App\\BeyondMilestones\\ProfessionalismResponse")
 }
 
-extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
+extend type Mutation @middleware(checks: ["auth", "type:admin", "site-feature:beyond-milestones"]) {
 	createProfessionalismQuestion(
 		input: ProfessionalismQuestionInput!
 	): ProfessionalismQuestion @create(model:  "App\\BeyondMilestones\\ProfessionalismQuestion", flatten: true)
@@ -29,7 +31,7 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 
 }
 
-extend type Mutation @middleware(checks: ["auth"]) {
+extend type Mutation @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
 	setProfessionalismResponse(
 		question_id: ID!,
 		evaluation_id: ID!,

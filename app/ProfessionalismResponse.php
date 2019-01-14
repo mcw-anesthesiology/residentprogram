@@ -5,6 +5,8 @@ namespace App\BeyondMilestones;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Scopes\BeyondMilestones\ProfessionalismResponseScope;
+
 class ProfessionalismResponse extends Model
 {
 	use SoftDeletes;
@@ -28,6 +30,12 @@ class ProfessionalismResponse extends Model
 		'updated_at',
 		'deleted_at'
 	];
+
+	protected static function boot() {
+		parent::boot();
+
+		static::addGlobalScope(new ProfessionalismResponseScope);
+	}
 
 	public function question() {
 		return $this->belongsTo('App\BeyondMilestones\ProfessionalismQuestion');

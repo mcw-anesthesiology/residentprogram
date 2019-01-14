@@ -5,6 +5,8 @@ namespace App\BeyondMilestones;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Scopes\BeyondMilestones\ScenarioResponseScope;
+
 class ScenarioResponse extends Model
 {
 	use SoftDeletes;
@@ -32,7 +34,7 @@ class ScenarioResponse extends Model
 	protected static function boot() {
 		parent::boot();
 
-		// TODO: Add scope ?
+		static::addGlobalScope(new ScenarioResponseScope);
 	}
 
 	public function scenario() {

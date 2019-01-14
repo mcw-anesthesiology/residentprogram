@@ -1,14 +1,14 @@
-extend type Query @middleware(checks: ["auth", "type:admin"]) {
+extend type Query @middleware(checks: ["auth", "type:admin", "site-feature:beyond-milestones"]) {
 	scenarios: [Scenario!]! @all(model: "App\\BeyondMilestones\\Scenario")
 	scenario(id: ID! @eq): Scenario @find(model: "App\\BeyondMilestones\\Scenario")
-
-	scenarioResponses(evaluation_id: ID @eq): [ScenarioResponse!]! @all(model: "App\\BeyondMilestones\\ScenarioResponse")
-	scenarioResponse(scenario_id: ID @eq, evaluation_id: ID @eq): ScenarioResponse @find(model: "App\\BeyondMilestones\\ScenarioResponse")
-
-	formScenarios(form_id: ID @eq, scenario_id: ID @eq): [FormScenario!]! @all(model: "App\\BeyondMilestones\\FormScenario")
 }
 
-extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
+extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
+	scenarioResponses(evaluation_id: ID @eq): [ScenarioResponse!]! @all(model: "App\\BeyondMilestones\\ScenarioResponse")
+	scenarioResponse(scenario_id: ID @eq, evaluation_id: ID @eq): ScenarioResponse @find(model: "App\\BeyondMilestones\\ScenarioResponse")
+}
+
+extend type Mutation @middleware(checks: ["auth", "type:admin", "site-feature:beyond-milestones"]) {
 	createScenario(input: ScenarioInput!): Scenario @create(model: "App\\BeyondMilestones\\Scenario", flatten: true)
 	updateScenario(
 		id: ID!
@@ -41,7 +41,7 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 	): Scenario
 }
 
-extend type Mutation @middleware(checks: ["auth"]) {
+extend type Mutation @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
 	setScenarioResponse(
 		scenario_id: ID!,
 		evaluation_id: ID!,

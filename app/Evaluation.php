@@ -16,14 +16,14 @@ use Mail;
 
 class Evaluation extends Model
 {
+	protected $connection = 'mysql';
+	protected $table = 'evaluations';
+
 	protected static function boot() {
 		parent::boot();
 
 		static::addGlobalScope(new EvaluationScope);
 	}
-
-	protected $connection = 'mysql';
-	protected $table = 'evaluations';
 
 	protected $casts = [
 		'id' => 'integer',

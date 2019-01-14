@@ -120,6 +120,9 @@
         @if (config('features.highlighted-questions'))
             <li><a href="/manage/highlighted-questions">Highlighted questions</a></li>
         @endif
+		@if (config('features.beyond-milestones'))
+			<li><a href="/manage/beyond-milestones">Beyond milestones</a></li>
+		@endif
 		  </ul>
 		</li>
 @endif
