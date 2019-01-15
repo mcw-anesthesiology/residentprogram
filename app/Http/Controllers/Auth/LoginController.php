@@ -74,77 +74,75 @@ class LoginController extends Controller
 	}
 
 	public function login(Request $request) {
+		if (config('auth.external_auth')) {
+			try {
+				try {
 
-		if (config('app.env') !== 'production') {
+					$client = new GuzzleHttp\Client();
+					$response = $client->request('POST', config('auth.external_auth_endpoint'), [
+						'http_errors' => false,
+						'form_params' => [
+							'email' => $request->input($this->username()),
+							'password' => $request->input('password')
+						]
+					]);
+
+					switch ($response->getStatusCode()) {
+					case 200:
+						$authUser = json_decode($response->getBody());
+
+						$sites = is_array($authUser->sites) ? $authUser->sites : json_decode($authUser->sites);
+
+						if (empty($sites) || !in_array('RESIDENT_PROGRAM', $sites)) {
+							throw new \DomainException('User does not have access to Resident Program enabled');
+						}
+
+						$user = User::where(['email' => $authUser->email, 'status' => 'active'])->firstOrFail();
+
+						Auth::login($user, true);
+						return redirect()->intended('dashboard');
+						break;
+					case 401:
+						$body = json_decode($response->getBody());
+
+						if (!empty($body->message)) {
+							return $this->sendFailedLoginResponse($request, $body->message);
+						}
+
+						break;
+					}
+				} catch (\Exception $e) {
+
+					Log::debug('Failed authenticating user, attempting local login');
+
+					if (Auth::attempt($this->credentials($request))) {
+						return redirect()->intended('dashboard');
+					}
+
+					throw $e;
+				}
+			} catch (ModelNotFoundException $e) {
+				Log::critical('Auth successful but user not found, account must be created');
+
+				return redirect()->back()
+					->withInput($request->only($this->username(), 'remember'))
+					->with([
+						'error' => Lang::get('auth.no-account')
+					]);
+			} catch (\DomainException $e) {
+				Log::critical($e->getMessage());
+
+				return redirect()->back()
+					->withInput($request->only($this->username(), 'remember'))
+					->with([
+						'error' => Lang::get('auth.no-account')
+					]);
+			}
+
+		} else {
 			if (Auth::attempt($this->credentials($request))) {
 				return redirect()->intended('dashboard');
 			}
-
-			return $this->sendFailedLoginResponse($request);
-		}
-
-		try {
-			try {
-
-				$client = new GuzzleHttp\Client();
-				$response = $client->request('POST', config('auth.mcw_auth_endpoint'), [
-					'http_errors' => false,
-					'form_params' => [
-						'email' => $request->input($this->username()),
-						'password' => $request->input('password')
-					]
-				]);
-
-				switch ($response->getStatusCode()) {
-				case 200:
-					$authUser = json_decode($response->getBody());
-
-					$sites = is_array($authUser->sites) ? $authUser->sites : json_decode($authUser->sites);
-
-					if (empty($sites) || !in_array('RESIDENT_PROGRAM', $sites)) {
-						throw new \DomainException('User does not have access to Resident Program enabled');
-					}
-
-					$user = User::where(['email' => $authUser->email, 'status' => 'active'])->firstOrFail();
-
-					Auth::login($user, true);
-					return redirect()->intended('dashboard');
-					break;
-				case 401:
-					$body = json_decode($response->getBody());
-
-					if (!empty($body->message)) {
-						return $this->sendFailedLoginResponse($request, $body->message);
-					}
-
-					break;
-				}
-			} catch (\Exception $e) {
-
-				Log::debug('Failed authenticating user, attempting local login');
-
-				if (Auth::attempt($this->credentials($request))) {
-					return redirect()->intended('dashboard');
-				}
-
-				throw $e;
-			}
-		} catch (ModelNotFoundException $e) {
-			Log::critical('Auth successful but user not found, account must be created');
-
-			return redirect()->back()
-				->withInput($request->only($this->username(), 'remember'))
-				->with([
-					'error' => Lang::get('auth.no-account')
-				]);
-		} catch (\DomainException $e) {
-			Log::critical($e->getMessage());
-
-			return redirect()->back()
-				->withInput($request->only($this->username(), 'remember'))
-				->with([
-					'error' => Lang::get('auth.no-account')
-				]);
 		}
 
 		return $this->sendFailedLoginResponse($request);
