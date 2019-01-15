@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateScenarios extends Migration
 {
+	const CONNECTION = 'beyond_milestones';
     /**
      * Run the migrations.
      *
@@ -13,7 +14,7 @@ class CreateScenarios extends Migration
      */
     public function up()
     {
-        Schema::connection('beyond_milestones')->create('scenarios', function (Blueprint $table) {
+        Schema::connection(self::CONNECTION)->create('scenarios', function (Blueprint $table) {
             $table->increments('id');
 			$table->enum('scenario_type', [
 				'GENERAL',
@@ -35,7 +36,7 @@ class CreateScenarios extends Migration
 			$table->softDeletes();
         });
 
-		Schema::connection('beyond_milestones')->create('scenario_responses', function (Blueprint $table) {
+		Schema::connection(self::CONNECTION)->create('scenario_responses', function (Blueprint $table) {
 			$table->increments('id');
 
 			$table->unsignedInteger('scenario_id');
@@ -51,7 +52,7 @@ class CreateScenarios extends Migration
 			// $table->foreign('evaluation_id')->references('id')->on('evaluations');
 		});
 
-		Schema::connection('beyond_milestones')->create('form_scenarios', function (Blueprint $table) {
+		Schema::connection(self::CONNECTION)->create('form_scenarios', function (Blueprint $table) {
 			$table->increments('id');
 
 			$table->unsignedInteger('scenario_id');
@@ -73,8 +74,8 @@ class CreateScenarios extends Migration
      */
     public function down()
     {
-		Schema::connection('beyond_milestones')->dropIfExists('form_scenarios');
-		Schema::connection('beyond_milestones')->dropIfExists('scenario_responses');
-        Schema::connection('beyond_milestones')->dropIfExists('scenarios');
+		Schema::connection(self::CONNECTION)->dropIfExists('form_scenarios');
+		Schema::connection(self::CONNECTION)->dropIfExists('scenario_responses');
+        Schema::connection(self::CONNECTION)->dropIfExists('scenarios');
     }
 }

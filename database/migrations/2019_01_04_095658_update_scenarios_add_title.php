@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class UpdateScenariosAddTitle extends Migration
 {
+	const CONNECTION = 'beyond_milestones';
     /**
      * Run the migrations.
      *
@@ -13,11 +14,11 @@ class UpdateScenariosAddTitle extends Migration
      */
     public function up()
     {
-        Schema::connection('beyond_milestones')->table('scenarios', function (Blueprint $table) {
+        Schema::connection(self::CONNECTION)->table('scenarios', function (Blueprint $table) {
 			$table->string('title')->nullable()->after('scenario_difficulty');
 		});
 
-        Schema::connection('beyond_milestones')->table('scenario_responses', function (Blueprint $table) {
+        Schema::connection(self::CONNECTION)->table('scenario_responses', function (Blueprint $table) {
 			$table->unique(['scenario_id', 'evaluation_id']);
 		});
     }
@@ -29,11 +30,11 @@ class UpdateScenariosAddTitle extends Migration
      */
     public function down()
     {
-        Schema::connection('beyond_milestones')->table('scenario_responses', function (Blueprint $table) {
+        Schema::connection(self::CONNECTION)->table('scenario_responses', function (Blueprint $table) {
 			$table->dropUnique(['scenario_id', 'evaluation_id']);
 		});
 
-        Schema::connection('beyond_milestones')->table('scenarios', function (Blueprint $table) {
+        Schema::connection(self::CONNECTION)->table('scenarios', function (Blueprint $table) {
 			$table->dropColumn('title');
 		});
     }
