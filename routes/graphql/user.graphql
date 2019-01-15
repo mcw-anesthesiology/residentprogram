@@ -2,6 +2,7 @@ extend type Query @middleware(checks: ["auth", "type:admin"]) {
 	users(
 		type: UserType @eq
 		status: UserStatus @eq
+		type: UserType @eq
 	): [User!]! @all(model: "App\\User")
     user(id: ID! @eq): User @find(model: "App\\User")
 
@@ -20,6 +21,11 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
     deleteUser(
         id: ID!
     ): User @delete
+
+	addUserMeritAdministratee(
+		user_id: ID!
+		administratee_id: ID!
+	): User
 }
 
 enum UserType {
@@ -78,6 +84,9 @@ type User {
 		period_start: Date @where(operator: "<=")
 		period_end: Date @where(operator: ">=")
 	): [MeritReport]! @hasMany
+
+	meritAdministrators: [User] @belongsTo
+	meritAdministratees: [User] @belongsTo
 
     created_at: DateTime!
     updated_at: DateTime!
