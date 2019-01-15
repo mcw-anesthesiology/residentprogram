@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateBeyondMilestonesProfessionalismQuestions extends Migration
 {
+	const CONNECTION = 'beyond_milestones';
     /**
      * Run the migrations.
      *
@@ -13,7 +14,7 @@ class CreateBeyondMilestonesProfessionalismQuestions extends Migration
      */
     public function up()
     {
-        Schema::connection('beyond_milestones')->create('professionalism_questions', function (Blueprint $table) {
+        Schema::connection(self::CONNECTION)->create('professionalism_questions', function (Blueprint $table) {
             $table->increments('id');
 
 			$table->string('title')->nullable();
@@ -26,7 +27,7 @@ class CreateBeyondMilestonesProfessionalismQuestions extends Migration
 			$table->softDeletes();
         });
 
-		Schema::connection('beyond_milestones')->create('professionalism_responses', function (Blueprint $table) {
+		Schema::connection(self::CONNECTION)->create('professionalism_responses', function (Blueprint $table) {
 			$table->increments('id');
 
 			$table->unsignedInteger('question_id');
@@ -48,7 +49,7 @@ class CreateBeyondMilestonesProfessionalismQuestions extends Migration
      */
     public function down()
     {
-		Schema::connection('beyond_milestones')->dropIfExists('professionalism_responses');
-        Schema::connection('beyond_milestones')->dropIfExists('professionalism_questions');
+		Schema::connection(self::CONNECTION)->dropIfExists('professionalism_responses');
+        Schema::connection(self::CONNECTION)->dropIfExists('professionalism_questions');
     }
 }

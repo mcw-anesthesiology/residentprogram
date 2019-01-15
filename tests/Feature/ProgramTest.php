@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Carbon\Carbon;
 
@@ -21,7 +21,7 @@ use App\User;
 
 class ProgramTest extends TestCase {
 
-	use RefreshDatabase;
+	use DatabaseTransactions;
 
 	public function setUp() {
 		parent::setUp();

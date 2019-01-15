@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Carbon\Carbon;
 
@@ -23,7 +23,7 @@ use Log;
 
 class UserTraineeReportTest extends TestCase
 {
-	use RefreshDatabase;
+	use DatabaseTransactions;
 
 	public function setUp() {
 		parent::setUp();
