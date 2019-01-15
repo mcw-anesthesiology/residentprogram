@@ -219,6 +219,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $this->hasMany('App\MeritReport');
 	}
 
+	public function meritAdministrators() {
+		return $this->belongsToMany('App\User', 'merit_administrators', 'administratee_id', 'administrator_id');
+	}
+
+	public function meritAdministratees() {
+		return $this->belongsToMany('App\User', 'merit_administrators', 'administrator_id', 'administratee_id');
+	}
+
 	public function anesthesiaCases() {
 		return $this->belongsToMany(
 			'App\AnesthesiaCase',
