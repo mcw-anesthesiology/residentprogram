@@ -215,14 +215,9 @@ export default {
 		filteredItems() {
 			if (this.query && this.index) {
 				let results = this.index.search(`*${this.query}*`);
-				return results.map(result => {
-					const numberRef = Number(result.ref);
-					const ref = Number.isNaN(numberRef)
-						? ref
-						: numberRef;
-
-					return this.itemMap.get(ref);
-				});
+				return results.map(result =>
+					this.itemMap.get(result.ref)
+				);
 			}
 
 			return this.itemsWithAccessors;

@@ -131,7 +131,15 @@
 		<li><a href="/case-log">Case log</a></li>
 @endif
 
-@if (config('features.faculty_merit') && ($user->isType('admin') || $user->isType('faculty') || $user->usesFeature('FACULTY_MERIT')))
+@if (
+	config('features.faculty_merit')
+	&& (
+		$user->isType('admin')
+		|| $user->isType('faculty')
+		|| $user->usesFeature('FACULTY_MERIT')
+		|| !empty($user->meritAdministratees)
+	)
+)
 		<li><a href="/merit">Faculty merit</a></li>
 @endif
 

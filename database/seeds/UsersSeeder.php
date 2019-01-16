@@ -63,5 +63,15 @@ class UsersSeeder extends Seeder
 			'email' => 'Fellow@example.com',
 			'password' => bcrypt('test')
 		]);
+
+		User::create([
+			'username' => 'staff',
+			'type' => 'staff',
+			'status' => 'active',
+			'first_name' => 'Sample',
+			'last_name' => 'Staff',
+			'email' => 'staff@example.com',
+			'password' => bcrypt('test')
+		]);
     }
 }
