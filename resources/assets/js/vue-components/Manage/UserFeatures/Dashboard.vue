@@ -3,7 +3,7 @@
 		<div class="container body-block">
 			<nav>
 				<ul class="nav nav-pills">
-					<router-link tag="li" to="/merit-supervisors" active-class="active">
+					<router-link tag="li" to="/merit-administrators" active-class="active">
 						<a>Merit administrators</a>
 					</router-link>
 				</ul>
