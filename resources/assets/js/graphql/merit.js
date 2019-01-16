@@ -65,3 +65,16 @@ export const MY_MERIT_REPORTS_QUERY = gql`
 	}
 	${MERIT_REPORT_LIST_FIELDS}
 `;
+
+export const MERIT_ADMINISTRATOR_STAFF_FIELDS = gql`
+	fragment MeritAdministratorsStaffFields on User {
+		id
+		full_name
+		type
+		meritAdministratees {
+			id
+			full_name
+		}
+	}
+`;
+

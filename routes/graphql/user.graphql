@@ -22,9 +22,9 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
         id: ID!
     ): User @delete
 
-	addUserMeritAdministratee(
+	setUserMeritAdministratees(
 		user_id: ID!
-		administratee_id: ID!
+		administratee_ids: [ID!]!
 	): User
 }
 
