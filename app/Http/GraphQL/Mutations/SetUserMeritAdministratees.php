@@ -7,7 +7,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 use App\User;
 
-class AddUserMeritAdministratee
+class SetUserMeritAdministratees
 {
     /**
      * Return a value for the field.
@@ -22,7 +22,8 @@ class AddUserMeritAdministratee
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
 		$user = User::findOrFail($args['user_id']);
-		$user->meritAdministratees()->attach($args['administratee_id']);
+		$user->meritAdministratees()->detach();
+		$user->meritAdministratees()->attach($args['administratee_ids']);
 
 		return $user->fresh();
     }
