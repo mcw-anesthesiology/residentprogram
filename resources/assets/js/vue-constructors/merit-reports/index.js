@@ -19,7 +19,9 @@ const router = new VueRouter({
 					homeComponent() {
 						return isAdmin(this.user)
 							? () => import('#/MeritCompensation/AdminSupervisorDashboard.vue')
-							: () => import('#/MeritCompensation/FacultyDashboard.vue');
+							: this.user.type === 'faculty'
+								? () => import('#/MeritCompensation/FacultyDashboard.vue')
+								: () => import('#/MeritCompensation/StaffDashboard.vue');
 					}
 				}
 			},
