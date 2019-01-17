@@ -13,8 +13,9 @@
 </p>
 
 <p>
-	An account has been created for you on ResidentProgram.com, the departmental trainee
-	and faculty evaluation system.
+	An account has been created for you on ResidentProgram.com, the
+	departmental trainee and faculty evaluation system, and
+	merit checklist system.
 </p>
 
 <p>
@@ -58,17 +59,40 @@
 
 <ul>
 @if ($userType == 'resident' || $userType == 'fellow')
-	<li>Request evaluations</li>
-	<li>Create, save, and submit faculty evaluations</li>
-	<li>Review completed evaluations</li>
+	@if (config('features.evaluations'))
+		@if (config('features.trainee_evaluations'))
+			<li>Request evaluations</li>
+			<li>Review completed evaluations</li>
+		@endif
+		@if (config('features.faculty_evaluations'))
+			<li>Create, save, and submit faculty evaluations</li>
+		@endif
+	@endif
 @elseif ($userType == 'faculty' || $userType == 'staff')
-	<li>Create or complete requested trainee evaluations</li>
-	<li>View your own or your mentee's evaluations</li>
-	<li>Create, save, and submit yearly Merit checklists</li>
+	@if (config('features.evaluations'))
+		@if (config('features.trainee_evaluations'))
+			<li>Create or complete requested trainee evaluations</li>
+			<li>View your mentees' evaluations</li>
+		@endif
+		@if (config('features.faculty_evaluations'))
+			<li>View evaluations about yourself</li>
+		@endif
+	@endif
+
+	@if (config('features.faculty_merit'))
+		<li>
+			Create, save, and submit yearly
+			<a href="{{ url('merit') }}">
+				Merit checklists
+			</a>
+		</li>
+	@endif
 @elseif ($userType == 'admin')
 	<li>Manage users, evaluations, forms, and most other features of the site</li>
-	<li>Request evaluations on behalf of others</li>
-	<li>Review completed evaluations</li>
+	@if (config('features.evaluations'))
+		<li>Request evaluations on behalf of others</li>
+		<li>Review completed evaluations</li>
+	@endif
 	<li>A lot of other things!</li>
 @endif
 </ul>
