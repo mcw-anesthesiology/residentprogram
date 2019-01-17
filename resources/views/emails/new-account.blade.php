@@ -82,9 +82,7 @@
 	@if (config('features.faculty_merit'))
 		<li>
 			Create, save, and submit yearly
-			<a href="{{ url('merit') }}">
-				Merit checklists
-			</a>
+			<b>Merit checklists</b>
 		</li>
 	@endif
 @elseif ($userType == 'admin')
@@ -96,6 +94,10 @@
 	<li>A lot of other things!</li>
 @endif
 </ul>
+
+@if (config('features.faculty_merit'))
+	@include('help.merit')
+@endif
 
 <p>
 	You can find more information about Resident Program here:
