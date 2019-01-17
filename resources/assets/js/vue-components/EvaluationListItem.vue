@@ -74,6 +74,11 @@
 				</template>
 			</button>
 
+			<show-hide-button v-if="evaluationHasComment" v-model="showComment"
+					class="show-comment-button btn btn-default btn-sm">
+				comment
+			</show-hide-button>
+
 			<confirmation-button v-if="user && user.id === evaluation.requested_by_id && evaluation.status === 'pending'" class="btn btn-sm btn-danger"
 					@click="handleCancel" :disabled="canceled">
 				<template v-if="canceled">
@@ -83,19 +88,10 @@
 					Cancel
 				</template>
 			</confirmation-button>
-			<confirmation-button v-else-if="user && user.id === evaluation.evaluator_id && evaluation.status === 'pending'" class="btn btn-sm btn-danger"
-					@click="handleDecline" :disabled="declined">
-				<template v-if="declined">
-					<span class="glyphicon glyphicon-ok"></span>
-				</template>
-				<template v-else>
-					Decline
-				</template>
-			</confirmation-button>
-
-			<show-hide-button v-if="evaluationHasComment" v-model="showComment"
-					class="show-comment-button btn btn-default btn-sm">
-				comment
+			<show-hide-button v-else-if="user && user.id === evaluation.evaluator_id && evaluation.status === 'pending'" class="btn btn-sm btn-danger"
+				v-model="showDecline"
+			>
+				decline form
 			</show-hide-button>
 
 			<show-hide-button v-if="user && user.type === 'admin'" v-model="showAdminControls" class="btn btn-info btn-sm">
@@ -105,6 +101,27 @@
 
 		<div class="evaluation-list-item-foot">
 			<div v-if="evaluationHasComment && showComment" class="evaluation-comment-container well well-sm">{{ evaluation.comment }}</div>
+
+			<form v-if="showDecline" class="decline-form" @submit="handleDecline">
+				<label class="containing-label">
+					Decline reason
+					<textarea class="form-control" name="reason" :readonly="declined"></textarea>
+				</label>
+
+				<confirmation-button type="submit" class="btn btn-danger"
+						:disabled="declined">
+					<template v-if="declined">
+						<span class="glyphicon glyphicon-ok"></span>
+					</template>
+					<template v-else>
+						Decline request
+					</template>
+				</confirmation-button>
+
+				<button type="button" class="btn btn-default" @click="showDecline = false">
+					Close
+				</button>
+			</form>
 
 			<admin-controls v-if="user && user.type === 'admin' && showAdminControls" :evaluation="evaluation" />
 
@@ -144,7 +161,8 @@ export default {
 
 			showEvaluation: false,
 			showComment: false,
-			showAdminControls: false
+			showAdminControls: false,
+			showDecline: false
 		};
 	},
 	computed: {
@@ -234,8 +252,15 @@ export default {
 		async handleDecline(event) {
 			event.preventDefault();
 
+			const formData = new FormData(event.target);
+			const reason = formData.get('reason');
+
 			try {
-				const response = await ky.patch(`/evaluations/${this.evaluation.id}/decline`);
+				const response = await ky.patch(`/evaluations/${this.evaluation.id}/decline`, {
+					json: {
+						reason
+					}
+				});
 				this.declined = response.ok;
 			} catch (err) {
 				storeError(err, this, 'There was a problem declining the request');
@@ -468,6 +493,16 @@ export default {
 	.controls-container {
 		display: none;
 	}
+}
+
+.decline-form {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+
+.decline-form label {
+	flex-basis: 60%;
 }
 </style>
 
