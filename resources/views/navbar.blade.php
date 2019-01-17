@@ -204,9 +204,7 @@
 		  <ul class="dropdown-menu">
             <li class="disabled"><a>Account type: {{ ucfirst($user->specific_type) }}</a></li>
 			<li><a href="/user">Manage Account</a></li>
-	@if (config('features.evaluations'))
 			<li><a href="/help">Help</a></li>
-	@endif
 			<li><a class="pointer" data-toggle="modal" data-target="#attribution-modal">Attributions</a></li>
 			<li><a href="/logout">Logout</a></li>
 		  </ul>
