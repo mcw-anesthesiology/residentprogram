@@ -15,6 +15,8 @@ return [
 
 	'external_auth' => env('USE_EXTERNAL_AUTH', false),
 	'external_auth_endpoint' => env('EXTERNAL_AUTH_ENDPOINT', 'https://auth.mcw-anesthesiology.tech/auth'),
+	'external_auth_change_url' => env('EXTERNAL_AUTH_CHANGE_URL', 'https://auth.mcw-anesthesiology.tech/login'),
+	'external_auth_reset_url' => env('EXTERNAL_AUTH_RESET_URL', 'https://auth.mcw-anesthesiology.tech/reset-password'),
 
     'defaults' => [
         'guard' => 'web',
