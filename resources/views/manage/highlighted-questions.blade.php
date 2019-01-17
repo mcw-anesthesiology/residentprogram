@@ -1,9 +1,5 @@
 @extends('app')
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir('css/vue-manage.css') }}" />
-@endpush
-
 @section('blockless-body')
 @verbatim
 <div class="container body-block">
@@ -36,7 +32,6 @@
 @endsection
 
 @push('scripts')
-	<script src="{{ elixir('js/vue-manage.js') }}"></script>
 	<script>
 		createManageHighlightedQuestions('main');
 	</script>

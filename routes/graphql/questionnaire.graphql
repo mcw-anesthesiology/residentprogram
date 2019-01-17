@@ -1,0 +1,80 @@
+type QuestionnaireScoringDefinition {
+	category: String!
+	value: Float
+	max: Float
+	weight: Float
+}
+
+union QuestionValue = Boolean | String | Float
+
+type QuestionnaireCondition {
+	questionId: String!
+	questionValue: QuestionValue!
+}
+
+interface QuestionnaireQuestion {
+	id: ID!
+	text: String!
+	description: String
+	required: Boolean
+	condition: QuestionnaireCondition
+	scoring: QuestionnaireScoringDefinition
+}
+
+type QuestionnaireTextQuestion implements QuestionnaireQuestion {
+	placeholder: String
+	value: String
+}
+
+type QuestionnaireNumberQuestion implements QuestionnaireQuestion {
+	placeholder: String
+	min: Int
+	max: Int
+	value: Int
+}
+
+type QuestionnaireSelectQuestion implements QuestionnaireQuestion {
+	value: QuestionValue
+	selected: Boolean
+}
+
+type QuestionnaireCheckboxQuestion implements QuestionnaireQuestion {
+	options: [QuestionnaireOption!]!
+}
+
+type QuestionnaireRadioQuestion implements QuestionnaireQuestion {
+	options: [QuestionnaireOption!]!
+}
+
+type QuestionnaireOption {
+	text: String!
+	value: String!
+	description: String
+	value: QuestionValue!
+	editable: Boolean
+	checked: Boolean
+}
+
+enum QuestionnaireListQuestionType {
+	TEXT @enum(value: "text")
+	PUBLICATION @enum(value: "publication")
+	COMMITTEE @enum(value: "committee")
+	STUDY @enum(value: "study")
+	GRANT @enum(value: "grant")
+	GRANT_OTHER @enum(value: "grantOther")
+	CERTIFICATION @enum(value: "certification")
+	EDITORIAL_BOARD @enum(value: "editorialBoard")
+	REVIEW @enum(value: "review")
+	LECTURE @enum(value: "lecture")
+	AUDIENCE_LECTURE @enum(value: "audienceLecture")
+	MENTORSHIP @enum(value: "mentorship")
+	SUBJECT_MENTORSHIP @enum(value: "subjectMentorship")
+	DATED_EVENT @enum(value: "datedEvent")
+}
+
+type QuestionnaireListQuestion implements QuestionnaireQuestion {
+	listType: QuestionnaireListQuestionType!
+	ordered: Boolean
+	fixedLength: Boolean
+	# TODO
+}

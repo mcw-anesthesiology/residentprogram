@@ -1,7 +1,7 @@
 @extends('app')
 
 @push('stylesheets')
-	{{-- <link rel="stylesheet" href="{{ elixir('css/createExternalEvaluation.css') }}" /> --}}
+	<link rel="stylesheet" href="{{ mix('createExternalEvaluation.css') }}" />
 @endpush
 
 @section('blockless-body')
@@ -124,5 +124,5 @@
 @endsection
 
 @push('scripts')
-	<script src="{{ elixir('js/createExternalEvaluation.js') }}"></script>
+	<script src="{{ mix('createExternalEvaluation.js') }}"></script>
 @endpush

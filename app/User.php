@@ -22,37 +22,25 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
 	use Authenticatable, Authorizable, CanResetPassword, Notifiable;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
+	protected $connection = 'mysql';
 	protected $table = 'users';
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
 	protected $fillable = [
-		"username",
-		"training_level",
-		"secondary_training_level",
-		"first_name",
-		"last_name",
-		"email",
-		"status"
+		'username',
+		'training_level',
+		'secondary_training_level',
+		'first_name',
+		'last_name',
+		'email',
+		'status',
+		'notifications',
+		'reminder_frequency'
 	];
 
 	protected $casts = [
-		"id" => "integer"
+		'id' => 'integer'
 	];
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
 	protected $hidden = [
 		'password',
 		'remember_token',
@@ -231,6 +219,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $this->hasMany('App\MeritReport');
 	}
 
+	public function meritAdministrators() {
+		return $this->belongsToMany('App\User', 'merit_administrators', 'administratee_id', 'administrator_id');
+	}
+
+	public function meritAdministratees() {
+		return $this->belongsToMany('App\User', 'merit_administrators', 'administrator_id', 'administratee_id');
+	}
+
 	public function anesthesiaCases() {
 		return $this->belongsToMany(
 			'App\AnesthesiaCase',
@@ -306,7 +302,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 				$message->from("accounts@residentprogram.com", "Resident Program Accounts");
 				$message->to($email);
 				$message->replyTo(config("app.admin_email"));
-				$message->subject("Welcome to the MCW Department of Anesthesiology!");
+				$message->subject("Welcome to Resident Program");
 			});
 			return true;
 		} catch(\Exception $e) {

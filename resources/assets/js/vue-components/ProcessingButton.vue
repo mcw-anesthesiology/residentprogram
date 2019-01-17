@@ -2,7 +2,7 @@
 	<button :class="computedClass" :title="computedTitle" :disabled="computedDisabled"
 			@click="handleClick">
 		<slot v-if="processing" name="processing">
-			<svg-icon :svg="ring" />
+			<svg-icon src="/img/ring.svg" />
 		</slot>
 		<slot v-else></slot>
 	</button>
@@ -10,8 +10,6 @@
 
 <script>
 import SvgIcon from './SvgIcon.vue';
-
-import ring from '../../../../public/img/ring.svg';
 
 export default {
 	props: {
@@ -27,11 +25,6 @@ export default {
 			type: [String, Object],
 			required: false
 		}
-	},
-	data() {
-		return {
-			ring
-		};
 	},
 	computed: {
 		computedClass() {

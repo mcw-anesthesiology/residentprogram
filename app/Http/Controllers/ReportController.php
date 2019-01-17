@@ -42,6 +42,27 @@ class ReportController extends Controller
 			"getPDF"
 		]]);
 
+		$this->middleware(function ($request, $next) {
+			$error = null;
+			if (!$request->has('form_id')) {
+				$error = 'Please select a form';
+				return $request->ajax()
+					? response($error, 400)
+					: back()->with('error', $error);
+			}
+
+			try {
+				Form::findOrFail($request->input('form_id'));
+			} catch (ModelNotFoundException $e) {
+				$error = 'Form not found';
+				return $request->ajax()
+					? response($error, 404)
+					: back()->with('error', $error);
+			}
+
+			return $next($request);
+		})->only('formReport');
+
 		$this->filterNonAdminQuery = function ($query) {
 			$user = Auth::user();
 

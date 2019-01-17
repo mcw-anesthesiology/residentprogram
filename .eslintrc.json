@@ -19,7 +19,8 @@
 		"vue",
 		"compat",
 		"import",
-		"jest"
+		"jest",
+		"graphql"
 	],
 	"extends": [
 		"eslint:recommended",

@@ -1,27 +1,32 @@
 @extends("app")
 
-@section("body")
-	<h1>User features
-		<button type="button" class="btn btn-sm btn-success" id="add-user-feature-button">
-			<span class="glyphicon glyphicon-plus"></span>
-			Grant user feature
-		</button>
-	</h1>
-	<div class="table-responsive">
-		<table class="table table-striped" id="user-features-table" width="100%">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Feature</th>
-					<th>User</th>
-					<th>Type</th>
-					<th>Training level</th>
-					<th>Secondary training level</th>
-					<th></th>
-				</tr>
-			</thead>
-		</table>
+@section("blockless-body")
+	<div class="container body-block">
+		<h1>
+			User features
+			<button type="button" class="btn btn-sm btn-success" id="add-user-feature-button">
+				<span class="glyphicon glyphicon-plus"></span>
+				Grant user feature
+			</button>
+		</h1>
+		<div class="table-responsive">
+			<table class="table table-striped" id="user-features-table" width="100%">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Feature</th>
+						<th>User</th>
+						<th>Type</th>
+						<th>Training level</th>
+						<th>Secondary training level</th>
+						<th></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
 	</div>
+
+	<user-features-dashboard></user-features-dashboard>
 
 	<div class="modal fade" id="add-edit-user-feature-modal" role="dialog" aria-labelledby="add-edit-user-feature-modal-title" aria-hidden="true">
 	  <div class="modal-dialog">
@@ -102,6 +107,8 @@
 
 @section("script")
 	<script>
+		createManageUserFeatures('main');
+
 		var featureNames = {!! json_encode(config("constants.FEATURE_NAMES")) !!};
 		var userFeaturesTable = $("#user-features-table").DataTable({
 			ajax: {

@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Helpers\DateHelpers;
+
 use App\Scopes\MeritReportScope;
 
 class MeritReport extends Model
@@ -39,6 +41,14 @@ class MeritReport extends Model
 		'updated_at'
 	];
 
+	public function getReportAttribute($report) {
+		if (empty($report)) {
+			$report = $this->form->form;
+		}
+
+		return json_decode($report);
+	}
+
 	public function user() {
 		return $this->belongsTo('App\User');
 	}
@@ -49,5 +59,9 @@ class MeritReport extends Model
 
 	public function revisions() {
 		return $this->hasMany('App\MeritReportRevision', 'merit_report_id');
+	}
+
+	public static function getCurrentYear() {
+		return DateHelpers::getDateRangeFromPeriodType('year');
 	}
 }

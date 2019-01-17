@@ -15,5 +15,6 @@ return [
 
 	'external_links' => env('FEATURE_EXTERNAL_LINKS', true),
 	'news' => env('FEATURE_NEWS', true),
-	'highlighted-questions' => env('FEATURE_HIGHLIGHTED_QUESTIONS', true)
+	'highlighted-questions' => env('FEATURE_HIGHLIGHTED_QUESTIONS', true),
+	'beyond-milestones' => env('FEATURE_BEYOND_MILESTONES', false)
 ];

@@ -83,6 +83,7 @@
 	<alert-list v-model="alerts"></alert-list>
 </div>
 
+@if (config('auth.external_auth'))
 <div class="container body-block">
 	<h3 class="sub-header">Password</h3>
 	<p class="lead">
@@ -90,15 +91,37 @@
 		please log in there to change your current password, or to request a reset.
 	</p>
 	<p class="text-center">
-		<a href="https://auth.mcw-anesthesiology.tech/login" class="btn btn-lg btn-primary">
+		<a href="{{ config('auth.external_auth_change_url') }}" class="btn btn-lg btn-primary">
 			Take me there
 		</a>
 	</p>
 </div>
+@else
+<div class="container body-block">
+	<form role="form" id="password-form" action="#" method="post">
+		{!! csrf_field() !!}
+		<h3 class="sub-header">Update Password</h3>
+		<div class="form-group">
+			<label for="old-password">Old Password</label>
+			<input type="password" class="form-control" id="old-password" name="old_password" placeholder="Current Password" required />
+		</div>
+		<div class="form-group">
+			<label for="new-password">New Password</label>
+			<input type="password" class="form-control" id="new-password" name="new_password" placeholder="New Password" required />
+		</div>
+		<div class="form-group">
+			<label for="new-password-confirm">Confirm New Password <span class="glyphicon form-control-feedback" id="confirm-icon"></span></label>
+			<input type="password" class="form-control" id="new-password-confirm" name="new_password_confirm" placeholder="Confirm New Password" required />
+		</div>
+		<button type="submit" class="btn btn-primary center-block">
+			Update Password
+		</button>
+	</form>
+</div>
+@endif
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-user.js') }}"></script>
 	<script>
 		$("#new-password-confirm").keyup(function(){
 			if($("#new-password").val() == $("#new-password-confirm").val())

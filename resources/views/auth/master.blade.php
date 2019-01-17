@@ -23,14 +23,9 @@
 		</script>
 	@endif
 
-		<link href="{{ elixir("css/all.css") }}" rel="stylesheet" />
+		<link href="{{ mix("vendor-styles.css") }}" rel="stylesheet" />
+		<link href="{{ mix("global-styles.css") }}" rel="stylesheet" />
 
-
-		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
 		<style>
 			.form-signin .form-signin-heading,
 			.form-signin .checkbox {
@@ -155,8 +150,31 @@
 				@yield("body")
 			</div>
 		</div>
-		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
+		<script src="{{ mix('polyfills.js') }}"></script>
 		<script>
+			function checkCookies(container, email) {
+				if (!cookiesEnabled()) {
+					var alert = document.createElement('div');
+					alert.className = 'alert alert-danger';
+					alert.innerHTML = '<p>Cookies are required for Resident Program to function correctly. '
+						+ 'Please <a target="_blank" rel="noopener noreferrer" href="https://www.whatismybrowser.com/guides/how-to-enable-cookies/auto">enable cookies</a> in your web browser.</p>'
+						+ '<p>Please feel free to contact me at <a href="mailto:' + email + '">'
+						+ email
+						+ '</a> if you have any questions.</p>';
+					container.insertBefore(alert, container.children[0]);
+				}
+			}
+
+			function cookiesEnabled() {
+				var enabled = Boolean(navigator.cookieEnabled);
+				if (enabled) {
+					document.cookie = 'testcookie';
+					enabled = document.cookie.indexOf('testcookie') !== -1;
+				}
+
+				return enabled;
+			}
+
 			checkCookies(
 				document.getElementsByClassName('content-section')[0].children[0],
 				'{{ config('app.admin_email') }}'

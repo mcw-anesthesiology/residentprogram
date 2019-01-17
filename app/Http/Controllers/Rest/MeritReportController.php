@@ -75,16 +75,22 @@ class MeritReportController extends RestController {
                 $reportId = $request->route()->parameters()['merit'];
                 $report = MeritReport::findOrFail($reportId);
 
-                if ((
-                        Auth::id() == $report->user_id
-                        && Auth::id() == $request->input('user_id')
-                        && in_array($report->status, [
-                            'pending',
-                            'open for editing'
-                        ])
-                    ) || (
-                        Auth::user()->isType('admin')
-                    )
+				if (
+					Auth::user()->isType('admin')
+					|| (
+						$report->user_id == $request->input('user_id')
+						&& (
+							(
+								Auth::id() == $report->user_id
+								&& Auth::id() == $request->input('user_id')
+								&& in_array($report->status, [
+									'PENDING',
+									'OPEN'
+								])
+							)
+							|| Auth::user()->meritAdministratees->pluck('id')->contains($report->user_id)
+						)
+					)
                 ) {
                     return $next($request);
                 }
@@ -104,6 +110,7 @@ class MeritReportController extends RestController {
                 if ($user->isType('admin')
                     || $user->usesFeature('FACULTY_EVALS')
                     || Auth::id() == $report->user_id
+					|| Auth::user()->meritAdministratees->pluck('id')->contains($report->user_id)
                 ) {
                     return $next($request);
                 }

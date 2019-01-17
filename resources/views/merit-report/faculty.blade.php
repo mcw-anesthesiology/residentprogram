@@ -45,7 +45,7 @@
 		</div>
 	</bootstrap-alert>
 	<template v-else-if="needsToStartReport">
-		<bootstrap-alert v-if="yearlyFacultyForm" type="info">
+		<bootstrap-alert v-if="facultyMeritChecklistForm" type="info">
 			<p class="lead">
 				You haven't submitted a merit checklist yet for this year.
 			</p>

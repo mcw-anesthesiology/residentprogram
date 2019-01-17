@@ -1,9 +1,5 @@
 @extends('app')
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir('css/vue-manage.css') }}" />
-@endpush
-
 @section('blockless-body')
 	<div class="container body-block">
 		<h1>Scheduled requests</h1>
@@ -73,7 +69,6 @@
 @stop
 
 @push('scripts')
-	<script src="{{ elixir('js/vue-manage.js') }}"></script>
 	<script>
 		var propsData = {};
 

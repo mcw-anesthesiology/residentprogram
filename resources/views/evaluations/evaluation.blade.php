@@ -285,6 +285,8 @@
 
 				<hr />
 
+				<beyond-milestones :user="user" :evaluation="evaluation"></beyond-milestones>
+
 	@if($evaluation->evaluator_id == $user->id)
 		<div class="bottom-comment-container text-center">
 			<button type="button"
@@ -305,14 +307,17 @@
 	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 				<div class="submit-container text-center">
 					<button type="submit" id="complete-form" name="evaluation_id"
-							value="{{ $evaluation->viewable_id }}"
-							class="btn btn-primary btn-lg">
+						value="{{ $evaluation->viewable_id }}"
+						class="btn btn-primary btn-lg"
+						@click="checkForm"
+					>
 						{{ config('constants.COMPLETE_EVAL_TEXT') }}
 					</button>
 					<button type="submit" id="save-form" name="evaluation_id_saved"
-							value="{{ $evaluation->viewable_id }}"
-							class="btn btn-default btn-lg"
-							formnovalidate>
+						value="{{ $evaluation->viewable_id }}"
+						class="btn btn-default btn-lg"
+						formnovalidate
+					>
 						{{ config('constants.SAVE_EVAL_TEXT') }}
 					</button>
 				</div>
@@ -474,28 +479,27 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-evaluation.js') }}"></script>
 	<script>
 		var evaluationId = "{{ $evaluation->viewable_id }}";
-		$(".evaluation-hash-edit").click(function(){
+		$(".evaluation-hash-edit").click(function() {
 			var data = {};
 			data._token = "{{ csrf_token() }}";
 			data._method = "PATCH";
 			data.action = $(this).data("action");
-			if(data.action == "new")
+			if (data.action == "new")
 				data.hash_expires_in = $("#evaluation-hash-expires-in").val();
 			$.ajax({
 				url: "/evaluations/" + evaluationId + "/hash",
 				method: "POST", // PATCH
 				data: data
-			}).done(function(response){
-				if(response === "success"){
+			}).done(function(response) {
+				if (response === "success") {
 					var newBody;
-					switch(data.action){
+					switch(data.action) {
 						case "new":
-							$.getJSON("/evaluations/" + evaluationId, function(evaluation){
+							$.getJSON("/evaluations/" + evaluationId, function(evaluation) {
 								$("#evaluation-hash-body-text").html("A link has been sent, it expires <b>" + evaluation.hash_expires + "</b>. Are you sure you want to resend the completion link?");
-							}).fail(function(){
+							}).fail(function() {
 								appendAlert("There was a problem retrieving the evaluation info, please let me know if this continues.");
 							});
 							break;
@@ -511,7 +515,7 @@
 					appendAlert("There was a problem modifying or sending the link", "#evaluation-hash-modal .modal-body");
 				}
 
-			}).fail(function(){
+			}).fail(function() {
 				appendAlert("There was a problem modifying or sending the link", "#evaluation-hash-modal .modal-body");
 			});
 		});
@@ -549,21 +553,21 @@
 			});
 		@endif
 
-		$(document).ready(function(){
-			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id || $user->isType("admin"))
+		$(document).ready(function() {
+			@if ($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id || $user->isType("admin"))
 				@foreach($evaluation->responses as $response)
-					if($("input[name='{{ $response->question_id }}']").attr("type") == "radio")
+					if ($("input[name='{{ $response->question_id }}']").attr("type") == "radio")
 						$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
-					else if($("input[name='{{ $response->question_id }}']").attr("type") == "number")
+					else if ($("input[name='{{ $response->question_id }}']").attr("type") == "number")
 						$("input[name='{{ $response->question_id }}']").val({{ $response->response }});
 				@endforeach
 
 				@foreach($evaluation->textResponses as $response)
-					if($("textarea[name='{{ $response->question_id }}']").length > 0)
+					if ($("textarea[name='{{ $response->question_id }}']").length > 0)
 						$("textarea[name='{{ $response->question_id }}']").val("{!! str_replace(["\n", "\r"], ["\\n", "\\r"], addslashes($response->response)) !!}");
-					if($("input[name='{{ $response->question_id }}']").length > 0)
+					if ($("input[name='{{ $response->question_id }}']").length > 0)
 						$("input[name='{{ $response->question_id }}'][value='{{ str_replace(["\n", "\r"], ["\\n", "\\r"], addslashes($response->response)) }}']").prop("checked", true);
-					if($("input[name='{{ $response->question_id }}[]']").length > 0){
+					if ($("input[name='{{ $response->question_id }}[]']").length > 0) {
 						$("input[name='{{ $response->question_id }}[]'][value='{{ str_replace(["\n", "\r"], ["\\n", "\\r"], addslashes($response->response)) }}']").prop("checked", true);
 					}
 				@endforeach
@@ -575,22 +579,22 @@
 				});
 			@endif
 
-			@if($evaluation->status == "complete" || $user->id != $evaluation->evaluator_id)
+			@if ($evaluation->status == "complete" || $user->id != $evaluation->evaluator_id)
 				$("#form input").prop("disabled", true);
 				$("#form textarea").prop("readonly", true);
 			@endif
-			if($("#form textarea").length > 0){
+			if ($("#form textarea").length > 0) {
 				// $("#form textarea").width("90%");
-				$("#form textarea").each(function(){
+				$("#form textarea").each(function() {
 					$(this).height($(this)[0].scrollHeight);
 					$(this).addClass("noprint");
 					$(this).parent().append("<div class='print'>"+$(this).val()+"</div>");
 				});
 			}
-			$("#form button").each(function(){
+			$("#form button").each(function() {
 				$(this).addClass("noprint");
 			});
-	@if($evaluation->evaluator_id == $user->id || $user->isType("admin"))
+	@if ($evaluation->evaluator_id == $user->id || $user->isType("admin"))
 			$("#evaluation-controls-info").popover({
 				placement: "left",
 				html: "true",
@@ -601,7 +605,7 @@
 					"</ul>"
 			});
 
-		@if($evaluation->flag)
+		@if ($evaluation->flag)
 			$("#flag-evaluation-requested-action-group").find("input[name='requested_action'][value='{{ $evaluation->flag->requested_action }}']").prop("checked", true);
 		@endif
 
@@ -611,47 +615,8 @@
 	@endif
 		});
 
-
-		var saveForm = false;
-		$("#evaluation").submit(checkForm);
-
-		function checkForm(event){
-			//Checks the evaluation to make sure every question is answered before submitting the form
-			if(saveForm)
-				return true;
-
-			var validForm = true;
-			var alertText = "";
-			$("#evaluation input:radio").each(function(){
-				var name = $(this).attr("name");
-				if($(this).attr("required") == "required" && $("input:radio[name="+name+"]:checked").length == 0){
-					$(this).focus();
-					alertText = "Please complete each required question";
-					validForm = false;
-				}
-			});
-			$("#evaluation textarea").each(function(){
-				if($(this).attr("required") == "required" && this.value === ""){
-					$(this).focus();
-					alertText = "Please complete each required question";
-					validForm = false;
-				}
-			});
-			if(!validForm)
-				alert(alertText);
-			return validForm;
-		}
-
-		$("#complete-form").click(function(){
-			saveForm = false;
-		});
-
-		$("#save-form").click(function(){
-			saveForm = true;
-		});
-
-	@if($evaluation->evaluator_id == $user->id || $user->isType("admin"))
-		$("#submit-evaluation-comment").click(function(){
+	@if ($evaluation->evaluator_id == $user->id || $user->isType("admin"))
+		$("#submit-evaluation-comment").click(function() {
 			var data = {};
 			data._token = "{{ csrf_token() }}";
 			data._method = "PATCH";
@@ -667,8 +632,8 @@
 				url: "/evaluations/" + evaluationId + "/comment",
 				method: "POST", // PATCH
 				data: data
-			}).done(function(response){
-				if(response === "success"){
+			}).done(function(response) {
+				if (response === "success") {
 					alert.removeClass("alert-danger alert-info").addClass("alert-success");
 					alert.html("Comment saved!");
 				}
@@ -676,18 +641,18 @@
 					alert.removeClass("alert-success alert-info").addClass("alert-danger");
 					alert.html("The comment cannot be saved at this time");
 				}
-			}).fail(function(){
+			}).fail(function() {
 				alert.removeClass("alert-success alert-info").addClass("alert-danger");
 				alert.html("There was an error saving the comment");
 			});
 		});
 
-		$("#evaluation-comment-modal").on("show.bs.modal", function(){
+		$("#evaluation-comment-modal").on("show.bs.modal", function() {
 			$("#evaluation-comment-alert").hide();
 		});
 
-		$("#edit-evaluation-form").on("submit", function(){
-			if($("#evaluation-subject").val() == "" && $("#evaluation-form").val() == ""){
+		$("#edit-evaluation-form").on("submit", function() {
+			if ($("#evaluation-subject").val() == "" && $("#evaluation-form").val() == "") {
 				alert("Please select something to change");
 				return false;
 			}
@@ -696,8 +661,8 @@
 
 		var infoTableLayout = "horizontal";
 
-		function resizeInfoTable(){
-			if(infoTableLayout == "horizontal" && $(window).width() < 768){
+		function resizeInfoTable() {
+			if (infoTableLayout == "horizontal" && $(window).width() < 768) {
 				var table = document.getElementById("evaluation-info-table");
 				var headings = $(table).find("th").toArray();
 				var data = $(table).find("td").toArray();
@@ -705,7 +670,7 @@
 					table.removeChild(table.firstChild);
 
 				var tbody = document.createElement("tbody");
-				for(var i = 0; i < headings.length || i < data.length; i++){
+				for(var i = 0; i < headings.length || i < data.length; i++) {
 					var tr = document.createElement("tr");
 					$(tr).append(headings[i]);
 					$(tr).append(data[i]);
@@ -716,7 +681,7 @@
 				infoTableLayout = "vertical";
 			}
 
-			if(infoTableLayout == "vertical" && $(window).width() >= 768){
+			if (infoTableLayout == "vertical" && $(window).width() >= 768) {
 				var table = document.getElementById("evaluation-info-table");
 				var headings = $(table).find("th").toArray();
 				var data = $(table).find("td").toArray();
@@ -727,13 +692,13 @@
 				var tbody = document.createElement("tbody");
 				var tr = document.createElement("tr");
 				var th, td, text;
-				for(var i = 0; i < headings.length || i < data.length; i++){
+				for(var i = 0; i < headings.length || i < data.length; i++) {
 					$(tr).append(headings[i]);
 				}
 				thead.appendChild(tr);
 
 				tr = document.createElement("tr");
-				for(var i = 0; i < headings.length || i < data.length; i++){
+				for(var i = 0; i < headings.length || i < data.length; i++) {
 					$(tr).append(data[i]);
 				}
 				tbody.appendChild(tr);
@@ -750,11 +715,11 @@
 		$(window).resize(resizeInfoTable);
 	@endif
 
-	var propsData = {
-		user: {!! $user->toJson() !!},
-		evaluation: {!! $evaluation->toJson() !!}
-	};
+		var propsData = {
+			user: {!! $user->toJson() !!},
+			evaluation: {!! $evaluation->toJson() !!}
+		};
 
-	createEvaluationPage('#evaluation-header', propsData);
+		createEvaluationPage('main', propsData);
 	</script>
 @stop

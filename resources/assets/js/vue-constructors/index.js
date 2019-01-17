@@ -1,38 +1,16 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import Vuex from 'vuex';
+export * from './alerts.js';
+export * from './alumni.js';
+export * from './case-log.js';
+export * from './case-overlaps.js';
+export * from './evaluation.js';
+export * from './form-builder.js';
+export * from './milestone-competency-lists.js';
+export * from './news.js';
 
-import { rollbar } from '@/modules/errors.js';
-
-Vue.use(Vuex);
-Vue.use(VueRouter);
-
-Vue.config.errorHandler = (err, vm, info) => {
-	rollbar.error(`Error from Vue: ${err}`, { info, vm });
-	console.error(err, info);
-};
-
-Vue.config.warnHandler = (msg, vm, trace) => {
-	rollbar.warning(`Warning from Vue: ${msg}`, { trace, vm });
-	console.warn(msg, trace);
-};
-
-Vue.directive('visible', (el, {value, oldValue, modifiers}) => {
-	if(modifiers.once && el.style.visibility === 'visible')
-		return;
-
-	if(value !== oldValue){
-		el.style.transition = oldValue
-			? 'opacity 0.1s ease-out, visibility 0s 0.1s'
-			: 'opacity 0.1s ease-out';
-
-		el.style.visibility = value
-			? 'visible'
-			: 'hidden';
-		el.style.opacity = value
-			? 1
-			: 0;
-	}
-});
-
-export default Vue;
+export * from './reports.js';
+export * from './request.js';
+export * from './user.js';
+export * from './dashboard/index.js';
+export * from './faculty360/index.js';
+export * from './manage/index.js';
+export * from './merit-reports/index.js';
