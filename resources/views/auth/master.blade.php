@@ -151,10 +151,30 @@
 			</div>
 		</div>
 		<script src="{{ mix('polyfills.js') }}"></script>
-		<script src="{{ mix('common.js') }}"></script>
-		<script src="{{ mix('vendor.js') }}"></script>
-		<script src="{{ mix('app.js') }}"></script>
 		<script>
+			function checkCookies(container, email) {
+				if (!cookiesEnabled()) {
+					var alert = document.createElement('div');
+					alert.className = 'alert alert-danger';
+					alert.innerHTML = '<p>Cookies are required for Resident Program to function correctly. '
+						+ 'Please <a target="_blank" rel="noopener noreferrer" href="https://www.whatismybrowser.com/guides/how-to-enable-cookies/auto">enable cookies</a> in your web browser.</p>'
+						+ '<p>Please feel free to contact me at <a href="mailto:' + email + '">'
+						+ email
+						+ '</a> if you have any questions.</p>';
+					container.insertBefore(alert, container.children[0]);
+				}
+			}
+
+			function cookiesEnabled() {
+				var enabled = Boolean(navigator.cookieEnabled);
+				if (enabled) {
+					document.cookie = 'testcookie';
+					enabled = document.cookie.indexOf('testcookie') !== -1;
+				}
+
+				return enabled;
+			}
+
 			checkCookies(
 				document.getElementsByClassName('content-section')[0].children[0],
 				'{{ config('app.admin_email') }}'
