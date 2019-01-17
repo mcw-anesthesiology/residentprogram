@@ -112,6 +112,7 @@ export default {
 	data() {
 		return {
 			users: [],
+			facultyMeritChecklistForm: null,
 
 			userToCreateReport: null,
 			createDates: isoDateStringObject(getCurrentYearlyMeritDateRange())
@@ -138,10 +139,14 @@ export default {
 			return isAdmin(this.user) || usesFeature(this.user, 'FACULTY_MERIT');
 		},
 		usersWithReports() {
-			return this.users.filter(u => u.meritReports.length > 0);
+			return this.facultyMeritChecklistForm
+				?  this.users.filter(u => userHasReport(u, this.facultyMeritChecklistForm.id))
+				: [];
 		},
 		usersWithoutReports() {
-			return this.users.filter(u => u.meritReports.length === 0);
+			return this.facultyMeritChecklistForm
+				?  this.users.filter(u => !userHasReport(u, this.facultyMeritChecklistForm.id))
+				: this.users;
 		},
 		usersWithoutReportsOptions() {
 			return groupUsers(this.usersWithoutReports);
@@ -232,4 +237,10 @@ export default {
 		SelectTwo: () => import('#/SelectTwo.vue')
 	}
 };
+
+function userHasReport(user, formId) {
+	return user.meritReports.some(meritReport =>
+		meritReport.form.id === formId
+	);
+}
 </script>
