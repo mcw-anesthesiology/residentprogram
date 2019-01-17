@@ -7,7 +7,8 @@
 				<label class="containing-label">
 					Form
 					<select-two class="form-control" :options="groupedForms"
-					v-model="formId"></select-two>
+						v-model="formId" required>
+					</select-two>
 				</label>
 			</div>
 
@@ -194,7 +195,8 @@ import {
 import {
 	getFetchHeaders,
 	jsonOrThrow,
-	groupUsers
+	groupUsers,
+	simpleErrorAlert
 } from '@/modules/utils.js';
 import {
 	isoDateStringObject,
@@ -464,6 +466,16 @@ export default {
 
 		},
 		runReport() {
+			if (!this.formId) {
+				this.alerts.push(simpleErrorAlert('Please select a form'));
+				return;
+			}
+
+			if (!this.dates || !this.dates.startDate || !this.dates.endDate) {
+				this.alerts.push(simpleErrorAlert('Please select a date range'));
+				return;
+			}
+
 			fetch('/report/form', {
 				method: 'POST',
 				headers: getFetchHeaders(),
@@ -471,7 +483,7 @@ export default {
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
 					endDate: this.dates.endDate,
-					'form_id': this.formId
+					form_id: this.formId
 				})
 			}).then(response => {
 				if(response.ok)
