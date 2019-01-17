@@ -1,40 +1,19 @@
 @extends('app')
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir("css/vue-merit-reports.css") }}" />
-@endpush
-
 @section('blockless-body')
 	<transition name="merit-view">
 		<router-view :user="user"
 			:current-user="user"
-			:merit-reports="meritReports"
-			:merit-forms="meritForms"
 			:merit-report-types="meritReportTypes"
 			:merit-report-type-forms="meritReportTypeForms"
 			@close="handleClose"
-			@reload="handleReload"
 			@alert="alerts.push(arguments[0])">
 		</router-view>
 	</transition>
-
-	<div class="merit-reports-container">
-		@if($user->isType('faculty'))
-			@include('merit-report.faculty')
-		@endif
-
-		@if($user->isType('admin') || $user->usesFeature('FACULTY_MERIT'))
-			@include("merit-report.admin-supervisor")
-		@endif
-	</div>
 @stop
 
 @push('stylesheets')
 	<style>
-		div + .merit-reports-container {
-			display: none;
-		}
-
 		.merit-view-enter-active,
 		.merit-view-leave-active {
 			transition: transform 0.2s ease, opacity 0.2s ease;
@@ -55,7 +34,6 @@
 @endpush
 
 @push('scripts')
-	<script src="{{ elixir('js/vue-merit-reports.js') }}"></script>
 	<script>
 		var propsData = {
 			user: {!! $user->toJson() !!},

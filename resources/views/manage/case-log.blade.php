@@ -1,7 +1,6 @@
 @extends("app")
 
-@push("stylesheets")
-	<link rel="stylesheet" href="{{ elixir('css/vue-manage.css') }}" />
+@push("styles")
 	<style>
 		.case-log-details-schema-schema {
 			resize: vertical;
@@ -120,7 +119,6 @@
 @endpush
 
 @push("scripts")
-	<script src="{{ elixir('js/vue-manage.js') }}"></script>
 	<script>
 		var propsData = {
 			detailsSchemas: {!! $schemas->toJson() !!}

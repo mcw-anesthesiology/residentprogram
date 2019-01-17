@@ -738,21 +738,24 @@ class AdminTest extends BrowserKitTestCase
                 "request_date" => $evals[0]->request_date->toDateTimeString(),
                 "complete_date" => $evals[0]->complete_date->toDateTimeString(),
                 "status" => "complete",
-                "url" => "<a href='/evaluation/{$evals[0]->id}'>{$evals[0]->id}</a>"
+				"url" => "<a href='/evaluation/{$evals[0]->id}'>{$evals[0]->id}</a>",
+				'type' => null
             ],
             [
                 "id" => $evals[1]->id,
                 "request_date" => $evals[1]->request_date->toDateTimeString(),
                 "complete_date" => $evals[1]->complete_date->toDateTimeString(),
                 "status" => "complete",
-                "url" => "<a href='/evaluation/{$evals[1]->id}'>{$evals[1]->id}</a>"
+                "url" => "<a href='/evaluation/{$evals[1]->id}'>{$evals[1]->id}</a>",
+				'type' => null
             ],
             [
                 "id" => $anotherEval->id,
                 "request_date" => $anotherEval->request_date->toDateTimeString(),
                 "complete_date" => null,
                 "status" => "pending",
-                "url" => "<a href='/evaluation/{$anotherEval->id}'>{$anotherEval->id}</a>"
+                "url" => "<a href='/evaluation/{$anotherEval->id}'>{$anotherEval->id}</a>",
+				'type' => null
             ],
         ]);
     }

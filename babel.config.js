@@ -36,7 +36,8 @@ module.exports = api => {
 			['@babel/plugin-proposal-object-rest-spread', {
 				useBuiltIns: true
 			}],
-			'transform-vue-jsx'
+			'transform-vue-jsx',
+			'dual-import'
 		],
 		env: {
 			test: {

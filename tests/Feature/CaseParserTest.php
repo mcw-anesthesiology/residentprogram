@@ -3,13 +3,13 @@
 namespace Tests\Feature;
 
 use TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\Helpers\CaseParser;
 
 class CaseParserTest extends TestCase
 {
-	use RefreshDatabase;
+	use DatabaseTransactions;
 
 	const DATE_FORMAT = 'Y/m/d';
 	const TIME_FORMAT = 'Hi';

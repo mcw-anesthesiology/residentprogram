@@ -1,6 +1,4 @@
-import Vue from '@/vue-constructors/index.js';
-
-import NewsList from '@/vue-components/News/List.vue';
+import Vue from '@/vue-constructors/vue.js';
 
 import { logError } from '@/modules/errors.js';
 import { fetchConfig, jsonOrThrow } from '@/modules/utils.js';
@@ -69,7 +67,7 @@ export function createNews(el) {
 			}
 		},
 		components: {
-			NewsList
+			NewsList: () => import('@/vue-components/News/List.vue')
 		}
 	});
 }

@@ -12,17 +12,12 @@
 	</style>
 @stop
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir("css/vue-manage.css") }}" />
-@endpush
-
 @section("body")
 	<h2 class="sub-header">Manage Evaluations</h2>
 	<evaluation-data-table :thead="thead" :config="config" />
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-manage.js') }}"></script>
 	<script>
 		createManageEvaluations('main');
 	</script>

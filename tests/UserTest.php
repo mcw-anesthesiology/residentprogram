@@ -23,27 +23,6 @@ class UserTest extends BrowserKitTestCase
 		$this->user->save();
 	}
 
-	public function testChangePassword(){
-		$faker = Faker::create();
-		$oldPassword = $faker->password();
-		$this->user->password = bcrypt($oldPassword);
-		$this->user->save();
-
-		$newPassword = $faker->password();
-
-		$this->actingAs($this->user)
-			->visit("/user")
-			->see("Update Password")
-			->type($oldPassword, "old_password")
-			->type($newPassword, "new_password")
-			->type($newPassword, "new_password_confirm")
-			->press("Update Password");
-
-		$this->user = $this->user->fresh();
-
-		$this->assertTrue(password_verify($newPassword, $this->user->password));
-	}
-
 	public function testChangeReminders(){
 		$newFrequency = "weekly";
 

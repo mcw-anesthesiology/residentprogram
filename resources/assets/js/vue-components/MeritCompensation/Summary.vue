@@ -78,7 +78,7 @@ import { getCheckedItemCount } from '@/modules/merit-utils.js';
 export default {
 	props: {
 		id: {
-			type: Number,
+			type: [Number, String],
 			required: false
 		},
 		period_start: {

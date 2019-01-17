@@ -2,6 +2,7 @@
 /* global process */
 
 export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+export const GRAPHQL_URI = `${process.env.APP_URL}/graphql`;
 
 export const NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
 

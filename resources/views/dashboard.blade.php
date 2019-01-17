@@ -1,26 +1,28 @@
 @extends('app')
 
 @push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir('css/dashboard.css') }}" />
-		<style>
-			.dashboard-welcome-alert p {
-				margin-bottom: 1em;
-			}
+	<link rel="stylesheet" href="{{ mix('dashboard.css') }}" />
+@endpush
+@push('styles')
+	<style>
+		.dashboard-welcome-alert p {
+			margin-bottom: 1em;
+		}
 
-			.dashboard-welcome-alert .btn {
-				white-space: normal;
-			}
+		.dashboard-welcome-alert .btn {
+			white-space: normal;
+		}
 
-			.date-range-hint {
-				display: block;
-				margin-bottom: 2em;
-				opacity: 0.85;
-			}
+		.date-range-hint {
+			display: block;
+			margin-bottom: 2em;
+			opacity: 0.85;
+		}
 
-			.date-range-hint b {
-				color: #333;
-			}
-		</style>
+		.date-range-hint b {
+			color: #333;
+		}
+	</style>
 @endpush
 
 @section('main')
@@ -92,5 +94,5 @@
 @endsection
 
 @push('scripts')
-	<script src="{{ elixir('js/dashboard.js') }}"></script>
+	<script src="{{ mix('dashboard.js') }}"></script>
 @endpush

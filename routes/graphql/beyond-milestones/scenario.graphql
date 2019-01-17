@@ -1,0 +1,128 @@
+extend type Query @middleware(checks: ["auth", "type:admin", "site-feature:beyond-milestones"]) {
+	scenarios: [Scenario!]! @all(model: "App\\BeyondMilestones\\Scenario")
+	scenario(id: ID! @eq): Scenario @find(model: "App\\BeyondMilestones\\Scenario")
+}
+
+extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
+	scenarioResponses(evaluation_id: ID @eq): [ScenarioResponse!]! @all(model: "App\\BeyondMilestones\\ScenarioResponse")
+	scenarioResponse(scenario_id: ID @eq, evaluation_id: ID @eq): ScenarioResponse @find(model: "App\\BeyondMilestones\\ScenarioResponse")
+}
+
+extend type Mutation @middleware(checks: ["auth", "type:admin", "site-feature:beyond-milestones"]) {
+	createScenario(input: ScenarioInput!): Scenario @create(model: "App\\BeyondMilestones\\Scenario", flatten: true)
+	updateScenario(
+		id: ID!
+		scenario_type: ScenarioType
+		scenario_difficulty: ScenarioDifficulty
+		title: String
+		intro: String
+		text: String
+		options: [ScenarioOptionInput!]
+	): Scenario @update(model: "App\\BeyondMilestones\\Scenario")
+	deleteScenario(
+		id: ID!
+	): Scenario @delete(model: "App\\BeyondMilestones\\Scenario")
+
+	deleteScenarioResponse(
+		id: ID!
+	): ScenarioResponse @delete(model: "App\\BeyondMilestones\\ScenarioResponse")
+
+	attachFormScenario(
+		form_id: ID!
+		scenario_id: ID!
+	): FormScenario @create(model: "App\\BeyondMilestones\\FormScenario")
+	deleteFormScenario(
+		form_id: ID!
+		scenario_id: ID!
+	): FormScenario @delete(model: "App\\BeyondMilestones\\FormScenario")
+	setScenarioForms(
+		scenario_id: ID!
+		form_ids: [ID!]!
+	): Scenario
+}
+
+extend type Mutation @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
+	setScenarioResponse(
+		scenario_id: ID!,
+		evaluation_id: ID!,
+		value: Float!
+	): ScenarioResponse
+}
+
+enum ScenarioType {
+	GENERAL
+	CARDIO
+	OB
+	NEURO
+	TRAUMA
+}
+
+enum ScenarioDifficulty {
+	BEGINNER
+	ADVANCED
+}
+
+type ScenarioOption {
+	text: String
+	value: Float!
+}
+
+input ScenarioOptionInput {
+	text: String
+	value: Float!
+}
+
+type Scenario {
+	id: ID!
+	scenario_type: ScenarioType!
+	scenario_difficulty: ScenarioDifficulty!
+	title: String
+	intro: String
+	text: String!
+	options: [ScenarioOption!]!
+	created_at: Date!
+	updated_at: Date!
+	deleted_at: Date
+
+	forms: [Form]! @belongsToMany
+	responses: [ScenarioResponse]! @hasMany
+}
+
+input ScenarioInput {
+	scenario_type: ScenarioType!
+	scenario_difficulty: ScenarioDifficulty!
+	title: String
+	intro: String
+	text: String!
+	options: [ScenarioOptionInput!]!
+}
+
+type ScenarioResponse {
+	id: ID!
+	scenario_id: ID!
+	scenario: Scenario! @belongsTo
+	evaluation_id: ID!
+	text: String
+	value: Float
+
+	created_at: Date!
+	updated_at: Date!
+	deleted_at: Date
+}
+
+input ScenarioResponseInput {
+	scenario_id: ID!
+	evaluation_id: ID!
+	text: String
+	value: Float!
+}
+
+type FormScenario {
+	id: ID!
+	form_id: ID!
+	scenario_id: ID!
+	scenario: Scenario! @belongsTo
+	form_id: ID!
+	form: Form! @belongsTo
+}
+

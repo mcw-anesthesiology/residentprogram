@@ -8,3 +8,5 @@ export { default as createManageScheduledRequests } from './scheduled-requests.j
 export { default as createManageNewsItems } from './news-items.js';
 export { default as createManageHighlightedQuestions } from './highlighted-questions.js';
 export { default as createManagePrograms } from './programs.js';
+export { default as createManageBeyondMilestones } from './beyond-milestones.js';
+export { default as createManageUserFeatures } from './user-features.js';

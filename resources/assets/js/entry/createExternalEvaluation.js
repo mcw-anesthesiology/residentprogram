@@ -1,4 +1,4 @@
-import Vue from '@/vue-constructors/index.js';
+import Vue from '@/vue-constructors/vue.js';
 import VueRouter from 'vue-router';
 import { mapState } from 'vuex';
 import ky from '@/modules/ky.js';

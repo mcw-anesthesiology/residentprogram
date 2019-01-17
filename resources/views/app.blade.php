@@ -31,6 +31,7 @@
 			</div>
 	@endif
 		</div>
+		<div id="global-alert-list"></div>
 @endsection
 
 @section('main')
@@ -50,6 +51,8 @@
 	@if(empty($noNavbar) || !$noNavbar)
 		createNews('#global-news-dropdown');
 	@endif
+
+		createGlobalAlerts('#global-alert-list');
 
 		checkCookies(
 			document.getElementById('alert-container'),

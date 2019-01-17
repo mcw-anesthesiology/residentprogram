@@ -29,10 +29,6 @@
 	</style>
 @stop
 
-@push('stylesheets')
-	<link rel="stylesheet" href="{{ elixir("css/vue-request.css") }}" />
-@endpush
-
 @section("body")
 	<div class="page-header">
 		<h1>
@@ -356,7 +352,6 @@
 @stop
 
 @section("script")
-	<script src="{{ elixir('js/vue-request.js') }}"></script>
 	<script>
 		var propsData = {
 			user: {!! $user->toJson() !!}

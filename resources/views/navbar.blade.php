@@ -120,6 +120,9 @@
         @if (config('features.highlighted-questions'))
             <li><a href="/manage/highlighted-questions">Highlighted questions</a></li>
         @endif
+		@if (config('features.beyond-milestones'))
+			<li><a href="/manage/beyond-milestones">Beyond milestones</a></li>
+		@endif
 		  </ul>
 		</li>
 @endif
@@ -128,7 +131,15 @@
 		<li><a href="/case-log">Case log</a></li>
 @endif
 
-@if (config('features.faculty_merit') && ($user->isType('admin') || $user->isType('faculty') || $user->usesFeature('FACULTY_MERIT')))
+@if (
+	config('features.faculty_merit')
+	&& (
+		$user->isType('admin')
+		|| $user->isType('faculty')
+		|| $user->usesFeature('FACULTY_MERIT')
+		|| !empty($user->meritAdministratees)
+	)
+)
 		<li><a href="/merit">Faculty merit</a></li>
 @endif
 
@@ -193,9 +204,7 @@
 		  <ul class="dropdown-menu">
             <li class="disabled"><a>Account type: {{ ucfirst($user->specific_type) }}</a></li>
 			<li><a href="/user">Manage Account</a></li>
-	@if (config('features.evaluations'))
 			<li><a href="/help">Help</a></li>
-	@endif
 			<li><a class="pointer" data-toggle="modal" data-target="#attribution-modal">Attributions</a></li>
 			<li><a href="/logout">Logout</a></li>
 		  </ul>

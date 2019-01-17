@@ -4,6 +4,10 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 
+html {
+	font-size: 16px;
+}
+
 body {
 	padding-top: 55px;
 	padding-bottom: 40px;
@@ -265,6 +269,28 @@ body {
 	background-color: rgba(0, 0, 0, 0.02);
 }
 
+
+.flexbox.flexwrap .question-body,
+.flexbox.flexwrap .na-option-container {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-content: space-around;
+	overflow: auto;
+}
+
+@media (min-width: 768px) {
+	.flexbox.flexwrap .question-body,
+	.flexbox.flexwrap .na-option-container {
+		flex-direction: row;
+	}
+}
+
+.no-flexbox .question-body {
+	display: table;
+	width: 100%;
+}
 
 .flexbox.flexwrap .question-body,
 .flexbox.flexwrap .na-option-container {

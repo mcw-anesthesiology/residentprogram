@@ -29,7 +29,7 @@ export default {
 				}
 
 				return 0;
-			})
+			});
 		}
 	},
 	actions: {

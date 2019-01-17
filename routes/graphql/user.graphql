@@ -1,0 +1,103 @@
+extend type Query @middleware(checks: ["auth", "type:admin"]) {
+	users(
+		type: UserType @eq
+		status: UserStatus @eq
+		type: UserType @eq
+	): [User!]! @all(model: "App\\User")
+    user(id: ID! @eq): User @find(model: "App\\User")
+
+}
+
+extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
+    createUser(
+        name: String!
+        email: String! @rules(apply: ["email"])
+    ): User @create
+    updateUser(
+        id: ID!
+        name: String
+        email: String @rules(apply: ["email"])
+    ): User @update
+    deleteUser(
+        id: ID!
+    ): User @delete
+
+	setUserMeritAdministratees(
+		user_id: ID!
+		administratee_ids: [ID!]!
+	): User
+}
+
+enum UserType {
+	RESIDENT @enum(value: "resident")
+	FACULTY @enum(value: "faculty")
+	ADMIN @enum(value: "admin")
+	APP @enum(value: "app")
+	STAFF @enum(value: "staff")
+	EXTERNAL @enum(value: "external")
+}
+
+enum TrainingLevel {
+	INTERN @enum(value: "intern")
+	CA1 @enum(value: "ca-1")
+	CA2 @enum(value: "ca-2")
+	CA3 @enum(value: "ca-3")
+	FELLOW @enum(value: "fellow")
+	RESIDENCY_DIRECTOR @enum(value: "residency-director")
+}
+
+enum ReminderFrequency {
+	NONE @enum(value: "none")
+	DAILY @enum(value: "daily")
+	WEEKLY @enum(value: "weekly")
+	BIWEEKLY @enum(value: "biweekly")
+}
+
+enum YesNoBoolean {
+	YES @enum(value: "yes")
+	NO @enum(value: "no")
+}
+
+enum UserStatus {
+	ACTIVE @enum(value: "active")
+	INACTIVE @enum(value: "inactive")
+	EXTERNAL @enum(value: "external")
+}
+
+type User {
+    id: ID!
+    username: String!
+	email: String!
+	first_name: String!
+	last_name: String!
+	full_name: String!
+	type: UserType!
+	status: UserStatus!
+	training_level: TrainingLevel
+	secondary_training_level: String
+	notifications: YesNoBoolean!
+	reminder_frequency: ReminderFrequency!
+	remind_only_if_pending: YesNoBoolean!
+	photo_path: String
+
+	meritReports(
+		period_start: Date @where(operator: "<=")
+		period_end: Date @where(operator: ">=")
+	): [MeritReport]! @hasMany
+
+	meritAdministrators: [User] @belongsTo
+	meritAdministratees: [User] @belongsTo
+
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+input UserInput {
+	username: String!
+	email: String! @rules(apply: ["email"])
+	first_name: String!
+	last_name: String!
+	training_level: TrainingLevel
+	secondary_training_level: String
+	status: UserStatus!
+}
