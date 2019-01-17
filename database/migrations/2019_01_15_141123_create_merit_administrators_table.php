@@ -16,8 +16,8 @@ class CreateMeritAdministratorsTable extends Migration
         Schema::create('merit_administrators', function (Blueprint $table) {
             $table->increments('id');
 
-			$table->unsignedInteger('administrator_id');
-			$table->unsignedInteger('administratee_id');
+			$table->integer('administrator_id')->unsigned();
+			$table->integer('administratee_id')->unsigned();
 
             $table->timestamps();
 
