@@ -302,7 +302,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 				$message->from("accounts@residentprogram.com", "Resident Program Accounts");
 				$message->to($email);
 				$message->replyTo(config("app.admin_email"));
-				$message->subject("Welcome to the MCW Department of Anesthesiology!");
+				$message->subject("Welcome to Resident Program");
 			});
 			return true;
 		} catch(\Exception $e) {
