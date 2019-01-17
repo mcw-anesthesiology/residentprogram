@@ -97,6 +97,7 @@
 	</p>
 </div>
 @else
+<div class="container body-block">
 	<form role="form" id="password-form" action="#" method="post">
 		{!! csrf_field() !!}
 		<h3 class="sub-header">Update Password</h3>
@@ -116,6 +117,7 @@
 			Update Password
 		</button>
 	</form>
+</div>
 @endif
 @stop
 
