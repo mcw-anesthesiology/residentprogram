@@ -142,21 +142,7 @@ export function createRequest(el, propsData) {
 				)
 					required.subjectId = false;
 
-				if ((this.requestType === 'resident' && this.user.type === 'faculty')
-						|| (this.requestType === 'staff' && this.user.type === 'staff')
-						|| (this.requestType === 'faculty' && this.user.type === 'resident')
-						|| (this.requestType === 'app' && this.user.type === 'faculty')
-						|| (
-							this.requestType === 'intern360'
-							&& (
-								this.user.type === 'faculty'
-								|| (
-									this.user.type === 'resident'
-									&& ['ca-1', 'ca-2', 'ca-3', 'fellow'].includes(this.user.training_level)
-								)
-							)
-						)
-						|| (this.requestType === 'self'))
+				if (this.requestorIsEvaluator)
 					required.evaluatorId = false;
 
 				return required;
@@ -329,7 +315,7 @@ export function createRequest(el, propsData) {
 								moment(block.start_date) <= today
 									&& moment(block.end_date) >= threeMonthsAgo
 							);
-							break
+							break;
 					}
 				}
 
@@ -352,12 +338,23 @@ export function createRequest(el, propsData) {
 							};
 					});
 			},
-			requestorIsNotEvaluator() {
-				return !(
-					(['resident', 'app'].includes(this.requestType) && this.user.type === 'faculty')
-					|| (this.requestType  === 'staff' && this.user.type === 'staff')
-					|| (this.requestType === 'faculty' && this.user.type === 'resident')
-					|| (this.requestType === 'app' && this.user.type === 'faculty')
+			requestorIsEvaluator() {
+				return (
+						(this.requestType === 'resident' && ['faculty', 'app'].includes(this.user.type))
+						|| (this.requestType === 'staff' && this.user.type === 'staff')
+						|| (this.requestType === 'faculty' && this.user.type === 'resident')
+						|| (this.requestType === 'app' && this.user.type === 'faculty')
+						|| (
+							this.requestType === 'intern360'
+							&& (
+								this.user.type === 'faculty'
+								|| (
+									this.user.type === 'resident'
+									&& ['ca-1', 'ca-2', 'ca-3', 'fellow'].includes(this.user.training_level)
+								)
+							)
+						)
+					|| (this.requestType === 'self')
 				);
 			},
 			pendingFacultyEvalsThead() {
