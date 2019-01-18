@@ -198,7 +198,7 @@ class MainController extends Controller
 					break;
 				default:
 					$subjectTypes = ["resident", "fellow"];
-					$evaluatorTypes = ["faculty"];
+					$evaluatorTypes = ["faculty", 'app'];
 					$requestorTypes = array_merge($subjectTypes, $evaluatorTypes);
 					break;
 			}
@@ -348,6 +348,9 @@ class MainController extends Controller
 				// FIXME: Workaround for form evaluator_type not being an array
 				if ($user->isType(['ca-1', 'ca-2', 'ca-3', 'fellow', 'faculty']) && $requestType == 'intern360')
 					$evalTypes[] = 'ca-1';
+				if ($user->isType('app')) {
+					$evalTypes[] = 'faculty';
+				}
 
 				$forms = Form::where("status", "active")
 					->whereIn("type", $subjectTypes)
@@ -373,8 +376,16 @@ class MainController extends Controller
 				case "resident":
 					if (!$user->isType($subjectTypes))
 						$subjects = $residents;
-					if (!$user->isType($evaluatorTypes))
-						$evaluators = $faculty;
+					if (!$user->isType($evaluatorTypes)) {
+						$evaluators = [
+							array_merge(
+								[],
+								$faculty[0]->toArray(),
+								$apps[0]->toArray()
+							)
+						];
+
+					}
 
 					$subjectTypeText = "intern, resident, or fellow";
 					$subjectTypeTextPlural = "interns, residents, and fellows";
@@ -492,7 +503,8 @@ class MainController extends Controller
 			}
 
 			if (
-				(in_array($requestType, ['resident', 'app']) && $user->isType("faculty"))
+				($requestType === 'resident' && $user->isType(['faculty', 'app']))
+				|| ($requestType === 'app' && $user->isType('faculty'))
 				|| ($requestType == "staff" && $user->isType("staff"))
 				|| ($requestType == "faculty" && $user->isType("resident"))
 				|| ($requestType == 'intern360' && $user->isType(['ca-1', 'ca-2', 'ca-3', 'fellow', 'faculty']))

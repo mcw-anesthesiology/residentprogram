@@ -225,7 +225,7 @@
 			</div>
 		</div>
 
-		<div class="form-group" v-if="requestorIsNotEvaluator"
+		<div class="form-group" v-if="!requestorIsEvaluator"
 				v-visible.once="evaluationDateJson || customEvaluationDate">
 			<div class="col-md-offset-2 col-md-8">
 				<label for="request-note">
