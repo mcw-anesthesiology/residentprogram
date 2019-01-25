@@ -5,7 +5,9 @@ extend type Query @middleware(checks: ["auth", "type:admin"]) {
 		type: UserType @eq
 	): [User!]! @all(model: "App\\User")
     user(id: ID! @eq): User @find(model: "App\\User")
+	roles: [Role]! @all
 
+	userGroups: [UserGroup]!
 }
 
 extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
@@ -26,10 +28,30 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 		user_id: ID!
 		administratee_ids: [ID!]!
 	): User
+	grantUserRole(
+		user_id: ID!
+		role: Role!
+		additional_permissions: Mixed
+	): User
+}
+
+type UserGroup {
+	type: SpecificType!
+	users: [User!]!
 }
 
 enum UserType {
+	TRAINEE @enum(value: "resident")
+	FACULTY @enum(value: "faculty")
+	ADMIN @enum(value: "admin")
+	APP @enum(value: "app")
+	STAFF @enum(value: "staff")
+	EXTERNAL @enum(value: "external")
+}
+
+enum SpecificType {
 	RESIDENT @enum(value: "resident")
+	FELLOW @enum(value: "fellow")
 	FACULTY @enum(value: "faculty")
 	ADMIN @enum(value: "admin")
 	APP @enum(value: "app")
@@ -64,6 +86,19 @@ enum UserStatus {
 	EXTERNAL @enum(value: "external")
 }
 
+type UserRole {
+	role: Role!
+	pivot: UserRolePivot
+}
+
+type UserRolePivot {
+	additional_permissions: Mixed
+}
+
+enum Role {
+	MANAGE_BEYOND_MILESTONES
+}
+
 type User {
     id: ID!
     username: String!
@@ -72,6 +107,7 @@ type User {
 	last_name: String!
 	full_name: String!
 	type: UserType!
+	specific_type: SpecificType!
 	status: UserStatus!
 	training_level: TrainingLevel
 	secondary_training_level: String
@@ -79,6 +115,7 @@ type User {
 	reminder_frequency: ReminderFrequency!
 	remind_only_if_pending: YesNoBoolean!
 	photo_path: String
+	roles: [UserRole]!
 
 	meritReports(
 		period_start: Date @where(operator: "<=")

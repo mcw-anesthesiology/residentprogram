@@ -23,8 +23,7 @@ class SetScenarioForms
     {
 		$scenario = Scenario::findOrFail($args['scenario_id']);
 
-		$scenario->forms()->detach();
-		$scenario->forms()->attach($args['form_ids']);
+		$scenario->forms()->sync($args['form_ids']);
 
 		return $scenario->fresh();
     }

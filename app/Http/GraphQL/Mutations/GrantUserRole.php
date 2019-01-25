@@ -6,8 +6,9 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 use App\User;
+use App\Role;
 
-class SetUserMeritAdministratees
+class GrantUserRole
 {
     /**
      * Return a value for the field.
@@ -21,8 +22,15 @@ class SetUserMeritAdministratees
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
+		$role = Role::where('role', $args['role'])->firstOrFail();
 		$user = User::findOrFail($args['user_id']);
-		$user->meritAdministratees()->sync($args['administratee_ids']);
+
+		$intermediateData = [];
+		if (!empty($args['additional_permissions'])) {
+			$intermediateData['additional_permissions'] = $args['additional_permissions'];
+		}
+
+		$user->roles()->attach($role->id, $intermediateData);
 
 		return $user->fresh();
     }

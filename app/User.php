@@ -155,6 +155,20 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $this->belongsToMany('App\Program', 'program_administrators', 'user_id', 'program_id');
 	}
 
+	public function roles() {
+		return $this->belongsToMany('App\Role', 'user_roles')->withPivot('additional_permissions');
+	}
+
+	public function hasRole($role) {
+		try {
+			return $this->roles()->where('role', $role)->count() > 0;
+		} catch (\Exception $e) {
+			Log::debug('Error in User::hasRole' . $e);
+		}
+
+		return false;
+	}
+
 	public function administratesEvaluation($evaluation) {
 		return $this->administratedPrograms->contains(function ($program) use ($evaluation) {
 			return $program->evaluationInProgram($evaluation);

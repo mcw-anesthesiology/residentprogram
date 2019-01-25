@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class DatabaseSeeder extends Seeder
+class DevSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 		$this->call([
-			RolesSeeder::class
+			UsersSeeder::class,
+			FormsSeeder::class
 		]);
     }
 }

@@ -1,5 +1,7 @@
 /* @flow */
 
+import { ucfirst } from './utils.js';
+
 import type { User } from '@/modules/utils.js';
 
 export type SpecificType = string; // TODO: make into a legit enum
@@ -30,4 +32,14 @@ export function getSpecificType(user: User): SpecificType {
 		return 'fellow';
 
 	return user.type;
+}
+
+export function renderUserType(type: string): string {
+	type = type.toLowerCase();
+	switch (type) {
+		case 'app':
+			return 'APP';
+		default:
+			return ucfirst(type);
+	}
 }

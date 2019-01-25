@@ -14,6 +14,9 @@
 				<router-link tag="li" to="/professionalism-questions" active-class="active">
 					<a>Professionalism Questions</a>
 				</router-link>
+				<router-link tag="li" to="/additional-questions" active-class="active">
+					<a>Additional questions</a>
+				</router-link>
 			</ul>
 		</nav>
 	</div>
