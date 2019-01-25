@@ -10,6 +10,9 @@
 				:disabled="readonly"
 				@change="handleChange($event, option)"
 			/>
+			<span v-if="showValue" class="value">
+				{{ option.value }}
+			</span>
 			<span class="text">
 				{{ option.text }}
 			</span>
@@ -27,7 +30,7 @@
 	}
 
 	label {
-		flex: 1 1 0;
+		flex: 1 1 50%;
 		display: flex;
 		align-items: center;
 		margin: 1em;
@@ -35,7 +38,9 @@
 		border: 1px solid #ccc;
 		border-radius: 2px;
 		background-color: white;
-		opacity: 0.8;
+		font-weight: normal;
+		line-height: 1.5;
+		opacity: 0.75;
 	}
 
 	label:hover,
@@ -45,12 +50,17 @@
 	}
 
 	label.selected {
-		background-color: #f3faff;
 	}
 
 	label input {
 		vertical-align: middle;
-		margin: 0 0.25em 0 0;
+		margin: 0 1em 0 0;
+	}
+
+	.value {
+		font-size: 2em;
+		font-weight: bold;
+		margin-right: 1em;
 	}
 </style>
 
@@ -67,6 +77,10 @@ export default {
 		name: {
 			type: String,
 			required: false
+		},
+		showValue: {
+			type: Boolean,
+			default: false
 		},
 		readonly: {
 			type: Boolean,

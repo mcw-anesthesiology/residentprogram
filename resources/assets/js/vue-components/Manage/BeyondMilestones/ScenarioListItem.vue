@@ -8,15 +8,21 @@
 			</labeled-value>
 		</div>
 
-		<div class="scenario-title">
-			<labeled-value label="Title">
-				<span>{{ scenario.title }}</span>
+		<div class="scenario-type">
+			<labeled-value label="Type">
+				<span>{{ ucfirst(scenario.scenario_type.toLowerCase()) }}</span>
 			</labeled-value>
 		</div>
 
-		<div class="scenario-text">
-			<labeled-value label="Text">
-				<span>{{ scenario.text }}</span>
+		<div class="scenario-difficulty">
+			<labeled-value label="Difficulty">
+				<span>{{ ucfirst(scenario.scenario_difficulty.toLowerCase()) }}</span>
+			</labeled-value>
+		</div>
+
+		<div class="scenario-title">
+			<labeled-value label="Title">
+				<span>{{ scenario.title }}</span>
 			</labeled-value>
 		</div>
 
@@ -76,11 +82,11 @@
 	.scenario-list-item {
 		padding: 1em;
 		display: grid;
-		grid-template-columns: 1fr 2fr 2fr 2fr 1fr;
+		grid-template-columns: 1fr 2fr 2fr 3fr 2fr 1fr;
 		grid-template-rows: auto;
 		grid-template-areas:
-			'id title text forms controls'
-			'forms-editor forms-editor forms-editor forms-editor forms-editor';
+			'id type difficulty title forms controls'
+			'forms-editor forms-editor forms-editor forms-editor forms-editor forms-editor';
 		grid-gap: 0.5em;
 		font-size: 1.1em;
 	}
@@ -103,6 +109,14 @@
 
 	.scenario-text {
 		grid-area: text;
+	}
+
+	.scenario-type {
+		grid-area: type;
+	}
+
+	.scenario-difficulty {
+		grid-area: difficulty;
 	}
 
 	.scenario-forms {

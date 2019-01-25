@@ -4,7 +4,9 @@
 			<h3 v-if="title">{{ title }}</h3>
 			<div v-if="intro" class="intro">{{ intro }}</div>
 
-			<div class="text">{{ text }}</div>
+			<div class="text">
+				<markdown-renderer :md="text" />
+			</div>
 
 			<span class="saved-label">
 				<timeout-label v-model="saved" />
@@ -23,7 +25,7 @@
 
 <style scoped>
 	.professionalism-question {
-
+		font-size: 1.25em;
 	}
 
 	header {
@@ -123,7 +125,8 @@ export default {
 	},
 	components: {
 		BeyondMilestonesOptions: () => import('./Options.vue'),
-		TimeoutLabel: () => import('#/TimeoutLabel.vue')
+		TimeoutLabel: () => import('#/TimeoutLabel.vue'),
+		MarkdownRenderer: () => import('#/MarkdownRenderer.vue')
 	}
 };
 </script>
