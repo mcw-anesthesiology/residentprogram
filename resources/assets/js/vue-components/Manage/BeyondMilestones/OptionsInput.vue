@@ -14,10 +14,10 @@
 				<div class="form-group">
 					<label class="containing-label">
 						Text
-						<input type="text" class="form-control"
+						<textarea class="form-control"
 							:value="option.text"
 							@input="handleOptionInput(index, 'text', $event.target.value)"
-						/>
+						></textarea>
 					</label>
 				</div>
 				<div class="form-group">

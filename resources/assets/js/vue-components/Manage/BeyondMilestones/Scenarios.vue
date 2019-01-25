@@ -32,8 +32,7 @@ export default {
 			scenarioFields: [
 				'scenario_type',
 				'scenario_difficulty',
-				'title',
-				'text'
+				'title'
 			]
 		};
 	},

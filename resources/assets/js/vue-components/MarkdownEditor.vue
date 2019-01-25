@@ -5,6 +5,7 @@
 					:id="id" rows="15" tabindex="0"
 					:placeholder="placeholder"
 					:value="value"
+					:name="name"
 					@focusout="focused = false" @focusin="focused = true"
 					@input="input" ref="editor"></textarea>
 			<div v-show="!showEditor" v-html="html || placeholder"
@@ -50,6 +51,10 @@ export default {
 			required: false
 		},
 		id: {
+			type: String,
+			required: false
+		},
+		name: {
 			type: String,
 			required: false
 		},

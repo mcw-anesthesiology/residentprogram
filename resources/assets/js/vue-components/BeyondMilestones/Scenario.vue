@@ -4,7 +4,9 @@
 			<h3 v-if="title">{{ title }}</h3>
 
 			<div v-if="intro" class="intro">{{ intro }}</div>
-			<div class="text">{{ text }}</div>
+			<div class="text">
+				<markdown-renderer :md="text" />
+			</div>
 
 			<span class="saved-label">
 				<timeout-label v-model="saved" />
@@ -17,13 +19,15 @@
 			:name="name"
 			:readonly="readonly"
 			@change="handleSelect"
+			show-value
 		/>
 	</section>
 </template>
 
 <style scoped>
 	.scenario {
-
+		font-size: 1.15em;
+		font-family: 'Roboto', sans-serif;
 	}
 
 	header {
@@ -49,6 +53,7 @@
 
 <script>
 import gql from 'graphql-tag';
+import 'typeface-roboto';
 
 const SCENARIO_RESPONSE_QUERY = gql`
 	query ScenarioResponse($scenario_id: ID!, $evaluation_id: ID!) {
@@ -131,7 +136,8 @@ export default {
 	},
 	components: {
 		BeyondMilestonesOptions: () => import('./Options.vue'),
-		TimeoutLabel: () => import('#/TimeoutLabel.vue')
+		TimeoutLabel: () => import('#/TimeoutLabel.vue'),
+		MarkdownRenderer: () => import('#/MarkdownRenderer.vue')
 	}
 };
 </script>
