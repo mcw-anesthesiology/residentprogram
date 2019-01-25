@@ -1,0 +1,47 @@
+<?php
+
+namespace App\BeyondMilestones;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\Scopes\BeyondMilestones\AdditionalResponseScope;
+
+class AdditionalResponse extends Model
+{
+	use SoftDeletes;
+
+	protected $connection = 'beyond_milestones';
+	protected $table = 'additional_responses';
+	protected $casts = [
+		'id' => 'integer',
+		'value' => 'boolean'
+	];
+
+	protected $fillable = [
+		'question_id',
+		'evaluation_id',
+		'text',
+		'value'
+	];
+
+	protected $dates = [
+		'created_at',
+		'updated_at',
+		'deleted_at'
+	];
+
+	protected static function boot() {
+		parent::boot();
+
+		static::addGlobalScope(new AdditionalResponseScope);
+	}
+
+	public function question() {
+		return $this->belongsTo('App\BeyondMilestones\AdditionalQuestion');
+	}
+
+	public function evaluation() {
+		return $this->belongsTo('App\Evaluation');
+	}
+}

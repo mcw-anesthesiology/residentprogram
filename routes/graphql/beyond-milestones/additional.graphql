@@ -1,0 +1,79 @@
+extend type Query @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
+	professionalismQuestions: [ProfessionalismQuestion!]! @all(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
+	professionalismQuestion(id: ID! @eq): ProfessionalismQuestion! @find(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
+}
+
+extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
+	randomProfessionalismQuestions(id: ID!, count: Int!): [ProfessionalismQuestion!]!
+
+	professionalismResponses(evaluation_id: ID! @eq): [ProfessionalismResponse!]! @all(model: "App\\BeyondMilestones\\ProfessionalismResponse")
+	professionalismResponse(question_id: ID @eq, evaluation_id: ID @eq): ProfessionalismResponse @find(model: "App\\BeyondMilestones\\ProfessionalismResponse")
+}
+
+extend type Mutation @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
+	createProfessionalismQuestion(
+		input: ProfessionalismQuestionInput!
+	): ProfessionalismQuestion @create(model:  "App\\BeyondMilestones\\ProfessionalismQuestion", flatten: true)
+	updateProfessionalismQuestion(
+		id: ID!
+		title: String
+		intro: String
+		text: String
+		options: [ProfessionalismQuestionOptionInput!]
+	): ProfessionalismQuestion @update(model:  "App\\BeyondMilestones\\ProfessionalismQuestion")
+	deleteProfessionalismQuestion(
+		id: ID!
+	): ProfessionalismQuestion @delete(model:  "App\\BeyondMilestones\\ProfessionalismQuestion")
+
+	deleteProfessionalismResponse(
+		id: ID!
+	): ProfessionalismResponse @delete(model:  "App\\BeyondMilestones\\ProfessionalismResponse")
+
+}
+
+extend type Mutation @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
+	setProfessionalismResponse(
+		question_id: ID!,
+		evaluation_id: ID!,
+		value: Boolean!
+	): ProfessionalismResponse
+}
+
+type ProfessionalismQuestion {
+	id: ID!
+	title: String
+	intro: String
+	text: String!
+	options: [ProfessionalismQuestionOption!]!
+}
+
+input ProfessionalismQuestionInput {
+	title: String
+	intro: String
+	text: String!
+	options: [ProfessionalismQuestionOptionInput!]
+}
+
+type ProfessionalismQuestionOption {
+	text: String!
+	value: Boolean!
+}
+
+input ProfessionalismQuestionOptionInput {
+	text: String!
+	value: Boolean!
+}
+
+type ProfessionalismResponse {
+	id: ID!
+	question_id: ID!
+	question: ProfessionalismQuestion! @belongsTo
+	evaluation_id: ID!
+	value: Boolean!
+}
+
+input ProfessionalismResponseInput {
+	question_id: ID!
+	evaluation_id: ID!
+	value: Boolean!
+}
