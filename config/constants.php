@@ -54,5 +54,9 @@ return [
 			'currentYear',
 			'allTime'
 		]
+	],
+
+	'ROLES' => [
+		'MANAGE_BEYOND_MILESTONES'
 	]
 ];

@@ -120,7 +120,7 @@
         @if (config('features.highlighted-questions'))
             <li><a href="/manage/highlighted-questions">Highlighted questions</a></li>
         @endif
-		@if (config('features.beyond-milestones'))
+		@if (config('features.beyond-milestones') && $user->hasRole('MANAGE_BEYOND_MILESTONES'))
 			<li><a href="/manage/beyond-milestones">Beyond milestones</a></li>
 		@endif
 		  </ul>

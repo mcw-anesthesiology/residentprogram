@@ -1,14 +1,23 @@
 <?php
 
-namespace App\Http\GraphQL\Mutations;
+namespace App\Http\GraphQL\Queries;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 use App\User;
 
-class SetUserMeritAdministratees
+class UserGroups
 {
+	const ORDER = [
+		'resident',
+		'fellow',
+		'faculty',
+		'app',
+		'staff',
+		'external',
+		'admin'
+	];
     /**
      * Return a value for the field.
      *
@@ -21,9 +30,32 @@ class SetUserMeritAdministratees
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
-		$user = User::findOrFail($args['user_id']);
-		$user->meritAdministratees()->sync($args['administratee_ids']);
+		$users = User::orderBy('type', 'asc')->orderBy('last_name', 'asc');
 
-		return $user->fresh();
+		$userGroups = $users->get()->groupBy('specific_type')->map(function ($users, $type) {
+			return [
+				'type' => $type,
+				'users' => $users
+			];
+		})->all();
+
+
+
+		usort($userGroups, function($a, $b) {
+			$aIndex = array_search($a['type'], self::ORDER);
+			$bIndex = array_search($b['type'], self::ORDER);
+
+			if ($aIndex === false) {
+				return 1;
+			}
+
+			if ($bIndex === false) {
+				return -1;
+			}
+
+			return $aIndex - $bIndex;
+		});
+
+		return $userGroups;
     }
 }

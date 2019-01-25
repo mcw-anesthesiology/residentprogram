@@ -1,4 +1,4 @@
-extend type Query @middleware(checks: ["auth", "type:admin", "site-feature:beyond-milestones"]) {
+extend type Query @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
 	professionalismQuestions: [ProfessionalismQuestion!]! @all(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
 	professionalismQuestion(id: ID! @eq): ProfessionalismQuestion! @find(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
 }
@@ -10,7 +10,7 @@ extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]
 	professionalismResponse(question_id: ID @eq, evaluation_id: ID @eq): ProfessionalismResponse @find(model: "App\\BeyondMilestones\\ProfessionalismResponse")
 }
 
-extend type Mutation @middleware(checks: ["auth", "type:admin", "site-feature:beyond-milestones"]) {
+extend type Mutation @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
 	createProfessionalismQuestion(
 		input: ProfessionalismQuestionInput!
 	): ProfessionalismQuestion @create(model:  "App\\BeyondMilestones\\ProfessionalismQuestion", flatten: true)

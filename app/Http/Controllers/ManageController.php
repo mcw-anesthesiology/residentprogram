@@ -406,4 +406,8 @@ class ManageController extends Controller
 	public function beyondMilestones() {
 		return view('manage.beyond-milestones');
 	}
+
+	public function users() {
+		return view('manage.users');
+	}
 }

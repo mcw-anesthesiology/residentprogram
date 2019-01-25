@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
 		'shared' => \App\Http\Middleware\SharedVariables::class,
 		'site-feature' => \App\Http\Middleware\SiteFeature::class,
 		'type' => \App\Http\Middleware\Type::class,
-		'update.alum' => \App\Http\Middleware\UpdateAlumMiddleware::class
+		'update.alum' => \App\Http\Middleware\UpdateAlumMiddleware::class,
+		'has-role' => \App\Http\Middleware\UserHasRole::class
     ];
 }

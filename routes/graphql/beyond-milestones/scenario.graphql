@@ -1,4 +1,4 @@
-extend type Query @middleware(checks: ["auth", "type:admin", "site-feature:beyond-milestones"]) {
+extend type Query @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
 	scenarios: [Scenario!]! @all(model: "App\\BeyondMilestones\\Scenario")
 	scenario(id: ID! @eq): Scenario @find(model: "App\\BeyondMilestones\\Scenario")
 }
@@ -8,7 +8,7 @@ extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]
 	scenarioResponse(scenario_id: ID @eq, evaluation_id: ID @eq): ScenarioResponse @find(model: "App\\BeyondMilestones\\ScenarioResponse")
 }
 
-extend type Mutation @middleware(checks: ["auth", "type:admin", "site-feature:beyond-milestones"]) {
+extend type Mutation @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
 	createScenario(input: ScenarioInput!): Scenario @create(model: "App\\BeyondMilestones\\Scenario", flatten: true)
 	updateScenario(
 		id: ID!
