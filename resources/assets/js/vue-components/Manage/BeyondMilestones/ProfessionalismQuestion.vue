@@ -78,8 +78,8 @@ const CREATE_PROFESSIONALISM_QUESTION_MUTATION = gql`
 	mutation CreateProfessionalismQuestion(
 		$title: String
 		$intro: String
-		$text: String
-		$options: [ProfessionalismQuestionOptionInput!]
+		$text: String!
+		$options: [ProfessionalismQuestionOptionInput!]!
 	) {
 		createProfessionalismQuestion(
 			title: $title
