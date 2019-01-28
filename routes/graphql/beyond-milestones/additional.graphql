@@ -1,78 +1,76 @@
 extend type Query @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
-	professionalismQuestions: [ProfessionalismQuestion!]! @all(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
-	professionalismQuestion(id: ID! @eq): ProfessionalismQuestion! @find(model: "App\\BeyondMilestones\\ProfessionalismQuestion")
+	additionalQuestions: [AdditionalQuestion!]! @all(model: "App\\BeyondMilestones\\AdditionalQuestion")
+	additionalQuestion(id: ID! @eq): AdditionalQuestion! @find(model: "App\\BeyondMilestones\\AdditionalQuestion")
 }
 
 extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
-	randomProfessionalismQuestions(id: ID!, count: Int!): [ProfessionalismQuestion!]!
-
-	professionalismResponses(evaluation_id: ID! @eq): [ProfessionalismResponse!]! @all(model: "App\\BeyondMilestones\\ProfessionalismResponse")
-	professionalismResponse(question_id: ID @eq, evaluation_id: ID @eq): ProfessionalismResponse @find(model: "App\\BeyondMilestones\\ProfessionalismResponse")
+	additionalResponses(evaluation_id: ID! @eq): [AdditionalResponse!]! @all(model: "App\\BeyondMilestones\\AdditionalResponse")
+	additionalResponse(question_id: ID @eq, evaluation_id: ID @eq): AdditionalResponse @find(model: "App\\BeyondMilestones\\AdditionalResponse")
 }
 
 extend type Mutation @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
-	createProfessionalismQuestion(
-		input: ProfessionalismQuestionInput!
-	): ProfessionalismQuestion @create(model:  "App\\BeyondMilestones\\ProfessionalismQuestion", flatten: true)
-	updateProfessionalismQuestion(
+	createAdditionalQuestion(
+		input: AdditionalQuestionInput!
+	): AdditionalQuestion @create(model:  "App\\BeyondMilestones\\AdditionalQuestion", flatten: true)
+	updateAdditionalQuestion(
 		id: ID!
 		title: String
 		intro: String
 		text: String
-		options: [ProfessionalismQuestionOptionInput!]
-	): ProfessionalismQuestion @update(model:  "App\\BeyondMilestones\\ProfessionalismQuestion")
-	deleteProfessionalismQuestion(
+		options: [AdditionalQuestionOptionInput!]
+	): AdditionalQuestion @update(model:  "App\\BeyondMilestones\\AdditionalQuestion")
+	deleteAdditionalQuestion(
 		id: ID!
-	): ProfessionalismQuestion @delete(model:  "App\\BeyondMilestones\\ProfessionalismQuestion")
+	): AdditionalQuestion @delete(model:  "App\\BeyondMilestones\\AdditionalQuestion")
 
-	deleteProfessionalismResponse(
+	deleteAdditionalResponse(
 		id: ID!
-	): ProfessionalismResponse @delete(model:  "App\\BeyondMilestones\\ProfessionalismResponse")
+	): AdditionalResponse @delete(model:  "App\\BeyondMilestones\\AdditionalResponse")
 
 }
 
 extend type Mutation @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
-	setProfessionalismResponse(
+	setAdditionalResponse(
 		question_id: ID!,
-		evaluation_id: ID!,
+		scenario_response_id: ID!,
 		value: Boolean!
-	): ProfessionalismResponse
+	): AdditionalResponse
 }
 
-type ProfessionalismQuestion {
+type AdditionalQuestion {
 	id: ID!
 	title: String
 	intro: String
 	text: String!
-	options: [ProfessionalismQuestionOption!]!
+	options: [AdditionalQuestionOption!]!
 }
 
-input ProfessionalismQuestionInput {
+input AdditionalQuestionInput {
 	title: String
 	intro: String
 	text: String!
-	options: [ProfessionalismQuestionOptionInput!]
+	options: [AdditionalQuestionOptionInput!]
 }
 
-type ProfessionalismQuestionOption {
+type AdditionalQuestionOption {
 	text: String!
 	value: Boolean!
 }
 
-input ProfessionalismQuestionOptionInput {
+input AdditionalQuestionOptionInput {
 	text: String!
 	value: Boolean!
 }
 
-type ProfessionalismResponse {
+type AdditionalResponse {
 	id: ID!
 	question_id: ID!
-	question: ProfessionalismQuestion! @belongsTo
+	question: AdditionalQuestion! @belongsTo
 	evaluation_id: ID!
 	value: Boolean!
 }
 
-input ProfessionalismResponseInput {
+input AdditionalResponseInput {
 	question_id: ID!
 	evaluation_id: ID!
 	value: Boolean!

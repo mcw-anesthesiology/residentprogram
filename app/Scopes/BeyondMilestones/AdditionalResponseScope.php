@@ -27,6 +27,7 @@ class AdditionalResponseScope implements Scope {
 
 			$query->select(DB::raw(1))
 				->from("{$db}.evaluations")
+				->join('scenario_responses', 'scenario_responses.evaluation_id', '=', 'scenario_response_id')
 				->whereRaw("{$db}.evaluations.id = evaluation_id")
 				->where('evaluator_id', Auth::id());
 		});

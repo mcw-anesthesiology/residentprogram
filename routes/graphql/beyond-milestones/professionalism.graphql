@@ -12,8 +12,11 @@ extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]
 
 extend type Mutation @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
 	createProfessionalismQuestion(
-		input: ProfessionalismQuestionInput!
-	): ProfessionalismQuestion @create(model:  "App\\BeyondMilestones\\ProfessionalismQuestion", flatten: true)
+		title: String
+		intro: String
+		text: String!
+		options: [ProfessionalismQuestionOptionInput!]!
+	): ProfessionalismQuestion @create(model:  "App\\BeyondMilestones\\ProfessionalismQuestion")
 	updateProfessionalismQuestion(
 		id: ID!
 		title: String

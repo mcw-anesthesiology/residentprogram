@@ -31,7 +31,7 @@ class CreateBeyondMilestonesAdditionalQuestions extends Migration
 			$table->increments('id');
 
 			$table->unsignedInteger('question_id');
-			$table->unsignedInteger('evaluation_id');
+			$table->unsignedInteger('scenario_response_id');
 
 			$table->boolean('value');
 
@@ -39,7 +39,24 @@ class CreateBeyondMilestonesAdditionalQuestions extends Migration
 			$table->softDeletes();
 
 			$table->foreign('question_id')->references('id')->on('additional_questions');
+			$table->foreign('scenario_response_id')->references('id')->on('scenario_responses');
 		});
+
+		// XXX: Think we'll just display after each scenario right now,
+		// maybe add this in another migration later. Leaving it
+		// here for reference.
+		//
+		// Schema::connection(self::CONNECTION)->create('additional_question_scenarios', function (Blueprint $table) {
+		// 	$table->increments('id');
+		//
+		// 	$table->unsignedInteger('question_id');
+		// 	$table->unsignedInteger('scenario_id');
+		//
+		// 	$table->timestamps();
+		//
+		// 	$table->foreign('question_id')->references('id')->on('additional_questions');
+		// 	$table->foreign('scenario_id')->references('id')->on('scenarios');
+		// });
     }
 
     /**
@@ -51,5 +68,7 @@ class CreateBeyondMilestonesAdditionalQuestions extends Migration
     {
 		Schema::connection(self::CONNECTION)->dropIfExists('additional_responses');
         Schema::connection(self::CONNECTION)->dropIfExists('additional_questions');
+
+		// Schema::connection(self::CONNECTION)->dropIfExists('additional_question_scenarios');
     }
 }

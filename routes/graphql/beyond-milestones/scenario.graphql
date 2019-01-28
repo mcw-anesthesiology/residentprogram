@@ -9,7 +9,14 @@ extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]
 }
 
 extend type Mutation @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
-	createScenario(input: ScenarioInput!): Scenario @create(model: "App\\BeyondMilestones\\Scenario", flatten: true)
+	createScenario(
+		scenario_type: ScenarioType
+		scenario_difficulty: ScenarioDifficulty
+		title: String
+		intro: String
+		text: String
+		options: [ScenarioOptionInput!]
+	): Scenario @create(model: "App\\BeyondMilestones\\Scenario")
 	updateScenario(
 		id: ID!
 		scenario_type: ScenarioType
