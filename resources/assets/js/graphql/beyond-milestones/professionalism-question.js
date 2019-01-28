@@ -7,3 +7,12 @@ export const PROFESSIONALISM_QUESTIONS_FIELDS = gql`
 		text
 	}
 `;
+
+export const PROFESSIONALISM_QUESTIONS_QUERY = gql`
+	query ManageProfessionalismQuestionsQuery {
+		professionalismQuestions {
+			...ManageProfessionalismQuestionsFields
+		}
+	}
+	${PROFESSIONALISM_QUESTIONS_FIELDS}
+`;

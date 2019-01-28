@@ -14,3 +14,13 @@ export const SCENARIOS_FIELDS = gql`
 		}
 	}
 `;
+
+export const SCENARIOS_QUERY = gql`
+	query ManageScenariosQuery {
+		scenarios {
+			...ManageScenariosFields
+		}
+	}
+	${SCENARIOS_FIELDS}
+`;
+

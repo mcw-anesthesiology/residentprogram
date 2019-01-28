@@ -2,6 +2,11 @@
 	<div class="container body-block">
 		<h2>Scenarios</h2>
 
+		<router-link to="new" append class="btn btn-success">
+			<span class="glyphicon glyphicon-plus"></span>
+			Add scenario
+		</router-link>
+
 		<component-list :fields="scenarioFields" :items="scenarios">
 			<template slot-scope="scenario">
 				<scenario-list-item :scenario="scenario" />
@@ -11,18 +16,7 @@
 </template>
 
 <script>
-import gql from 'graphql-tag';
-
-import { SCENARIOS_FIELDS } from '@/graphql/beyond-milestones/scenario.js';
-
-const SCENARIOS_QUERY = gql`
-	query ManageScenariosQuery {
-		scenarios {
-			...ManageScenariosFields
-		}
-	}
-	${SCENARIOS_FIELDS}
-`;
+import { SCENARIOS_QUERY } from '@/graphql/beyond-milestones/scenario.js';
 
 export default {
 	data() {

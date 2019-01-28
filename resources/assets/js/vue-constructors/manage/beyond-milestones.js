@@ -18,6 +18,16 @@ export default function createManageBeyondMilestones(el) {
 					props: true
 				},
 				{
+					path: '/additional-questions',
+					component: () => import('#/Manage/BeyondMilestones/AdditionalQuestions.vue'),
+					props: true
+				},
+				{
+					path: '/additional-questions/:id',
+					component: () => import('#/Manage/BeyondMilestones/AdditionalQuestions.vue'),
+					props: true
+				},
+				{
 					path: '/professionalism-questions',
 					component: () => import('#/Manage/BeyondMilestones/ProfessionalismQuestions.vue'),
 					props: true

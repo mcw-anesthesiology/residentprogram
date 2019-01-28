@@ -1,27 +1,27 @@
 <template>
-	<div class="professionalism-question-list-item">
-		<div class="professionalism-question-id">
+	<div class="question-list-item">
+		<div class="question-id">
 			<labeled-value label="#">
-				<router-link :to="professionalismQuestion.id" append>
-					{{ professionalismQuestion.id }}
+				<router-link :to="question.id" append>
+					{{ question.id }}
 				</router-link>
 			</labeled-value>
 		</div>
 
-		<div class="professionalism-question-title">
+		<div class="question-title">
 			<labeled-value label="Title">
-				<span>{{ professionalismQuestion.title }}</span>
+				<span>{{ question.title }}</span>
 			</labeled-value>
 		</div>
 
-		<div class="professionalism-question-text">
+		<div class="question-text">
 			<labeled-value label="Text">
-				<span>{{ professionalismQuestion.text }}</span>
+				<span>{{ question.text }}</span>
 			</labeled-value>
 		</div>
 
 		<div class="controls">
-			<router-link :to="professionalismQuestion.id" append class="btn btn-info">
+			<router-link :to="question.id" append class="btn btn-info">
 				<span class="glyphicon glyphicon-edit"></span>
 				Edit
 			</router-link>
@@ -30,7 +30,7 @@
 </template>
 
 <style scoped>
-	.professionalism-question-list-item {
+	.question-list-item {
 		padding: 1em;
 		display: grid;
 		grid-template-columns: 1fr 2fr 2fr 1fr;
@@ -42,23 +42,23 @@
 		font-size: 1.1em;
 	}
 
-	.professionalism-question-list-item:nth-child(even) {
+	.question-list-item:nth-child(even) {
 		background-color: rgba(0, 0, 0, 0.03);
 	}
 
-	.professionalism-question-list-item + .professionalism-question-list-item {
+	.question-list-item + .question-list-item {
 		border-top: 1px solid #aaa;
 	}
 
-	.professionalism-question-id {
+	.question-id {
 		grid-area: id;
 	}
 
-	.professionalism-question-title {
+	.question-title {
 		grid-area: title;
 	}
 
-	.professionalism-question-text {
+	.question-text {
 		grid-area: text;
 	}
 
@@ -82,7 +82,7 @@ import { ucfirst } from '@/modules/utils.js';
 
 export default {
 	props: {
-		professionalismQuestion: {
+		question: {
 			type: Object,
 			required: true
 		}

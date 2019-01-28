@@ -44,4 +44,8 @@ class ScenarioResponse extends Model
 	public function evaluation() {
 		return $this->belongsTo('App\Evaluation');
 	}
+
+	public function additionalResponses() {
+		return $this->hasMany('App\BeyondMilestones\AdditionalResponse');
+	}
 }
