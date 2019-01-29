@@ -2,24 +2,34 @@
 	<section class="beyond-milestones">
 		<h2>Beyond Milestones</h2>
 
-		<beyond-milestones-scenario v-if="form"
+		<beyond-milestones-scenario v-if="form" ref="scenarios"
 			v-for="scenario of form.scenarios" :key="scenario.id"
 			v-bind="scenario"
 			:evaluationId="evaluation.id"
 			:readonly="isReadonly"
 		/>
 
-		<beyond-milestones-professionalism-question v-for="question of randomProfessionalismQuestions" :key="question.id"
+		<beyond-milestones-professionalism-question ref="professionalismQuestions"
+			v-for="question of randomProfessionalismQuestions" :key="question.id"
 			v-bind="question"
 			:evaluationId="evaluation.id"
 			:readonly="isReadonly"
 		/>
 
-		<beyond-milestones-additional-question v-for="question of additionalQuestions" :key="question.id"
+		<beyond-milestones-additional-question ref="additionalQuestions"
+			v-for="question of additionalQuestions" :key="question.id"
 			v-bind="question"
 			:evaluationId="evaluation.id"
 			:readonly="isReadonly"
 		/>
+
+		<bootstrap-alert v-if="showIncomplete" dismissable
+			@close="showIncomplete = false"
+		>
+			<p>
+				Please select a response for each question.
+			</p>
+		</bootstrap-alert>
 	</section>
 </template>
 
@@ -58,7 +68,9 @@ export default {
 		return {
 			form: [],
 			randomProfessionalismQuestions: [],
-			additionalQuestions: []
+			additionalQuestions: [],
+
+			showIncomplete: false
 		};
 	},
 	apollo: {
@@ -130,9 +142,32 @@ export default {
 				this.evaluation.status !== 'pending'
 				|| this.evaluation.evaluator_id !== this.user.id
 			);
+		},
+	},
+	methods: {
+		checkComplete(highlight = true) {
+			const questions = [
+				...(this.$refs.scenarios || []),
+				...(this.$refs.professionalismQuestions || []),
+				...(this.$refs.additionalQuestions || [])
+			];
+
+			for (const question of questions) {
+				if (question.value == null) {
+					this.showIncomplete = true;
+					if (highlight) {
+						question.highlight();
+					}
+
+					return false;
+				}
+			}
+
+			return true;
 		}
 	},
 	components: {
+		BootstrapAlert: () => import('#/BootstrapAlert.vue'),
 		BeyondMilestonesScenario: () => import('./Scenario.vue'),
 		BeyondMilestonesProfessionalismQuestion: () => import('./ProfessionalismQuestion.vue'),
 		BeyondMilestonesAdditionalQuestion: () => import('./AdditionalQuestion.vue')

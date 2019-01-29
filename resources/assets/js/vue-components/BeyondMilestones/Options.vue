@@ -1,5 +1,5 @@
 <template>
-	<fieldset>
+	<fieldset :class="{ highlighted }">
 		<label v-for="option of options"
 			:class="{ selected: isSelected(option) }"
 		>
@@ -7,6 +7,7 @@
 				:name="name"
 				:value="option.value"
 				:checked="isSelected(option)"
+				:required="required"
 				:disabled="readonly"
 				@change="handleChange($event, option)"
 			/>
@@ -17,6 +18,10 @@
 				{{ option.text }}
 			</span>
 		</label>
+
+		<bootstrap-alert v-if="highlighted">
+			<p>Please select a response.</p>
+		</bootstrap-alert>
 	</fieldset>
 </template>
 
@@ -49,12 +54,17 @@
 		opacity: 1;
 	}
 
-	label.selected {
-	}
-
 	label input {
 		vertical-align: middle;
 		margin: 0 1em 0 0;
+	}
+
+	fieldset:not(.highlighted) input:invalid {
+		box-shadow: none;
+	}
+
+	fieldset .alert {
+		flex: 1 0 100%;
 	}
 
 	.value {
@@ -85,6 +95,14 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		required: {
+			type: Boolean,
+			default: true
+		},
+		highlighted: {
+			type: Boolean,
+			default: false
 		}
 	},
 	methods: {
@@ -96,6 +114,9 @@ export default {
 				this.$emit('change', option);
 			}
 		}
+	},
+	components: {
+		BootstrapAlert: () => import('#/BootstrapAlert.vue')
 	}
 };
 </script>

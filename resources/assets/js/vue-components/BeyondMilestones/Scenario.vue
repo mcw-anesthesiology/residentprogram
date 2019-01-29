@@ -15,9 +15,10 @@
 
 		<beyond-milestones-options
 			:options="options"
-			:value="scenarioResponse ? scenarioResponse.value : null"
+			:value="value"
 			:name="name"
 			:readonly="readonly"
+			:highlighted="highlighted"
 			@change="handleSelect"
 			show-value
 		/>
@@ -54,6 +55,7 @@
 <script>
 import gql from 'graphql-tag';
 import 'typeface-roboto';
+import Highlightable from '@/vue-mixins/Highlightable.js';
 
 const SCENARIO_RESPONSE_QUERY = gql`
 	query ScenarioResponse($scenario_id: ID!, $evaluation_id: ID!) {
@@ -65,6 +67,7 @@ const SCENARIO_RESPONSE_QUERY = gql`
 `;
 
 export default {
+	mixins: [Highlightable],
 	props: {
 		id: String,
 		scenario_type: String,
@@ -97,6 +100,9 @@ export default {
 	computed: {
 		name() {
 			return `scenario:${this.id}`;
+		},
+		value() {
+			return this.scenarioResponse ? this.scenarioResponse.value : null;
 		}
 	},
 	methods: {

@@ -44,7 +44,10 @@ export function createEvaluationPage(el, propsData) {
 			}
 		},
 		methods: {
-			checkForm(event) {
+			handleSubmit(event) {
+				if (this.saveForm)
+					return;
+
 				//Checks the evaluation to make sure every question is answered before submitting the form
 				let firstInput = null;
 				let alertText = '';
@@ -79,6 +82,13 @@ export function createEvaluationPage(el, propsData) {
 
 				if (alertText) {
 					alert(alertText);
+				}
+
+				if (
+					this.$refs.beyondMilestones
+					&& !this.$refs.beyondMilestones.checkComplete()
+				) {
+					event.preventDefault();
 				}
 			},
 			declineEvaluation() {
