@@ -11,11 +11,11 @@
 				<router-link tag="li" to="/scenarios" active-class="active">
 					<a>Scenarios</a>
 				</router-link>
-				<router-link tag="li" to="/additional-questions" active-class="active">
-					<a>Additional Questions</a>
-				</router-link>
 				<router-link tag="li" to="/professionalism-questions" active-class="active">
 					<a>Professionalism Questions</a>
+				</router-link>
+				<router-link tag="li" to="/additional-questions" active-class="active">
+					<a>Additional Questions</a>
 				</router-link>
 			</ul>
 		</nav>

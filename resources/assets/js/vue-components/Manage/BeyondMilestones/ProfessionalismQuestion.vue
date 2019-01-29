@@ -32,6 +32,7 @@
 				<confirmation-button v-if="id !== 'new'" class="btn btn-danger" @click="handleDelete">
 					Delete
 				</confirmation-button>
+
 				<router-link class="btn btn-default" to="/professionalism-questions">
 					Cancel
 				</router-link>

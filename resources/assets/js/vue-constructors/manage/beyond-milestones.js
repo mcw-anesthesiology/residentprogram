@@ -24,7 +24,7 @@ export default function createManageBeyondMilestones(el) {
 				},
 				{
 					path: '/additional-questions/:id',
-					component: () => import('#/Manage/BeyondMilestones/AdditionalQuestions.vue'),
+					component: () => import('#/Manage/BeyondMilestones/AdditionalQuestion.vue'),
 					props: true
 				},
 				{

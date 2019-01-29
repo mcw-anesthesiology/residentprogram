@@ -2,6 +2,11 @@
 	<div class="container body-block">
 		<h2>Additional questions</h2>
 
+		<router-link to="new" append class="btn btn-success">
+			<span class="glyphicon glyphicon-plus"></span>
+			Add question
+		</router-link>
+
 		<component-list :fields="additionalQuestionFields" :items="additionalQuestions">
 			<template slot-scope="additionalQuestion">
 				<question-list-item :question="additionalQuestion" />
@@ -11,18 +16,7 @@
 </template>
 
 <script>
-import gql from 'graphql-tag';
-
-import { ADDITIONAL_QUESTIONS_FIELDS } from '@/graphql/beyond-milestones/additional-question.js';
-
-const ADDITIONAL_QUESTIONS_QUERY = gql`
-	query ManageAdditionalQuestionsQuery {
-		additionalQuestions {
-			...ManageAdditionalQuestionsFields
-		}
-	}
-	${ADDITIONAL_QUESTIONS_FIELDS}
-`;
+import { ADDITIONAL_QUESTIONS_QUERY } from '@/graphql/beyond-milestones/additional-question.js';
 
 export default {
 	data() {

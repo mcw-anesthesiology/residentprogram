@@ -119,17 +119,41 @@ export default {
 	},
 	methods: {
 		handleAddOption() {
+			let value;
+			switch (this.type) {
+				case 'number':
+					value = 0;
+					break;
+				case 'boolean':
+					value = false;
+					break;
+				case 'string':
+				default:
+					value = '';
+					break;
+			}
+
 			this.$emit(
 				'input',
 				this.value.concat({
 					text: '',
-					value: this.type === 'number' ? 0 : ''
+					value
 				})
 			);
 		},
 		handleOptionInput(index, prop, optionValue) {
-			if (prop === 'value' && this.type === 'number') {
-				optionValue = Number(optionValue);
+			if (prop === 'value') {
+				switch (this.type) {
+					case 'number':
+						optionValue = Number(optionValue);
+						break;
+					case 'boolean':
+						optionValue = Boolean(optionValue);
+						break;
+					case 'string':
+					default:
+						optionValue = String(optionValue);
+				}
 			}
 
 			const value = this.value.slice();
