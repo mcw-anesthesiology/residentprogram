@@ -15,9 +15,10 @@
 
 		<beyond-milestones-options
 			:options="options"
-			:value="professionalismResponse ? professionalismResponse.value : null"
+			:value="value"
 			:name="name"
 			:readonly="readonly"
+			:highlighted="highlighted"
 			@change="handleSelect"
 		/>
 	</section>
@@ -51,6 +52,7 @@
 
 <script>
 import gql from 'graphql-tag';
+import Highlightable from '@/vue-mixins/Highlightable.js';
 
 const PROFESSIONALISM_RESPONSE_QUERY = gql`
 	query ProfessionalismQuestionResponse($question_id: ID!, $evaluation_id: ID!) {
@@ -62,6 +64,7 @@ const PROFESSIONALISM_RESPONSE_QUERY = gql`
 `;
 
 export default {
+	mixins: [Highlightable],
 	props: {
 		id: String,
 		title: String,
@@ -92,6 +95,11 @@ export default {
 	computed: {
 		name() {
 			return `professionalism-question:${this.id}`;
+		},
+		value() {
+			return this.professionalismResponse
+				? this.professionalismResponse.value
+				: null;
 		}
 	},
 	methods: {

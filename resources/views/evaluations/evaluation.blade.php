@@ -271,7 +271,7 @@
 <div class="container body-block">
 	<div id="form">
 	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
-			<form id="evaluation" role="form" method="post" action="#">
+			<form id="evaluation" role="form" method="post" action="#" @submit="handleSubmit">
 				{!! csrf_field() !!}
 	@endif
 				<div class="well well-lg text-center evaluation-date-container">
@@ -285,7 +285,7 @@
 
 				<hr />
 
-				<beyond-milestones :user="user" :evaluation="evaluation"></beyond-milestones>
+				<beyond-milestones ref="beyondMilestones" :user="user" :evaluation="evaluation"></beyond-milestones>
 
 	@if($evaluation->evaluator_id == $user->id)
 		<div class="bottom-comment-container text-center">
@@ -309,7 +309,6 @@
 					<button type="submit" id="complete-form" name="evaluation_id"
 						value="{{ $evaluation->viewable_id }}"
 						class="btn btn-primary btn-lg"
-						@click="checkForm"
 					>
 						{{ config('constants.COMPLETE_EVAL_TEXT') }}
 					</button>
@@ -317,6 +316,7 @@
 						value="{{ $evaluation->viewable_id }}"
 						class="btn btn-default btn-lg"
 						formnovalidate
+						@click="saveForm = true"
 					>
 						{{ config('constants.SAVE_EVAL_TEXT') }}
 					</button>

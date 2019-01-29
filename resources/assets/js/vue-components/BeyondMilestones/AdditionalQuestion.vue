@@ -15,9 +15,10 @@
 
 		<beyond-milestones-options
 			:options="options"
-			:value="additionalResponse ? additionalResponse.value : null"
+			:value="value"
 			:name="name"
 			:readonly="readonly"
+			:highlighted="highlighted"
 			@change="handleSelect"
 		/>
 	</section>
@@ -51,6 +52,7 @@
 
 <script>
 import gql from 'graphql-tag';
+import Highlightable from '@/vue-mixins/Highlightable.js';
 
 const ADDITIONAL_RESPONSE_QUERY = gql`
 	query AdditionalQuestionResponse($question_id: ID!, $evaluation_id: ID!) {
@@ -62,6 +64,7 @@ const ADDITIONAL_RESPONSE_QUERY = gql`
 `;
 
 export default {
+	mixins: [Highlightable],
 	props: {
 		id: String,
 		title: String,
@@ -92,6 +95,9 @@ export default {
 	computed: {
 		name() {
 			return `additional-question:${this.id}`;
+		},
+		value() {
+			return this.additionalResponse ? this.additionalResponse.value : null;
 		}
 	},
 	methods: {

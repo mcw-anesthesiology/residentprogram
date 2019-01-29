@@ -48,12 +48,12 @@ type AdditionalQuestion {
 
 type AdditionalQuestionOption {
 	text: String!
-	value: Float!
+	value: Int!
 }
 
 input AdditionalQuestionOptionInput {
 	text: String!
-	value: Float!
+	value: Int!
 }
 
 type AdditionalResponse {
@@ -61,11 +61,11 @@ type AdditionalResponse {
 	question_id: ID!
 	question: AdditionalQuestion! @belongsTo
 	evaluation_id: ID!
-	value: Boolean!
+	value: Int!
 }
 
 input AdditionalResponseInput {
 	question_id: ID!
 	evaluation_id: ID!
-	value: Boolean!
+	value: Int!
 }
