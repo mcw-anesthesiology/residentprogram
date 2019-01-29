@@ -15,8 +15,6 @@
 import BootstrapAlert from '@/vue-components/BootstrapAlert.vue';
 import { section as validate, flattenErrors } from '@/modules/merits/validate.js';
 
-import { getHeaderHeight } from '@/modules/dom-utils.js';
-
 export default {
 	props: {
 		page: {
@@ -40,9 +38,7 @@ export default {
 	methods: {
 		scrollToError() {
 			$('.invalid-container').first().parents('.checklist-item')
-				.velocity('scroll', {
-					offset: -1 * getHeaderHeight()
-				});
+				.velocity('scroll');
 		}
 	},
 

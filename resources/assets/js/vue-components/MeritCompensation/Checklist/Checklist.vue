@@ -123,7 +123,6 @@ import QuestionnairePager from '@/vue-components/Questionnaire/Pager.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import { checklistIsValid } from '@/modules/merit-utils.js';
-import { getHeaderHeight } from '@/modules/dom-utils.js';
 
 export default {
 	props: {
@@ -199,9 +198,7 @@ export default {
 			if (!this.dontPaginate)
 				return;
 
-			$('.pages > section').eq(pageNum).velocity('scroll', {
-				offset: -1 * getHeaderHeight()
-			});
+			$('.pages > section').eq(pageNum).velocity('scroll');
 		},
 		handleChangeShowErrors(showErrors) {
 			const query = Object.assign({}, this.$route.query, { showErrors });
