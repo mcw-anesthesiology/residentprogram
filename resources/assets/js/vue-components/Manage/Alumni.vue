@@ -68,7 +68,6 @@ import EmailEditor from '@/vue-components/EmailEditor.vue';
 
 import AlumniListItem from '@/vue-components/Alumni/AlumniListItem.vue';
 
-import { getHeaderHeight } from '@/modules/dom-utils.js';
 import { handleError } from '@/modules/errors.js';
 import { getFetchHeaders, okOrThrow, jsonOrThrow } from '@/modules/utils.js';
 
@@ -161,9 +160,7 @@ information so we can send you newsletters or to manage your alumni subscription
 			this.alumniBeingEdited = alum;
 			this.$router.push('edit');
 			this.$nextTick(() => {
-				$('.edit-alum').velocity('scroll', {
-					offset: -1 * getHeaderHeight()
-				});
+				$('.edit-alum').velocity('scroll');
 			});
 		},
 		ensureToArray(to) {

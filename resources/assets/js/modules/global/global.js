@@ -38,8 +38,6 @@ $.extend(true, $.fn.dataTable.defaults, {
 
 $.fn.select2.defaults.set('theme', 'bootstrap');
 
-$("body").css("padding-top", $("#main-navbar").height()+5);
-
 $("#individual-milestones, #aggregate-milestones").multiSelect({
 	selectableOptgroup: true
 });
@@ -59,13 +57,6 @@ function debounce(func, wait, immediate) {
 		if (callNow) func.apply(context, args);
 	};
 }
-
-var fixNavbarOffset = debounce(function(){
-	$("body").css("padding-top", $("#main-navbar").height()+5);
-}, 100);
-
-$(window).resize(fixNavbarOffset);
-$(document).on('load', fixNavbarOffset);
 
 $(document).on("click", ".table .view-evaluation", function(){
 	var requestId = $(this).children("td").eq(0).children("a").html();

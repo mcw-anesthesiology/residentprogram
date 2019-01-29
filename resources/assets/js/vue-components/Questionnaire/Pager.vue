@@ -63,8 +63,6 @@
 <script>
 import PagerControls from './PagerControls.vue';
 
-import { getHeaderHeight } from '@/modules/dom-utils.js';
-
 export default {
 	props: {
 		pages: {
@@ -154,9 +152,7 @@ export default {
 
 	methods: {
 		scrollToTop() {
-			$(this.$refs.pager).velocity('scroll', {
-				offset: -1 * getHeaderHeight()
-			});
+			$(this.$refs.pager).velocity('scroll');
 		},
 		scrollToBottom() {
 			$(this.$refs.pager).velocity('scroll', {
