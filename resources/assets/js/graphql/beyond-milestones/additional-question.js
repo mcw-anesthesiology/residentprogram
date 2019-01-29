@@ -7,3 +7,13 @@ export const ADDITIONAL_QUESTIONS_FIELDS = gql`
 		text
 	}
 `;
+
+export const ADDITIONAL_QUESTIONS_QUERY = gql`
+	query ManageAdditionalQuestionsQuery {
+		additionalQuestions {
+			...ManageAdditionalQuestionsFields
+		}
+	}
+	${ADDITIONAL_QUESTIONS_FIELDS}
+`;
+

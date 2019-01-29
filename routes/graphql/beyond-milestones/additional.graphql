@@ -1,17 +1,18 @@
-extend type Query @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
+extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
 	additionalQuestions: [AdditionalQuestion!]! @all(model: "App\\BeyondMilestones\\AdditionalQuestion")
 	additionalQuestion(id: ID! @eq): AdditionalQuestion! @find(model: "App\\BeyondMilestones\\AdditionalQuestion")
-}
 
-extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
 	additionalResponses(evaluation_id: ID! @eq): [AdditionalResponse!]! @all(model: "App\\BeyondMilestones\\AdditionalResponse")
 	additionalResponse(question_id: ID @eq, evaluation_id: ID @eq): AdditionalResponse @find(model: "App\\BeyondMilestones\\AdditionalResponse")
 }
 
 extend type Mutation @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
 	createAdditionalQuestion(
-		input: AdditionalQuestionInput!
-	): AdditionalQuestion @create(model:  "App\\BeyondMilestones\\AdditionalQuestion", flatten: true)
+		title: String
+		intro: String
+		text: String!
+		options: [AdditionalQuestionOptionInput!]!
+	): AdditionalQuestion @create(model:  "App\\BeyondMilestones\\AdditionalQuestion")
 	updateAdditionalQuestion(
 		id: ID!
 		title: String
@@ -32,8 +33,8 @@ extend type Mutation @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILEST
 extend type Mutation @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
 	setAdditionalResponse(
 		question_id: ID!,
-		scenario_response_id: ID!,
-		value: Boolean!
+		evaluation_id: ID!,
+		value: Float!
 	): AdditionalResponse
 }
 
@@ -45,21 +46,14 @@ type AdditionalQuestion {
 	options: [AdditionalQuestionOption!]!
 }
 
-input AdditionalQuestionInput {
-	title: String
-	intro: String
-	text: String!
-	options: [AdditionalQuestionOptionInput!]
-}
-
 type AdditionalQuestionOption {
 	text: String!
-	value: Boolean!
+	value: Float!
 }
 
 input AdditionalQuestionOptionInput {
 	text: String!
-	value: Boolean!
+	value: Float!
 }
 
 type AdditionalResponse {

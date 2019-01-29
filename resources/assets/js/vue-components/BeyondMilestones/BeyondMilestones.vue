@@ -9,8 +9,14 @@
 			:readonly="isReadonly"
 		/>
 
-		<beyond-milestones-professionalism-question v-for="pq of randomProfessionalismQuestions" :key="pq.id"
-			v-bind="pq"
+		<beyond-milestones-professionalism-question v-for="question of randomProfessionalismQuestions" :key="question.id"
+			v-bind="question"
+			:evaluationId="evaluation.id"
+			:readonly="isReadonly"
+		/>
+
+		<beyond-milestones-additional-question v-for="question of additionalQuestions" :key="question.id"
+			v-bind="question"
 			:evaluationId="evaluation.id"
 			:readonly="isReadonly"
 		/>
@@ -52,6 +58,7 @@ export default {
 		return {
 			form: [],
 			randomProfessionalismQuestions: [],
+			additionalQuestions: []
 		};
 	},
 	apollo: {
@@ -99,6 +106,22 @@ export default {
 					count: NUM_PROFESSIONALISM_QUESTIONS
 				};
 			}
+		},
+		additionalQuestions: {
+			query: gql`
+				query BeyondMilestonesAdditionalQuestions {
+					additionalQuestions {
+						id
+						title
+						intro
+						text
+						options {
+							text
+							value
+						}
+					}
+				}
+			`
 		}
 	},
 	computed: {
@@ -111,7 +134,8 @@ export default {
 	},
 	components: {
 		BeyondMilestonesScenario: () => import('./Scenario.vue'),
-		BeyondMilestonesProfessionalismQuestion: () => import('./ProfessionalismQuestion.vue')
+		BeyondMilestonesProfessionalismQuestion: () => import('./ProfessionalismQuestion.vue'),
+		BeyondMilestonesAdditionalQuestion: () => import('./AdditionalQuestion.vue')
 	}
 };
 </script>

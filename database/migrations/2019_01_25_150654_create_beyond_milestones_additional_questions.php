@@ -31,15 +31,15 @@ class CreateBeyondMilestonesAdditionalQuestions extends Migration
 			$table->increments('id');
 
 			$table->unsignedInteger('question_id');
-			$table->unsignedInteger('scenario_response_id');
+			$table->unsignedInteger('evaluation_id');
 
-			$table->boolean('value');
+			$table->integer('value');
 
             $table->timestamps();
 			$table->softDeletes();
 
 			$table->foreign('question_id')->references('id')->on('additional_questions');
-			$table->foreign('scenario_response_id')->references('id')->on('scenario_responses');
+			$table->unique(['question_id', 'evaluation_id']);
 		});
 
 		// XXX: Think we'll just display after each scenario right now,

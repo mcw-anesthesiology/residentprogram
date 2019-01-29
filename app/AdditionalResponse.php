@@ -15,7 +15,7 @@ class AdditionalResponse extends Model
 	protected $table = 'additional_responses';
 	protected $casts = [
 		'id' => 'integer',
-		'value' => 'boolean'
+		'value' => 'integer'
 	];
 
 	protected $fillable = [
