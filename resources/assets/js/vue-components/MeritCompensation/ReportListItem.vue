@@ -13,18 +13,15 @@
 				<small>Period</small>
 				<rich-date-range :dates="dates" />
 			</div>
-			<div class="col-sm-2">
+			<div class="col-sm-3">
 				<div>
 					<span class="label" :class="statusLabel">
 						{{ statusText }}
 					</span>
 				</div>
-				<div>
-					<small>Updated at</small>
-					<rich-date :date="updated_at" />
-				</div>
+				<rich-date :date="updated_at" detailed time />
 			</div>
-			<div class="col-sm-4 controls-cell">
+			<div class="col-sm-3 controls-cell">
 				<router-link :to="`/checklist/${id}`" class="btn btn-info btn-xs">
 
 					<span class="glyphicon" :class="viewEditGlyph"></span>

@@ -7,30 +7,29 @@
 				<span class="glyphicon glyphicon-chevron-left"></span>
 			</button>
 		</div>
-		<div v-if="readonly" class="form-summary panel panel-default">
+		<div class="form-summary panel panel-default">
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-sm-4">
+					<div v-if="readonly" class="col-sm-6">
 						<small>Report period</small>
 						<rich-date-range :dates="dates" />
 					</div>
-					<div class="col-sm-4">
+					<div v-else class="col-sm-6 form-group">
+						<label class="containing-label">
+							Report period
+							<academic-year-selector v-model="dates" :min-date="lastMonth" />
+						</label>
+					</div>
+
+					<div class="col-sm-3">
 						<small>Checked items</small>
 						{{ checkedItems }}
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-3">
 						<small>Updated at</small>
-						<rich-date :date="updated_at" />
+						<rich-date :date="updated_at" detailed time />
 					</div>
 				</div>
-			</div>
-		</div>
-		<div v-else>
-			<div class="form-group">
-				<label class="containing-label">
-					Report period
-					<academic-year-selector v-model="dates" :min-date="lastMonth" />
-				</label>
 			</div>
 		</div>
 
@@ -143,6 +142,10 @@ export default {
 		},
 		form_id: {
 			type: [ String, Number ],
+			required: true
+		},
+		updated_at: {
+			type: Date,
 			required: true
 		},
 		currentUser: {
