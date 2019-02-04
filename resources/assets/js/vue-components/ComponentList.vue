@@ -240,11 +240,20 @@ export default {
 							bValue = b[this.sortBy];
 						}
 
-						if (typeof aValue === 'string')
-							aValue = aValue.toUpperCase();
+						const aNum = Number(aValue);
+						const bNum = Number(bValue);
 
-						if (typeof bValue === 'string')
-							bValue = bValue.toUpperCase();
+						if (!Number.isNaN(aNum) && !Number.isNaN(bNum)) {
+							aValue = aNum;
+							bValue = bNum;
+						} else {
+							if (typeof aValue === 'string')
+								aValue = aValue.toUpperCase();
+
+							if (typeof bValue === 'string')
+								bValue = bValue.toUpperCase();
+						}
+
 
 						if (aValue < bValue)
 							return this.sortOrder === 'asc'
