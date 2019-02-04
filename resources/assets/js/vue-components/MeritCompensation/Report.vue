@@ -10,13 +10,17 @@
 		<div v-if="readonly" class="form-summary panel panel-default">
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-sm-6">
+					<div class="col-sm-4">
 						<small>Report period</small>
 						<rich-date-range :dates="dates" />
 					</div>
-					<div class="col-sm-6">
+					<div class="col-sm-4">
 						<small>Checked items</small>
 						{{ checkedItems }}
+					</div>
+					<div class="col-sm-4">
+						<small>Updated at</small>
+						<rich-date :date="updated_at" />
 					</div>
 				</div>
 			</div>
@@ -95,6 +99,7 @@ import MeritCompensationChecklist from './Checklist/Checklist.vue';
 
 import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
 import LoadingButton from '@/vue-components/LoadingButton.vue';
+import RichDate from '@/vue-components/RichDate.vue';
 import RichDateRange from '@/vue-components/RichDateRange.vue';
 
 import { emitError } from '@/modules/errors.js';
@@ -295,9 +300,9 @@ export default {
 
 	components: {
 		MeritCompensationChecklist,
-
 		AcademicYearSelector,
 		LoadingButton,
+		RichDate,
 		RichDateRange
 	}
 };

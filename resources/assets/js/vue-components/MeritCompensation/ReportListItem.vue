@@ -14,9 +14,15 @@
 				<rich-date-range :dates="dates" />
 			</div>
 			<div class="col-sm-2">
-				<span class="label" :class="statusLabel">
-					{{ statusText }}
-				</span>
+				<div>
+					<span class="label" :class="statusLabel">
+						{{ statusText }}
+					</span>
+				</div>
+				<div>
+					<small>Updated at</small>
+					<rich-date :date="updated_at" />
+				</div>
 			</div>
 			<div class="col-sm-4 controls-cell">
 				<router-link :to="`/checklist/${id}`" class="btn btn-info btn-xs">
@@ -74,6 +80,7 @@
 <script>
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import ConfirmationYesNo from '@/vue-components/ConfirmationYesNo.vue';
+import RichDate from '@/vue-components/RichDate.vue';
 import RichDateRange from '@/vue-components/RichDateRange.vue';
 
 import { emitError } from '@/modules/errors.js';
@@ -105,6 +112,10 @@ export default {
 		user: {
 			type: Object,
 			required: false
+		},
+		updated_at: {
+			type: Date,
+			required: true
 		}
 	},
 
@@ -189,6 +200,7 @@ export default {
 	components: {
 		ConfirmationButton,
 		ConfirmationYesNo,
+		RichDate,
 		RichDateRange
 	}
 };

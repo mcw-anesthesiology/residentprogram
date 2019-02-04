@@ -25,6 +25,7 @@ export const MERIT_REPORT_FIELDS = gql`
 			id
 			full_name
 		}
+		updated_at
 	}
 	${MERIT_FORM_FIELDS}
 `;
@@ -40,6 +41,7 @@ export const MERIT_REPORT_LIST_FIELDS = gql`
 			id
 			name
 		}
+		updated_at
 	}
 `;
 
