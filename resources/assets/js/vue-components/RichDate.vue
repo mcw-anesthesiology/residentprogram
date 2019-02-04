@@ -18,6 +18,10 @@ export default {
 		time: {
 			type: Boolean,
 			default: false
+		},
+		detailed: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
@@ -35,17 +39,20 @@ export default {
 	},
 
 	computed: {
+		showDetailed() {
+			return this.detailed || this.hover;
+		},
 		dateString() {
 			if (!this.date)
 				return '';
 
 			if (this.time) {
-				return this.hovered
+				return this.showDetailed
 					? moment(this.date).format('ll LT')
 					: renderDateTime(this.date);
 			}
 
-			return this.hovered
+			return this.showDetailed
 				? moment(this.date).format('ll')
 				: renderDate(this.date);
 		}
