@@ -102,6 +102,9 @@ export default {
 	},
 	methods: {
 		handleSelect(option) {
+			const question_id = this.id;
+			const evaluation_id = this.evaluationId;
+
 			this.$apollo.mutate({
 				mutation: gql`
 						mutation SetAdditionalResponse($question_id: ID!, $evaluation_id: ID!, $value: Float!) {
@@ -112,8 +115,8 @@ export default {
 						}
 					`,
 				variables: {
-					question_id: this.id,
-					evaluation_id: this.evaluationId,
+					question_id,
+					evaluation_id,
 					value: option.value
 				},
 				update(store, { data: { setAdditionalResponse } }) {
@@ -121,6 +124,10 @@ export default {
 						query: ADDITIONAL_RESPONSE_QUERY,
 						data: {
 							additionalResponse: setAdditionalResponse
+						},
+						variables: {
+							question_id,
+							evaluation_id
 						}
 					});
 				}

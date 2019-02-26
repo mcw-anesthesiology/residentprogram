@@ -110,6 +110,9 @@ export default {
 			if (this.readonly)
 				return;
 
+			const scenario_id = this.id;
+			const evaluation_id = this.evaluationId;
+
 			this.$apollo.mutate({
 				mutation: gql`
 					mutation SetScenarioResponse($scenario_id: ID!, $evaluation_id: ID!, $value: Float!) {
@@ -120,8 +123,8 @@ export default {
 					}
 				`,
 				variables: {
-					scenario_id: this.id,
-					evaluation_id: this.evaluationId,
+					scenario_id,
+					evaluation_id,
 					value: option.value
 				},
 				update(store, { data: { setScenarioResponse } }) {
@@ -129,6 +132,10 @@ export default {
 						query: SCENARIO_RESPONSE_QUERY,
 						data: {
 							scenarioResponse: setScenarioResponse
+						},
+						variables: {
+							scenario_id,
+							evaluation_id
 						}
 					});
 				}

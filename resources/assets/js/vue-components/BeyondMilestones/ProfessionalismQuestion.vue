@@ -104,6 +104,9 @@ export default {
 	},
 	methods: {
 		handleSelect(option) {
+			const question_id = this.id;
+			const evaluation_id = this.evaluationId;
+
 			this.$apollo.mutate({
 				mutation: gql`
 						mutation SetProfessionalismResponse($question_id: ID!, $evaluation_id: ID!, $value: Boolean!) {
@@ -114,8 +117,8 @@ export default {
 						}
 					`,
 				variables: {
-					question_id: this.id,
-					evaluation_id: this.evaluationId,
+					question_id,
+					evaluation_id,
 					value: option.value
 				},
 				update(store, { data: { setProfessionalismResponse } }) {
@@ -123,6 +126,10 @@ export default {
 						query: PROFESSIONALISM_RESPONSE_QUERY,
 						data: {
 							professionalismResponse: setProfessionalismResponse
+						},
+						variables: {
+							question_id,
+							evaluation_id
 						}
 					});
 				}
