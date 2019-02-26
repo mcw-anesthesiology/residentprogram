@@ -52,7 +52,7 @@
 		createNews('#global-news-dropdown');
 	@endif
 
-		createGlobalAlerts('#global-alert-list');
+		window.globalAlertVm = createGlobalAlerts('#global-alert-list');
 
 		checkCookies(
 			document.getElementById('alert-container'),

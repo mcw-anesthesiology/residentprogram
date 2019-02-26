@@ -8,7 +8,9 @@ export function createGlobalAlerts(el) {
 		el,
 		store,
 		template: `
-			<alert-list v-model="$store.state.alerts"></alert-list>
+			<div class="container global-alert-list">
+				<alert-list v-model="$store.state.alerts"></alert-list>
+			</div>
 		`,
 		components: {
 			AlertList
