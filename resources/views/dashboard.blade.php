@@ -90,6 +90,10 @@
 		</div>
 	</div>
 
+	<div class="container">
+		<stored-alert-list></stored-alert-list>
+	</div>
+
 	<router-view :dates="dates"></router-view>
 @endsection
 

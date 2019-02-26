@@ -56,5 +56,13 @@ export function emitError(err: Error, vm: ViewModel, message: string, event: str
 
 export function storeError(err: Error, vm: ViewModel, message: string) {
 	logError(message, err);
-	window.globalAlertVm.$store.commit('error', message);
+	vm.$store.commit('error', message);
+}
+
+export function globalError(err: Error, message: string) {
+	logError(message, err);
+
+	if (window.globalAlertVm) {
+		window.globalAlertVm.$store.commit('error', message);
+	}
 }

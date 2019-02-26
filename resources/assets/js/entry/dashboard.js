@@ -6,6 +6,7 @@ import store from '@/vue-constructors/store.js';
 
 import StartEndDate from '#/StartEndDate.vue';
 import HomeDashboard from '#/Dashboard/Dashboard.vue';
+import StoredAlertList from '#/StoredAlertList.vue';
 import * as dateUtils from '@/modules/date-utils.js';
 
 new Vue({
@@ -57,6 +58,7 @@ new Vue({
 		}
 	},
 	components: {
-		StartEndDate
+		StartEndDate,
+		StoredAlertList
 	}
 });
