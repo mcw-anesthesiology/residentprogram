@@ -6,6 +6,7 @@
 			v-for="scenario of form.scenarios" :key="scenario.id"
 			v-bind="scenario"
 			:evaluationId="evaluation.id"
+			:evaluation="evaluation"
 			:readonly="isReadonly"
 		/>
 
@@ -13,6 +14,7 @@
 			v-for="question of randomProfessionalismQuestions" :key="question.id"
 			v-bind="question"
 			:evaluationId="evaluation.id"
+			:evaluation="evaluation"
 			:readonly="isReadonly"
 		/>
 
@@ -20,6 +22,7 @@
 			v-for="question of additionalQuestions" :key="question.id"
 			v-bind="question"
 			:evaluationId="evaluation.id"
+			:evaluation="evaluation"
 			:readonly="isReadonly"
 		/>
 
