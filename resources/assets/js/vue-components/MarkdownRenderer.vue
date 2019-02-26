@@ -12,11 +12,26 @@ export default {
 		md: {
 			type: String,
 			required: true
+		},
+		replacements: {
+			type: Map,
+			required: false
 		}
 	},
 	computed: {
+		markdown() {
+			let md = this.md;
+
+			if (this.replacements) {
+				for (const [pattern, replacement] of this.replacements.entries()) {
+					md = md.replace(pattern, replacement);
+				}
+			}
+
+			return md;
+		},
 		html() {
-			return md.render(this.md);
+			return md.render(this.markdown);
 		}
 	}
 };

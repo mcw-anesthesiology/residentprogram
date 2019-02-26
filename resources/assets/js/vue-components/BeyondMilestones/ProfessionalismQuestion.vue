@@ -2,10 +2,13 @@
 	<section class="beyond-milestones-question professionalism-question">
 		<header>
 			<h3 v-if="title">{{ title }}</h3>
-			<div v-if="intro" class="intro">{{ intro }}</div>
+
+			<div v-if="intro" class="intro">
+				<markdown-renderer :md="intro" :replacements="markdownReplacements" />
+			</div>
 
 			<div class="text">
-				<markdown-renderer :md="text" />
+				<markdown-renderer :md="text" :replacements="markdownReplacements" />
 			</div>
 
 			<span class="saved-label">
@@ -73,6 +76,7 @@ export default {
 		options: Array,
 
 		evaluationId: Number,
+		evaluation: Object,
 		readonly: Boolean
 	},
 	data() {
@@ -100,6 +104,16 @@ export default {
 			return this.professionalismResponse
 				? this.professionalismResponse.value
 				: null;
+		},
+		markdownReplacements() {
+			const replacements = new Map();
+
+			if (this.evaluation && this.evaluation.subject) {
+				const subject = this.evaluation.subject;
+				replacements.set(/(this|the) resident/ig, `${subject.first_name} ${subject.last_name}`);
+			}
+
+			return replacements;
 		}
 	},
 	methods: {

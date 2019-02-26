@@ -15,7 +15,7 @@
 				{{ option.value }}
 			</span>
 			<span class="text">
-				{{ option.text }}
+				{{ transformOptionText(option.text) }}
 			</span>
 		</label>
 
@@ -75,6 +75,8 @@
 </style>
 
 <script>
+import { logError } from '@/modules/errors.js';
+
 export default {
 	props: {
 		value: {
@@ -103,11 +105,26 @@ export default {
 		highlighted: {
 			type: Boolean,
 			default: false
+		},
+		evaluation: {
+			type: Object,
+			required: false
 		}
 	},
 	methods: {
 		isSelected(option) {
 			return this.value === option.value;
+		},
+		transformOptionText(optionText) {
+			try {
+				if (this.evaluation && this.evaluation.subject) {
+					const subject = this.evaluation.subject;
+					return optionText.replace(/(this|the) resident/gi, `${subject.first_name} ${subject.last_name}`);
+				}
+			} catch (err) {
+				logError(err);
+			}
+			return optionText;
 		},
 		handleChange(event, option) {
 			if (!this.readonly && event.target.checked) {
