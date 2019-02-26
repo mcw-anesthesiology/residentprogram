@@ -1,7 +1,7 @@
 import Vue from './vue.js';
 import store from './store.js';
 
-import AlertList from '#/AlertList.vue';
+import StoredAlertList from '#/StoredAlertList.vue';
 
 export function createGlobalAlerts(el) {
 	return new Vue({
@@ -9,11 +9,11 @@ export function createGlobalAlerts(el) {
 		store,
 		template: `
 			<div class="container global-alert-list">
-				<alert-list v-model="$store.state.alerts"></alert-list>
+				<stored-alert-list></stored-alert-list>
 			</div>
 		`,
 		components: {
-			AlertList
+			StoredAlertList
 		}
 	});
 }
