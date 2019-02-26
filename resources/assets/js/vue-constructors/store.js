@@ -1,3 +1,5 @@
+/** @format */
+
 import { Store } from 'vuex';
 
 import ky from '@/modules/ky.js';

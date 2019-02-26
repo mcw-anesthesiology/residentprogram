@@ -185,6 +185,8 @@
 					:class="{'dropdown-menu-left': left}">
 				<news-list :items="newsItems"
 					@remove="handleRemove"></news-list>
+
+				<alert-list v-model="alerts"></alert-list>
 			</span>
 		</li>
 	@endif

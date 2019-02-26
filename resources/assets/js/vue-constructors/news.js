@@ -1,11 +1,13 @@
 import Vue from '@/vue-constructors/vue.js';
+import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import { logError } from '@/modules/errors.js';
+import { handleError } from '@/modules/errors.js';
 import { fetchConfig, jsonOrThrow } from '@/modules/utils.js';
 
 export function createNews(el) {
 	return new Vue({
 		el,
+		mixins: [HasAlerts],
 		data() {
 			return {
 				open: false,
@@ -46,8 +48,7 @@ export function createNews(el) {
 				}).then(jsonOrThrow).then(newsItems => {
 					this.newsItems = newsItems;
 				}).catch(err => {
-					// FIXME: Show this somewhere
-					logError(err);
+					handleError(err, this, 'There was a problem fetching news items');
 				});
 			},
 			ignoreDropdownClick(event) {
