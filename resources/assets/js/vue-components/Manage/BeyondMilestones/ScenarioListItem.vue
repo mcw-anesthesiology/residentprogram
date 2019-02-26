@@ -55,7 +55,7 @@
 			</div>
 			<div class="panel-body">
 				<div>
-					<fieldset v-for="{ type, forms } of formGroups">
+					<fieldset v-for="{ type, forms } of formGroups" class="form-group-container">
 						<legend>{{ ucfirst(type) }}</legend>
 
 						<label v-for="form of forms" class="containing-label">
@@ -121,6 +121,11 @@
 
 	.scenario-forms {
 		grid-area: forms;
+	}
+
+	.form-group-container {
+		max-height: 300px;
+		overflow: auto;
 	}
 
 	.controls {

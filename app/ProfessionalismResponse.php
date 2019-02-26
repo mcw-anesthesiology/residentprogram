@@ -9,8 +9,6 @@ use App\Scopes\BeyondMilestones\ProfessionalismResponseScope;
 
 class ProfessionalismResponse extends Model
 {
-	use SoftDeletes;
-
 	protected $connection = 'beyond_milestones';
 	protected $table = 'professionalism_responses';
 	protected $casts = [

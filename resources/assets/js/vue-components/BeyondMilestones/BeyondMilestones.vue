@@ -1,5 +1,5 @@
 <template>
-	<section class="beyond-milestones">
+	<section class="beyond-milestones" v-if="hasScenario">
 		<h2>Beyond Milestones</h2>
 
 		<beyond-milestones-scenario v-if="form" ref="scenarios"
@@ -143,9 +143,15 @@ export default {
 				|| this.evaluation.evaluator_id !== this.user.id
 			);
 		},
+		hasScenario() {
+			return this.form && this.form.scenarios && this.form.scenarios.length > 0;
+		}
 	},
 	methods: {
 		checkComplete(highlight = true) {
+			if (!this.hasScenario)
+				return true;
+
 			const questions = [
 				...(this.$refs.scenarios || []),
 				...(this.$refs.professionalismQuestions || []),

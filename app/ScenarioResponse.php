@@ -9,8 +9,6 @@ use App\Scopes\BeyondMilestones\ScenarioResponseScope;
 
 class ScenarioResponse extends Model
 {
-	use SoftDeletes;
-
 	protected $connection = 'beyond_milestones';
 	protected $table = 'scenario_responses';
 	protected $casts = [

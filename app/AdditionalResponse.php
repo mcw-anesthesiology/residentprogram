@@ -9,8 +9,6 @@ use App\Scopes\BeyondMilestones\AdditionalResponseScope;
 
 class AdditionalResponse extends Model
 {
-	use SoftDeletes;
-
 	protected $connection = 'beyond_milestones';
 	protected $table = 'additional_responses';
 	protected $casts = [
