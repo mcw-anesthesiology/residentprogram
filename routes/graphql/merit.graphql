@@ -49,6 +49,18 @@ type MeritReport {
 	title: String
 	created_at: DateTime!
 	updated_at: DateTime!
+
+	publications: [Publication]
+	pubMedIds: [ID]
+	conferencePresentations: Int
+	otherPresentations: Int
+	chaptersTextbooks: Int
+	grantLeadership: Int
+	leadershipRole: Boolean
+	teachingFormalCourses: Boolean
+
+	participatesInSimulation: Boolean
+	nationalBoards: [NationalBoardRole]
 }
 
 enum MeritReportStatus {
@@ -66,6 +78,20 @@ type MeritReportForm {
 	created_at: Date!
 	updated_at: Date!
 	deleted_at: Date
+}
+
+type Publication {
+	title: String!
+	author: String
+	link: String
+	role: String!
+
+	pmid: ID @field(resolver: "App\\Http\\GraphQL\\Queries\\MeritReporter@publicationPmid")
+}
+
+type NationalBoardRole {
+	name: String!
+	role: String!
 }
 
 # type MeritReportContents {
