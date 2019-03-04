@@ -8,8 +8,18 @@ use App\Helpers\DateHelpers;
 
 use App\Scopes\MeritReportScope;
 
+use Log;
+
 class MeritReport extends Model
 {
+	const LINK_PREFIXES = [
+		'www.ncbi.nlm.nih.gov/pubmed/',
+		'pmid:',
+		'pmid',
+		'pubmed:',
+		'pubmed'
+	];
+
 	protected static function boot() {
 		parent::boot();
 
@@ -42,6 +52,8 @@ class MeritReport extends Model
 	];
 
 	public function getReportAttribute($report) {
+		Log::debug('getreportattribute');
+
 		if (empty($report)) {
 			$report = $this->form->form;
 		}
@@ -63,5 +75,390 @@ class MeritReport extends Model
 
 	public static function getCurrentYear() {
 		return DateHelpers::getDateRangeFromPeriodType('year');
+	}
+
+	// FIXME: Need to double check all of these for v3
+
+	public function getPublicationsAttribute() {
+		$publications = [];
+
+		try {
+			$publicationsSection = $this->report->pages[2]->items[0];
+
+			foreach ($publicationsSection->items as $publicationItem) {
+				if (!empty($publicationItem->checked)) {
+					foreach ($publicationItem->questions[0]->items as $pubItem) {
+						$publications[] = $pubItem;
+					}
+				}
+			}
+		} catch (\Exception $e) {
+			Log::error('Failed getting merit publications' . $e);
+		}
+
+		Log::debug($publications);
+
+		return $publications;
+	}
+
+	public function getPubMedIdsAttribute() {
+		return array_filter(array_map(function ($publication) {
+			return self::publicationPmid($publication);
+		}, $this->publications));
+	}
+
+	public function getConferencePresentationsAttribute() {
+		$conferencePresentations = 0;
+
+		switch ($this->form->version) {
+		case 3:
+		case 2:
+			$conferenceIndexes = [1, 2, 3, 4, 5];
+			break;
+		case 1:
+		default:
+			$conferenceIndexes = [0, 2, 3, 4, 5];
+			break;
+		}
+
+		$educationOutsideMCWSection = $this->report->pages[1]->items[2];
+
+		foreach ($conferenceIndexes as $i) {
+			$conferenceSection = $educationOutsideMCWSection->items[$i];
+			if (!empty($conferenceSection->checked)) {
+				$conferencePresentations += count($conferenceSection->questions[0]->items);
+			}
+		}
+
+		return $conferencePresentations;
+	}
+
+	/*
+	 * Number of other presentations given (grand rounds, invited professorships),
+	 * materials developed (such as computer-based modules), or work presented
+	 * in non-peer review publications in the previous academic year.
+	 * Articles without PMIDs should be counted in this section.
+	 * This will include publication which are peer reviewed but not recognized
+	 * by the National Library of Medicine.
+	 */
+	public function getOtherPresentationsAttribute() {
+		$otherPresentations = 0;
+
+		$publicationsWithoutPmids = array_filter($this->publications, function ($publication) {
+			return empty(self::publicationPmid($publication));
+		});
+
+		$otherPresentations += count($publicationsWithoutPmids);
+
+		switch ($this->form->version) {
+		case 3:
+		case 2:
+			$educationDepartmental = $this->report->pages[1]->items[0];
+			$departmentalLecture = $educationDepartmental->items[0];
+			$otherPresentations += self::countListItems($departmentalLecture);
+
+			$traineeSection = $educationDepartmental->items[1];
+			foreach ([
+				1, // New resident/fellow lecture
+				2, // Repeat " lecture
+				5, // Med student interest group
+				6, // New med student lecture
+				7 // Repeat " " lecture
+			] as $i) {
+				$otherPresentations += self::countListItems($traineeSection->items[$i]);
+			}
+
+			$educationInsideMCWSection = $this->report->pages[1]->items[1];
+			foreach ($educationInsideMCWSection->items as $presentationType) {
+				$otherPresentations += self::countListItems($presentationType);
+			}
+
+			$educationOutsideMCWSection = $this->report->pages[1]->items[2];
+			foreach ([
+				0, // Visiting professor
+			   	6 // Local community group
+			] as $nonConferenceIndex) {
+				$cs = $educationOutsideMCWSection->items[$nonConferenceIndex];
+				$otherPresentations += self::countListItems($cs);
+			}
+			break;
+		case 1:
+		default:
+			$educationInsideMCWSection = $this->report->pages[1]->items[1];
+			foreach ($educationInsideMCWSection->items as $presentationType) {
+				$otherPresentations += self::countListItems($presentationType);
+			}
+
+			$educationOutsideMCWSection = $this->report->pages[1]->items[2];
+			foreach ([
+				1, // Visiting professor
+				6 // Local community group
+			] as $nonConferenceIndex) {
+				$cs = $educationOutsideMCWSection->items[$nonConferenceIndex];
+				$otherPresentations += self::countListItems($cs);
+			}
+			break;
+		}
+
+		return $otherPresentations;
+	}
+
+	static function countListItems($item) {
+		if (!empty($item->checked)) {
+			return count($item->questions[0]->items);
+		}
+
+		return 0;
+	}
+
+	/*
+	 * Number of chapters or textbooks published in the previous academic year
+	 */
+	public function getChaptersTextbooksAttribute() {
+		$pubSection = $this->report->pages[2]->items[0];
+
+		return self::countListItems($pubSection[0]) // Book / Text, First Ed.
+			+ self::countListItems($pubSection[1]) // Book / Text, Revised Ed.
+			+ self::countListItems($pubSection[4]); // Book chapter
+	}
+
+	/*
+	 * Number of grants for which faculty member had a leadership role
+	 * (PI, Co-PI, or site director) in the previous academic year
+	 */
+	public function getGrantsAttribute() {
+		$grants = 0;
+
+		$grantSection = $this->report->pages[2]->items[1];
+		foreach ($grantSection->items as $grantType) {
+			$grants += self::countListItems($grantType);
+		}
+
+		return $grants;
+	}
+
+	/*
+	 * Had an active leadership role (such as serving on committees or
+	 * governing boards) in national medical organizations or served as
+	 * reviewer or editorial board member for a peer-reviewed journal in the
+	 * previous academic year
+	 */
+	public function getLeadershipRoleAttribute() {
+		switch ($this->form->version) {
+		case 3:
+		case 2:
+			$isCommitteeChair = function ($question) {
+				foreach ($question->items as $item) {
+					if ($item->role === 'chair') {
+						return true;
+					}
+				}
+
+				return false;
+			};
+
+			$specialtyOrgSection = $this->report->pages[3]->items[0];
+
+			$roleListOrgIndexes = [
+				0, // ASA
+				1, // WSA
+				2, // ABA
+				3, // ABA - Critical care
+				4 // SEA
+			];
+			foreach ($roleListOrgIndexes as $i) {
+				$org = $specialtyOrgSection->items[$i];
+				if (
+					!empty($org->checked)
+					&& (
+						!empty($org->questions[0]->items)
+						|| $isCommitteeChair($org->questions[1])
+					)
+				) {
+					return true;
+				}
+			}
+
+			$radioIndexes = [
+				5, // SCA
+				6, // SPA
+				7, // SOAP
+				8, // MARC
+				9, // SNACC
+				10 // FAER
+			];
+			foreach ($radioIndexes as $i) {
+				$org = $specialtyOrgSection->items[$i];
+				if (
+					!empty($org->checked)
+					&& (
+						count(array_filter($org->questions[0]->options, function ($option) {
+							return !empty($option->checked);
+						})) > 0
+						|| $isCommitteeChair($org->questions[1])
+					)
+				) {
+					return true;
+				}
+			}
+
+			$items = $this->report->pages[3]->items[1]->items;
+			foreach ([
+				1, // Ad-hoc article reviewer
+				5 // Journal editorial board
+			] as $i) {
+				if (!empty($items[$i]->checked)) {
+					return true;
+				}
+			}
+
+			break;
+		case 1:
+		default:
+			$specialtyOrgSection = $this->report->pages[3]->items[0];
+
+			$asa = $specialtyOrgSection->items[0];
+			if (!empty($asa->checked)) {
+				foreach ($asa->questions[0]->options as $option) {
+					if (
+						!empty($option->checked)
+					   	&& array_search($option->value, [
+							'board-of-directors',
+							'committee-chair',
+							'committee-member'
+						]) !== false
+					) {
+						return true;
+					}
+				}
+			}
+
+			$wsa = $specialtyOrgSection->items[1];
+			if (!empty($wsa->checked)) {
+				foreach ($wsa->questions[0]->options as $option) {
+					if (
+						!empty($option->checked)
+					   	&& array_search($option->value, [
+							'board-of-directors',
+							'officer',
+							'committee-chair',
+							'committee-member'
+						]) !== false
+					) {
+						return true;
+					}
+				}
+			}
+
+			foreach ([
+				3, // SEA
+				4, // SCA
+				5, // SOAP
+				6, // Other
+			] as $i) {
+				if (!empty($specialtyOrgSeciton->items[$i]->checked)) {
+					return true;
+				}
+			}
+
+			$items = $this->report->pages[3]->items[1]->items;
+			foreach ([
+				1, // Ad-hoc article reviewer
+				9 // Journal editorial board
+			] as $i) {
+				if (!empty($items[$i]->checked)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/*
+	 *  In the previous academic year, held responsibility for seminars,
+	 *  conference series, or course coordination (such as arrangement of
+	 *  presentations and speakers, organization of materials, assessment of
+	 *  participants' performance) for any didactic training within the
+	 *  sponsoring institution or program. This includes training modules for
+	 *  medical students, residents, fellows and other health professionals.
+	 *  This does not include single presentations such as individual lectures
+	 *  or conferences.
+	 */
+	public function getTeachingFormalCoursesAttribute() {
+		return false;
+	}
+
+	public function getParticipatesInSimulationAttribute() {
+		switch ($this->form->version) {
+		case 3:
+		case 2:
+			return !empty($this->report->pages[1]->items[0]->items[2]->items[12]->checked);
+		case 1:
+		default:
+			return !empty($this->report->pages[1]->items[0]->items[1]->items[12]->checked);
+		}
+	}
+
+	public function getNationalBoardsAttribute() {
+		$nationalBoards = [];
+
+		foreach ($this->report->pages[3]->items[0]->items as $orgItem) {
+			if (!empty($orgItem->checked)) {
+				if ($orgItem->text == 'Other') {
+					foreach ($orgItem->questions[0]->items as $item) {
+						$nationalBoards[] = [
+							'name' => $item->name,
+							'role' => ucfirst($item->role)
+						];
+					}
+				} else {
+					$nationalBoards[] = [
+						'name' => $orgItem->text,
+						'role' => self::getOrgRoles($orgItem->questions[0])
+					];
+				}
+			}
+		}
+
+		return $nationalBoards;
+	}
+
+	static function getOrgRoles($question) {
+		switch ($question->type) {
+		case 'list':
+			return implode(', ', array_map(function ($item) {
+				return $item->text;
+			}, $question->items));
+		case 'text':
+			return $question->text;
+		case 'checkbox':
+			return implode(', ', array_map(function ($option) {
+				return $option->text;
+			}, array_filter($question->options, function ($option) {
+				return !empty($option->checked);
+			})));
+			break;
+		default:
+			return 'Unknown';
+		}
+	}
+
+	public static function publicationPmid($publication) {
+		try {
+			$link = strtolower($publication->link);
+			foreach (self::LINK_PREFIXES as $pmidPrefix) {
+				if (strpos($link, $pmidPrefix) !== false) {
+					$pmid = substr($link, strlen($pmidPrefix));
+					if (is_numeric($pmid)) {
+						return $pmid;
+					}
+				}
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in publicationPmid', $e);
+		}
+
+		return null;
 	}
 }
