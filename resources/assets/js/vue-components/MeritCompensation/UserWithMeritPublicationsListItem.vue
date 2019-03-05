@@ -8,7 +8,7 @@
 						<div class="report-summary">
 							<div class="total">
 								<small>Publications</small>
-								{{ totalFacultyPublications }}
+								{{ meritReport.publications.length }}
 							</div>
 						</div>
 					</div>
@@ -33,7 +33,7 @@
 						</ul>
 						<div class="total-row row">
 							<div class="total-cell col-sm-offset-10 col-sm-2 text-right">
-								{{ totalFacultyPublications }}
+								{{ meritReport.publications.length }}
 							</div>
 						</div>
 					</div>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { getFacultyPublicationsByType } from '@/modules/merits/faculty-merit/index.js';
+import groupBy from 'lodash/groupBy';
 
 export default {
 	props: {
@@ -52,7 +52,7 @@ export default {
 			type: String,
 			required: true
 		},
-		report: {
+		meritReport: {
 			type: Object,
 			required: true
 		}
@@ -65,13 +65,7 @@ export default {
 
 	computed: {
 		facultyPublicationsByType() {
-			return Array.from(getFacultyPublicationsByType(this.report).entries());
-		},
-		totalFacultyPublications() {
-			// eslint-disable-next-line no-unused-vars
-			return this.facultyPublicationsByType.reduce((acc, [_, publications]) =>
-				acc + publications.length
-			, 0);
+			return Array.from(Object.entries(groupBy(this.meritReport.publications, 'publicationType')));
 		}
 	},
 

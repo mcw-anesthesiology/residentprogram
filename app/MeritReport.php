@@ -87,7 +87,9 @@ class MeritReport extends Model
 				foreach ($publicationsSection['items'] as $publicationItem) {
 					if (!empty($publicationItem['checked'])) {
 						foreach ($publicationItem['questions'][0]['items'] as $pubItem) {
-							$publications[] = $pubItem;
+							$publications[] = array_merge([
+								'publicationType' => $publicationItem['text']
+							], $pubItem);
 						}
 					}
 				}
@@ -481,6 +483,7 @@ class MeritReport extends Model
 						}
 					}
 				}
+				break;
 			default:
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}

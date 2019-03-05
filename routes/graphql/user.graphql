@@ -118,9 +118,10 @@ type User {
 	roles: [UserRole]!
 
 	meritReports(
-		period_start: Date @where(operator: "<=")
-		period_end: Date @where(operator: ">=")
-		status: MeritReportStatus @where(operator: "=")
+		form_id: ID @eq
+		period_start: String @eq
+		period_end: String @eq
+		status: MeritReportStatus @eq
 	): [MeritReport]! @hasMany
 
 	meritAdministrators: [User] @belongsTo

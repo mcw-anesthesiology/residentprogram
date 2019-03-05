@@ -30,6 +30,8 @@
 			</fieldset>
 		</div>
 
+		<stored-alert-list></stored-alert-list>
+
 		<router-view :users="users" :grouped-users="groupedUsers"></router-view>
 	</div>
 @stop

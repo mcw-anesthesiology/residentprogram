@@ -1,10 +1,12 @@
-import Vue from '@/vue-constructors/vue.js';
+import Vue, { apolloProvider } from '@/vue-constructors/vue.js';
 import VueRouter from 'vue-router';
 import { mapState, mapGetters } from 'vuex';
 
 import store from './store.js';
 
 import { kebabCaseToWords, } from '@/modules/utils.js';
+
+import StoredAlertList from '@/vue-components/StoredAlertList.vue';
 
 const TraineeReport = () => import('@/vue-components/Reports/TraineeReport.vue');
 const FacultyReport = () => import('@/vue-components/Reports/FacultyReport.vue');
@@ -16,7 +18,7 @@ const FacultyMeritReport = () => import('@/vue-components/Reports/FacultyMeritRe
 const CaseOverlaps = () => import('@/vue-components/Reports/CaseOverlaps/CaseOverlaps.vue');
 
 const ExportMeritReport = () => import('@/vue-components/Reports/FacultyMerit/Export.vue');
-const FacultyPublicationsReport = () => import('@/vue-components/Reports/FacultyMerit/Publications.vue');
+// const FacultyPublicationsReport = () => import('@/vue-components/Reports/FacultyMerit/Publications.vue');
 const FacultyScholarlyActivityReport = () => import('@/vue-components/Reports/FacultyMerit/ScholarlyActivity.vue');
 const FacultySimulationsReport = () => import('@/vue-components/Reports/FacultyMerit/Simulations.vue');
 const FacultyNationalBoardsReport = () => import('@/vue-components/Reports/FacultyMerit/NationalBoards.vue');
@@ -52,7 +54,7 @@ const routes = [
 		props: {
 			reportTypes: [
 				'export',
-				'publications',
+				// 'publications',
 				'scholarly-activity',
 				'simulations',
 				'national-boards'
@@ -63,10 +65,10 @@ const routes = [
 				path: 'export',
 				component: ExportMeritReport
 			},
-			{
-				path: 'publications',
-				component: FacultyPublicationsReport
-			},
+			// {
+			// 	path: 'publications',
+			// 	component: FacultyPublicationsReport
+			// },
 			{
 				path: 'scholarly-activity',
 				component: FacultyScholarlyActivityReport
@@ -90,6 +92,7 @@ const routes = [
 export function createReports(el){
 	return new Vue({
 		el,
+		apolloProvider,
 		router: new VueRouter({
 			routes
 		}),
@@ -112,6 +115,9 @@ export function createReports(el){
 
 		methods: {
 			kebabCaseToWords
+		},
+		components: {
+			StoredAlertList
 		}
 	});
 }
