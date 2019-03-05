@@ -1,38 +1,79 @@
 <template>
 	<div class="container body-block">
-		<div class="controls-row row">
-			<div class="col-sm-6 col-sm-offset-3">
-				<label class="containing-label">
-					Academic year
-					<academic-year-selector v-model="dates"
-						:min-date="meritsReleaseDate" />
-				</label>
-			</div>
-		</div>
-
-		<div v-if="usersWithMerit">
+		<p v-if="$apollo.loading">Loading...</p>
+		<div v-else-if="usersWithMerit">
 			<data-table :thead="thead" :data="userScholarlyActivities"
 				:export-filename="exportFilename"
 				reloadable
 				exportable
-				@reload="fetchUsersWithMerits" />
+				@reload="$apollo.queries.users.refetch()" />
 		</div>
 	</div>
 </template>
 
 <script>
+import gql from 'graphql-tag';
+
 import DataTable from '@/vue-components/DataTable.vue';
-import UsersWithMeritReport from './UsersWithMeritReport.vue';
 import UserWithScholarlyActivityListItem from '@/vue-components/MeritCompensation/UserWithScholarlyActivityListItem.vue';
 
-import { getScholarlyActivity } from '@/modules/merits/faculty-merit/index.js';
 import { isoDateString } from '@/modules/date-utils.js';
 import { logError } from '@/modules/errors.js';
 
 export default {
-	extends: UsersWithMeritReport,
+	props: {
+		dates: Object,
+		formId: [String, Number],
+		completeOnly: Boolean
+	},
+
+	data() {
+		return {
+			users: []
+		};
+	},
+	apollo: {
+		users: {
+			query: gql`
+				query NationalBoardsQuery(
+					$formId: ID
+					$startDate: String
+					$endDate: String
+				) {
+					users {
+						id
+						full_name
+						meritReports(
+							form_id: $formId
+							period_start: $startDate
+							period_end: $endDate
+						) {
+							title
+							pubMedIds
+							conferencePresentations
+							otherPresentations
+							chaptersTextbooks
+							grantLeadership
+							leadershipRole
+							teachingFormalCourses
+						}
+					}
+				}
+			`,
+			variables() {
+				return {
+					...this.dates,
+					formId: this.formId,
+					status: this.completeOnly ? 'COMPLETE' : null
+				};
+			}
+		}
+	},
 
 	computed: {
+		usersWithMerit() {
+			return this.users.filter(u => u.meritReports.length > 0);
+		},
 		thead() {
 			return [[
 				'Faculty Member',
@@ -52,17 +93,23 @@ export default {
 			if (!this.usersWithMerit)
 				return;
 
-			let userScholarlyActivities = [];
 
-			for (let user of this.usersWithMerit) {
-				try {
-					userScholarlyActivities.push(getScholarlyActivity(user.report, user.full_name));
-				} catch (err) {
-					logError(err, user.report);
-				}
-			}
+			return this.usersWithMerit.map(user => {
+				const merit = user.meritReports[0];
 
-			return userScholarlyActivities;
+				let pmids = [...(merit.pubMedIds || []), ...Array(4).fill('')].slice(0, 4);
+
+				return [
+					user.full_name,
+					...pmids,
+					merit.conferencePresentations,
+					merit.otherPresentations,
+					merit.chaptersTextbooks,
+					merit.grantLeadership,
+					merit.leadershipRole ? 'Y' : 'N',
+					merit.teachingFormalCourses ? 'Y' : 'N'
+				];
+			});
 		},
 		exportFilename() {
 			return `Scholarly activity ${isoDateString(this.dates.startDate)}--${isoDateString(this.dates.endDate)}`;

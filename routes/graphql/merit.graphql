@@ -82,6 +82,7 @@ type MeritReportForm {
 }
 
 type Publication {
+	publicationType: String,
 	title: String!
 	author: String
 	link: String

@@ -1,37 +1,75 @@
 <template>
 	<div class="container body-block">
-		<div class="controls-row row">
-			<div class="col-sm-6 col-sm-offset-3">
-				<label class="containing-label">
-					Academic year
-					<academic-year-selector v-model="dates"
-						:min-date="meritsReleaseDate" />
-				</label>
-			</div>
-		</div>
 
-		<div v-if="usersWithMerit">
+		<p v-if="$apollo.loading">Loading...</p>
+		<div v-else-if="usersWithMerit">
 			<data-table :thead="thead" :data="userBoards"
 				:export-filename="exportFilename"
 				reloadable
 				exportable
-				@reload="fetchUsersWithMerits" />
+				@reload="$apollo.queries.users.refetch" />
 		</div>
 	</div>
 </template>
 
 <script>
+import gql from 'graphql-tag';
+
 import DataTable from '@/vue-components/DataTable.vue';
-import UsersWithMeritReport from './UsersWithMeritReport.vue';
 
 import { logError } from '@/modules/errors.js';
-import { getNationalBoards } from '@/modules/merits/faculty-merit/index.js';
 import { isoDateString } from '@/modules/date-utils.js';
 
 export default {
-	extends: UsersWithMeritReport,
+	props: {
+		dates: Object,
+		formId: [String, Number],
+		completeOnly: Boolean
+	},
 
+	data() {
+		return {
+			users: []
+		};
+	},
+	apollo: {
+		users: {
+			query: gql`
+				query NationalBoardsQuery(
+					$formId: ID
+					$startDate: String
+					$endDate: String
+				) {
+					users {
+						id
+						full_name
+						meritReports(
+							form_id: $formId
+							period_start: $startDate
+							period_end: $endDate
+						) {
+							title
+							nationalBoards {
+								name
+								role
+							}
+						}
+					}
+				}
+			`,
+			variables() {
+				return {
+					...this.dates,
+					formId: this.formId,
+					status: this.completeOnly ? 'COMPLETE' : null
+				};
+			}
+		}
+	},
 	computed: {
+		usersWithMerit() {
+			return this.users.filter(u => u.meritReports.length > 0);
+		},
 		thead() {
 			return [[
 				'Faculty member',
@@ -44,10 +82,15 @@ export default {
 
 			return this.usersWithMerit.map(user => {
 				let boards = '';
+				const checklist = user.meritReports[0];
 				try {
-					boards = `<ul>${getNationalBoards(user.report).map(board =>
-						`<li>${board.name} - ${board.role}</li>`
-					).join(' ')}</ul>`;
+					if (checklist.nationalBoards == null) {
+						boards = '<i>Not implemented for merit form</i>';
+					} else {
+						boards = `<ul>${checklist.nationalBoards.map(board =>
+								`<li>${board.name} - ${board.role}</li>`
+						).join(' ')}</ul>`;
+					}
 				} catch (e) {
 					logError(e);
 					boards = '<i>Error!</i>';

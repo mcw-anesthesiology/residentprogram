@@ -1,22 +1,7 @@
 <template>
 	<div class="container body-block">
-		<div class="controls-row row">
-			<div class="col-sm-4 col-sm-offset-3">
-				<label class="containing-label">
-					Academic year
-					<academic-year-selector v-model="dates"
-						:min-date="meritsReleaseDate" />
-				</label>
-			</div>
-			<div v-show="usersWithMerits" class="col-sm-3">
-				<button type="button" class="labelless-button btn btn-default"
-						@click="getCsv">
-					Export CSV
-				</button>
-			</div>
-		</div>
-
-		<div v-if="usersWithMerit">
+		<p v-if="$apollo.loading">Loading...</p>
+		<div v-else-if="usersWithMerit">
 			<component-list :fields="['full_name']"
 					:items="usersWithMerit"
 					:paginate="false"
@@ -32,20 +17,67 @@
 </template>
 
 <script>
+import gql from 'graphql-tag';
+
 import ComponentList from '@/vue-components/ComponentList.vue';
 
-import UsersWithMeritReport from './UsersWithMeritReport.vue';
 import UserWithMeritPublicationsListItem from '@/vue-components/MeritCompensation/UserWithMeritPublicationsListItem.vue';
 
-import {
-	getAllPublicationTypes,
-	getFacultyPublicationsByType
-} from '@/modules/merits/faculty-merit/index.js';
 import { downloadCsv } from '@/modules/report-utils.js';
 
 export default {
-	extends: UsersWithMeritReport,
+	props: {
+		dates: Object,
+		formId: [String, Number],
+		completeOnly: Boolean
+	},
 
+	data() {
+		return {
+			users: []
+		};
+	},
+	apollo: {
+		users: {
+			query: gql`
+				query PublicationsQuery(
+					$formId: ID
+					$startDate: String
+					$endDate: String
+				) {
+					users {
+						id
+						full_name
+						meritReports(
+							form_id: $formId
+							period_start: $startDate
+							period_end: $endDate
+						) {
+							title
+							publications {
+								title
+								author
+								link
+								role
+							}
+						}
+					}
+				}
+			`,
+			variables() {
+				return {
+					...this.dates,
+					formId: this.formId,
+					status: this.completeOnly ? 'COMPLETE' : null
+				};
+			}
+		}
+	},
+	computed: {
+		usersWithMerit() {
+			return this.users.filter(u => u.meritReports.length > 0);
+		},
+	},
 	methods: {
 		getCsv() {
 			if (!this.usersWithMerits)
@@ -55,28 +87,10 @@ export default {
 				[
 					'Name',
 					'Total',
-					...getAllPublicationTypes(
-						this.usersWithMerits[0].merit_reports[0]
-					)
 				]
 			];
-			for (let userWithMerit of this.usersWithMerit) {
-				let row = [];
-				let pubsByType = Array.from(getFacultyPublicationsByType(userWithMerit.report, false).values())
-					.map(pubs => pubs.length);
-				let totalPubs = Array.from(getFacultyPublicationsByType(userWithMerit.report).values())
-					.reduce((acc, pubs) =>
-						acc + pubs.length
-					, 0);
 
-				row.push(
-					userWithMerit.full_name,
-					totalPubs,
-					...pubsByType
-				);
-
-				csv.push(row);
-			}
+			// TODO
 
 			downloadCsv(csv, 'Publications', this.dates);
 		}
