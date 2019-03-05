@@ -78,6 +78,7 @@ type MeritReportForm {
 	created_at: Date!
 	updated_at: Date!
 	deleted_at: Date
+	report_slug: String
 }
 
 type Publication {
