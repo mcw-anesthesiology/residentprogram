@@ -246,14 +246,14 @@ class MeritReport extends Model
 			case 'mcw-anesth-faculty-merit-2016-2017':
 				$pubSection = $this->report['pages'][2]['items'][0];
 
-				return self::countListItems($pubSection[0]) // Book / Text, First Ed.
-					+ self::countListItems($pubSection[1]) // Book / Text, Revised Ed.
-					+ self::countListItems($pubSection[4]); // Book chapter
+				return self::countListItems($pubSection['items'][0]) // Book / Text, First Ed.
+					+ self::countListItems($pubSection['items'][1]) // Book / Text, Revised Ed.
+					+ self::countListItems($pubSection['items'][4]); // Book chapter
 			default:
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
 		} catch (\Exception $e) {
-			Log::error('ERror in getChaptersTextbooksAttribute' . $e);
+			Log::error('Error in getChaptersTextbooksAttribute ' . $e);
 			return null;
 		}
 	}
