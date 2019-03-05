@@ -301,10 +301,14 @@ class MeritReport extends Model
 			switch ($this->form->report_slug) {
 			case 'mcw-anesth-faculty-merit-2017-2018':
 				$isCommitteeChair = function ($question) {
-					foreach ($question['items'] as $item) {
-						if ($item['role'] === 'chair') {
-							return true;
+					try {
+						foreach ($question['items'] as $item) {
+							if ($item['role'] === 'chair') {
+								return true;
+							}
 						}
+					} catch (\Exception $e) {
+						Log::debug('Error in isCommitteeChair', $question);
 					}
 
 					return false;
