@@ -120,6 +120,7 @@ type User {
 	meritReports(
 		period_start: Date @where(operator: "<=")
 		period_end: Date @where(operator: ">=")
+		status: MeritReportStatus @where(operator: "=")
 	): [MeritReport]! @hasMany
 
 	meritAdministrators: [User] @belongsTo

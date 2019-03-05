@@ -121,7 +121,8 @@ export default function createManageMerit(el, propsData) {
 					id: currentForm.id,
 					name: currentForm.name,
 					version: currentForm.version,
-					form: null
+					form: null,
+					report_slug: currentForm.report_slug
 				};
 			},
 			handleMeritSubmit(form) {

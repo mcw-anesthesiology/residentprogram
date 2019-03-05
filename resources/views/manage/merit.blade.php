@@ -19,6 +19,14 @@
 						@input="merit = Object.assign({}, merit, {name: $event.target.value})" />
 				</label>
 			</div>
+			<div class="form-group">
+				<label class="containing-label">
+					Report slug
+					<input type="text" class="form-control"
+						:value="merit.report_slug"
+						@input="merit = Object.assign({}, merit, {report_slug: $event.target.value})" />
+				</label>
+			</div>
 			<json-schema-editor :past-values="pastMeritForms"
 				schema-id="https://www.residentprogram.com/schemas/merit-report.json"
 				:schema-urls="['/schemas/merit-report.json', '/schemas/questionnaire.json']"

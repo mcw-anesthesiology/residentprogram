@@ -52,13 +52,11 @@ class MeritReport extends Model
 	];
 
 	public function getReportAttribute($report) {
-		Log::debug('getreportattribute');
-
 		if (empty($report)) {
 			$report = $this->form->form;
 		}
 
-		return json_decode($report);
+		return json_decode($report, true);
 	}
 
 	public function user() {
@@ -77,60 +75,80 @@ class MeritReport extends Model
 		return DateHelpers::getDateRangeFromPeriodType('year');
 	}
 
-	// FIXME: Need to double check all of these for v3
-
 	public function getPublicationsAttribute() {
-		$publications = [];
-
 		try {
-			$publicationsSection = $this->report->pages[2]->items[0];
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
 
-			foreach ($publicationsSection->items as $publicationItem) {
-				if (!empty($publicationItem->checked)) {
-					foreach ($publicationItem->questions[0]->items as $pubItem) {
-						$publications[] = $pubItem;
+				$publications = [];
+				$publicationsSection = $this->report['pages'][2]['items'][0];
+
+				foreach ($publicationsSection['items'] as $publicationItem) {
+					if (!empty($publicationItem['checked'])) {
+						foreach ($publicationItem['questions'][0]['items'] as $pubItem) {
+							$publications[] = $pubItem;
+						}
 					}
 				}
+				return $publications;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
 		} catch (\Exception $e) {
-			Log::error('Failed getting merit publications' . $e);
+			Log::error('Error in getPublicationsAttribute ' . $e);
+			return null;
 		}
 
-		Log::debug($publications);
-
-		return $publications;
 	}
 
 	public function getPubMedIdsAttribute() {
-		return array_filter(array_map(function ($publication) {
-			return self::publicationPmid($publication);
-		}, $this->publications));
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				return array_filter(array_map(function ($publication) {
+					return self::publicationPmid($publication);
+				}, $this->publications));
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getPubMedIdsAttribute ' . $e);
+			return null;
+		}
 	}
 
 	public function getConferencePresentationsAttribute() {
-		$conferencePresentations = 0;
 
-		switch ($this->form->version) {
-		case 3:
-		case 2:
-			$conferenceIndexes = [1, 2, 3, 4, 5];
-			break;
-		case 1:
-		default:
-			$conferenceIndexes = [0, 2, 3, 4, 5];
-			break;
-		}
-
-		$educationOutsideMCWSection = $this->report->pages[1]->items[2];
-
-		foreach ($conferenceIndexes as $i) {
-			$conferenceSection = $educationOutsideMCWSection->items[$i];
-			if (!empty($conferenceSection->checked)) {
-				$conferencePresentations += count($conferenceSection->questions[0]->items);
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				$conferenceIndexes = [1, 2, 3, 4, 5];
+				break;
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				$conferenceIndexes = [0, 2, 3, 4, 5];
+				break;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
-		}
 
-		return $conferencePresentations;
+			$conferencePresentations = 0;
+			$educationOutsideMCWSection = $this->report['pages'][1]['items'][2];
+
+			foreach ($conferenceIndexes as $i) {
+				$conferenceSection = $educationOutsideMCWSection['items'][$i];
+				if (!empty($conferenceSection['checked'])) {
+					$conferencePresentations += count($conferenceSection['questions'][0]['items']);
+				}
+			}
+
+			return $conferencePresentations;
+
+		} catch (\Exception $e) {
+			Log::error('Error in getConferencePresentationsAttribute ' . $e);
+			return null;
+		}
 	}
 
 	/*
@@ -142,70 +160,75 @@ class MeritReport extends Model
 	 * by the National Library of Medicine.
 	 */
 	public function getOtherPresentationsAttribute() {
-		$otherPresentations = 0;
 
-		$publicationsWithoutPmids = array_filter($this->publications, function ($publication) {
-			return empty(self::publicationPmid($publication));
-		});
+		try {
+			$otherPresentations = 0;
+			$publicationsWithoutPmids = array_filter($this->publications, function ($publication) {
+				return empty(self::publicationPmid($publication));
+			});
 
-		$otherPresentations += count($publicationsWithoutPmids);
+			$otherPresentations += count($publicationsWithoutPmids);
 
-		switch ($this->form->version) {
-		case 3:
-		case 2:
-			$educationDepartmental = $this->report->pages[1]->items[0];
-			$departmentalLecture = $educationDepartmental->items[0];
-			$otherPresentations += self::countListItems($departmentalLecture);
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				$educationDepartmental = $this->report['pages'][1]['items'][0];
+				$departmentalLecture = $educationDepartmental['items'][0];
+				$otherPresentations += self::countListItems($departmentalLecture);
 
-			$traineeSection = $educationDepartmental->items[1];
-			foreach ([
-				1, // New resident/fellow lecture
-				2, // Repeat " lecture
-				5, // Med student interest group
-				6, // New med student lecture
-				7 // Repeat " " lecture
-			] as $i) {
-				$otherPresentations += self::countListItems($traineeSection->items[$i]);
+				$traineeSection = $educationDepartmental['items'][1];
+				foreach ([
+					1, // New resident/fellow lecture
+					2, // Repeat " lecture
+					5, // Med student interest group
+					6, // New med student lecture
+					7 // Repeat " " lecture
+				] as $i) {
+					$otherPresentations += self::countListItems($traineeSection['items'][$i]);
+				}
+
+				$educationInsideMCWSection = $this->report['pages'][1]['items'][1];
+				foreach ($educationInsideMCWSection['items'] as $presentationType) {
+					$otherPresentations += self::countListItems($presentationType);
+				}
+
+				$educationOutsideMCWSection = $this->report['pages'][1]['items'][2];
+				foreach ([
+					0, // Visiting professor
+					6 // Local community group
+				] as $nonConferenceIndex) {
+					$cs = $educationOutsideMCWSection['items'][$nonConferenceIndex];
+					$otherPresentations += self::countListItems($cs);
+				}
+				break;
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				$educationInsideMCWSection = $this->report['pages'][1]['items'][1];
+				foreach ($educationInsideMCWSection['items'] as $presentationType) {
+					$otherPresentations += self::countListItems($presentationType);
+				}
+
+				$educationOutsideMCWSection = $this->report['pages'][1]['items'][2];
+				foreach ([
+					1, // Visiting professor
+					6 // Local community group
+				] as $nonConferenceIndex) {
+					$cs = $educationOutsideMCWSection['items'][$nonConferenceIndex];
+					$otherPresentations += self::countListItems($cs);
+				}
+				break;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
-
-			$educationInsideMCWSection = $this->report->pages[1]->items[1];
-			foreach ($educationInsideMCWSection->items as $presentationType) {
-				$otherPresentations += self::countListItems($presentationType);
-			}
-
-			$educationOutsideMCWSection = $this->report->pages[1]->items[2];
-			foreach ([
-				0, // Visiting professor
-			   	6 // Local community group
-			] as $nonConferenceIndex) {
-				$cs = $educationOutsideMCWSection->items[$nonConferenceIndex];
-				$otherPresentations += self::countListItems($cs);
-			}
-			break;
-		case 1:
-		default:
-			$educationInsideMCWSection = $this->report->pages[1]->items[1];
-			foreach ($educationInsideMCWSection->items as $presentationType) {
-				$otherPresentations += self::countListItems($presentationType);
-			}
-
-			$educationOutsideMCWSection = $this->report->pages[1]->items[2];
-			foreach ([
-				1, // Visiting professor
-				6 // Local community group
-			] as $nonConferenceIndex) {
-				$cs = $educationOutsideMCWSection->items[$nonConferenceIndex];
-				$otherPresentations += self::countListItems($cs);
-			}
-			break;
+		} catch (\Exception $e) {
+			Log::error('Error in getOtherPresentationsAttribute ' . $e);
+			return null;
 		}
 
 		return $otherPresentations;
 	}
 
 	static function countListItems($item) {
-		if (!empty($item->checked)) {
-			return count($item->questions[0]->items);
+		if (!empty($item['checked'])) {
+			return count($item['questions'][0]['items']);
 		}
 
 		return 0;
@@ -215,11 +238,22 @@ class MeritReport extends Model
 	 * Number of chapters or textbooks published in the previous academic year
 	 */
 	public function getChaptersTextbooksAttribute() {
-		$pubSection = $this->report->pages[2]->items[0];
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				$pubSection = $this->report['pages'][2]['items'][0];
 
-		return self::countListItems($pubSection[0]) // Book / Text, First Ed.
-			+ self::countListItems($pubSection[1]) // Book / Text, Revised Ed.
-			+ self::countListItems($pubSection[4]); // Book chapter
+				return self::countListItems($pubSection[0]) // Book / Text, First Ed.
+					+ self::countListItems($pubSection[1]) // Book / Text, Revised Ed.
+					+ self::countListItems($pubSection[4]); // Book chapter
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('ERror in getChaptersTextbooksAttribute' . $e);
+			return null;
+		}
 	}
 
 	/*
@@ -227,14 +261,25 @@ class MeritReport extends Model
 	 * (PI, Co-PI, or site director) in the previous academic year
 	 */
 	public function getGrantsAttribute() {
-		$grants = 0;
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				$grants = 0;
 
-		$grantSection = $this->report->pages[2]->items[1];
-		foreach ($grantSection->items as $grantType) {
-			$grants += self::countListItems($grantType);
+				$grantSection = $this->report['pages'][2]['items'][1];
+				foreach ($grantSection['items'] as $grantType) {
+					$grants += self::countListItems($grantType);
+				}
+
+				return $grants;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getGrantsAttribute ' . $e);
+			return null;
 		}
-
-		return $grants;
 	}
 
 	/*
@@ -244,132 +289,139 @@ class MeritReport extends Model
 	 * previous academic year
 	 */
 	public function getLeadershipRoleAttribute() {
-		switch ($this->form->version) {
-		case 3:
-		case 2:
-			$isCommitteeChair = function ($question) {
-				foreach ($question->items as $item) {
-					if ($item->role === 'chair') {
-						return true;
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				$isCommitteeChair = function ($question) {
+					foreach ($question['items'] as $item) {
+						if ($item['role'] === 'chair') {
+							return true;
+						}
 					}
-				}
 
-				return false;
-			};
+					return false;
+				};
 
-			$specialtyOrgSection = $this->report->pages[3]->items[0];
+				$specialtyOrgSection = $this->report['pages'][3]['items'][0];
 
-			$roleListOrgIndexes = [
-				0, // ASA
-				1, // WSA
-				2, // ABA
-				3, // ABA - Critical care
-				4 // SEA
-			];
-			foreach ($roleListOrgIndexes as $i) {
-				$org = $specialtyOrgSection->items[$i];
-				if (
-					!empty($org->checked)
-					&& (
-						!empty($org->questions[0]->items)
-						|| $isCommitteeChair($org->questions[1])
-					)
-				) {
-					return true;
-				}
-			}
-
-			$radioIndexes = [
-				5, // SCA
-				6, // SPA
-				7, // SOAP
-				8, // MARC
-				9, // SNACC
-				10 // FAER
-			];
-			foreach ($radioIndexes as $i) {
-				$org = $specialtyOrgSection->items[$i];
-				if (
-					!empty($org->checked)
-					&& (
-						count(array_filter($org->questions[0]->options, function ($option) {
-							return !empty($option->checked);
-						})) > 0
-						|| $isCommitteeChair($org->questions[1])
-					)
-				) {
-					return true;
-				}
-			}
-
-			$items = $this->report->pages[3]->items[1]->items;
-			foreach ([
-				1, // Ad-hoc article reviewer
-				5 // Journal editorial board
-			] as $i) {
-				if (!empty($items[$i]->checked)) {
-					return true;
-				}
-			}
-
-			break;
-		case 1:
-		default:
-			$specialtyOrgSection = $this->report->pages[3]->items[0];
-
-			$asa = $specialtyOrgSection->items[0];
-			if (!empty($asa->checked)) {
-				foreach ($asa->questions[0]->options as $option) {
+				$roleListOrgIndexes = [
+					0, // ASA
+					1, // WSA
+					2, // ABA
+					3, // ABA - Critical care
+					4 // SEA
+				];
+				foreach ($roleListOrgIndexes as $i) {
+					$org = $specialtyOrgSection['items'][$i];
 					if (
-						!empty($option->checked)
-					   	&& array_search($option->value, [
-							'board-of-directors',
-							'committee-chair',
-							'committee-member'
-						]) !== false
+						!empty($org['checked'])
+						&& (
+							!empty($org['questions'][0]['items'])
+							|| $isCommitteeChair($org['questions'][1])
+						)
 					) {
 						return true;
 					}
 				}
-			}
 
-			$wsa = $specialtyOrgSection->items[1];
-			if (!empty($wsa->checked)) {
-				foreach ($wsa->questions[0]->options as $option) {
+				$radioIndexes = [
+					5, // SCA
+					6, // SPA
+					7, // SOAP
+					8, // MARC
+					9, // SNACC
+					10 // FAER
+				];
+				foreach ($radioIndexes as $i) {
+					$org = $specialtyOrgSection['items'][$i];
 					if (
-						!empty($option->checked)
-					   	&& array_search($option->value, [
-							'board-of-directors',
-							'officer',
-							'committee-chair',
-							'committee-member'
-						]) !== false
+						!empty($org['checked'])
+						&& (
+							count(array_filter($org['questions'][0]['options'], function ($option) {
+								return !empty($option['checked']);
+							})) > 0
+							|| $isCommitteeChair($org['questions'][1])
+						)
 					) {
 						return true;
 					}
 				}
+
+				$items = $this->report['pages'][3]['items'][1]['items'];
+				foreach ([
+					1, // Ad-hoc article reviewer
+					5 // Journal editorial board
+				] as $i) {
+					if (!empty($items[$i]['checked'])) {
+						return true;
+					}
+				}
+
+				break;
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				$specialtyOrgSection = $this->report['pages'][3]['items'][0];
+
+				$asa = $specialtyOrgSection['items'][0];
+				if (!empty($asa['checked'])) {
+					foreach ($asa['questions'][0]['options'] as $option) {
+						if (
+							!empty($option['checked'])
+							&& array_search($option['value'], [
+								'board-of-directors',
+								'committee-chair',
+								'committee-member'
+							]) !== false
+						) {
+							return true;
+						}
+					}
+				}
+
+				$wsa = $specialtyOrgSection['items'][1];
+				if (!empty($wsa['checked'])) {
+					foreach ($wsa['questions'][0]['options'] as $option) {
+						if (
+							!empty($option['checked'])
+							&& array_search($option['value'], [
+								'board-of-directors',
+								'officer',
+								'committee-chair',
+								'committee-member'
+							]) !== false
+						) {
+							return true;
+						}
+					}
+				}
+
+				foreach ([
+					3, // SEA
+					4, // SCA
+					5, // SOAP
+					6, // Other
+				] as $i) {
+					if (!empty($specialtyOrgSeciton['items'][$i]['checked'])) {
+						return true;
+					}
+				}
+
+				$items = $this->report['pages'][3]['items'][1]['items'];
+				foreach ([
+					1, // Ad-hoc article reviewer
+					9 // Journal editorial board
+				] as $i) {
+					if (!empty($items[$i]['checked'])) {
+						return true;
+					}
+				}
+				break;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
 
-			foreach ([
-				3, // SEA
-				4, // SCA
-				5, // SOAP
-				6, // Other
-			] as $i) {
-				if (!empty($specialtyOrgSeciton->items[$i]->checked)) {
-					return true;
-				}
-			}
-
-			$items = $this->report->pages[3]->items[1]->items;
-			foreach ([
-				1, // Ad-hoc article reviewer
-				9 // Journal editorial board
-			] as $i) {
-				if (!empty($items[$i]->checked)) {
-					return true;
-				}
-			}
+		} catch (\Exception $e) {
+			Log::error('Error in getLeadershipRoleAttribute' . $e, $this->toArray());
+			return null;
 		}
 
 		return false;
@@ -386,57 +438,73 @@ class MeritReport extends Model
 	 *  or conferences.
 	 */
 	public function getTeachingFormalCoursesAttribute() {
-		return false;
+		return null;
 	}
 
 	public function getParticipatesInSimulationAttribute() {
-		switch ($this->form->version) {
-		case 3:
-		case 2:
-			return !empty($this->report->pages[1]->items[0]->items[2]->items[12]->checked);
-		case 1:
-		default:
-			return !empty($this->report->pages[1]->items[0]->items[1]->items[12]->checked);
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				return !empty($this->report['pages'][1]['items'][0]['items'][2]['items'][12]['checked']);
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				return !empty($this->report['pages'][1]['items'][0]['items'][1]['items'][12]['checked']);
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getParticipatesInSimulationAttribute' . $e);
+			return null;
 		}
 	}
 
 	public function getNationalBoardsAttribute() {
 		$nationalBoards = [];
 
-		foreach ($this->report->pages[3]->items[0]->items as $orgItem) {
-			if (!empty($orgItem->checked)) {
-				if ($orgItem->text == 'Other') {
-					foreach ($orgItem->questions[0]->items as $item) {
-						$nationalBoards[] = [
-							'name' => $item->name,
-							'role' => ucfirst($item->role)
-						];
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				foreach ($this->report['pages'][3]['items'][0]['items'] as $orgItem) {
+					if (!empty($orgItem['checked'])) {
+						if ($orgItem['text'] == 'Other') {
+							foreach ($orgItem['questions'][0]['items'] as $item) {
+								$nationalBoards[] = [
+									'name' => $item['name'],
+									'role' => ucfirst($item['role'])
+								];
+							}
+						} else {
+							$nationalBoards[] = [
+								'name' => $orgItem['text'],
+								'role' => self::getOrgRoles($orgItem['questions'][0])
+							];
+						}
 					}
-				} else {
-					$nationalBoards[] = [
-						'name' => $orgItem->text,
-						'role' => self::getOrgRoles($orgItem->questions[0])
-					];
 				}
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
+		} catch (\Exception $e) {
+			Log::error('Error in getNationalBoardsAttribute ' . $e);
+			return null;
 		}
 
 		return $nationalBoards;
 	}
 
 	static function getOrgRoles($question) {
-		switch ($question->type) {
+		switch ($question['type']) {
 		case 'list':
 			return implode(', ', array_map(function ($item) {
-				return $item->text;
-			}, $question->items));
+				return $item['text'];
+			}, $question['items']));
 		case 'text':
-			return $question->text;
+			return $question['text'];
 		case 'checkbox':
 			return implode(', ', array_map(function ($option) {
-				return $option->text;
-			}, array_filter($question->options, function ($option) {
-				return !empty($option->checked);
+				return $option['text'];
+			}, array_filter($question['options'], function ($option) {
+				return !empty($option['checked']);
 			})));
 			break;
 		default:
@@ -446,7 +514,7 @@ class MeritReport extends Model
 
 	public static function publicationPmid($publication) {
 		try {
-			$link = strtolower($publication->link);
+			$link = strtolower($publication['link']);
 			foreach (self::LINK_PREFIXES as $pmidPrefix) {
 				if (strpos($link, $pmidPrefix) !== false) {
 					$pmid = substr($link, strlen($pmidPrefix));
