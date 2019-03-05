@@ -1,4 +1,10 @@
 extend type Query @middleware(checks: ["auth", "type:admin", "site-feature:faculty_merit"]) {
+	usersWithMerits(
+		form_id: ID
+		period_start: String
+		period_end: String
+		status: MeritReportStatus
+	): [User!]!
 	meritReports: [MeritReport!]! @all(model: "App\\MeritReport")
 
 	meritReportForms: [MeritReportForm!]! @all
