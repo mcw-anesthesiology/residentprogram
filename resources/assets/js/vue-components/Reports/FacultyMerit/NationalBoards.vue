@@ -2,12 +2,12 @@
 	<div class="container body-block">
 
 		<p v-if="$apollo.loading">Loading...</p>
-		<div v-else-if="usersWithMerit">
+		<div v-else-if="usersWithMerits">
 			<data-table :thead="thead" :data="userBoards"
 				:export-filename="exportFilename"
 				reloadable
 				exportable
-				@reload="$apollo.queries.users.refetch" />
+				@reload="$apollo.queries.users.refetch()" />
 		</div>
 	</div>
 </template>
@@ -17,7 +17,7 @@ import gql from 'graphql-tag';
 
 import DataTable from '@/vue-components/DataTable.vue';
 
-import { logError } from '@/modules/errors.js';
+import { logError, storeError } from '@/modules/errors.js';
 import { isoDateString } from '@/modules/date-utils.js';
 
 export default {
@@ -33,14 +33,18 @@ export default {
 		};
 	},
 	apollo: {
-		users: {
+		usersWithMerits: {
 			query: gql`
 				query NationalBoardsQuery(
 					$formId: ID
 					$startDate: String
 					$endDate: String
 				) {
-					users {
+					usersWithMerits(
+						form_id: $formId
+						period_start: $startDate
+						period_end: $endDate
+					) {
 						id
 						full_name
 						meritReports(
@@ -63,13 +67,13 @@ export default {
 					formId: this.formId,
 					status: this.completeOnly ? 'COMPLETE' : null
 				};
+			},
+			error(err) {
+				storeError(err, this, 'Sorry, there was a problem fetching the report');
 			}
 		}
 	},
 	computed: {
-		usersWithMerit() {
-			return this.users.filter(u => u.meritReports.length > 0);
-		},
 		thead() {
 			return [[
 				'Faculty member',
@@ -77,10 +81,10 @@ export default {
 			]];
 		},
 		userBoards() {
-			if (!this.usersWithMerit)
+			if (!this.usersWithMerits)
 				return;
 
-			return this.usersWithMerit.map(user => {
+			return this.usersWithMerits.map(user => {
 				let boards = '';
 				const checklist = user.meritReports[0];
 				try {

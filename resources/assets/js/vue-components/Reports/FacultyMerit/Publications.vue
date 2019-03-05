@@ -1,12 +1,12 @@
 <template>
 	<div class="container body-block">
 		<p v-if="$apollo.loading">Loading...</p>
-		<div v-else-if="usersWithMerit">
+		<div v-else-if="usersWithMerits">
 			<component-list :fields="['full_name']"
-					:items="usersWithMerit"
+					:items="usersWithMerits"
 					:paginate="false"
 					reloadable
-					@reload="fetchUsersWithMerits">
+					@reload="$apollo.queries.users.refetch()">
 				<template slot-scope="meritUser">
 					<user-with-merit-publications-list-item
 						v-bind="meritUser" />
@@ -34,7 +34,7 @@ export default {
 
 	data() {
 		return {
-			users: []
+			usersWithMerits: []
 		};
 	},
 	apollo: {
@@ -45,7 +45,11 @@ export default {
 					$startDate: String
 					$endDate: String
 				) {
-					users {
+					usersWithMerits(
+						form_id: $formId
+						period_start: $startDate
+						period_end: $endDate
+					) {
 						id
 						full_name
 						meritReports(
@@ -72,11 +76,6 @@ export default {
 				};
 			}
 		}
-	},
-	computed: {
-		usersWithMerit() {
-			return this.users.filter(u => u.meritReports.length > 0);
-		},
 	},
 	methods: {
 		getCsv() {

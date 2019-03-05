@@ -1,7 +1,7 @@
 <template>
 	<div class="container body-block">
 		<p v-if="$apollo.loading">Loading...</p>
-		<div v-else-if="usersWithMerit">
+		<div v-else-if="usersWithMerits">
 			<data-table :thead="thead" :data="userScholarlyActivities"
 				:export-filename="exportFilename"
 				reloadable
@@ -18,7 +18,7 @@ import DataTable from '@/vue-components/DataTable.vue';
 import UserWithScholarlyActivityListItem from '@/vue-components/MeritCompensation/UserWithScholarlyActivityListItem.vue';
 
 import { isoDateString } from '@/modules/date-utils.js';
-import { logError } from '@/modules/errors.js';
+import { storeError } from '@/modules/errors.js';
 
 export default {
 	props: {
@@ -29,18 +29,22 @@ export default {
 
 	data() {
 		return {
-			users: []
+			usersWithMerits: []
 		};
 	},
 	apollo: {
-		users: {
+		usersWithMerits: {
 			query: gql`
 				query NationalBoardsQuery(
 					$formId: ID
 					$startDate: String
 					$endDate: String
 				) {
-					users {
+					usersWithMerits(
+						form_id: $formId
+						period_start: $startDate
+						period_end: $endDate
+					) {
 						id
 						full_name
 						meritReports(
@@ -66,14 +70,14 @@ export default {
 					formId: this.formId,
 					status: this.completeOnly ? 'COMPLETE' : null
 				};
+			},
+			error(err) {
+				storeError(err, this, 'Sorry, there was a problem fetching the report');
 			}
 		}
 	},
 
 	computed: {
-		usersWithMerit() {
-			return this.users.filter(u => u.meritReports.length > 0);
-		},
 		thead() {
 			return [[
 				'Faculty Member',
@@ -90,11 +94,11 @@ export default {
 			]];
 		},
 		userScholarlyActivities() {
-			if (!this.usersWithMerit)
+			if (!this.usersWithMerits)
 				return;
 
 
-			return this.usersWithMerit.map(user => {
+			return this.usersWithMerits.map(user => {
 				const merit = user.meritReports[0];
 
 				let pmids = [...(merit.pubMedIds || []), ...Array(4).fill('')].slice(0, 4);
