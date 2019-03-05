@@ -432,7 +432,7 @@ class MeritReport extends Model
 			}
 
 		} catch (\Exception $e) {
-			Log::error('Error in getLeadershipRoleAttribute' . $e, $this->toArray());
+			Log::error('Error in getLeadershipRoleAttribute' . $e);
 			return null;
 		}
 
@@ -478,14 +478,7 @@ class MeritReport extends Model
 			case 'mcw-anesth-faculty-merit-2016-2017':
 				foreach ($this->report['pages'][3]['items'][0]['items'] as $orgItem) {
 					if (!empty($orgItem['checked'])) {
-						if ($orgItem['text'] == 'Other') {
-							foreach ($orgItem['questions'][0]['items'] as $item) {
-								$nationalBoards[] = [
-									'name' => $item['name'],
-									'role' => ucfirst($item['role'])
-								];
-							}
-						} else {
+						if ($orgItem['text'] !== 'Other') {
 							$nationalBoards[] = [
 								'name' => $orgItem['text'],
 								'role' => self::getOrgRoles($orgItem['questions'][0])
@@ -537,7 +530,7 @@ class MeritReport extends Model
 				}
 			}
 		} catch (\Exception $e) {
-			Log::error('Error in publicationPmid', $e);
+			Log::error('Error in publicationPmid' . $e);
 		}
 
 		return null;
