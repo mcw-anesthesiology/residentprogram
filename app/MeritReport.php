@@ -308,7 +308,7 @@ class MeritReport extends Model
 							}
 						}
 					} catch (\Exception $e) {
-						Log::debug('Error in isCommitteeChair', $question);
+						Log::error('Error in isCommitteeChair', $question);
 					}
 
 					return false;
