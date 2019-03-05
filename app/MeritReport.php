@@ -177,15 +177,21 @@ class MeritReport extends Model
 				$departmentalLecture = $educationDepartmental['items'][0];
 				$otherPresentations += self::countListItems($departmentalLecture);
 
-				$traineeSection = $educationDepartmental['items'][1];
+				$medStudentSection = $educationDepartmental['items'][1];
 				foreach ([
-					1, // New resident/fellow lecture
-					2, // Repeat " lecture
 					5, // Med student interest group
 					6, // New med student lecture
 					7 // Repeat " " lecture
 				] as $i) {
-					$otherPresentations += self::countListItems($traineeSection['items'][$i]);
+					$otherPresentations += self::countListItems($medStudentSection['items'][$i]);
+				}
+
+				$residentFellowSection = $educationDepartmental['items'][2];
+				foreach ([
+					1, // New resident/fellow lecture
+					2, // Repeat " lecture
+				] as $i) {
+					$otherPresentations += self::countListItems($residentFellowSection['items'][$i]);
 				}
 
 				$educationInsideMCWSection = $this->report['pages'][1]['items'][1];
