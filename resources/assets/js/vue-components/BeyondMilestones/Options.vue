@@ -119,7 +119,7 @@ export default {
 			try {
 				if (this.evaluation && this.evaluation.subject) {
 					const subject = this.evaluation.subject;
-					return optionText.replace(/(this|the) resident/gi, `${subject.first_name} ${subject.last_name}`);
+					return optionText.replace(/(this|the) (resident|trainee)/gi, `${subject.first_name} ${subject.last_name}`);
 				}
 			} catch (err) {
 				logError(err);
