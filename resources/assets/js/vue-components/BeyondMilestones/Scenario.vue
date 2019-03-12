@@ -114,7 +114,7 @@ export default {
 
 			if (this.evaluation && this.evaluation.subject) {
 				const subject = this.evaluation.subject;
-				replacements.set(/(this|the) resident/ig, `${subject.first_name} ${subject.last_name}`);
+				replacements.set(/(this|the) (resident|trainee)/ig, `${subject.first_name} ${subject.last_name}`);
 			}
 
 			return replacements;
