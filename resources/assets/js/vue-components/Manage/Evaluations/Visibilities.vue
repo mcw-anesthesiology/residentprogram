@@ -15,21 +15,21 @@
 				<div class="col-sm-6">
 					<div class="form-group">
 						<label class="containing-label">
-							Visibility
-							<select class="form-control" v-model="visibility">
-								<option :value="null">(Form default)</option>
-								<option v-for="visibility of VISIBILITIES" :value="visibility">
-								{{ ucfirst(visibility) }}
-								</option>
-							</select>
+							Form
+							<form-select v-model="formId" />
 						</label>
 					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group">
 						<label class="containing-label">
-							Form
-							<form-select v-model="formId" />
+							Visibility
+							<select class="form-control" v-model="visibility">
+								<option :value="null">(Form default)</option>
+								<option v-for="visibility of VISIBILITIES" :value="visibility">
+									{{ ucfirst(visibility) }}
+								</option>
+							</select>
 						</label>
 					</div>
 				</div>
