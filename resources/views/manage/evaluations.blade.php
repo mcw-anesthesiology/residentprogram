@@ -12,9 +12,15 @@
 	</style>
 @stop
 
-@section("body")
-	<h2 class="sub-header">Manage Evaluations</h2>
-	<evaluation-data-table :thead="thead" :config="config" />
+@section("blockless-body")
+	<div class="container body-block">
+		<h1>Manage Evaluations</h1>
+		<stored-alert-list></stored-alert-list>
+
+		<evaluation-data-table :thead="thead" :config="config" />
+	</div>
+
+	<manage-evaluation-visibilities></manage-evaluation-visibilities>
 @stop
 
 @section("script")

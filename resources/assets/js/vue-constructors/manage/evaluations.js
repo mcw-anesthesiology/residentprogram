@@ -1,6 +1,8 @@
-import Vue from '@/vue-constructors/vue.js';
+import Vue, { apolloProvider } from '@/vue-constructors/vue.js';
+import store from '@/vue-constructors/store.js';
 
 import EvaluationDataTable from '@/vue-components/EvaluationDataTable.vue';
+import StoredAlertList from '@/vue-components/StoredAlertList.vue';
 
 import { ucfirst } from '@/modules/utils.js';
 import {
@@ -14,6 +16,8 @@ export default function createManageEvaluations(el, propsData){
 
 	return new Vue({
 		el,
+		store,
+		apolloProvider,
 		props: {
 
 		},
@@ -162,7 +166,9 @@ export default function createManageEvaluations(el, propsData){
 		},
 
 		components: {
-			EvaluationDataTable
+			StoredAlertList,
+			EvaluationDataTable,
+			ManageEvaluationVisibilities: () => import('#/Manage/Evaluations/Visibilities.vue')
 		}
 	});
 }

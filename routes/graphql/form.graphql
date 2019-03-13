@@ -30,6 +30,7 @@ enum Visibility {
 	visible
 	anonymous
 	hidden
+	UNDER_FACULTY_THRESHOLD @enum(value: "under faculty threshold")
 }
 
 enum EvaluationPeriodType {

@@ -1,0 +1,88 @@
+extend type Query @middleware(checks: ["auth"]) {
+	evaluations: [Evaluation!]! @all(model: "App\\Evaluation")
+	evaluation(id: ID! @eq): Evaluation @find(model: "App\\Evaluation")
+}
+
+extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
+	updateEvaluationVisibility(
+		id: ID!
+		visibility: Visibility
+	): Evaluation
+
+	updateEvaluationVisibilities(
+		startDate: Date!
+		endDate: Date!
+		visibility: Visibility
+	): [Evaluation]!
+}
+
+type Evaluation {
+	id: ID!
+
+	form_id: ID!
+	form: Form
+
+	evaluator_id: ID
+	evaluator: User @belongsTo
+
+	subject_id: ID
+	subject: User @belongsTo
+
+	requested_by_id: ID
+	requestor: User @belongsTo
+
+	status: String # FIXME: Make enum
+	type: EvaluationType
+	training_level: TrainingLevel
+	visibility: Visibility
+
+	request_date: DateTime
+	complete_date: DateTime
+	evaluation_date_start: DateTime
+	evaluation_date_end: DateTime
+	archive_date: DateTime
+
+	request_ip: String
+	complete_ip: String
+
+	hash_expires: DateTime
+
+	request_note: String
+	comment: String
+
+	responses: [Response]! @hasMany
+	textResponses: [TextResponse]! @hasMany
+}
+
+enum EvaluationType {
+	faculty
+	trainee
+	fellow
+	intern
+	app
+	self
+}
+
+enum EvaluationStatus {
+	complete
+	pending
+}
+
+type TextResponse {
+	id: ID!
+	evaluation_id: ID!
+	evaluation: Evaluation @belongsTo
+	question_id: ID
+	response: String
+}
+
+type Response {
+	id: ID!
+	evaluation_id: ID!
+	evaluation: Evaluation @belongsTo
+	question_id: ID
+	response: Int
+	weight: Int
+}
+
+
