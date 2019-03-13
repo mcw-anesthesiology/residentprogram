@@ -21,7 +21,7 @@ class UpdateEvaluationVisibilities
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
-		$query = Evaluation::whereBetween('complete_date', [
+		$query = Evaluation::where('form_id', $args['formId'])->whereBetween('complete_date', [
 			$args['startDate'],
 			$args['endDate']
 		]);

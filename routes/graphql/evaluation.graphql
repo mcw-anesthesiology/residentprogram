@@ -12,6 +12,7 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 	updateEvaluationVisibilities(
 		startDate: Date!
 		endDate: Date!
+		formId: ID!
 		visibility: Visibility
 	): [Evaluation]!
 }

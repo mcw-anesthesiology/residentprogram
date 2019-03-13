@@ -10,20 +10,33 @@
 				</label>
 			</div>
 
-			<div class="form-group">
-				<label class="containing-label">
-					Visibility
-					<select class="form-control" v-model="visibility">
-						<option :value="null">(Form default)</option>
-						<option v-for="visibility of VISIBILITIES" :value="visibility">
-						{{ ucfirst(visibility) }}
-						</option>
-					</select>
-				</label>
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="containing-label">
+							Visibility
+							<select class="form-control" v-model="visibility">
+								<option :value="null">(Form default)</option>
+								<option v-for="visibility of VISIBILITIES" :value="visibility">
+								{{ ucfirst(visibility) }}
+								</option>
+							</select>
+						</label>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="containing-label">
+							Form
+							<form-select v-model="formId" />
+						</label>
+					</div>
+				</div>
 			</div>
 
 			<div class="btn-lg-submit-container">
-				<button type="submit" class="btn btn-lg btn-primary">
+				<button type="submit" class="btn btn-lg btn-primary" :disabled="!formId">
 					Update visiblities
 				</button>
 			</div>
@@ -72,6 +85,7 @@ export default {
 		return {
 			dates: isoDateStringObject(thisMonth()),
 			visibility: null,
+			formId: null,
 
 			updatedEvaluations: null,
 
@@ -88,11 +102,13 @@ export default {
 					mutation ManageEvaluationVisibilities(
 						$startDate: Date!
 						$endDate: Date!
+						$formId: ID!
 						$visibility: Visibility
 					) {
 						updatedEvaluations: updateEvaluationVisibilities(
 							startDate: $startDate
 							endDate: $endDate
+							formId: $formId
 							visibility: $visibility
 						) {
 							id
@@ -130,7 +146,8 @@ export default {
 				`,
 				variables: {
 					...this.dates,
-					visibility: this.visibility
+					visibility: this.visibility,
+					formId: this.formId
 				}
 			}).then(({ data: { updatedEvaluations } }) => {
 
@@ -143,6 +160,7 @@ export default {
 	components: {
 		BootstrapAlert,
 		StartEndDate,
+		FormSelect: () => import('#/FormSelect.vue'),
 		EvaluationList: () => import('#/EvaluationList.vue')
 	}
 };
