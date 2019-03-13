@@ -18,5 +18,6 @@ scalar Mixed @scalar(class: "MLL\\GraphQLScalars\\Mixed")
 
 #import user.graphql
 #import form.graphql
+#import evaluation.graphql
 #import merit.graphql
 #import beyond-milestones/*.graphql
