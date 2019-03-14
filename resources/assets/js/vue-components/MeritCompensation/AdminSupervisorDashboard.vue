@@ -3,8 +3,7 @@
 		<div class="container body-block">
 			<h2>All merit reports</h2>
 
-			<loading-placeholder v-if="$apollo.loading" />
-			<div v-else-if="usersWithReports">
+			<div v-if="usersWithReports">
 				<component-list :fields="['full_name']"
 					:items="usersWithReports"
 					:paginate="false"
@@ -20,6 +19,7 @@
 					</template>
 				</component-list>
 			</div>
+			<loading-placeholder v-else-if="$apollo.loading" />
 
 			<alert-list v-model="alerts"></alert-list>
 		</div>

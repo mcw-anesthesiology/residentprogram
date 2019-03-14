@@ -50,8 +50,7 @@
 		<div class="container body-block">
 			<h2>Your merit checklists</h2>
 
-			<loading-placeholder v-if="$apollo.loading" />
-			<component-list v-else-if="me && me.meritReports.length > 0"
+			<component-list v-if="me && me.meritReports.length > 0"
 				:items="me.meritReports"
 				:fields="meritReportFields"
 				:field-accessors="meritReportFieldAccessors"
@@ -66,6 +65,7 @@
 					/>
 				</template>
 			</component-list>
+			<loading-placeholder v-else-if="$apollo.loading" />
 			<div v-else>
 				<p class="lead">
 					You don't have any submitted merit checklists yet.
