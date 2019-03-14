@@ -1,6 +1,6 @@
 <template>
 	<div class="container body-block">
-		<p v-if="$apollo.loading">Loading...</p>
+		<loading-placeholder v-if="$apollo.loading" />
 		<div v-else-if="usersWithMerits">
 			<data-table :thead="thead" :data="userParticipates"
 				:export-filename="exportFilename"
@@ -14,6 +14,7 @@
 <script>
 import gql from 'graphql-tag';
 
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 import DataTable from '@/vue-components/DataTable.vue';
 
 import { logError, storeError } from '@/modules/errors.js';
@@ -106,6 +107,7 @@ export default {
 	},
 
 	components: {
+		LoadingPlaceholder,
 		DataTable
 	}
 };

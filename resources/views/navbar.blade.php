@@ -159,17 +159,6 @@
         </li>
 	@endif
 @endif
-		<li><a href="/contact">Contact</a></li>
-
-	@if (config('features.calendar'))
-		<li><a href="/calendar">Calendar</a></li>
-	@endif
-
-	@if (config('features.external_links') && !empty(config('app.external_links')))
-		@foreach (config('app.external_links') as $name => $link)
-		<li><a href="{{ $link }}">{{ $name }}</a></li>
-		@endforeach
-	@endif
 	@if (config('features.news'))
 		<li id="global-news-dropdown" class="dropdown" :class="{open: open}"
 				@click="ignoreDropdownClick">
@@ -205,9 +194,19 @@
 			</a>
 		  <ul class="dropdown-menu">
             <li class="disabled"><a>Account type: {{ ucfirst($user->specific_type) }}</a></li>
+			<li><a href="/contact">Contact</a></li>
+
+		@if (config('features.calendar'))
+			<li><a href="/calendar">Calendar</a></li>
+		@endif
+
+		@if (config('features.external_links') && !empty(config('app.external_links')))
+			@foreach (config('app.external_links') as $name => $link)
+			<li><a href="{{ $link }}">{{ $name }}</a></li>
+			@endforeach
+		@endif
 			<li><a href="/user">Manage Account</a></li>
 			<li><a href="/help">Help</a></li>
-			<li><a class="pointer" data-toggle="modal" data-target="#attribution-modal">Attributions</a></li>
 			<li><a href="/logout">Logout</a></li>
 		  </ul>
 		</li>

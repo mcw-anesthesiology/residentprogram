@@ -42,7 +42,8 @@
 			</div>
 		</form>
 
-		<div v-if="updatedEvaluations">
+		<loading-placeholder v-if="loading" />
+		<div v-else-if="updatedEvaluations">
 			<bootstrap-alert v-if="updatedEvaluations.length === 0" type="warning">
 				<p>No evaluations found in the selected date range.</p>
 			</bootstrap-alert>
@@ -69,6 +70,7 @@ import gql from 'graphql-tag';
 
 import StartEndDate from '#/StartEndDate.vue';
 import BootstrapAlert from '#/BootstrapAlert.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 
 import { storeError } from '@/modules/errors.js';
 import { isoDateStringObject, thisMonth } from '@/modules/date-utils.js';
@@ -89,6 +91,8 @@ export default {
 
 			updatedEvaluations: null,
 
+			loading: false,
+
 			VISIBILITIES
 		};
 	},
@@ -96,6 +100,7 @@ export default {
 		ucfirst,
 		handleSubmit() {
 			this.updatedEvaluations = null;
+			this.loading = true;
 
 			this.$apollo.mutate({
 				mutation: gql`
@@ -150,14 +155,16 @@ export default {
 					formId: this.formId
 				}
 			}).then(({ data: { updatedEvaluations } }) => {
-
 				this.updatedEvaluations = updatedEvaluations;
 			}).catch(err => {
 				storeError(err, this, 'There was a problem updating visibilities');
+			}).finally(() => {
+				this.loading = false;
 			});
 		}
 	},
 	components: {
+		LoadingPlaceholder,
 		BootstrapAlert,
 		StartEndDate,
 		FormSelect: () => import('#/FormSelect.vue'),

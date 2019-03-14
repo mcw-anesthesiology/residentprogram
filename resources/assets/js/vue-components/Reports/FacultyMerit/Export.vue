@@ -1,6 +1,7 @@
 <template>
 	<div class="container body-block">
-		<div v-if="exportResults && exportResults.length > 0" class="btn-lg-submit-container">
+		<loading-placeholder v-if="loading" />
+		<div v-else-if="exportResults && exportResults.length > 0" class="btn-lg-submit-container">
 			<show-hide-button v-model="show.results" class="btn btn-primary btn-lg">
 				<span slot="left-glyph" class="glyphicon glyphicon-list-alt"></span>
 				results
@@ -16,9 +17,6 @@
 				Sorry, no reports were found.
 			</p>
 		</div>
-		<p v-else>
-			Loading...
-		</p>
 
 		<div v-if="show.results && thead && tbody" class="export-table-container">
 			<data-table
@@ -45,6 +43,7 @@
 import DataTable from '@/vue-components/DataTable.vue';
 import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 
 import { handleError } from '@/modules/errors.js';
 import { isoDateString } from '@/modules/date-utils.js';
@@ -59,6 +58,7 @@ export default {
 	},
 	data() {
 		return {
+			loading: false,
 			exportResults: null,
 			show: {
 				results: false
@@ -113,6 +113,7 @@ export default {
 		},
 		fetchExport() {
 			this.exportResults = null;
+			this.loading = true;
 
 			fetch('/merits/export', {
 				...fetchConfig(),
@@ -127,11 +128,14 @@ export default {
 				this.exportResults = results;
 			}).catch(err => {
 				handleError(err, this, 'There was a problem exporting the merit reports');
+			}).finally(() => {
+				this.loading = false;
 			});
 		}
 	},
 
 	components: {
+		LoadingPlaceholder,
 		DataTable,
 		AcademicYearSelector,
 		ShowHideButton

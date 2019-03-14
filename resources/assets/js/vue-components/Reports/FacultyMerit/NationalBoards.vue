@@ -1,7 +1,7 @@
 <template>
 	<div class="container body-block">
 
-		<p v-if="$apollo.loading">Loading...</p>
+		<loading-placeholder v-if="$apollo.loading" />
 		<div v-else-if="usersWithMerits">
 			<data-table :thead="thead" :data="userBoards"
 				:export-filename="exportFilename"
@@ -16,6 +16,7 @@
 import gql from 'graphql-tag';
 
 import DataTable from '@/vue-components/DataTable.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 
 import { logError, storeError } from '@/modules/errors.js';
 import { isoDateString } from '@/modules/date-utils.js';
@@ -112,6 +113,7 @@ export default {
 	},
 
 	components: {
+		LoadingPlaceholder,
 		DataTable
 	}
 };

@@ -2,7 +2,8 @@
 	<div class="container body-block">
 		<h2>Supervisee merit reports</h2>
 
-		<div v-if="me">
+		<loading-placeholder v-if="$apollo.loading" />
+		<div v-else-if="me">
 			<component-list :fields="['full_name']"
 				:items="me.meritAdministratees"
 				:paginate="false"
@@ -24,6 +25,7 @@
 import gql from 'graphql-tag';
 
 import ComponentList from '#/ComponentList.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 
 import { MERIT_REPORT_LIST_FIELDS } from '@/graphql/merit.js';
 
@@ -63,6 +65,7 @@ export default {
 		}
 	},
 	components: {
+		LoadingPlaceholder,
 		ComponentList,
 		UserWithMeritReportListItem: () => import('#/MeritCompensation/UserWithReportListItem.vue'),
 	}

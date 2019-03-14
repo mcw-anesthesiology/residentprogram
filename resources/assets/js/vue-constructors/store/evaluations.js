@@ -44,14 +44,14 @@ function createRouteModule(route) {
 			fetch({ commit }, { startDate, endDate }) {
 				const query = queryParams({ startDate, endDate });
 
-				ky.get(`${route}?${query}`).json().then(evals => {
+				return ky.get(`${route}?${query}`).json().then(evals => {
 					commit('add', evals);
 				}).catch(err => {
 					commit('error', err, { root: true });
 				});
 			},
 			fetchOne({ commit }, { id }) {
-				ky.get(`${route}/${id}`).json().then(evaluation => {
+				return ky.get(`${route}/${id}`).json().then(evaluation => {
 					commit('add', [evaluation]);
 				}).catch(err => {
 					commit('error', err, { root: true });

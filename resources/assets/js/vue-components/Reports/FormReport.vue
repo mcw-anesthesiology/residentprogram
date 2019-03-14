@@ -22,7 +22,10 @@
 			</div>
 		</div>
 
-		<div v-if="report" class="container body-block">
+		<div v-if="loading.report" class="container body-block">
+			<loading-placeholder />
+		</div>
+		<div v-else-if="report" class="container body-block">
 			<div class="report-evaluations">
 				<bootstrap-alert v-if="report.evals.length === 0" type="warning"
 					:text="`No evaluations found for ${report.formContents.title} in report parameters.`" />
@@ -47,7 +50,7 @@
 						:thead="evalsThead" :config="allEvalsConfig" />
 
 				</bootstrap-alert>
-					<section>
+				<section>
 					<div class="form-horizontal">
 
 						<div class="form-group">
@@ -178,6 +181,7 @@ import BootstrapAlert from '../BootstrapAlert.vue';
 import AlertList from '../AlertList.vue';
 import ShowHideButton from '../ShowHideButton.vue';
 import SvgIcon from '../SvgIcon.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 
 import {
 	canScoreQuestion,
@@ -234,6 +238,11 @@ export default {
 			formId: null,
 			subjectId: null,
 			report: null,
+
+			loading: {
+				report: false,
+				subjectEvals: false
+			},
 
 			subjectEvals: [],
 
@@ -476,6 +485,8 @@ export default {
 				return;
 			}
 
+			this.loading.report = true;
+
 			fetch('/report/form', {
 				method: 'POST',
 				headers: getFetchHeaders(),
@@ -494,6 +505,8 @@ export default {
 				this.report = Object.assign({}, this.report, report);
 			}).catch(err => {
 				handleError(err, this, 'There was a problem running the report');
+			}).finally(() => {
+				this.loading.report = false;
 			});
 		},
 		fetchSubjectEvals() {
@@ -501,6 +514,8 @@ export default {
 				this.subjectEvals = [];
 				return;
 			}
+
+			this.loading.subjectEvals = true;
 
 			let query = $.param({
 				id: this.report.subjectEvals[this.subjectId].slice(),
@@ -528,6 +543,8 @@ export default {
 				this.subjectEvals = subjectEvals;
 			}).catch(err => {
 				handleError(err, this, 'There was a problem fetching subject evaluations');
+			}).finally(() => {
+				this.loading.subjectEvals = false;
 			});
 		},
 		hideQuestion(questionIndex, hide) {
@@ -894,7 +911,8 @@ export default {
 		BootstrapAlert,
 		AlertList,
 		ShowHideButton,
-		SvgIcon
+		SvgIcon,
+		LoadingPlaceholder
 	}
 };
 </script>

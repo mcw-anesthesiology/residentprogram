@@ -13,9 +13,16 @@
 			<alert-list v-model="alerts" />
 		</div>
 
-		<stats-report v-if="evaluatorStats"
+		<div v-if="loading.evaluatorStats" class="container body-block">
+			<loading-placeholder />
+		</div>
+		<stats-report v-else-if="evaluatorStats"
 			:report="evaluatorStats" title="Trainee evaluation statistics by faculty" />
-		<stats-report v-if="subjectStats"
+
+		<div v-if="loading.subjectStats" class="container body-block">
+			<loading-placeholder />
+		</div>
+		<stats-report v-else-if="subjectStats"
 			:report="subjectStats" title="Faculty evaluation statistics by faculty" />
 	</div>
 </template>
@@ -25,6 +32,7 @@ import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
 import StatsReport from './StatsReport.vue';
 import StartEndDate from '../StartEndDate.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 
 import { handleError } from '@/modules/errors.js';
 import { getFetchHeaders, jsonOrThrow } from '@/modules/utils.js';
@@ -36,12 +44,19 @@ export default {
 		return {
 			dates: isoDateStringObject(currentQuarter()),
 			evaluatorStats: null,
-			subjectStats: null
+			subjectStats: null,
+			loading: {
+				subjectStats: false,
+				evaluatorStats: false
+			}
 		};
 	},
 
 	methods: {
 		runReport(){
+			this.loading.subjectStats = true;
+			this.loading.evaluatorStats = true;
+
 			fetch('/report/stats/trainee/faculty', {
 				method: 'POST',
 				headers: getFetchHeaders(),
@@ -51,6 +66,8 @@ export default {
 				this.evaluatorStats = stats;
 			}).catch(err => {
 				handleError(err, this, 'There was a problem fetching the evaluator statistics');
+			}).finally(() => {
+				this.loading.evaluatorStats = false;
 			});
 
 			fetch('/report/stats/faculty/faculty', {
@@ -62,11 +79,14 @@ export default {
 				this.subjectStats = stats;
 			}).catch(err => {
 				handleError(err, this, 'There was a problem fetching the subject statistics');
+			}).finally(() => {
+				this.loading.subjectStats = false;
 			});
 		}
 	},
 
 	components: {
+		LoadingPlaceholder,
 		StatsReport,
 		StartEndDate
 	}
