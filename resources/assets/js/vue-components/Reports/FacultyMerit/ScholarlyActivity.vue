@@ -58,7 +58,7 @@ export default {
 							conferencePresentations
 							otherPresentations
 							chaptersTextbooks
-							grantLeadership
+							grants
 							leadershipRole
 							teachingFormalCourses
 						}
@@ -110,7 +110,7 @@ export default {
 					merit.conferencePresentations,
 					merit.otherPresentations,
 					merit.chaptersTextbooks,
-					merit.grantLeadership,
+					merit.grants,
 					merit.leadershipRole ? 'Y' : 'N',
 					merit.teachingFormalCourses ? 'Y' : 'N'
 				];
