@@ -6,7 +6,7 @@
 				:export-filename="exportFilename"
 				reloadable
 				exportable
-				@reload="$apollo.queries.users.refetch()" />
+				@reload="$apollo.queries.usersWithMerits.refetch()" />
 		</div>
 	</div>
 </template>
@@ -112,7 +112,7 @@ export default {
 					merit.chaptersTextbooks,
 					merit.grants,
 					merit.leadershipRole ? 'Y' : 'N',
-					merit.teachingFormalCourses ? 'Y' : 'N'
+					booleanDisplay(merit.teachingFormalCourses)
 				];
 			});
 		},
@@ -127,4 +127,12 @@ export default {
 		UserWithScholarlyActivityListItem
 	}
 };
+
+function booleanDisplay(val) {
+	if (val == null) {
+		return '';
+	}
+
+	return val ? 'Y' : 'N';
+}
 </script>
