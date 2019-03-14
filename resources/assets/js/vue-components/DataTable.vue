@@ -138,7 +138,7 @@ export default {
 			let header = csvHeader(this.thead);
 			let rows = this.data.map(row =>
 				row.map(cell =>
-					escapeCsv(cell.toString())
+					cell ? escapeCsv(cell.toString()) : cell
 				).join(',')
 			);
 
