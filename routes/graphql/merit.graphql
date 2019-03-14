@@ -61,7 +61,7 @@ type MeritReport {
 	conferencePresentations: Int
 	otherPresentations: Int
 	chaptersTextbooks: Int
-	grantLeadership: Int
+	grants: Int
 	leadershipRole: Boolean
 	teachingFormalCourses: Boolean
 
