@@ -6,13 +6,21 @@
 				<RichDateRange :dates="dates" />
 			</small>
 		</h2>
-		<evaluation-list :evaluations="evaluations" />
+
+		<div class="text-right">
+			<reload-button @click="fetchEvaluations" />
+		</div>
+
+		<loading-placeholder v-if="loading" />
+		<evaluation-list v-else :evaluations="evaluations" />
 	</div>
 </template>
 
 <script>
 import EvaluationList from '#/EvaluationList.vue';
 import RichDateRange from '#/RichDateRange.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
+import ReloadButton from '#/ReloadButton.vue';
 
 export default {
 	props: {
@@ -20,6 +28,11 @@ export default {
 			type: Object,
 			required: true
 		}
+	},
+	data() {
+		return {
+			loading: false
+		};
 	},
 	mounted() {
 		this.fetchEvaluations();
@@ -36,12 +49,17 @@ export default {
 	},
 	methods: {
 		fetchEvaluations() {
-			this.$store.dispatch('evaluations/fetch', this.dates);
+			this.loading = true;
+			this.$store.dispatch('evaluations/fetch', this.dates).then(() => {
+				this.loading = false;
+			});
 		}
 	},
 	components: {
+		ReloadButton,
 		EvaluationList,
-		RichDateRange
+		RichDateRange,
+		LoadingPlaceholder
 	}
 };
 </script>

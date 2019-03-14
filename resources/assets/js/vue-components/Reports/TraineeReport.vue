@@ -65,7 +65,10 @@
 			</div>
 		</div>
 
-		<div v-if="report">
+		<div v-if="loading.report" class="container body-block">
+			<loading-placeholder />
+		</div>
+		<div v-else-if="report">
 			<div class="container body-block">
 				<div class="form-group">
 					<div class="row">
@@ -133,7 +136,8 @@
 					ref="individualReports" />
 			</template>
 			<template v-else>
-				<stats-report v-if="subjectStats" :report="subjectStats"
+				<loading-placeholder v-if="loading.subjectStats" />
+				<stats-report v-else-if="subjectStats" :report="subjectStats"
 						title="Trainee evaluation statistics by trainee">
 					<p class="text-center">
 						Trainee list can be filtered by
@@ -141,7 +145,9 @@
 						above
 					</p>
 				</stats-report>
-				<stats-report v-if="evaluatorStats" :report="evaluatorStats"
+
+				<loading-placeholder v-if="loading.evaluatorStats" />
+				<stats-report v-else-if="evaluatorStats" :report="evaluatorStats"
 						title="Faculty evaluation statistics by trainee">
 					<p class="text-center">
 						Trainee list can be filtered by
@@ -169,6 +175,7 @@ import TrainingLevelSelect from './TrainingLevelSelect.vue';
 import BootstrapAlert from '../BootstrapAlert.vue';
 import SelectTwo from '../SelectTwo.vue';
 import SvgIcon from '../SvgIcon.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 
 import { handleError } from '@/modules/errors.js';
 import { getFetchHeaders } from '@/modules/utils.js';
@@ -198,6 +205,11 @@ export default {
 
 			show: {
 				inactiveUsers: false
+			},
+			loading: {
+				report: false,
+				subjectStats: false,
+				evaluatorStats: false
 			},
 
 			report: null,
@@ -307,6 +319,10 @@ export default {
 			this.traineeId = users.map(u => u.id);
 		},
 		runReport(){
+			this.loading.report = true;
+			this.loading.subjectStats = true;
+			this.loading.evaluatorStats = true;
+
 			fetch('/report/trainee', {
 				method: 'POST',
 				headers: getFetchHeaders(),
@@ -328,6 +344,8 @@ export default {
 				this.report = Object.assign({}, this.report, report);
 			}).catch(err => {
 				handleError(err, this, 'There was a problem fetching the report');
+			}).finally(() => {
+				this.loading.report = false;
 			});
 
 			const jsonIfAuthorized = response => {
@@ -348,8 +366,9 @@ export default {
 			}).then(jsonIfAuthorized).then(stats => {
 				this.subjectStats = stats;
 			}).catch(err => {
-				console.er
 				handleError(err, this, 'There was a problem fetching the trainee statistics');
+			}).finally(() => {
+				this.loading.subjectStats = false;
 			});
 
 			fetch('/report/stats/faculty/trainee', {
@@ -363,6 +382,8 @@ export default {
 				this.evaluatorStats = stats;
 			}).catch(err => {
 				handleError(err, this, 'There was a problem fetching the faculty statistics');
+			}).finally(() => {
+				this.loading.evaluatorStats = false;
 			});
 		},
 		printAll(){
@@ -379,7 +400,8 @@ export default {
 		TrainingLevelSelect,
 		BootstrapAlert,
 		SelectTwo,
-		SvgIcon
+		SvgIcon,
+		LoadingPlaceholder
 	}
 };
 </script>

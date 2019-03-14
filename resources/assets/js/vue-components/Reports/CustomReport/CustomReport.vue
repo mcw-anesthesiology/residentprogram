@@ -25,7 +25,10 @@
 			</form>
 		</div>
 
-		<div v-if="report" class="container body-block">
+		<div v-if="loading" class="container body-block">
+			<loading-placeholder />
+		</div>
+		<div v-else-if="report" class="container body-block">
 			<div v-if="subjects.length > 0" class="subject-container">
 				<div class="row">
 					<div class="col-xs-10">
@@ -184,6 +187,7 @@ import SelectTwo from '@/vue-components/SelectTwo.vue';
 import RichDateRange from '@/vue-components/RichDateRange.vue';
 import DataTable from '@/vue-components/DataTable.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 
 import ReportSection from './Section.vue';
 
@@ -220,6 +224,8 @@ export default {
 			reportDates: isoDateStringObject(lastQuarter()),
 			customReportId: null,
 			report: null,
+
+			loading: false,
 
 			reportFontSizeValue: 1,
 
@@ -383,6 +389,8 @@ export default {
 			if (!this.canRunReport)
 				return;
 
+			this.loading = true;
+
 			fetch(`/custom-reports/${this.customReportId}/run`, {
 				...fetchConfig(),
 				method: 'POST',
@@ -393,6 +401,8 @@ export default {
 				this.report = report;
 			}).catch(err => {
 				handleError(err, this, 'There was a problem running the report');
+			}).finally(() => {
+				this.loading = false;
 			});
 		},
 		handlePrint() {
@@ -425,7 +435,8 @@ export default {
 		RichDateRange,
 		DataTable,
 		ShowHideButton,
-		ReportSection
+		ReportSection,
+		LoadingPlaceholder
 	}
 };
 </script>

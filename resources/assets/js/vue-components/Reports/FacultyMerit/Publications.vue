@@ -1,6 +1,6 @@
 <template>
 	<div class="container body-block">
-		<p v-if="$apollo.loading">Loading...</p>
+		<loading-placeholder v-if="$apollo.loading" />
 		<div v-else-if="usersWithMerits">
 			<component-list :fields="['full_name']"
 					:items="usersWithMerits"
@@ -19,6 +19,7 @@
 <script>
 import gql from 'graphql-tag';
 
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 import ComponentList from '@/vue-components/ComponentList.vue';
 
 import UserWithMeritPublicationsListItem from '@/vue-components/MeritCompensation/UserWithMeritPublicationsListItem.vue';
@@ -96,6 +97,7 @@ export default {
 	},
 
 	components: {
+		LoadingPlaceholder,
 		ComponentList,
 		UserWithMeritPublicationsListItem
 	}

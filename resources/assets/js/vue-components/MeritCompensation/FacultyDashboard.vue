@@ -49,7 +49,9 @@
 
 		<div class="container body-block">
 			<h2>Your merit checklists</h2>
-			<component-list v-if="me && me.meritReports.length > 0"
+
+			<loading-placeholder v-if="$apollo.loading" />
+			<component-list v-else-if="me && me.meritReports.length > 0"
 				:items="me.meritReports"
 				:fields="meritReportFields"
 				:field-accessors="meritReportFieldAccessors"
@@ -102,10 +104,11 @@ import gql from 'graphql-tag';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import BootstrapAlert from '@/vue-components/BootstrapAlert.vue';
-import ComponentList from '@/vue-components/ComponentList.vue';
-import MeritReportListItem from '@/vue-components/MeritCompensation/ReportListItem.vue';
-import RichDateRange from '@/vue-components/RichDateRange.vue';
+import BootstrapAlert from '#/BootstrapAlert.vue';
+import ComponentList from '#/ComponentList.vue';
+import MeritReportListItem from '#/MeritCompensation/ReportListItem.vue';
+import RichDateRange from '#/RichDateRange.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 
 import { datesEqual } from '@/modules/date-utils.js';
 import { getCurrentYearlyMeritDateRange } from '@/modules/merit-utils.js';
@@ -200,7 +203,8 @@ export default {
 		BootstrapAlert,
 		ComponentList,
 		MeritReportListItem,
-		RichDateRange
+		RichDateRange,
+		LoadingPlaceholder
 	}
 };
 </script>

@@ -10,6 +10,8 @@ import { mapState } from 'vuex';
 import AdminDashboard from './AdminDashboard.vue';
 import UserDashboard from './UserDashboard.vue';
 
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
+
 export default {
 	props: {
 		dates: {
@@ -20,7 +22,10 @@ export default {
 	computed: {
 		...mapState(['user']),
 		dashboard() {
-			return this.user && this.user.type === 'admin' ? AdminDashboard : UserDashboard;
+			if (!this.user)
+				return LoadingPlaceholder;
+
+			return this.user.type === 'admin' ? AdminDashboard : UserDashboard;
 		}
 	}
 };

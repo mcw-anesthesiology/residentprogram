@@ -1,6 +1,8 @@
 <template>
 	<div class="summary-by-id">
-		<merit-report-summary v-if="meritReport"
+		<loading-placeholder v-if="$apollo.loading" />
+		<merit-report-summary
+			v-else-if="meritReport"
 			v-bind="meritReport"
 			:title="meritReportTitle"
 			:subject-name="meritReport.user.full_name"
@@ -13,6 +15,7 @@
 import { MERIT_REPORT_QUERY } from '@/graphql/merit.js';
 
 import MeritReportSummary from './Summary.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 
 export default {
 	props: {
@@ -54,6 +57,7 @@ export default {
 	},
 
 	components: {
+		LoadingPlaceholder,
 		MeritReportSummary
 	}
 };

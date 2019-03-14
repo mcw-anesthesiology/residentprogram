@@ -2,7 +2,9 @@
 	<div id="admin-supervisor-merit-reports-container">
 		<div class="container body-block">
 			<h2>All merit reports</h2>
-			<div v-if="usersWithReports">
+
+			<loading-placeholder v-if="$apollo.loading" />
+			<div v-else-if="usersWithReports">
 				<component-list :fields="['full_name']"
 					:items="usersWithReports"
 					:paginate="false"
@@ -61,7 +63,8 @@ import gql from 'graphql-tag';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import ComponentList from '@/vue-components/ComponentList.vue';
+import ComponentList from '#/ComponentList.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 
 import { handleError } from '@/modules/errors.js';
 import { isoDateStringObject } from '@/modules/date-utils.js';
@@ -232,6 +235,7 @@ export default {
 
 	components: {
 		ComponentList,
+		LoadingPlaceholder,
 		UserWithMeritReportListItem: () => import('#/MeritCompensation/UserWithReportListItem.vue'),
 		AcademicYearSelector: () => import('#/AcademicYearSelector.vue'),
 		SelectTwo: () => import('#/SelectTwo.vue')
