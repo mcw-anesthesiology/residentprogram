@@ -2,8 +2,7 @@
 	<div class="container body-block">
 		<h2>Supervisee merit reports</h2>
 
-		<loading-placeholder v-if="$apollo.loading" />
-		<div v-else-if="me">
+		<div v-if="me">
 			<component-list :fields="['full_name']"
 				:items="me.meritAdministratees"
 				:paginate="false"
@@ -18,6 +17,7 @@
 				</template>
 			</component-list>
 		</div>
+		<loading-placeholder v-else-if="$apollo.loading" />
 	</div>
 </template>
 
