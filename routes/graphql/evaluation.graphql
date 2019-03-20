@@ -53,6 +53,10 @@ type Evaluation {
 
 	responses: [Response]! @hasMany
 	textResponses: [TextResponse]! @hasMany
+
+	scenarioResponses: [ScenarioResponse]! @hasMany
+	professionalismResponses: [ProfessionalismResponse]! @hasMany
+	additionalResponses: [AdditionalResponse]! @hasMany
 }
 
 enum EvaluationType {

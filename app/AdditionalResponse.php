@@ -39,7 +39,7 @@ class AdditionalResponse extends Model
 		return $this->belongsTo('App\BeyondMilestones\AdditionalQuestion');
 	}
 
-	public function scenarioResponse() {
-		return $this->belongsTo('App\BeyondMilestones\ScenarioResponse');
+	public function evaluation() {
+		return $this->belongsTo('App\Evaluation');
 	}
 }

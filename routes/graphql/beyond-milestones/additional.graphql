@@ -2,7 +2,7 @@ extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]
 	additionalQuestions: [AdditionalQuestion!]! @all(model: "App\\BeyondMilestones\\AdditionalQuestion")
 	additionalQuestion(id: ID! @eq): AdditionalQuestion! @find(model: "App\\BeyondMilestones\\AdditionalQuestion")
 
-	additionalResponses(evaluation_id: ID! @eq): [AdditionalResponse!]! @all(model: "App\\BeyondMilestones\\AdditionalResponse")
+	additionalResponses(evaluation_id: ID @eq): [AdditionalResponse!]! @all(model: "App\\BeyondMilestones\\AdditionalResponse")
 	additionalResponse(question_id: ID @eq, evaluation_id: ID @eq): AdditionalResponse @find(model: "App\\BeyondMilestones\\AdditionalResponse")
 }
 
@@ -61,6 +61,7 @@ type AdditionalResponse {
 	question_id: ID!
 	question: AdditionalQuestion! @belongsTo
 	evaluation_id: ID!
+	evaluation: Evaluation! @belongsTo
 	value: Int!
 }
 
