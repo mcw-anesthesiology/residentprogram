@@ -273,7 +273,15 @@ class Evaluation extends Model
 	}
 
 	public function scenarioResponses() {
-		return $this->hasMany('App\BeyondMilestiones\ScenarioResponse');
+		return $this->hasMany('App\BeyondMilestones\ScenarioResponse');
+	}
+
+	public function professionalismResponses() {
+		return $this->hasMany('App\BeyondMilestones\ProfessionalismResponse');
+	}
+
+	public function additionalResponses() {
+		return $this->hasMany('App\BeyondMilestones\AdditionalResponse');
 	}
 
 	public function isAnonymousToUser() {

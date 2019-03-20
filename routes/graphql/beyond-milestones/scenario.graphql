@@ -109,6 +109,7 @@ type ScenarioResponse {
 	scenario_id: ID!
 	scenario: Scenario! @belongsTo
 	evaluation_id: ID!
+	evaluation: Evaluation! @belongsTo
 	text: String
 	value: Float
 

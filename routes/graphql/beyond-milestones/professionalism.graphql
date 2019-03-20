@@ -6,7 +6,7 @@ extend type Query @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONE
 extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
 	randomProfessionalismQuestions(id: ID!, count: Int!): [ProfessionalismQuestion!]!
 
-	professionalismResponses(evaluation_id: ID! @eq): [ProfessionalismResponse!]! @all(model: "App\\BeyondMilestones\\ProfessionalismResponse")
+	professionalismResponses(evaluation_id: ID @eq): [ProfessionalismResponse!]! @all(model: "App\\BeyondMilestones\\ProfessionalismResponse")
 	professionalismResponse(question_id: ID @eq, evaluation_id: ID @eq): ProfessionalismResponse @find(model: "App\\BeyondMilestones\\ProfessionalismResponse")
 }
 
@@ -72,6 +72,7 @@ type ProfessionalismResponse {
 	question_id: ID!
 	question: ProfessionalismQuestion! @belongsTo
 	evaluation_id: ID!
+	evaluation: Evaluation! @belongsTo
 	value: Boolean!
 }
 
