@@ -245,7 +245,7 @@ class CaseParser {
 	}
 
 	function parseCHWTraineeProcedureCase($row) {
-		$logId =
+		$logId = $row[self::CHW_TRAINEE_REPORT_COLS['ID']];
 		$procDate = self::parseDate($row[self::CHW_TRAINEE_REPORT_COLS['DATE']]);
 		$procedure = $row[self::CHW_TRAINEE_REPORT_COLS['PROCEDURE']];
 		$location = $row[self::CHW_TRAINEE_REPORT_COLS['LOCATION']];
