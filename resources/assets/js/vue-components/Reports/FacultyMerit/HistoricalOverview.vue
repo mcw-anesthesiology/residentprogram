@@ -13,6 +13,8 @@ import gql from 'graphql-tag';
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 import ReportsYearlyOverview from './ReportsYearlyOverview.vue';
 
+import { YEARLY_OVERVIEW_FIELDS } from '@/graphql/merit.js';
+
 
 export default {
 	props: {
@@ -31,16 +33,10 @@ export default {
 						form_id: $formId
 						status: $status
 					) {
-						id
-						period_start
-						period_end
-						grants {
-							type
-							agency
-							amount
-						}
+						...YearlyOverviewFields
 					}
 				}
+				${YEARLY_OVERVIEW_FIELDS}
 			`,
 			variables() {
 				return {

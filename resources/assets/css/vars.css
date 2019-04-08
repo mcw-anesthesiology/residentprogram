@@ -1,0 +1,5 @@
+:root,
+html {
+	--small-desktop: 768px;
+	--large-desktop: 1200px;
+}

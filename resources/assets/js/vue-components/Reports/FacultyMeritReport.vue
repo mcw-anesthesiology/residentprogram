@@ -18,7 +18,7 @@
 					<label class="containing-label">
 						Form
 						<select class="form-control" v-model="formId">
-							<option v-for="form of meritReportForms"
+							<option v-for="form of meritReportForms" :key="form.id"
 								:value="form.id"
 							>
 							{{ form.name }} - version {{ form.version }}
