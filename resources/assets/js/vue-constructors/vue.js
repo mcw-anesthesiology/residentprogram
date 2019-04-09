@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import VueApollo from 'vue-apollo';
+import VTooltip from 'v-tooltip';
 
 import { rollbar } from '@/modules/errors.js';
 import apolloClient from '@/modules/apollo-client.js';
@@ -9,6 +10,7 @@ import apolloClient from '@/modules/apollo-client.js';
 Vue.use(Vuex);
 Vue.use(VueRouter);
 Vue.use(VueApollo);
+Vue.use(VTooltip);
 
 Vue.config.errorHandler = (err, vm, info) => {
 	rollbar.error(`Error from Vue: ${err}`, { info, vm });

@@ -87,6 +87,7 @@ export const YEARLY_OVERVIEW_FIELDS = gql`
 		id
 		period_start
 		period_end
+		leadershipPositions
 		grants {
 			type
 			agency

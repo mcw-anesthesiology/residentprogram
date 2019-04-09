@@ -1,40 +1,20 @@
 /** @format */
 
-import { Line } from 'vue-chartjs';
+import { LineChart } from '@/vue-mixins/Chart.js';
 
 function yearLabel(date) {
 	return new Date(date).getFullYear();
 }
 
 export default {
-	extends: Line,
+	extends: LineChart,
 	props: {
 		reports: {
 			type: Map,
 			required: true
 		},
-		options: {
-			type: Object
-		},
-		height: {
-			default: null
-		},
-		width: {
-			default: null
-		},
 		cssClasses: {
 			default: 'yearly-chart'
-		}
-	},
-	mounted() {
-		this.renderChart(this.chartData, this.options);
-	},
-	watch: {
-		chartData(chartData) {
-			this.renderChart(chartData, this.options);
-		},
-		options(options) {
-			this.renderChart(this.chartData, options);
 		}
 	},
 	computed: {
@@ -49,6 +29,9 @@ export default {
 		},
 		studies() {
 			return [].concat(...Array.from(this.yearStudies.values()));
+		},
+		yLabel() {
+			return '# Studies';
 		},
 		chartData() {
 			const years = Array.from(this.yearStudies.keys());

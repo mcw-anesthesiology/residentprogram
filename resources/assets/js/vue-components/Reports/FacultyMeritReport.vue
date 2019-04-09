@@ -14,29 +14,15 @@
 			</fieldset>
 
 			<div class="controls-row row">
-				<div class="col-sm-6">
-					<label class="containing-label">
-						Form
-						<select class="form-control" v-model="formId">
-							<option v-for="form of meritReportForms" :key="form.id"
-								:value="form.id"
-							>
-							{{ form.name }} - version {{ form.version }}
-							</option>
-						</select>
-					</label>
-				</div>
-				<div class="col-sm-6">
-					<label class="containing-label">
-						Academic year
-						<academic-year-selector v-model="dates"
-							:min-date="meritsReleaseDate" />
-					</label>
-				</div>
+				<fieldset>
+					<start-end-date :ranges="dateRanges" v-model="dates"
+						:render-range-name="n => n"
+					/>
+				</fieldset>
 			</div>
 		</div>
 
-		<router-view v-if="formId" :dates="dates" :form-id="formId"></router-view>
+		<router-view :dates="dates" :form-id="formId"></router-view>
 	</div>
 </template>
 
@@ -48,12 +34,13 @@
 
 <script>
 import gql from 'graphql-tag';
+import moment from 'moment';
 
-import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
+import StartEndDate from '#/StartEndDate.vue';
 
 import { FEATURE_RELEASE_DATES } from '@/modules/constants.js';
 import { kebabCaseToWords } from '@/modules/utils.js';
-import { isoDateStringObject, currentYear } from '@/modules/date-utils.js';
+import { isoDateStringObject, currentYear, academicYearForDate, renderDateRange } from '@/modules/date-utils.js';
 
 export default {
 	props: {
@@ -65,8 +52,8 @@ export default {
 	data() {
 		return {
 			dates: isoDateStringObject(currentYear()),
-			formId: null,
-			meritReportForms: [],
+			formId: undefined,
+			meritReportForms: []
 		};
 	},
 	apollo: {
@@ -85,6 +72,49 @@ export default {
 	computed: {
 		meritsReleaseDate() {
 			return FEATURE_RELEASE_DATES.FACULTY_MERIT;
+		},
+		academicYears() {
+			let maxDate = moment();
+			let d = moment(this.meritsReleaseDate);
+
+			let years = [];
+
+			do {
+				years.push(academicYearForDate(d.clone()));
+
+				d.add(1, 'year');
+			} while (d < maxDate);
+
+			if (this.descending) {
+				years.reverse();
+			}
+
+			if (this.allTime) {
+				years.push({
+					startDate: null,
+					endDate: null
+				});
+			}
+
+			years.reverse();
+
+			return years;
+		},
+		dateRanges() {
+			const ranges = {
+				'Custom': null
+			};
+
+			for (const dates of this.academicYears) {
+				ranges[renderDateRange(dates.startDate, dates.endDate)] = dates;
+			}
+
+			ranges['All time'] = {
+				startDate: undefined,
+				endDate: undefined
+			};
+
+			return ranges;
 		}
 	},
 
@@ -93,7 +123,7 @@ export default {
 	},
 
 	components: {
-		AcademicYearSelector
+		StartEndDate
 	}
 };
 </script>

@@ -2,6 +2,7 @@
 	<div class="container body-block">
 		<loading-placeholder v-if="$apollo.loading" />
 		<div v-else-if="meritReports">
+			<academic-productivity :reports="meritReports" />
 			<reports-yearly-overview :reports="meritReports" />
 		</div>
 	</div>
@@ -12,6 +13,7 @@ import gql from 'graphql-tag';
 
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 import ReportsYearlyOverview from './ReportsYearlyOverview.vue';
+import AcademicProductivity from './AcademicProductivity.vue';
 
 import { YEARLY_OVERVIEW_FIELDS } from '@/graphql/merit.js';
 
@@ -26,12 +28,14 @@ export default {
 		meritReports: {
 			query: gql`
 				query MeritReportsQuery(
-					$formId: ID
 					$status: MeritReportStatus
+					$startDate: Date
+					$endDate: Date
 				) {
 					meritReports(
-						form_id: $formId
 						status: $status
+						after: $startDate
+						before: $endDate
 					) {
 						...YearlyOverviewFields
 					}
@@ -40,7 +44,7 @@ export default {
 			`,
 			variables() {
 				return {
-					formId: this.formId,
+					...this.dates,
 					status: this.completeOnly ? 'COMPLETE' : undefined
 				};
 			}
@@ -48,7 +52,8 @@ export default {
 	},
 	components: {
 		LoadingPlaceholder,
-		ReportsYearlyOverview
+		ReportsYearlyOverview,
+		AcademicProductivity
 	}
 };
 </script>
