@@ -3,6 +3,8 @@ extend type Query @middleware(checks: ["auth", "type:admin", "site-feature:facul
 		form_id: ID
 		period_start: String
 		period_end: String
+		after: Date
+		before: Date
 		status: MeritReportStatus
 	): [User!]!
     meritReports(
@@ -76,6 +78,7 @@ type MeritReport {
 	leadershipRole: Boolean
 	teachingFormalCourses: Boolean
 
+	leadershipPositions: Int
 	participatesInSimulation: Boolean
 	nationalBoards: [NationalBoardRole]
 }

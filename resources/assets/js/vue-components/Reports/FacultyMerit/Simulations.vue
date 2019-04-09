@@ -37,20 +37,20 @@ export default {
 			query: gql`
 				query SimulationsQuery(
 					$formId: ID
-					$startDate: String
-					$endDate: String
+					$startDate: Date
+					$endDate: Date
 				) {
 					usersWithMerits(
 						form_id: $formId
-						period_start: $startDate
-						period_end: $endDate
+						after: $startDate
+						before: $endDate
 					) {
 						id
 						full_name
 						meritReports(
 							form_id: $formId
-							period_start: $startDate
-							period_end: $endDate
+							after: $startDate
+							before: $endDate
 						) {
 							title
 							participatesInSimulation
@@ -82,23 +82,25 @@ export default {
 			if (!this.usersWithMerits)
 				return;
 
-			return this.usersWithMerits.map(user => {
-				let participates = '';
-				try {
-					if (user.meritReports[0].participatesInSimulation) {
-						participates = 'X';
-					} else if (user.meritReports[0].participatesInSimulation == null) {
-						participates = '<i>Not implemented for checklist type</i>';
+			return this.usersWithMerits.flatMap(user => {
+				return user.meritReports.map(mr => {
+					let participates = '';
+					try {
+						if (mr.participatesInSimulation) {
+							participates = 'X';
+						} else if (mr.participatesInSimulation == null) {
+							participates = '<i>Not implemented for checklist type</i>';
+						}
+					} catch (e) {
+						logError(e);
+						participates = '<i>Error!</i>';
 					}
-				} catch (e) {
-					logError(e);
-					participates = '<i>Error!</i>';
-				}
 
-				return [
-					user.full_name,
-					participates
-				];
+					return [
+						user.full_name,
+						participates
+					];
+				});
 			});
 		},
 		exportFilename() {

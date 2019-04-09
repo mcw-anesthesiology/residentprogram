@@ -18,7 +18,7 @@
 					</select>
 				</label>
 				<figure>
-					<yearly-grants-chart :options="options" :reports="yearReports" :breakdown="grantsBreakdown" :unit="grantsUnit" />
+					<yearly-grants-chart :reports="yearReports" :breakdown="grantsBreakdown" :unit="grantsUnit" />
 					<legend>Grants</legend>
 				</figure>
 			</section>
@@ -32,14 +32,14 @@
 					</select>
 				</label>
 				<figure>
-					<yearly-publications-chart :options="options" :reports="yearReports" :breakdown="publicationsBreakdown" />
+					<yearly-publications-chart :reports="yearReports" :breakdown="publicationsBreakdown" />
 					<legend>Publications</legend>
 				</figure>
 			</section>
 
 			<section class="form-inline">
 				<figure>
-					<yearly-studies-chart :options="options" :reports="yearReports" />
+					<yearly-studies-chart :reports="yearReports" />
 					<legend>Studies</legend>
 				</figure>
 			</section>
@@ -47,7 +47,7 @@
 	</div>
 </template>
 
-<style>
+<style scoped>
 .charts-container {
 	display: flex;
 	flex-wrap: wrap;
@@ -107,32 +107,6 @@ export default {
 			}
 
 			return map;
-		},
-		options() {
-			const padding = 5;
-
-			return {
-				responsive: true,
-				aspectRatio: 2,
-				scales: {
-					yAxes: [
-						{
-							ticks: {
-								precision: 0,
-								beginAtZero: true,
-								padding
-							}
-						}
-					],
-					xAxes: [
-						{
-							ticks: {
-								padding
-							}
-						}
-					]
-				}
-			};
 		}
 	},
 	components: {

@@ -1,6 +1,6 @@
 /** @format */
 
-import { Line } from 'vue-chartjs';
+import { LineChart } from '@/vue-mixins/Chart.js';
 
 import { ucfirst } from '@/modules/text-utils.js';
 
@@ -9,7 +9,7 @@ function yearLabel(date) {
 }
 
 export default {
-	extends: Line,
+	extends: LineChart,
 	props: {
 		reports: {
 			type: Map,
@@ -28,28 +28,8 @@ export default {
 			},
 			default: '#'
 		},
-		options: {
-			type: Object
-		},
-		height: {
-			default: null
-		},
-		width: {
-			default: null
-		},
 		cssClasses: {
 			default: 'yearly-chart'
-		}
-	},
-	mounted() {
-		this.renderChart(this.chartData, this.options);
-	},
-	watch: {
-		chartData(chartData) {
-			this.renderChart(chartData, this.options);
-		},
-		options(options) {
-			this.renderChart(this.chartData, options);
 		}
 	},
 	computed: {
@@ -65,60 +45,65 @@ export default {
 		grants() {
 			return [].concat(...Array.from(this.yearGrants.values()));
 		},
+		yLabel() {
+			return this.unit === '$'
+				? 'Dollars'
+				: '# Grants';
+		},
 		chartData() {
 			const years = Array.from(this.yearGrants.keys());
 			years.sort();
 
 			const data = {
 				labels: years.map(yearLabel),
-				datasets: [{
-					label: `Total ${this.unit}`,
-					data: years.map(l =>
-						this.getReportsValue(this.yearGrants.get(l))
-					)
-				}]
+				datasets: [
+					{
+						label: 'Total',
+						data: years.map(l =>
+							this.getReportsValue(this.yearGrants.get(l))
+						)
+					}
+				]
 			};
 
 			switch (this.breakdown) {
 				case 'agency': {
 					const agencies = new Set(this.grants.map(r => r.agency));
 
-					data.datasets.push(...Array.from(agencies.values()).map(
-						agency => {
+					data.datasets.push(
+						...Array.from(agencies.values()).map(agency => {
 							return {
-								label: `${agency} ${this.unit}`,
+								label: agency,
 								data: years.map(year =>
 									this.getReportsValue(
 										this.yearGrants
-										.get(year)
-										.filter(r => r.agency === agency)
+											.get(year)
+											.filter(r => r.agency === agency)
 									)
 								)
 							};
-						}
-					));
+						})
+					);
 
 					break;
 				}
 				case 'type': {
 					const types = new Set(this.grants.map(r => r.type));
-					data.datasets.push(...Array.from(types.values()).map(type => ({
-						label: `${ucfirst(type.toLowerCase())} ${this.unit}`,
-						data: years.map(year =>
-							this.getReportsValue(
-								this.yearGrants
-								.get(year)
-								.filter(r => r.type === type)
+					data.datasets.push(
+						...Array.from(types.values()).map(type => ({
+							label: ucfirst(type.toLowerCase()),
+							data: years.map(year =>
+								this.getReportsValue(
+									this.yearGrants
+										.get(year)
+										.filter(r => r.type === type)
+								)
 							)
-						)
-					})));
+						}))
+					);
 					break;
 				}
 			}
-
-			data.datasets.forEach(d => {
-				d.fill = false;
-			});
 
 			return data;
 		}

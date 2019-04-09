@@ -324,13 +324,18 @@ class MeritReport extends Model
 		return count($this->grants);
 	}
 
+	public function getLeadershipRoleAttribute() {
+		return $this->leadershipPositions > 0;
+	}
+
 	/*
 	 * Had an active leadership role (such as serving on committees or
 	 * governing boards) in national medical organizations or served as
 	 * reviewer or editorial board member for a peer-reviewed journal in the
 	 * previous academic year
 	 */
-	public function getLeadershipRoleAttribute() {
+	public function getLeadershipPositionsAttribute() {
+		$positions = 0;
 		try {
 			switch ($this->form->report_slug) {
 			case 'mcw-anesth-faculty-merit-2017-2018':
@@ -366,7 +371,7 @@ class MeritReport extends Model
 							|| $isCommitteeChair($org['questions'][1])
 						)
 					) {
-						return true;
+						$positions++;
 					}
 				}
 
@@ -389,7 +394,7 @@ class MeritReport extends Model
 							|| $isCommitteeChair($org['questions'][1])
 						)
 					) {
-						return true;
+						$positions++;
 					}
 				}
 
@@ -399,7 +404,7 @@ class MeritReport extends Model
 					5 // Journal editorial board
 				] as $i) {
 					if (!empty($items[$i]['checked'])) {
-						return true;
+						$positions++;
 					}
 				}
 
@@ -418,7 +423,7 @@ class MeritReport extends Model
 								'committee-member'
 							]) !== false
 						) {
-							return true;
+							$positions++;
 						}
 					}
 				}
@@ -435,7 +440,7 @@ class MeritReport extends Model
 								'committee-member'
 							]) !== false
 						) {
-							return true;
+							$positions++;
 						}
 					}
 				}
@@ -447,7 +452,7 @@ class MeritReport extends Model
 					6, // Other
 				] as $i) {
 					if (!empty($specialtyOrgSeciton['items'][$i]['checked'])) {
-						return true;
+						$positions++;
 					}
 				}
 
@@ -457,7 +462,7 @@ class MeritReport extends Model
 					9 // Journal editorial board
 				] as $i) {
 					if (!empty($items[$i]['checked'])) {
-						return true;
+						$positions++;
 					}
 				}
 				break;
@@ -467,10 +472,9 @@ class MeritReport extends Model
 
 		} catch (\Exception $e) {
 			Log::error('Error in getLeadershipRoleAttribute' . $e);
-			return null;
 		}
 
-		return false;
+		return $positions;
 	}
 
 	/*
