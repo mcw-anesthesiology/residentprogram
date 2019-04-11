@@ -25,7 +25,7 @@
 					</div>
 					<table class="table">
 						<tbody>
-							<tr v-for="(val, key) of scoring">
+							<tr v-for="(val, key) of scoring" :key="key">
 								<th>{{ ucfirst(key) }}</th>
 								<td>{{ val }}</td>
 							</tr>

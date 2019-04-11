@@ -1,3 +1,5 @@
+/** @format */
+
 import gql from 'graphql-tag';
 
 export const MERIT_FORM_FIELDS = gql`
@@ -80,3 +82,23 @@ export const MERIT_ADMINISTRATOR_STAFF_FIELDS = gql`
 	}
 `;
 
+export const YEARLY_OVERVIEW_FIELDS = gql`
+	fragment YearlyOverviewFields on MeritReport {
+		id
+		period_start
+		period_end
+		leadershipPositions
+		grants {
+			type
+			agency
+			amount
+		}
+		publications {
+			publicationType
+			pmid
+		}
+		studies {
+			yearInitiated
+		}
+	}
+`;

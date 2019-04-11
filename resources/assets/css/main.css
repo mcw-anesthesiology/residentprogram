@@ -430,6 +430,14 @@ body {
 	margin-bottom: 0;
 }
 
+.form-inline .containing-label {
+	width: auto;
+}
+
+.form-inline .containing-label .form-control {
+	display: block;
+}
+
 .form-group > label input,
 .form-group > label textarea,
 .form-group > label select,

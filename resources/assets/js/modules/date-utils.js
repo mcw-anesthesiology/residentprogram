@@ -24,6 +24,10 @@ export type StartEndDateStringObject = {
 import moment from 'moment';
 
 export function isoDateString(date: DateLike): string {
+	if (!date) {
+		return;
+	}
+
 	return moment(date).format('Y-MM-DD');
 }
 
@@ -35,6 +39,18 @@ export function isoDateStringObject(
 	for (let [key, date] of Object.entries(dates)) {
 		let dateString = isoDateString(date);
 		newDates[key] = dateString;
+	}
+
+	return newDates;
+}
+
+export function datesObject(
+	dates: StartEndDateLikeObject
+): StartEndDateObject {
+	const newDates: {[string]: string} = {};
+
+	for (let [key, date] of Object.entries(dates)) {
+		newDates[key] = new Date(date);
 	}
 
 	return newDates;

@@ -38,27 +38,27 @@ export default {
 			query: gql`
 				query NationalBoardsQuery(
 					$formId: ID
-					$startDate: String
-					$endDate: String
+					$startDate: Date
+					$endDate: Date
 				) {
 					usersWithMerits(
 						form_id: $formId
-						period_start: $startDate
-						period_end: $endDate
+						after: $startDate
+						before: $endDate
 					) {
 						id
 						full_name
 						meritReports(
 							form_id: $formId
-							period_start: $startDate
-							period_end: $endDate
+							after: $startDate
+							before: $endDate
 						) {
 							title
 							pubMedIds
 							conferencePresentations
 							otherPresentations
 							chaptersTextbooks
-							grants
+							numGrants
 							leadershipRole
 							teachingFormalCourses
 						}
@@ -99,21 +99,21 @@ export default {
 				return;
 
 
-			return this.usersWithMerits.map(user => {
-				const merit = user.meritReports[0];
+			return this.usersWithMerits.flatMap(user => {
+				return user.meritReports.map(merit => {
+					const pmids = [...(merit.pubMedIds || []), ...Array(4).fill('')].slice(0, 4);
 
-				let pmids = [...(merit.pubMedIds || []), ...Array(4).fill('')].slice(0, 4);
-
-				return [
-					user.full_name,
-					...pmids,
-					merit.conferencePresentations,
-					merit.otherPresentations,
-					merit.chaptersTextbooks,
-					merit.grants,
-					merit.leadershipRole ? 'Y' : 'N',
-					booleanDisplay(merit.teachingFormalCourses)
-				];
+					return [
+						user.full_name,
+						...pmids,
+						merit.conferencePresentations,
+						merit.otherPresentations,
+						merit.chaptersTextbooks,
+						merit.numGrants,
+						merit.leadershipRole ? 'Y' : 'N',
+						booleanDisplay(merit.teachingFormalCourses)
+					];
+				});
 			});
 		},
 		exportFilename() {
