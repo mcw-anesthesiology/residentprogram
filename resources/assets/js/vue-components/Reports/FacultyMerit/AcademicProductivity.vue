@@ -1,6 +1,11 @@
 <template>
 	<section class="academic-productivity">
-		<h2>Academic productivity</h2>
+		<h2>
+			Academic productivity
+			<small v-if="dates">
+				<rich-date-range :dates="dates" />
+			</small>
+		</h2>
 		<dl>
 			<dt>Total publications</dt>
 			<dd>{{ publications.length }}</dd>
@@ -90,6 +95,7 @@ ul {
 import groupBy from 'lodash/groupBy';
 
 import InfoPopover from '#/InfoPopover.vue';
+import RichDateRange from '#/RichDateRange.vue';
 
 import { ucfirst } from '@/modules/text-utils.js';
 
@@ -101,6 +107,9 @@ export default {
 			default() {
 				return [];
 			}
+		},
+		dates: {
+			type: Object
 		}
 	},
 	computed: {
@@ -122,7 +131,8 @@ export default {
 		ucfirst
 	},
 	components: {
-		InfoPopover
+		InfoPopover,
+		RichDateRange
 	}
 };
 </script>

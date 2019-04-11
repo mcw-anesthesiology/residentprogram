@@ -1,20 +1,33 @@
+<template>
+	<section class="form-inline">
+		<figure>
+			<line-chart :data="chartData" />
+			<legend>Studies</legend>
+		</figure>
+
+		<chart-data-table :data="chartData" />
+	</section>
+</template>
+
+<script>
 /** @format */
 
 import { LineChart } from '@/vue-mixins/Chart.js';
+import ChartDataTable from '#/ChartDataTable.vue';
 
 function yearLabel(date) {
 	return new Date(date).getFullYear();
 }
 
 export default {
-	extends: LineChart,
 	props: {
 		reports: {
 			type: Map,
 			required: true
 		},
-		cssClasses: {
-			default: 'yearly-chart'
+		years: {
+			type: Array,
+			required: true
 		}
 	},
 	computed: {
@@ -34,15 +47,12 @@ export default {
 			return '# Studies';
 		},
 		chartData() {
-			const years = Array.from(this.yearStudies.keys());
-			years.sort();
-
 			const data = {
-				labels: years.map(yearLabel),
+				labels: this.years.map(yearLabel),
 				datasets: [
 					{
 						label: 'Total',
-						data: years.map(y =>
+						data: this.years.map(y =>
 							this.getValue(this.yearStudies.get(y))
 						)
 					}
@@ -56,5 +66,10 @@ export default {
 		getValue(studies = []) {
 			return studies.length;
 		}
+	},
+	components: {
+		LineChart,
+		ChartDataTable
 	}
 };
+</script>

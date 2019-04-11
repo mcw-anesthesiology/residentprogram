@@ -2,7 +2,7 @@
 	<div class="container body-block">
 		<loading-placeholder v-if="$apollo.loading" />
 		<div v-else-if="meritReports">
-			<academic-productivity :reports="meritReports" />
+			<academic-productivity :reports="meritReports" :dates="dates" />
 			<reports-yearly-overview :reports="meritReports" />
 		</div>
 	</div>
@@ -22,7 +22,10 @@ export default {
 	props: {
 		dates: Object,
 		formId: [String, Number],
-		completeOnly: Boolean
+		completeOnly: {
+			type: Boolean,
+			default: true
+		}
 	},
 	apollo: {
 		meritReports: {

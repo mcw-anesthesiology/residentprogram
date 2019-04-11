@@ -1,6 +1,39 @@
-/** @format */
+<template>
+	<section class="form-inline">
+		<label class="containing-label">
+			Breakdown
+			<select v-model="breakdown" class="form-control">
+				<option value=""></option>
+				<option value="agency">Agency</option>
+				<option value="type">Type</option>
+			</select>
+		</label>
+		<label class="containing-label">
+			Unit
+			<select v-model="unit" class="form-control">
+				<option>#</option>
+				<option>$</option>
+			</select>
+		</label>
+		<figure>
+			<line-chart :data="chartData" />
+			<legend>Grants</legend>
+		</figure>
+		<chart-data-table :data="chartData" />
+	</section>
+</template>
 
+<style>
+figure legend {
+	border: none;
+	text-align: center;
+}
+</style>
+
+<script>
+/** @format */
 import { LineChart } from '@/vue-mixins/Chart.js';
+import ChartDataTable from '#/ChartDataTable.vue';
 
 import { ucfirst } from '@/modules/text-utils.js';
 
@@ -9,28 +42,21 @@ function yearLabel(date) {
 }
 
 export default {
-	extends: LineChart,
 	props: {
 		reports: {
 			type: Map,
 			required: true
 		},
-		breakdown: {
-			type: String,
-			validator(breakdown) {
-				return ['agency', 'type'].includes(breakdown);
-			}
-		},
-		unit: {
-			type: String,
-			validator(unit) {
-				return ['#', '$'].includes(unit);
-			},
-			default: '#'
-		},
-		cssClasses: {
-			default: 'yearly-chart'
+		years: {
+			type: Array,
+			required: true
 		}
+	},
+	data() {
+		return {
+			breakdown: 'type',
+			unit: '#'
+		};
 	},
 	computed: {
 		yearGrants() {
@@ -43,23 +69,18 @@ export default {
 			return map;
 		},
 		grants() {
-			return [].concat(...Array.from(this.yearGrants.values()));
+			return Array.from(this.yearGrants.values()).flat();
 		},
 		yLabel() {
-			return this.unit === '$'
-				? 'Dollars'
-				: '# Grants';
+			return this.unit === '$' ? 'Dollars' : '# Grants';
 		},
 		chartData() {
-			const years = Array.from(this.yearGrants.keys());
-			years.sort();
-
 			const data = {
-				labels: years.map(yearLabel),
+				labels: this.years.map(yearLabel),
 				datasets: [
 					{
 						label: 'Total',
-						data: years.map(l =>
+						data: this.years.map(l =>
 							this.getReportsValue(this.yearGrants.get(l))
 						)
 					}
@@ -74,7 +95,7 @@ export default {
 						...Array.from(agencies.values()).map(agency => {
 							return {
 								label: agency,
-								data: years.map(year =>
+								data: this.years.map(year =>
 									this.getReportsValue(
 										this.yearGrants
 											.get(year)
@@ -92,7 +113,7 @@ export default {
 					data.datasets.push(
 						...Array.from(types.values()).map(type => ({
 							label: ucfirst(type.toLowerCase()),
-							data: years.map(year =>
+							data: this.years.map(year =>
 								this.getReportsValue(
 									this.yearGrants
 										.get(year)
@@ -118,5 +139,10 @@ export default {
 					return grants.length;
 			}
 		}
+	},
+	components: {
+		LineChart,
+		ChartDataTable
 	}
 };
+</script>
