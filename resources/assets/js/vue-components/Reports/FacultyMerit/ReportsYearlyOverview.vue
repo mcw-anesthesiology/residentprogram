@@ -1,48 +1,30 @@
 <template>
 	<div class="reports-yearly-overview">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th></th>
+					<th v-for="year of yearKeys" :key="year">
+						{{ yearLabel(year) }}
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>Total reports</th>
+					<td v-for="year of yearKeys" :key="year">
+						{{ yearReports.get(year).length }}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
 		<div class="charts-container">
-			<section class="form-inline">
-				<label class="containing-label">
-					Breakdown
-					<select v-model="grantsBreakdown" class="form-control">
-						<option value=""></option>
-						<option value="agency">Agency</option>
-						<option value="type">Type</option>
-					</select>
-				</label>
-				<label class="containing-label">
-					Unit
-					<select v-model="grantsUnit" class="form-control">
-						<option>#</option>
-						<option>$</option>
-					</select>
-				</label>
-				<figure>
-					<yearly-grants-chart :reports="yearReports" :breakdown="grantsBreakdown" :unit="grantsUnit" />
-					<legend>Grants</legend>
-				</figure>
-			</section>
+			<grants-yearly-overview :reports="yearReports" :years="yearKeys" />
 
-			<section class="form-inline">
-				<label class="containing-label">
-					Breakdown
-					<select v-model="publicationsBreakdown" class="form-control">
-						<option value=""></option>
-						<option value="publicationType">Publication type</option>
-					</select>
-				</label>
-				<figure>
-					<yearly-publications-chart :reports="yearReports" :breakdown="publicationsBreakdown" />
-					<legend>Publications</legend>
-				</figure>
-			</section>
+			<publications-yearly-overview :reports="yearReports" :years="yearKeys" />
 
-			<section class="form-inline">
-				<figure>
-					<yearly-studies-chart :reports="yearReports" />
-					<legend>Studies</legend>
-				</figure>
-			</section>
+			<studies-yearly-overview :reports="yearReports" :years="yearKeys" />
 		</div>
 	</div>
 </template>
@@ -54,24 +36,26 @@
 	justify-content: space-around;
 }
 
-.charts-container section {
-	flex-basis: 500px;
-	flex-grow: 1;
-	margin: 1em;
-	min-width: 0;
-	min-height: 0;
+@media (min-width: 1200px) {
+	.charts-container > :global(section) {
+		flex-basis: 500px;
+		margin: 1em;
+		min-width: 0;
+		min-height: 0;
+	}
 }
 
-figure legend {
-	border: none;
-	text-align: center;
-}
 </style>
 
 <script>
-import YearlyGrantsChart from './YearlyGrantsChart.js';
-import YearlyPublicationsChart from './YearlyPublicationsChart.js';
-import YearlyStudiesChart from './YearlyStudiesChart.js';
+import GrantsYearlyOverview from './GrantsYearlyOverview.vue';
+import PublicationsYearlyOverview from './PublicationsYearlyOverview.vue';
+import StudiesYearlyOverview from './StudiesYearlyOverview.vue';
+
+function yearLabel(date) {
+	return new Date(date).getFullYear();
+}
+
 
 export default {
 	props: {
@@ -82,9 +66,6 @@ export default {
 	},
 	data() {
 		return {
-			grantsBreakdown: 'type',
-			grantsUnit: '#',
-
 			publicationsBreakdown: 'publicationType',
 		};
 	},
@@ -109,10 +90,13 @@ export default {
 			return map;
 		}
 	},
+	methods: {
+		yearLabel
+	},
 	components: {
-		YearlyGrantsChart,
-		YearlyPublicationsChart,
-		YearlyStudiesChart
+		GrantsYearlyOverview,
+		PublicationsYearlyOverview,
+		StudiesYearlyOverview
 	}
 };
 </script>

@@ -14,6 +14,14 @@ const Chart = {
 		},
 		styleDatasets: {
 			default: true
+		},
+		data: {
+			type: Object,
+			default: () => {}
+		},
+		options: {
+			type: Object,
+			default: () => {}
 		}
 	},
 	mounted() {
@@ -24,11 +32,17 @@ const Chart = {
 		transformedOptions: 'renderTransformedChart'
 	},
 	computed: {
+		chartData() {
+			return this.data;
+		},
+		chartOptions() {
+			return this.options;
+		},
 		transformedChartData() {
 			return this.chartData;
 		},
 		transformedOptions() {
-			return this.options;
+			return this.chartOptions;
 		}
 	},
 	methods: {
@@ -101,41 +115,47 @@ export const LineChart = {
 	computed: {
 		transformedOptions() {
 			const padding = 5;
-			return merge(
-				{
-					legend: {
-						labels: {
-							usePointStyle: true
-						}
-					},
-					scales: {
-						yAxes: [
-							{
-								...this.yLabel && {
-									scaleLabel: {
-										display: true,
-										labelString: this.yLabel,
-									}
-								},
-								ticks: {
-									precision: 0,
-									beginAtZero: true,
-									padding
-								}
-							}
-						],
-						xAxes: [
-							{
-								ticks: {
-									padding
-								}
-							}
-						]
+			const options = {
+				aspectRatio: 1,
+				legend: {
+					position: 'bottom',
+					labels: {
+						usePointStyle: true
 					}
 				},
-				this.options || {},
-				{arrayMerge: combineMerge}
-			);
+				scales: {
+					yAxes: [
+						{
+							...(this.yLabel && {
+								scaleLabel: {
+									display: true,
+									labelString: this.yLabel
+								}
+							}),
+							ticks: {
+								precision: 0,
+								beginAtZero: true,
+								padding
+							}
+						}
+					],
+					xAxes: [
+						{
+							ticks: {
+								padding
+							}
+						}
+					]
+				}
+			};
+
+			/* eslint-disable no-mixed-spaces-and-tabs */
+			return this.chartOptions
+				? merge(options, this.chartOptions, {
+						arrayMerge: combineMerge
+				  })
+				: options;
+			/* eslint-enable no-mixed-spaces-and-tabs */
 		},
 		transformedChartData() {
 			if (!this.styleDatasets) return this.chartData;
