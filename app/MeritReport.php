@@ -71,6 +71,10 @@ class MeritReport extends Model
 		return $this->hasMany('App\MeritReportRevision', 'merit_report_id');
 	}
 
+	public function getSlugAttribute() {
+		return $this->form->report_slug;
+	}
+
 	public static function getCurrentYear() {
 		return DateHelpers::getDateRangeFromPeriodType('year');
 	}
@@ -98,10 +102,10 @@ class MeritReport extends Model
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
 		} catch (\Exception $e) {
+			// FIXME: Should return some gql error
 			Log::error('Error in getPublicationsAttribute ' . $e);
-			return null;
+			return [];
 		}
-
 	}
 
 	public function getPubMedIdsAttribute() {
@@ -234,12 +238,16 @@ class MeritReport extends Model
 		return $otherPresentations;
 	}
 
-	static function countListItems($item) {
+	static function getListItems($item) {
 		if (!empty($item['checked'])) {
-			return count($item['questions'][0]['items']);
+			return $item['questions'][0]['items'];
 		}
 
-		return 0;
+		return [];
+	}
+
+	static function countListItems($item) {
+		return count(self::getListItems($item));
 	}
 
 	/*
@@ -264,6 +272,24 @@ class MeritReport extends Model
 		}
 	}
 
+	public function getStudiesAttribute() {
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				return self::getListItems(
+					$this->report['pages'][2]['items'][1]['items'][0]
+				);
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getStudiesAttribute ' . $e);
+			return [];
+		}
+
+	}
+
 	/*
 	 * Number of grants for which faculty member had a leadership role
 	 * (PI, Co-PI, or site director) in the previous academic year
@@ -273,21 +299,33 @@ class MeritReport extends Model
 			switch ($this->form->report_slug) {
 			case 'mcw-anesth-faculty-merit-2017-2018':
 			case 'mcw-anesth-faculty-merit-2016-2017':
-				$grants = 0;
-
-				$grantSection = $this->report['pages'][2]['items'][1];
-				foreach ($grantSection['items'] as $grantType) {
-					$grants += self::countListItems($grantType);
-				}
-
-				return $grants;
+				$grantSection = $this->report['pages'][2]['items'][1]['items'][1];
+				return array_merge(
+					[],
+				   	array_map(function($grant) {
+						$grant['type'] = 'EXISTING';
+						return $grant;
+					}, self::getListItems($grantSection['items'][0])),
+					array_map(function($grant) {
+						$grant['type'] = 'NEW';
+						return $grant;
+					}, self::getListItems($grantSection['items'][1]))
+				);
 			default:
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
 		} catch (\Exception $e) {
 			Log::error('Error in getGrantsAttribute ' . $e);
-			return null;
+			return [];
 		}
+	}
+
+	public function getNumGrantsAttribute() {
+		return count($this->grants);
+	}
+
+	public function getLeadershipRoleAttribute() {
+		return $this->leadershipPositions > 0;
 	}
 
 	/*
@@ -296,7 +334,8 @@ class MeritReport extends Model
 	 * reviewer or editorial board member for a peer-reviewed journal in the
 	 * previous academic year
 	 */
-	public function getLeadershipRoleAttribute() {
+	public function getLeadershipPositionsAttribute() {
+		$positions = 0;
 		try {
 			switch ($this->form->report_slug) {
 			case 'mcw-anesth-faculty-merit-2017-2018':
@@ -332,7 +371,7 @@ class MeritReport extends Model
 							|| $isCommitteeChair($org['questions'][1])
 						)
 					) {
-						return true;
+						$positions++;
 					}
 				}
 
@@ -355,7 +394,7 @@ class MeritReport extends Model
 							|| $isCommitteeChair($org['questions'][1])
 						)
 					) {
-						return true;
+						$positions++;
 					}
 				}
 
@@ -365,7 +404,7 @@ class MeritReport extends Model
 					5 // Journal editorial board
 				] as $i) {
 					if (!empty($items[$i]['checked'])) {
-						return true;
+						$positions++;
 					}
 				}
 
@@ -384,7 +423,7 @@ class MeritReport extends Model
 								'committee-member'
 							]) !== false
 						) {
-							return true;
+							$positions++;
 						}
 					}
 				}
@@ -401,7 +440,7 @@ class MeritReport extends Model
 								'committee-member'
 							]) !== false
 						) {
-							return true;
+							$positions++;
 						}
 					}
 				}
@@ -413,7 +452,7 @@ class MeritReport extends Model
 					6, // Other
 				] as $i) {
 					if (!empty($specialtyOrgSeciton['items'][$i]['checked'])) {
-						return true;
+						$positions++;
 					}
 				}
 
@@ -423,7 +462,7 @@ class MeritReport extends Model
 					9 // Journal editorial board
 				] as $i) {
 					if (!empty($items[$i]['checked'])) {
-						return true;
+						$positions++;
 					}
 				}
 				break;
@@ -433,10 +472,9 @@ class MeritReport extends Model
 
 		} catch (\Exception $e) {
 			Log::error('Error in getLeadershipRoleAttribute' . $e);
-			return null;
 		}
 
-		return false;
+		return $positions;
 	}
 
 	/*

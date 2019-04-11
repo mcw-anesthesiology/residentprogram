@@ -22,6 +22,7 @@ const ExportMeritReport = () => import('@/vue-components/Reports/FacultyMerit/Ex
 const FacultyScholarlyActivityReport = () => import('@/vue-components/Reports/FacultyMerit/ScholarlyActivity.vue');
 const FacultySimulationsReport = () => import('@/vue-components/Reports/FacultyMerit/Simulations.vue');
 const FacultyNationalBoardsReport = () => import('@/vue-components/Reports/FacultyMerit/NationalBoards.vue');
+const MeritHistoricalOverview = () => import('@/vue-components/Reports/FacultyMerit/HistoricalOverview.vue');
 
 const routes = [
 	{
@@ -57,7 +58,8 @@ const routes = [
 				// 'publications',
 				'scholarly-activity',
 				'simulations',
-				'national-boards'
+				'national-boards',
+				'historical-overview'
 			]
 		},
 		children: [
@@ -80,6 +82,10 @@ const routes = [
 			{
 				path: 'national-boards',
 				component: FacultyNationalBoardsReport
+			},
+			{
+				path: 'historical-overview',
+				component: MeritHistoricalOverview
 			}
 		]
 	},

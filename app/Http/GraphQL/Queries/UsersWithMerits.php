@@ -25,6 +25,16 @@ class UsersWithMerits
 			return User::with('meritReports')->whereHas('meritReports')->get();
 		} else {
 			$meritFilter = function($query) use ($args) {
+				if (!empty($args['before'])) {
+					$query->where('period_start', '<=', $args['before']);
+					unset($args['before']);
+				}
+
+				if (!empty($args['after'])) {
+					$query->where('period_end', '>=', $args['after']);
+					unset($args['after']);
+				}
+
 				$query->where($args);
 			};
 
