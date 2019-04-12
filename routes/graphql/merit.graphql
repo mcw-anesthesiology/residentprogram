@@ -3,9 +3,20 @@ extend type Query @middleware(checks: ["auth", "type:admin", "site-feature:facul
 		form_id: ID
 		period_start: String
 		period_end: String
+		after: Date
+		before: Date
 		status: MeritReportStatus
 	): [User!]!
-	meritReports: [MeritReport!]! @all(model: "App\\MeritReport")
+    meritReports(
+		form_id: ID @eq
+        user_id: ID @eq
+		period_start: String @eq
+		period_end: String @eq
+		after: Date @where(key: "period_end", operator: ">=")
+        before: Date @where(key: "period_start", operator: "<=")
+		status: MeritReportStatus @eq
+		exceptStatus: MeritReportStatus = DISABLED @neq(key: "status")
+    ): [MeritReport!]! @all
 
 	meritReportForms: [MeritReportForm!]! @all
 }
@@ -53,18 +64,22 @@ type MeritReport {
 	report: Mixed!
 	notes: String
 	title: String
+    slug: String
 	created_at: DateTime!
 	updated_at: DateTime!
 
-	publications: [Publication]
+	publications: [Publication]!
+    studies: [Study]!
+    grants: [Grant]!
 	pubMedIds: [ID]
 	conferencePresentations: Int
 	otherPresentations: Int
 	chaptersTextbooks: Int
-	grants: Int
+	numGrants: Int
 	leadershipRole: Boolean
 	teachingFormalCourses: Boolean
 
+	leadershipPositions: Int
 	participatesInSimulation: Boolean
 	nationalBoards: [NationalBoardRole]
 }
@@ -95,6 +110,26 @@ type Publication {
 	role: String!
 
 	pmid: ID @field(resolver: "App\\Http\\GraphQL\\Queries\\MeritReporter@publicationPmid")
+}
+
+type Study {
+    title: String!
+    role: String!
+    yearInitiated: String!
+    approvalNumber: String!
+    progress: String!
+}
+
+enum GrantType {
+    EXISTING
+    NEW
+}
+
+type Grant {
+    type: GrantType!
+    agency: String!
+    project: String!
+    amount: Float!
 }
 
 type NationalBoardRole {

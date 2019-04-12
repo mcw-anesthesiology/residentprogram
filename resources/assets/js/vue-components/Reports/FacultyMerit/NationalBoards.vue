@@ -25,7 +25,7 @@ export default {
 	props: {
 		dates: Object,
 		formId: [String, Number],
-		completeOnly: Boolean
+		includeIncomplete: Boolean
 	},
 
 	data() {
@@ -38,20 +38,20 @@ export default {
 			query: gql`
 				query NationalBoardsQuery(
 					$formId: ID
-					$startDate: String
-					$endDate: String
+					$startDate: Date
+					$endDate: Date
 				) {
 					usersWithMerits(
 						form_id: $formId
-						period_start: $startDate
-						period_end: $endDate
+						after: $startDate
+						before: $endDate
 					) {
 						id
 						full_name
 						meritReports(
 							form_id: $formId
-							period_start: $startDate
-							period_end: $endDate
+							after: $startDate
+							before: $endDate
 						) {
 							title
 							nationalBoards {
@@ -66,7 +66,7 @@ export default {
 				return {
 					...this.dates,
 					formId: this.formId,
-					status: this.completeOnly ? 'COMPLETE' : null
+					status: this.includeIncomplete ? undefined : 'COMPLETE'
 				};
 			},
 			error(err) {
@@ -85,26 +85,27 @@ export default {
 			if (!this.usersWithMerits)
 				return;
 
-			return this.usersWithMerits.map(user => {
+			return this.usersWithMerits.flatMap(user => {
 				let boards = '';
-				const checklist = user.meritReports[0];
-				try {
-					if (checklist.nationalBoards == null) {
-						boards = '<i>Not implemented for merit form</i>';
-					} else {
-						boards = `<ul>${checklist.nationalBoards.map(board =>
+				return user.meritReports.map(checklist => {
+					try {
+						if (checklist.nationalBoards == null) {
+							boards = '<i>Not implemented for merit form</i>';
+						} else {
+							boards = `<ul>${checklist.nationalBoards.map(board =>
 								`<li>${board.name} - ${board.role}</li>`
-						).join(' ')}</ul>`;
+							).join(' ')}</ul>`;
+						}
+					} catch (e) {
+						logError(e);
+						boards = '<i>Error!</i>';
 					}
-				} catch (e) {
-					logError(e);
-					boards = '<i>Error!</i>';
-				}
 
-				return [
-					user.full_name,
-					boards
-				];
+					return [
+						user.full_name,
+						boards
+					];
+				});
 			});
 		},
 		exportFilename() {

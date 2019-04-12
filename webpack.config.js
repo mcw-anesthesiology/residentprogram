@@ -62,6 +62,7 @@ module.exports = (env, argv) => {
 			createExternalEvaluation: './resources/assets/js/entry/createExternalEvaluation.js',
 			'vendor-styles': styles,
 			'global-styles': [
+				'vars.css',
 				'main.css',
 				'navbar.css'
 			].map(p => `./resources/assets/css/${p}`),
