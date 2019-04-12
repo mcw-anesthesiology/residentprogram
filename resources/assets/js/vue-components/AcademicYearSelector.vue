@@ -1,6 +1,6 @@
 <template>
 	<select-two v-model.number="yearIndex" :readonly="readonly" class="form-control">
-		<option v-for="(year, index) of academicYears" :value="index">
+		<option v-for="(year, index) of academicYears" :key="index" :value="index">
 			{{ renderDateRange(year.startDate, year.endDate) }}
 		</option>
 	</select-two>

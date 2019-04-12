@@ -5,8 +5,8 @@
 				<label class="containing-label">
 					Date Range
 					<select class="form-control" v-model="dateRange">
-						<option v-for="(range, name) of dateRanges" :value="name">
-							{{ camelCaseToWords(name) }}
+						<option v-for="(range, name) of dateRanges" :key="name" :value="name">
+							{{ renderRangeName(name) }}
 						</option>
 					</select>
 				</label>
@@ -55,7 +55,7 @@ import 'flatpickr/dist/flatpickr.css';
 
 import moment from 'moment';
 
-import { camelCaseToWords } from '@/modules/utils.js';
+import { camelCaseToWords } from '@/modules/text-utils.js';
 import * as dateUtils from '@/modules/date-utils.js';
 
 export default {
@@ -88,6 +88,10 @@ export default {
 				};
 			}
 		},
+		renderRangeName: {
+			type: Function,
+			default: camelCaseToWords
+		},
 		clearable: {
 			type: Boolean,
 			default: false
@@ -97,10 +101,10 @@ export default {
 		return {
 			startDate: this.value && this.value.startDate && moment(this.value.startDate).isValid()
 				? this.value.startDate
-				: null,
+				: undefined,
 			endDate: this.value && this.value.endDate && moment(this.value.endDate).isValid()
 				? this.value.endDate
-				: null,
+				: undefined,
 			dateRange: dateUtils.DATE_RANGES.CUSTOM
 		};
 	},
@@ -111,11 +115,11 @@ export default {
 		dates(){
 			const startDate = this.startDate && moment(this.startDate).isValid()
 				? this.startDate
-				: null;
+				: undefined;
 
 			const endDate = this.endDate && moment(this.endDate).isValid()
 				? this.endDate
-				: null;
+				: undefined;
 
 			return {
 				startDate,
@@ -159,31 +163,30 @@ export default {
 	},
 	methods: {
 		matchDateRangeWithValue(value = this.value){
-			if(this.allTime && !value.startDate && !value.endDate){
+			if (this.allTime && !value.startDate && !value.endDate){
 				this.dateRange = dateUtils.DATE_RANGES.ALL_TIME;
 				return;
 			}
 
-			if(this.dateRange && this.dateRange !== dateUtils.DATE_RANGES.CUSTOM
+			if (this.dateRange && this.dateRange !== dateUtils.DATE_RANGES.CUSTOM
 					&& this.dateRanges[this.dateRange]
 					&& dateUtils.datesEqual(value, this.dateRanges[this.dateRange]))
 				return;
 
-			for(let range of Object.values(dateUtils.DATE_RANGES)){
-				if(this.dateRanges[range] && dateUtils.datesEqual(value, this.dateRanges[range])){
+			for (const [range, dates] of Object.entries(this.dateRanges)) {
+				if (dates && dateUtils.datesEqual(value, dates)) {
 					this.dateRange = range;
 					return;
 				}
 			}
 
-			this.dateRange = dateUtils.DATE_RANGES.CUSTOM;
+			this.dateRange = Object.keys(this.dateRanges)[0];
 		},
 		setDate(dates){
 			dates = dateUtils.isoDateStringObject(dates);
 			this.startDate = dates.startDate;
 			this.endDate = dates.endDate;
-		},
-		camelCaseToWords
+		}
 	},
 	components: {
 		VueFlatpickr

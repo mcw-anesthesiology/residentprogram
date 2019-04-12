@@ -121,7 +121,10 @@ type User {
 		form_id: ID @eq
 		period_start: String @eq
 		period_end: String @eq
+		after: Date @where(key: "period_end", operator: ">=")
+        before: Date @where(key: "period_start", operator: "<=")
 		status: MeritReportStatus @eq
+		exceptStatus: MeritReportStatus = DISABLED @neq(key: "status")
 	): [MeritReport]! @hasMany
 
 	meritAdministrators: [User] @belongsTo
