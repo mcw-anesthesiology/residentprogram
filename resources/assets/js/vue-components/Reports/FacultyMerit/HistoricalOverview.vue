@@ -9,6 +9,8 @@
 </template>
 
 <script>
+/** @format */
+
 import gql from 'graphql-tag';
 
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
@@ -17,14 +19,13 @@ import AcademicProductivity from './AcademicProductivity.vue';
 
 import { YEARLY_OVERVIEW_FIELDS } from '@/graphql/merit.js';
 
-
 export default {
 	props: {
 		dates: Object,
 		formId: [String, Number],
-		completeOnly: {
+		includeIncomplete: {
 			type: Boolean,
-			default: true
+			default: false
 		}
 	},
 	apollo: {
@@ -48,7 +49,7 @@ export default {
 			variables() {
 				return {
 					...this.dates,
-					status: this.completeOnly ? 'COMPLETE' : undefined
+					status: this.includeIncomplete ? undefined : 'COMPLETE'
 				};
 			}
 		}

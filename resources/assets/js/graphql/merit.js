@@ -85,6 +85,7 @@ export const MERIT_ADMINISTRATOR_STAFF_FIELDS = gql`
 export const YEARLY_OVERVIEW_FIELDS = gql`
 	fragment YearlyOverviewFields on MeritReport {
 		id
+		status
 		period_start
 		period_end
 		leadershipPositions
