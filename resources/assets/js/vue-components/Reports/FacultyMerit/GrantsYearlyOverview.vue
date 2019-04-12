@@ -1,5 +1,6 @@
 <template>
     <section class="form-inline">
+		<h2>Grants</h2>
         <label class="containing-label">
             Breakdown
             <select v-model="breakdown" class="form-control">
@@ -19,7 +20,7 @@
             <line-chart :data="chartData" />
             <legend>Grants</legend>
         </figure>
-        <chart-data-table :data="chartData" />
+        <chart-data-table :data="chartData" :value-formatter="valueFormatter" />
     </section>
 </template>
 
@@ -35,16 +36,17 @@ figure legend {
 import { LineChart } from '@/vue-mixins/Chart.js';
 import ChartDataTable from '#/ChartDataTable.vue';
 
+import { currency } from '@/modules/formatters.js';
 import { ucfirst } from '@/modules/text-utils.js';
-
-function yearLabel(date) {
-	return new Date(date).getFullYear();
-}
 
 export default {
 	props: {
 		reports: {
 			type: Map,
+			required: true
+		},
+		formatKey: {
+			type: Function,
 			required: true
 		}
 	},
@@ -72,12 +74,12 @@ export default {
 		},
 		chartData() {
 			const data = {
-				labels: Array.from(this.yearGrants.keys()).map(yearLabel),
+				labels: Array.from(this.yearGrants.keys()).map(this.formatKey),
 				datasets: [
 					{
 						label: 'Total',
 						data: Array.from(this.yearGrants.values()).map(l =>
-							this.getReportsValue(this.yearGrants.get(l))
+							this.getReportsValue(l)
 						)
 					}
 				]
@@ -123,6 +125,11 @@ export default {
 			}
 
 			return data;
+		},
+		valueFormatter() {
+			if (this.unit === '$') {
+				return currency;
+			}
 		}
 	},
 	methods: {

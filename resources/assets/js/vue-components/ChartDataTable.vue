@@ -12,7 +12,7 @@
 			<tr v-for="{ label, data } of data.datasets" :key="label">
 				<th>{{ label }}</th>
 				<td v-for="(val, index) of data" :key="index">
-					{{ val }}
+					{{ valueFormatter(val) }}
 				</td>
 			</tr>
 		</tbody>
@@ -20,7 +20,7 @@
 			<tr v-for="{ label, data } of footDatasets" :key="label">
 				<th>{{ label }}</th>
 				<td v-for="(val, index) of data" :key="index">
-					{{ val }}
+					{{ valueFormatter(val) }}
 				</td>
 			</tr>
 		</tfoot>
@@ -43,6 +43,10 @@ export default {
 		footDatasets: {
 			type: Array,
 			required: false
+		},
+		valueFormatter: {
+			type: Function,
+			default: a => a
 		}
 	}
 };

@@ -1,18 +1,19 @@
 <template>
-			<section class="form-inline">
-				<label class="containing-label">
-					Breakdown
-					<select v-model="breakdown" class="form-control">
-						<option value=""></option>
-						<option value="publicationType">Publication type</option>
-					</select>
-				</label>
-				<figure>
-					<line-chart :data="chartData" />
-					<legend>Publications</legend>
-				</figure>
-				<chart-data-table :data="chartData" />
-			</section>
+	<section class="form-inline">
+		<h2>Publications</h2>
+		<label class="containing-label">
+			Breakdown
+			<select v-model="breakdown" class="form-control">
+				<option value=""></option>
+				<option value="publicationType">Publication type</option>
+			</select>
+		</label>
+		<figure>
+			<line-chart :data="chartData" />
+			<legend>Publications</legend>
+		</figure>
+		<chart-data-table :data="chartData" />
+	</section>
 </template>
 
 <script>
@@ -20,14 +21,14 @@
 import { LineChart } from '@/vue-mixins/Chart.js';
 import ChartDataTable from '#/ChartDataTable.vue';
 
-function yearLabel(date) {
-	return new Date(date).getFullYear();
-}
-
 export default {
 	props: {
 		reports: {
 			type: Map,
+			required: true
+		},
+		formatKey: {
+			type: Function,
 			required: true
 		}
 	},
@@ -54,7 +55,9 @@ export default {
 		},
 		chartData() {
 			const data = {
-				labels: Array.from(this.yearPublications.keys()).map(yearLabel),
+				labels: Array.from(this.yearPublications.keys()).map(
+					this.formatKey
+				),
 				datasets: [
 					{
 						label: 'Total',

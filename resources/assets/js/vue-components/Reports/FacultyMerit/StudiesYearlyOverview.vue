@@ -1,5 +1,6 @@
 <template>
 	<section class="form-inline">
+		<h2>Studies</h2>
 		<figure>
 			<line-chart :data="chartData" />
 			<legend>Studies</legend>
@@ -15,14 +16,14 @@
 import { LineChart } from '@/vue-mixins/Chart.js';
 import ChartDataTable from '#/ChartDataTable.vue';
 
-function yearLabel(date) {
-	return new Date(date).getFullYear();
-}
-
 export default {
 	props: {
 		reports: {
 			type: Map,
+			required: true
+		},
+		formatKey: {
+			type: Function,
 			required: true
 		}
 	},
@@ -44,7 +45,7 @@ export default {
 		},
 		chartData() {
 			const data = {
-				labels: Array.from(this.yearStudies.keys()).map(yearLabel),
+				labels: Array.from(this.yearStudies.keys()).map(this.formatKey),
 				datasets: [
 					{
 						label: 'Total',
