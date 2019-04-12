@@ -24,20 +24,23 @@
     </table>
 
     <div class="charts-container">
-      <grants-yearly-overview :reports="yearReports"/>
+      <grants-yearly-overview :reports="yearReports" :format-key="yearLabel"/>
 
-      <publications-yearly-overview :reports="yearReports"/>
+      <publications-yearly-overview :reports="yearReports" :format-key="yearLabel"/>
 
-      <studies-yearly-overview :reports="yearReports"/>
+      <studies-yearly-overview :reports="yearReports" :format-key="yearLabel"/>
     </div>
   </div>
 </template>
 
 <style scoped>
-.charts-container {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-around;
+.reports-yearly-overview :global(td) {
+	font-family: monospace;
+}
+
+.reports-yearly-overview :global(td),
+.reports-yearly-overview :global(th:not(:first-child)) {
+	text-align: right;
 }
 
 .status-row {
@@ -48,25 +51,30 @@
 	padding-left: 2em;
 }
 
-@media (min-width: 1200px) {
-	.charts-container > :global(section) {
-		flex-basis: 500px;
-		margin: 1em;
-		min-width: 0;
-		min-height: 0;
-	}
+.charts-container > :global(section) {
+	box-sizing: border-box;
+	margin: 1em;
+	padding: 1em;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+}
+
+.charts-container :global(canvas) {
+	margin: 1em 0;
 }
 </style>
 
 <script>
+/** @format */
+
 import GrantsYearlyOverview from './GrantsYearlyOverview.vue';
 import PublicationsYearlyOverview from './PublicationsYearlyOverview.vue';
 import StudiesYearlyOverview from './StudiesYearlyOverview.vue';
 
 import { ucfirst } from '@/modules/text-utils.js';
 
-function yearLabel(date) {
-	return new Date(date).getFullYear();
+function yearLabel(key) {
+	return new Date(key.substring(0, key.indexOf(':'))).getFullYear();
 }
 
 export default {
@@ -84,7 +92,9 @@ export default {
 	computed: {
 		yearKeys() {
 			const starts = Array.from(
-				new Set(this.reports.map(r => r.period_start)).values()
+				new Set(
+					this.reports.map(r => `${r.period_start}:${r.period_end}`)
+				).values()
 			);
 			starts.sort();
 
@@ -93,12 +103,12 @@ export default {
 		yearReports() {
 			const map = new Map();
 
-			for (const start of this.yearKeys) {
-				map.set(start, []);
+			for (const key of this.yearKeys) {
+				map.set(key, []);
 			}
 
-			for (const report of this.reports) {
-				map.get(report.period_start).push(report);
+			for (const r of this.reports) {
+				map.get(`${r.period_start}:${r.period_end}`).push(r);
 			}
 
 			return map;
@@ -106,14 +116,19 @@ export default {
 		statusReports() {
 			const map = new Map();
 
-			const statuses = Array.from(new Set(this.reports.map(r => r.status)).values());
+			const statuses = Array.from(
+				new Set(this.reports.map(r => r.status)).values()
+			);
 			statuses.sort();
 
 			for (const status of statuses) {
 				const statusMap = new Map();
 
 				for (const [year, reports] of this.yearReports.entries()) {
-					statusMap.set(year, reports.filter(r => r.status === status));
+					statusMap.set(
+						year,
+						reports.filter(r => r.status === status)
+					);
 				}
 
 				map.set(status, statusMap);

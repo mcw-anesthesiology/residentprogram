@@ -116,7 +116,6 @@ export const LineChart = {
 		transformedOptions() {
 			const padding = 5;
 			const options = {
-				aspectRatio: 1,
 				legend: {
 					position: 'bottom',
 					labels: {

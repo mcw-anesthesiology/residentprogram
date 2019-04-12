@@ -341,9 +341,11 @@ class MeritReport extends Model
 			case 'mcw-anesth-faculty-merit-2017-2018':
 				$isCommitteeChair = function ($question) {
 					try {
-						foreach ($question['items'] as $item) {
-							if ($item['role'] === 'chair') {
-								return true;
+						if (!empty($question['items'])) {
+							foreach ($question['items'] as $item) {
+								if ($item['role'] === 'chair') {
+									return true;
+								}
 							}
 						}
 					} catch (\Exception $e) {
