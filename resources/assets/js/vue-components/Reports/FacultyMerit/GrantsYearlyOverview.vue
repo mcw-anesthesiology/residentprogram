@@ -1,26 +1,26 @@
 <template>
-	<section class="form-inline">
-		<label class="containing-label">
-			Breakdown
-			<select v-model="breakdown" class="form-control">
-				<option value=""></option>
-				<option value="agency">Agency</option>
-				<option value="type">Type</option>
-			</select>
-		</label>
-		<label class="containing-label">
-			Unit
-			<select v-model="unit" class="form-control">
-				<option>#</option>
-				<option>$</option>
-			</select>
-		</label>
-		<figure>
-			<line-chart :data="chartData" />
-			<legend>Grants</legend>
-		</figure>
-		<chart-data-table :data="chartData" />
-	</section>
+    <section class="form-inline">
+        <label class="containing-label">
+            Breakdown
+            <select v-model="breakdown" class="form-control">
+                <option value=""></option>
+                <option value="agency">Agency</option>
+                <option value="type">Type</option>
+            </select>
+        </label>
+        <label class="containing-label">
+            Unit
+            <select v-model="unit" class="form-control">
+                <option>#</option>
+                <option>$</option>
+            </select>
+        </label>
+        <figure>
+            <line-chart :data="chartData" />
+            <legend>Grants</legend>
+        </figure>
+        <chart-data-table :data="chartData" />
+    </section>
 </template>
 
 <style>
@@ -45,10 +45,6 @@ export default {
 	props: {
 		reports: {
 			type: Map,
-			required: true
-		},
-		years: {
-			type: Array,
 			required: true
 		}
 	},
@@ -76,11 +72,11 @@ export default {
 		},
 		chartData() {
 			const data = {
-				labels: this.years.map(yearLabel),
+				labels: Array.from(this.yearGrants.keys()).map(yearLabel),
 				datasets: [
 					{
 						label: 'Total',
-						data: this.years.map(l =>
+						data: Array.from(this.yearGrants.values()).map(l =>
 							this.getReportsValue(this.yearGrants.get(l))
 						)
 					}
@@ -95,12 +91,13 @@ export default {
 						...Array.from(agencies.values()).map(agency => {
 							return {
 								label: agency,
-								data: this.years.map(year =>
-									this.getReportsValue(
-										this.yearGrants
-											.get(year)
-											.filter(r => r.agency === agency)
-									)
+								data: Array.from(this.yearGrants.values()).map(
+									grants =>
+										this.getReportsValue(
+											grants.filter(
+												r => r.agency === agency
+											)
+										)
 								)
 							};
 						})
@@ -113,12 +110,11 @@ export default {
 					data.datasets.push(
 						...Array.from(types.values()).map(type => ({
 							label: ucfirst(type.toLowerCase()),
-							data: this.years.map(year =>
-								this.getReportsValue(
-									this.yearGrants
-										.get(year)
-										.filter(r => r.type === type)
-								)
+							data: Array.from(this.yearGrants.values()).map(
+								grants =>
+									this.getReportsValue(
+										grants.filter(r => r.type === type)
+									)
 							)
 						}))
 					);

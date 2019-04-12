@@ -25,7 +25,7 @@ export default {
 	props: {
 		dates: Object,
 		formId: [String, Number],
-		completeOnly: Boolean
+		includeIncomplete: Boolean
 	},
 
 	data() {
@@ -69,7 +69,7 @@ export default {
 				return {
 					...this.dates,
 					formId: this.formId,
-					status: this.completeOnly ? 'COMPLETE' : null
+					status: this.includeIncomplete ? undefined : 'COMPLETE'
 				};
 			},
 			error(err) {

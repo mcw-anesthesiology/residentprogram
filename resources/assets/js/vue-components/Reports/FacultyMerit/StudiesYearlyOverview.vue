@@ -24,10 +24,6 @@ export default {
 		reports: {
 			type: Map,
 			required: true
-		},
-		years: {
-			type: Array,
-			required: true
 		}
 	},
 	computed: {
@@ -48,12 +44,12 @@ export default {
 		},
 		chartData() {
 			const data = {
-				labels: this.years.map(yearLabel),
+				labels: Array.from(this.yearStudies.keys()).map(yearLabel),
 				datasets: [
 					{
 						label: 'Total',
-						data: this.years.map(y =>
-							this.getValue(this.yearStudies.get(y))
+						data: Array.from(this.yearStudies.values()).map(
+							this.getValue
 						)
 					}
 				]

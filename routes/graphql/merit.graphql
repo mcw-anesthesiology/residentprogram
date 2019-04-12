@@ -15,6 +15,7 @@ extend type Query @middleware(checks: ["auth", "type:admin", "site-feature:facul
 		after: Date @where(key: "period_end", operator: ">=")
         before: Date @where(key: "period_start", operator: "<=")
 		status: MeritReportStatus @eq
+		exceptStatus: MeritReportStatus = DISABLED @neq(key: "status")
     ): [MeritReport!]! @all
 
 	meritReportForms: [MeritReportForm!]! @all

@@ -29,10 +29,6 @@ export default {
 		reports: {
 			type: Map,
 			required: true
-		},
-		years: {
-			type: Array,
-			required: true
 		}
 	},
 	data() {
@@ -58,12 +54,12 @@ export default {
 		},
 		chartData() {
 			const data = {
-				labels: this.years.map(yearLabel),
+				labels: Array.from(this.yearPublications.keys()).map(yearLabel),
 				datasets: [
 					{
 						label: 'Total',
-						data: this.years.map(y =>
-							this.getValue(this.yearPublications.get(y))
+						data: Array.from(this.yearPublications.values()).map(
+							this.getValue
 						)
 					}
 				]
@@ -78,13 +74,13 @@ export default {
 					data.datasets.push(
 						...Array.from(types.values()).map(type => ({
 							label: type,
-							data: this.years.map(year =>
+							data: Array.from(
+								this.yearPublications.values()
+							).map(publications =>
 								this.getValue(
-									this.yearPublications
-										.get(year)
-										.filter(
-											p => p.publicationType === 'type'
-										)
+									publications.filter(
+										p => p.publicationType === type
+									)
 								)
 							)
 						}))

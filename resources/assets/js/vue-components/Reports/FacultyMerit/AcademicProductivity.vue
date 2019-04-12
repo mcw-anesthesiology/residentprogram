@@ -2,7 +2,7 @@
 	<section class="academic-productivity">
 		<h2>
 			Academic productivity
-			<small v-if="dates">
+			<small v-if="dates && dates.startDate && dates.endDate">
 				<rich-date-range :dates="dates" />
 			</small>
 		</h2>
