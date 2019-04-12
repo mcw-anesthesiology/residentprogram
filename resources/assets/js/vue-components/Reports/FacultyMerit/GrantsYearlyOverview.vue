@@ -87,10 +87,11 @@ export default {
 
 			switch (this.breakdown) {
 				case 'agency': {
-					const agencies = new Set(this.grants.map(r => r.agency));
+					const agencies = Array.from(new Set(this.grants.map(r => r.agency)).values());
+					agencies.sort();
 
 					data.datasets.push(
-						...Array.from(agencies.values()).map(agency => {
+						...agencies.map(agency => {
 							return {
 								label: agency,
 								data: Array.from(this.yearGrants.values()).map(
