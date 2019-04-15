@@ -17,7 +17,7 @@
             </select>
         </label>
         <figure>
-            <line-chart :data="chartData" />
+            <line-chart :data="chartData" :options="chartOptions" :y-label="yLabel" />
             <legend>Grants</legend>
         </figure>
         <chart-data-table :data="chartData" :value-formatter="valueFormatter" />
@@ -70,7 +70,7 @@ export default {
 			return Array.from(this.yearGrants.values()).flat();
 		},
 		yLabel() {
-			return this.unit === '$' ? 'Dollars' : '# Grants';
+			return this.unit === '$' ? 'Dollars' : 'Grants';
 		},
 		chartData() {
 			const data = {
@@ -126,6 +126,35 @@ export default {
 			}
 
 			return data;
+		},
+		chartOptions() {
+			if (this.unit === '$') {
+				return {
+					tooltips: {
+						callbacks: {
+							label: tooltipItem => {
+								const label =
+									this.chartData.datasets[
+										tooltipItem.datasetIndex
+									].label || '';
+
+								return `${label}: ${currency(
+									tooltipItem.yLabel
+								)}`;
+							}
+						}
+					},
+					scales: {
+						yAxes: [
+							{
+								ticks: {
+									callback: currency
+								}
+							}
+						]
+					}
+				};
+			}
 		},
 		valueFormatter() {
 			if (this.unit === '$') {
