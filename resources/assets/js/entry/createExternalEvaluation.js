@@ -1,3 +1,5 @@
+/** @format */
+
 import Vue from '@/vue-constructors/vue.js';
 import VueRouter from 'vue-router';
 import { mapState } from 'vuex';
@@ -12,11 +14,16 @@ import StoredAlertList from '#/StoredAlertList.vue';
 import StartEndDate from '#/StartEndDate.vue';
 import SelectTwo from '#/SelectTwo.vue';
 import EvaluationList from '#/EvaluationList.vue';
+import ReloadButton from '#/ReloadButton.vue';
 
 import ExternalUserEditor from '#/Request/ExternalUserEditor.vue';
 
 import { storeError } from '@/modules/errors.js';
-import { isoDateStringObject, thisMonth, currentYear } from '@/modules/date-utils.js';
+import {
+	isoDateStringObject,
+	thisMonth,
+	currentYear
+} from '@/modules/date-utils.js';
 import { groupUsers } from '@/modules/utils.js';
 
 new Vue({
@@ -55,15 +62,22 @@ new Vue({
 			}));
 		},
 		formOptions() {
-			return this.forms.filter(f =>
-				f.type === 'resident' && f.evaluator_type === 'external' && f.status === 'active'
-			).map(f => ({
-				id: `${f.id}`,
-				text: f.title
-			}));
+			return this.forms
+				.filter(
+					f =>
+						['resident', 'fellow'].includes(f.type) &&
+						['external', 'faculty'].includes(f.evaluator_type) &&
+						f.status === 'active'
+				)
+				.map(f => ({
+					id: `${f.id}`,
+					text: f.title
+				}));
 		},
 		evaluations() {
-			return this.$store.getters['evaluations/external/listBetween'](this.listDates);
+			return this.$store.getters['evaluations/external/listBetween'](
+				this.listDates
+			);
 		}
 	},
 	mounted() {
@@ -78,38 +92,62 @@ new Vue({
 	},
 	methods: {
 		hashExpired(evaluation) {
-			return evaluation && evaluation.hash_expires && moment(evaluation.hash_expires) < moment();
+			return (
+				evaluation &&
+				evaluation.hash_expires &&
+				moment(evaluation.hash_expires) < moment()
+			);
 		},
 		fetchEvaluations() {
 			this.$store.dispatch('evaluations/external/fetch', this.listDates);
 		},
 		handleAddUser(user) {
-			ky.post('/users', { json: {
-				...user,
-				type: 'external'
-			}}).json().then(user => {
-				this.$store.commit('users/add', user);
-				this.$router.replace('/');
-			}).catch(err => {
-				storeError(err, this, 'There was a problem adding the user');
-			});
+			ky.post('/users', {
+				json: {
+					...user,
+					type: 'external'
+				}
+			})
+				.json()
+				.then(user => {
+					this.$store.commit('users/add', user);
+					this.$router.replace('/');
+				})
+				.catch(err => {
+					storeError(
+						err,
+						this,
+						'There was a problem adding the user'
+					);
+				});
 		},
 		handleSubmit(event) {
 			event.preventDefault();
 
-			ky.post('/api/external-evaluations', { json: {
-				subject_id: this.subject_id,
-				evaluator_id: this.evaluator_id,
-				form_id: this.form_id,
-				evaluation_date_start: this.evaluationDates.startDate,
-				evaluation_date_end: this.evaluationDates.endDate,
-				hash_expires: this.hash_expires
-			}}).json().then(evaluation => {
-				this.newEvaluation = evaluation;
-				this.$store.commit('evaluations/external/add', [evaluation]);
-			}).catch(err => {
-				storeError(err, this, 'There was a problem creating the evaluation');
-			});
+			ky.post('/api/external-evaluations', {
+				json: {
+					subject_id: this.subject_id,
+					evaluator_id: this.evaluator_id,
+					form_id: this.form_id,
+					evaluation_date_start: this.evaluationDates.startDate,
+					evaluation_date_end: this.evaluationDates.endDate,
+					hash_expires: this.hash_expires
+				}
+			})
+				.json()
+				.then(evaluation => {
+					this.newEvaluation = evaluation;
+					this.$store.commit('evaluations/external/add', [
+						evaluation
+					]);
+				})
+				.catch(err => {
+					storeError(
+						err,
+						this,
+						'There was a problem creating the evaluation'
+					);
+				});
 		}
 	},
 	components: {
@@ -118,6 +156,7 @@ new Vue({
 		StoredAlertList,
 		StartEndDate,
 		SelectTwo,
-		EvaluationList
+		EvaluationList,
+		ReloadButton
 	}
 });
