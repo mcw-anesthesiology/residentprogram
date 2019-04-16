@@ -2,13 +2,15 @@
 	<section class="beyond-milestones" v-if="hasScenario">
 		<h2>Beyond Milestones</h2>
 
-		<beyond-milestones-scenario v-if="form" ref="scenarios"
-			v-for="scenario of form.scenarios" :key="scenario.id"
-			v-bind="scenario"
-			:evaluationId="evaluation.id"
-			:evaluation="evaluation"
-			:readonly="isReadonly"
-		/>
+		<template v-if="form">
+			<beyond-milestones-scenario ref="scenarios"
+				v-for="scenario of form.scenarios" :key="scenario.id"
+				v-bind="scenario"
+				:evaluationId="evaluation.id"
+				:evaluation="evaluation"
+				:readonly="isReadonly"
+			/>
+		</template>
 
 		<beyond-milestones-professionalism-question ref="professionalismQuestions"
 			v-for="question of randomProfessionalismQuestions" :key="question.id"
@@ -37,8 +39,8 @@
 </template>
 
 <style scoped>
-	.beyond-milestones {
-
+	h2:only-child {
+		display: none;
 	}
 
 	.beyond-milestones :global(.beyond-milestones-question) {
@@ -79,7 +81,11 @@ export default {
 	apollo: {
 		form: {
 			query: gql`
-				query BeyondMilestonesFormScenarios($form_id: ID!) {
+				query BeyondMilestones(
+					$form_id: ID!
+					$evaluation_id: ID!
+					$pqCount: Int!
+				) {
 					form(id: $form_id) {
 						id
 						scenarios {
@@ -92,18 +98,10 @@ export default {
 							}
 						}
 					}
-				}
-			`,
-			variables() {
-				return {
-					form_id: this.evaluation.form_id
-				};
-			}
-		},
-		randomProfessionalismQuestions: {
-			query: gql`
-				query BeyondMilestonesRandomProfessionalismQuestions($id: ID!, $count: Int!) {
-					randomProfessionalismQuestions(id: $id, count: $count) {
+					randomProfessionalismQuestions(
+						id: $evaluation_id
+						count: $pqCount
+					) {
 						id
 						title
 						intro
@@ -113,18 +111,6 @@ export default {
 							value
 						}
 					}
-				}
-			`,
-			variables() {
-				return {
-					id: this.evaluation.id,
-					count: NUM_PROFESSIONALISM_QUESTIONS
-				};
-			}
-		},
-		additionalQuestions: {
-			query: gql`
-				query BeyondMilestonesAdditionalQuestions {
 					additionalQuestions {
 						id
 						title
@@ -136,7 +122,23 @@ export default {
 						}
 					}
 				}
-			`
+			`,
+			manual: true,
+			result({ data }) {
+				for (const [query, result] of Object.entries(data)) {
+					this[query] = result;
+				}
+			},
+			variables() {
+				return {
+					form_id: this.evaluation.form_id,
+					evaluation_id: this.evaluation.id,
+					pqCount: NUM_PROFESSIONALISM_QUESTIONS
+				};
+			},
+			skip() {
+				return !this.user || this.user.type === 'external';
+			}
 		}
 	},
 	computed: {
