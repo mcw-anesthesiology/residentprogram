@@ -13,6 +13,7 @@
 					v-bind="page"
 					:page="true"
 					:readonly="readonly"
+					:previewing="previewing"
 					:user="user"
 					:show-errors="showErrors"
 					@input="handleInput(pageNum, arguments[0])" />
@@ -103,9 +104,14 @@
 
 				<div class="dont-paginate-container text-center">
 					<label class="normal-text-label">
-						<input type="checkbox" :value="dontPaginate"
+						<input type="checkbox" :checked="dontPaginate"
 							@change="togglePagination" />
 						Show on one page
+					</label>
+					<label class="normal-text-label">
+						<input type="checkbox" :checked="expandAll"
+							@change="toggleQueryProp('expandAll')" />
+						Expand all followup questions
 					</label>
 				</div>
 			</div>
@@ -168,6 +174,13 @@ export default {
 				&& this.$route.query.page === 'submit'
 			);
 		},
+		expandAll() {
+			return (
+				this.$route
+				&& this.$route.query
+				&& this.$route.query.expandAll
+			);
+		},
 		dontPaginate() {
 			return (
 				this.$route
@@ -186,10 +199,25 @@ export default {
 
 	methods: {
 		checklistIsValid,
+		toggleQueryProp(prop) {
+			const newVal = !this[prop] || undefined;
+			const location = Object.assign({}, this.$route, {
+				query: {
+					...this.$route.query,
+					[prop]: newVal
+				}
+			});
+
+			this.$router.push(location);
+		},
 		togglePagination() {
 			const dontPaginate = !this.dontPaginate || undefined;
 			const location = Object.assign({}, this.$route, {
-				query: { dontPaginate, page: undefined }
+				query: {
+					...this.$route.query,
+					dontPaginate,
+					page: undefined
+				}
 			});
 
 			this.$router.push(location);
