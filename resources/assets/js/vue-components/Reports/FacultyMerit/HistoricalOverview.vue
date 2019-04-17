@@ -2,7 +2,7 @@
 	<div class="container body-block">
 		<loading-placeholder v-if="$apollo.loading" />
 		<div v-else-if="meritReports">
-			<academic-productivity :reports="meritReports" :dates="dates" />
+			<academic-productivity :reports="meritReports" :dates="dates" show-breakdowns />
 			<reports-yearly-overview :reports="meritReports" />
 		</div>
 	</div>

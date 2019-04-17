@@ -6,35 +6,69 @@
 				<rich-date-range :dates="dates" />
 			</small>
 		</h2>
-		<dl>
-			<dt>Total publications</dt>
-			<dd>{{ publications.length }}</dd>
-			<template v-for="(items, type) of groupBy(publications, 'publicationType')">
-				<dt class="sub-item" :key="`dt:${type}`">{{ type }}</dt>
-				<dd class="sub-item" :key="`dd:${type}`">{{ items.length }}</dd>
-			</template>
+		<table ref="table" class="table table-hover">
+			<thead>
+				<tr>
+					<th></th>
+					<th v-for="label of Array.from(breakdownReports.keys())" :key="label">
+						{{ label }}
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>Total publications</th>
+					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`publications:${bd}`">
+						{{ rs.flatMap(r => r.publications).length }}
+					</td>
+				</tr>
+				<tr v-for="type of publicationTypes" class="sub-row" :key="type">
+					<th>— {{ type }}</th>
+					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`publications:${type}:${bd}`">
+						{{ rs.flatMap(r => r.publications).filter(p => p.publicationType === type).length }}
+					</td>
+				</tr>
 
-			<dt>Total grants</dt>
-			<dd>{{ grants.length }}</dd>
-			<template v-for="(items, type) of groupBy(grants, 'type')">
-				<dt class="sub-item" :key="`dt:${type}`">{{ ucfirst(type.toLowerCase()) }}</dt>
-				<dd class="sub-item" :key="`dd:${type}`">{{ items.length }}</dd>
-			</template>
+				<tr>
+					<th>Total grants</th>
+					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`grants:${bd}`">
+						{{ rs.flatMap(r => r.grants).length }}
+					</td>
+				</tr>
+				<tr v-for="type of grantTypes" class="sub-row" :key="type">
+					<th>— {{ ucfirst(type.toLowerCase()) }}</th>
+					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`grants:${type}:${bd}`">
+						{{ rs.flatMap(r => r.grants).filter(g => g.type === type).length }}
+					</td>
+				</tr>
 
-			<dt>Total studies</dt>
-			<dd>{{ studies.length }}</dd>
+				<tr>
+					<th>Total grants</th>
+					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`studies:${bd}`">
+						{{ rs.flatMap(r => r.studies).length }}
+					</td>
+				</tr>
 
-			<dt>
-				Leadership positions
-				<info-popover>
-					<ul>
-						<li>Committee chair in national organization</li>
-						<li>Reviewer or editorial board member for peer-reviewed journal</li>
-					</ul>
-				</info-popover>
-			</dt>
-			<dd>{{ leadershipPositions }}</dd>
-		</dl>
+				<tr>
+					<th>
+						Leadership positions
+						<info-popover>
+							<ul>
+								<li>Committee chair in national organization</li>
+								<li>Reviewer or editorial board member for peer-reviewed journal</li>
+							</ul>
+						</info-popover>
+					</th>
+					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`leadershipPositions:${bd}`">
+						{{ rs.reduce((sum, r) => sum + r.leadershipPositions, 0) }}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<button type="button" class="btn btn-default" @click="exportToXlsx">
+			Export to Excel
+		</button>
 	</section>
 </template>
 
@@ -50,40 +84,30 @@ h2 {
 	margin-top: 0;
 }
 
-dl {
-	display: flex;
+thead th {
+	text-align: right;
 }
 
-dt, dd {
-	flex-basis: 50%;
+th, td {
 	border-bottom: 1px solid #ddd;
 	padding: 0 0.5em;
 }
 
-dd {
+td {
 	text-align: right;
 	font-family: monospace;
 }
 
-.sub-item {
-	opacity: 0.8;
+.sub-row {
+	opacity: 0.7;
 }
 
-dt.sub-item {
-	margin-left: 2em;
+.sub-row th {
+	padding-left: 3em;
 }
 
-dd.sub-item {
-	margin-right: 2em;
-}
-
-@supports (display: grid) {
-	dl {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		justify-content: center;
-		grid-row-gap: 0.5em;
-	}
+.sub-row td {
+	padding-right: 3em;
 }
 
 ul {
@@ -92,12 +116,15 @@ ul {
 </style>
 
 <script>
+import XLSX from 'xlsx';
 import groupBy from 'lodash/groupBy';
+import sortBy from 'lodash/sortBy';
 
 import InfoPopover from '#/InfoPopover.vue';
 import RichDateRange from '#/RichDateRange.vue';
 
 import { ucfirst } from '@/modules/text-utils.js';
+import { renderDateRange } from '@/modules/date-utils.js';
 
 export default {
 	props: {
@@ -110,25 +137,70 @@ export default {
 		},
 		dates: {
 			type: Object
-		}
+		},
+		showBreakdowns: {
+			type: Boolean
+		},
+		rangeBreakdown: {
+			type: String,
+			default: 'year'
+		},
 	},
 	computed: {
-		publications() {
-			return this.reports.flatMap(r => r.publications);
+		getBreakdownKey() {
+			return r => renderDateRange(r.period_start, r.period_end);
 		},
-		grants() {
-			return this.reports.flatMap(r => r.grants);
+		breakdownKeys() {
+			const keys = Array.from(
+				new Set(
+					this.reports.map(this.getBreakdownKey)
+				).values()
+			);
+			keys.sort();
+
+			return keys;
 		},
-		studies() {
-			return this.reports.flatMap(r => r.studies);
+		breakdownReports() {
+			const map = new Map();
+
+			if (this.showBreakdowns) {
+				for (const key of this.breakdownKeys) {
+					map.set(key, []);
+				}
+
+				for (const r of this.reports) {
+					map.get(this.getBreakdownKey(r)).push(r);
+				}
+			}
+
+			map.set('Total', this.reports.slice());
+
+			return map;
 		},
-		leadershipPositions() {
-			return this.reports.reduce((sum, r) => sum + r.leadershipPositions, 0);
+		publicationTypes() {
+			const types = Array.from(new Set(this.reports.flatMap(r => r.publications).map(p => p.publicationType)).values());
+			types.sort();
+			return types;
+		},
+		grantTypes() {
+			const types = Array.from(new Set(this.reports.flatMap(r => r.grants).map(g => g.type)).values());
+			types.sort();
+			return types;
 		}
 	},
 	methods: {
-		groupBy,
-		ucfirst
+		ucfirst,
+		sortedGroup(arr, key) {
+			return sortBy(groupBy(arr, key), 0);
+		},
+		exportToXlsx() {
+			const wb = XLSX.utils.table_to_book(this.$refs.table);
+			let filename = 'Academic productivity summary';
+			if (this.dates && this.dates.startDate && this.dates.endDate) {
+				filename += ` ${renderDateRange(this.dates.startDate, this.dates.endDate)}`;
+			}
+			XLSX.writeFile(wb, `${filename}.xlsx`);
+		}
 	},
 	components: {
 		InfoPopover,
