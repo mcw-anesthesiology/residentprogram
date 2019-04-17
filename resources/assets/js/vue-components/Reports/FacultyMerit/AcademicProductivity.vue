@@ -43,7 +43,7 @@
 				</tr>
 
 				<tr>
-					<th>Total grants</th>
+					<th>Total studies</th>
 					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`studies:${bd}`">
 						{{ rs.flatMap(r => r.studies).length }}
 					</td>
