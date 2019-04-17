@@ -198,6 +198,7 @@ export default {
 		margin-bottom: 0.75em;
 		border-bottom: 1px solid transparent;
 		color: rgba(0, 0, 0, 0.5);
+		page-break-inside: avoid;
 	}
 
 	.checklist-item:hover {
