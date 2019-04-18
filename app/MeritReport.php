@@ -238,9 +238,9 @@ class MeritReport extends Model
 		return $otherPresentations;
 	}
 
-	static function getListItems($item) {
+	static function getListItems($item, $index = 0) {
 		if (!empty($item['checked'])) {
-			return $item['questions'][0]['items'];
+			return $item['questions'][$index]['items'];
 		}
 
 		return [];
@@ -507,6 +507,70 @@ class MeritReport extends Model
 			Log::error('Error in getParticipatesInSimulationAttribute' . $e);
 			return null;
 		}
+	}
+
+	public function getCommitteeParticipationAttribute() {
+		$results = [];
+
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				$orgItems = $this->report['pages'][3]['items'][0]['items'];
+
+
+				foreach ($orgItems as $orgItem) {
+					if (!empty($orgItem['checked'])) {
+						$committees = self::getListItems($orgItem, 1);
+						if (!empty($committees)) {
+							$results[] = [
+								'organization' => $orgItem['text'],
+								'committees' => $committees
+							];
+						}
+					}
+				}
+
+				$committeeItems = [
+					$this->report['pages'][3]['items'][1]['items'][0],
+					$this->report['pages'][3]['items'][1]['items'][4],
+					$this->report['pages'][3]['items'][2]['items'][3]
+				];
+
+				foreach ($committeeItems as $committeeItem) {
+					if (!empty($committeeItem['checked'])) {
+						$committees = self::getListItems($committeeItem);
+						if (!empty($committees)) {
+							$name = explode(' ', $committeeItem['text']);
+							$name = array_slice($name, 0, -1);
+							$results[] = [
+								'organization' => implode(' ', $name),
+								'committees' => $committees
+							];
+						}
+					}
+				}
+
+				break;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getCommitteeParticipationAttribute ' . $e);
+			return null;
+		}
+
+		return $results;
+	}
+
+	public function getCommmitteesAttribute() {
+		return array_reduce(
+			$this->committeeParticipation,
+		   	function ($acc, $commOrg) {
+				return array_merge($acc, $commOrg['committees']);
+			},
+			[]
+		);
 	}
 
 	public function getNationalBoardsAttribute() {

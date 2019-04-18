@@ -82,6 +82,8 @@ type MeritReport {
 	leadershipPositions: Int
 	participatesInSimulation: Boolean
 	nationalBoards: [NationalBoardRole]
+	committeeParticipation: [OrganizationCommitteeItem]
+	committees: [CommitteeItem]
 }
 
 enum MeritReportStatus {
@@ -135,6 +137,22 @@ type Grant {
 type NationalBoardRole {
 	name: String!
 	role: String!
+}
+
+type OrganizationCommitteeItem {
+	organization: String
+	committees: [CommitteeItem]
+}
+
+type CommitteeItem {
+	name: String
+	role: CommitteeRole
+	meetingsPerYear: Int
+}
+
+enum CommitteeRole {
+	CHAIR @enum(value: "chair")
+	MEMBER @enum(value: "member")
 }
 
 # type MeritReportContents {

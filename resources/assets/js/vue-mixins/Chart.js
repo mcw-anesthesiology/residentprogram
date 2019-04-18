@@ -2,7 +2,7 @@
 
 import merge from 'deepmerge';
 
-import { Line } from 'vue-chartjs';
+import { Bar, HorizontalBar, Line } from 'vue-chartjs';
 
 const Chart = {
 	props: {
@@ -36,10 +36,21 @@ const Chart = {
 			return this.data;
 		},
 		chartOptions() {
-			return this.options;
+			return (
+				this.options || {
+					legend: {
+						position: 'bottom'
+					}
+				}
+			);
 		},
 		transformedChartData() {
-			return this.chartData;
+			if (!this.styleDatasets) return this.chartData;
+
+			return {
+				...this.chartData,
+				datasets: this.chartData.datasets.map(colorDataset)
+			};
 		},
 		transformedOptions() {
 			return this.chartOptions;
@@ -98,7 +109,7 @@ function pointStyle(i) {
 	};
 }
 
-export const BACKGROUND_OPACITY = 0.3;
+export const BACKGROUND_OPACITY = 0.4;
 export const BORDER_OPACITY = 0.7;
 
 function color(i) {
@@ -106,6 +117,7 @@ function color(i) {
 	return {
 		backgroundColor: `rgba(${ringValue(COLORS, i)}, ${BACKGROUND_OPACITY})`,
 		borderColor,
+		borderWidth: 2,
 		pointBackgroundColor: borderColor
 	};
 }
@@ -155,26 +167,39 @@ export const LineChart = {
 				  })
 				: options;
 			/* eslint-enable no-mixed-spaces-and-tabs */
-		},
-		transformedChartData() {
-			if (!this.styleDatasets) return this.chartData;
-
-			return {
-				...this.chartData,
-				datasets: this.chartData.datasets.map((dataset, index) => {
-					return merge(
-						{
-							fill: false,
-							...pointStyle(index),
-							...color(index)
-						},
-						dataset
-					);
-				})
-			};
 		}
 	}
 };
+
+export const BarChart = {
+	mixins: [Bar, Chart],
+	computed: {}
+};
+
+export const HorizontalBarChart = {
+	mixins: [HorizontalBar, Chart],
+	computed: {
+		chartOptions() {
+			return merge(
+				{
+					aspectRatio: 0.5
+				},
+				this.options || {}
+			);
+		}
+	}
+};
+
+export function colorDataset(dataset, index) {
+	return merge(
+		{
+			fill: false,
+			...pointStyle(index),
+			...color(index)
+		},
+		dataset
+	);
+}
 
 function emptyTarget(value) {
 	return Array.isArray(value) ? [] : {};

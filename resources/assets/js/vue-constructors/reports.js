@@ -18,11 +18,11 @@ const FacultyMeritReport = () => import('@/vue-components/Reports/FacultyMeritRe
 const CaseOverlaps = () => import('@/vue-components/Reports/CaseOverlaps/CaseOverlaps.vue');
 
 const ExportMeritReport = () => import('@/vue-components/Reports/FacultyMerit/Export.vue');
-// const FacultyPublicationsReport = () => import('@/vue-components/Reports/FacultyMerit/Publications.vue');
 const FacultyScholarlyActivityReport = () => import('@/vue-components/Reports/FacultyMerit/ScholarlyActivity.vue');
 const FacultySimulationsReport = () => import('@/vue-components/Reports/FacultyMerit/Simulations.vue');
 const FacultyNationalBoardsReport = () => import('@/vue-components/Reports/FacultyMerit/NationalBoards.vue');
 const MeritHistoricalOverview = () => import('@/vue-components/Reports/FacultyMerit/HistoricalOverview.vue');
+const MeritIndividualDashboards = () => import('@/vue-components/Reports/FacultyMerit/IndividualDashboards.vue');
 
 const routes = [
 	{
@@ -55,11 +55,11 @@ const routes = [
 		props: {
 			reportTypes: [
 				'export',
-				// 'publications',
 				'scholarly-activity',
 				'simulations',
 				'national-boards',
-				'historical-overview'
+				'historical-overview',
+				'individual-dashboards'
 			]
 		},
 		children: [
@@ -67,10 +67,6 @@ const routes = [
 				path: 'export',
 				component: ExportMeritReport
 			},
-			// {
-			// 	path: 'publications',
-			// 	component: FacultyPublicationsReport
-			// },
 			{
 				path: 'scholarly-activity',
 				component: FacultyScholarlyActivityReport
@@ -86,7 +82,12 @@ const routes = [
 			{
 				path: 'historical-overview',
 				component: MeritHistoricalOverview
-			}
+			},
+			{
+				path: 'individual-dashboards/:userId',
+				component: MeritIndividualDashboards,
+				props: true
+			},
 		]
 	},
 	{
