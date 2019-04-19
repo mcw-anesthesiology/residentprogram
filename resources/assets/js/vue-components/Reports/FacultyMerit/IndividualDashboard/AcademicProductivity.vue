@@ -1,7 +1,5 @@
 <template>
 	<section class="individual-merit-dashboard-section individual-merit-dashboard-academic-productivity">
-		<h3>Academic productivity</h3>
-
 		<academic-productivity :reports="user.meritReports"
 			:show-chart="show.chart"
 			:show-breakdowns="show.breakdowns"
@@ -20,6 +18,14 @@
 		</form>
 	</section>
 </template>
+
+<style scoped>
+@media print {
+	form {
+		display: none;
+	}
+}
+</style>
 
 <script>
 import DashboardSection from './Section.vue';

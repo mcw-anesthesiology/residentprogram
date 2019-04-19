@@ -84,10 +84,10 @@ const routes = [
 				component: MeritHistoricalOverview
 			},
 			{
-				path: 'individual-dashboards/:userId',
+				path: 'individual-dashboards/:userId?',
 				component: MeritIndividualDashboards,
 				props: true
-			},
+			}
 		]
 	},
 	{

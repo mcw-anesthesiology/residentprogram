@@ -1,6 +1,6 @@
 <template>
 	<section class="individual-merit-dashboard-section individual-merit-dashboard-compensation">
-		<h3>Compensation</h3>
+		<h2>Compensation</h2>
 	</section>
 </template>
 

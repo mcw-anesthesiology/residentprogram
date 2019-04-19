@@ -1,10 +1,10 @@
-<style scoped>
+<style>
 .individual-merit-dashboard-section {
 	background: #fefefe;
 	padding: 1em;
 }
 
-h3 {
+.individual-merit-dashboard-section h2 {
 	margin-top: 0;
 }
 </style>

@@ -1,19 +1,41 @@
 <template>
 	<div>
-		<div class="container body-block">
-			<h1>Individual dashboard</h1>
-
+		<div class="user-selector-container container body-block">
 			<label>
 				User
 				<select-two :options="groupedUsers" :value="userId" @input="handleUserIdChange" />
 			</label>
+
+			<label>
+				Title
+				<input type="text" class="form-control" v-model="reportTitle" />
+			</label>
+
+			<label>
+				Leadership role
+				<input type="text" class="form-control" v-model="leadershipRole" />
+			</label>
 		</div>
 
 		<div v-if="userId" class="container-fluid body-block">
-			<individual-dashboard :dates="dates" :include-incomplete="includeIncomplete" :user-id="userId" />
+			<individual-dashboard
+				:dates="dates"
+				:include-incomplete="includeIncomplete"
+				:user-id="userId"
+				:title="reportTitle"
+				:user-props="userProps"
+			/>
 		</div>
 	</div>
 </template>
+
+<style scoped>
+@media print {
+	.user-selector-container {
+		display: none;
+	}
+}
+</style>
 
 <script>
 /** @format */
@@ -41,7 +63,9 @@ export default {
 	data() {
 		return {
 			usersWithMerits: [],
-			user: null
+			user: null,
+			reportTitle: 'Individual dashboard',
+			leadershipRole: ''
 		};
 	},
 	apollo: {
@@ -76,6 +100,15 @@ export default {
 				return [];
 
 			return groupUsers(this.usersWithMerits);
+		},
+		userProps() {
+			const map = new Map();
+
+			if (this.leadershipRole) {
+				map.set('Leadership role', this.leadershipRole);
+			}
+
+			return map;
 		}
 	},
 	methods: {
