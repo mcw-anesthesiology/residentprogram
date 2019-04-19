@@ -6,38 +6,7 @@
 				<rich-date-range :dates="dates" />
 			</small>
 		</h2>
-<<<<<<< Updated upstream
-		<dl>
-			<dt>Total publications</dt>
-			<dd>{{ publications.length }}</dd>
-			<template v-for="(items, type) of groupBy(publications, 'publicationType')">
-				<dt class="sub-item" :key="`dt:${type}`">{{ type }}</dt>
-				<dd class="sub-item" :key="`dd:${type}`">{{ items.length }}</dd>
-			</template>
-
-			<dt>Total grants</dt>
-			<dd>{{ grants.length }}</dd>
-			<template v-for="(items, type) of groupBy(grants, 'type')">
-				<dt class="sub-item" :key="`dt:${type}`">{{ ucfirst(type.toLowerCase()) }}</dt>
-				<dd class="sub-item" :key="`dd:${type}`">{{ items.length }}</dd>
-			</template>
-
-			<dt>Total studies</dt>
-			<dd>{{ studies.length }}</dd>
-
-			<dt>
-				Leadership positions
-				<info-popover>
-					<ul>
-						<li>Committee chair in national organization</li>
-						<li>Reviewer or editorial board member for peer-reviewed journal</li>
-					</ul>
-				</info-popover>
-			</dt>
-			<dd>{{ leadershipPositions }}</dd>
-		</dl>
-=======
-		<table ref="table" class="table table-hover">
+		<table ref="table">
 			<thead>
 				<tr>
 					<th></th>
@@ -101,75 +70,74 @@
 			Export to Excel
 		</button>
 
-		<bar-chart v-if="showChart" :data="chartData" />
->>>>>>> Stashed changes
+		<bar-chart v-if="showChart" :data="chartData" :options="chartOptions" />
 	</section>
 </template>
 
 <style scoped>
-.academic-productivity {
-	border: 1px solid #888;
-	border-radius: 3px;
-	margin: 2em;
-	padding: 2em;
-}
-
 h2 {
 	margin-top: 0;
 }
 
-dl {
-	display: flex;
+thead th {
+	text-align: right;
 }
 
-dt, dd {
-	flex-basis: 50%;
-	border-bottom: 1px solid #ddd;
-	padding: 0 0.5em;
+table {
+	width: 100%;
+	margin-bottom: 1em;
 }
 
-dd {
+tr:hover {
+	background: #f3f3f3;
+}
+
+th, td {
+	border: 1px solid #ddd;
+	padding: 0.5em 1em;
+}
+
+td {
 	text-align: right;
 	font-family: monospace;
 }
 
-.sub-item {
-	opacity: 0.8;
+.sub-row {
+	color: rgba(0, 0, 0, 0.5);
+	background: #f9f9f9;
 }
 
-<<<<<<< Updated upstream
-dt.sub-item {
-	margin-left: 2em;
-}
-
-dd.sub-item {
-	margin-right: 2em;
-}
-
-@supports (display: grid) {
-	dl {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		justify-content: center;
-		grid-row-gap: 0.5em;
-	}
-=======
 .sub-row th {
 	padding-left: 2.5em;
 }
 
 .sub-row td {
 	padding-right: 2.5em;
->>>>>>> Stashed changes
 }
 
 ul {
 	padding: 1em;
 }
+
+@media print {
+	button {
+		display: none;
+	}
+
+	.academic-productivity :global(canvas) {
+		min-height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        height: auto!important;
+        width: auto!important;
+    }
+}
 </style>
 
 <script>
+import XLSX from 'xlsx';
 import groupBy from 'lodash/groupBy';
+import sortBy from 'lodash/sortBy';
 
 import InfoPopover from '#/InfoPopover.vue';
 import RichDateRange from '#/RichDateRange.vue';
@@ -177,6 +145,7 @@ import RichDateRange from '#/RichDateRange.vue';
 import { BarChart } from '@/vue-mixins/Chart.js';
 
 import { ucfirst } from '@/modules/text-utils.js';
+import { renderDateRange } from '@/modules/date-utils.js';
 
 export default {
 	props: {
@@ -189,8 +158,6 @@ export default {
 		},
 		dates: {
 			type: Object
-<<<<<<< Updated upstream
-=======
 		},
 		showBreakdowns: {
 			type: Boolean
@@ -204,23 +171,22 @@ export default {
 		},
 		showChart: {
 			type: Boolean
->>>>>>> Stashed changes
 		}
 	},
 	computed: {
-		publications() {
-			return this.reports.flatMap(r => r.publications);
+		getBreakdownKey() {
+			return r => renderDateRange(r.period_start, r.period_end);
 		},
-		grants() {
-			return this.reports.flatMap(r => r.grants);
+		breakdownKeys() {
+			const keys = Array.from(
+				new Set(
+					this.reports.map(this.getBreakdownKey)
+				).values()
+			);
+			keys.sort();
+
+			return keys;
 		},
-<<<<<<< Updated upstream
-		studies() {
-			return this.reports.flatMap(r => r.studies);
-		},
-		leadershipPositions() {
-			return this.reports.reduce((sum, r) => sum + r.leadershipPositions, 0);
-=======
 		breakdownReports() {
 			const map = new Map();
 
@@ -273,6 +239,11 @@ export default {
 			types.sort();
 			return types;
 		},
+		chartOptions() {
+			return {
+				aspectRatio: 4
+			};
+		},
 		chartData() {
 			if (!this.showChart)
 				return;
@@ -301,12 +272,21 @@ export default {
 					};
 				})
 			};
->>>>>>> Stashed changes
 		}
 	},
 	methods: {
-		groupBy,
-		ucfirst
+		ucfirst,
+		sortedGroup(arr, key) {
+			return sortBy(groupBy(arr, key), 0);
+		},
+		exportToXlsx() {
+			const wb = XLSX.utils.table_to_book(this.$refs.table);
+			let filename = 'Academic productivity summary';
+			if (this.dates && this.dates.startDate && this.dates.endDate) {
+				filename += ` ${renderDateRange(this.dates.startDate, this.dates.endDate)}`;
+			}
+			XLSX.writeFile(wb, `${filename}.xlsx`);
+		}
 	},
 	components: {
 		InfoPopover,
