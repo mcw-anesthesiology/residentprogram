@@ -84,6 +84,9 @@ type MeritReport {
 	nationalBoards: [NationalBoardRole]
 	committeeParticipation: [OrganizationCommitteeItem]
 	committees: [CommitteeItem]
+
+	nihStudySectionMember: Boolean
+	editorialBoards: [EditorialBoardItem]
 }
 
 enum MeritReportStatus {
@@ -153,6 +156,11 @@ type CommitteeItem {
 enum CommitteeRole {
 	CHAIR @enum(value: "chair")
 	MEMBER @enum(value: "member")
+}
+
+type EditorialBoardItem {
+	journal: String
+	role: String
 }
 
 # type MeritReportContents {

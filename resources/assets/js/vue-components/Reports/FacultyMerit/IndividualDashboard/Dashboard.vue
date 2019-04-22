@@ -71,6 +71,7 @@ dt, dd {
 import gql from 'graphql-tag';
 
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
+import RichDateRange from '#/RichDateRange.vue';
 
 import DashboardCompensation from './Compensation.vue';
 import AcademicProductivity from './AcademicProductivity.vue';
@@ -145,6 +146,7 @@ export default {
 	},
 	components: {
 		LoadingPlaceholder,
+		RichDateRange,
 		DashboardCompensation,
 		AcademicProductivity,
 		LeadershipProfessionalCitizenship,

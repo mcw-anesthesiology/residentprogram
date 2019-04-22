@@ -107,6 +107,18 @@ export const YEARLY_OVERVIEW_FIELDS = gql`
 export const INDIVIDUAL_DASHBOARD_FIELDS = gql`
 	fragment IndividualDashboardFields on MeritReport {
 		...YearlyOverviewFields
+		committeeParticipation {
+			organization
+			committees {
+				name
+				role
+			}
+		}
+		nihStudySectionMember
+		editorialBoards {
+			journal
+			role
+		}
 	}
 	${YEARLY_OVERVIEW_FIELDS}
 `;

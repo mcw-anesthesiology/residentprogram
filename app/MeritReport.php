@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Helpers\DateHelpers;
+use App\Helpers\DisplayHelpers;
 
 use App\Scopes\MeritReportScope;
 
@@ -600,6 +601,40 @@ class MeritReport extends Model
 		}
 
 		return $nationalBoards;
+	}
+
+	public function getEditorialBoardsAttribute() {
+		$editorialBoards = [];
+
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				$predefinedRoles = [
+					'editor-in-chief',
+					'associate-editor',
+					'executive-editor',
+					'statistical-editor'
+				];
+
+				$boards = self::getListItems($this->report['pages'][3]['items'][1]['items'][5]);
+
+				foreach ($boards as &$board) {
+					if (in_array($board['role'], $predefinedRoles)) {
+						$board['role'] = DisplayHelpers::kebabCaseToWords($board['role']);
+					}
+				}
+
+				return $boards;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getEditorialBoardsAttribute ' . $e);
+			return null;
+		}
+
+		return $editorialBoards;
 	}
 
 	static function getOrgRoles($question) {
