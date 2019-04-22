@@ -70,7 +70,7 @@
 			Export to Excel
 		</button>
 
-		<bar-chart v-if="showChart" :data="chartData" :options="chartOptions" />
+		<bar-chart v-if="showChart" :data="chartData" :options="chartOptions" :height="400" />
 	</section>
 </template>
 
@@ -241,7 +241,7 @@ export default {
 		},
 		chartOptions() {
 			return {
-				aspectRatio: 4
+				maintainAspectRatio: false
 			};
 		},
 		chartData() {
