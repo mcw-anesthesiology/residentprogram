@@ -247,6 +247,12 @@ class MeritReport extends Model
 		return [];
 	}
 
+	static function getTextListItems($item, $index = 0) {
+		return array_map(function($item) {
+			return $item['text'];
+		}, self::getListItems($item, $index));
+	}
+
 	static function countListItems($item) {
 		return count(self::getListItems($item));
 	}
@@ -673,5 +679,40 @@ class MeritReport extends Model
 		}
 
 		return null;
+	}
+
+	public function getDirectorshipsAttribute() {
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				$items = $this->report['pages'][3]['items'][2]['items'];
+				return [
+					'clinicalService' => self::getTextListItems($items[0]),
+					'simulationCenter' => self::getTextListItems($items[1]),
+					'visitingRotators' => self::getTextListItems($items[2]),
+				];
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getEditorialBoardsAttribute ' . $e);
+			return null;
+		}
+	}
+
+	public function getInterviewsAttribute() {
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				return self::getListItems($this->report['pages'][3]['items'][2]['items'][4]);
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getEditorialBoardsAttribute ' . $e);
+			return null;
+		}
 	}
 }

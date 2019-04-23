@@ -6,71 +6,75 @@
 				<rich-date-range :dates="dates" />
 			</small>
 		</h2>
-		<table ref="table">
-			<thead>
-				<tr>
-					<th></th>
-					<th v-for="label of Array.from(breakdownReports.keys())" :key="label">
-						{{ label }}
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th>Total publications</th>
-					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`publications:${bd}`">
-						{{ rs.flatMap(r => r.publications).length }}
-					</td>
-				</tr>
-				<tr v-for="type of publicationTypes" class="sub-row" :key="type">
-					<th>— {{ type }}</th>
-					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`publications:${type}:${bd}`">
-						{{ rs.flatMap(r => r.publications).filter(p => p.publicationType === type).length }}
-					</td>
-				</tr>
+		<div>
+			<div>
+				<table ref="table">
+					<thead>
+						<tr>
+							<th></th>
+							<th v-for="label of Array.from(breakdownReports.keys())" :key="label">
+								{{ label }}
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th>Total publications</th>
+							<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`publications:${bd}`">
+								{{ rs.flatMap(r => r.publications).length }}
+							</td>
+						</tr>
+						<tr v-for="type of publicationTypes" class="sub-row" :key="type">
+							<th>— {{ type }}</th>
+							<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`publications:${type}:${bd}`">
+								{{ rs.flatMap(r => r.publications).filter(p => p.publicationType === type).length }}
+							</td>
+						</tr>
 
-				<tr>
-					<th>Total grants</th>
-					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`grants:${bd}`">
-						{{ rs.flatMap(r => r.grants).length }}
-					</td>
-				</tr>
-				<tr v-for="type of grantTypes" class="sub-row" :key="type">
-					<th>— {{ ucfirst(type.toLowerCase()) }}</th>
-					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`grants:${type}:${bd}`">
-						{{ rs.flatMap(r => r.grants).filter(g => g.type === type).length }}
-					</td>
-				</tr>
+						<tr>
+							<th>Total grants</th>
+							<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`grants:${bd}`">
+								{{ rs.flatMap(r => r.grants).length }}
+							</td>
+						</tr>
+						<tr v-for="type of grantTypes" class="sub-row" :key="type">
+							<th>— {{ ucfirst(type.toLowerCase()) }}</th>
+							<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`grants:${type}:${bd}`">
+								{{ rs.flatMap(r => r.grants).filter(g => g.type === type).length }}
+							</td>
+						</tr>
 
-				<tr>
-					<th>Total studies</th>
-					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`studies:${bd}`">
-						{{ rs.flatMap(r => r.studies).length }}
-					</td>
-				</tr>
+						<tr>
+							<th>Total studies</th>
+							<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`studies:${bd}`">
+								{{ rs.flatMap(r => r.studies).length }}
+							</td>
+						</tr>
 
-				<tr>
-					<th>
-						Leadership positions
-						<info-popover>
-							<ul>
-								<li>Committee chair in national organization</li>
-								<li>Reviewer or editorial board member for peer-reviewed journal</li>
-							</ul>
-						</info-popover>
-					</th>
-					<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`leadershipPositions:${bd}`">
-						{{ rs.reduce((sum, r) => sum + r.leadershipPositions, 0) }}
-					</td>
-				</tr>
-			</tbody>
-		</table>
+						<tr>
+							<th>
+								Leadership positions
+								<info-popover>
+									<ul>
+										<li>Committee chair in national organization</li>
+										<li>Reviewer or editorial board member for peer-reviewed journal</li>
+									</ul>
+								</info-popover>
+							</th>
+							<td v-for="[bd, rs] of Array.from(breakdownReports.entries())" :key="`leadershipPositions:${bd}`">
+								{{ rs.reduce((sum, r) => sum + r.leadershipPositions, 0) }}
+							</td>
+						</tr>
+					</tbody>
+				</table>
 
-		<button type="button" class="btn btn-default" @click="exportToXlsx">
-			Export to Excel
-		</button>
+				<button type="button" class="btn btn-default" @click="exportToXlsx">
+					Export to Excel
+				</button>
+			</div>
 
-		<bar-chart v-if="showChart" :data="chartData" :options="chartOptions" :height="400" />
+			<bar-chart v-if="showChart" :data="chartData" :options="chartOptions" :height="400" />
+		</div>
 	</section>
 </template>
 
@@ -119,6 +123,16 @@ ul {
 	padding: 1em;
 }
 
+section > div {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+section > div > :global(*) {
+	padding: 0.5em;
+	flex-basis: 50%;
+}
+
 @media print {
 	button {
 		display: none;
@@ -128,8 +142,8 @@ ul {
 		min-height: 100%;
         max-width: 100%;
         max-height: 100%;
-        height: auto!important;
-        width: auto!important;
+        width: auto !important;
+		height: auto !important;
     }
 }
 </style>
@@ -142,7 +156,7 @@ import sortBy from 'lodash/sortBy';
 import InfoPopover from '#/InfoPopover.vue';
 import RichDateRange from '#/RichDateRange.vue';
 
-import { BarChart } from '@/vue-mixins/Chart.js';
+import { HorizontalBarChart as BarChart } from '@/vue-mixins/Chart.js';
 
 import { ucfirst } from '@/modules/text-utils.js';
 import { renderDateRange } from '@/modules/date-utils.js';

@@ -119,6 +119,15 @@ export const INDIVIDUAL_DASHBOARD_FIELDS = gql`
 			journal
 			role
 		}
+		directorships {
+			clinicalService
+			simulationCenter
+			visitingRotators
+		}
+		interviews {
+			description
+			date
+		}
 	}
 	${YEARLY_OVERVIEW_FIELDS}
 `;
