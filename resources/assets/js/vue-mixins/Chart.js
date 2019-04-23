@@ -173,7 +173,25 @@ export const LineChart = {
 
 export const BarChart = {
 	mixins: [Bar, Chart],
-	computed: {}
+	computed: {
+		chartOptions() {
+			return merge(
+				{
+					scales: {
+						yAxes: [
+							{
+								ticks: {
+									precision: 0,
+									beginAtZero: true
+								}
+							}
+						]
+					}
+				},
+				this.options || {}
+			);
+		}
+	}
 };
 
 export const HorizontalBarChart = {
@@ -182,7 +200,17 @@ export const HorizontalBarChart = {
 		chartOptions() {
 			return merge(
 				{
-					aspectRatio: 0.5
+					aspectRatio: 0.5,
+					scales: {
+						xAxes: [
+							{
+								ticks: {
+									precision: 0,
+									beginAtZero: true
+								}
+							}
+						]
+					}
 				},
 				this.options || {}
 			);

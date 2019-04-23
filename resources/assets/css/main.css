@@ -3,14 +3,12 @@ html {
 }
 
 body {
-	padding-bottom: 40px;
+	padding-bottom: 2.5em;
 	background-color: #b0bec5;
 }
 
 h1 {
 	font-size: 2.25em;
-	margin-top: 1.15em;
-	margin-bottom: 0.625em;
 }
 
 h2 {
@@ -33,6 +31,15 @@ h6 {
 	font-size: 0.75em;
 }
 
+h1, h2, h3 {
+	margin-top: 1.15em;
+	margin-bottom: 0.625em;
+}
+
+ol, ul {
+	padding-left: 2.5em;
+}
+
 .body-block {
 	background-color: white;
 	-webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
@@ -53,7 +60,7 @@ h6 {
  */
 
 .sub-header {
-	padding-bottom: 10px;
+	padding-bottom: 0.625em;
 	border-bottom: 1px solid #eee;
 }
 

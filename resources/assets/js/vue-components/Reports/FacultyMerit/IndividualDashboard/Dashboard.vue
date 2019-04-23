@@ -61,7 +61,11 @@ dt, dd {
 
 @media print {
 	.individual-dashboard {
-		font-size: 0.5em;
+		font-size: 0.7em;
+	}
+
+	h1 {
+		margin-top: 0;
 	}
 }
 </style>
