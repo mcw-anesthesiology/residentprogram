@@ -140,7 +140,7 @@
 		|| !empty($user->meritAdministratees)
 	)
 )
-		<li><a href="/merit">Faculty merit</a></li>
+		<li><a href="/merit">Faculty Activity Checklist</a></li>
 @endif
 
 @if (config('features.evaluations'))
