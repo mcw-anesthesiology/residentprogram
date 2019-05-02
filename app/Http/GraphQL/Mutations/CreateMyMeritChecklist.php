@@ -39,7 +39,7 @@ class CreateMyMeritChecklist
 				'period_end' => $dates['endDate']
 			],
 			[
-				'status' => 'pending'
+				'status' => 'PENDING'
 			]
 		);
     }
