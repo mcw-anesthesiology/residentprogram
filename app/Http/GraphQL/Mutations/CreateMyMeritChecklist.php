@@ -6,6 +6,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 use Auth;
+use Log;
 use Setting;
 
 use App\MeritReport;
@@ -31,7 +32,7 @@ class CreateMyMeritChecklist
 		$meritForm = MeritReportForm::where('name', $formName)->orderBy('version', 'desc')->firstOrFail();
 		$dates = MeritReport::getCurrentYear();
 
-		return MeritReport::firstOrCreate(
+		$mr = MeritReport::firstOrCreate(
 			[
 				'user_id' => Auth::id(),
 				'form_id' => $meritForm->id,
@@ -42,5 +43,9 @@ class CreateMyMeritChecklist
 				'status' => 'PENDING'
 			]
 		);
+
+		Log::debug('Merit report', (array)$mr);
+
+		return $mr;
     }
 }
