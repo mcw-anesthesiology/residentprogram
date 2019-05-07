@@ -6,6 +6,8 @@
 					@click="handleClose">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 			</button>
+
+			<save-status :unsaved="unsaved" :saving="saving" @save="handleSave" />
 		</div>
 		<div class="form-summary panel panel-default">
 			<div class="panel-body">
@@ -95,6 +97,7 @@
 import moment from 'moment';
 
 import MeritCompensationChecklist from './Checklist/Checklist.vue';
+import SaveStatus from './Checklist/SaveStatus.vue';
 
 import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
 import LoadingButton from '@/vue-components/LoadingButton.vue';
@@ -177,6 +180,9 @@ export default {
 		userIsAdmin() {
 			return isAdmin(this.currentUser);
 		},
+		userIsChecklistSubject() {
+			return this.currentUser.id == this.user_id; // eslint-disable-line eqeqeq
+		},
 		readonly() {
 			return ![
 				'PENDING',
@@ -218,7 +224,7 @@ export default {
 
 			this.checklist = Object.assign({}, this.checklist, checklist);
 			this.unsaved = true;
-			if (this.currentUser.id === this.user_id) {
+			if (this.userIsChecklistSubject) {
 				this.handleSubmit(false);
 			}
 		},
@@ -232,11 +238,7 @@ export default {
 			}, false);
 		},
 		handleSave() {
-			this.handleSubmit(false).then(() => {
-				if (this.savingSuccessful) {
-					this.$emit('reload');
-				}
-			});
+			this.handleSubmit(false);
 		},
 		handleComplete() {
 			this.handleSubmit(true).then(() => {
@@ -297,12 +299,15 @@ export default {
 			});
 		},
 		handleClose() {
-			this.$emit('close');
+			if (!this.unsaved || window.confirm('WARNING: You have unsaved changes. Are you sure you want to exit?')) {
+				this.$emit('close');
+			}
 		}
 	},
 
 	components: {
 		MeritCompensationChecklist,
+		SaveStatus,
 		AcademicYearSelector,
 		LoadingButton,
 		RichDate,
@@ -319,6 +324,9 @@ export default {
 	}
 
 	.close-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
 		margin-bottom: 1em;
 	}
 

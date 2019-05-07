@@ -23,7 +23,8 @@
 					:readonly="readonly"
 					@submit="handleSubmit">
 				<template slot="header" slot-scope="pager">
-					<div class="text-right">
+					<div class="header-container">
+						<save-status :unsaved="unsaved" :saving="saving" @save="handleSave" />
 						<show-hide-button class="btn btn-info btn-sm"
 								:value="showErrors"
 								@input="handleChangeShowErrors">
@@ -48,6 +49,9 @@
 							@input="handleInput(pager.pageNum, arguments[0])" />
 					</transition>
 					<section-errors v-if="showErrors" :page="pager.page" />
+				</template>
+				<template slot="footer">
+					<save-status :unsaved="unsaved" :saving="saving" @save="handleSave" />
 				</template>
 			</questionnaire-pager>
 
@@ -124,6 +128,8 @@ import ChecklistSection from './Section.vue';
 import SectionErrors from './SectionErrors.vue';
 import ChecklistErrors from './ChecklistErrors.vue';
 import SubmissionConfirmation from './SubmissionConfirmation.vue';
+import SaveStatus from './SaveStatus.vue';
+
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import QuestionnairePager from '@/vue-components/Questionnaire/Pager.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
@@ -264,6 +270,7 @@ export default {
 		SectionErrors,
 		ChecklistErrors,
 		SubmissionConfirmation,
+		SaveStatus,
 		ConfirmationButton,
 		QuestionnairePager,
 		ShowHideButton
@@ -274,6 +281,12 @@ export default {
 <style scoped>
 	.checklist {
 		font-size: 1.25em;
+	}
+
+	.header-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
 	}
 
 	@media (min-width: 768px) {
@@ -321,7 +334,8 @@ export default {
 			padding: 0 !important;
 		}
 
-		.checklist-controls {
+		.checklist-controls,
+		.header-container {
 			display: none;
 		}
 	}
