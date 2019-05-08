@@ -2,6 +2,19 @@
 
 @push('stylesheets')
 	<link rel="stylesheet" href="{{ mix('createExternalEvaluation.css') }}" />
+	<style>
+		.external-evaluation-list-form {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+		}
+
+		.external-evaluation-list-form fieldset {
+			flex-basis: 100%;
+			flex-grow: 1;
+			flex-shrink: 0;
+		}
+	</style>
 @endpush
 
 @section('blockless-body')
@@ -87,23 +100,27 @@
 
 
 	<div class="container body-block">
-		<h2>All external evaluations</h2>
+		<h2>External evaluations</h2>
 
-		<fieldset>
-			<legend>Filter</legend>
-			<start-end-date v-model="listDates"></start-end-date>
-		</fieldset>
+		<form class="external-evaluation-list-form">
+			<fieldset>
+				<legend>Evaluation date</legend>
+				<start-end-date v-model="listDates"></start-end-date>
+			</fieldset>
+			<reload-button @click="fetchEvaluations"></reload-button>
+		</form>
+
 
 		<evaluation-list :evaluations="evaluations">
 			<template slot-scope="evaluation">
-				<div>
+				<div v-if="evaluation.completion_hash">
 					<span>
 						Completion link:
 					</span>
 					<a :href="`/evaluate/${evaluation.completion_hash}`">
 						{{ url('/evaluate') }}/@{{ evaluation.completion_hash }}
 					</a>
-				</span>
+				</div>
 				<div v-if="evaluation.hash_expires">
 					<span>
 						Link expires:

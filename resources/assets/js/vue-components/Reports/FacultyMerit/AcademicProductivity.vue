@@ -6,6 +6,7 @@
 				<rich-date-range :dates="dates" />
 			</small>
 		</h2>
+
 		<div>
 			<div>
 				<table ref="table">

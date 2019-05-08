@@ -116,20 +116,20 @@ type DatedEvent {
 
 type Publication {
 	publicationType: String,
-	title: String!
+	title: String
 	author: String
 	link: String
-	role: String!
+	role: String
 
 	pmid: ID @field(resolver: "App\\Http\\GraphQL\\Queries\\MeritReporter@publicationPmid")
 }
 
 type Study {
-    title: String!
-    role: String!
-    yearInitiated: String!
-    approvalNumber: String!
-    progress: String!
+    title: String
+    role: String
+    yearInitiated: String
+    approvalNumber: String
+    progress: String
 }
 
 enum GrantType {
@@ -139,14 +139,14 @@ enum GrantType {
 
 type Grant {
     type: GrantType!
-    agency: String!
-    project: String!
-    amount: Float!
+    agency: String
+    project: String
+    amount: Float
 }
 
 type NationalBoardRole {
-	name: String!
-	role: String!
+	name: String
+	role: String
 }
 
 type OrganizationCommitteeItem {
