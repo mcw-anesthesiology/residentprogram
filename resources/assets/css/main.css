@@ -430,7 +430,15 @@ ol, ul {
 	}
 
 	body {
-		padding-top: 0 !important;
+		padding: 0 !important;
+	}
+
+	.body-block:first-child {
+		margin-top: 0;
+	}
+
+	.body-block:last-child {
+		margin-bottom: 0;
 	}
 
 	.container {

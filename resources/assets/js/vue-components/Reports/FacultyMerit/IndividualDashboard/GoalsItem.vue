@@ -13,7 +13,7 @@
 
 <style scoped>
 .goals-item {
-	font-size: 1.5em;
+	font-size: 1.25em;
 }
 
 h3 {
@@ -26,21 +26,21 @@ ol {
 }
 
 ol li {
+	padding-top: 1em;
 	padding-left: 0.5em;
 }
 
 ol li + li {
-	margin-top: 2em;
+	margin-top: 1em;
 }
 
 .line {
 	width: 100%;
-	height: 1em;
 	border-bottom: 1px solid #333;
 }
 
 .line + .line {
-	margin-top: 1em;
+	margin-top: 2em;
 }
 </style>
 

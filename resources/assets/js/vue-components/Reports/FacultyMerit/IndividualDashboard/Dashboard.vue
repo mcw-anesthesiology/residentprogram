@@ -2,21 +2,24 @@
 	<section class="individual-dashboard">
 		<loading-placeholder v-if="$apollo.loading" />
 		<template v-else-if="user">
-			<h1>
-				{{ title }}
-				<small>
-					<rich-date-range :dates="dates" />
-				</small>
-			</h1>
+			<header>
+				<h1>
+					{{ title }}
+					<small>
+						<rich-date-range :dates="dates" />
+					</small>
+				</h1>
 
-			<dl>
-				<dt>Name</dt>
-				<dd>{{ user.full_name }}</dd>
-				<template v-for="[name, val] of Array.from(userProps.entries())">
-					<dt :key="`${name}:name`">{{ name }}</dt>
-					<dd :key="`${name}:val`">{{ val }}</dd>
-				</template>
-			</dl>
+				<dl>
+					<dt>Name</dt>
+					<dd>{{ user.full_name }}</dd>
+					<template v-for="[name, val] of Array.from(userProps.entries())">
+						<dt :key="`${name}:name`">{{ name }}</dt>
+						<dd :key="`${name}:val`">{{ val }}</dd>
+					</template>
+				</dl>
+			</header>
+
 
 			<div class="dashboard-container">
 				<dashboard-compensation :user="user" />
@@ -33,9 +36,22 @@
 	page-break-inside: avoid;
 }
 
+header {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.individual-dashboard :global(h1),
+.individual-dashboard :global(h2),
+.individual-dashboard :global(h3),
+.individual-dashboard :global(h4),
+.individual-dashboard :global(h5) {
+	margin-top: 0;
+}
+
 .dashboard-container {
 	display: grid;
-	grid-gap: 2px;
 	grid-template-columns: repeat(2, 50%);
 	grid-template-rows: repeat(2, 1fr);
 	background: #f0f0f0;
@@ -61,11 +77,11 @@ dt, dd {
 
 @media print {
 	.individual-dashboard {
-		font-size: 0.7em;
+		font-size: 0.5em;
 	}
 
-	h1 {
-		margin-top: 0;
+	.dashboard-container {
+		grid-template-rows: 50% 50%;
 	}
 }
 </style>

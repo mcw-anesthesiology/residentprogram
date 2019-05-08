@@ -3,7 +3,11 @@
 		<div class="user-selector-container container body-block">
 			<label>
 				User
-				<select-two :options="groupedUsers" :value="userId" @input="handleUserIdChange" />
+				<select-two
+					:options="groupedUsers"
+					:value="userId"
+					@input="handleUserIdChange"
+				/>
 			</label>
 
 			<label>
@@ -13,11 +17,18 @@
 
 			<label>
 				Leadership role
-				<input type="text" class="form-control" v-model="leadershipRole" />
+				<input
+					type="text"
+					class="form-control"
+					v-model="leadershipRole"
+				/>
 			</label>
 		</div>
 
-		<div v-if="userId" class="container-fluid body-block">
+		<div
+			v-if="userId"
+			class="dashboard-container container-fluid body-block"
+		>
 			<individual-dashboard
 				:dates="dates"
 				:include-incomplete="includeIncomplete"
@@ -33,6 +44,11 @@
 @media print {
 	.user-selector-container {
 		display: none;
+	}
+
+	.dashboard-container {
+		padding: 0 !important;
+		margin: 0 !important;
 	}
 }
 </style>

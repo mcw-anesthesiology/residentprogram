@@ -81,6 +81,10 @@
 </template>
 
 <style scoped>
+h3 {
+	margin-top: 0;
+}
+
 .summary {
 	display: flex;
 	flex-wrap: wrap;
@@ -93,7 +97,7 @@
 	flex-shrink: 1;
 	list-style: none;
 	margin: 1em;
-	padding: 2em;
+	padding: 1em;
 	border: 1px solid #ccc;
 	border-radius: 2px;
 	display: flex;
