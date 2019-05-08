@@ -198,7 +198,7 @@ class MainController extends Controller
 					break;
 				default:
 					$subjectTypes = ["resident", "fellow"];
-					$evaluatorTypes = ["faculty", 'app'];
+					$evaluatorTypes = ["faculty", 'app', 'external'];
 					$requestorTypes = array_merge($subjectTypes, $evaluatorTypes);
 					break;
 			}
@@ -350,6 +350,9 @@ class MainController extends Controller
 					$evalTypes[] = 'ca-1';
 				if ($user->isType('app')) {
 					$evalTypes[] = 'faculty';
+				}
+				if ($user->isType('faculty')) {
+					$evalTypes[] = 'external';
 				}
 
 				$forms = Form::where("status", "active")

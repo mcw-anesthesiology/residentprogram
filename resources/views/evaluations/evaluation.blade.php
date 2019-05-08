@@ -554,6 +554,10 @@
 		@endif
 
 		$(document).ready(function() {
+			$('#form').on('click', '.toggle-descriptions', function(event) {
+				$(event.target).parents('.question').find('.description').collapse('toggle');
+			});
+
 			@if ($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id || $user->isType("admin"))
 				@foreach($evaluation->responses as $response)
 					if ($("input[name='{{ $response->question_id }}']").attr("type") == "radio")

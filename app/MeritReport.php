@@ -21,6 +21,16 @@ class MeritReport extends Model
 		'pubmed'
 	];
 
+	const MCW_ANESTH_2016_TO_2017_PUBLICATION_TYPE_MAP = [
+		'Abstract and/or Poster (Professional Society meeting)' => 'Abstract / Poster (Professional Society meeting)',
+		'Original Article: Prospective trial' => 'Original Article',
+		'Book Chapter Author (new or revised)' => 'Book Chapter (new or revised)'
+	];
+
+	const MCW_ANESTH_2016_TO_2017_GRANT_AGENCY_MAP = [
+		'VA Merit' => 'VA Merit Grant'
+	];
+
 	protected static function boot() {
 		parent::boot();
 
@@ -98,6 +108,17 @@ class MeritReport extends Model
 						}
 					}
 				}
+
+				foreach ($publications as &$publication) {
+					if ($this->form->report_slug ==  'mcw-anesth-faculty-merit-2016-2017') {
+						if (key_exists($publication['publicationType'], self::MCW_ANESTH_2016_TO_2017_PUBLICATION_TYPE_MAP)) {
+							$publication['publicationType'] = self::MCW_ANESTH_2016_TO_2017_PUBLICATION_TYPE_MAP[$publication['publicationType']];
+						}
+					}
+
+					$publication = self::trimProps($publication);
+				}
+
 				return $publications;
 			default:
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
@@ -307,7 +328,7 @@ class MeritReport extends Model
 			case 'mcw-anesth-faculty-merit-2017-2018':
 			case 'mcw-anesth-faculty-merit-2016-2017':
 				$grantSection = $this->report['pages'][2]['items'][1]['items'][1];
-				return array_merge(
+				$grants = array_merge(
 					[],
 				   	array_map(function($grant) {
 						$grant['type'] = 'EXISTING';
@@ -318,6 +339,18 @@ class MeritReport extends Model
 						return $grant;
 					}, self::getListItems($grantSection['items'][1]))
 				);
+
+				foreach ($grants as &$grant) {
+					if ($this->form->report_slug == 'mcw-anesth-faculty-merit-2016-2017') {
+						if (key_exists($grant['agency'], self::MCW_ANESTH_2016_TO_2017_GRANT_AGENCY_MAP)) {
+							$grant['agency'] = self::MCW_ANESTH_2016_TO_2017_GRANT_AGENCY_MAP[$grant['agency']];
+						}
+					}
+
+					$grant = self::trimProps($grant);
+				}
+
+				return $grants;
 			default:
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
@@ -665,14 +698,18 @@ class MeritReport extends Model
 
 	public static function publicationPmid($publication) {
 		try {
-			$link = strtolower($publication['link']);
-			foreach (self::LINK_PREFIXES as $pmidPrefix) {
-				if (strpos($link, $pmidPrefix) !== false) {
-					$pmid = substr($link, strlen($pmidPrefix));
-					if (is_numeric($pmid)) {
-						return $pmid;
+			if (!empty($publication['link'])) {
+				$link = strtolower($publication['link']);
+				foreach (self::LINK_PREFIXES as $pmidPrefix) {
+					if (strpos($link, $pmidPrefix) !== false) {
+						$pmid = substr($link, strlen($pmidPrefix));
+						if (is_numeric($pmid)) {
+							return $pmid;
+						}
 					}
 				}
+			} else {
+				Log::debug('No link specified for publication', $publication);
 			}
 		} catch (\Exception $e) {
 			Log::error('Error in publicationPmid' . $e);
@@ -714,5 +751,13 @@ class MeritReport extends Model
 			Log::error('Error in getEditorialBoardsAttribute ' . $e);
 			return null;
 		}
+	}
+
+	static function trimProps(&$obj) {
+		foreach ($obj as &$prop) {
+			$prop = trim($prop);
+		}
+
+		return $obj;
 	}
 }

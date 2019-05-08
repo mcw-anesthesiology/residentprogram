@@ -13,6 +13,7 @@
 					v-bind="page"
 					:page="true"
 					:readonly="readonly"
+					:previewing="previewing"
 					:user="user"
 					:show-errors="showErrors"
 					@input="handleInput(pageNum, arguments[0])" />
@@ -22,7 +23,8 @@
 					:readonly="readonly"
 					@submit="handleSubmit">
 				<template slot="header" slot-scope="pager">
-					<div class="text-right">
+					<div class="header-container">
+						<save-status :unsaved="unsaved" :saving="saving" @save="handleSave" />
 						<show-hide-button class="btn btn-info btn-sm"
 								:value="showErrors"
 								@input="handleChangeShowErrors">
@@ -47,6 +49,9 @@
 							@input="handleInput(pager.pageNum, arguments[0])" />
 					</transition>
 					<section-errors v-if="showErrors" :page="pager.page" />
+				</template>
+				<template slot="footer">
+					<save-status :unsaved="unsaved" :saving="saving" @save="handleSave" />
 				</template>
 			</questionnaire-pager>
 
@@ -103,9 +108,14 @@
 
 				<div class="dont-paginate-container text-center">
 					<label class="normal-text-label">
-						<input type="checkbox" :value="dontPaginate"
+						<input type="checkbox" :checked="dontPaginate"
 							@change="togglePagination" />
 						Show on one page
+					</label>
+					<label class="normal-text-label">
+						<input type="checkbox" :checked="expandAll"
+							@change="toggleQueryProp('expandAll')" />
+						Expand all followup questions
 					</label>
 				</div>
 			</div>
@@ -118,6 +128,8 @@ import ChecklistSection from './Section.vue';
 import SectionErrors from './SectionErrors.vue';
 import ChecklistErrors from './ChecklistErrors.vue';
 import SubmissionConfirmation from './SubmissionConfirmation.vue';
+import SaveStatus from './SaveStatus.vue';
+
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import QuestionnairePager from '@/vue-components/Questionnaire/Pager.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
@@ -168,6 +180,13 @@ export default {
 				&& this.$route.query.page === 'submit'
 			);
 		},
+		expandAll() {
+			return (
+				this.$route
+				&& this.$route.query
+				&& this.$route.query.expandAll
+			);
+		},
 		dontPaginate() {
 			return (
 				this.$route
@@ -186,10 +205,25 @@ export default {
 
 	methods: {
 		checklistIsValid,
+		toggleQueryProp(prop) {
+			const newVal = !this[prop] || undefined;
+			const location = Object.assign({}, this.$route, {
+				query: {
+					...this.$route.query,
+					[prop]: newVal
+				}
+			});
+
+			this.$router.push(location);
+		},
 		togglePagination() {
 			const dontPaginate = !this.dontPaginate || undefined;
 			const location = Object.assign({}, this.$route, {
-				query: { dontPaginate, page: undefined }
+				query: {
+					...this.$route.query,
+					dontPaginate,
+					page: undefined
+				}
 			});
 
 			this.$router.push(location);
@@ -236,6 +270,7 @@ export default {
 		SectionErrors,
 		ChecklistErrors,
 		SubmissionConfirmation,
+		SaveStatus,
 		ConfirmationButton,
 		QuestionnairePager,
 		ShowHideButton
@@ -246,6 +281,12 @@ export default {
 <style scoped>
 	.checklist {
 		font-size: 1.25em;
+	}
+
+	.header-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
 	}
 
 	@media (min-width: 768px) {
@@ -293,7 +334,8 @@ export default {
 			padding: 0 !important;
 		}
 
-		.checklist-controls {
+		.checklist-controls,
+		.header-container {
 			display: none;
 		}
 	}

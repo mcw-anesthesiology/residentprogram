@@ -1,5 +1,5 @@
 <template>
-	<section class="beyond-milestones-question professionalism-question">
+	<section v-if="shouldShow" class="beyond-milestones-question professionalism-question">
 		<header>
 			<h3 v-if="title">{{ title }}</h3>
 
@@ -97,6 +97,13 @@ export default {
 		}
 	},
 	computed: {
+		shouldShow() {
+			if (this.readonly && this.evaluation.status === 'complete' && !this.professionalismResponse) {
+				return false;
+			}
+
+			return true;
+		},
 		name() {
 			return `professionalism-question:${this.id}`;
 		},

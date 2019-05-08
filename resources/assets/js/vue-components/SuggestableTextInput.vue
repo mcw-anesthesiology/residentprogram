@@ -16,6 +16,7 @@
 		<textarea v-if="showOther" class="form-control"
 			:value="value"
 			:placeholder="placeholder"
+			:readonly="readonly"
 			aria-label="Please enter the 'other' value"
 			@input="handleInput">
 		</textarea>
