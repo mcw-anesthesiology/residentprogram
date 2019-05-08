@@ -7,11 +7,11 @@
 		/>
 
 		<form>
-			<label class="containing-label">
+			<label>
 				<input type="checkbox" v-model="show.chart" />
 				Show chart
 			</label>
-			<label class="containing-label">
+			<label>
 				<input type="checkbox" v-model="show.breakdowns" />
 				Show yearly breakdown
 			</label>
@@ -20,6 +20,15 @@
 </template>
 
 <style scoped>
+form {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+form label {
+	margin: 0.5em;
+}
+
 @media print {
 	form {
 		display: none;
