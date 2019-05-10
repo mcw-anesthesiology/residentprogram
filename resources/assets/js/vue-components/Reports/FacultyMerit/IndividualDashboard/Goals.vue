@@ -11,6 +11,16 @@
 	</section>
 </template>
 
+<style scoped>
+section {
+	font-size: 1em;
+}
+
+ol {
+	padding-left: 1em;
+}
+</style>
+
 <script>
 import DashboardSection from './Section.vue';
 

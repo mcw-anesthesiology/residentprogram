@@ -5,7 +5,9 @@
 		</h3>
 		<ol>
 			<li v-for="i of Array(items).fill()" :key="i">
-				<div v-for="j of Array(lines).fill()" :key="j" class="line"></div>
+				<div class="line-container">
+					<div v-for="j of Array(lines).fill()" :key="j" class="line"></div>
+				</div>
 			</li>
 		</ol>
 	</li>
@@ -26,12 +28,18 @@ ol {
 }
 
 ol li {
-	padding-top: 1em;
 	padding-left: 0.5em;
 }
 
 ol li + li {
 	margin-top: 1em;
+}
+
+.line-container {
+	min-height: 1em;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
 }
 
 .line {

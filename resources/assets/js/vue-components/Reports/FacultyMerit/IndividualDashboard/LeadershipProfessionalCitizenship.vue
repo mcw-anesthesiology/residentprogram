@@ -4,49 +4,61 @@
 	>
 		<h2>Leadership & professional citizenship</h2>
 
-		<ul class="summary">
-			<li v-if="numCommitteeParticipation > 0">
-				<span class="summary-number">
-					{{ numCommitteeParticipation }}
-				</span>
-				{{ pluralize('Committee', numCommitteeParticipation) }}
-			</li>
+		<div class="summary-container">
+			<table class="summary number-summary">
+				<tr v-if="numCommitteeParticipation > 0">
+					<th>Committees</th>
+					<td>
+						{{ numCommitteeParticipation }}
+					</td>
+				</tr>
 
-			<li v-if="numEditorialBoards > 0">
-				<span class="summary-number">
-					{{ numEditorialBoards }}
-				</span>
-				{{ pluralize('Editorial board position', numCommitteeParticipation) }}
-			</li>
+				<tr v-if="numEditorialBoards > 0">
+					<th>Editorial board positions</th>
+					<td>
+						{{ numEditorialBoards }}
+					</td>
+				</tr>
+			</table>
 
-			<li v-if="directorOfClinicalService">
-				<span class="summary-number">
-					<check-icon />
-				</span>
-				Director of clinical service
-			</li>
+			<table class="summary check-summary">
+				<tr v-if="directorOfClinicalService">
+					<th>
+					Director of clinical service
+					</th>
+					<td>
+						<check-icon />
+					</td>
+				</tr>
 
-			<li v-if="directorOfSimulationCenter">
-				<span class="summary-number">
-					<check-icon />
-				</span>
-				Director of simulation center
-			</li>
+				<tr v-if="directorOfSimulationCenter">
+					<th>
+					Director of simulation center
+					</th>
+					<td>
+						<check-icon />
+					</td>
+				</tr>
 
-			<li v-if="directorOfVisitingRotators">
-				<span class="summary-number">
-					<check-icon />
-				</span>
-				Director of visiting rotators
-			</li>
+				<tr v-if="directorOfVisitingRotators">
+					<th>
+						Director of visiting rotators
+					</th>
+					<td>
+						<check-icon />
+					</td>
+				</tr>
 
-			<li v-if="participatedInInterviews">
-				<span class="summary-number">
-					<check-icon />
-				</span>
-				Participated in interviews
-			</li>
-		</ul>
+				<tr v-if="participatedInInterviews">
+					<th>
+						Participated in interviews
+					</th>
+					<td>
+						<check-icon />
+					</td>
+				</tr>
+			</table>
+		</div>
 
 		<section class="details">
 			<section v-if="committeeParticipation.size > 0">
@@ -81,37 +93,32 @@
 </template>
 
 <style scoped>
+.leadership-professional-citizenship {
+	font-size: 1em;
+}
+
 h3 {
 	margin-top: 0;
 }
 
-.summary {
+.summary-container {
 	display: flex;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	justify-content: space-around;
-	padding: 0;
+	padding: 0.5em 0;
 }
 
-.summary > li {
-	flex-basis: 12.5em;
+.summary {
+	font-size: 1.25em;
 	flex-shrink: 1;
-	list-style: none;
-	margin: 1em;
-	padding: 1em;
-	border: 1px solid #ccc;
-	border-radius: 2px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 }
 
-.summary li .summary-number {
-	display: block;
-	font-size: 1.5em;
-	margin-right: 1em;
+.summary th,
+.summary td {
+	padding: 0.25em 0.5em;
 }
 
-.summary li .summary-number :global(svg) {
+.summary td :global(.feather-check) {
 	color: green;
 	height: 1em;
 	width: 1em;
@@ -119,7 +126,6 @@ h3 {
 
 .details {
 	display: flex;
-	flex-wrap: wrap;
 	justify-content: space-around;
 }
 
@@ -127,6 +133,15 @@ h3 {
 	margin: 0.5em;
 }
 
+.details > section > ul {
+	padding-left: 1em;
+}
+
+@media print {
+	.summary {
+		font-size: 1em;
+	}
+}
 </style>
 
 <script>

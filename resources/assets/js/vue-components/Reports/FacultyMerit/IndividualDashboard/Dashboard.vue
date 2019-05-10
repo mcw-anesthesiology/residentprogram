@@ -1,5 +1,5 @@
 <template>
-	<section class="individual-dashboard">
+	<section ref="dashboard" class="individual-dashboard">
 		<loading-placeholder v-if="$apollo.loading" />
 		<template v-else-if="user">
 			<header>
@@ -28,6 +28,12 @@
 				<dashboard-goals :user="user" />
 			</div>
 		</template>
+
+		<div class="text-center noprint">
+			<print-element-button v-if="$refs.dashboard" :target="$refs.dashboard">
+				Print
+			</print-element-button>
+		</div>
 	</section>
 </template>
 
@@ -77,7 +83,7 @@ dt, dd {
 
 @media print {
 	.individual-dashboard {
-		font-size: 0.5em;
+		font-size: 0.75em;
 	}
 
 	.dashboard-container {
@@ -92,6 +98,7 @@ import gql from 'graphql-tag';
 
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 import RichDateRange from '#/RichDateRange.vue';
+import PrintElementButton from '#/PrintElementButton.vue';
 
 import DashboardCompensation from './Compensation.vue';
 import AcademicProductivity from './AcademicProductivity.vue';
@@ -167,6 +174,7 @@ export default {
 	components: {
 		LoadingPlaceholder,
 		RichDateRange,
+		PrintElementButton,
 		DashboardCompensation,
 		AcademicProductivity,
 		LeadershipProfessionalCitizenship,

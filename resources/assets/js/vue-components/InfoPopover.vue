@@ -17,6 +17,12 @@
 button.close {
 	font-size: 1em;
 }
+
+@media print {
+	.v-popover {
+		display: none;
+	}
+}
 </style>
 
 <script>

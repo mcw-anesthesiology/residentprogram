@@ -62,6 +62,9 @@ const Chart = {
 				this.transformedChartData,
 				this.transformedOptions
 			);
+		},
+		getChartImage() {
+			return this.$data._chart.toBase64Image();
 		}
 	}
 };
