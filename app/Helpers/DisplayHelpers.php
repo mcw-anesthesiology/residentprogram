@@ -11,4 +11,8 @@ class DisplayHelpers {
 			? strtoupper($trainingLevel)
 			: ucfirst($trainingLevel);
 	}
+
+	public static function kebabCaseToWords($str) {
+		return str_replace('-', ' ', ucfirst($str));
+	}
 }

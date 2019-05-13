@@ -48,7 +48,7 @@ const styles = [
 	'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
 ];
 
-const DEV_SERVER_HOST = 'www.localhost';
+const DEV_SERVER_HOST = 'localhost';
 const DEV_SERVER_PORT = 8000;
 
 module.exports = (env, argv) => {
@@ -71,7 +71,7 @@ module.exports = (env, argv) => {
 		output: {
 			path: path.resolve(__dirname, 'public/build/'),
 			publicPath: runningDevServer
-				? `https://${DEV_SERVER_HOST}:${DEV_SERVER_PORT}/build/`
+				? `//${DEV_SERVER_HOST}:${DEV_SERVER_PORT}/build/`
 				: '/build/',
 			filename: argv.mode === 'production'
 				? '[name].[chunkhash].js'
@@ -185,7 +185,7 @@ module.exports = (env, argv) => {
 		devServer: {
 			host: DEV_SERVER_HOST,
 			port: DEV_SERVER_PORT,
-			https: true,
+			https: false,
 			hot: true,
 			inline: true,
 			index: '',
@@ -203,7 +203,7 @@ module.exports = (env, argv) => {
 			},
 			writeToDisk: true,
 			watchOptions: {
-				poll: false
+				poll: true
 			}
 		}
 	};
