@@ -186,12 +186,25 @@ export const BarChart = {
 								ticks: {
 									precision: 0,
 									beginAtZero: true
+								},
+								gridLines: {
+									color: 'rgba(0, 0, 0, 0.5)'
+								}
+							}
+						],
+						xAxes: [
+							{
+								gridLines: {
+									color: 'rgba(0, 0, 0, 0.5)'
 								}
 							}
 						]
 					}
 				},
-				this.options || {}
+				this.options || {},
+				{
+					arrayMerge: combineMerge
+				}
 			);
 		}
 	}
@@ -210,12 +223,25 @@ export const HorizontalBarChart = {
 								ticks: {
 									precision: 0,
 									beginAtZero: true
+								},
+								gridLines: {
+									color: 'rgba(0, 0, 0, 0.5)'
+								}
+							}
+						],
+						yAxes: [
+							{
+								gridLines: {
+									color: 'rgba(0, 0, 0, 0.5)'
 								}
 							}
 						]
 					}
 				},
-				this.options || {}
+				this.options || {},
+				{
+					arrayMerge: combineMerge
+				}
 			);
 		}
 	}

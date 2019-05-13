@@ -57,9 +57,6 @@ header {
 }
 
 .dashboard-container {
-	display: grid;
-	grid-template-columns: repeat(2, 50%);
-	grid-template-rows: repeat(2, 1fr);
 	background: #f0f0f0;
 }
 
@@ -79,6 +76,14 @@ dt, dd {
 		grid-template-columns: 1fr 1fr;
 		grid-gap: 0.5em;
 	}
+
+	@media (min-width: 768px) {
+		.dashboard-container {
+			display: grid;
+			grid-template-columns: repeat(2, 50%);
+			grid-template-rows: repeat(2, 50%);
+		}
+	}
 }
 
 @media print {
@@ -87,7 +92,9 @@ dt, dd {
 	}
 
 	.dashboard-container {
-		grid-template-rows: 50% 50%;
+		display: grid;
+		grid-template-columns: repeat(2, 50%);
+		grid-template-rows: repeat(2, 50%);
 	}
 }
 </style>
