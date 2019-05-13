@@ -38,10 +38,6 @@
 </template>
 
 <style scoped>
-.individual-dashboard {
-	page-break-inside: avoid;
-}
-
 header {
 	display: flex;
 	flex-wrap: wrap;
@@ -81,7 +77,7 @@ dt, dd {
 		.dashboard-container {
 			display: grid;
 			grid-template-columns: repeat(2, 50%);
-			grid-template-rows: repeat(2, 50%);
+			grid-template-rows: minmax(200px, 1fr) minmax(200px, 2fr);
 		}
 	}
 }
@@ -92,9 +88,11 @@ dt, dd {
 	}
 
 	.dashboard-container {
+		height: 100%;
+		width: 100%;
 		display: grid;
 		grid-template-columns: repeat(2, 50%);
-		grid-template-rows: repeat(2, 50%);
+		grid-template-rows: minmax(200px, 1fr) minmax(200px, 2fr);
 	}
 }
 </style>
