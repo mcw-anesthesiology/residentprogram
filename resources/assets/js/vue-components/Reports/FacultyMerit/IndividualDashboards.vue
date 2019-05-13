@@ -80,7 +80,7 @@ export default {
 		return {
 			usersWithMerits: [],
 			user: null,
-			reportTitle: 'Individual dashboard',
+			reportTitle: 'Faculty Activity Report',
 			leadershipRole: ''
 		};
 	},
