@@ -28,8 +28,6 @@ ul {
 }
 
 li {
-	list-style-position: inside;
-	margin: 0.25em;
 	margin-left: 1.5em;
 }
 </style>
