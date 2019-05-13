@@ -146,10 +146,10 @@
 					ref="chart"
 					:data="chartData"
 					:options="chartOptions"
-					:height="400"
-					:width="400"
+					:height="350"
+					:width="350"
 				/>
-				<img v-if="chartImage" :src="chartImage" />
+				<img v-if="chartImage" :src="chartImage" width="0" height="0" />
 			</div>
 		</div>
 	</section>
@@ -237,11 +237,18 @@ ul {
 
 	.main-row {
 		flex-wrap: nowrap;
+		align-items: stretch;
+	}
+
+	.chart-container {
+
 	}
 
 	.chart-container img {
 		display: block;
-		width: 100%;
+		max-width: 100%;
+		max-height: 100%;
+		width: auto;
 		height: auto;
 	}
 

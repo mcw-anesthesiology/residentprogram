@@ -1,5 +1,6 @@
 <style>
 .individual-merit-dashboard-section {
+	page-break-inside: avoid;
 	background: #fefefe;
 	padding: 1em;
 }
