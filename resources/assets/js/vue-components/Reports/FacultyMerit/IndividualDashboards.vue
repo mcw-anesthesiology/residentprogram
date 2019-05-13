@@ -130,7 +130,7 @@ export default {
 	methods: {
 		handleUserIdChange(userId) {
 			if (userId) {
-				this.$router.push(`${this.$route.path}/${userId}`);
+				this.$router.push(userId);
 			}
 		}
 	},
