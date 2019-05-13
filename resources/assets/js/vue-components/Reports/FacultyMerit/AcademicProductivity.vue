@@ -277,7 +277,7 @@ import RichDateRange from '#/RichDateRange.vue';
 import { HorizontalBarChart as BarChart } from '@/vue-mixins/Chart.js';
 
 import { ucfirst } from '@/modules/text-utils.js';
-import { renderDateRange } from '@/modules/date-utils.js';
+import { renderYearRange } from '@/modules/date-utils.js';
 
 export default {
 	props: {
@@ -312,7 +312,7 @@ export default {
 	},
 	computed: {
 		getBreakdownKey() {
-			return r => renderDateRange(r.period_start, r.period_end);
+			return r => renderYearRange(r.period_start, r.period_end);
 		},
 		breakdownKeys() {
 			const keys = Array.from(
@@ -458,7 +458,7 @@ export default {
 			const wb = XLSX.utils.table_to_book(this.$refs.table);
 			let filename = 'Academic productivity summary';
 			if (this.dates && this.dates.startDate && this.dates.endDate) {
-				filename += ` ${renderDateRange(
+				filename += ` ${renderYearRange(
 					this.dates.startDate,
 					this.dates.endDate
 				)}`;
