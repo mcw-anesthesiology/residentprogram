@@ -82,6 +82,13 @@ type MeritReport {
 	leadershipPositions: Int
 	participatesInSimulation: Boolean
 	nationalBoards: [NationalBoardRole]
+	committeeParticipation: [OrganizationCommitteeItem]
+	committees: [CommitteeItem]
+	directorships: Directorships
+	interviews: [DatedEvent]
+
+	nihStudySectionMember: Boolean
+	editorialBoards: [EditorialBoardItem]
 }
 
 enum MeritReportStatus {
@@ -100,6 +107,11 @@ type MeritReportForm {
 	updated_at: Date!
 	deleted_at: Date
 	report_slug: String
+}
+
+type DatedEvent {
+	description: String!
+	date: String!
 }
 
 type Publication {
@@ -135,6 +147,33 @@ type Grant {
 type NationalBoardRole {
 	name: String
 	role: String
+}
+
+type OrganizationCommitteeItem {
+	organization: String
+	committees: [CommitteeItem]
+}
+
+type CommitteeItem {
+	name: String
+	role: CommitteeRole
+	meetingsPerYear: Int
+}
+
+enum CommitteeRole {
+	CHAIR @enum(value: "chair")
+	MEMBER @enum(value: "member")
+}
+
+type EditorialBoardItem {
+	journal: String
+	role: String
+}
+
+type Directorships {
+	clinicalService: [String]
+	simulationCenter: [String]
+	visitingRotators: [String]
 }
 
 # type MeritReportContents {

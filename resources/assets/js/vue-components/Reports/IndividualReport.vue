@@ -99,7 +99,7 @@
 									<label class="containing-label">
 										Type
 										<select class="form-control" v-model="chartType">
-											<option v-for="type of chartTypes" :value="type">
+											<option v-for="type of chartTypes" :key="type" :value="type">
 												{{ ucfirst(type) }}
 											</option>
 										</select>
