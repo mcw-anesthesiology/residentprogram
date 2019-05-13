@@ -147,6 +147,7 @@
 					:data="chartData"
 					:options="chartOptions"
 					:height="400"
+					:width="400"
 				/>
 				<img v-if="chartImage" :src="chartImage" />
 			</div>
@@ -167,6 +168,7 @@ table {
 	font-size: 1em;
 	width: 100%;
 	margin-bottom: 1em;
+	border-collapse: collapse;
 }
 
 tr:hover {
@@ -203,7 +205,7 @@ ul {
 
 .main-row {
 	display: flex;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 }
 
 .main-row > div {
@@ -230,6 +232,11 @@ ul {
 
 	table {
 		font-size: 0.8em;
+		color: #111;
+	}
+
+	.main-row {
+		flex-wrap: nowrap;
 	}
 
 	.chart-container img {
@@ -240,6 +247,19 @@ ul {
 
 	.chart-container :global(canvas) {
 		display: none !important;
+	}
+
+	th, td {
+		border-color: #111;
+		padding: 0.25em 0.5em;
+	}
+
+	.sub-row th {
+		padding-left: 1.5em;
+	}
+
+	.sub-row td {
+		padding-right: 1.5em;
 	}
 }
 </style>

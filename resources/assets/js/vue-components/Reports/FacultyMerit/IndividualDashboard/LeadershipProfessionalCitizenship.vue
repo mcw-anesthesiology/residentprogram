@@ -7,55 +7,47 @@
 		<div class="summary-container">
 			<table class="summary number-summary">
 				<tr v-if="numCommitteeParticipation > 0">
-					<th>Committees</th>
 					<td>
 						{{ numCommitteeParticipation }}
 					</td>
+					<th>Committees</th>
 				</tr>
 
 				<tr v-if="numEditorialBoards > 0">
-					<th>Editorial board positions</th>
 					<td>
 						{{ numEditorialBoards }}
 					</td>
+					<th>Editorial board positions</th>
 				</tr>
 			</table>
 
 			<table class="summary check-summary">
 				<tr v-if="directorOfClinicalService">
-					<th>
-					Director of clinical service
-					</th>
 					<td>
 						<check-icon />
 					</td>
+					<th>Director of clinical service</th>
 				</tr>
 
 				<tr v-if="directorOfSimulationCenter">
-					<th>
-					Director of simulation center
-					</th>
 					<td>
 						<check-icon />
 					</td>
+					<th>Director of simulation center</th>
 				</tr>
 
 				<tr v-if="directorOfVisitingRotators">
-					<th>
-						Director of visiting rotators
-					</th>
 					<td>
 						<check-icon />
 					</td>
+					<th>Director of visiting rotators</th>
 				</tr>
 
 				<tr v-if="participatedInInterviews">
-					<th>
-						Participated in interviews
-					</th>
 					<td>
 						<check-icon />
 					</td>
+					<th>Participated in interviews</th>
 				</tr>
 			</table>
 		</div>
