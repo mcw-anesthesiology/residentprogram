@@ -22,10 +22,10 @@
 
 
 			<div class="dashboard-container">
-				<dashboard-compensation :user="user" />
-				<academic-productivity :user="user" />
-				<leadership-professional-citizenship :user="user" />
-				<dashboard-goals :user="user" />
+				<dashboard-compensation :user="user" :periods="periods" />
+				<academic-productivity :user="user" :periods="periods" />
+				<leadership-professional-citizenship :user="user" :periods="periods" />
+				<dashboard-goals :user="user" :periods="periods" />
 			</div>
 		</template>
 
@@ -102,6 +102,7 @@ dt, dd {
 <script>
 /** @format */
 import gql from 'graphql-tag';
+import moment from 'moment';
 
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 import RichDateRange from '#/RichDateRange.vue';
@@ -112,6 +113,7 @@ import AcademicProductivity from './AcademicProductivity.vue';
 import LeadershipProfessionalCitizenship from './LeadershipProfessionalCitizenship.vue';
 import DashboardGoals from './Goals.vue';
 
+import { academicYearForDate } from '@/modules/date-utils.js';
 import { INDIVIDUAL_DASHBOARD_FIELDS } from '@/graphql/merit.js';
 
 export default {
@@ -176,6 +178,22 @@ export default {
 					status: this.includeIncomplete ? undefined : 'COMPLETE'
 				};
 			}
+		}
+	},
+	computed: {
+		periods() {
+			const periods = new Set();
+
+			const end = moment(this.dates.endDate);
+
+			let d = moment(this.dates.startDate);
+			while (d < end) {
+				const year = academicYearForDate(d);
+				periods.add(year);
+				d = moment(year.endDate).add(1, 'day');
+			}
+
+			return periods;
 		}
 	},
 	components: {

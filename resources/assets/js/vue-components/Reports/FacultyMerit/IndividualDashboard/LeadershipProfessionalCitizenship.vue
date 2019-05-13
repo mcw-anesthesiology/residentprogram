@@ -63,6 +63,7 @@
 						:key="organization"
 						:organization="organization"
 						:committees="committees"
+						:showPeriods="multiplePeriods"
 					/>
 				</ul>
 			</section>
@@ -77,6 +78,7 @@
 						:key="journal"
 						:journal="journal"
 						:roles="roles"
+						:showPeriods="multiplePeriods"
 					/>
 				</ul>
 			</section>
@@ -146,7 +148,7 @@ import DashboardSection from './Section.vue';
 import CommitteeParticipationItem from './CommitteeParticipationItem.vue';
 import JournalEditorialBoardItem from './JournalEditorialBoardItem.vue';
 
-import { renderDateRange } from '@/modules/date-utils.js';
+import { renderYearRange } from '@/modules/date-utils.js';
 import { pluralize } from '@/modules/text-utils.js';
 
 export default {
@@ -158,7 +160,7 @@ export default {
 			for (const report of this.user.meritReports) {
 				if (!report.committeeParticipation) continue;
 
-				const period = renderDateRange(
+				const period = renderYearRange(
 					report.period_start,
 					report.period_end
 				);
@@ -183,7 +185,7 @@ export default {
 			for (const report of this.user.meritReports) {
 				if (!report.editorialBoards) continue;
 
-				const period = renderDateRange(
+				const period = renderYearRange(
 					report.period_start,
 					report.period_end
 				);

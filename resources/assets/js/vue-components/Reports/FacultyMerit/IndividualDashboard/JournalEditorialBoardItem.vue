@@ -6,7 +6,8 @@
 
 		<ul>
 			<li v-for="{ period, role } of roles" :key="role">
-				{{ role }} ({{ period }})
+				{{ role }}
+				<span v-if="showPeriods"> ({{ period }}) </span>
 			</li>
 		</ul>
 	</li>
@@ -28,7 +29,11 @@ ul {
 export default {
 	props: {
 		journal: String,
-		roles: Array
+		roles: Array,
+		showPeriods: {
+			type: Boolean,
+			default: false
+		}
 	}
 };
 </script>

@@ -8,7 +8,8 @@
 					{{ name }}
 				</b>
 				—
-				{{ enumToWords(role) }} ({{ period }})
+				{{ enumToWords(role) }}
+				<span v-if="showPeriods"> ({{ period }}) </span>
 			</li>
 		</ul>
 	</li>
@@ -21,6 +22,15 @@
 
 ul {
 	font-size: 0.9em;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+li {
+	list-style-position: inside;
+	margin: 0.25em;
+	margin-left: 1.5em;
 }
 </style>
 
@@ -32,7 +42,11 @@ import { enumToWords } from '@/modules/text-utils.js';
 export default {
 	props: {
 		organization: String,
-		committees: Array
+		committees: Array,
+		showPeriods: {
+			type: Boolean,
+			default: false
+		}
 	},
 	methods: {
 		enumToWords
