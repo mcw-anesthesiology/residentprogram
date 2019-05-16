@@ -21,6 +21,24 @@ export default {
 		filename: {
 			type: String,
 			default: 'download.pdf'
+		},
+		landscape: {
+			type: Boolean,
+			required: false
+		},
+		options: {
+			type: Object,
+			default() {
+				return {};
+			}
+		}
+	},
+	computed: {
+		pdfOptions() {
+			return {
+				landscape: this.landscape,
+				...this.options
+			};
 		}
 	},
 	methods: {
@@ -56,7 +74,8 @@ export default {
 				method: 'POST',
 				body: JSON.stringify({
 					body,
-					styles
+					styles,
+					options: this.pdfOptions
 				})
 			})
 				.then(response => {

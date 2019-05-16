@@ -41,5 +41,6 @@ export const GROUP_USER_FIELDS = gql`
 		full_name
 		type
 		training_level
+		status
 	}
 `;

@@ -130,7 +130,7 @@ export default {
 	methods: {
 		handleUserIdChange(userId) {
 			if (userId) {
-				this.$router.push(userId);
+				this.$router.push({ name: 'merit-individual-dashboard', params: { userId } });
 			}
 		}
 	},
