@@ -1,5 +1,5 @@
 <template>
-	<section ref="dashboard" class="individual-dashboard">
+	<section class="individual-dashboard">
 		<loading-placeholder v-if="$apollo.loading" />
 		<template v-else-if="user">
 			<header>
@@ -30,7 +30,7 @@
 		</template>
 
 		<div class="text-center noprint">
-			<print-element-button v-if="$refs.dashboard" :target="$refs.dashboard">
+			<print-element-button target=".individual-dashboard" landscape>
 				Print
 			</print-element-button>
 		</div>

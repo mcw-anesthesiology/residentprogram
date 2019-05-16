@@ -85,6 +85,7 @@ const routes = [
 			},
 			{
 				path: 'individual-dashboards/:userId?',
+				name: 'merit-individual-dashboard',
 				component: MeritIndividualDashboards,
 				props: true
 			}
