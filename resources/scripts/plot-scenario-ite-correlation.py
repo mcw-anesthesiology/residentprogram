@@ -28,7 +28,7 @@ def main():
                 )
                 records.append({**scenario_record, **score})
             except StopIteration:
-                print("No scores found for ", name, file=sys.stderr)
+                print("No scores found for ", first, last, file=sys.stderr)
 
     plt.figure()
 
