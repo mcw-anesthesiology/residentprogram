@@ -3,7 +3,7 @@
 		<div v-if="me" v-cloak id="faculty-merit-reports-container" class="container">
 			<bootstrap-alert v-if="inProgressReport" type="info">
 				<p class="lead">
-					You have a merit checklist in progress:
+					You have a checklist in progress:
 					<span class="progress-form">
 						<span>
 							{{ inProgressReport.form.name }}
@@ -20,21 +20,21 @@
 			</bootstrap-alert>
 			<bootstrap-alert v-else-if="needsToStartReport" type="info">
 				<p class="lead">
-					You haven't submitted a merit checklist yet for this year.
+					You haven't submitted a checklist yet for this year.
 				</p>
 
 				<div class="btn-lg-submit-container">
 					<button type="button" class="btn btn-lg btn-primary"
 						@click="addMeritReport"
 					>
-						Start a new merit checklist
+						Start a new checklist
 					</button>
 				</div>
 			</bootstrap-alert>
 
 			<bootstrap-alert v-else type="success">
 				<p class="lead">
-					You've already completed your merit checklist for this year. Thanks!
+					You've already completed your checklist for this year. Thanks!
 				</p>
 				<div class="btn-lg-submit-container">
 					<router-link :to="`/checklist/${me.meritReports[me.meritReports.length - 1].id}`" class="btn btn-lg btn-success">
@@ -48,7 +48,7 @@
 		<alert-list v-model="alerts"></alert-list>
 
 		<div class="container body-block">
-			<h2>Your merit checklists</h2>
+			<h2>Your checklists</h2>
 
 			<component-list v-if="me && me.meritReports.length > 0"
 				:items="me.meritReports"
@@ -68,7 +68,7 @@
 			<loading-placeholder v-else-if="$apollo.loading" />
 			<div v-else>
 				<p class="lead">
-					You don't have any submitted merit checklists yet.
+					You don't have any submitted checklists yet.
 				</p>
 			</div>
 		</div>

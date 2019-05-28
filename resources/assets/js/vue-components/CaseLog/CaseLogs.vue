@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import Vue from '@/vue-constructors/vue.js';
+
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import DataTable from '@/vue-components/DataTable.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';

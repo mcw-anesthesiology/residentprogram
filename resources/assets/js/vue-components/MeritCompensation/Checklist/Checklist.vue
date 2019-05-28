@@ -1,88 +1,139 @@
 <template>
 	<div class="checklist">
 		<h1>{{ title }}</h1>
-		<submission-confirmation v-if="submitting"
+		<submission-confirmation
+			v-if="submitting"
 			:pages="pages"
 			@submit="handleConfirmSubmit"
 			@save="handleSave"
-			@cancel="handleConfirmationCancel" />
+			@cancel="handleConfirmationCancel"
+		/>
 		<template v-else>
 			<div v-if="dontPaginate" class="pages">
-				<checklist-section v-for="(page, pageNum) of pages"
+				<checklist-section
+					v-for="(page, pageNum) of pages"
 					:key="`page-${pageNum}`"
 					v-bind="page"
 					:page="true"
 					:readonly="readonly"
+					:previewing="previewing"
 					:user="user"
 					:show-errors="showErrors"
-					@input="handleInput(pageNum, arguments[0])" />
+					@input="handleInput(pageNum, arguments[0])"
+				/>
 			</div>
-			<questionnaire-pager v-else
-					:pages="pages"
-					:readonly="readonly"
-					@submit="handleSubmit">
+			<questionnaire-pager
+				v-else
+				:pages="pages"
+				:readonly="readonly"
+				@submit="handleSubmit"
+			>
 				<template slot="header" slot-scope="pager">
-					<div class="text-right">
-						<show-hide-button class="btn btn-info btn-sm"
-								:value="showErrors"
-								@input="handleChangeShowErrors">
+					<div class="header-container">
+						<save-status
+							:unsaved="unsaved"
+							:saving="saving"
+							:save-successful="saveSuccessful"
+							:saved-locally="savedLocally"
+							@save="handleSave"
+						/>
+						<show-hide-button
+							class="btn btn-info btn-sm"
+							:value="showErrors"
+							@input="handleChangeShowErrors"
+						>
 							checklist validation
-							<span slot="glyph" class="glyphicon glyphicon-ok"></span>
+							<span
+								slot="glyph"
+								class="glyphicon glyphicon-ok"
+							></span>
 						</show-hide-button>
 					</div>
-					<checklist-errors v-if="showErrors"
+					<checklist-errors
+						v-if="showErrors"
 						:pages="pager.pages"
 						:page="pager.pageNum"
-						@navigate="pager.goToPage" />
+						@navigate="pager.goToPage"
+					/>
 				</template>
 				<template slot-scope="pager">
 					<section-errors v-if="showErrors" :page="pager.page" />
 					<transition :name="`checklist-pager-${pager.lastChange}`">
 						<checklist-section
 							:key="`page-${pager.pageNum}`"
-							v-bind="pager.page" :page="true"
-							:readonly="readonly" :user="user"
+							v-bind="pager.page"
+							:page="true"
+							:readonly="readonly"
+							:user="user"
 							:previewing="previewing"
 							:show-errors="showErrors"
-							@input="handleInput(pager.pageNum, arguments[0])" />
+							@input="handleInput(pager.pageNum, arguments[0])"
+						/>
 					</transition>
 					<section-errors v-if="showErrors" :page="pager.page" />
+				</template>
+				<template slot="footer">
+					<save-status
+						:unsaved="unsaved"
+						:saving="saving"
+						:save-successful="saveSuccessful"
+						:saved-locally="savedLocally"
+						@save="handleSave"
+					/>
 				</template>
 			</questionnaire-pager>
 
 			<div class="checklist-controls">
 				<div v-if="dontPaginate">
 					<div class="text-right">
-						<show-hide-button class="btn btn-info btn-sm"
-								v-model="showErrors">
+						<show-hide-button
+							class="btn btn-info btn-sm"
+							v-model="showErrors"
+						>
 							checklist validation
-							<span slot="glyph" class="glyphicon glyphicon-ok"></span>
+							<span
+								slot="glyph"
+								class="glyphicon glyphicon-ok"
+							></span>
 						</show-hide-button>
 					</div>
-					<checklist-errors v-if="showErrors"
+					<checklist-errors
+						v-if="showErrors"
 						:pages="pages"
-						@navigate="goToPage" />
+						@navigate="goToPage"
+					/>
 				</div>
 
 				<div class="text-center">
-					<confirmation-button v-if="!readonly && unsaved" class="btn btn-default"
-							pressed-class="btn btn-warning"
-							:disabled="saving"
-							@click="handleClose">
+					<confirmation-button
+						v-if="!readonly && unsaved"
+						class="btn btn-default"
+						pressed-class="btn btn-warning"
+						:disabled="saving"
+						@click="handleClose"
+					>
 						Close
 						<template slot="pressed">
 							Yes, close without saving
 						</template>
 					</confirmation-button>
-					<button type="button" v-else class="btn btn-default"
-							:disabled="saving"
-							@click="handleClose">
+					<button
+						type="button"
+						v-else
+						class="btn btn-default"
+						:disabled="saving"
+						@click="handleClose"
+					>
 						Close
 					</button>
 
-					<button v-if="!readonly" type="button" class="btn btn-info"
-							:disabled="saving || saveSuccessful"
-							@click="handleSave">
+					<button
+						v-if="!readonly"
+						type="button"
+						class="btn btn-info"
+						:disabled="saving || saveSuccessful"
+						@click="handleSave"
+					>
 						<template v-if="saveSuccessful">
 							<span class="glyphicon glyphicon-saved"></span>
 							Saved!
@@ -92,20 +143,34 @@
 						</template>
 					</button>
 
-					<button v-if="!readonly" type="button"
-							class="btn btn-primary"
-							pressed-class="btn-success"
-							:disabled="saving"
-							@click="handleSubmit">
+					<button
+						v-if="!readonly"
+						type="button"
+						class="btn btn-primary"
+						pressed-class="btn-success"
+						:disabled="saving"
+						@click="handleSubmit"
+					>
 						Submit
 					</button>
 				</div>
 
 				<div class="dont-paginate-container text-center">
 					<label class="normal-text-label">
-						<input type="checkbox" :value="dontPaginate"
-							@change="togglePagination" />
+						<input
+							type="checkbox"
+							:checked="dontPaginate"
+							@change="togglePagination"
+						/>
 						Show on one page
+					</label>
+					<label class="normal-text-label">
+						<input
+							type="checkbox"
+							:checked="expandAll"
+							@change="toggleQueryProp('expandAll')"
+						/>
+						Expand all followup questions
 					</label>
 				</div>
 			</div>
@@ -114,10 +179,14 @@
 </template>
 
 <script>
+/** @format */
+
 import ChecklistSection from './Section.vue';
 import SectionErrors from './SectionErrors.vue';
 import ChecklistErrors from './ChecklistErrors.vue';
 import SubmissionConfirmation from './SubmissionConfirmation.vue';
+import SaveStatus from './SaveStatus.vue';
+
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import QuestionnairePager from '@/vue-components/Questionnaire/Pager.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
@@ -157,48 +226,71 @@ export default {
 		saveSuccessful: {
 			type: Boolean,
 			required: false
+		},
+		savedLocally: {
+			type: Boolean,
+			required: false
 		}
 	},
 
 	computed: {
 		submitting() {
 			return (
-				this.$route
-				&& this.$route.query
-				&& this.$route.query.page === 'submit'
+				this.$route &&
+				this.$route.query &&
+				this.$route.query.page === 'submit'
+			);
+		},
+		expandAll() {
+			return (
+				this.$route && this.$route.query && this.$route.query.expandAll
 			);
 		},
 		dontPaginate() {
 			return (
-				this.$route
-				&& this.$route.query
-				&& this.$route.query.dontPaginate
+				this.$route &&
+				this.$route.query &&
+				this.$route.query.dontPaginate
 			);
 		},
 		showErrors() {
 			return Boolean(
-				this.$route
-				&& this.$route.query
-				&& this.$route.query.showErrors
+				this.$route && this.$route.query && this.$route.query.showErrors
 			);
 		}
 	},
 
 	methods: {
 		checklistIsValid,
+		toggleQueryProp(prop) {
+			const newVal = !this[prop] || undefined;
+			const location = Object.assign({}, this.$route, {
+				query: {
+					...this.$route.query,
+					[prop]: newVal
+				}
+			});
+
+			this.$router.push(location);
+		},
 		togglePagination() {
 			const dontPaginate = !this.dontPaginate || undefined;
 			const location = Object.assign({}, this.$route, {
-				query: { dontPaginate, page: undefined }
+				query: {
+					...this.$route.query,
+					dontPaginate,
+					page: undefined
+				}
 			});
 
 			this.$router.push(location);
 		},
 		goToPage(pageNum) {
-			if (!this.dontPaginate)
-				return;
+			if (!this.dontPaginate) return;
 
-			$('.pages > section').eq(pageNum).velocity('scroll');
+			$('.pages > section')
+				.eq(pageNum)
+				.velocity('scroll');
 		},
 		handleChangeShowErrors(showErrors) {
 			const query = Object.assign({}, this.$route.query, { showErrors });
@@ -210,20 +302,24 @@ export default {
 			let pages = this.pages.slice();
 			pages[pageNum] = Object.assign({}, pages[pageNum], page);
 
-			this.$emit('input', {pages});
+			this.$emit('input', { pages });
 		},
 		handleSave() {
 			this.$emit('save');
 		},
 		handleSubmit() {
-			const location = Object.assign({}, this.$route, { query: { page: 'submit' } });
+			const location = Object.assign({}, this.$route, {
+				query: { page: 'submit' }
+			});
 			this.$router.push(location);
 		},
 		handleConfirmSubmit() {
 			this.$emit('submit');
 		},
 		handleConfirmationCancel() {
-			const location = Object.assign({}, this.$route, { query: { page: 0 } });
+			const location = Object.assign({}, this.$route, {
+				query: { page: 0 }
+			});
 			this.$router.push(location);
 		},
 		handleClose() {
@@ -236,6 +332,7 @@ export default {
 		SectionErrors,
 		ChecklistErrors,
 		SubmissionConfirmation,
+		SaveStatus,
 		ConfirmationButton,
 		QuestionnairePager,
 		ShowHideButton
@@ -244,57 +341,66 @@ export default {
 </script>
 
 <style scoped>
+.checklist {
+	font-size: 1.25em;
+}
+
+.header-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+@media (min-width: 768px) {
 	.checklist {
-		font-size: 1.25em;
+		padding: 0 1em;
+	}
+}
+
+@media (min-width: 1200px) {
+	.checklist {
+		padding: 0 2em;
+	}
+}
+
+.pages > .page {
+	margin-bottom: 6em;
+}
+
+.checklist-pager-forward-enter-active,
+.checklist-pager-back-enter-active {
+	transition: all 0.1s ease-out;
+}
+
+.checklist-pager-forward-leave-active,
+.checklist-pager-back-leave-active {
+	transition: all 0.1s ease-out;
+}
+
+.checklist-pager-forward-enter,
+.checklist-pager-forward-leave-to {
+	transform: translateX(-10px);
+	opacity: 0;
+}
+
+.checklist-pager-back-enter,
+.checklist-pager-back-leave-to {
+	transform: translateX(10px);
+	opacity: 0;
+}
+
+.dont-paginate-container {
+	margin-top: 2em;
+}
+
+@media print {
+	.checklist {
+		padding: 0 !important;
 	}
 
-	@media (min-width: 768px) {
-		.checklist {
-			padding: 0 1em;
-		}
+	.checklist-controls,
+	.header-container {
+		display: none;
 	}
-
-	@media (min-width: 1200px) {
-		.checklist {
-			padding: 0 2em;
-		}
-	}
-
-	.pages > .page {
-		margin-bottom: 6em;
-	}
-
-	.checklist-pager-forward-enter-active,
-	.checklist-pager-back-enter-active {
-		transition: all 0.1s ease-out;
-	}
-
-	.checklist-pager-forward-leave-active,
-	.checklist-pager-back-leave-active {
-		transition: all 0.1s ease-out;
-	}
-
-	.checklist-pager-forward-enter, .checklist-pager-forward-leave-to {
-		transform: translateX(-10px);
-		opacity: 0;
-	}
-
-	.checklist-pager-back-enter, .checklist-pager-back-leave-to {
-		transform: translateX(10px);
-		opacity: 0;
-	}
-
-	.dont-paginate-container {
-		margin-top: 2em;
-	}
-
-	@media print {
-		.checklist {
-			padding: 0 !important;
-		}
-
-		.checklist-controls {
-			display: none;
-		}
-	}
+}
 </style>

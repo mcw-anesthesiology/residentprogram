@@ -35,6 +35,8 @@
   "dependencies": {
     "@jacobmischka/transform-color": "^1.0.0",
     "@jacobmischka/vue-flatpickr": "^7.0.0",
+    "ag-grid-community": "^20.2.0",
+    "ag-grid-vue": "^20.2.0",
     "ajv": "^6.4.0",
     "apollo-boost": "^0.1.23",
     "apollo-client": "^2.4.12",
@@ -98,11 +100,13 @@
     "vue-chartjs": "^3.4.2",
     "vue-feather-icons": "^4.10.0",
     "vue-nav-tabs": "^0.5.7",
+    "vue-property-decorator": "^7.2.0",
     "vue-router": "^3.0.1",
     "vue-select": "^2.5.1",
     "vue2-editor": "^2.4.2",
     "vuex": "^3.0.1",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.0.0",
+    "xlsx": "^0.14.2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",

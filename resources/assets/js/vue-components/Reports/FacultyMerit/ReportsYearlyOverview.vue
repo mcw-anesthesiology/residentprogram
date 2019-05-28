@@ -1,77 +1,81 @@
 <template>
-	<div class="reports-yearly-overview">
-		<div class="charts-container">
-			<section class="form-inline">
-				<label class="containing-label">
-					Breakdown
-					<select v-model="grantsBreakdown" class="form-control">
-						<option value=""></option>
-						<option value="agency">Agency</option>
-						<option value="type">Type</option>
-					</select>
-				</label>
-				<label class="containing-label">
-					Unit
-					<select v-model="grantsUnit" class="form-control">
-						<option>#</option>
-						<option>$</option>
-					</select>
-				</label>
-				<figure>
-					<yearly-grants-chart :reports="yearReports" :breakdown="grantsBreakdown" :unit="grantsUnit" />
-					<legend>Grants</legend>
-				</figure>
-			</section>
+  <div class="reports-yearly-overview">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th></th>
+          <th v-for="year of yearKeys" :key="year">{{ yearLabel(year) }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Total reports</th>
+          <td v-for="year of yearKeys" :key="year">{{ yearReports.get(year).length }}</td>
+        </tr>
+		<template v-if="statusReports.size > 1">
+			<tr v-for="[status, statusMap] of Array.from(statusReports.entries())" :key="status" class="status-row">
+				<th>{{ ucfirst(status.toLowerCase()) }}</th>
+				<td v-for="[year, reports] of Array.from(statusMap.entries())" :key="year">
+					{{ reports.length }}
+				</td>
+			</tr>
+		</template>
+      </tbody>
+    </table>
 
-			<section class="form-inline">
-				<label class="containing-label">
-					Breakdown
-					<select v-model="publicationsBreakdown" class="form-control">
-						<option value=""></option>
-						<option value="publicationType">Publication type</option>
-					</select>
-				</label>
-				<figure>
-					<yearly-publications-chart :reports="yearReports" :breakdown="publicationsBreakdown" />
-					<legend>Publications</legend>
-				</figure>
-			</section>
+    <div class="charts-container">
+      <grants-yearly-overview :reports="yearReports" :format-key="yearLabel"/>
 
-			<section class="form-inline">
-				<figure>
-					<yearly-studies-chart :reports="yearReports" />
-					<legend>Studies</legend>
-				</figure>
-			</section>
-		</div>
-	</div>
+      <publications-yearly-overview :reports="yearReports" :format-key="yearLabel"/>
+
+      <studies-yearly-overview :reports="yearReports" :format-key="yearLabel"/>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-.charts-container {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-around;
+.reports-yearly-overview :global(td) {
+	font-family: monospace;
 }
 
-.charts-container section {
-	flex-basis: 500px;
-	flex-grow: 1;
+.reports-yearly-overview :global(td),
+.reports-yearly-overview :global(th:not(:first-child)) {
+	text-align: right;
+}
+
+.status-row {
+	color: rgba(0, 0, 0, 0.55);
+}
+
+.status-row th {
+	padding-left: 2em;
+}
+
+.charts-container > :global(section) {
+	box-sizing: border-box;
 	margin: 1em;
-	min-width: 0;
-	min-height: 0;
+	padding: 1em;
+	border: 1px solid #ddd;
+	border-radius: 2px;
 }
 
-figure legend {
-	border: none;
-	text-align: center;
+.charts-container :global(canvas) {
+	margin: 1em 0;
 }
 </style>
 
 <script>
-import YearlyGrantsChart from './YearlyGrantsChart.js';
-import YearlyPublicationsChart from './YearlyPublicationsChart.js';
-import YearlyStudiesChart from './YearlyStudiesChart.js';
+/** @format */
+
+import GrantsYearlyOverview from './GrantsYearlyOverview.vue';
+import PublicationsYearlyOverview from './PublicationsYearlyOverview.vue';
+import StudiesYearlyOverview from './StudiesYearlyOverview.vue';
+
+import { ucfirst } from '@/modules/text-utils.js';
+
+function yearLabel(key) {
+	return new Date(key.substring(0, key.indexOf(':'))).getFullYear();
+}
 
 export default {
 	props: {
@@ -82,15 +86,16 @@ export default {
 	},
 	data() {
 		return {
-			grantsBreakdown: 'type',
-			grantsUnit: '#',
-
-			publicationsBreakdown: 'publicationType',
+			publicationsBreakdown: 'publicationType'
 		};
 	},
 	computed: {
 		yearKeys() {
-			const starts = Array.from(new Set(this.reports.map(r => r.period_start)).values());
+			const starts = Array.from(
+				new Set(
+					this.reports.map(r => `${r.period_start}:${r.period_end}`)
+				).values()
+			);
 			starts.sort();
 
 			return starts;
@@ -98,21 +103,48 @@ export default {
 		yearReports() {
 			const map = new Map();
 
-			for (const start of this.yearKeys) {
-				map.set(start, []);
+			for (const key of this.yearKeys) {
+				map.set(key, []);
 			}
 
-			for (const report of this.reports) {
-				map.get(report.period_start).push(report);
+			for (const r of this.reports) {
+				map.get(`${r.period_start}:${r.period_end}`).push(r);
+			}
+
+			return map;
+		},
+		statusReports() {
+			const map = new Map();
+
+			const statuses = Array.from(
+				new Set(this.reports.map(r => r.status)).values()
+			);
+			statuses.sort();
+
+			for (const status of statuses) {
+				const statusMap = new Map();
+
+				for (const [year, reports] of this.yearReports.entries()) {
+					statusMap.set(
+						year,
+						reports.filter(r => r.status === status)
+					);
+				}
+
+				map.set(status, statusMap);
 			}
 
 			return map;
 		}
 	},
+	methods: {
+		yearLabel,
+		ucfirst
+	},
 	components: {
-		YearlyGrantsChart,
-		YearlyPublicationsChart,
-		YearlyStudiesChart
+		GrantsYearlyOverview,
+		PublicationsYearlyOverview,
+		StudiesYearlyOverview
 	}
 };
 </script>

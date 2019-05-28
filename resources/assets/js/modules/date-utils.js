@@ -1,3 +1,4 @@
+/** @format */
 /* @flow */
 
 import type { moment$Moment, moment$MomentDuration } from 'moment';
@@ -34,7 +35,7 @@ export function isoDateString(date: DateLike): string {
 export function isoDateStringObject(
 	dates: StartEndDateLikeObject
 ): StartEndDateStringObject {
-	const newDates: {[string]: string} = {};
+	const newDates: { [string]: string } = {};
 
 	for (let [key, date] of Object.entries(dates)) {
 		let dateString = isoDateString(date);
@@ -44,10 +45,8 @@ export function isoDateStringObject(
 	return newDates;
 }
 
-export function datesObject(
-	dates: StartEndDateLikeObject
-): StartEndDateObject {
-	const newDates: {[string]: string} = {};
+export function datesObject(dates: StartEndDateLikeObject): StartEndDateObject {
+	const newDates: { [string]: string } = {};
 
 	for (let [key, date] of Object.entries(dates)) {
 		newDates[key] = new Date(date);
@@ -63,8 +62,10 @@ export function datesEqual(
 	let dates1 = isoDateStringObject(d1);
 	let dates2 = isoDateStringObject(d2);
 
-	return dates1.startDate === dates2.startDate
-		&& dates1.endDate === dates2.endDate;
+	return (
+		dates1.startDate === dates2.startDate &&
+		dates1.endDate === dates2.endDate
+	);
 }
 
 export function renderDate(date: DateLike, explicit: boolean = false): string {
@@ -76,30 +77,38 @@ export function renderDateTime(date: DateLike): string {
 	return date ? moment(date).calendar() : '';
 }
 
+export function renderYearRange(startDate: DateLike, endDate: DateLike) {
+	return `${moment(startDate).year()}–${moment(endDate).year()}`;
+}
+
 export function renderDateRange(
 	startDate: DateLike,
 	endDate: DateLike,
 	explicit: boolean = false
 ): string {
-	if (startDate === null && endDate === null)
-		return 'All time';
+	if (startDate === null && endDate === null) return 'All time';
 
-	let range = moment(startDate).twix(endDate, {allDay: true});
-	return (
-		isoDateString(startDate) === isoDateString(moment(startDate).startOf('month'))
-		&& isoDateString(endDate) === isoDateString(moment(endDate).endOf('month'))
-		&& !explicit
-	)
-		? range.format({
-			dayFormat: '_',
-			monthFormat: 'MMMM'
-		}).replace(/\s+_/g, '')
+	let range = moment(startDate).twix(endDate, { allDay: true });
+	return isoDateString(startDate) ===
+		isoDateString(moment(startDate).startOf('month')) &&
+		isoDateString(endDate) ===
+			isoDateString(moment(endDate).endOf('month')) &&
+		!explicit
+		? range
+				.format({
+					dayFormat: '_',
+					monthFormat: 'MMMM'
+				})
+				.replace(/\s+_/g, '')
 		: range.format({
-			monthFormat: 'MMMM'
-		});
+				monthFormat: 'MMMM'
+		  });
 }
 
-export function renderDateRangeExplicit(startDate: DateLike, endDate: DateLike): string {
+export function renderDateRangeExplicit(
+	startDate: DateLike,
+	endDate: DateLike
+): string {
 	return renderDateRange(startDate, endDate, true);
 }
 
@@ -124,7 +133,9 @@ export function thisMonth() {
 }
 
 export function lastMonth() {
-	const startDate = moment().startOf('month').subtract(1, 'month');
+	const startDate = moment()
+		.startOf('month')
+		.subtract(1, 'month');
 	const endDate = moment(startDate).endOf('month');
 
 	return {
@@ -135,9 +146,10 @@ export function lastMonth() {
 
 export function currentQuarter() {
 	let startDate = moment().startOf('month');
-	while(startDate.month() % 3 !== 0)
-		startDate.subtract(1, 'month');
-	let endDate = moment(startDate).add(2, 'months').endOf('month');
+	while (startDate.month() % 3 !== 0) startDate.subtract(1, 'month');
+	let endDate = moment(startDate)
+		.add(2, 'months')
+		.endOf('month');
 
 	return {
 		startDate,
@@ -147,10 +159,11 @@ export function currentQuarter() {
 
 export function lastQuarter() {
 	let startDate = moment().startOf('month');
-	while(startDate.month() % 3 !== 0)
-		startDate.subtract(1, 'month');
+	while (startDate.month() % 3 !== 0) startDate.subtract(1, 'month');
 	startDate.subtract(3, 'months');
-	let endDate = moment(startDate).add(2, 'months').endOf('month');
+	let endDate = moment(startDate)
+		.add(2, 'months')
+		.endOf('month');
 
 	return {
 		startDate,
@@ -160,9 +173,10 @@ export function lastQuarter() {
 
 export function currentSemester() {
 	let startDate = moment().startOf('month');
-	while(startDate.month() % 6 !== 0)
-		startDate.subtract(1, 'month');
-	let endDate = moment(startDate).add(5, 'months').endOf('month');
+	while (startDate.month() % 6 !== 0) startDate.subtract(1, 'month');
+	let endDate = moment(startDate)
+		.add(5, 'months')
+		.endOf('month');
 
 	return {
 		startDate,
@@ -172,10 +186,11 @@ export function currentSemester() {
 
 export function lastSemester() {
 	let startDate = moment().startOf('month');
-	while(startDate.month() % 6 !== 0)
-		startDate.subtract(1, 'month');
+	while (startDate.month() % 6 !== 0) startDate.subtract(1, 'month');
 	startDate.subtract(6, 'months');
-	let endDate = moment(startDate).add(5, 'months').endOf('month');
+	let endDate = moment(startDate)
+		.add(5, 'months')
+		.endOf('month');
 
 	return {
 		startDate,
@@ -185,9 +200,10 @@ export function lastSemester() {
 
 export function currentYear() {
 	let startDate = moment().startOf('month');
-	while(startDate.month() !== 6)
-		startDate.subtract(1, 'month');
-	let endDate = moment(startDate).add(11, 'months').endOf('month');
+	while (startDate.month() !== 6) startDate.subtract(1, 'month');
+	let endDate = moment(startDate)
+		.add(11, 'months')
+		.endOf('month');
 
 	return {
 		startDate,
@@ -197,10 +213,11 @@ export function currentYear() {
 
 export function lastYear() {
 	let startDate = moment().startOf('month');
-	while(startDate.month() !== 6)
-		startDate.subtract(1, 'month');
+	while (startDate.month() !== 6) startDate.subtract(1, 'month');
 	startDate.subtract(1, 'year');
-	let endDate = moment(startDate).add(11, 'months').endOf('month');
+	let endDate = moment(startDate)
+		.add(11, 'months')
+		.endOf('month');
 
 	return {
 		startDate,
@@ -218,17 +235,19 @@ export function allTime() {
 export function academicYearForDate(date: DateLike) {
 	date = moment(date);
 
-
-	let startYear = (date.month() >= 6) // July
-		? date.year()
-		: date.year() - 1;
+	let startYear =
+		date.month() >= 6 // July
+			? date.year()
+			: date.year() - 1;
 
 	let startDate = {
 		year: startYear,
 		month: 6,
 		day: 1
 	};
-	let endDate = moment(startDate).add(1, 'year').subtract(1, 'day');
+	let endDate = moment(startDate)
+		.add(1, 'year')
+		.subtract(1, 'day');
 
 	return {
 		startDate,
@@ -238,10 +257,11 @@ export function academicYearForDate(date: DateLike) {
 
 export function semesterForDate(date: DateLike) {
 	let startDate = moment(date).startOf('month');
-	while (startDate.month() % 6 !== 0)
-		startDate.subtract(1, 'month');
+	while (startDate.month() % 6 !== 0) startDate.subtract(1, 'month');
 
-	let endDate = moment(startDate).add(5, 'months').endOf('month');
+	let endDate = moment(startDate)
+		.add(5, 'months')
+		.endOf('month');
 
 	return {
 		startDate,
@@ -251,10 +271,11 @@ export function semesterForDate(date: DateLike) {
 
 export function quarterForDate(date: DateLike) {
 	let startDate = moment(date).startOf('month');
-	while (startDate.month() % 3 !== 0)
-		startDate.subtract(1, 'month');
+	while (startDate.month() % 3 !== 0) startDate.subtract(1, 'month');
 
-	let endDate = moment(startDate).add(2, 'months').endOf('month');
+	let endDate = moment(startDate)
+		.add(2, 'months')
+		.endOf('month');
 
 	return {
 		startDate,
@@ -342,7 +363,9 @@ export type PhpDateInterval = {
 	weekday_behavior: number
 };
 
-export function parsePhpDateInterval(di: PhpDateInterval): moment$MomentDuration {
+export function parsePhpDateInterval(
+	di: PhpDateInterval
+): moment$MomentDuration {
 	return moment.duration({
 		years: di.y,
 		months: di.m,

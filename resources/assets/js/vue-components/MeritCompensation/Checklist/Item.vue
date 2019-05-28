@@ -8,7 +8,7 @@
 			<span class="item-text" v-html="markedUpText"></span>
 		</label>
 		<div v-if="previewing" class="previewing-info-container">
-			<div v-if="hasQuestions" class="text-right">
+			<div v-if="hasQuestions && !expandAll" class="text-right">
 				<show-hide-button v-model="expanded" class="btn btn-xs btn-default">
 					followup questions
 				</show-hide-button>
@@ -29,7 +29,7 @@
 				</table>
 			</div>
 		</div>
-		<div v-if="(checked || expanded) && hasQuestions" class="item-questions">
+		<div v-if="(checked || expanded || expandAll) && hasQuestions" class="item-questions">
 			<questionnaire-question v-for="(question, index) of questions"
 				:key="index"
 				:question="question"
@@ -40,6 +40,18 @@
 		</div>
 	</div>
 </template>
+
+<style>
+.checklist-item.readonly .control-label {
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.checklist-item.readonly .input-group-addon {
+	color: #555;
+	background-color: #eee;
+	border-color: #ccc;
+}
+</style>
 
 <script>
 import QuestionnaireQuestion from '@/vue-components/Questionnaire/Question/Question.vue';
@@ -101,6 +113,13 @@ export default {
 	},
 
 	computed: {
+		expandAll() {
+			return (
+				this.$route
+				&& this.$route.query
+				&& this.$route.query.expandAll
+			);
+		},
 		hasQuestions() {
 			return this.questions && this.questions.length > 0;
 		},
@@ -179,6 +198,7 @@ export default {
 		margin-bottom: 0.75em;
 		border-bottom: 1px solid transparent;
 		color: rgba(0, 0, 0, 0.5);
+		page-break-inside: avoid;
 	}
 
 	.checklist-item:hover {

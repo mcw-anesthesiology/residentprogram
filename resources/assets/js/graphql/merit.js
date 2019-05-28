@@ -85,6 +85,7 @@ export const MERIT_ADMINISTRATOR_STAFF_FIELDS = gql`
 export const YEARLY_OVERVIEW_FIELDS = gql`
 	fragment YearlyOverviewFields on MeritReport {
 		id
+		status
 		period_start
 		period_end
 		leadershipPositions
@@ -101,4 +102,32 @@ export const YEARLY_OVERVIEW_FIELDS = gql`
 			yearInitiated
 		}
 	}
+`;
+
+export const INDIVIDUAL_DASHBOARD_FIELDS = gql`
+	fragment IndividualDashboardFields on MeritReport {
+		...YearlyOverviewFields
+		committeeParticipation {
+			organization
+			committees {
+				name
+				role
+			}
+		}
+		nihStudySectionMember
+		editorialBoards {
+			journal
+			role
+		}
+		directorships {
+			clinicalService
+			simulationCenter
+			visitingRotators
+		}
+		interviews {
+			description
+			date
+		}
+	}
+	${YEARLY_OVERVIEW_FIELDS}
 `;

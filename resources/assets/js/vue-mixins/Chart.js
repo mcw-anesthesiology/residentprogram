@@ -2,7 +2,7 @@
 
 import merge from 'deepmerge';
 
-import { Line } from 'vue-chartjs';
+import { Bar, HorizontalBar, Line } from 'vue-chartjs';
 
 const Chart = {
 	props: {
@@ -14,6 +14,14 @@ const Chart = {
 		},
 		styleDatasets: {
 			default: true
+		},
+		data: {
+			type: Object,
+			default: () => {}
+		},
+		options: {
+			type: Object,
+			default: () => {}
 		}
 	},
 	mounted() {
@@ -24,11 +32,28 @@ const Chart = {
 		transformedOptions: 'renderTransformedChart'
 	},
 	computed: {
+		chartData() {
+			return this.data;
+		},
+		chartOptions() {
+			return (
+				this.options || {
+					legend: {
+						position: 'bottom'
+					}
+				}
+			);
+		},
 		transformedChartData() {
-			return this.chartData;
+			if (!this.styleDatasets) return this.chartData;
+
+			return {
+				...this.chartData,
+				datasets: this.chartData.datasets.map(colorDataset)
+			};
 		},
 		transformedOptions() {
-			return this.options;
+			return this.chartOptions;
 		}
 	},
 	methods: {
@@ -37,6 +62,9 @@ const Chart = {
 				this.transformedChartData,
 				this.transformedOptions
 			);
+		},
+		getChartImage() {
+			return this.$data._chart.toBase64Image();
 		}
 	}
 };
@@ -84,7 +112,7 @@ function pointStyle(i) {
 	};
 }
 
-export const BACKGROUND_OPACITY = 0.3;
+export const BACKGROUND_OPACITY = 0.4;
 export const BORDER_OPACITY = 0.7;
 
 function color(i) {
@@ -92,6 +120,7 @@ function color(i) {
 	return {
 		backgroundColor: `rgba(${ringValue(COLORS, i)}, ${BACKGROUND_OPACITY})`,
 		borderColor,
+		borderWidth: 2,
 		pointBackgroundColor: borderColor
 	};
 }
@@ -101,61 +130,133 @@ export const LineChart = {
 	computed: {
 		transformedOptions() {
 			const padding = 5;
+			const options = {
+				legend: {
+					position: 'bottom',
+					labels: {
+						usePointStyle: true
+					}
+				},
+				scales: {
+					yAxes: [
+						{
+							...(this.yLabel && {
+								scaleLabel: {
+									display: true,
+									labelString: this.yLabel
+								}
+							}),
+							ticks: {
+								precision: 0,
+								beginAtZero: true,
+								padding
+							}
+						}
+					],
+					xAxes: [
+						{
+							ticks: {
+								padding
+							}
+						}
+					]
+				}
+			};
+
+			/* eslint-disable no-mixed-spaces-and-tabs */
+			return this.chartOptions
+				? merge(options, this.chartOptions, {
+						arrayMerge: combineMerge
+				  })
+				: options;
+			/* eslint-enable no-mixed-spaces-and-tabs */
+		}
+	}
+};
+
+export const BarChart = {
+	mixins: [Bar, Chart],
+	computed: {
+		chartOptions() {
 			return merge(
 				{
-					legend: {
-						labels: {
-							usePointStyle: true
-						}
-					},
 					scales: {
 						yAxes: [
 							{
-								...this.yLabel && {
-									scaleLabel: {
-										display: true,
-										labelString: this.yLabel,
-									}
-								},
 								ticks: {
 									precision: 0,
-									beginAtZero: true,
-									padding
+									beginAtZero: true
+								},
+								gridLines: {
+									color: 'rgba(0, 0, 0, 0.5)'
 								}
 							}
 						],
 						xAxes: [
 							{
-								ticks: {
-									padding
+								gridLines: {
+									color: 'rgba(0, 0, 0, 0.5)'
 								}
 							}
 						]
 					}
 				},
 				this.options || {},
-				{arrayMerge: combineMerge}
+				{
+					arrayMerge: combineMerge
+				}
 			);
-		},
-		transformedChartData() {
-			if (!this.styleDatasets) return this.chartData;
-
-			return {
-				...this.chartData,
-				datasets: this.chartData.datasets.map((dataset, index) => {
-					return merge(
-						{
-							fill: false,
-							...pointStyle(index),
-							...color(index)
-						},
-						dataset
-					);
-				})
-			};
 		}
 	}
 };
+
+export const HorizontalBarChart = {
+	mixins: [HorizontalBar, Chart],
+	computed: {
+		chartOptions() {
+			return merge(
+				{
+					aspectRatio: 0.5,
+					scales: {
+						xAxes: [
+							{
+								ticks: {
+									precision: 0,
+									beginAtZero: true
+								},
+								gridLines: {
+									color: 'rgba(0, 0, 0, 0.5)'
+								}
+							}
+						],
+						yAxes: [
+							{
+								gridLines: {
+									color: 'rgba(0, 0, 0, 0.5)'
+								}
+							}
+						]
+					}
+				},
+				this.options || {},
+				{
+					arrayMerge: combineMerge
+				}
+			);
+		}
+	}
+};
+
+export function colorDataset(dataset, index) {
+	return merge(
+		{
+			fill: false,
+			...pointStyle(index),
+			...color(index)
+		},
+		dataset
+	);
+}
 
 function emptyTarget(value) {
 	return Array.isArray(value) ? [] : {};

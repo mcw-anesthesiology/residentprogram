@@ -3,6 +3,9 @@
 
 export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 export const GRAPHQL_URI = `${process.env.APP_URL}/graphql`;
+export const PRINTER_ENDPOINT = process.env.NODE_ENV === 'development'
+	? 'http://localhost:3000'
+	: 'https://printer.mcw-anesth.tech';
 
 export const NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
 

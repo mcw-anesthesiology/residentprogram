@@ -30,6 +30,8 @@ class ExternalEvaluationController extends Controller
 			'requestor:id,first_name,last_name'
 		])->whereHas('form', function($query) {
 			$query->where('evaluator_type', 'external');
+		})->orWhereHas('evaluator', function($query) {
+			$query->where('type', 'external');
 		})->between($request->input('startDate'), $request->input('endDate'))
 		->get();
 	}
