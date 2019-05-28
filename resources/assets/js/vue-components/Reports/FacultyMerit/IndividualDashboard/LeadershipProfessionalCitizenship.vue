@@ -103,6 +103,10 @@
 	flex-shrink: 1;
 }
 
+th {
+	font-weight: normal;
+}
+
 .summary th,
 .summary td {
 	padding: 0.25em 0.5em;

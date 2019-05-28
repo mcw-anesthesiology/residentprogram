@@ -69,6 +69,10 @@ td {
 	padding: 0.5em 1em;
 }
 
+th {
+	font-weight: normal;
+}
+
 td {
 	text-align: right;
 	font-family: monospace;

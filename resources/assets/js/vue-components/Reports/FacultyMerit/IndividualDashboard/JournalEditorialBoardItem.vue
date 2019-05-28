@@ -23,7 +23,7 @@ h4 {
 }
 
 ul {
-	padding-left: 1em;
+	padding-left: 2em;
 }
 </style>
 
