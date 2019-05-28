@@ -1,8 +1,8 @@
 <template>
 	<li class="journal-editorial-board-item">
-		<span>
+		<h4>
 			{{ journal }}
-		</span>
+		</h4>
 
 		<ul>
 			<li v-for="{ period, role } of roles" :key="role">
@@ -14,12 +14,16 @@
 </template>
 
 <style scoped>
-.journal-editorial-board-item > span {
-	font-size: 1.1em;
+.journal-editorial-board-item {
+	list-style: none;
+}
+
+h4 {
+	font-size: 1.25em;
 }
 
 ul {
-	font-size: 0.9em;
+	padding-left: 1em;
 }
 </style>
 

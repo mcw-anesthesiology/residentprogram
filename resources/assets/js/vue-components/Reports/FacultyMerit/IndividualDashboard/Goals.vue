@@ -4,7 +4,7 @@
 
 		<ol>
 			<goals-item heading="Faculty development" />
-			<goals-item heading="Key indicators" />
+			<goals-item heading="Program development / Key initiatives" />
 			<goals-item heading="Academic productivity" />
 		</ol>
 

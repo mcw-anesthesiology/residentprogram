@@ -10,7 +10,7 @@
 		<div class="main-row">
 			<div class="table-container">
 				<table ref="table">
-					<thead>
+					<thead v-if="breakdownReports.size > 1">
 						<tr>
 							<th></th>
 							<th
@@ -232,16 +232,11 @@ ul {
 
 	table {
 		font-size: 0.8em;
-		color: #111;
 	}
 
 	.main-row {
 		flex-wrap: nowrap;
 		align-items: stretch;
-	}
-
-	.chart-container {
-
 	}
 
 	.chart-container img {
@@ -254,11 +249,6 @@ ul {
 
 	.chart-container :global(canvas) {
 		display: none !important;
-	}
-
-	th, td {
-		border-color: #111;
-		padding: 0.25em 0.5em;
 	}
 
 	.sub-row th {

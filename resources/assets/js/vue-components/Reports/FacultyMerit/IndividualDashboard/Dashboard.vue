@@ -30,7 +30,7 @@
 		</template>
 
 		<div class="text-center noprint">
-			<print-element-button target=".individual-dashboard" landscape>
+			<print-element-button target=".individual-dashboard" :options="printOptions">
 				Print
 			</print-element-button>
 		</div>
@@ -44,6 +44,10 @@ header {
 	justify-content: space-between;
 }
 
+.individual-dashboard {
+	-webkit-print-color-adjust: exact;
+}
+
 .individual-dashboard :global(h1),
 .individual-dashboard :global(h2),
 .individual-dashboard :global(h3),
@@ -52,8 +56,24 @@ header {
 	margin-top: 0;
 }
 
-.dashboard-container {
-	background: #f0f0f0;
+.dashboard-container > :global(*) {
+	width: 50%;
+}
+
+.dashboard-container > :global(:nth-child(odd)) {
+	clear: left;
+	float: left;
+}
+
+.dashboard-container > :global(:nth-child(even)) {
+	clear: right;
+	float: right;
+}
+
+.dashboard-container::after {
+	content: '';
+	display: table;
+	clear: both;
 }
 
 dl {
@@ -72,16 +92,7 @@ dt, dd {
 		grid-template-columns: 1fr 1fr;
 		grid-gap: 0.5em;
 	}
-
-	@media (min-width: 768px) {
-		.dashboard-container {
-			display: grid;
-			grid-template-columns: repeat(2, 50%);
-			grid-template-rows: repeat(2, 50%);
-		}
-	}
 }
-
 @media print {
 	.individual-dashboard {
 		font-size: 0.75em;
@@ -90,9 +101,6 @@ dt, dd {
 	.dashboard-container {
 		height: 100%;
 		width: 100%;
-		display: grid;
-		grid-template-columns: repeat(2, 50%);
-		grid-template-rows: minmax(200px, 1fr) minmax(200px, 2fr);
 	}
 }
 </style>
@@ -143,7 +151,11 @@ export default {
 	},
 	data() {
 		return {
-			user: null
+			user: null,
+			printOptions: {
+				landscape: true,
+				printBackground: true
+			}
 		};
 	},
 	apollo: {
