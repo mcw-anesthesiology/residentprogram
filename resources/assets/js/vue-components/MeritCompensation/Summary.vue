@@ -1,17 +1,20 @@
 <template>
 	<div class="container body-block root-checklist">
 		<div class="controls-container">
-			<button type="button"
-					class="btn btn-default close-report-button"
-					@click="$emit('close')">
+			<button
+				type="button"
+				class="btn btn-default close-report-button"
+				@click="$emit('close')"
+			>
 				<span class="glyphicon glyphicon-chevron-left"></span>
 			</button>
-			<button type="button"
-					class="btn btn-lg btn-info print-report-button"
-					@click="handlePrint">
+			<print-element-button
+				class="btn btn-lg btn-info print-report-button"
+				target=".root-checklist"
+			>
 				<span class="glyphicon glyphicon-print"></span>
 				Print
-			</button>
+			</print-element-button>
 		</div>
 		<h1>{{ title }}</h1>
 		<div class="form-summary panel panel-default">
@@ -38,24 +41,19 @@
 						</tr>
 					</tbody>
 				</table>
-
 			</div>
 		</div>
 
-		<merit-compensation-score :checklist="checklist"
-			:title="title" />
+		<merit-compensation-score :checklist="checklist" :title="title" />
 
-		<print-view-checklist :report="report">
-		</print-view-checklist>
+		<print-view-checklist :report="report"></print-view-checklist>
 
-		<div v-if="notes" v-cloak
-				class="panel panel-default notes-container">
+		<div v-if="notes" v-cloak class="panel panel-default notes-container">
 			<div class="panel-heading">
 				Notes
 			</div>
 			<div class="panel-body">
-				<textarea class="form-control"
-					:value="notes" readonly>
+				<textarea class="form-control" :value="notes" readonly>
 				</textarea>
 			</div>
 		</div>
@@ -63,14 +61,17 @@
 </template>
 
 <script>
+/** @format */
+
 import moment from 'moment';
 
 import PrintViewChecklist from './Checklist/PrintView/Checklist.vue';
 import MeritCompensationScore from './Checklist/Score.vue';
 
-import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
-import LoadingButton from '@/vue-components/LoadingButton.vue';
-import RichDateRange from '@/vue-components/RichDateRange.vue';
+import AcademicYearSelector from '#/AcademicYearSelector.vue';
+import LoadingButton from '#/LoadingButton.vue';
+import RichDateRange from '#/RichDateRange.vue';
+import PrintElementButton from '#/PrintElementButton.vue';
 
 import { isoDateString } from '@/modules/date-utils.js';
 import { getCheckedItemCount } from '@/modules/merit-utils.js';
@@ -135,10 +136,12 @@ export default {
 
 	watch: {
 		period_start(period_start) {
-			this.dates = Object.assign({}, this.dates, {startDate: period_start});
+			this.dates = Object.assign({}, this.dates, {
+				startDate: period_start
+			});
 		},
 		period_end(period_end) {
-			this.dates = Object.assign({}, this.dates, {endDate: period_end});
+			this.dates = Object.assign({}, this.dates, { endDate: period_end });
 		},
 		report(report) {
 			this.checklist = report;
@@ -163,47 +166,48 @@ export default {
 
 		AcademicYearSelector,
 		LoadingButton,
-		RichDateRange
+		RichDateRange,
+		PrintElementButton
 	}
 };
 </script>
 
 <style scoped>
-	small {
-		font-size: 0.75em;
-		color: rgba(0, 0, 0, 0.55);
-		display: block;
+small {
+	font-size: 0.75em;
+	color: rgba(0, 0, 0, 0.55);
+	display: block;
+}
+
+.controls-container {
+	margin-bottom: 1em;
+}
+
+.print-report-button {
+	float: right;
+}
+
+.notes-container {
+	margin-top: 2em;
+}
+
+.root-checklist {
+	font-size: 1.25em;
+}
+
+h1 {
+	margin-top: 0.25em;
+	margin-bottom: 0.75em;
+}
+
+@media print {
+	.root-checklist {
+		font-size: 0.85em;
+		margin: 0;
 	}
 
 	.controls-container {
-		margin-bottom: 1em;
+		display: none;
 	}
-
-	.print-report-button {
-		float: right;
-	}
-
-	.notes-container {
-		margin-top: 2em;
-	}
-
-	.root-checklist {
-		font-size: 1.25em;
-	}
-
-	h1 {
-		margin-top: 0.25em;
-		margin-bottom: 0.75em;
-	}
-
-	@media print {
-		.root-checklist {
-			font-size: 0.85em;
-			margin: 0;
-		}
-
-		.controls-container {
-			display: none;
-		}
-	}
+}
 </style>

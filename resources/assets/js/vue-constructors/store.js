@@ -15,7 +15,6 @@ import news from './store/news.js';
 import programs from './store/programs.js';
 import users from './store/users.js';
 
-
 const store = new Store({
 	modules: {
 		competencies,
@@ -37,7 +36,6 @@ const store = new Store({
 			state.user = user;
 		},
 		error(state, text) {
-
 			logError(text);
 			state.alerts.push({
 				type: 'error',
@@ -53,11 +51,14 @@ const store = new Store({
 	},
 	actions: {
 		fetchUser({ commit }) {
-			ky.get('/me').json().then(user => {
-				commit('setUser', user);
-			}).catch(err => {
-				commit('error', err);
-			});
+			ky.get('/me')
+				.json()
+				.then(user => {
+					commit('setUser', user);
+				})
+				.catch(err => {
+					console.error(err);
+				});
 		}
 	}
 });
@@ -65,4 +66,3 @@ const store = new Store({
 store.dispatch('fetchUser');
 
 export default store;
-

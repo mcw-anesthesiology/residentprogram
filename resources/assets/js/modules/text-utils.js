@@ -1,3 +1,4 @@
+/** @format */
 /* @flow */
 
 export function ucfirst(str: string): string {
@@ -5,19 +6,20 @@ export function ucfirst(str: string): string {
 }
 
 export function ucfirstWords(str: string): string {
-	return str.split(' ').map(ucfirst).join(' ');
+	return str
+		.split(' ')
+		.map(ucfirst)
+		.join(' ');
 }
 
 export function camelCaseToWords(str: string): string {
 	let result = '';
-	for(let char of str) {
+	for (let char of str) {
 		if (result === '') {
 			result += char.toUpperCase();
-		}
-		else if (char === char.toUpperCase()) {
+		} else if (char === char.toUpperCase()) {
 			result += ' ' + char.toLowerCase();
-		}
-		else {
+		} else {
 			result += char;
 		}
 	}
@@ -37,20 +39,31 @@ export function nl2br(text: string): string {
 }
 
 export function titleCase(text: string): string {
-	return text.split(' ').map(w => w.toLowerCase()).map(ucfirst).join(' ');
+	return text
+		.split(' ')
+		.map(w => w.toLowerCase())
+		.map(ucfirst)
+		.join(' ');
 }
 
-export function pluralize(noun: string, items: number, suffix: string = 's'): string {
-	if (items !== 1)
-		noun += suffix;
+export function enumToWords(text: string): string {
+	return text
+		.split('_')
+		.map(w => w.charAt(0) + w.substring(1).toLowerCase())
+		.join(' ');
+}
+
+export function pluralize(
+	noun: string,
+	items: number,
+	suffix: string = 's'
+): string {
+	if (items !== 1) noun += suffix;
 
 	return noun;
 }
 
-export const INSTITUTIONAL_ACRONYMS: Set<string> = new Set([
-	'MCW',
-	'CHW'
-]);
+export const INSTITUTIONAL_ACRONYMS: Set<string> = new Set(['MCW', 'CHW']);
 
 export const MEDICAL_ACRONYMS: Set<string> = new Set([
 	// Locations
@@ -89,13 +102,10 @@ export const MEDICAL_ACRONYMS: Set<string> = new Set([
 	'CT',
 	'MRI',
 
-	'(IT)',
+	'(IT)'
 ]);
 
-export const COMMON_ACRONYMS: Set<string> = new Set([
-	'Y.O.',
-	'N/A'
-]);
+export const COMMON_ACRONYMS: Set<string> = new Set(['Y.O.', 'N/A']);
 
 export const ALL_ACRONYMS: Set<string> = new Set([
 	...INSTITUTIONAL_ACRONYMS.values(),

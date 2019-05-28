@@ -1,11 +1,21 @@
 <template>
 	<div>
 		<div class="close-container">
-			<button type="button"
-					class="btn btn-default close-report-button"
-					@click="handleClose">
+			<button
+				type="button"
+				class="btn btn-default close-report-button"
+				@click="handleClose"
+			>
 				<span class="glyphicon glyphicon-chevron-left"></span>
 			</button>
+
+			<save-status
+				:unsaved="unsaved"
+				:saving="saving"
+				:save-successful="savingSuccessful"
+				:saved-locally="savedLocally"
+				@save="handleSave"
+			/>
 		</div>
 		<div class="form-summary panel panel-default">
 			<div class="panel-body">
@@ -17,7 +27,10 @@
 					<div v-else class="col-sm-6 form-group">
 						<label class="containing-label">
 							Report period
-							<academic-year-selector v-model="dates" :min-date="lastMonth" />
+							<academic-year-selector
+								v-model="dates"
+								:min-date="lastMonth"
+							/>
 						</label>
 					</div>
 
@@ -41,24 +54,30 @@
 			:unsaved="unsaved"
 			:saving="saving"
 			:save-successful="savingSuccessful"
+			:saved-locally="savedLocally"
 			@input="handleChecklistInput"
 			@save="handleSave"
 			@close="handleClose"
-			@submit="handleComplete" />
+			@submit="handleComplete"
+		/>
 
-		<div v-if="!show.notes && (notes || userIsAdmin)"
-				class="panel panel-default notes-container">
+		<div
+			v-if="!show.notes && (notes || userIsAdmin)"
+			class="panel panel-default notes-container"
+		>
 			<div class="panel-heading">
 				Notes
 			</div>
 			<div class="panel-body">
-				<textarea class="form-control"
-					:value="notes" readonly>
+				<textarea class="form-control" :value="notes" readonly>
 				</textarea>
 			</div>
 			<div v-if="userIsAdmin" class="panel-footer text-center">
-				<button type="button" class="btn btn-info"
-						@click="show.notes = true">
+				<button
+					type="button"
+					class="btn btn-info"
+					@click="show.notes = true"
+				>
 					Edit notes
 				</button>
 			</div>
@@ -68,21 +87,27 @@
 				Notes
 			</div>
 			<div class="panel-body">
-				<textarea class="form-control"
-					v-model="inputNotes">
-				</textarea>
+				<textarea class="form-control" v-model="inputNotes"> </textarea>
 			</div>
 			<div class="panel-footer text-center">
-				<button type="button" class="btn btn-default"
-						@click="show.notes = false">
+				<button
+					type="button"
+					class="btn btn-default"
+					@click="show.notes = false"
+				>
 					Cancel
 				</button>
-				<loading-button loading-class="btn-primary"
-						tooltip="Saved!"
-						:loading="saving"
-						:successful="savingSuccessful">
-					<button type="button" class="btn btn-primary"
-							@click="handleSaveNotes">
+				<loading-button
+					loading-class="btn-primary"
+					tooltip="Saved!"
+					:loading="saving"
+					:successful="savingSuccessful"
+				>
+					<button
+						type="button"
+						class="btn btn-primary"
+						@click="handleSaveNotes"
+					>
 						Save notes
 					</button>
 				</loading-button>
@@ -92,16 +117,20 @@
 </template>
 
 <script>
+/** @format */
+
 import moment from 'moment';
+import * as localforage from 'localforage';
 
 import MeritCompensationChecklist from './Checklist/Checklist.vue';
+import SaveStatus from './Checklist/SaveStatus.vue';
 
 import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
 import LoadingButton from '@/vue-components/LoadingButton.vue';
 import RichDate from '@/vue-components/RichDate.vue';
 import RichDateRange from '@/vue-components/RichDateRange.vue';
 
-import { emitError } from '@/modules/errors.js';
+import { logError, emitError } from '@/modules/errors.js';
 import { isoDateString } from '@/modules/date-utils.js';
 import { getCheckedItemCount } from '@/modules/merit-utils.js';
 import { isAdmin, getFetchHeaders, okOrThrow } from '@/modules/utils.js';
@@ -137,15 +166,15 @@ export default {
 			required: false
 		},
 		user_id: {
-			type: [ String, Number ],
+			type: [String, Number],
 			required: true
 		},
 		form_id: {
-			type: [ String, Number ],
+			type: [String, Number],
 			required: true
 		},
 		updated_at: {
-			type: Date,
+			type: [Date, String],
 			required: true
 		},
 		currentUser: {
@@ -165,7 +194,8 @@ export default {
 
 			unsaved: false,
 			saving: false,
-			savingSuccessful: false,
+			savingSuccessful: null,
+			savedLocally: false,
 
 			show: {
 				notes: false
@@ -173,15 +203,53 @@ export default {
 		};
 	},
 
+	mounted() {
+		window.addEventListener('beforeunload', this.beforeunloadHandler);
+
+		localforage
+			.getItem(this.localforageKey)
+			.then(value => {
+				if (value && value.checklist && value.updatedAt) {
+					if (moment(value.updatedAt) > moment(this.updated_at)) {
+						this.savedLocally = true;
+						this.handleChecklistInput(value.checklist, false);
+					}
+				}
+			})
+			.catch(err => {
+				logError(err);
+			});
+	},
+
+	beforeDestroy() {
+		window.removeEventListener('beforeunload', this.beforeunloadHandler);
+	},
+
 	computed: {
+		beforeunloadHandler() {
+			return this.handleBeforeunload.bind(this);
+		},
+		closeConfirmationMessage() {
+			let message =
+				'WARNING: You have unsaved changes. Are you sure you want to exit?';
+			if (this.savedLocally) {
+				message +=
+					' Your changes have been saved locally to your web browser.';
+			}
+
+			return message;
+		},
+		localforageKey() {
+			return `merit-checklist:${this.id}`;
+		},
 		userIsAdmin() {
 			return isAdmin(this.currentUser);
 		},
+		userIsChecklistSubject() {
+			return this.currentUser.id == this.user_id; // eslint-disable-line eqeqeq
+		},
 		readonly() {
-			return ![
-				'PENDING',
-				'OPEN'
-			].includes(this.status);
+			return !['PENDING', 'OPEN'].includes(this.status);
 		},
 		checkedItems() {
 			return getCheckedItemCount(this.report);
@@ -193,10 +261,12 @@ export default {
 
 	watch: {
 		period_start(period_start) {
-			this.dates = Object.assign({}, this.dates, {startDate: period_start});
+			this.dates = Object.assign({}, this.dates, {
+				startDate: period_start
+			});
 		},
 		period_end(period_end) {
-			this.dates = Object.assign({}, this.dates, {endDate: period_end});
+			this.dates = Object.assign({}, this.dates, { endDate: period_end });
 		},
 		report(report) {
 			this.checklist = report;
@@ -204,39 +274,57 @@ export default {
 		notes(notes) {
 			this.inputNotes = notes;
 		},
-		savingSuccessful() {
-			window.setTimeout(() => {
-				this.savingSuccessful = false;
-			}, 2000);
+		savingSuccessful(successful) {
+			if (successful) {
+				window.setTimeout(() => {
+					this.savingSuccessful = null;
+				}, 2000);
+			}
 		}
 	},
 
 	methods: {
-		handleChecklistInput(checklist) {
-			if (this.readonly)
-				return;
+		handleBeforeunload(event) {
+			if (this.unsaved && !this.savedLocally) {
+				event.preventDefault();
+				event.returnValue = '';
+			}
+		},
+		handleChecklistInput(checklist, saveLocally = true) {
+			if (this.readonly) return;
 
 			this.checklist = Object.assign({}, this.checklist, checklist);
 			this.unsaved = true;
-			if (this.currentUser.id === this.user_id) {
+			if (saveLocally) {
+				localforage
+					.setItem(this.localforageKey, {
+						checklist,
+						updatedAt: new Date()
+					})
+					.then(() => {
+						this.savedLocally = true;
+					})
+					.catch(logError);
+			}
+
+			if (this.userIsChecklistSubject) {
 				this.handleSubmit(false);
 			}
 		},
 		handleSaveNotes() {
-			if (!this.userIsAdmin)
-				return;
+			if (!this.userIsAdmin) return;
 
-			this.$emit('save', {
-				id: this.id,
-				notes: this.inputNotes
-			}, false);
+			this.$emit(
+				'save',
+				{
+					id: this.id,
+					notes: this.inputNotes
+				},
+				false
+			);
 		},
 		handleSave() {
-			this.handleSubmit(false).then(() => {
-				if (this.savingSuccessful) {
-					this.$emit('reload');
-				}
-			});
+			this.handleSubmit(false);
 		},
 		handleComplete() {
 			this.handleSubmit(true).then(() => {
@@ -247,14 +335,12 @@ export default {
 			});
 		},
 		handleSubmit(isComplete) {
-			if (this.readonly || !this.currentUser || !this.user_id)
-				return;
+			if (this.readonly || !this.currentUser || !this.user_id) return;
 
 			const form_id = Number(this.form_id);
 			const user_id = Number(this.user_id);
 
-			if (Number.isNaN(form_id) || Number.isNaN(user_id))
-				return;
+			if (Number.isNaN(form_id) || Number.isNaN(user_id)) return;
 
 			const changes = {
 				_method: 'PATCH',
@@ -265,8 +351,7 @@ export default {
 				form_id
 			};
 
-			if (isComplete)
-				changes.status = 'complete';
+			if (isComplete) changes.status = 'complete';
 
 			let meritReport = Object.assign(
 				{
@@ -286,23 +371,42 @@ export default {
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
 				body: JSON.stringify(meritReport)
-			}).then(okOrThrow).then(() => {
-				this.unsaved = false;
-				this.savingSuccessful = true;
-				this.saving = false;
-			}).catch(err => {
-				this.savingSuccessful = false;
-				this.saving = false;
-				emitError(err, this, 'There was a problem saving the report');
-			});
+			})
+				.then(okOrThrow)
+				.then(() => {
+					this.unsaved = false;
+					this.savingSuccessful = true;
+					this.saving = false;
+					localforage
+						.removeItem(this.localforageKey)
+						.then(() => {
+							this.savedLocally = false;
+						})
+						.catch(logError);
+				})
+				.catch(err => {
+					this.savingSuccessful = false;
+					this.saving = false;
+					emitError(
+						err,
+						this,
+						'There was a problem saving the report'
+					);
+				});
+		},
+		confirmClose() {
+			return !this.unsaved || window.confirm(this.closeConfirmationMessage);
 		},
 		handleClose() {
-			this.$emit('close');
+			if (this.confirmClose()) {
+				this.$emit('close');
+			}
 		}
 	},
 
 	components: {
 		MeritCompensationChecklist,
+		SaveStatus,
 		AcademicYearSelector,
 		LoadingButton,
 		RichDate,
@@ -312,24 +416,27 @@ export default {
 </script>
 
 <style scoped>
-	small {
-		font-size: 0.75em;
-		color: rgba(0, 0, 0, 0.55);
-		display: block;
-	}
+small {
+	font-size: 0.75em;
+	color: rgba(0, 0, 0, 0.55);
+	display: block;
+}
 
-	.close-container {
-		margin-bottom: 1em;
-	}
+.close-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 1em;
+}
 
-	.notes-container {
-		margin-top: 2em;
-	}
+.notes-container {
+	margin-top: 2em;
+}
 
-	@media print {
-		.close-report-button,
-		.form-summary {
-			display: none;
-		}
+@media print {
+	.close-report-button,
+	.form-summary {
+		display: none;
 	}
+}
 </style>

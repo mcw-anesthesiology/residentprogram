@@ -341,7 +341,7 @@ export function groupUsers(users: Array<User>): Array<Select2OptGroup> {
 			text: user.full_name
 		};
 
-		if (user.status && user.status.toLowerCase() === 'active') {
+		if (!user.status || user.status.toLowerCase() === 'active') {
 			if (user.type) {
 				const type = user.type.toLowerCase();
 				if (

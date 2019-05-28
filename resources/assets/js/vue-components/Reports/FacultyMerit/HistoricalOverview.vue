@@ -2,13 +2,15 @@
 	<div class="container body-block">
 		<loading-placeholder v-if="$apollo.loading" />
 		<div v-else-if="meritReports">
-			<academic-productivity :reports="meritReports" />
+			<academic-productivity :reports="meritReports" :dates="dates" show-breakdowns />
 			<reports-yearly-overview :reports="meritReports" />
 		</div>
 	</div>
 </template>
 
 <script>
+/** @format */
+
 import gql from 'graphql-tag';
 
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
@@ -17,12 +19,14 @@ import AcademicProductivity from './AcademicProductivity.vue';
 
 import { YEARLY_OVERVIEW_FIELDS } from '@/graphql/merit.js';
 
-
 export default {
 	props: {
 		dates: Object,
 		formId: [String, Number],
-		completeOnly: Boolean
+		includeIncomplete: {
+			type: Boolean,
+			default: false
+		}
 	},
 	apollo: {
 		meritReports: {
@@ -45,7 +49,7 @@ export default {
 			variables() {
 				return {
 					...this.dates,
-					status: this.completeOnly ? 'COMPLETE' : undefined
+					status: this.includeIncomplete ? undefined : 'COMPLETE'
 				};
 			}
 		}

@@ -34,3 +34,13 @@ export const MANAGE_USER_FIELDS = gql`
 		}
 	}
 `;
+
+export const GROUP_USER_FIELDS = gql`
+	fragment SelectTwoGroupFields on User {
+		id
+		full_name
+		type
+		training_level
+		status
+	}
+`;

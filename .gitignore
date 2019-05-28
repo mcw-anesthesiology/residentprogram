@@ -4,11 +4,13 @@
 Homestead.yaml
 .env*
 /.vagrant
-public/build/js/stats.json
+/public/build/js/stats.json
 /public/ui-tester.html
 /public/ui-tester.js
 /public/build/
 /public/css/
 /public/js/
 /public/mix-manifest.json
+/public/.htaccess
+!/public/.htaccess.base
 /*.log

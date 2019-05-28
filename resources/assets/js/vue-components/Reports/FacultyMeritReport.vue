@@ -13,21 +13,26 @@
 				</router-link>
 			</fieldset>
 
-			<div class="controls-row row">
+			<form class="controls">
 				<fieldset>
 					<start-end-date :ranges="dateRanges" v-model="dates"
 						:render-range-name="n => n"
 					/>
 				</fieldset>
-			</div>
+
+				<label>
+					<input type="checkbox" v-model="includeIncomplete" />
+					Include incomplete reports
+				</label>
+			</form>
 		</div>
 
-		<router-view :dates="dates" :form-id="formId"></router-view>
+		<router-view :dates="dates" :form-id="formId" :include-incomplete="includeIncomplete"></router-view>
 	</div>
 </template>
 
 <style scoped>
-	.controls-row {
+	.controls {
 		margin: 2em 0;
 	}
 </style>
@@ -53,7 +58,8 @@ export default {
 		return {
 			dates: isoDateStringObject(currentYear()),
 			formId: undefined,
-			meritReportForms: []
+			meritReportForms: [],
+			includeIncomplete: false
 		};
 	},
 	apollo: {
