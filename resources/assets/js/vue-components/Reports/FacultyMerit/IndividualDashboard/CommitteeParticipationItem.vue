@@ -60,7 +60,7 @@ h5 {
 
 ol {
 	font-size: 0.875em;
-	padding-left: 1em;
+	padding-left: 1.5em;
 }
 </style>
 
