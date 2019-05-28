@@ -7,7 +7,6 @@
 				:reports="user.meritReports"
 				:show-chart="show.chart"
 				:show-breakdowns="show.breakdowns"
-				:additional-breakdowns="additionalBreakdowns"
 			/>
 		</div>
 
@@ -58,31 +57,6 @@ export default {
 				breakdowns: true
 			}
 		};
-	},
-
-	computed: {
-		additionalBreakdowns() {
-			return new Map([
-				[
-					'Goals',
-					[
-						{
-							publications: [
-								...Array(3).fill({
-									publicationType: 'Book / Text, First Ed.'
-								})
-							],
-							grants: [
-								...Array(1).fill({ type: 'EXISTING' }),
-								...Array(1).fill({ type: 'NEW' })
-							],
-							studies: Array(2),
-							leadershipPositions: 3
-						}
-					]
-				]
-			]);
-		}
 	},
 
 	components: {

@@ -53,24 +53,9 @@
 		</div>
 
 		<section class="details">
-			<section v-if="committeeParticipation.size > 0">
-				<h3>Committee participation</h3>
-				<ul>
-					<committee-participation-item
-						v-for="[organization, committees] of Array.from(
-							committeeParticipation.entries()
-						)"
-						:key="organization"
-						:organization="organization"
-						:committees="committees"
-						:showPeriods="multiplePeriods"
-					/>
-				</ul>
-			</section>
-
 			<section v-if="editorialBoards.size > 0">
 				<h3>Journal Editorial Board</h3>
-				<ul>
+				<ul class="journals">
 					<journal-editorial-board-item
 						v-for="[journal, roles] of Array.from(
 							editorialBoards.entries()
@@ -82,6 +67,21 @@
 					/>
 				</ul>
 			</section>
+
+			<section v-if="committeeParticipation.size > 0">
+				<h3>Committee participation</h3>
+				<div class="committees">
+					<committee-participation-item
+						v-for="[organization, committees] of Array.from(
+							committeeParticipation.entries()
+						)"
+						:key="organization"
+						:organization="organization"
+						:committees="committees"
+						:showPeriods="multiplePeriods"
+					/>
+				</div>
+			</section>
 		</section>
 	</section>
 </template>
@@ -89,10 +89,6 @@
 <style scoped>
 .leadership-professional-citizenship {
 	font-size: 1em;
-}
-
-h3 {
-	margin-top: 0;
 }
 
 .summary-container {
@@ -118,17 +114,31 @@ h3 {
 	width: 1em;
 }
 
-.details {
+h3 {
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+}
+
+.committees {
 	display: flex;
-	justify-content: space-around;
+	flex-wrap: wrap;
+	margin: -0.25em;
 }
 
-.details > * {
-	margin: 0.5em;
+.committees > :global(.committee-participation-item) {
+	margin: 0.25em;
 }
 
-.details > section > ul {
-	padding-left: 1em;
+.journals {
+	padding: 0;
+	margin: -0.5em;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.journals > :global(.journal-editorial-board-item) {
+	margin: 1em;
+	flex-grow: 1;
 }
 
 @media print {
@@ -177,6 +187,23 @@ export default {
 				}
 			}
 
+			for (const [org, committees] of map.entries()) {
+				const orgMap = new Map();
+
+				for (const committee of committees) {
+					let roles = orgMap.get(committee.role);
+
+					if (!roles) {
+						roles = [];
+						orgMap.set(committee.role, roles);
+					}
+
+					roles.push(committee);
+				}
+
+				map.set(org, orgMap);
+			}
+
 			return map;
 		},
 		editorialBoards() {
@@ -202,7 +229,7 @@ export default {
 			return map;
 		},
 		numCommitteeParticipation() {
-			return this.sumCollection(this.committeeParticipation);
+			return Array.from(this.committeeParticipation.values()).reduce((total, org) => total + this.sumCollection(org), 0);
 		},
 		numEditorialBoards() {
 			return this.sumCollection(this.editorialBoards);
@@ -212,7 +239,6 @@ export default {
 		},
 		directorOfSimulationCenter() {
 			return this.user.meritReports.some(report => report.directorships && report.directorships.simulationCenter.length > 0);
-
 		},
 		directorOfVisitingRotators() {
 			return this.user.meritReports.some(report => report.directorships && report.directorships.visitingRotators.length > 0);

@@ -188,14 +188,14 @@ export const BarChart = {
 									beginAtZero: true
 								},
 								gridLines: {
-									color: 'rgba(0, 0, 0, 0.5)'
+									color: '#ccc'
 								}
 							}
 						],
 						xAxes: [
 							{
 								gridLines: {
-									color: 'rgba(0, 0, 0, 0.5)'
+									color: '#ccc'
 								}
 							}
 						]
@@ -225,17 +225,20 @@ export const HorizontalBarChart = {
 									beginAtZero: true
 								},
 								gridLines: {
-									color: 'rgba(0, 0, 0, 0.5)'
+									color: '#ccc'
 								}
 							}
 						],
 						yAxes: [
 							{
 								gridLines: {
-									color: 'rgba(0, 0, 0, 0.5)'
+									color: '#ccc'
 								}
 							}
 						]
+					},
+					legend: {
+						position: 'bottom'
 					}
 				},
 				this.options || {},
