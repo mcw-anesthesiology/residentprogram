@@ -143,11 +143,13 @@
 		</div>
 		<div class="chart-container" v-if="showChart">
 			<apex-chart
+				ref="chart"
 				type="bar"
 				:height="chartHeight"
 				:options="chartOptions"
 				:series="chartSeries"
 			/>
+			<img v-if="chartImage && chartImage !== 'data:,'" :src="chartImage" />
 		</div>
 	</section>
 </template>
@@ -218,6 +220,12 @@ ul {
 	flex-shrink: 1;
 }
 
+.chart-container > img {
+	display: none;
+	width: 100%;
+	height: auto;
+}
+
 @media print {
 	button {
 		display: none;
@@ -234,6 +242,14 @@ ul {
 
 	.sub-row td {
 		padding-right: 1.5em;
+	}
+
+	.chart-container > :global(div) {
+		display: none;
+	}
+
+	.chart-container > img {
+		display: block;
 	}
 
 	:global(.apexcharts-toolbar) {
@@ -281,6 +297,11 @@ export default {
 		showChart: {
 			type: Boolean
 		}
+	},
+	data() {
+		return {
+			chartImage: null
+		};
 	},
 	computed: {
 		getBreakdownKey() {
@@ -357,9 +378,15 @@ export default {
 			return 100 + 36 * this.breakdownReports.size;
 		},
 		chartOptions() {
+			const imageUpdater = this.updateChartImage.bind(this);
+
 			return {
 				chart: {
-					stacked: true
+					stacked: true,
+					events: {
+						mounted: imageUpdater,
+						updated: imageUpdater
+					}
 				},
 				xaxis: {
 					categories: [...this.breakdownReports.keys()],
@@ -441,6 +468,11 @@ export default {
 	},
 	methods: {
 		ucfirst,
+		updateChartImage() {
+			this.$nextTick(async () => {
+				this.chartImage = await this.$refs.chart.dataURI();
+			});
+		},
 		sortedGroup(arr, key) {
 			return sortBy(groupBy(arr, key), 0);
 		},
