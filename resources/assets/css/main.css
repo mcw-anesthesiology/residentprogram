@@ -1,3 +1,5 @@
+/** @format */
+
 html {
 	font-size: 16px;
 }
@@ -31,29 +33,27 @@ h6 {
 	font-size: 0.75em;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
 	margin-top: 1.15em;
 	margin-bottom: 0.625em;
 }
 
-ol, ul {
+ol,
+ul {
 	padding-left: 2.5em;
 }
 
 .body-block {
 	background-color: white;
-	-webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
 	border-radius: 2px;
 	border: 0 solid #000;
 	padding: 20px;
 	margin-top: 10px;
 	margin-bottom: 30px;
 }
-
 
 /*
  * Global add-ons
@@ -63,7 +63,6 @@ ol, ul {
 	padding-bottom: 0.625em;
 	border-bottom: 1px solid #eee;
 }
-
 
 /*
  * Sidebar
@@ -128,7 +127,6 @@ ol, ul {
 	margin-top: 0;
 }
 
-
 /*
  * Placeholder dashboard ideas
  */
@@ -180,7 +178,6 @@ ol, ul {
 .badge-disabled {
 	background-color: #b94a48;
 }
-
 
 .select-or {
 	position: relative;
@@ -294,7 +291,6 @@ ol, ul {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 	background-color: rgba(0, 0, 0, 0.02);
 }
-
 
 .flexbox.flexwrap .question-body,
 .flexbox.flexwrap .na-option-container {
@@ -410,6 +406,14 @@ ol, ul {
 }
 
 @media print {
+	html,
+	body,
+	main {
+		padding: 0 !important;
+		margin: 0 !important;
+		background: none;
+	}
+
 	.print {
 		display: block;
 		overflow: visible;
@@ -421,16 +425,12 @@ ol, ul {
 		display: none;
 	}
 
-	table {
-		width: 100%;
-	}
-
 	.question-footer {
 		display: none;
 	}
 
-	body {
-		padding: 0 !important;
+	.body-block {
+		box-shadow: none;
 	}
 
 	.body-block:first-child {
@@ -504,17 +504,24 @@ label > button,
 	width: 100% !important;
 }
 
-.input-group .select2.select2-container.select2-container--bootstrap .select2-selection {
+.input-group
+	.select2.select2-container.select2-container--bootstrap
+	.select2-selection {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 }
 
-.input-group.no-right-addons .select2.select2-container.select2-container--bootstrap .select2-selection {
+.input-group.no-right-addons
+	.select2.select2-container.select2-container--bootstrap
+	.select2-selection {
 	border-top-right-radius: 4px;
 	border-bottom-right-radius: 4px;
 }
 
-.input-group-addon + .input-group .select2.select2-containerselect2-container--bootstrap .select2-selection {
+.input-group-addon
+	+ .input-group
+	.select2.select2-containerselect2-container--bootstrap
+	.select2-selection {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
@@ -573,14 +580,14 @@ select-two {
 	transition: opacity 0.15s;
 }
 
-.tooltip[aria-hidden="false"] {
+.tooltip[aria-hidden='false'] {
 	visibility: visible;
 	opacity: 1;
 }
 
 /* Don't let <input type="hidden" /> break first .input-group control */
 
-.input-group input[type="hidden"]:first-child + .form-control {
+.input-group input[type='hidden']:first-child + .form-control {
 	border-top-left-radius: 4px;
 	border-bottom-left-radius: 4px;
 }

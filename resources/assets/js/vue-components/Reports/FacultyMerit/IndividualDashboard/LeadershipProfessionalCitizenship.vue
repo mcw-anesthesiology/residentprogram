@@ -55,7 +55,7 @@
 		<section class="details">
 			<section v-if="editorialBoards.size > 0">
 				<h3>Journal Editorial Board</h3>
-				<ul class="journals">
+				<section class="journals">
 					<journal-editorial-board-item
 						v-for="[journal, roles] of Array.from(
 							editorialBoards.entries()
@@ -65,7 +65,7 @@
 						:roles="roles"
 						:showPeriods="multiplePeriods"
 					/>
-				</ul>
+				</section>
 			</section>
 
 			<section v-if="committeeParticipation.size > 0">
@@ -110,6 +110,10 @@ th {
 .summary th,
 .summary td {
 	padding: 0.25em 0.5em;
+}
+
+.summary td {
+	text-align: center;
 }
 
 .summary td :global(.feather-check) {

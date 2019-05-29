@@ -2,9 +2,12 @@
 /* @flow */
 
 import moment from 'moment';
+import download from 'downloadjs';
 import striptags from 'striptags';
 
 import { ucfirst } from './text-utils.js';
+import { logError } from './errors.js';
+import { PRINTER_ENDPOINT } from './constants.js';
 
 import type { DateLike } from './date-utils.js';
 
@@ -613,4 +616,49 @@ if (!Math.ceil10) {
 	Math.ceil10 = function(value, exp) {
 		return decimalAdjust('ceil', value, exp);
 	};
+}
+
+export function printElement(target, filename = 'download.pdf', options = {}) {
+	const body = `<html><body><main>${target.outerHTML}</main></body></html>`;
+
+	const styles = Array.from(document.styleSheets)
+		.map(styleSheet => {
+			if (styleSheet.href) {
+				return { url: styleSheet.href };
+			}
+
+			try {
+				return {
+					content: Array.from(styleSheet.cssRules).reduce(
+						(rules, rule) => rules + rule.cssText,
+						''
+					)
+				};
+			} catch (err) {
+				console.error(err);
+			}
+		})
+		.filter(Boolean);
+
+	fetch(PRINTER_ENDPOINT, {
+		method: 'POST',
+		body: JSON.stringify({
+			body,
+			styles,
+			options
+		})
+	})
+		.then(response => {
+			if (response.ok) {
+				return response.blob();
+			}
+
+			throw new Error(response.status);
+		})
+		.then(blob => {
+			download(blob, filename, 'application/pdf');
+		})
+		.catch(err => {
+			logError(err);
+		});
 }
