@@ -76,6 +76,7 @@ th {
 td {
 	text-align: right;
 	font-family: monospace;
+	color: '#111';
 }
 
 tfoot {

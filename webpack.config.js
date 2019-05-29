@@ -36,7 +36,7 @@ const scripts = [
 ];
 
 const styles = [
-	'bootstrap/dist/css/bootstrap.css',
+	'./resources/assets/css/bootstrap.css',
 	'datatables.net-bs/css/dataTables.bootstrap.css',
 	'datatables.net-fixedcolumns-bs/css/fixedColumns.bootstrap.css',
 	'datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.css',

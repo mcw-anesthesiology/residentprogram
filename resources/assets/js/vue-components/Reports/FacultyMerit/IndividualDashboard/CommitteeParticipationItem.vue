@@ -37,7 +37,7 @@ h4 {
 
 h4 small {
 	display: inline-block;
-	padding-left: 0.25em;
+	padding-left: 0.5em;
 	font-size: 0.9em;
 	opacity: 0.75em;
 }

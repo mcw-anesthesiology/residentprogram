@@ -140,17 +140,14 @@
 					Export to Excel
 				</button>
 			</div>
-
-			<div class="chart-container" v-if="showChart">
-				<bar-chart
-					ref="chart"
-					:data="chartData"
-					:options="chartOptions"
-					:height="350"
-					:width="350"
-				/>
-				<img v-if="chartImage" :src="chartImage" width="0" height="0" />
-			</div>
+		</div>
+		<div class="chart-container" v-if="showChart">
+			<apex-chart
+				type="bar"
+				:height="chartHeight"
+				:options="chartOptions"
+				:series="chartSeries"
+			/>
 		</div>
 	</section>
 </template>
@@ -188,6 +185,7 @@ th {
 td {
 	text-align: right;
 	font-family: monospace;
+	color: '#111';
 }
 
 .sub-row {
@@ -212,11 +210,6 @@ ul {
 	flex-wrap: wrap;
 }
 
-.main-row > div {
-	padding: 0.5em;
-	flex-basis: 50%;
-}
-
 .table-container {
 	flex-grow: 1;
 }
@@ -225,34 +218,14 @@ ul {
 	flex-shrink: 1;
 }
 
-.chart-container img {
-	display: none;
-}
-
 @media print {
 	button {
 		display: none;
 	}
 
-	table {
-		font-size: 0.8em;
-	}
-
 	.main-row {
 		flex-wrap: nowrap;
 		align-items: stretch;
-	}
-
-	.chart-container img {
-		display: block;
-		max-width: 100%;
-		max-height: 100%;
-		width: auto;
-		height: auto;
-	}
-
-	.chart-container :global(canvas) {
-		display: none !important;
 	}
 
 	.sub-row th {
@@ -262,6 +235,10 @@ ul {
 	.sub-row td {
 		padding-right: 1.5em;
 	}
+
+	:global(.apexcharts-toolbar) {
+		display: none;
+	}
 }
 </style>
 
@@ -269,15 +246,14 @@ ul {
 /** @format */
 
 import XLSX from 'xlsx';
+import ApexChart from 'vue-apexcharts';
 import groupBy from 'lodash/groupBy';
 import sortBy from 'lodash/sortBy';
 
 import InfoPopover from '#/InfoPopover.vue';
 import RichDateRange from '#/RichDateRange.vue';
 
-import { HorizontalBarChart as BarChart } from '@/vue-mixins/Chart.js';
-
-import { ucfirst } from '@/modules/text-utils.js';
+import { enumToWords, ucfirst } from '@/modules/text-utils.js';
 import { renderYearRange } from '@/modules/date-utils.js';
 
 export default {
@@ -305,11 +281,6 @@ export default {
 		showChart: {
 			type: Boolean
 		}
-	},
-	data() {
-		return {
-			chartImage: null
-		};
 	},
 	computed: {
 		getBreakdownKey() {
@@ -382,72 +353,90 @@ export default {
 			types.sort();
 			return types;
 		},
+		chartHeight() {
+			return 100 + 36 * this.breakdownReports.size;
+		},
 		chartOptions() {
 			return {
-				maintainAspectRatio: false,
-				animation: {
-					onComplete: () => {
-						if (this.$refs.chart) {
-							// eslint-disable-next-line vue/no-side-effects-in-computed-properties
-							this.chartImage = this.$refs.chart.getChartImage();
-						}
+				chart: {
+					stacked: true
+				},
+				xaxis: {
+					categories: [...this.breakdownReports.keys()],
+				},
+				yaxis: {
+					labels: {
+						show: this.breakdownReports.size > 1
 					}
+				},
+				plotOptions: {
+					bar: {
+						horizontal: true
+					}
+				},
+				dataLabels: {
+					enabled: true,
+					style: {
+						fontSize: '12px',
+						colors: ['#fff']
+					}
+				},
+				stroke: {
+					show: true,
+					width: 1,
+					colors: ['#fff']
+				},
+				legend: {
+					position: 'bottom',
+					fontSize: '12px'
 				}
 			};
 		},
-		chartData() {
+		chartSeries() {
 			if (!this.showChart) return;
 
-			return {
-				labels: [
-					...this.publicationTypes,
-					...this.grantTypes.map(
-						type => `${ucfirst(type.toLowerCase())} grants`
-					),
-					'Studies',
-					'Leadership positions'
-				],
-				datasets: Array.from(this.breakdownReports.entries()).map(
-					([label, reports]) => {
-						const publications = reports.flatMap(
-							r => r.publications
-						);
-						const grants = reports.flatMap(r => r.grants);
-						const studies = reports.flatMap(r => r.studies);
-						const leadershipPositions = reports.reduce(
+			const breakdownReports = Array.from(this.breakdownReports.values());
+
+			return [
+				...this.publicationTypes.map(name => {
+					return {
+						name,
+						data: breakdownReports.map(
+							reports =>
+								reports
+									.flatMap(r => r.publications)
+									.filter(p => p.publicationType === name)
+									.length
+						)
+					};
+				}),
+				...this.grantTypes.map(name => {
+					return {
+						name: `${enumToWords(name)} grants`,
+						data: breakdownReports.map(
+							reports =>
+								reports
+									.flatMap(r => r.grants)
+									.filter(g => g.type === name).length
+						)
+					};
+				}),
+				{
+					name: 'Studies',
+					data: breakdownReports.map(
+						reports => reports.flatMap(r => r.studies).length
+					)
+				},
+				{
+					name: 'Leadership positions',
+					data: breakdownReports.map(reports =>
+						reports.reduce(
 							(sum, r) => sum + r.leadershipPositions,
 							0
-						);
-
-						return {
-							label,
-							data: [
-								...this.publicationTypes.map(
-									pubType =>
-										publications.filter(
-											p => p.publicationType === pubType
-										).length
-								),
-								...this.grantTypes.map(
-									grantType =>
-										grants.filter(g => g.type === grantType)
-											.length
-								),
-								studies.length,
-								leadershipPositions
-							]
-						};
-					}
-				)
-			};
-		}
-	},
-	watch: {
-		chartData() {
-			if (this.$refs.chart) {
-				window.setTimeout(() => {
-				}, 1000);
-			}
+						)
+					)
+				}
+			];
 		}
 	},
 	methods: {
@@ -468,9 +457,9 @@ export default {
 		}
 	},
 	components: {
+		ApexChart,
 		InfoPopover,
-		RichDateRange,
-		BarChart
+		RichDateRange
 	}
 };
 </script>

@@ -30,7 +30,9 @@
 		</template>
 
 		<div class="text-center noprint">
-			<print-element-button target=".individual-dashboard" :options="printOptions">
+			<print-element-button target=".individual-dashboard"
+				:filename="printFilename"
+				:options="printOptions">
 				Print
 			</print-element-button>
 		</div>
@@ -80,6 +82,7 @@ dl {
 	display: flex;
 	flex-wrap: wrap;
 	margin: 0;
+	font-size: 1.25em;
 }
 
 dt, dd {
@@ -93,9 +96,10 @@ dt, dd {
 		grid-gap: 0.5em;
 	}
 }
+
 @media print {
 	.individual-dashboard {
-		font-size: 0.75em;
+		font-size: 0.8em;
 	}
 
 	.dashboard-container {
@@ -107,6 +111,7 @@ dt, dd {
 
 <script>
 /** @format */
+
 import gql from 'graphql-tag';
 import moment from 'moment';
 
@@ -119,7 +124,7 @@ import AcademicProductivity from './AcademicProductivity.vue';
 import LeadershipProfessionalCitizenship from './LeadershipProfessionalCitizenship.vue';
 import DashboardGoals from './Goals.vue';
 
-import { academicYearForDate } from '@/modules/date-utils.js';
+import { renderYearRange, academicYearForDate } from '@/modules/date-utils.js';
 import { INDIVIDUAL_DASHBOARD_FIELDS } from '@/graphql/merit.js';
 
 export default {
@@ -191,6 +196,13 @@ export default {
 		}
 	},
 	computed: {
+		printFilename() {
+			const userPortion = this.user
+				? ` - ${this.user.full_name}`
+				: '';
+
+			return `${this.title}${userPortion} - ${renderYearRange(this.dates.startDate, this.dates.endDate)}.pdf`;
+		},
 		periods() {
 			const periods = new Set();
 

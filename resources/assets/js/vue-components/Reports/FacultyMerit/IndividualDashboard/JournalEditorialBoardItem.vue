@@ -1,5 +1,5 @@
 <template>
-	<li class="journal-editorial-board-item">
+	<section class="journal-editorial-board-item">
 		<h4>
 			{{ journal }}
 		</h4>
@@ -10,7 +10,7 @@
 				<span v-if="showPeriods"> ({{ period }}) </span>
 			</li>
 		</ul>
-	</li>
+	</section>
 </template>
 
 <style scoped>
@@ -23,7 +23,7 @@ h4 {
 }
 
 ul {
-	padding-left: 2em;
+	padding-left: 1.5em;
 }
 </style>
 
