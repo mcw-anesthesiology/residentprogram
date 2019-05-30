@@ -287,6 +287,10 @@ export default {
 		showBreakdowns: {
 			type: Boolean
 		},
+		showTotal: {
+			type: Boolean,
+			default: false
+		},
 		rangeBreakdown: {
 			type: String,
 			default: 'year'
@@ -328,7 +332,9 @@ export default {
 				}
 			}
 
-			map.set('Total', this.reports.slice());
+			if (!this.showBreakdowns || this.showTotal) {
+				map.set('Total', this.reports.slice());
+			}
 
 			if (this.additionalBreakdowns) {
 				for (const [
@@ -375,7 +381,7 @@ export default {
 			return types;
 		},
 		chartHeight() {
-			return 100 + 36 * this.breakdownReports.size;
+			return 100 + 20 * this.breakdownReports.size;
 		},
 		chartOptions() {
 			const imageUpdater = this.updateChartImage.bind(this);
@@ -386,25 +392,35 @@ export default {
 					events: {
 						mounted: imageUpdater,
 						updated: imageUpdater
-					}
+					},
+					parentHeightOffset: 0
 				},
 				xaxis: {
 					categories: [...this.breakdownReports.keys()],
+					labels: {
+						style: {
+							fontSize: '10px'
+						}
+					}
 				},
 				yaxis: {
 					labels: {
-						show: this.breakdownReports.size > 1
+						show: this.breakdownReports.size > 1,
+						style: {
+							fontSize: '10px'
+						}
 					}
 				},
 				plotOptions: {
 					bar: {
-						horizontal: true
+						horizontal: true,
+						barHeight: '100%'
 					}
 				},
 				dataLabels: {
 					enabled: true,
 					style: {
-						fontSize: '12px',
+						fontSize: '10px',
 						colors: ['#fff']
 					}
 				},
@@ -414,8 +430,8 @@ export default {
 					colors: ['#fff']
 				},
 				legend: {
-					position: 'bottom',
-					fontSize: '12px'
+					position: 'top',
+					fontSize: '10px'
 				}
 			};
 		},
