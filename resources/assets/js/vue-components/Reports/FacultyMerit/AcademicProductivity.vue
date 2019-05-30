@@ -469,9 +469,10 @@ export default {
 	methods: {
 		ucfirst,
 		updateChartImage() {
-			this.$nextTick(async () => {
+			// wait for animations to complete
+			window.setTimeout(async () => {
 				this.chartImage = await this.$refs.chart.dataURI();
-			});
+			}, 1500);
 		},
 		sortedGroup(arr, key) {
 			return sortBy(groupBy(arr, key), 0);
