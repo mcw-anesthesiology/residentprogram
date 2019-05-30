@@ -25,10 +25,6 @@
 </template>
 
 <style scoped>
-section {
-	padding: 0.25em;
-}
-
 h4 {
 	font-size: 1.25em;
 	margin-bottom: 0;
@@ -45,11 +41,11 @@ h4 small {
 .roles {
 	display: flex;
 	flex-direction: row;
-	margin: 0 -1em;
+	margin: 0 -0.5em;
 }
 
 .roles > div {
-	margin: 0.5em 1em;
+	margin: 0.5em 0.5em 0;
 }
 
 h5 {
@@ -61,6 +57,7 @@ h5 {
 ol {
 	font-size: 0.875em;
 	padding-left: 1.5em;
+	margin: 0;
 }
 </style>
 

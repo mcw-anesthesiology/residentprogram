@@ -7,6 +7,7 @@
 				:reports="user.meritReports"
 				:show-chart="show.chart"
 				:show-breakdowns="show.breakdowns"
+				:show-total="show.total"
 			/>
 		</div>
 
@@ -18,6 +19,14 @@
 			<label>
 				<input type="checkbox" v-model="show.breakdowns" />
 				Show yearly breakdown
+			</label>
+			<label :readonly="!show.breakdowns">
+				<input
+					type="checkbox"
+					v-model="show.total"
+					:disabled="!show.breakdowns"
+				/>
+				Show total
 			</label>
 		</form>
 	</section>
@@ -54,7 +63,8 @@ export default {
 		return {
 			show: {
 				chart: true,
-				breakdowns: true
+				breakdowns: true,
+				total: false
 			}
 		};
 	},

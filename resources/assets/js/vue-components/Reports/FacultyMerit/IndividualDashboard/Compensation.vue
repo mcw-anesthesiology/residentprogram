@@ -50,7 +50,7 @@
 }
 
 .individual-merit-dashboard-compensation > section {
-	margin: 0.5em;
+	margin: 0 0.5em;
 }
 
 table {
