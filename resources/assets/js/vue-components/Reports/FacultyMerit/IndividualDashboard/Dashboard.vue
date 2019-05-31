@@ -99,7 +99,7 @@ dt, dd {
 
 @media print {
 	.individual-dashboard {
-		font-size: 0.8em;
+		font-size: 0.75em;
 	}
 
 	.dashboard-container {
