@@ -63,6 +63,10 @@ ol {
 li {
 	line-height: 1;
 }
+
+li + li {
+	margin-top: 0.25em;
+}
 </style>
 
 <script>
