@@ -40,7 +40,7 @@
 							class="sub-row"
 							:key="type"
 						>
-							<th>— {{ type }}</th>
+							<th>{{ type }}</th>
 							<td
 								v-for="[bd, rs] of Array.from(
 									breakdownReports.entries()
@@ -72,7 +72,7 @@
 							class="sub-row"
 							:key="type"
 						>
-							<th>— {{ ucfirst(type.toLowerCase()) }}</th>
+							<th>{{ ucfirst(type.toLowerCase()) }}</th>
 							<td
 								v-for="[bd, rs] of Array.from(
 									breakdownReports.entries()
@@ -190,17 +190,16 @@ td {
 	color: '#111';
 }
 
+tbody th {
+	font-weight: bold;
+}
+
 .sub-row {
 	color: rgba(0, 0, 0, 0.5);
-	background: #f9f9f9;
 }
 
 .sub-row th {
-	padding-left: 2.5em;
-}
-
-.sub-row td {
-	padding-right: 2.5em;
+	font-weight: normal;
 }
 
 ul {
@@ -234,14 +233,6 @@ ul {
 	.main-row {
 		flex-wrap: nowrap;
 		align-items: stretch;
-	}
-
-	.sub-row th {
-		padding-left: 1.5em;
-	}
-
-	.sub-row td {
-		padding-right: 1.5em;
 	}
 
 	.chart-container > :global(div) {

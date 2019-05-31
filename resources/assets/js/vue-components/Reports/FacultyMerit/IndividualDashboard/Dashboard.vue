@@ -5,9 +5,7 @@
 			<header>
 				<h1>
 					{{ title }}
-					<small>
-						<rich-date-range :dates="dates" />
-					</small>
+					<rich-date-range :dates="dates" />
 				</h1>
 
 				<dl>
