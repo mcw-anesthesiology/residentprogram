@@ -2,6 +2,7 @@ select
 	subject_id as trainee_id,
 	last_name,
 	first_name,
+	users.training_level,
 	avg(scenario_responses.value) as scenario_avg,
 	avg(case when scenario_difficulty='BEGINNER' then scenario_responses.value else null end) as basic_scenario_response_avg,
 	avg(case when scenario_difficulty='ADVANCED' then scenario_responses.value else null end) as advanced_scenario_response_avg,

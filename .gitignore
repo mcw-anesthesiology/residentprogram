@@ -14,3 +14,4 @@ Homestead.yaml
 /public/.htaccess
 !/public/.htaccess.base
 /*.log
+__pycache__/

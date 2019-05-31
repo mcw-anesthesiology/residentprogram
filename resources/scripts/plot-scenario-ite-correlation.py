@@ -6,6 +6,8 @@ from numpy.polynomial.polynomial import polyfit
 from argparse import ArgumentParser
 import csv, sys
 
+from norm_table import SCALED_SCORE_PERCENTILE_RANKS
+
 
 def main():
     parser = ArgumentParser()
@@ -83,6 +85,112 @@ def main():
     plot(records, "scenario_avg", "overall_competency_avg")
 
     plt.tight_layout()
+    plt.figure()
+
+    plt.subplot(2, 1, 1)
+    plt.title("Scenarios vs percentile rank")
+    plt.xlabel("Scenario response average")
+    plt.ylabel("ITE scaled score percentile rank")
+    plot_tuples(
+        [(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in records]
+    )
+
+    plt.subplot(2, 1, 2)
+    plt.title("Competencies vs percentile rank")
+    plt.xlabel("Competency overall average")
+    plt.ylabel("ITE scaled score percentile rank")
+    plot_tuples(
+        [
+            (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
+            for r in records
+        ]
+    )
+
+    plt.tight_layout()
+    plt.figure()
+
+    rs = [r for r in records if r["training_level"] == "intern"]
+    plt.subplot(2, 1, 1)
+    plt.title("Scenarios vs percentile rank (PGY-1)")
+    plt.xlabel("Scenario response average")
+    plt.ylabel("ITE scaled score percentile rank")
+    plot_tuples([(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in rs])
+
+    plt.subplot(2, 1, 2)
+    plt.title("Competencies vs percentile rank (PGY-1)")
+    plt.xlabel("Competency overall average")
+    plt.ylabel("ITE scaled score percentile rank")
+    plot_tuples(
+        [
+            (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
+            for r in rs
+        ]
+    )
+
+    plt.tight_layout()
+    plt.figure()
+
+    rs = [r for r in records if r["training_level"] == "ca-1"]
+    plt.subplot(2, 1, 1)
+    plt.title("Scenarios vs percentile rank (CA-1)")
+    plt.xlabel("Scenario response average")
+    plt.ylabel("ITE scaled score percentile rank")
+    plot_tuples([(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in rs])
+
+    plt.subplot(2, 1, 2)
+    plt.title("Competencies vs percentile rank (CA-1)")
+    plt.xlabel("Competency overall average")
+    plt.ylabel("ITE scaled score percentile rank")
+    plot_tuples(
+        [
+            (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
+            for r in rs
+        ]
+    )
+
+    plt.tight_layout()
+    plt.figure()
+
+    rs = [r for r in records if r["training_level"] == "ca-2"]
+    plt.subplot(2, 1, 1)
+    plt.title("Scenarios vs percentile rank (CA-2)")
+    plt.xlabel("Scenario response average")
+    plt.ylabel("ITE scaled score percentile rank")
+    plot_tuples([(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in rs])
+
+    plt.subplot(2, 1, 2)
+    plt.title("Competencies vs percentile rank (CA-2)")
+    plt.xlabel("Competency overall average")
+    plt.ylabel("ITE scaled score percentile rank")
+    plot_tuples(
+        [
+            (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
+            for r in rs
+        ]
+    )
+
+    plt.tight_layout()
+    plt.figure()
+
+    rs = [r for r in records if r["training_level"] == "ca-3"]
+    plt.subplot(2, 1, 1)
+    plt.title("Scenarios vs percentile rank (CA-3)")
+    plt.xlabel("Scenario response average")
+    plt.ylabel("ITE scaled score percentile rank")
+    plot_tuples([(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in rs])
+
+    plt.subplot(2, 1, 2)
+    plt.title("Competencies vs percentile rank (CA-3)")
+    plt.xlabel("Competency overall average")
+    plt.ylabel("ITE scaled score percentile rank")
+    plot_tuples(
+        [
+            (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
+            for r in rs
+        ]
+    )
+
+    plt.tight_layout()
     plt.show()
 
 
@@ -103,6 +211,16 @@ def plot_tuples(l):
     [b, m], things = polyfit(x, y, 1, full=True)
     plt.plot(x, [b + m * val for val in x], "-")
     return things
+
+
+def get_percentile_rank(record):
+    indices = {"intern": 1, "ca-1": 2, "ca-2": 3, "ca-3": 4}
+
+    percentile_rank = SCALED_SCORE_PERCENTILE_RANKS[record["Scaled"]][
+        indices[record["training_level"]]
+    ]
+
+    return percentile_rank
 
 
 if __name__ == "__main__":
