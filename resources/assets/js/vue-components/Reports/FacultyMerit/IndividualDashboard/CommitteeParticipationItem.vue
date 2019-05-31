@@ -34,7 +34,7 @@ h4 {
 h4 small {
 	display: inline-block;
 	padding-left: 0.5em;
-	font-size: 0.9em;
+	font-size: 1em;
 	opacity: 0.75em;
 }
 
@@ -58,6 +58,10 @@ ol {
 	font-size: 0.875em;
 	padding-left: 1.5em;
 	margin: 0;
+}
+
+li {
+	line-height: 1;
 }
 </style>
 

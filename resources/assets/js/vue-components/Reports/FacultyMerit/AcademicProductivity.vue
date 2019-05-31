@@ -322,7 +322,7 @@ export default {
 		breakdownReports() {
 			const map = new Map();
 
-			if (this.showBreakdowns && this.breakdownKeys.length > 1) {
+			if (this.showBreakdowns) {
 				for (const key of this.breakdownKeys) {
 					map.set(key, []);
 				}
@@ -332,7 +332,7 @@ export default {
 				}
 			}
 
-			if (!this.showBreakdowns || this.showTotal) {
+			if (!this.showBreakdowns || (this.breakdownKeys.length > 1 && this.showTotal)) {
 				map.set('Total', this.reports.slice());
 			}
 
@@ -381,7 +381,7 @@ export default {
 			return types;
 		},
 		chartHeight() {
-			return 100 + 20 * this.breakdownReports.size;
+			return 80 + 20 * this.breakdownReports.size;
 		},
 		chartOptions() {
 			const imageUpdater = this.updateChartImage.bind(this);
