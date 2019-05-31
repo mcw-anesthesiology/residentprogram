@@ -70,7 +70,7 @@ td {
 }
 
 th {
-	font-weight: normal;
+	font-weight: bold;
 }
 
 td {
