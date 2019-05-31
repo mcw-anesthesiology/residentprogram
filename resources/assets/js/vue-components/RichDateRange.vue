@@ -1,8 +1,15 @@
 <template>
-	<span ref="container">
+	<span class="rich-date-range" ref="container">
 		{{ dateString }}
 	</span>
 </template>
+
+<style scoped>
+.rich-date-range {
+	display: inline-block;
+	break-inside: avoid;
+}
+</style>
 
 <script>
 import { renderDateRange } from '@/modules/date-utils.js';

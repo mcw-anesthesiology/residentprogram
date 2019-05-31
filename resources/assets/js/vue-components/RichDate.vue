@@ -1,8 +1,15 @@
 <template>
-	<span ref="container">
+	<span class="rich-date" ref="container">
 		{{ dateString }}
 	</span>
 </template>
+
+<style scoped>
+.rich-date {
+	display: inline-block;
+	break-inside: avoid;
+}
+</style>
 
 <script>
 import moment from 'moment';
