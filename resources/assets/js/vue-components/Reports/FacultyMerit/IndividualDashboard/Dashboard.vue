@@ -8,14 +8,18 @@
 					<rich-date-range :dates="dates" />
 				</h1>
 
-				<dl>
-					<dt>Name</dt>
-					<dd>{{ user.full_name }}</dd>
-					<template v-for="[name, val] of Array.from(userProps.entries())">
-						<dt :key="`${name}:name`">{{ name }}</dt>
-						<dd :key="`${name}:val`">{{ val }}</dd>
-					</template>
-				</dl>
+				<table>
+					<tbody>
+						<tr>
+							<th>Name</th>
+							<td>{{ user.full_name }}</td>
+						</tr>
+						<tr v-for="[name, val] of Array.from(userProps.entries())" :key="name">
+							<th>{{ name }}</th>
+							<td>{{ val }}</td>
+						</tr>
+					</tbody>
+				</table>
 			</header>
 
 
@@ -40,8 +44,12 @@
 <style scoped>
 header {
 	display: flex;
-	flex-wrap: wrap;
 	justify-content: space-between;
+}
+
+header h1 {
+	flex-grow: 10;
+	flex-shrink: 0;
 }
 
 .individual-dashboard {
@@ -76,23 +84,18 @@ header {
 	clear: both;
 }
 
-dl {
-	display: flex;
-	flex-wrap: wrap;
-	margin: 0;
+header table {
 	font-size: 1.25em;
+	margin: 0;
+	margin-left: 1em;
 }
 
-dt, dd {
-	flex-basis: 50%;
+tr:first-child > * {
+	padding-top: 0;
 }
 
-@supports (display: grid) {
-	dl {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-gap: 0.5em;
-	}
+th, td {
+	padding: 0.25em;
 }
 
 @media print {
