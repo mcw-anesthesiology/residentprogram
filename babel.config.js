@@ -1,7 +1,11 @@
 /* eslint-env node */
 
 module.exports = api => {
-	api.cache.forever();
+	try {
+		api.cache.forever();
+	} catch (err) {
+		console.error(err);
+	}
 
 	return {
 		presets: [

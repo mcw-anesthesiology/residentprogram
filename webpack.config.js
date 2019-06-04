@@ -1,11 +1,14 @@
+/** @format */
 /* eslint-env node */
+
 const path = require('path');
 const webpack = require('webpack');
 const ConcatPlugin = require('webpack-concat-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+	.BundleAnalyzerPlugin;
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 
@@ -59,13 +62,12 @@ module.exports = (env, argv) => {
 			polyfills: './resources/assets/js/modules/polyfills.js',
 			app: './resources/assets/js/modules/index.js',
 			dashboard: './resources/assets/js/entry/dashboard.js',
-			createExternalEvaluation: './resources/assets/js/entry/createExternalEvaluation.js',
+			createExternalEvaluation:
+				'./resources/assets/js/entry/createExternalEvaluation.js',
 			'vendor-styles': styles,
-			'global-styles': [
-				'vars.css',
-				'main.css',
-				'navbar.css'
-			].map(p => `./resources/assets/css/${p}`),
+			'global-styles': ['vars.css', 'main.css', 'navbar.css'].map(
+				p => `./resources/assets/css/${p}`
+			),
 			iframeResizer: 'iframe-resizer'
 		},
 		output: {
@@ -73,9 +75,10 @@ module.exports = (env, argv) => {
 			publicPath: runningDevServer
 				? `//${DEV_SERVER_HOST}:${DEV_SERVER_PORT}/build/`
 				: '/build/',
-			filename: argv.mode === 'production'
-				? '[name].[chunkhash].js'
-				: '[name].js',
+			filename:
+				argv.mode === 'production'
+					? '[name].[chunkhash].js'
+					: '[name].js',
 			libraryTarget: 'umd'
 		},
 		target: 'web',
@@ -92,16 +95,16 @@ module.exports = (env, argv) => {
 					use: 'babel-loader'
 				},
 				{
-					issuer: path.join(__dirname, 'resources/assets/js/modules/global/index.js'),
+					issuer: path.join(
+						__dirname,
+						'resources/assets/js/modules/global/index.js'
+					),
 					use: 'script-loader',
 					sideEffects: true
 				},
 				{
 					test: /\.css$/,
-					use: [
-						ExtractCssChunks.loader,
-						'css-loader'
-					],
+					use: [ExtractCssChunks.loader, 'css-loader'],
 					sideEffects: true
 				},
 				{
@@ -122,22 +125,18 @@ module.exports = (env, argv) => {
 				ADMIN_EMAIL: 'jmischka@mcw.edu',
 				APP_URL: ''
 			}),
-			new CleanWebpackPlugin([
-				'public/mix-manifest.json',
-				'public/build'
-			]),
+			new CleanWebpackPlugin(),
 			new BundleAnalyzerPlugin({
-				analyzerMode: argv.watch
-					? 'server'
-					: 'disabled',
+				analyzerMode: argv.watch ? 'server' : 'disabled',
 				analyzerPort: 8088,
 				openAnalyzer: false,
 				generateStatsFile: true
 			}),
 			new ExtractCssChunks({
-				filename: argv.mode === 'production'
-					? '[name].[contenthash].css'
-					: '[name].css',
+				filename:
+					argv.mode === 'production'
+						? '[name].[contenthash].css'
+						: '[name].css',
 				hot: argv.mode !== 'production',
 				allChunks: true
 			}),
@@ -146,31 +145,32 @@ module.exports = (env, argv) => {
 				basePath: '/'
 			}),
 			new VueLoaderPlugin(),
-			argv.mode === 'production' && new RollbarSourceMapPlugin({
-				accessToken: ROLLBAR_ACCESS_TOKEN,
-				publicPath: `${APP_URL}/build/`,
-				version: GIT_REV
-			}),
+			argv.mode === 'production' &&
+				new RollbarSourceMapPlugin({
+					accessToken: ROLLBAR_ACCESS_TOKEN,
+					publicPath: `${APP_URL}/build/`,
+					version: GIT_REV
+				}),
 			new ConcatPlugin({
 				name: 'vendor',
-				fileName: argv.mode === 'production'
-					? 'vendor.[hash].js'
-					: 'vendor.js',
+				fileName:
+					argv.mode === 'production'
+						? 'vendor.[hash].js'
+						: 'vendor.js',
 				filesToConcat: scripts
 			})
 		].filter(Boolean),
 		resolve: {
 			alias: {
-				'vue$': 'vue/dist/vue.common.js'
+				vue$: 'vue/dist/vue.common.js'
 			}
 		},
 		externals: {
 			moment: 'moment',
 			jquery: 'jQuery'
 		},
-		devtool: argv.mode === 'production'
-			? 'source-map'
-			: 'cheap-eval-source-map',
+		devtool:
+			argv.mode === 'production' ? 'source-map' : 'cheap-eval-source-map',
 		optimization: {
 			splitChunks: {
 				cacheGroups: {
@@ -191,15 +191,13 @@ module.exports = (env, argv) => {
 			index: '',
 			contentBase: path.join(__dirname, 'public'),
 			disableHostCheck: true,
-			allowedHosts: [
-				'*'
-			],
+			allowedHosts: ['*'],
 			headers: { 'Access-Control-Allow-Origin': '*' },
 			proxy: {
 				context: () => true,
 				target: APP_URL,
 				changeOrigin: true,
-				secure: false,
+				secure: false
 			},
 			writeToDisk: true,
 			watchOptions: {
