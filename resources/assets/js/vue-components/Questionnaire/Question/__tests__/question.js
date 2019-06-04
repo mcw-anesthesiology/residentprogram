@@ -1,4 +1,4 @@
-import { mount } from 'vue-test-utils';
+import { mount } from '@vue/test-utils';
 
 import Question from '../Question.vue';
 import questionWithCondition from './questions/with-condition.json';

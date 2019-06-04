@@ -1,4 +1,4 @@
-import { mount } from 'vue-test-utils';
+import { mount } from '@vue/test-utils';
 
 import Questionnaire from '../Questionnaire.vue';
 import metSection from './questionnaires/with-met-section.json';

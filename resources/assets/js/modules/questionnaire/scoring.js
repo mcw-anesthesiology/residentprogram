@@ -176,10 +176,10 @@ export function radioCheckboxQuestion(
 export function listQuestion(question: QuestionnaireListQuestion): Score {
 	const score: Score = new Map();
 
-	if (question.scoring) {
+	if (question.scoring && question.items) {
 		const scoring = question.scoring;
-		for (let i = 0; i < question.items.length; i++) {
-			let scoreValue = score.has(scoring.category)
+		question.items.forEach(() => {
+			const scoreValue = score.has(scoring.category)
 				? score.get(scoring.category)
 				: 0;
 
@@ -190,7 +190,7 @@ export function listQuestion(question: QuestionnaireListQuestion): Score {
 					scoreValue + scoring.value
 				)
 			);
-		}
+		});
 	}
 
 	return score;
