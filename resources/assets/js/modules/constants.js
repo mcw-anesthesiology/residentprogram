@@ -3,6 +3,7 @@
 
 export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 export const GRAPHQL_URI = `${process.env.APP_URL}/graphql`;
+export const STAFF_GRAPHQL_URI = 'https://staff.mcw-anesthesiology.tech/graphql';
 export const PRINTER_ENDPOINT = process.env.NODE_ENV === 'development'
 	? 'http://localhost:3000'
 	: 'https://printer.mcw-anesth.tech';

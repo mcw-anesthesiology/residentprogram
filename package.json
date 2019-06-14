@@ -28,9 +28,8 @@
     "ui-test": "webpack-dev-server --config webpack.ui-tester.config.js"
   },
   "browserslist": [
-    "> 1%",
     "last 2 versions",
-    "ie >= 9"
+    "ie >= 11"
   ],
   "dependencies": {
     "@jacobmischka/transform-color": "^1.0.0",

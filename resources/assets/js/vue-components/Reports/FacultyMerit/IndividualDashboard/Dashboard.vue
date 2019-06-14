@@ -113,7 +113,6 @@ th, td {
 <script>
 /** @format */
 
-import gql from 'graphql-tag';
 import moment from 'moment';
 
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
@@ -126,20 +125,16 @@ import LeadershipProfessionalCitizenship from './LeadershipProfessionalCitizensh
 import DashboardGoals from './Goals.vue';
 
 import { renderYearRange, academicYearForDate } from '@/modules/date-utils.js';
-import { INDIVIDUAL_DASHBOARD_FIELDS } from '@/graphql/merit.js';
 
 export default {
 	props: {
-		userId: {
-			type: [String, Number],
+		user: {
+			type: Object,
 			required: true
 		},
 		dates: {
 			type: Object,
 			required: true
-		},
-		includeIncomplete: {
-			type: Boolean
 		},
 		title: {
 			type: String,
@@ -157,44 +152,11 @@ export default {
 	},
 	data() {
 		return {
-			user: null,
 			printOptions: {
 				landscape: true,
 				printBackground: true
 			}
 		};
-	},
-	apollo: {
-		user: {
-			query: gql`
-				query IndividualDashboardUser(
-					$userId: ID!
-					$startDate: Date
-					$endDate: Date
-					$status: MeritReportStatus
-				) {
-					user(id: $userId) {
-						id
-						full_name
-						meritReports(
-							after: $startDate
-							before: $endDate
-							status: $status
-						) {
-							...IndividualDashboardFields
-						}
-					}
-				}
-				${INDIVIDUAL_DASHBOARD_FIELDS}
-			`,
-			variables() {
-				return {
-					userId: this.userId,
-					...this.dates,
-					status: this.includeIncomplete ? undefined : 'COMPLETE'
-				};
-			}
-		}
 	},
 	computed: {
 		printFilename() {

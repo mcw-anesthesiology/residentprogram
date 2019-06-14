@@ -5,7 +5,7 @@ import VueApollo from 'vue-apollo';
 import VTooltip from 'v-tooltip';
 
 import { rollbar } from '@/modules/errors.js';
-import apolloClient from '@/modules/apollo-client.js';
+import apolloClient, { staff } from '@/modules/apollo-client.js';
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
@@ -43,6 +43,10 @@ Vue.directive('visible', (el, {value, oldValue, modifiers}) => {
 export default Vue;
 
 export const apolloProvider = new VueApollo({
+	clients: {
+		residentprogram: apolloClient,
+		staff
+	},
 	defaultClient: apolloClient,
 	defaultOptions: {
 		$query: {
