@@ -26,13 +26,12 @@
 		</div>
 
 		<div
-			v-if="userId"
+			v-if="user"
 			class="dashboard-container container-fluid body-block"
 		>
 			<individual-dashboard
+				:user="user"
 				:dates="dates"
-				:include-incomplete="includeIncomplete"
-				:user-id="userId"
 				:title="reportTitle"
 				:user-props="userProps"
 			/>
@@ -64,6 +63,7 @@ import IndividualDashboard from './IndividualDashboard/Dashboard.vue';
 import { groupUsers } from '@/modules/utils.js';
 
 import { GROUP_USER_FIELDS } from '@/graphql/user.js';
+import { INDIVIDUAL_DASHBOARD_FIELDS } from '@/graphql/merit.js';
 
 export default {
 	props: {
@@ -107,6 +107,74 @@ export default {
 					...this.dates,
 					status: this.includeIncomplete ? undefined : 'COMPLETE'
 				};
+			}
+		},
+		user: {
+			query: gql`
+				query IndividualDashboardUser(
+					$userId: ID!
+					$startDate: Date
+					$endDate: Date
+					$status: MeritReportStatus
+				) {
+					user(id: $userId) {
+						id
+						full_name
+						email
+						meritReports(
+							after: $startDate
+							before: $endDate
+							status: $status
+						) {
+							...IndividualDashboardFields
+						}
+					}
+				}
+				${INDIVIDUAL_DASHBOARD_FIELDS}
+			`,
+			variables() {
+				return {
+					userId: this.userId,
+					...this.dates,
+					status: this.includeIncomplete ? undefined : 'COMPLETE'
+				};
+			}
+		},
+		leadershipRole: {
+			client: 'staff',
+			query: gql`
+				query IndividualDashboardUserStaffInfo(
+					$email: String
+				) {
+					staffMember(email: $email) {
+						email
+						... on Faculty {
+							roles
+						}
+					}
+				}
+			`,
+			variables() {
+				let email;
+				if (this.user) {
+					email = this.user.email;
+				}
+
+				return {
+					email
+				};
+			},
+			skip() {
+				return !this.user;
+			},
+			manual: true,
+			result({ data }) {
+				if (data && data.staffMember && data.staffMember.roles) {
+					const { roles } = data.staffMember;
+					if (roles.length > 0) {
+						this.leadershipRole = roles[0];
+					}
+				}
 			}
 		}
 	},
