@@ -130,6 +130,25 @@ type User {
 	meritAdministrators: [User] @belongsTo
 	meritAdministratees: [User] @belongsTo
 
+	evaluatorEvaluations(
+		after: Date @where(key: "evaluation_date_end", operator: ">=")
+        before: Date @where(key: "evaluation_date_start", operator: "<=")
+		status: EvaluationStatus @eq
+		type: EvaluationType
+	): [Evaluation]! @hasMany
+	subjectEvaluations(
+		after: Date @where(key: "evaluation_date_end", operator: ">=")
+        before: Date @where(key: "evaluation_date_start", operator: "<=")
+		status: EvaluationStatus @eq
+		type: EvaluationType
+	): [Evaluation]! @hasMany
+	requestedEvaluations(
+		after: Date @where(key: "evaluation_date_end", operator: ">=")
+        before: Date @where(key: "evaluation_date_start", operator: "<=")
+		status: EvaluationStatus @eq
+		type: EvaluationType
+	): [Evaluation]! @hasMany
+
     created_at: DateTime!
     updated_at: DateTime!
 }

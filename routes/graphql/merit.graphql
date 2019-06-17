@@ -89,6 +89,7 @@ type MeritReport {
 
 	nihStudySectionMember: Boolean
 	editorialBoards: [EditorialBoardItem]
+	lectures: [Lecture]!
 }
 
 enum MeritReportStatus {
@@ -174,6 +175,13 @@ type Directorships {
 	clinicalService: [String]
 	simulationCenter: [String]
 	visitingRotators: [String]
+}
+
+type Lecture {
+	lectureType: String
+	title: String
+	date: String
+	audience: String
 }
 
 # type MeritReportContents {

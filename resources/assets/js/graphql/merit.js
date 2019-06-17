@@ -101,6 +101,10 @@ export const YEARLY_OVERVIEW_FIELDS = gql`
 		studies {
 			yearInitiated
 		}
+		lectures {
+			title
+			lectureType
+		}
 	}
 `;
 

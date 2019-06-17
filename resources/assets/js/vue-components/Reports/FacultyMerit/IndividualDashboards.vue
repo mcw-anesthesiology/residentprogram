@@ -121,6 +121,14 @@ export default {
 						id
 						full_name
 						email
+						evaluatorEvaluations(
+							after: $startDate
+							before: $endDate
+							status: complete
+							type: trainee
+						) {
+							id
+						}
 						meritReports(
 							after: $startDate
 							before: $endDate
@@ -176,6 +184,11 @@ export default {
 					}
 				}
 			}
+		}
+	},
+	watch: {
+		user() {
+			this.leadershipRole = '';
 		}
 	},
 	computed: {
