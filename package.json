@@ -28,7 +28,7 @@
     "ui-test": "webpack-dev-server --config webpack.ui-tester.config.js"
   },
   "browserslist": [
-    "last 2 versions",
+    ">1%",
     "ie >= 11"
   ],
   "dependencies": {

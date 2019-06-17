@@ -757,6 +757,47 @@ class MeritReport extends Model
 		}
 	}
 
+	public function getLecturesAttribute() {
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				// TODO
+				$report = $this->report;
+				$items = [
+					$report['pages'][1]['items'][0]['items'][0],
+					$report['pages'][1]['items'][0]['items'][1]['items'][5],
+					$report['pages'][1]['items'][0]['items'][1]['items'][6],
+					$report['pages'][1]['items'][0]['items'][1]['items'][7],
+					$report['pages'][1]['items'][0]['items'][2]['items'][1],
+					$report['pages'][1]['items'][0]['items'][2]['items'][2],
+					$report['pages'][1]['items'][1]['items'][0],
+					$report['pages'][1]['items'][1]['items'][1],
+					$report['pages'][1]['items'][2]['items'][0],
+					$report['pages'][1]['items'][2]['items'][1],
+					$report['pages'][1]['items'][2]['items'][2],
+					$report['pages'][1]['items'][2]['items'][3],
+					$report['pages'][1]['items'][2]['items'][4],
+					$report['pages'][1]['items'][2]['items'][5],
+					$report['pages'][1]['items'][2]['items'][6]
+				];
+				return call_user_func_array('array_merge', array_map(function($item) {
+					return array_map(function($lectureItem) use ($item) {
+						return array_merge($lectureItem, [
+							'lectureType' => $item['text']
+						]);
+				   	}, self::getListItems($item));
+				}, $items));
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				// TODO
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getLecturesAttribute ' . $e);
+			return [];
+		}
+	}
+
 	static function trimProps(&$obj) {
 		foreach ($obj as &$prop) {
 			$prop = trim($prop);

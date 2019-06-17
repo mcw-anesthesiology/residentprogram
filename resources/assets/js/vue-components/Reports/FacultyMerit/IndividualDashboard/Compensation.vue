@@ -40,6 +40,21 @@
 				</tbody>
 			</table>
 		</section>
+		<section>
+			<h2>Evaluation metrics</h2>
+			<table>
+				<tbody>
+					<tr>
+						<th>Evaluations completed</th>
+						<td>{{ user.evaluatorEvaluations.length }}</td>
+					</tr>
+					<tr>
+						<th>Lectures given</th>
+						<td>{{ numLectures }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
 	</section>
 </template>
 
@@ -117,6 +132,9 @@ export default {
 	computed: {
 		totalCompensation() {
 			return this.compensation.baseSalary + this.compensation.incentive;
+		},
+		numLectures() {
+			return this.user.meritReports.map(mr => mr.lectures.length).reduce((sum, val) => sum + val, 0);
 		}
 	},
 	methods: {
