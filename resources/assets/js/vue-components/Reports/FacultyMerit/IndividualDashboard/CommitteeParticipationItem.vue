@@ -9,7 +9,7 @@
 
 		<ol>
 			<li
-				v-for="{ period, name } of memberCommittees"
+				v-for="{ period, name } of committees"
 				:key="name"
 			>
 				{{ name }}
@@ -79,11 +79,8 @@ export default {
 		}
 	},
 	computed: {
-		memberCommittees() {
-			return this.committees.filter(c => c.role === 'MEMBER');
-		},
 		totalParticipationCount() {
-			return this.memberCommittees.length;
+			return this.committees.length;
 		}
 	},
 	methods: {
