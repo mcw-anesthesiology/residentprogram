@@ -34,12 +34,12 @@
 </template>
 
 <style scoped>
-.reports-yearly-overview :global(td) {
+.reports-yearly-overview >>> td {
 	font-family: monospace;
 }
 
-.reports-yearly-overview :global(td),
-.reports-yearly-overview :global(th:not(:first-child)) {
+.reports-yearly-overview >>> td,
+.reports-yearly-overview >>> th:not(:first-child) {
 	text-align: right;
 }
 
@@ -51,7 +51,7 @@
 	padding-left: 2em;
 }
 
-.charts-container > :global(section) {
+.charts-container >>> section {
 	box-sizing: border-box;
 	margin: 1em;
 	padding: 1em;
@@ -59,7 +59,7 @@
 	border-radius: 2px;
 }
 
-.charts-container :global(canvas) {
+.charts-container >>> canvas {
 	margin: 1em 0;
 }
 </style>

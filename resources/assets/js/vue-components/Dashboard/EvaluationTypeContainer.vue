@@ -37,7 +37,7 @@
 		border-style: solid;
 	}
 
-	.list-container :global(.evaluation-list fieldset) {
+	.list-container >>> .evaluation-list fieldset {
 		margin: 2em;
 	}
 

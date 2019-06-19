@@ -104,7 +104,15 @@ module.exports = (env, argv) => {
 				},
 				{
 					test: /\.css$/,
-					use: [ExtractCssChunks.loader, 'css-loader'],
+					use: [
+						ExtractCssChunks.loader,
+						{
+							loader: 'css-loader',
+							options: {
+								modules: 'global'
+							}
+						}
+					],
 					sideEffects: true
 				},
 				{

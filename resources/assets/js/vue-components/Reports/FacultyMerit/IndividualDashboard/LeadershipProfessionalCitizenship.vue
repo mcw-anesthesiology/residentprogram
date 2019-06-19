@@ -116,7 +116,7 @@ th {
 	text-align: center;
 }
 
-.summary td :global(.feather-check) {
+.summary td >>> .feather-check {
 	color: green;
 	height: 1em;
 	width: 1em;
@@ -133,7 +133,7 @@ h3 {
 	margin: -0.25em;
 }
 
-.committees > :global(.committee-participation-item) {
+.committees >>> .committee-participation-item {
 	margin: 0.25em;
 }
 
@@ -144,7 +144,7 @@ h3 {
 	flex-wrap: wrap;
 }
 
-.journals > :global(.journal-editorial-board-item) {
+.journals >>> .journal-editorial-board-item {
 	margin: 1em;
 	flex-grow: 1;
 }
@@ -193,23 +193,6 @@ export default {
 
 					map.set(cp.organization, arr);
 				}
-			}
-
-			for (const [org, committees] of map.entries()) {
-				const orgMap = new Map();
-
-				for (const committee of committees) {
-					let roles = orgMap.get(committee.role);
-
-					if (!roles) {
-						roles = [];
-						orgMap.set(committee.role, roles);
-					}
-
-					roles.push(committee);
-				}
-
-				map.set(org, orgMap);
 			}
 
 			return map;

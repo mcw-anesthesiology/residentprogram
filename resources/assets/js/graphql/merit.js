@@ -132,6 +132,24 @@ export const INDIVIDUAL_DASHBOARD_FIELDS = gql`
 			description
 			date
 		}
+		publications {
+			publicationType
+			title
+		}
+		grants {
+			project
+		}
+		studies {
+			title
+			role
+			yearInitiated
+		}
+		lectures {
+			lectureType
+			title
+			date
+			audience
+		}
 	}
 	${YEARLY_OVERVIEW_FIELDS}
 `;

@@ -12,7 +12,7 @@
 	text-align: center;
 }
 
-.loading-placeholder :global(.feather-loader) {
+.loading-placeholder >>> .feather-loader {
 	vertical-align: middle;
 	animation-duration: 1.5s;
 	animation-name: rotate-loading-placeholder;

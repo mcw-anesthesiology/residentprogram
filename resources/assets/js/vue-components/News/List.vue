@@ -52,7 +52,7 @@
 		margin: 2rem 1.5rem;
 	}
 
-	.news-list :global(.alert .alert-html) {
+	.news-list >>> .alert .alert-html {
 		padding: 0 1.5rem;
 	}
 

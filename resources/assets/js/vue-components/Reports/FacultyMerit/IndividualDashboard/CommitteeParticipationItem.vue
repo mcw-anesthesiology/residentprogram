@@ -7,20 +7,15 @@
 			</small>
 		</h4>
 
-		<div class="roles">
-			<div v-for="role of roles" :key="role">
-				<h5>{{ enumToWords(role) }}</h5>
-				<ol>
-					<li
-						v-for="{ period, name } of committees.get(role)"
-						:key="name"
-					>
-						{{ name }}
-						<span v-if="showPeriods"> ({{ period }}) </span>
-					</li>
-				</ol>
-			</div>
-		</div>
+		<ol>
+			<li
+				v-for="{ period, name } of memberCommittees"
+				:key="name"
+			>
+				{{ name }}
+				<span v-if="showPeriods"> ({{ period }}) </span>
+			</li>
+		</ol>
 	</section>
 </template>
 
@@ -77,21 +72,18 @@ import { enumToWords } from '@/modules/text-utils.js';
 export default {
 	props: {
 		organization: String,
-		committees: Map,
+		committees: Array,
 		showPeriods: {
 			type: Boolean,
 			default: false
 		}
 	},
 	computed: {
-		roles() {
-			const roles = Array.from(this.committees.keys());
-			roles.sort();
-
-			return roles;
+		memberCommittees() {
+			return this.committees.filter(c => c.role === 'MEMBER');
 		},
 		totalParticipationCount() {
-			return Array.from(this.committees.values()).reduce((total, roleCommittees) => total + roleCommittees.length, 0);
+			return this.memberCommittees.length;
 		}
 	},
 	methods: {
