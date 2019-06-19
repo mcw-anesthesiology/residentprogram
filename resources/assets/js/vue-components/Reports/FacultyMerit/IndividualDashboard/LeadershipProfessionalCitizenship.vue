@@ -184,14 +184,16 @@ export default {
 				);
 				for (const cp of report.committeeParticipation) {
 					const arr = map.get(cp.organization) || [];
-					for (const committee of cp.committees) {
+					for (const committee of cp.committees.filter(c => c.role === 'MEMBER')) {
 						arr.push({
 							period,
 							...committee
 						});
 					}
 
-					map.set(cp.organization, arr);
+					if (arr.length > 0) {
+						map.set(cp.organization, arr);
+					}
 				}
 			}
 
