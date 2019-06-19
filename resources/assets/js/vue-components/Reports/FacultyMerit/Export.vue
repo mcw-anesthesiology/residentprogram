@@ -33,8 +33,8 @@
 	</div>
 </template>
 
-<style scoped>
-	.export-table-container :global(td) {
+<style>
+	.export-table-container td {
 		white-space: pre;
 	}
 </style>

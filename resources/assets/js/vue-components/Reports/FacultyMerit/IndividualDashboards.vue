@@ -25,17 +25,13 @@
 			</label>
 		</div>
 
-		<div
+		<individual-dashboard
 			v-if="user"
-			class="dashboard-container container-fluid body-block"
-		>
-			<individual-dashboard
-				:user="user"
-				:dates="dates"
-				:title="reportTitle"
-				:user-props="userProps"
-			/>
-		</div>
+			:user="user"
+			:dates="dates"
+			:title="reportTitle"
+			:user-props="userProps"
+		/>
 	</div>
 </template>
 
@@ -43,11 +39,6 @@
 @media print {
 	.user-selector-container {
 		display: none;
-	}
-
-	.dashboard-container {
-		padding: 0 !important;
-		margin: 0 !important;
 	}
 }
 </style>
@@ -151,9 +142,7 @@ export default {
 		leadershipRole: {
 			client: 'staff',
 			query: gql`
-				query IndividualDashboardUserStaffInfo(
-					$email: String
-				) {
+				query IndividualDashboardUserStaffInfo($email: String) {
 					staffMember(email: $email) {
 						email
 						... on Faculty {
@@ -211,7 +200,10 @@ export default {
 	methods: {
 		handleUserIdChange(userId) {
 			if (userId) {
-				this.$router.push({ name: 'merit-individual-dashboard', params: { userId } });
+				this.$router.push({
+					name: 'merit-individual-dashboard',
+					params: { userId }
+				});
 			}
 		}
 	},

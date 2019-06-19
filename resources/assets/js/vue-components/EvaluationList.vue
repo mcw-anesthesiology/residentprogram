@@ -44,7 +44,7 @@
 
 <style scoped>
 @supports (display: grid) {
-	.evaluation-list :global(.component-list .list-container ol) {
+	.evaluation-list >>> .component-list .list-container ol {
 		display: grid;
 		grid-gap: 1px;
 		grid-template-columns: 1fr;

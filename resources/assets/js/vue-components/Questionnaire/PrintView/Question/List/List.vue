@@ -96,8 +96,8 @@ export default {
 		content: ':';
 	}
 
-	.print-view-question-list > :global(ul),
-	.print-view-question-list > :global(ol),
+	.print-view-question-list >>> ul,
+	.print-view-question-list >>> ol,
 	dl {
 		margin: 0;
 	}

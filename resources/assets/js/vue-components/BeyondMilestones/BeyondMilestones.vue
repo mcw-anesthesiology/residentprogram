@@ -43,12 +43,12 @@
 		display: none;
 	}
 
-	.beyond-milestones :global(.beyond-milestones-question) {
+	.beyond-milestones >>> .beyond-milestones-question {
 		border: 1px solid #ddd;
 		border-radius: 3px;
 	}
 
-	.beyond-milestones :global(.beyond-milestones-question + .beyond-milestones-question) {
+	.beyond-milestones >>> .beyond-milestones-question + .beyond-milestones-question {
 		margin-top: 2em;
 	}
 </style>

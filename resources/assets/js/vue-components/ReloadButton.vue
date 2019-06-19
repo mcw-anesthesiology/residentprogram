@@ -5,13 +5,13 @@
 </template>
 
 <style scoped>
-	.reload-button :global(.feather) {
+	.reload-button >>> .feather {
 		vertical-align: middle;
 		height: 1.5em;
 		width: 1.5em;
 	}
 
-	.reload-button.clicked :global(.feather) {
+	.reload-button.clicked >>> .feather {
 		animation-duration: 0.75s;
 		animation-name: rotate-reload-button;
 		animation-iteration-count: 1;

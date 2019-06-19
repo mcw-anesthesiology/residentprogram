@@ -235,7 +235,15 @@ ul {
 		align-items: stretch;
 	}
 
-	.chart-container > :global(div) {
+	.chart-container > img {
+		display: block;
+	}
+}
+</style>
+
+<style>
+@media print {
+	.chart-container > div {
 		display: none;
 	}
 
@@ -243,7 +251,7 @@ ul {
 		display: block;
 	}
 
-	:global(.apexcharts-toolbar) {
+	.apexcharts-toolbar {
 		display: none;
 	}
 }

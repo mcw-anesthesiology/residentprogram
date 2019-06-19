@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style scoped>
-	.print-view-checklist > :global(.print-view-checklist-section) {
+	.print-view-checklist >>> .print-view-checklist-section {
 		margin-left: 0;
 		padding: 0;
 	}

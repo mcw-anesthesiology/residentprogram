@@ -22,6 +22,10 @@ export default {
 			type: [String, Date, Object],
 			required: false
 		},
+		dates: {
+			type: Array,
+			required: false
+		},
 		time: {
 			type: Boolean,
 			default: false
@@ -50,18 +54,14 @@ export default {
 			return this.detailed || this.hover;
 		},
 		dateString() {
-			if (!this.date)
-				return '';
+			if (this.date) {
+				return this.getDateString(this.date);
 
-			if (this.time) {
-				return this.showDetailed
-					? moment(this.date).format('ll LT')
-					: renderDateTime(this.date);
+			} else if (this.dates) {
+				return this.dates.map(d => this.getDateString(d)).join('; ');
 			}
 
-			return this.showDetailed
-				? moment(this.date).format('ll')
-				: renderDate(this.date);
+			return '';
 		}
 	},
 
@@ -71,6 +71,26 @@ export default {
 		},
 		handleMouseLeave() {
 			this.hovered = false;
+		},
+		getDateString(date) {
+			if (!date || date === 'Unknown')
+				return 'Unknown';
+
+			try {
+				if (this.time) {
+					return this.showDetailed
+						? moment(date).format('ll LT')
+						: renderDateTime(date);
+				}
+
+				return this.showDetailed
+					? moment(date).format('ll')
+					: renderDate(date);
+			} catch (err) {
+				console.error(err);
+				return 'Invalid date';
+			}
+
 		}
 	},
 

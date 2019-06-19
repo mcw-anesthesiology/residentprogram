@@ -15,6 +15,7 @@
 					<div class="col-sm-8">
 						<ul class="publication-list">
 							<li v-for="[pubType, publications] of facultyPublicationsByType"
+									:key="pubType"
 									class="publication-list-item">
 								<h3 class="publication-title row">
 									<span class="publication-type col-sm-10">
