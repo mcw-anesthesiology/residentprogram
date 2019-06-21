@@ -55,7 +55,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		"remind_only_if_pending"
 	];
 
-	protected $appends = ["full_name", "specific_type", "profile_link"];
+	protected $appends = ["full_name", "specific_type", "display_type", "profile_link"];
 
 	public function getFullNameAttribute() {
 		return $this->last_name . ", " . $this->first_name;
@@ -107,6 +107,25 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			return "fellow";
 
 		return $this->type;
+	}
+
+	public function getDisplayTypeAttribute() {
+		switch ($this->type) {
+		case 'resident':
+			switch ($this->training_level) {
+			case 'fellow':
+				if (!empty($this->secondary_training_level)) {
+					return "{$this->secondary_training_level} Fellow";
+				}
+				return "Fellow";
+			case 'intern':
+				return 'Intern';
+			default:
+				return strtoupper($this->training_level);
+			}
+		default:
+			return ucfirst($this->type);
+		}
 	}
 
 	public function evaluatorEvaluations() {

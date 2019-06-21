@@ -1,4 +1,3 @@
-/* @flow */
 /* global process */
 
 export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
@@ -59,7 +58,7 @@ export const STANDARD_OPTIONS = {
 	]
 };
 
-export const RESIDENT_VALUE_MAP: Map<number, string> = new Map([
+export const RESIDENT_VALUE_MAP = new Map([
 	[2, 'CBY'],
 	[4, 'CA-1'],
 	[6, 'CA-2'],
@@ -67,7 +66,7 @@ export const RESIDENT_VALUE_MAP: Map<number, string> = new Map([
 	[10, 'Attending']
 ]);
 
-export const FELLOWSHIP_VALUE_MAPS: Map<?string, Map<number, string>> = new Map([
+export const FELLOWSHIP_VALUE_MAPS = new Map([
 	[null, new Map([
 		[0, 'Not yet at Resident Level'],
 		[1, 'Resident Level'],

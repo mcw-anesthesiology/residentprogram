@@ -9,7 +9,7 @@
 				</label>
 			</div>
 		</div>
-		
+
 		<data-table :id="id" :striped="striped" :bordered="bordered"
 				:thead="thead" :config="datedConfig" :data="data"
 				:exportable="exportable" :exportFilename="exportFilename">
@@ -38,7 +38,7 @@ export default {
 			dates: academicYearForDate(new Date())
 		};
 	},
-	
+
 	components: {
 		AcademicYearSelector,
 		DataTable

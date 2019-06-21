@@ -186,7 +186,8 @@ class LoginController extends Controller
 		if($this->attemptLogin($request))
 			return response()->json([
 				'status' => 'success',
-				'user' => $this->guard()->user()
+				'user' => $this->guard()->user(),
+				'sessionId' => $request->session()->getId()
 			]);
 
 		$this->incrementLoginAttempts($request);
