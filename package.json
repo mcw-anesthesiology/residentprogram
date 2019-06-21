@@ -203,5 +203,8 @@
     "./bower_components/**",
     "./resources/assets/js/*.js",
     "*.css"
+  ],
+  "files": [
+    "resources"
   ]
 }

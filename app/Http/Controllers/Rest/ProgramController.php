@@ -8,8 +8,6 @@ use Closure;
 
 use App\Program;
 
-use Auth;
-
 
 class ProgramController extends RestController
 {
@@ -18,7 +16,6 @@ class ProgramController extends RestController
 		$this->middleware('auth');
 		$this->middleware('type:admin')->except(['evaluations', 'index']);
 		$this->middleware(function ($request, Closure $next) {
-			$user = Auth::user();
 			$id = $request->route()->parameters()['id'];
 
 			// Will fail if scope hides from user
@@ -54,7 +51,9 @@ class ProgramController extends RestController
 
 	public function evaluations(Request $request, $id) {
 		$program = Program::findOrFail($id);
-		$query = $program->evaluations();
+		$userFields = 'id,first_name,last_name,type,training_level,secondary_training_level,status';
+		$query = $program->evaluations()
+			->with("subject:{$userFields}", "evaluator:${userFields}");
 
 		if ($request->has('start')) {
 			$query->where('evaluation_date_end', '>=', $request->input('start'));

@@ -18,9 +18,9 @@ class EvaluationsController extends Controller
     public function index(Request $request) {
 		return Evaluation::with([
 			'form:id,title,type,visibility',
-			'subject:id,first_name,last_name',
-			'evaluator:id,first_name,last_name',
-			'requestor:id,first_name,last_name'
+			'subject:id,first_name,last_name,type,training_level,secondary_training_level',
+			'evaluator:id,first_name,last_name,type,training_level,secondary_training_level',
+			'requestor:id,first_name,last_name,type,training_level,secondary_training_level'
 		])->between($request->input('startDate'), $request->input('endDate'))
 		->get();
     }
@@ -46,9 +46,9 @@ class EvaluationsController extends Controller
     {
 		$evaluation->load([
 			'form:id,title,type,visibility',
-			'subject:id,first_name,last_name',
-			'evaluator:id,first_name,last_name',
-			'requestor:id,first_name,last_name'
+			'subject:id,first_name,last_name,type,training_level,secondary_training_level',
+			'evaluator:id,first_name,last_name,type,training_level,secondary_training_level',
+			'requestor:id,first_name,last_name,type,training_level,secondary_training_level'
 		]);
 
 		return $evaluation;

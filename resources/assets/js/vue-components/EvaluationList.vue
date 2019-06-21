@@ -2,6 +2,10 @@
 	<section class="evaluation-list">
 		<fieldset>
 			<div class="filters-container">
+				<label v-if="types && types.length > 1">
+					Type
+					<v-select :options="types" v-model="typeFilter" multiple />
+				</label>
 				<label v-if="forms && forms.length > 1">
 					Form
 					<v-select :options="forms" v-model="formFilter"
@@ -19,6 +23,14 @@
 					<v-select :options="evaluators" v-model="evaluatorFilter"
 						multiple
 					/>
+				</label>
+				<label v-if="subjectTypes && subjectTypes.length > 1">
+					Subject type
+					<v-select :options="subjectTypes" v-model="subjectTypeFilter" multiple />
+				</label>
+				<label v-if="evaluatorTypes && evaluatorTypes.length > 1">
+					Evalautor type
+					<v-select :options="evaluatorTypes" v-model="evaluatorTypeFilter" multiple />
 				</label>
 				<label v-if="statusOptions && statusOptions.length > 1">
 					Status
@@ -63,6 +75,8 @@
 </style>
 
 <script>
+/** @format */
+
 import dlv from 'dlv';
 
 import VSelect from 'vue-select';
@@ -125,20 +139,36 @@ export default {
 	data() {
 		return {
 			statusFilter: null,
+			typeFilter: [],
 			subjectFilter: [],
 			evaluatorFilter: [],
-			formFilter: []
+			formFilter: [],
+			subjectTypeFilter: [],
+			evaluatorTypeFilter: []
 		};
 	},
 	computed: {
+		types() {
+			try {
+				if (this.evaluations.length > 0 && this.evaluations[0].type) {
+					const set = new Set(this.evaluations.map(e => e.type));
+					return sorted(Array.from(set.values()).map(e => ({
+						label: ucfirst(e),
+						value: e
+					})));
+				}
+			} catch (e) {
+				logError(e);
+			}
+		},
 		statusOptions() {
 			try {
-				if (this.evaluations.length > 0 && this.evaluations[0].subject) {
+				if (this.evaluations.length > 0 && this.evaluations[0].status) {
 					const set = new Set(this.evaluations.map(e => e.status));
-					return Array.from(set.values()).map(s => ({
+					return sorted(Array.from(set.values()).map(s => ({
 						label: ucfirst(s),
 						value: s
-					}));
+					})));
 				}
 			} catch (e) {
 				logError(e);
@@ -152,10 +182,10 @@ export default {
 						map.set(e.subject_id, e.subject);
 					}
 
-					return Array.from(map.values()).map(s => ({
+					return sorted(Array.from(map.values()).map(s => ({
 						value: s.id,
 						label: s.full_name
-					}));
+					})));
 				}
 			} catch (e) {
 				logError(e);
@@ -169,10 +199,48 @@ export default {
 						map.set(e.evaluator_id, e.evaluator);
 					}
 
-					return Array.from(map.values()).map(e => ({
+					return sorted(Array.from(map.values()).map(e => ({
 						value: e.id,
 						label: e.full_name
-					}));
+					})));
+				}
+			} catch (e) {
+				logError(e);
+			}
+		},
+		evaluatorTypes() {
+			try {
+				if (this.evaluations.length > 0 && this.evaluations[0].evaluator && this.evaluations[0].evaluator.display_type) {
+					const set = new Set();
+					for (const e of this.evaluations) {
+						if (e.evaluator && e.evaluator.display_type) {
+							set.add(e.evaluator.display_type);
+						}
+					}
+
+					return sorted(Array.from(set.values()).map(t => ({
+						label: t,
+						value: t
+					})));
+				}
+			} catch (e) {
+				logError(e);
+			}
+		},
+		subjectTypes() {
+			try {
+				if (this.evaluations.length > 0 && this.evaluations[0].subject && this.evaluations[0].subject.display_type) {
+					const set = new Set();
+					for (const e of this.evaluations) {
+						if (e.subject && e.subject.display_type) {
+							set.add(e.subject.display_type);
+						}
+					}
+
+					return sorted(Array.from(set.values()).map(t => ({
+						label: t,
+						value: t
+					})));
 				}
 			} catch (e) {
 				logError(e);
@@ -186,10 +254,10 @@ export default {
 						map.set(e.form_id, e.form);
 					}
 
-					return Array.from(map.values()).map(f => ({
+					return sorted(Array.from(map.values()).map(f => ({
 						value: f.id,
 						label: f.title
-					}));
+					})));
 				}
 			} catch (e) {
 				logError(e);
@@ -205,25 +273,40 @@ export default {
 			}
 
 			if (this.subjectFilter && this.subjectFilter.length > 0) {
-				const subjectIds = this.subjectFilter.map(v => v.value);
-				evaluations = evaluations.filter(e => subjectIds.includes(e.subject_id));
+				const subjectIds = new Set(this.subjectFilter.map(v => v.value));
+				evaluations = evaluations.filter(e => subjectIds.has(e.subject_id));
 			}
 
 			if (this.evaluatorFilter && this.evaluatorFilter.length > 0) {
-				const evaluatorIds = this.evaluatorFilter.map(v => v.value);
-				evaluations = evaluations.filter(e => evaluatorIds.includes(e.evaluator_id));
+				const evaluatorIds = new Set(this.evaluatorFilter.map(v => v.value));
+				evaluations = evaluations.filter(e => evaluatorIds.has(e.evaluator_id));
 			}
 
 			if (this.formFilter && this.formFilter.length > 0) {
-				const formIds = this.formFilter.map(v => v.value);
-				evaluations = evaluations.filter(e => formIds.includes(e.form_id));
+				const formIds = new Set(this.formFilter.map(v => v.value));
+				evaluations = evaluations.filter(e => formIds.has(e.form_id));
+			}
+
+			if (this.typeFilter && this.typeFilter.length > 0) {
+				const types = new Set(this.typeFilter.map(v => v.value));
+				evaluations = evaluations.filter(e => types.has(e.type));
+			}
+
+			if (this.subjectTypeFilter && this.subjectTypeFilter.length > 0) {
+				const types = new Set(this.subjectTypeFilter.map(v => v.value));
+				evaluations = evaluations.filter(e => types.has(e.subject.display_type));
+			}
+
+			if (this.evaluatorTypeFilter && this.evaluatorTypeFilter.length > 0) {
+				const types = new Set(this.evaluatorTypeFilter.map(v => v.value));
+				evaluations = evaluations.filter(e => types.has(e.evaluator.display_type));
 			}
 
 			return evaluations;
 		}
 	},
 	methods: {
-		ucfirst
+		ucfirst,
 	},
 	components: {
 		VSelect,
@@ -231,4 +314,17 @@ export default {
 		ComponentList
 	}
 };
+
+function sorted(arr) {
+	arr = arr.slice();
+	arr.sort((a, b) => {
+		if (a.label < b.label)
+			return -1;
+		if (a.label > b.label)
+			return 1;
+		return 0;
+	});
+
+	return arr;
+}
 </script>
