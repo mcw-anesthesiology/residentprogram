@@ -20,11 +20,11 @@
 
 <p>
 	Please use the email address
-@if (!config('app.external_auth') && !empty($password))
+@if (!config('auth.external_auth') && !empty($password))
 	and temporary password
 @endif
 	below to log into the site.
-@if (!config('app.external_auth') && !empty($password))
+@if (!config('auth.external_auth') && !empty($password))
 	Once you have successfully logged in, we strongly recommend that you
 	change your password to something that is easier to remember. You can do that
 	here: <a href="{{ url('/user') }}">{{ url('/user') }}</a>.
@@ -44,7 +44,7 @@
 				<kbd>{{ $email }}</kbd>
 			</td>
 		</tr>
-@if (!config('app.external_auth') && !empty($password))
+@if (!config('auth.external_auth') && !empty($password))
 		<tr>
 			<th>Password</th>
 			<td>
