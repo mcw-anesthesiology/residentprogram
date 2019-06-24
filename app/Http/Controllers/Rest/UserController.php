@@ -72,9 +72,9 @@ class UserController extends RestController
 		$user->last_name = $request->input("last_name");
 		$user->reminder_frequency = $request->input("reminder_frequency", "weekly");
 		$user->notifications = $request->input("notifications", "no");
+		$user->username = $request->input('username', $user->email);
 
 		if ($request->input('type') == 'external') {
-			$user->username = $user->email;
 			$user->password = bcrypt(str_random(32));
 			$user->status = 'active';
 			$user->type = 'external';
@@ -83,7 +83,6 @@ class UserController extends RestController
 			return $user;
 		} else {
 			$password = str_random(12);
-			$user->username = $request->input("username");
 			$user->password = bcrypt($password);
 			$user->status = $request->input("status", "active");
 
@@ -133,7 +132,7 @@ class UserController extends RestController
 
 		$updates = $request->all();
 
-		if ($user->type == 'external' && $request->has('email')) {
+		if ($request->has('email')) {
 			$updates['username'] = $updates['email'];
 		}
 

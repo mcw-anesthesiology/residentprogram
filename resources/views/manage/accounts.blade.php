@@ -70,7 +70,6 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Username</th>
 						<th>Email</th>
 						<th>Training Level</th>
 						<th>Status</th>
@@ -103,7 +102,6 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Username</th>
 						<th>Email</th>
 						<th>Specialty</th>
 						<th>Status</th>
@@ -136,7 +134,6 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Username</th>
 						<th>Email</th>
 						<th>Status</th>
 						<th>Action</th>
@@ -184,7 +181,6 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Username</th>
 						<th>Email</th>
 						<th>Status</th>
 						<th>Action</th>
@@ -211,7 +207,6 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Username</th>
 						<th>Email</th>
 						<th>Status</th>
 						<th>Action</th>
@@ -238,7 +233,6 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Username</th>
 						<th>Email</th>
 						<th>Status</th>
 						<th>Action</th>
@@ -258,7 +252,6 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Username</th>
 						<th>Email</th>
 						<th>Status</th>
 						<th>Action</th>
@@ -281,10 +274,6 @@
 		  {!! csrf_field() !!}
 		<input type="hidden" name="_method" value="PUT" />
         <div class="modal-body modal-edit">
-          <div class="form-group" id="edit-username-container">
-            <label for="edit-username">Username</label>
-            <input type="text" class="form-control" id="edit-username" name="username" readonly>
-          </div>
           <div class="form-group">
 			<label for="edit-email">Email</label>
 			<input type="email" class="form-control" id="edit-email" name="email" required>
@@ -344,10 +333,6 @@
       <form id="add-form" enctype="multipart/form-data" method="POST" action="/users">
 		{!! csrf_field() !!}
         <div class="modal-body modal-add">
-          <div class="form-group" id="add-username-container">
-            <label for="add-username">Username</label>
-            <input type="text" class="form-control" id="add-username" name="username" placeholder="Username" required>
-          </div>
           <div class="form-group">
 			<label for="add-email">Email</label>
 			<input type="email" class="form-control" id="add-email" name="email" placeholder="Email" required>
@@ -423,7 +408,7 @@
 					This will resend the welcome email sent to all new user accounts.
 				</p>
 				<p>
-					The email will contain the user's username and introductory information about basic usage of the system.
+					The email will contain the user's login credentials and introductory information about basic usage of the system.
 				</p>
 				<p>
 					Send the introduction email to <b id="send-intro-email-name"></b>?
@@ -486,7 +471,6 @@
 
 			var columns = [
 				{data: "full_name"},
-				{data: "username"},
 				{data: "email"}
 			];
 
@@ -567,10 +551,9 @@
 
 		$(".jump-to-items a").click(function(event){
 			event.preventDefault();
-			var headerHeight = $("#main-navbar").height();
-			var target = $(this).context.hash;
-			var padding = 5;
-			$(target).parents(".body-block").velocity("scroll", {offset: -(padding + headerHeight)});
+			const href = event.target.href;
+			var target = href.substring(href.indexOf('#'));
+			$(target).parents(".body-block").velocity("scroll", {offset: -5});
 		});
 
 		$("#welcome-form").submit(function(event){
@@ -745,7 +728,6 @@
 
 		$(".account-table").on("click", ".editUser", function(){
 			var id = $(this).data("id");
-			var username = $(this).data("username");
 			var email = $(this).data("email");
 			var firstName = $(this).data("first_name");
 			var lastName = $(this).data("last_name");
@@ -755,7 +737,6 @@
 			var photoPath = $(this).data("photo_path");
 
 			$("#edit-form")[0].reset();
-			$("#edit-username").val(username);
 			$("#edit-email").val(email);
 			$("#edit-first-name").val(firstName);
 			$("#edit-last-name").val(lastName);
@@ -788,12 +769,8 @@
 			}
 
 			if (type === 'external') {
-				$('#edit-username').prop('required', false);
-				$('#edit-username-container').hide();
 				$('#edit-photo-container').hide();
 			} else {
-				$('#edit-username').prop('required', true);
-				$('#edit-username-container').show();
 				$('#edit-photo-container').show();
 			}
 		});
@@ -827,14 +804,10 @@
 			}
 
 			if (type === 'external') {
-				$('#add-username').prop('required', false);
-				$('#add-username-container').hide();
 				$('#add-photo-container').hide();
 				$('#add-status-container').hide();
 				$('#new-account-email-container').hide();
 			} else {
-				$('#add-username').prop('required', true);
-				$('#add-username-container').show();
 				$('#add-photo-container').show();
 				$('#add-status-container').show();
 				$('#new-account-email-container').show();
