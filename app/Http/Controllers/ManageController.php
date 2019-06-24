@@ -5,44 +5,29 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Helpers\FormReader;
 
-use DOMDocument;
-
-use Auth;
 use DB;
-use Debugbar;
 use Log;
 use Htmldom;
-use Mail;
 use Setting;
-use Storage;
 
 use Carbon\Carbon;
 
 use App\Block;
-use App\BlockAssignment;
-use App\Competency;
-use App\CompetencyQuestion;
 use App\DirectoryEntry;
-use App\Evaluation;
 use App\Form;
-use App\Mentorship;
 use App\Milestone;
-use App\MilestoneLevel;
-use App\MilestoneQuestion;
 use App\User;
-use App\WatchedForm;
 
 class ManageController extends Controller
 {
     public function __construct(){
         $this->middleware("auth");
         $this->middleware("shared");
-        $this->middleware("type:admin", ["except" => ["viewForm"]]); // FIXME
+        $this->middleware("type:admin", ["except" => ["viewForm"]]);
+        $this->middleware("active", ["except" => ["viewForm"]]);
     }
 
     public function settings(){

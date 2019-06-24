@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use Auth;
 
-use App\CaseLog;
 use App\CaseLogDetailsSchema;
 use App\Location;
 
@@ -15,7 +14,8 @@ class CaseLogController extends Controller {
 		$this->middleware([
 			'auth',
 			'shared',
-			'site-feature:case_log'
+			'site-feature:case_log',
+			'active'
 		]);
 
 		$this->middleware('case-log.has-access')->only('caseLog');

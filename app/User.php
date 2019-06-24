@@ -77,6 +77,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $photoPath;
 	}
 
+	public function isActive() {
+		return $this->status == 'active';
+	}
+
 	public function isType($types) {
 		if (!is_array($types))
 			$types = [$types];

@@ -18,6 +18,11 @@ class EvaluationController extends RestController
 
 	public function __construct() {
 		$this->middleware("auth");
+		$this->middleware('active')->except([
+			'index',
+			'show',
+			'contents'
+		]);
 		$this->middleware("type:admin")->except([
 			'index',
 			'show',

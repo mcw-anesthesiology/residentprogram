@@ -12,7 +12,7 @@
 @if (Auth::check() && !empty($user))
 	<div class="navbar-collapse collapse">
 	  <ul class="nav navbar-nav navbar-right">
-@if (config('features.evaluations'))
+@if (config('features.evaluations') && $user->isActive())
 	@if ($user->isType("resident"))
 		@if (config('features.trainee_evaluations'))
 		<li><a href="/request">Request Evaluation</a></li>
@@ -135,9 +135,14 @@
 	config('features.faculty_merit')
 	&& (
 		$user->isType('admin')
-		|| $user->isType('faculty')
-		|| $user->usesFeature('FACULTY_MERIT')
-		|| !empty($user->meritAdministratees)
+		|| (
+			$user->isActive()
+			&& (
+				$user->isType('faculty')
+				|| $user->usesFeature('FACULTY_MERIT')
+				|| !empty($user->meritAdministratees)
+			)
+		)
 	)
 )
 		<li><a href="/merit">Faculty Activity Checklist</a></li>
@@ -182,18 +187,19 @@
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 			  Welcome, {{ ucfirst($user->first_name) }} {{ucfirst($user->last_name)}}
-	@if ($user->type == "faculty")
-		@if ($user->evaluatorEvaluations->where("status", "pending")->count() > 0)
+	@if ($user->isActive() && $user->evaluatorEvaluations->where("status", "pending")->count() > 0)
 				<span class="badge">
 					<span class="glyphicon glyphicon-inbox"></span>
 					{{ $user->evaluatorEvaluations->where("status", "pending")->count() }}
 				</span>
-		@endif
 	@endif
 				<b class="caret"></b>
 			</a>
 		  <ul class="dropdown-menu">
             <li class="disabled"><a>Account type: {{ ucfirst($user->specific_type) }}</a></li>
+		@if (!$user->isActive())
+			<li class="disabled"><a>Inactive</a></li>
+		@endif
 			<li><a href="/contact">Contact</a></li>
 
 		@if (config('features.calendar'))
