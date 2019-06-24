@@ -38,6 +38,10 @@ class MeritReportController extends RestController {
 		$this->middleware('site-feature:faculty_merit');
         $this->middleware('type:admin')->only('destroy');
         $this->middleware('shared')->only('printView');
+		$this->middleware('active')->only([
+			'store',
+			'update'
+		]);
 
         // Only allow admins and FACULTY_MERIT users to show all by user
         $this->middleware(function ($request, $next) {

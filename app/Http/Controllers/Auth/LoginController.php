@@ -60,7 +60,7 @@ class LoginController extends Controller
 	 * @Override AuthenticatesUsers
 	 */
 	protected function credentials(Request $request){
-		$credentials = $request->only('password') + ['status' => 'active'];
+		$credentials = $request->only('password');
 
 		$login = $request->input($this->username());
 

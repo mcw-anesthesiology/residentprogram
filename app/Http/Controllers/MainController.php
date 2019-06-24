@@ -5,34 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Helpers\DisplayHelpers;
-use App\Helpers\FormReader;
 
 use Auth;
 use Debugbar;
 use Hashids;
-use Log;
-use Mail;
 use Setting;
-use View;
 
 use Carbon\Carbon;
 
 use App\Block;
-use App\BlockAssignment;
 use App\Evaluation;
 use App\FacultyPeerEvaluation;
-use App\FlaggedEvaluation;
 use App\Form;
-use App\Location;
 use App\Response;
 use App\ScheduledRequest;
 use App\TextResponse;
 use App\User;
-use App\WatchedForm;
 
 class MainController extends Controller
 {
@@ -51,6 +42,12 @@ class MainController extends Controller
             "flaggedEvaluations",
             "getEvaluation"
         ]]);
+
+		$this->middleware('active')->only([
+			'request',
+			'createRequest',
+			'saveEvaluation'
+		]);
 
 		$this->middleware(function($request, $next) {
 			try {
