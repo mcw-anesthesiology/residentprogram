@@ -22,7 +22,8 @@
 	</style>
 @stop
 
-@section("body")
+@section("blockless-body")
+<div class="container body-block">
 	<h1>Advance accounts</h1>
 	<section class="advance-accounts-section" id="advance-accounts-container">
 		<h2 class="sub-header">Advancing users</h2>
@@ -35,7 +36,6 @@
 							<tr>
 								<th><span class="glyphicon glyphicon-share-alt"></span></th>
 								<th>Name</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -54,7 +54,6 @@
 							<tr>
 								<th><span class="glyphicon glyphicon-share-alt"></span></th>
 								<th>Name</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -73,7 +72,6 @@
 							<tr>
 								<th><span class="glyphicon glyphicon-share-alt"></span></th>
 								<th>Name</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -92,7 +90,6 @@
 							<tr>
 								<th><span class="glyphicon glyphicon-share-alt"></span></th>
 								<th>Name</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -164,7 +161,6 @@
 							<tr>
 								<th><span class="glyphicon glyphicon-plane"></span></th>
 								<th>Name</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -183,7 +179,6 @@
 							<tr>
 								<th><span class="glyphicon glyphicon-plane"></span></th>
 								<th>Name</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -202,7 +197,6 @@
 							<tr>
 								<th><span class="glyphicon glyphicon-plane"></span></th>
 								<th>Name</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -221,7 +215,6 @@
 							<tr>
 								<th><span class="glyphicon glyphicon-plane"></span></th>
 								<th>Name</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -240,7 +233,6 @@
 							<tr>
 								<th><span class="glyphicon glyphicon-plane"></span></th>
 								<th>Name</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -259,7 +251,6 @@
 							<tr>
 								<th><span class="glyphicon glyphicon-plane"></span></th>
 								<th>Name</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -332,7 +323,6 @@
 								<th><span class="glyphicon glyphicon-ok-circle"></span></th>
 								<th>Name</th>
 								<th>Status</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -352,7 +342,6 @@
 								<th><span class="glyphicon glyphicon-ok-circle"></span></th>
 								<th>Name</th>
 								<th>Status</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -372,7 +361,6 @@
 								<th><span class="glyphicon glyphicon-ok-circle"></span></th>
 								<th>Name</th>
 								<th>Status</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -392,7 +380,6 @@
 								<th><span class="glyphicon glyphicon-ok-circle"></span></th>
 								<th>Name</th>
 								<th>Status</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -412,7 +399,6 @@
 								<th><span class="glyphicon glyphicon-ok-circle"></span></th>
 								<th>Name</th>
 								<th>Status</th>
-								<th>View</th>
 							</tr>
 						</thead>
 					</table>
@@ -432,8 +418,7 @@
 								<th><span class="glyphicon glyphicon-ok-circle"></span></th>
 								<th>Name</th>
 								<th>Status</th>
-								<th>View</th>
-							</tr>
+							<ntr>
 						</thead>
 					</table>
 				</div>
@@ -508,38 +493,8 @@
 			</table>
 		</div>
 	</section>
-
-	<div class="modal fade" id="view-user-modal" tabindex="-1" role="dialog" aria-labelledby="view-user-modal-title" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="view-user-modal-title">View user</h4>
-	      </div>
-	      <div class="modal-body">
-	        <row>
-				<img src="" alt="" id="view-user-photo" />
-			</row>
-			<row>
-				<div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0">
-					<span id="view-user-name"></span>
-				</div>
-				<div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0">
-					<span id="view-user-email"></span>
-				</div>
-				<div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0">
-					<span id="view-user-type"></span>
-				</div>
-			</row>
-	      </div>
-	      <div class="modal-footer">
-			<a href="" target="_blank" role="button" class="btn btn-info" id="view-user-view-profile-button"><span class="glyphicon glyphicon-link"></span> View profile</a>
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-@stop
+</div>
+@endsection
 
 @section("script")
 	<script>
@@ -560,7 +515,6 @@
 			columns: [
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -581,7 +535,6 @@
 			columns: [
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -602,7 +555,6 @@
 			columns: [
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -623,7 +575,6 @@
 			columns: [
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -644,7 +595,6 @@
 			columns: [
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -665,7 +615,6 @@
 			columns: [
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -686,7 +635,6 @@
 			columns: [
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -707,7 +655,6 @@
 			columns: [
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -728,7 +675,6 @@
 			columns: [
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -748,7 +694,6 @@
 			columns: [
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -770,7 +715,6 @@
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
 				{data: "status", render: renderAccountStatus},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -792,7 +736,6 @@
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
 				{data: "status", render: renderAccountStatus},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -814,7 +757,6 @@
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
 				{data: "status", render: renderAccountStatus},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -836,7 +778,6 @@
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
 				{data: "status", render: renderAccountStatus},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -858,7 +799,6 @@
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
 				{data: "status", render: renderAccountStatus},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -879,7 +819,6 @@
 				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
 				{data: "full_name"},
 				{data: "status", render: renderAccountStatus},
-				{data: null, orderable: false, searchable: false, render: renderViewButton}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -1004,10 +943,6 @@
 					.prop("disabled", false).removeClass("disabled");
 			}
 		});
-
-		// $(document).on("click", ".view-user-button", function(){
-		// 	// TODO
-		// });
 
 		$("#advance-users-button, #graduate-users-button, #start-users-button").click(function(){
 			var button = $(this);
@@ -1212,12 +1147,5 @@
 				+ 'name="users[]" value="' + user.id + '" />';
 		}
 
-		function renderViewButton(user){ // TODO: Enable
-			return '<button type="button" class="btn btn-xs btn-info view-user-button disabled" '
-			 	+ 'data-id="' + user.id + '" data-name="' + user.full_name + '" data-email="' + user.email + '" '
-				+ 'data-photo="' + user.photo_path + '" data-type="' + user.specific_type + '" '
-				+ 'data-training-level="' + user.training_level + '" title="Coming soon" disabled>'
-				+ '<span class="glyphicon glyphicon-user"></span> View</button>';
-		}
 	</script>
 @stop
