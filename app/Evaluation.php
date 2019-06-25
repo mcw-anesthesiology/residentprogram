@@ -527,8 +527,24 @@ class Evaluation extends Model
 	public function getContentsAttribute() {
 		// TODO
 
-		$formContents = $this->form->contents;
+		$contents = $this->form->contents;
+		$questions = [];
 
-		return $formContents;
+		foreach ($contents['items'] as &$item) {
+			if ($item['type'] == 'question') {
+				$questions[$item['id']] = &$item;
+			}
+		}
+
+		$allResponses = $this->responses->merge($this->textResponses);
+
+		foreach ($allResponses as $response) {
+			$question = &$questions[$response->question_id];
+			if (!empty($question)) {
+				$question['response'] = $response->response;
+			}
+		}
+
+		return $contents;
 	}
 }

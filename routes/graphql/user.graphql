@@ -135,18 +135,21 @@ type User {
         before: Date @where(key: "evaluation_date_start", operator: "<=")
 		status: EvaluationStatus @eq
 		type: EvaluationType
+		orderBy: [OrderByClause!] @orderBy
 	): [Evaluation]! @hasMany
 	subjectEvaluations(
 		after: Date @where(key: "evaluation_date_end", operator: ">=")
         before: Date @where(key: "evaluation_date_start", operator: "<=")
 		status: EvaluationStatus @eq
 		type: EvaluationType
+		orderBy: [OrderByClause!] @orderBy
 	): [Evaluation]! @hasMany
 	requestedEvaluations(
 		after: Date @where(key: "evaluation_date_end", operator: ">=")
         before: Date @where(key: "evaluation_date_start", operator: "<=")
 		status: EvaluationStatus @eq
 		type: EvaluationType
+		orderBy: [OrderByClause!] @orderBy
 	): [Evaluation]! @hasMany
 
     created_at: DateTime!
