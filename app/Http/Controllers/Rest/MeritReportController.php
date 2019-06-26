@@ -166,16 +166,14 @@ class MeritReportController extends RestController {
         $report->update($request->all());
         $report->fresh();
 
-		if ($report->status != $oldStatus) {
-			$report->revisions()->create([
-	            'merit_report_id' => $id,
-	            'changed_by' => Auth::id(),
-	            'old_status' => $oldStatus,
-	            'old_report' => $oldReport,
-				'new_status' => $report->status,
-				'new_report' => $report->report
-	        ]);
-		}
+		$report->revisions()->create([
+			'merit_report_id' => $id,
+			'changed_by' => Auth::id(),
+			'old_status' => $oldStatus,
+			'old_report' => $oldReport,
+			'new_status' => $report->status,
+			'new_report' => $report->report
+		]);
 
         return $request->ajax()
             ? 'success'
