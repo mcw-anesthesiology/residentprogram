@@ -243,6 +243,14 @@ class Evaluation extends Model
 		return "<a href='/evaluation/{$this->id}'>{$this->id}</a>";
 	}
 
+	public function getUnseenBySubjectAttribute() {
+		return empty($this->seen_by_subject_at);
+	}
+
+	public function getUnseenByEvaluatorAttribute() {
+		return empty($this->seen_by_evaluator_at);
+	}
+
 	public function evaluator() {
 		return $this->belongsTo('App\User', 'evaluator_id');
 	}
