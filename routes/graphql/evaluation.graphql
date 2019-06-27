@@ -3,6 +3,10 @@ extend type Query @middleware(checks: ["auth"]) {
 	evaluation(id: ID! @eq): Evaluation @find(model: "App\\Evaluation")
 }
 
+extend type Mutation @middleware(checks: ["auth"]) {
+	saveEvaluation(id: ID!, responses: [ResponseInput!], complete: Boolean): Evaluation
+}
+
 extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 	updateEvaluationVisibility(
 		id: ID!
@@ -92,4 +96,8 @@ type Response {
 	weight: Int
 }
 
+input ResponseInput {
+	questionId: ID
+	value: ID
+}
 

@@ -9,7 +9,6 @@ use App\Scopes\EvaluationScope;
 use Carbon\Carbon;
 
 use Auth;
-use Debugbar;
 use Hashids;
 use Log;
 use Mail;
@@ -524,6 +523,18 @@ class Evaluation extends Model
 			->where('status', 'not like', 'canceled%');
 	}
 
+	public function isComplete() {
+		foreach ($this->contents['items'] as $item) {
+			if ($item['type'] == 'question') {
+				if (!empty($item['required']) && empty($item['response'])) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
 	public function getContentsAttribute() {
 		// TODO
 
@@ -542,6 +553,13 @@ class Evaluation extends Model
 			$question = &$questions[$response->question_id];
 			if (!empty($question)) {
 				$question['response'] = $response->response;
+				if (!empty($question['options'])) {
+					foreach ($question['options'] as &$option) {
+						if ($option['value'] == $response->response) {
+							$option['checked'] = true;
+						}
+					}
+				}
 			}
 		}
 
