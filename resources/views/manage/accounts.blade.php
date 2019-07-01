@@ -605,12 +605,8 @@
 		});
 
 		$("#add-status").change(function(){
-			if($(this).val() === "active")
-				$("#new-account-email").prop("disabled", false).prop("checked", true)
-					.parents(".form-group").velocity("slideDown");
-			else
-				$("#new-account-email").prop("checked", false).prop("disabled", true)
-					.parents(".form-group").velocity("slideUp");
+			var isActive = $(this).val() === 'active';
+			$("#new-account-email").prop("disabled", !isActive).prop("checked", isActive);
 		});
 
 		$("#add-form").on("submit", function(event){
@@ -781,15 +777,17 @@
 			if(type === "resident")
 				trainingLevel = $("#add-training-level").val();
 			var status = $("#add-status").val();
+			var newAccountEmail = $('#new-account-email').prop('checked');
+
 			$("#add-form")[0].reset();
 			$("#add-status").val(status);
 			$("#add-type").val(type);
+			$("#new-account-email").prop("checked", newAccountEmail);
+
 			if(type === "resident"){
 				$("#add-training-level").val(trainingLevel).show();
-			}
-			else{
+			} else {
 				$("#add-training-level-container").hide();
-				$("#new-account-email").prop("checked", (type != "staff"));
 			}
 
 			if(type === "fellow") {
@@ -806,11 +804,9 @@
 			if (type === 'external') {
 				$('#add-photo-container').hide();
 				$('#add-status-container').hide();
-				$('#new-account-email-container').hide();
 			} else {
 				$('#add-photo-container').show();
 				$('#add-status-container').show();
-				$('#new-account-email-container').show();
 			}
 		});
 
