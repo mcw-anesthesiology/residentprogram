@@ -5,27 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Carbon\Carbon;
-use Carbon\CarbonInterval;
 
 use DateInterval;
 use DateTime;
 
 use Auth;
 use DB;
-use Debugbar;
 use Hashids;
 use Log;
-use Mail;
 use PDF;
-use Session;
 
-use App\Competency;
 use App\Form;
-use App\Milestone;
 use App\Program;
 use App\User;
 
