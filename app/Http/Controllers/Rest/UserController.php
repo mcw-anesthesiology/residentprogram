@@ -105,7 +105,7 @@ class UserController extends RestController
 
 			$user->save();
 
-			if ($request->has("send_email")) {
+			if ($user->status == 'active' && $request->has("send_email")) {
 				$user->sendNewAccountEmail($password);
 			}
 
