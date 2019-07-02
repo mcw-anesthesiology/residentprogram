@@ -777,12 +777,10 @@ class MainController extends Controller
 
             $input = $request->all();
             foreach ($input as $question => $value) {
-                if (strpos($question, "evaluation_id") === false && $question !== "_token" && strpos($question, 'q') === 0 && strpos($question, ':') === false) {
+                if (strpos($question, "evaluation_id") === false && $question !== "_token" && strpos($question, ':') === false) {
 					if (strpos($question, "weight")) {
 						$weight = $value;
 					} elseif (!empty($value)) {
-						// Matching the q isn't ideal, but idk what else to do really
-
 						if (is_array($value)) {
 							$responses = TextResponse::where('evaluation_id', $id)->where('question_id', $question)->get();
 
