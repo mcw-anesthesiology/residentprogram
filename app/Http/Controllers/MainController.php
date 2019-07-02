@@ -775,6 +775,8 @@ class MainController extends Controller
             }
             $eval->complete_ip = $request->ip();
 
+			$weight = 100;
+
             $input = $request->all();
             foreach ($input as $question => $value) {
                 if (strpos($question, "evaluation_id") === false && $question !== "_token" && strpos($question, ':') === false) {
