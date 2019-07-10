@@ -262,7 +262,7 @@ class MeritReport extends Model
 
 	static function getListItems($item, $index = 0) {
 		try {
-			if (!empty($item['checked'])) {
+			if (self::isChecked($item)) {
 				return $item['questions'][$index]['items'];
 			}
 		} catch (\Exception $e) {
@@ -280,6 +280,18 @@ class MeritReport extends Model
 
 	static function countListItems($item) {
 		return count(self::getListItems($item));
+	}
+
+	static function isChecked($item) {
+		return !empty($item['checked']);
+	}
+
+	static function getSelectedRadioOption($question) {
+		foreach ($question['options'] as $option) {
+			if (!empty($option['checked'])) {
+				return $option;
+			}
+		}
 	}
 
 	/*
@@ -553,9 +565,117 @@ class MeritReport extends Model
 		}
 	}
 
-	public function getCommitteeParticipationAttribute() {
-		$results = [];
+	public function getDepartmentalCommitteesAttribute() {
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
 
+				$departmentalCommitteeItem = $this->report['pages'][3]['items'][2]['items'][3];
+
+				if (self::isChecked($departmentalCommitteeItem)) {
+					return self::getListItems($departmentalCommitteeItem);
+				}
+				break;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getDepartmentalCommitteesAttribute ' . $e);
+		}
+
+		return [];
+	}
+
+	public function getInstitutionalCommitteesAttribute() {
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				$committees = [];
+
+				$scholarlyServiceItems = $this->report['pages'][3]['items'][1]['items'];
+				$HOSPIAL_SOM = 0;
+				$INSTITUTIONAL = 4;
+
+				foreach ([$HOSPIAL_SOM, $INSTITUTIONAL] as $i) {
+					$item = $scholarlyServiceItems[$i];
+					if (self::isChecked($item)) {
+						$committees = array_merge(
+							$committees,
+							self::getListItems($item)
+						);
+					}
+				}
+
+				return $committees;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getDepartmentalCommitteesAttribute ' . $e);
+			return null;
+		}
+
+		return [];
+	}
+
+	public function getLocalCommitteesAttribute() {
+		return array_merge(
+			[],
+			$this->departmental_committees,
+			$this->institutional_committees
+		);
+	}
+
+	public function getLocalCommitteeParticipation() {
+		return [
+			[
+				'organization' => 'Departmental',
+				'committees' => $this->departmental_committees
+			]
+		];
+	}
+
+	public function getRegionalCommitteeParticipation() {
+		$results = [];
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
+
+				$committeeItems = [
+					$this->report['pages'][3]['items'][1]['items'][0],
+					$this->report['pages'][3]['items'][1]['items'][4]
+				];
+
+				foreach ($committeeItems as $committeeItem) {
+					if (!empty($committeeItem['checked'])) {
+						$committees = self::getListItems($committeeItem);
+						if (!empty($committees)) {
+							$name = explode(' ', $committeeItem['text']);
+							$name = array_slice($name, 0, -1);
+							$results[] = [
+								'organization' => implode(' ', $name),
+								'committees' => $committees
+							];
+						}
+					}
+				}
+				break;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getLocalCommitteeParticipation ' . $e);
+			return null;
+		}
+
+		return $results;
+	}
+
+	public function getNationalCommitteeParticipation() {
+		$results = [];
 		try {
 			switch ($this->form->report_slug) {
 			case 'mcw-anesth-faculty-merit-2017-2018':
@@ -575,36 +695,26 @@ class MeritReport extends Model
 					}
 				}
 
-				$committeeItems = [
-					$this->report['pages'][3]['items'][1]['items'][0],
-					$this->report['pages'][3]['items'][1]['items'][4],
-					$this->report['pages'][3]['items'][2]['items'][3]
-				];
-
-				foreach ($committeeItems as $committeeItem) {
-					if (!empty($committeeItem['checked'])) {
-						$committees = self::getListItems($committeeItem);
-						if (!empty($committees)) {
-							$name = explode(' ', $committeeItem['text']);
-							$name = array_slice($name, 0, -1);
-							$results[] = [
-								'organization' => implode(' ', $name),
-								'committees' => $committees
-							];
-						}
-					}
-				}
 
 				break;
 			default:
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
 		} catch (\Exception $e) {
-			Log::error('Error in getCommitteeParticipationAttribute ' . $e);
+			Log::error('Error in getNationalCommitteeParticipation ' . $e);
 			return null;
 		}
 
 		return $results;
+	}
+
+	public function getCommitteeParticipationAttribute() {
+		return array_merge(
+			[],
+			$this->getLocalCommitteeParticipation(),
+			$this->getRegionalCommitteeParticipation(),
+			$this->getNationalCommitteePariticpation()
+		);
 	}
 
 	public function getCommmitteesAttribute() {
@@ -796,6 +906,190 @@ class MeritReport extends Model
 			Log::error('Error in getLecturesAttribute ' . $e);
 			return [];
 		}
+	}
+
+	public function getEducationLeadershipRolesAttribute() {
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				$roles = [];
+
+				$educationSection = $this->report['pages'][1]['items'][0];
+
+				$internItems = $educationSection['items'][1]['items'];
+
+				$CLERKSHIP = 0;
+				$COURSE_DIRECTOR = 1;
+
+				foreach ([$CLERKSHIP, $COURSE_DIRECTOR] as $i) {
+					if (self::isChecked($internItems[$i])) {
+						$roles[] = $internItems[$i]['text'];
+					}
+				}
+
+				$residentFellowItems = $educationSection['items'][2]['items'];
+
+				$JOURNAL_CLUB = 0;
+				$INTERN = 4;
+				$RESIDENCY = 5;
+				$FELLOWSHIP = 6;
+				$ASSOCIATE = 7;
+
+				foreach ([$JOURNAL_CLUB, $INTERN, $RESIDENCY] as $i) {
+					if (self::isChecked($residentFellowItems[$i])) {
+						$roles[] = $residentFellowItems[$i]['text'];
+					}
+				}
+
+				if (self::isChecked($residentFellowItems[$FELLOWSHIP])) {
+					$fellowship = self::getSelectedRadioOption($residentFellowItems[$FELLOWSHIP]['questions'][0]);
+					if (!empty($fellowship)) {
+						$roles[] = "{$fellowship['text']} Fellowship Program Director";
+					}
+				}
+
+				if (self::isChecked($residentFellowItems[$ASSOCIATE])) {
+					$program = self::getSelectedRadioOption($residentFellowItems[$ASSOCIATE]['questions'][0]);
+					if (!empty($program)) {
+						$roles[] = "Associate Program Director - {$program['text']}";
+					}
+				}
+
+				$otherItems = $educationSection['items'][3]['items'];
+				$MSA_INSTRUCTOR = 3;
+
+				if (self::isChecked($otherItems[$MSA_INSTRUCTOR])) {
+					$roles[] = $otherItems[$MSA_INSTRUCTOR]['text'];
+				}
+
+				// Clinical / Administrative service
+
+				$clinicalAdminServiceItems = $this->report['pages'][3]['items'][2]['items'];
+				$DIRECTOR_CLINICAL_SERVICE = 0;
+				$DIRECTOR_SIM_CENTER = 1;
+				$DIRECTOR_VISITING_ROTATORS = 2;
+
+				foreach ([$DIRECTOR_CLINICAL_SERVICE, $DIRECTOR_SIM_CENTER, $DIRECTOR_VISITING_ROTATORS] as $i) {
+					if (self::isChecked($clinicalAdminServiceItems[$i])) {
+						$roles[] = $clinicalAdminServiceItems[$i]['text'];
+					}
+				}
+
+				foreach ($this->local_committees as $committee) {
+					if ($committee['role'] == 'chair') {
+						$roles[] = "Committee chair - {$committee['name']}";
+					}
+				}
+
+				$qiItems = $this->report['pages'][4]['items'][2]['items'];
+				$LEAD_HOSPITAL_TEAM = 2;
+				$LEAD_DEPARTMENT_TEAM = 3;
+
+				if (self::isChecked($qiItems[$LEAD_HOSPITAL_TEAM]) || self::isChecked($qiItems[$LEAD_DEPARTMENT_TEAM])) {
+					$roles[] = 'QI project team leader';
+				}
+
+				return $roles;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug: ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getEducationLeadershipRolesAttribute ' . $e);
+		}
+
+		return [];
+	}
+
+	public function getLeadershipRoles() {
+		$EDUCATION = 0;
+		$INTERNAL = 1;
+		$REGIONAL = 2;
+		$NATIONAL = 3;
+
+		$roles = [
+			[
+				'roleType' =>  'Anesthesia education program',
+				'roles' => []
+			],
+			[
+				'roleType' => 'Internal',
+				'roles' => []
+			],
+			[
+				'roleType' => 'Regional',
+				'roles' => []
+			],
+			[
+				'roleType' => 'National & International',
+				'roles' => []
+			]
+		];
+
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				try {
+					$roles[$EDUCATION]['roles'] = $this->education_leadership_roles;
+				} catch (\Exception $e) {
+					Log::error('Error adding education leadership roles: ' . $e);
+				}
+
+				try {
+				} catch (\Exception $e) {
+					Log::error('Error adding internal leadership roles: ' . $e);
+				}
+
+				try {
+				} catch (\Exception $e) {
+					Log::error('Error adding regional leadership roles: ' . $e);
+				}
+
+				try {
+				} catch (\Exception $e) {
+					Log::error('Error adding national leadership roles: ' . $e);
+				}
+				break;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug: ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getLeadershipRoles ' . $e);
+		}
+
+		return $roles;
+	}
+
+	public function getCertificationsAttribute() {
+		$certifications = [];
+
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				$items = $this->report['pages'][4]['items'][0]['items'];
+
+				for ($i = 0; $i <= 9; $i++) {
+					if (self::isChecked($items[$i])) {
+						$certifications[] = $items[$i]['questions'][0]['items'][0];
+					}
+				}
+
+				// Other
+				if (self::isChecked($items[10])) {
+					$certifications = array_merge(
+						$certifications,
+						$items[10]['questions'][0]['items']
+					);
+				}
+
+				break;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug: ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getCertificationsAttribute ' . $e);
+		}
+
+		return $certifications;
 	}
 
 	static function trimProps(&$obj) {
