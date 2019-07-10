@@ -79,6 +79,7 @@ type MeritReport {
 	leadershipRole: Boolean
 	teachingFormalCourses: Boolean
 
+	leadershipRoles: [LeadershipRole]
 	leadershipPositions: Int
 	participatesInSimulation: Boolean
 	nationalBoards: [NationalBoardRole]
@@ -87,9 +88,23 @@ type MeritReport {
 	directorships: Directorships
 	interviews: [DatedEvent]
 
+	certifications: [Certification]
+
 	nihStudySectionMember: Boolean
 	editorialBoards: [EditorialBoardItem]
 	lectures: [Lecture]!
+}
+
+type Certification {
+	board: String!
+	specialty: String
+	current: Boolean
+	recertified: String
+}
+
+type LeadershipRole {
+	roleType: String
+	roles: [String]
 }
 
 enum MeritReportStatus {
