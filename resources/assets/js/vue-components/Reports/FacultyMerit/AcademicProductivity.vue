@@ -98,37 +98,6 @@
 								{{ rs.flatMap(r => r.studies).length }}
 							</td>
 						</tr>
-
-						<tr>
-							<th>
-								Leadership positions
-								<info-popover>
-									<ul>
-										<li>
-											Committee chair in national
-											organization
-										</li>
-										<li>
-											Reviewer or editorial board member
-											for peer-reviewed journal
-										</li>
-									</ul>
-								</info-popover>
-							</th>
-							<td
-								v-for="[bd, rs] of Array.from(
-									breakdownReports.entries()
-								)"
-								:key="`leadershipPositions:${bd}`"
-							>
-								{{
-									rs.reduce(
-										(sum, r) => sum + r.leadershipPositions,
-										0
-									)
-								}}
-							</td>
-						</tr>
 					</tbody>
 				</table>
 
@@ -204,6 +173,15 @@ tbody th {
 
 ul {
 	padding: 1em;
+}
+
+.education-leadership-roles {
+	text-align: left;
+	font-family: unset;
+}
+
+.education-leadership-roles ul {
+	margin: 0;
 }
 
 .main-row {
