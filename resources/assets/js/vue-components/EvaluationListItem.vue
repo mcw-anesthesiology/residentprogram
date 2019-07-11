@@ -74,6 +74,10 @@
 				</template>
 			</button>
 
+			<show-hide-button v-if="evaluationHasRequestNote" v-model="showRequestNote"
+					class="show-request-note-button btn btn-default btn-sm">
+				request note
+			</show-hide-button>
 			<show-hide-button v-if="evaluationHasComment" v-model="showComment"
 					class="show-comment-button btn btn-default btn-sm">
 				comment
@@ -100,6 +104,7 @@
 		</div>
 
 		<div class="evaluation-list-item-foot">
+			<div v-if="evaluationHasRequestNote && showRequestNote" class="evaluation-request-note-container well well-sm" v-html="evaluation.request_note"></div>
 			<div v-if="evaluationHasComment && showComment" class="evaluation-comment-container well well-sm">{{ evaluation.comment }}</div>
 
 			<form v-if="showDecline" class="decline-form" @submit="handleDecline">
@@ -160,6 +165,7 @@ export default {
 			contents: null,
 
 			showEvaluation: false,
+			showRequestNote: false,
 			showComment: false,
 			showAdminControls: false,
 			showDecline: false
@@ -194,6 +200,9 @@ export default {
 					&& !this.evaluation.seen_by_evaluator_at
 				)
 			);
+		},
+		evaluationHasRequestNote() {
+			return Boolean(this.evaluation.request_note);
 		},
 		evaluationHasComment() {
 			return Boolean(this.evaluation.comment);
@@ -431,6 +440,10 @@ export default {
 	justify-content: center;
 	align-items: center;
 	white-space: normal;
+}
+
+.show-request-note-button {
+	background-color: #c3b9ff;
 }
 
 .show-comment-button {
