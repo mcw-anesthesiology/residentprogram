@@ -1042,13 +1042,34 @@ class MeritReport extends Model
 	}
 
 	public function getRegionalLeadershipRolesAttribute() {
-		// TODO
-		return [];
+	    // TODO
+	    return [];
 	}
 
 	public function getNationalLeadershipRolesAttribute() {
-		// TODO
-		return [];
+		$roles = [];
+
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				$scholarlyServiceSection = $this->report['pages'][3]['items'][1];
+				$items = [
+					$scholarlyServiceSection['items'][2],
+					$scholarlyServiceSection['items'][3],
+					$scholarlyServiceSection['items'][5],
+				];
+
+				foreach ($items as $item) {
+					if (self::isChecked($item)) {
+						$roles[] = $item['text'];
+					}
+				}
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getNationalLeadershipRolesAttribute: ' . $e);
+		}
+
+		return $roles;
 	}
 
 	public function getCertificationsAttribute() {
