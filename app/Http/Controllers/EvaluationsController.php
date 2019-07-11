@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class EvaluationsController extends Controller
 {
+	const FIELDS = [
+		'form:id,title,type,visibility',
+		'subject:id,first_name,last_name,type,training_level,secondary_training_level',
+		'evaluator:id,first_name,last_name,type,training_level,secondary_training_level',
+		'requestor:id,first_name,last_name,type,training_level,secondary_training_level'
+	];
+
 	public function __construct() {
 		$this->middleware(['auth', 'type:admin']);
 	}
@@ -16,13 +23,7 @@ class EvaluationsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-		return Evaluation::with([
-			'form:id,title,type,visibility',
-			'subject:id,first_name,last_name,type,training_level,secondary_training_level',
-			'evaluator:id,first_name,last_name,type,training_level,secondary_training_level',
-			'requestor:id,first_name,last_name,type,training_level,secondary_training_level'
-		])->between($request->input('startDate'), $request->input('endDate'))
-		->get();
+		return Evaluation::with(self::FIELDS)->between($request->input('startDate'), $request->input('endDate'))->get();
     }
 
     /**
@@ -44,12 +45,7 @@ class EvaluationsController extends Controller
      */
     public function show(Evaluation $evaluation)
     {
-		$evaluation->load([
-			'form:id,title,type,visibility',
-			'subject:id,first_name,last_name,type,training_level,secondary_training_level',
-			'evaluator:id,first_name,last_name,type,training_level,secondary_training_level',
-			'requestor:id,first_name,last_name,type,training_level,secondary_training_level'
-		]);
+		$evaluation->load(self::FIELDS);
 
 		return $evaluation;
     }
