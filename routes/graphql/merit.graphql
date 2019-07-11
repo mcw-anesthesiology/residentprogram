@@ -89,6 +89,7 @@ type MeritReport {
 	interviews: [DatedEvent]
 
 	certifications: [Certification]
+	organizations: [String]
 
 	nihStudySectionMember: Boolean
 	editorialBoards: [EditorialBoardItem]

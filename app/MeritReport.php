@@ -1092,6 +1092,43 @@ class MeritReport extends Model
 		return $certifications;
 	}
 
+	public function getOrganizationsAttribute() {
+		$organizations = [];
+
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				$orgItems = $this->report['pages'][3]['items'][0]['items'];
+
+				foreach ($orgItems as $item) {
+					if (self::isChecked($item)) {
+						if ($item['text'] == 'Other') {
+							$organizations = array_merge(
+								$organizations,
+								array_map(
+									function ($listItem) {
+										return $listItem['text'];
+									},
+									self::getListItems($item)
+								)
+							);
+						} else {
+							$organizations[] = $item['text'];
+						}
+					}
+				}
+
+				break;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug: ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getOrganizationsAttribute ' . $e);
+		}
+
+		return $organizations;
+	}
+
 	static function trimProps(&$obj) {
 		foreach ($obj as &$prop) {
 			$prop = trim($prop);
