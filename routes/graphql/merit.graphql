@@ -162,42 +162,50 @@ type Grant {
 }
 
 type NationalBoardRole {
-	name: String
-	role: String
+    name: String
+    role: String
 }
 
 type OrganizationCommitteeItem {
-	organization: String
-	committees: [CommitteeItem]
+    organization: String
+    organizationType: OrganizationType
+    committees: [CommitteeItem]
 }
 
 type CommitteeItem {
-	name: String
-	role: CommitteeRole
-	meetingsPerYear: Int
+    name: String
+    role: CommitteeRole
+    organizationType: OrganizationType
+    meetingsPerYear: Int
+}
+
+enum OrganizationType {
+    INTERNAL
+    REGIONAL
+    NATIONAL
 }
 
 enum CommitteeRole {
-	CHAIR @enum(value: "chair")
-	MEMBER @enum(value: "member")
+    CHAIR @enum(value: "chair")
+    MEMBER @enum(value: "member")
 }
 
 type EditorialBoardItem {
-	journal: String
-	role: String
+    journal: String
+    role: String
 }
 
 type Directorships {
-	clinicalService: [String]
-	simulationCenter: [String]
-	visitingRotators: [String]
+    clinicalService: [String]
+    simulationCenter: [String]
+    visitingRotators: [String]
 }
 
 type Lecture {
-	lectureType: String
-	title: String
-	date: String
-	audience: String
+    lectureType: String
+    title: String
+    date: String
+    audience: String
 }
 
 # type MeritReportContents {
