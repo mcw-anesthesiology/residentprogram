@@ -19,6 +19,9 @@ import {
 	currentYear,
 	lastYear,
 	academicYearForDate,
+	semesterForDate,
+	quarterForDate,
+	monthForDate,
 	semestersInAcademicYear,
 	quartersInAcademicYear,
 	monthsInAcademicYear
@@ -267,6 +270,7 @@ export function createRequest(el, propsData) {
 							);
 							break;
 						case 'month':
+							dates =
 							dates = monthsInAcademicYear().filter(month =>
 								month.startDate <= requestDate
 							);
@@ -279,64 +283,70 @@ export function createRequest(el, propsData) {
 							break;
 					}
 				} else {
-					let today = moment();
-					let threeMonthsAgo = moment().subtract(3, 'months');
-					switch (form.evaluation_period_type) {
-						case 'year':
-							dates = [
-								currentYear()
-							];
+					const threeMonthsAgo = moment().subtract(3, 'months');
+					if (['year', 'semester', 'quarter', 'month'].includes(form.evaluation_period_type)) {
+						const d = moment();
+						let addDate;
+						switch (form.evaluation_period_type) {
+							case 'year':
+								addDate = () => {
+									dates.push(academicYearForDate(d));
+									d.subtract(1, 'year');
+								};
+								break;
+							case 'semester':
+								addDate = () => {
+									dates.push(semesterForDate(d));
+									d.subtract(6, 'months');
+								};
+								break;
+							case 'quarter':
+								addDate = () => {
+									dates.push(quarterForDate(d));
+									d.subtract(3, 'months');
+								};
+								break;
+							case 'month':
+								addDate = () => {
+									dates.push(monthForDate(d));
+									d.subtract(1, 'month');
+								};
+								break;
+						}
 
-							if (today.month() === 6 && form.type === 'faculty') {
-								dates.unshift(lastYear());
-							}
-							break;
-						case 'semester':
-							dates = semestersInAcademicYear().filter(semester =>
-								semester.startDate <= today
-									&& semester.endDate >= threeMonthsAgo
-							);
-							break;
-						case 'quarter':
-							dates = quartersInAcademicYear().filter(quarter =>
-								quarter.startDate <= today
-									&& quarter.endDate >= threeMonthsAgo
-							);
-							break;
-						case 'month':
-							dates = monthsInAcademicYear().filter(month =>
-								month.startDate <= today
-									&& month.endDate >= threeMonthsAgo
-							);
-							break;
-						case 'block':
-						default:
-							dates = this.blocks.filter(block =>
-								moment(block.start_date) <= today
-									&& moment(block.end_date) >= threeMonthsAgo
-							);
-							break;
+						addDate();
+						while (dates[dates.length - 1].startDate >= threeMonthsAgo) {
+							addDate();
+						}
+					} else {
+						const today = moment();
+						dates = this.blocks.filter(block =>
+							moment(block.start_date) <= today
+								&& moment(block.end_date) >= threeMonthsAgo
+						);
 					}
 				}
 
 				return dates;
 			},
 			evaluationDateOptions() {
-				if (this.evaluationDates)
-					return this.evaluationDates.map(date => {
-						return date.block_name
-							? {
-								id: JSON.stringify({
-									startDate: isoDateString(date.start_date),
-									endDate: isoDateString(date.end_date)
-								}),
-								text: date.block_name
-							}
-							: {
-								id: JSON.stringify(isoDateStringObject(date)),
-								text: renderDateRange(date.startDate, date.endDate)
-							};
-					});
+				if (!this.evaluationDates)
+					return [];
+
+				return this.evaluationDates.map(date => {
+					return date.block_name
+						? {
+							id: JSON.stringify({
+								startDate: isoDateString(date.start_date),
+								endDate: isoDateString(date.end_date)
+							}),
+							text: date.block_name
+						}
+						: {
+							id: JSON.stringify(isoDateStringObject(date)),
+							text: renderDateRange(date.startDate, date.endDate)
+						};
+				});
 			},
 			requestorIsEvaluator() {
 				return (
@@ -561,11 +571,12 @@ export function createRequest(el, propsData) {
 					event.preventDefault();
 			},
 			fetchBlocks() {
-				const academicYear = currentYear();
-				const year = `${academicYear.startDate.year()}-${academicYear.endDate.year()}`;
 				const query = $.param({
-					year
+					start_date: ['>=', isoDateString(lastYear().startDate)],
+					end_date: ['<=', isoDateString(currentYear().endDate)],
+					orderBy: ['start_date', 'desc']
 				});
+
 				fetch(`/blocks?${query}`, {
 					...fetchConfig()
 				}).then(jsonOrThrow).then(blocks => {
