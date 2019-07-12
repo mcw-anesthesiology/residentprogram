@@ -274,7 +274,8 @@ class QuestionnaireValidation {
 				}
 				break;
 			case 'study':
-				if (empty($listItem['title'])
+				if (
+					empty($listItem['title'])
 					|| empty($listItem['role'])
 					|| empty($listItem['yearInitiated'])
 					|| empty($listItem['approvalNumber'])
@@ -285,7 +286,9 @@ class QuestionnaireValidation {
 				break;
 			case 'grant':
 			case 'grantOther':
-				if (empty($listItem['agency'])
+				if (
+					empty($listItem['agency'])
+					|| empty($listItem['agencyType'])
 					|| empty($listItem['project'])
 					|| !key_exists('amount', $listItem)
 				) {

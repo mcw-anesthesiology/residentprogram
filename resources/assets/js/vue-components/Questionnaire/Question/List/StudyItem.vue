@@ -30,6 +30,18 @@
 				</textarea>
 			</label>
 		</validated-form-group>
+		<validated-form-group prop="primaryInvestigator"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
+			<label class="containing-label">
+				<input type="checkbox"
+					:checked="primaryInvestigator"
+					:disabled="isReadonly('primaryInvestigator')"
+					@input="$emit('input', {primaryInvestigator: $event.target.checked})" />
+				Primary investigator
+			</label>
+		</validated-form-group>
 		<validated-form-group prop="yearInitiated"
 				:errors="validation.errors"
 				:show-errors="showErrors"
@@ -92,6 +104,10 @@ export default {
 		role: {
 			type: String,
 			default: ''
+		},
+		primaryInvestigator: {
+			type: Boolean,
+			default: false
 		},
 		yearInitiated: {
 			type: String,

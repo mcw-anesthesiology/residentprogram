@@ -150,7 +150,10 @@ export const INDIVIDUAL_DASHBOARD_FIELDS = gql`
 			date
 			audience
 		}
-		educationLeadershipRoles
+		leadershipRoles {
+			roleType
+			roles
+		}
 	}
 	${YEARLY_OVERVIEW_FIELDS}
 `;
