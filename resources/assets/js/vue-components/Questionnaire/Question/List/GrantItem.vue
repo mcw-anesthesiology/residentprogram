@@ -15,6 +15,23 @@
 				:readonly="isReadonly('agency')"
 				@input="$emit('input', {agency: arguments[0]})" />
 		</validated-form-group>
+		<validated-form-group prop="agencyType"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
+			<label class="containing-label">
+				Agency type
+				<select class="form-control"
+					:value="agencyType"
+					:readonly="isReadonly('agencyType')"
+					@change="$emit('input', {agencyType: $event.target.value})"
+				>
+					<option v-for="{ value, text } of AGENCY_TYPE_OPTIONS" :key="value" :value="value">
+						{{ text }}
+					</option>
+				</select>
+			</label>
+		</validated-form-group>
 		<validated-form-group prop="project"
 				:errors="validation.errors"
 				:show-errors="showErrors"
@@ -48,7 +65,7 @@
 import ListItem from './Item.vue';
 import SuggestableTextInput from '@/vue-components/SuggestableTextInput.vue';
 
-import { grantListItem as validate } from '@/modules/questionnaire/validate.js';
+import { grantListItem as validate,  } from '@/modules/questionnaire/validate.js';
 
 export default {
 	extends: ListItem,
@@ -82,6 +99,17 @@ export default {
 			type: Number,
 			default: 0
 		}
+	},
+
+	data() {
+		return {
+			AGENCY_TYPE_OPTIONS: [
+				{ value: 'INTERNAL', text: 'Internal' },
+				{ value: 'INDUSTRY', text: 'Industry' },
+				{ value: 'EXTRAMURAL_RESEARCH', text: 'Extramural research' },
+				{ value: 'NON_RESEARCH', text: 'Non-research' }
+			]
+		};
 	},
 
 	computed: {
