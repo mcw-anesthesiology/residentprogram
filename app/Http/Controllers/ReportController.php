@@ -22,6 +22,8 @@ use App\Form;
 use App\Program;
 use App\User;
 
+use App\Helpers\Math;
+
 class ReportController extends Controller
 {
     public function __construct() {
@@ -304,19 +306,6 @@ class ReportController extends Controller
 		return PDF::loadHTML($data)->download($filename);
 	}
 
-    function sd_square($x, $mean) {
-	// Function to calculate square of value - mean
-		return pow($x - $mean,2);
-	}
-
-
-	function sd($array) {
-	// Function to calculate standard deviation (uses sd_square)
-
-		// square root of sum of squares devided by N-1
-		return sqrt(array_sum(array_map(array($this, "sd_square"), $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
-	}
-
 
     public function trainee(Request $request) {
 		$user = Auth::user();
@@ -490,7 +479,7 @@ class ReportController extends Controller
                 }
             }
             if (count($milestoneSubject[$milestone]) > 1) {
-                $milestoneStd[$milestone] = $this->sd($milestoneSubject[$milestone]);
+                $milestoneStd[$milestone] = Math::sd($milestoneSubject[$milestone]);
                 foreach ($subjects as $subject => $name) {
                     if (array_key_exists($subject, $subjectEvals) && count($subjectEvals[$subject]) > 0) {
     					if ($milestoneStd[$milestone] == 0)
@@ -525,7 +514,7 @@ class ReportController extends Controller
                 }
             }
             if (count($competencySubject[$competency]) > 1) {
-                $competencyStd[$competency] = $this->sd($competencySubject[$competency]);
+                $competencyStd[$competency] = Math::sd($competencySubject[$competency]);
                 foreach ($subjects as $subject => $name) {
                     if (array_key_exists($subject, $subjectEvals) && count($subjectEvals[$subject]) > 0) {
     					if ($competencyStd[$competency] == 0)
