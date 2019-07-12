@@ -20,15 +20,6 @@
 								</ul>
 							</td>
 						</tr>
-						<tr>
-							<th>Internal</th>
-						</tr>
-						<tr>
-							<th>Regional</th>
-						</tr>
-						<tr>
-							<th>National &amp; International</th>
-						</tr>
 					</tbody>
 				</table>
 			</section>
