@@ -1,17 +1,32 @@
+# @format
+
 extend type Query @middleware(checks: ["auth"]) {
-	evaluations(orderBy: [OrderByClause!] @orderBy): [Evaluation!]! @all(model: "App\\Evaluation")
+	evaluations(orderBy: [OrderByClause!] @orderBy): [Evaluation!]!
+		@all(model: "App\\Evaluation")
 	evaluation(id: ID! @eq): Evaluation @find(model: "App\\Evaluation")
+
+	responses(orderBy: [OrderByClause!] @orderBy): [Response!]! @all(model: "App\\Response")
+	response(id: ID! @eq): [Response!]! @find(model: "App\\Response")
+
+	responseSummary(
+		formId: ID!
+		questionId: ID!
+		subjectId: ID!
+	): ResponseSummary
+
+	textResponseSummary(formId: ID!, questionId: ID!, subjectId: ID!): TextResponseSummary
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {
-	saveEvaluation(id: ID!, responses: [ResponseInput!], complete: Boolean): Evaluation
+	saveEvaluation(
+		id: ID!
+		responses: [ResponseInput!]
+		complete: Boolean
+	): Evaluation
 }
 
 extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
-	updateEvaluationVisibility(
-		id: ID!
-		visibility: Visibility
-	): Evaluation
+	updateEvaluationVisibility(id: ID!, visibility: Visibility): Evaluation
 
 	updateEvaluationVisibilities(
 		startDate: Date!
@@ -107,3 +122,28 @@ input ResponseInput {
 	value: ID
 }
 
+type ResponseSummary {
+	average: Float @field(resolver: "App\\Http\\GraphQL\\Queries\\ResponseSummary@resolveAverage")
+	stdDev: Float @field(resolver: "App\\Http\\GraphQL\\Queries\\ResponseSummary@resolveStdDev")
+	num: Int! @field(resolver: "App\\Http\\GraphQL\\Queries\\ResponseSummary@resolveNum")
+
+	responses: [Response]!
+	values: [Float]!
+}
+
+type TextResponseSummary {
+
+	responses: [TextResponse]!
+	values: [String]!
+
+	num: Int! @field(resolver: "App\\Http\\GraphQL\\Queries\\TextResponseSummary@resolveNum")
+
+	withValue(value: String!): TextResponsesWithValue! @field(resolver: "App\\Http\\GraphQL\\Queries\\TextResponseSummary@resolveWithValue")
+}
+
+type TextResponsesWithValue {
+	value: String!
+	responses: [TextResponse]!
+	num: Int!
+	percent: Float!
+}
