@@ -125,8 +125,10 @@ export default {
 			`,
 			manual: true,
 			result({ data }) {
-				for (const [query, result] of Object.entries(data)) {
-					this[query] = result;
+				if (data) {
+					for (const [query, result] of Object.entries(data)) {
+						this[query] = result;
+					}
 				}
 			},
 			variables() {
