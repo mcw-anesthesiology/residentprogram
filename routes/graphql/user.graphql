@@ -1,33 +1,28 @@
+# @format
+
 extend type Query @middleware(checks: ["auth", "type:admin"]) {
 	users(
 		type: UserType @eq
 		status: UserStatus @eq
 		type: UserType @eq
 	): [User!]! @all(model: "App\\User")
-    user(id: ID! @eq): User @find(model: "App\\User")
+	user(id: ID! @eq): User @find(model: "App\\User")
 	roles: [Role]! @all
 
 	userGroups: [UserGroup]!
 }
 
 extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
-    createUser(
-        name: String!
-        email: String! @rules(apply: ["email"])
-    ): User @create
-    updateUser(
-        id: ID!
-        name: String
-        email: String @rules(apply: ["email"])
-    ): User @update
-    deleteUser(
-        id: ID!
-    ): User @delete
+	createUser(name: String!, email: String! @rules(apply: ["email"])): User
+		@create
+	updateUser(
+		id: ID!
+		name: String
+		email: String @rules(apply: ["email"])
+	): User @update
+	deleteUser(id: ID!): User @delete
 
-	setUserMeritAdministratees(
-		user_id: ID!
-		administratee_ids: [ID!]!
-	): User
+	setUserMeritAdministratees(user_id: ID!, administratee_ids: [ID!]!): User
 	grantUserRole(
 		user_id: ID!
 		role: Role!
@@ -100,8 +95,8 @@ enum Role {
 }
 
 type User {
-    id: ID!
-    username: String!
+	id: ID!
+	username: String!
 	email: String!
 	first_name: String!
 	last_name: String!
@@ -122,7 +117,7 @@ type User {
 		period_start: String @eq
 		period_end: String @eq
 		after: Date @where(key: "period_end", operator: ">=")
-        before: Date @where(key: "period_start", operator: "<=")
+		before: Date @where(key: "period_start", operator: "<=")
 		status: MeritReportStatus @eq
 		exceptStatus: MeritReportStatus = DISABLED @neq(key: "status")
 	): [MeritReport]! @hasMany
@@ -132,28 +127,28 @@ type User {
 
 	evaluatorEvaluations(
 		after: Date @where(key: "evaluation_date_end", operator: ">=")
-        before: Date @where(key: "evaluation_date_start", operator: "<=")
+		before: Date @where(key: "evaluation_date_start", operator: "<=")
 		status: EvaluationStatus @eq
 		type: EvaluationType
 		orderBy: [OrderByClause!] @orderBy
 	): [Evaluation]! @hasMany
 	subjectEvaluations(
 		after: Date @where(key: "evaluation_date_end", operator: ">=")
-        before: Date @where(key: "evaluation_date_start", operator: "<=")
+		before: Date @where(key: "evaluation_date_start", operator: "<=")
 		status: EvaluationStatus @eq
 		type: EvaluationType
 		orderBy: [OrderByClause!] @orderBy
 	): [Evaluation]! @hasMany
 	requestedEvaluations(
 		after: Date @where(key: "evaluation_date_end", operator: ">=")
-        before: Date @where(key: "evaluation_date_start", operator: "<=")
+		before: Date @where(key: "evaluation_date_start", operator: "<=")
 		status: EvaluationStatus @eq
 		type: EvaluationType
 		orderBy: [OrderByClause!] @orderBy
 	): [Evaluation]! @hasMany
 
-    created_at: DateTime!
-    updated_at: DateTime!
+	created_at: DateTime!
+	updated_at: DateTime!
 }
 
 input UserInput {
