@@ -481,7 +481,6 @@ export function studyListItem(
 	const map = new Map([
 		['title', 'the study title'],
 		['role', 'describe your role'],
-		['primaryInvestigator', 'whether you are PI for the study'],
 		['yearInitiated', 'enter the year the study was initiated'],
 		['approvalNumber', 'enter the study approval number'],
 		['progress', "describe the study's progress"]
