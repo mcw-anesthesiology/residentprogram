@@ -123,16 +123,17 @@ input ResponseInput {
 }
 
 type ResponseSummary {
+	evaluations: [Evaluation]!
+	responses: [Response]!
+	values: [Float]!
+
 	average: Float @field(resolver: "App\\Http\\GraphQL\\Queries\\ResponseSummary@resolveAverage")
 	stdDev: Float @field(resolver: "App\\Http\\GraphQL\\Queries\\ResponseSummary@resolveStdDev")
 	num: Int! @field(resolver: "App\\Http\\GraphQL\\Queries\\ResponseSummary@resolveNum")
-
-	responses: [Response]!
-	values: [Float]!
 }
 
 type TextResponseSummary {
-
+	evaluations: [Evaluation]!
 	responses: [TextResponse]!
 	values: [String]!
 
