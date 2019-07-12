@@ -8,9 +8,6 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\Evaluation;
 use App\TextResponse;
 
-use App\Helpers\Math;
-
-
 class TextResponseSummary
 {
     /**
