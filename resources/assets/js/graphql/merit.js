@@ -150,6 +150,10 @@ export const INDIVIDUAL_DASHBOARD_FIELDS = gql`
 			date
 			audience
 		}
+		leadershipRoles {
+			roleType
+			roles
+		}
 	}
 	${YEARLY_OVERVIEW_FIELDS}
 `;

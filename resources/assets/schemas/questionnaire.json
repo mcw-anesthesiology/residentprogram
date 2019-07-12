@@ -320,6 +320,7 @@
 								"type": {"const": "study"},
 								"title": {"type": "string"},
 								"role": {"type": "string"},
+								"primaryInvestigator": {"type": "boolean"},
 								"yearInitiated": {"type": "string"},
 								"approvalNumber": {"type": "string"},
 								"progress": {"type": "string"}
@@ -339,12 +340,21 @@
 							"properties": {
 								"type": {"enum": ["grant", "grantOther"]},
 								"agency": {"type": "string"},
+								"agencyType": {
+									"enum": [
+										"INTERNAL",
+										"INDUSTRY",
+										"EXTRAMURAL_RESEARCH",
+										"NON_RESEARCH"
+									]
+								},
 								"project": {"type": "string"},
 								"amount": {"type": "number"}
 							},
 							"required": [
 								"type",
 								"agency",
+								"agencyType",
 								"project",
 								"amount"
 							]

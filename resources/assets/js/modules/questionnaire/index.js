@@ -1,11 +1,9 @@
+/** @format */
 /* @flow */
 
 import { arraysIntersect } from '@/modules/utils.js';
 
-import type {
-	ScoringDefinition,
-	ValueScoringDefinition
-} from './scoring.js';
+import type { ScoringDefinition, ValueScoringDefinition } from './scoring.js';
 
 export type Questionnaire = {
 	title: string,
@@ -113,9 +111,9 @@ export type QuestionnaireListQuestion = QuestionnaireQuestionBase & {
 	description?: string,
 	ordered?: boolean,
 	fixedLength?: number,
-	itemProps?: {[string]: any}, // FIXME
-	itemLabels?: {[string]: string}, // FIXME
-	itemRequired?: {[string]: string}, // FIXME
+	itemProps?: { [string]: any }, // FIXME
+	itemLabels?: { [string]: string }, // FIXME
+	itemRequired?: { [string]: string }, // FIXME
 	suggestions?: Object, // FIXME
 	items: Array<QuestionnaireListItem>,
 	scoring?: ValueScoringDefinition
@@ -158,14 +156,22 @@ export type QuestionnaireStudyListItem = {
 	type: 'study',
 	title: string,
 	role: string,
+	primaryInvestigator: boolean,
 	yearInitiated: string,
 	approvalNumber: string,
 	progress: string
 };
 
+export type GrantAgencyType =
+	| 'INTERNAL'
+	| 'INDUSTRY'
+	| 'EXTRAMURAL_RESEARCH'
+	| 'NON_RESEARCH';
+
 export type QuestionnaireGrantListItem = {
 	type: 'grant' | 'grantOther',
 	agency: string,
+	agencyType: GrantAgencyType,
 	project: string,
 	amount: number
 };
@@ -214,21 +220,24 @@ export type QuestionnaireInstruction = {
 	text: string
 };
 
-export type ConditionChecker = (QuestionnaireCondition) => boolean;
+export type ConditionChecker = QuestionnaireCondition => boolean;
 
-export function getConditionChecker(questions: Array<QuestionnaireQuestion>)
-		: ConditionChecker {
+export function getConditionChecker(
+	questions: Array<QuestionnaireQuestion>
+): ConditionChecker {
 	const questionIdMap = getQuestionsIdMap(questions);
 	return (condition: QuestionnaireCondition) =>
-		questionIdMap.has(condition.questionId) && questionMatchesValue(
+		questionIdMap.has(condition.questionId) &&
+		questionMatchesValue(
 			// $FlowFixMe: Okay flow I tested has right above here can you read
 			(questionIdMap.get(condition.questionId): QuestionnaireQuestion),
 			condition.questionValue
 		);
 }
 
-export function getQuestions(questionnaire: Questionnaire)
-		: Array<QuestionnaireQuestion> {
+export function getQuestions(
+	questionnaire: Questionnaire
+): Array<QuestionnaireQuestion> {
 	const questions = [];
 
 	for (let section of questionnaire.sections) {
@@ -239,29 +248,23 @@ export function getQuestions(questionnaire: Questionnaire)
 	return questions;
 }
 
-export function isValidItem(item: {type: string}): boolean {
+export function isValidItem(item: { type: string }): boolean {
 	return Boolean(
-		(item.type && typeof item.type === 'string')
-		&& (
-			item.type === 'instruction'
-			|| isQuestion(item)
-		)
+		item.type &&
+			typeof item.type === 'string' &&
+			(item.type === 'instruction' || isQuestion(item))
 	);
 }
 
-export function isQuestion(item: {type: string}) : boolean {
-	return [
-		'text',
-		'number',
-		'select',
-		'checkbox',
-		'radio',
-		'list'
-	].includes(item.type);
+export function isQuestion(item: { type: string }): boolean {
+	return ['text', 'number', 'select', 'checkbox', 'radio', 'list'].includes(
+		item.type
+	);
 }
 
-export function getQuestionnaireIdMap(questionnaire: Questionnaire)
-		: Map<string, QuestionnaireQuestion> {
+export function getQuestionnaireIdMap(
+	questionnaire: Questionnaire
+): Map<string, QuestionnaireQuestion> {
 	return getQuestionsIdMap(getQuestions(questionnaire));
 }
 
@@ -285,48 +288,50 @@ export function questionMatchesValue(
 	switch (question.type) {
 		case 'text':
 			(question: QuestionnaireTextQuestion);
-			if (question.value && (
-				(typeof value === 'boolean' && value)
-				|| (typeof value === 'string' && value === question.value)
-				|| (Array.isArray(value) && value.includes(question.value))
-			))
+			if (
+				question.value &&
+				((typeof value === 'boolean' && value) ||
+					(typeof value === 'string' && value === question.value) ||
+					(Array.isArray(value) && value.includes(question.value)))
+			)
 				return true;
 			break;
 		case 'number':
 			(question: QuestionnaireNumberQuestion);
-			if (question.value && (
-				(typeof value === 'boolean' && value)
-				|| (typeof value === 'number' && value === question.value)
-				|| (Array.isArray(value) && value.includes(question.value))
-			))
+			if (
+				question.value &&
+				((typeof value === 'boolean' && value) ||
+					(typeof value === 'number' && value === question.value) ||
+					(Array.isArray(value) && value.includes(question.value)))
+			)
 				return true;
 			break;
 		case 'select': {
 			(question: QuestionnaireSelectQuestion);
 			let selectValue = getSelectValue(question);
-			if (selectValue && (
-				(typeof value === 'boolean' && value)
-				|| (
-					(typeof value === 'string' || typeof value === 'number')
-					&& value === selectValue
-				)
-				|| (Array.isArray(value) && value.includes(selectValue))
-			))
+			if (
+				selectValue &&
+				((typeof value === 'boolean' && value) ||
+					((typeof value === 'string' || typeof value === 'number') &&
+						value === selectValue) ||
+					(Array.isArray(value) && value.includes(selectValue)))
+			)
 				return true;
 			break;
 		}
 		case 'checkbox':
 		case 'radio': {
-			question = (question: QuestionnaireCheckboxQuestion | QuestionnaireRadioQuestion);
+			question = (question:
+				| QuestionnaireCheckboxQuestion
+				| QuestionnaireRadioQuestion);
 			let values = getRadioCheckboxValues(question);
-			if (values.length > 0 && (
-				(typeof value === 'boolean' && value)
-				|| (
-					(typeof value === 'string' || typeof value === 'number')
-					&& values.includes(value)
-				)
-				|| (Array.isArray(value) && arraysIntersect(value, values))
-			))
+			if (
+				values.length > 0 &&
+				((typeof value === 'boolean' && value) ||
+					((typeof value === 'string' || typeof value === 'number') &&
+						values.includes(value)) ||
+					(Array.isArray(value) && arraysIntersect(value, values)))
+			)
 				return true;
 			break;
 		}
@@ -347,14 +352,13 @@ export function walkQuestionnaireQuestions(
 		?QuestionnaireSection
 	) => QuestionnaireQuestion
 ): Questionnaire {
-
 	const newQuestionnaire: Questionnaire = Object.assign({}, questionnaire);
 
 	newQuestionnaire.sections = questionnaire.sections.map(section => {
 		const newSection: QuestionnaireSection = Object.assign({}, section);
 		newSection.items = section.items.map(item =>
 			// $FlowFixMe
-			(questionCallback && isQuestion(item)) // $FlowFixMe
+			questionCallback && isQuestion(item) // $FlowFixMe
 				? questionCallback(item, newSection) // $FlowFixMe
 				: Object.assign({}, item)
 		);
@@ -375,10 +379,11 @@ export function getValue(question: QuestionnaireQuestion): ?string | ?number {
 		case 'checkbox':
 		case 'radio': {
 			const values = getRadioCheckboxValues(question);
-			if (values.length === 1)
-				return values[0];
+			if (values.length === 1) return values[0];
 			if (values.length > 1)
-				throw new RangeError('Question has multiple responses, use getValues');
+				throw new RangeError(
+					'Question has multiple responses, use getValues'
+				);
 
 			break;
 		}
@@ -387,14 +392,15 @@ export function getValue(question: QuestionnaireQuestion): ?string | ?number {
 	}
 }
 
-export function getValues(question: QuestionnaireQuestion): Array<string | number> {
+export function getValues(
+	question: QuestionnaireQuestion
+): Array<string | number> {
 	switch (question.type) {
 		case 'text':
 		case 'number':
 		case 'select': {
 			const value = getValue(question);
-			if (value)
-				return [value];
+			if (value) return [value];
 
 			break;
 		}
@@ -402,7 +408,9 @@ export function getValues(question: QuestionnaireQuestion): Array<string | numbe
 		case 'radio':
 			return getRadioCheckboxValues(question);
 		case 'list':
-			throw new TypeError('Cannot currently get values for list questions');
+			throw new TypeError(
+				'Cannot currently get values for list questions'
+			);
 	}
 
 	return [];
@@ -413,8 +421,7 @@ export function getResponse(question: QuestionnaireQuestion): ?string {
 		case 'text':
 		case 'number': {
 			const value = getValue(question);
-			if (value && typeof value !== 'string')
-				return `${value}`;
+			if (value && typeof value !== 'string') return `${value}`;
 
 			break;
 		}
@@ -423,15 +430,18 @@ export function getResponse(question: QuestionnaireQuestion): ?string {
 		case 'radio':
 		case 'checkbox': {
 			const responses = getRadioCheckboxResponses(question);
-			if (responses.length === 1)
-				return responses[0];
+			if (responses.length === 1) return responses[0];
 			if (responses.length > 1)
-				throw new RangeError('Question has multiple responses, use getResponses');
+				throw new RangeError(
+					'Question has multiple responses, use getResponses'
+				);
 
 			break;
 		}
 		case 'list':
-			throw new TypeError('Cannot currently get responses for list questions');
+			throw new TypeError(
+				'Cannot currently get responses for list questions'
+			);
 	}
 }
 
@@ -441,8 +451,7 @@ export function getResponses(question: QuestionnaireQuestion): Array<string> {
 		case 'number':
 		case 'select': {
 			const response = getResponse(question);
-			if (response)
-				return [response];
+			if (response) return [response];
 
 			break;
 		}
@@ -450,16 +459,19 @@ export function getResponses(question: QuestionnaireQuestion): Array<string> {
 		case 'checkbox':
 			return getRadioCheckboxResponses(question);
 		case 'list':
-			throw new TypeError('Cannot currently get responses for list questions');
+			throw new TypeError(
+				'Cannot currently get responses for list questions'
+			);
 	}
 
 	return [];
 }
 
-export function getSelectValue(question: QuestionnaireSelectQuestion): ?string | ?number {
+export function getSelectValue(
+	question: QuestionnaireSelectQuestion
+): ?string | ?number {
 	const selectedOption = question.options.find(option => option.selected);
-	if (selectedOption)
-		return selectedOption.value;
+	if (selectedOption) return selectedOption.value;
 }
 
 export function getRadioCheckboxValues(
@@ -470,10 +482,11 @@ export function getRadioCheckboxValues(
 		.map(option => option.value);
 }
 
-export function getSelectResponse(question: QuestionnaireSelectQuestion): ?string {
+export function getSelectResponse(
+	question: QuestionnaireSelectQuestion
+): ?string {
 	const selectedOption = question.options.find(option => option.selected);
-	if (selectedOption)
-		return selectedOption.text;
+	if (selectedOption) return selectedOption.text;
 }
 
 export function getRadioCheckboxResponses(
