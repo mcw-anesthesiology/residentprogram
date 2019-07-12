@@ -4,55 +4,35 @@
 	>
 		<h2>Leadership & professional citizenship</h2>
 
-		<div class="summary-container">
-			<table class="summary number-summary">
-				<tr v-if="numCommitteeParticipation > 0">
-					<td>
-						{{ numCommitteeParticipation }}
-					</td>
-					<th>Committees</th>
-				</tr>
-
-				<tr v-if="numEditorialBoards > 0">
-					<td>
-						{{ numEditorialBoards }}
-					</td>
-					<th>Editorial board positions</th>
-				</tr>
-			</table>
-
-			<table class="summary check-summary">
-				<tr v-if="directorOfClinicalService">
-					<td>
-						<check-icon />
-					</td>
-					<th>Director of clinical service</th>
-				</tr>
-
-				<tr v-if="directorOfSimulationCenter">
-					<td>
-						<check-icon />
-					</td>
-					<th>Director of simulation center</th>
-				</tr>
-
-				<tr v-if="directorOfVisitingRotators">
-					<td>
-						<check-icon />
-					</td>
-					<th>Director of visiting rotators</th>
-				</tr>
-
-				<tr v-if="participatedInInterviews">
-					<td>
-						<check-icon />
-					</td>
-					<th>Participated in interviews</th>
-				</tr>
-			</table>
-		</div>
-
 		<section class="details">
+			<section class="leadership-roles">
+				<h3>Leadership roles</h3>
+
+				<table class="leadership-roles-table">
+					<tbody>
+						<tr v-for="{roleType, roles} of leadershipRoles">
+							<th>{{ roleType }}</th>
+							<td class="education-leadership-roles">
+								<ul v-if="roles.length > 0">
+									<li v-for="role of roles" :key="role">
+										{{ role }}
+									</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th>Internal</th>
+						</tr>
+						<tr>
+							<th>Regional</th>
+						</tr>
+						<tr>
+							<th>National &amp; International</th>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+
 			<section v-if="editorialBoards.size > 0">
 				<h3>Journal Editorial Board</h3>
 				<section class="journals">
@@ -101,6 +81,14 @@
 .summary {
 	font-size: 1.25em;
 	flex-shrink: 1;
+}
+
+.leadership-roles table {
+	border-collapse: collapse;
+}
+
+.leadership-roles th, .leadership-roles td {
+	border: 1px solid #ccc;
 }
 
 th {
@@ -220,6 +208,27 @@ export default {
 			}
 
 			return map;
+		},
+		leadershipRoles() {
+			const map = new Map();
+			for (const report of this.user.meritReports) {
+				for (const { roleType, roles } of report.leadershipRoles) {
+					let set;
+					if (map.has(roleType)) {
+						set = map.get(roleType);
+					} else {
+						set = new Set();
+						map.set(roleType, set);
+					}
+
+
+					roles.forEach(role => set.add(role));
+				}
+			}
+
+			return Array.from(map.entries()).map(([roleType, roles]) => ({
+				roleType, roles: roles.values()
+			}));
 		},
 		numCommitteeParticipation() {
 			return Array.from(this.committeeParticipation.values()).reduce((total, org) => total + this.sumCollection(org), 0);

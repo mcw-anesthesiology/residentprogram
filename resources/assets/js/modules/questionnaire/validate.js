@@ -429,6 +429,7 @@ export function grantListItem(
 ): Validation {
 	const map = new Map([
 		['agency', 'enter the funding agency'],
+		['agencyType', 'select the type of funding agency'],
 		['project', 'enter the name of the project'],
 		['amount', 'enter the funding amount']
 	]);
@@ -480,6 +481,7 @@ export function studyListItem(
 	const map = new Map([
 		['title', 'the study title'],
 		['role', 'describe your role'],
+		['primaryInvestigator', 'whether you are PI for the study'],
 		['yearInitiated', 'enter the year the study was initiated'],
 		['approvalNumber', 'enter the study approval number'],
 		['progress', "describe the study's progress"]

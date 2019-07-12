@@ -1,4 +1,7 @@
-extend type Query @middleware(checks: ["auth", "type:admin", "site-feature:faculty_merit"]) {
+# @format
+
+extend type Query
+	@middleware(checks: ["auth", "type:admin", "site-feature:faculty_merit"]) {
 	usersWithMerits(
 		form_id: ID
 		period_start: String
@@ -7,21 +10,22 @@ extend type Query @middleware(checks: ["auth", "type:admin", "site-feature:facul
 		before: Date
 		status: MeritReportStatus
 	): [User!]!
-    meritReports(
+	meritReports(
 		form_id: ID @eq
-        user_id: ID @eq
+		user_id: ID @eq
 		period_start: String @eq
 		period_end: String @eq
 		after: Date @where(key: "period_end", operator: ">=")
-        before: Date @where(key: "period_start", operator: "<=")
+		before: Date @where(key: "period_start", operator: "<=")
 		status: MeritReportStatus @eq
 		exceptStatus: MeritReportStatus = DISABLED @neq(key: "status")
-    ): [MeritReport!]! @all
+	): [MeritReport!]! @all
 
 	meritReportForms: [MeritReportForm!]! @all
 }
 
-extend type Mutation @middleware(checks: ["auth", "type:admin", "site-feature:faculty_merit"]) {
+extend type Mutation
+	@middleware(checks: ["auth", "type:admin", "site-feature:faculty_merit"]) {
 	createUserMerit(
 		user_id: ID!
 		form_id: ID!
@@ -48,7 +52,10 @@ extend type Query @middleware(checks: ["auth", "site-feature:faculty_merit"]) {
 	facultyMeritChecklistForm: MeritReportForm
 }
 
-extend type Mutation @middleware(checks: ["auth", "type:faculty", "site-feature:faculty_merit"]) {
+extend type Mutation
+	@middleware(
+		checks: ["auth", "type:faculty", "site-feature:faculty_merit"]
+	) {
 	createMyMeritChecklist: MeritReport
 }
 
@@ -64,13 +71,13 @@ type MeritReport {
 	report: Mixed!
 	notes: String
 	title: String
-    slug: String
+	slug: String
 	created_at: DateTime!
 	updated_at: DateTime!
 
 	publications: [Publication]!
-    studies: [Study]!
-    grants: [Grant]!
+	studies: [Study]!
+	grants: [Grant]!
 	pubMedIds: [ID]
 	conferencePresentations: Int
 	otherPresentations: Int
@@ -82,13 +89,14 @@ type MeritReport {
 	leadershipRoles: [LeadershipRole]
 	leadershipPositions: Int
 	participatesInSimulation: Boolean
-	nationalBoards: [NationalBoardRole]
+	nationalBoards: [BoardRole]
 	committeeParticipation: [OrganizationCommitteeItem]
 	committees: [CommitteeItem]
 	directorships: Directorships
 	interviews: [DatedEvent]
 
 	certifications: [Certification]
+	organizations: [String]
 
 	nihStudySectionMember: Boolean
 	editorialBoards: [EditorialBoardItem]
@@ -131,49 +139,69 @@ type DatedEvent {
 }
 
 type Publication {
-	publicationType: String,
+	publicationType: String
 	title: String
 	author: String
 	link: String
 	role: String
 
-	pmid: ID @field(resolver: "App\\Http\\GraphQL\\Queries\\MeritReporter@publicationPmid")
+	pmid: ID
+		@field(
+			resolver: "App\\Http\\GraphQL\\Queries\\MeritReporter@publicationPmid"
+		)
 }
 
 type Study {
-    title: String
-    role: String
-    yearInitiated: String
-    approvalNumber: String
-    progress: String
+	title: String
+	role: String
+	primaryInvestigator: Boolean
+	yearInitiated: String
+	approvalNumber: String
+	progress: String
 }
 
 enum GrantType {
-    EXISTING
-    NEW
+	EXISTING
+	NEW
+}
+
+enum GrantAgencyType {
+	INTERNAL
+	INDUSTRY
+	EXTRAMURAL_RESEARCH
+	NON_RESEARCH
 }
 
 type Grant {
-    type: GrantType!
-    agency: String
-    project: String
-    amount: Float
+	type: GrantType!
+	agency: String
+	agencyType: GrantAgencyType
+	project: String
+	amount: Float
 }
 
-type NationalBoardRole {
+type BoardRole {
 	name: String
 	role: String
 }
 
 type OrganizationCommitteeItem {
 	organization: String
+	organizationType: OrganizationType
 	committees: [CommitteeItem]
 }
 
 type CommitteeItem {
 	name: String
 	role: CommitteeRole
+	organizationType: OrganizationType
 	meetingsPerYear: Int
+}
+
+enum OrganizationType {
+	INTERNAL
+	REGIONAL
+	NATIONAL
 }
 
 enum CommitteeRole {
