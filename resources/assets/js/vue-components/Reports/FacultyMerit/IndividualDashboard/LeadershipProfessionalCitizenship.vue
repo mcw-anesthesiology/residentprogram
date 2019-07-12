@@ -5,10 +5,10 @@
 		<h2>Leadership & professional citizenship</h2>
 
 		<section class="details">
-			<section>
+			<section class="leadership-roles">
 				<h3>Leadership roles</h3>
 
-				<table>
+				<table class="leadership-roles-table">
 					<tbody>
 						<tr v-for="{roleType, roles} of leadershipRoles">
 							<th>{{ roleType }}</th>
@@ -81,6 +81,14 @@
 .summary {
 	font-size: 1.25em;
 	flex-shrink: 1;
+}
+
+.leadership-roles table {
+	border-collapse: collapse;
+}
+
+.leadership-roles th, .leadership-roles td {
+	border: 1px solid #ccc;
 }
 
 th {
@@ -203,9 +211,24 @@ export default {
 		},
 		leadershipRoles() {
 			const map = new Map();
-			return this.userMeritReports.reduce((roles, report) => {
-				return roles.concat(report.leadershipRoles)
-			}, []);
+			for (const report of this.user.meritReports) {
+				for (const { roleType, roles } of report.leadershipRoles) {
+					let set;
+					if (map.has(roleType)) {
+						set = map.get(roleType);
+					} else {
+						set = new Set();
+						map.set(roleType, set);
+					}
+
+
+					roles.forEach(role => set.add(role));
+				}
+			}
+
+			return Array.from(map.entries()).map(([roleType, roles]) => ({
+				roleType, roles: roles.values()
+			}));
 		},
 		numCommitteeParticipation() {
 			return Array.from(this.committeeParticipation.values()).reduce((total, org) => total + this.sumCollection(org), 0);
