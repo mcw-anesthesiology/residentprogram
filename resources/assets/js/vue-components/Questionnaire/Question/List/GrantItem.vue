@@ -91,6 +91,10 @@ export default {
 			type: String,
 			default: ''
 		},
+		agencyType: {
+			type: String,
+			default: ''
+		},
 		project: {
 			type: String,
 			default: ''
