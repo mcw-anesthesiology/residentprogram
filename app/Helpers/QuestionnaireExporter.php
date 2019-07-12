@@ -108,7 +108,8 @@ class QuestionnaireReportHeader extends ReportColumn {
 	}
 
 	private function walkQuestion($question) {
-		$this->addCell($question['text']);
+		$text = !empty($question['text']) ? $question['text'] : '';
+		$this->addCell($text);
 	}
 }
 
