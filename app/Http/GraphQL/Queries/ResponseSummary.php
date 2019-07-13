@@ -48,6 +48,17 @@ class ResponseSummary
 		];
     }
 
+	public function resolveSubject($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
+		return $this->resolve(
+			$rootValue,
+			array_merge($args, [
+				'subjectId' => $rootValue['id']
+			]),
+			$context,
+			$resolveInfo
+		);
+	}
+
 	public function resolveAverage($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
 		return Math::mean($rootValue['values']);
 	}
