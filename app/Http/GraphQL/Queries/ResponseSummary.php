@@ -22,11 +22,21 @@ class ResponseSummary
      * @return mixed
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
-		$evaluations = Evaluation::where([
+		$query = Evaluation::where([
 			'form_id' => $args['formId'],
 			'subject_id' => $args['subjectId'],
 			'status' => 'complete'
-		])->get();
+		]);
+
+		if (!empty($args['after'])) {
+			$query->where('evaluation_date_end', '>=', $args['after']);
+		}
+
+		if (!empty($args['before'])) {
+			$query->where('evaluation_date_start', '<=', $args['before']);
+		}
+
+		$evaluations = $query->get();
 
 		$evaluationIds = $evaluations->pluck('id');
 		$responses = Response::where('question_id', $args['questionId'])->whereIn('evaluation_id', $evaluationIds)->get();
