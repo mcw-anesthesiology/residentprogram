@@ -13,17 +13,39 @@ extend type Query @middleware(checks: ["auth"]) {
 		formId: ID!
 		questionId: ID!
 		subjectId: ID!
-		after: DateTime
-		before: DateTime
+		after: Date
+		before: Date
 	): ResponseSummary
 
 	textResponseSummary(
 		formId: ID!
 		questionId: ID!
 		subjectId: ID!
-		after: DateTime
-		before: DateTime
+		after: Date
+		before: Date
 	): TextResponseSummary
+}
+
+extend type User {
+	subjectResponseSummary(
+		formId: ID!
+		questionId: ID!
+		after: Date
+		before: Date
+	): ResponseSummary
+		@field(
+			resolver: "App\\Http\\GraphQL\\Queries\\ResponseSummary@resolveSubject"
+		)
+
+	subjectTextResponseSummary(
+		formId: ID!
+		questionId: ID!
+		after: Date
+		before: Date
+	): TextResponseSummary
+		@field(
+			resolver: "App\\Http\\GraphQL\\Queries\\TextResponseSummary@resolveSubject"
+		)
 }
 
 extend type Mutation @middleware(checks: ["auth"]) {

@@ -46,6 +46,17 @@ class TextResponseSummary
 		];
     }
 
+	public function resolveSubject($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
+		return $this->resolve(
+			$rootValue,
+			array_merge($args, [
+				'subjectId' => $rootValue['id']
+			]),
+			$context,
+			$resolveInfo
+		);
+	}
+
     public function resolveNum($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
 		return count($rootValue['responses']);
     }
