@@ -182,6 +182,11 @@ type TextResponseSummary {
 			resolver: "App\\Http\\GraphQL\\Queries\\TextResponseSummary@resolveNum"
 		)
 
+	withNumericValues(mappings: [NumericValueMapping]!): ResponseSummary!
+		@field(
+			resolver: "App\\Http\\GraphQL\\Queries\\TextResponseSummary@resolveWithNumericValues"
+		)
+
 	withValue(value: String!): TextResponsesWithValue!
 		@field(
 			resolver: "App\\Http\\GraphQL\\Queries\\TextResponseSummary@resolveWithValue"
@@ -193,4 +198,9 @@ type TextResponsesWithValue {
 	responses: [TextResponse]!
 	num: Int!
 	percent: Float!
+}
+
+input NumericValueMapping {
+	text: String!
+	value: Float!
 }

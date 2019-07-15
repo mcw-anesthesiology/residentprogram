@@ -58,8 +58,25 @@ class TextResponseSummary
 	}
 
     public function resolveNum($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
-		return count($rootValue['responses']);
+		return count($rootValue['values']);
     }
+
+    public function resolveWithNumericValues($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
+		$map = [];
+		foreach ($args['mappings'] as $mapping) {
+			$map[$mapping['text']] = $mapping['value'];
+		}
+
+		$values = array_map(function ($textValue) use ($map) {
+			return $map[$textValue];
+		}, $rootValue['values']);
+
+		return [
+			'evaluations' => $rootValue['evaluations'],
+			'responses' => [],
+			'values' => $values
+		];
+	}
 
     public function resolveWithValue($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
 		$responses = $rootValue['responses']->filter(
