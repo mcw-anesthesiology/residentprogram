@@ -943,7 +943,7 @@ class MeritReport extends Model
 					}
 				}
 
-				foreach ($this->local_committees as $committee) {
+				foreach ($this->internal_committees as $committee) {
 					if ($committee['role'] == 'chair') {
 						$roles[] = "Committee chair - {$committee['name']}";
 					}
