@@ -168,8 +168,8 @@ export const SUMMARY_REPORT_FIELDS = gql`
 			evaluatorEvaluations(
 				after: $after
 				before: $before
-				type: TRAINEE
-				status: COMPLETE
+				type: trainee
+				status: complete
 			) {
 				id
 			}
