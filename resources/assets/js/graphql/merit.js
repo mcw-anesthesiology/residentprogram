@@ -157,3 +157,83 @@ export const INDIVIDUAL_DASHBOARD_FIELDS = gql`
 	}
 	${YEARLY_OVERVIEW_FIELDS}
 `;
+
+export const SUMMARY_REPORT_FIELDS = gql`
+	fragment SummaryReportFields on MeritReport {
+		id
+
+		user {
+			full_name
+
+			evaluatorEvaluations(
+				after: $after
+				before: $before
+				type: trainee
+				status: complete
+			) {
+				id
+			}
+
+			overallAbilities: subjectTextResponseSummary(
+				after: $after
+				before: $before
+				formId: $subjectResponseFormId
+				questionId: $overallAbilitiesQuestionId
+			) {
+				num
+				withNumericValues(mappings: $overallAbilitiesMappings) {
+					average
+					stdDev
+				}
+			}
+
+			continueToTrain: subjectTextResponseSummary(
+				after: $after
+				before: $before
+				formId: $subjectResponseFormId
+				questionId: $continueToTrainQuestionId
+			) {
+				num
+				withValue(value: "yes") {
+					percent
+				}
+			}
+		}
+
+		lectures {
+			title
+		}
+
+		publications {
+			publicationType
+			title
+			# TODO: peerReviewed
+		}
+
+		grants {
+			agencyType
+		}
+
+		studies {
+			primaryInvestigator
+		}
+
+		leadershipRoles {
+			roleType
+			roles
+		}
+
+		committees {
+			name
+			role
+			organizationType
+		}
+
+		certifications {
+			board
+			specialty
+		}
+
+		organizations
+	}
+`;

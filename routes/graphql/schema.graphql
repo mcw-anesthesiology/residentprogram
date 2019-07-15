@@ -6,6 +6,9 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
 type Query @middleware(checks: ["auth"]) {
 	me: User @auth
+
+	config(key: String!): Mixed
+	env(key: String!): String
 }
 
 type Mutation @middleware(checks: ["auth"]) {

@@ -656,6 +656,10 @@ class MeritReport extends Model
 		);
 	}
 
+	public function getCommitteesByTypeAttribute() {
+		return collect($this->committees)->groupBy('organizationType');
+	}
+
 	public function getCommitteesAttribute() {
 		return array_reduce(
 			$this->committee_participation,

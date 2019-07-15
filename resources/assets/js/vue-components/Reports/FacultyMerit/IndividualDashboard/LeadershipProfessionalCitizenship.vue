@@ -10,7 +10,7 @@
 
 				<table class="leadership-roles-table">
 					<tbody>
-						<tr v-for="{roleType, roles} of leadershipRoles">
+						<tr v-for="{roleType, roles} of leadershipRoles" :key="roleType">
 							<th>{{ roleType }}</th>
 							<td class="education-leadership-roles">
 								<ul v-if="roles.length > 0">
@@ -79,26 +79,12 @@
 }
 
 .leadership-roles th, .leadership-roles td {
+	padding: 0.25em 0.5em;
 	border: 1px solid #ccc;
 }
 
 th {
 	font-weight: normal;
-}
-
-.summary th,
-.summary td {
-	padding: 0.25em 0.5em;
-}
-
-.summary td {
-	text-align: center;
-}
-
-.summary td >>> .feather-check {
-	color: green;
-	height: 1em;
-	width: 1em;
 }
 
 h3 {
@@ -218,7 +204,7 @@ export default {
 			}
 
 			return Array.from(map.entries()).map(([roleType, roles]) => ({
-				roleType, roles: roles.values()
+				roleType, roles: Array.from(roles.values())
 			}));
 		},
 		numCommitteeParticipation() {
