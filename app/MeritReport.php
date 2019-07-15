@@ -570,6 +570,14 @@ class MeritReport extends Model
 		}, $committees);
 	}
 
+	public function getInternalCommitteesAttribute() {
+	    return array_merge(
+		[],
+		$this->departmental_committees,
+		$this->institutional_committees,
+	    );
+	}
+
 	public function getInternalCommitteeParticipationAttribute() {
 		$results = [];
 
