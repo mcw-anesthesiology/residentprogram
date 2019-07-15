@@ -69,11 +69,15 @@ class TextResponseSummary
 			}
 		);
 
+		$num = count($responses);
+		$totalNum = count($rootValue['responses']);
+		$percent = $totalNum > 0 ? $num / $totalNum : 0;
+
 		return [
 			'value' => $args['value'],
 			'responses' => $responses,
-			'num' => count($responses),
-			'percent' => count($responses) / count($rootValue['responses'])
+			'num' => $num,
+			'percent' => $percent
 		];
     }
 }
