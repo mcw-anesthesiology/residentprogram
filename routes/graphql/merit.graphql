@@ -91,6 +91,7 @@ type MeritReport {
 	participatesInSimulation: Boolean
 	nationalBoards: [BoardRole]
 	committeeParticipation: [OrganizationCommitteeItem]
+	committeesByType: [TypeCommitteeItem]
 	committees: [CommitteeItem]
 	directorships: Directorships
 	interviews: [DatedEvent]
@@ -187,6 +188,11 @@ type BoardRole {
 
 type OrganizationCommitteeItem {
 	organization: String
+	organizationType: OrganizationType
+	committees: [CommitteeItem]
+}
+
+type TypeCommitteeItem {
 	organizationType: OrganizationType
 	committees: [CommitteeItem]
 }
