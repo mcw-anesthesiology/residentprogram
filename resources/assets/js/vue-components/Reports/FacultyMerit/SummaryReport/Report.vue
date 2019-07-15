@@ -19,7 +19,7 @@
 			</form>
 		</div>
 
-		<div class="container body-block" v-if="meritReports">
+		<div class="container body-block" v-if="meritReports && !$apollo.loading">
 
 			<div class="table-container">
 
