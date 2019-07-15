@@ -574,7 +574,7 @@ class MeritReport extends Model
 	    return array_merge(
 		[],
 		$this->departmental_committees,
-		$this->institutional_committees,
+		$this->institutional_committees
 	    );
 	}
 
