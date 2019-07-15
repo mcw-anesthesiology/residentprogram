@@ -74,6 +74,6 @@ class ResponseSummary
 	}
 
 	public function resolveNum($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
-		return count($rootValue['responses']);
+		return count($rootValue['values']);
 	}
 }
