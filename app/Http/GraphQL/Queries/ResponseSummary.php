@@ -60,10 +60,16 @@ class ResponseSummary
 	}
 
 	public function resolveAverage($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
+		if (count($rootValue['values']) == 0)
+			return 0;
+
 		return Math::mean($rootValue['values']);
 	}
 
 	public function resolveStdDev($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
+		if (count($rootValue['values']) == 0)
+			return 0;
+
 		return Math::sd($rootValue['values']);
 	}
 
