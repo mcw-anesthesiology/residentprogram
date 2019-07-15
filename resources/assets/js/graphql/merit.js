@@ -174,22 +174,24 @@ export const SUMMARY_REPORT_FIELDS = gql`
 				id
 			}
 
-			subjectResponseSummary(
+			overallAbilities: subjectTextResponseSummary(
 				after: $after
 				before: $before
 				formId: $subjectResponseFormId
-				questionId: $subjectResponseQuestionId
+				questionId: $overallAbilitiesQuestionId
 			) {
 				num
-				average
-				stdDev
+				withNumericValues(mappings: $overallAbilitiesMappings) {
+					average
+					stdDev
+				}
 			}
 
-			subjectTextResponseSummary(
+			continueToTrain: subjectTextResponseSummary(
 				after: $after
 				before: $before
-				formId: $subjectTextResponseFormId
-				questionId: $subjectTextResponseQuestionId
+				formId: $subjectResponseFormId
+				questionId: $continueToTrainQuestionId
 			) {
 				num
 				withValue(value: "yes") {
@@ -222,6 +224,7 @@ export const SUMMARY_REPORT_FIELDS = gql`
 		}
 
 		committees {
+			name
 			role
 			organizationType
 		}

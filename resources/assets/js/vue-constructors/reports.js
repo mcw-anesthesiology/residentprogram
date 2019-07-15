@@ -23,6 +23,7 @@ const FacultySimulationsReport = () => import('@/vue-components/Reports/FacultyM
 const FacultyNationalBoardsReport = () => import('@/vue-components/Reports/FacultyMerit/NationalBoards.vue');
 const MeritHistoricalOverview = () => import('@/vue-components/Reports/FacultyMerit/HistoricalOverview.vue');
 const MeritIndividualDashboards = () => import('@/vue-components/Reports/FacultyMerit/IndividualDashboards.vue');
+const SummaryReport = () => import('@/vue-components/Reports/FacultyMerit/SummaryReport/Report.vue');
 
 const routes = [
 	{
@@ -59,7 +60,8 @@ const routes = [
 				'simulations',
 				'national-boards',
 				'historical-overview',
-				'individual-dashboards'
+				'individual-dashboards',
+				'summary'
 			]
 		},
 		children: [
@@ -88,6 +90,10 @@ const routes = [
 				name: 'merit-individual-dashboard',
 				component: MeritIndividualDashboards,
 				props: true
+			},
+			{
+				path: 'summary',
+				component: SummaryReport
 			}
 		]
 	},
