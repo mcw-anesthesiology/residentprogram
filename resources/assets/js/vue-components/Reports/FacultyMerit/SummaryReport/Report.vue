@@ -282,7 +282,7 @@ export default {
 			`,
 			variables() {
 				return {
-					after: this.dates.starthate,
+					after: this.dates.startDate,
 					before: this.dates.endDate,
 
 					subjectResponseFormId: this.facultyFormId,

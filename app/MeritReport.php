@@ -266,7 +266,7 @@ class MeritReport extends Model
 				return $item['questions'][$index]['items'];
 			}
 		} catch (\Exception $e) {
-			Log::error('Error in getListItems' . $e);
+			Log::error('Error in getListItems ' . $e);
 		}
 
 		return [];
