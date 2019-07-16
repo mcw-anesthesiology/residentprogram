@@ -9,37 +9,64 @@
 
 				<label class="containing-label">
 					Overall abilities question ID
-					<input type="text" class="form-control" v-model="overallAbilitiesQuestionId" />
+					<input
+						type="text"
+						class="form-control"
+						v-model="overallAbilitiesQuestionId"
+					/>
 				</label>
 
 				<label class="containing-label">
 					Continue to train residents question ID
-					<input type="text" class="form-control" v-model="continueToTrainQuestionId" />
+					<input
+						type="text"
+						class="form-control"
+						v-model="continueToTrainQuestionId"
+					/>
+				</label>
+
+				<label>
+					<input type="checkbox" v-model="groupDivisions" />
+					Group by division
 				</label>
 			</form>
 		</div>
 
-		<div class="container body-block" v-if="meritReports && !$apollo.loading">
-
+		<div
+			class="container body-block"
+			v-if="rows && !$apollo.loading"
+		>
 			<div class="table-container">
-
 				<table ref="table" class="table table-striped table-bordered">
 					<thead>
 						<tr>
-							<th rowspan="2" colspan="2">Faculty</th>
+							<th rowspan="2" :colspan="facultyColspan">
+								Faculty
+							</th>
 							<th rowspan="2" colspan="3">Compensation</th>
-							<th rowspan="2" colspan="2">Clinical productivity</th>
+							<th rowspan="2" colspan="2">
+								Clinical productivity
+							</th>
 
-
-							<th rowspan="2" colspan="4">Education involvement</th>
-							<th colspan="17">Academic productivity</th>
-							<th colspan="14">Leadership &amp; Professional citizenship</th>
+							<th rowspan="2" colspan="4">
+								Education involvement
+							</th>
+							<th :colspan="academicProductivityColspan">
+								Academic productivity
+							</th>
+							<th :colspan="leadershipColspan">
+								Leadership &amp; Professional citizenship
+							</th>
 						</tr>
 						<tr>
-							<th colspan="12">Publications</th>
+							<th :colspan="2 + publicationTypes.length">Publications</th>
 							<th colspan="3">Grants</th>
 							<th colspan="2">Study participation</th>
-							<th colspan="4">Leadership roles</th>
+							<th v-if="leadershipRoleTypes.length > 0"
+								:colspan="leadershipRoleTypes.length"
+							>
+								Leadership roles
+							</th>
 							<th colspan="3">Committee participation</th>
 
 							<th rowspan="2">Board certifications</th>
@@ -47,7 +74,7 @@
 						</tr>
 						<tr>
 							<th>Name</th>
-							<th>Division</th>
+							<th v-if="!groupDivisions">Division</th>
 
 							<th>Base salary</th>
 							<th>Incentive / Premium pay</th>
@@ -57,13 +84,22 @@
 							<th>Clinical FTE</th>
 
 							<th>Evaluations completed</th>
-							<th>"Would you recommend this faculty memeber continue to train residents?"</th>
-							<th>"How would you rate this faculty member's overall teaching ability?"</th>
+							<th>
+								"Would you recommend this faculty memeber
+								continue to train residents?"
+							</th>
+							<th>
+								"How would you rate this faculty member's
+								overall teaching ability?"
+							</th>
 							<th>Lectures given</th>
 
 							<th>Peer-reviewed</th>
 							<th>Non peer-reviewed</th>
-							<th v-for="pubType of publicationTypes" :key="pubType">
+							<th
+								v-for="pubType of publicationTypes"
+								:key="pubType"
+							>
 								{{ pubType }}
 							</th>
 
@@ -74,7 +110,10 @@
 							<th>PI</th>
 							<th>Co-investigator</th>
 
-							<th v-for="roleType of leadershipRoleTypes" :key="roleType">
+							<th
+								v-for="roleType of leadershipRoleTypes"
+								:key="roleType"
+							>
 								{{ roleType }}
 							</th>
 
@@ -83,106 +122,37 @@
 							<th>National / International</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr v-for="report of meritReports" :key="report.id">
-							<td>{{ report.user.full_name }}</td>
-							<td></td>
-
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-
-							<td>
-								{{ report.user.evaluatorEvaluations.length }}
-							</td>
-							<td>
-								{{ percent(report.user.continueToTrain.withValue.percent) }}
-							</td>
-							<td>
-								{{ report.user.overallAbilities.withNumericValues.average }}
-								(
-									S.D.:
-									{{ report.user.overallAbilities.withNumericValues.stdDev }}
-								)
-							</td>
-							<td>
-								{{ report.lectures.length }}
-							</td>
-
-							<td></td>
-							<td></td>
-							<td v-for="pubType of publicationTypes" :key="pubType">
-								{{ getPublications(report.publications, pubType) }}
-							</td>
-
-							<td>{{ countGrants(report.grants, 'INDUSTRY') }}</td>
-							<td>{{ countGrants(report.grants, 'EXTRAMURAL RESEARCH') }}</td>
-							<td>{{ countGrants(report.grants, 'INTERNAL') }}</td>
-
-							<td>
-								{{ report.studies.reduce((sum, s) => s.primaryInvestigator ? sum + 1 : sum, 0) }}
-							</td>
-							<td>
-								{{ report.studies.reduce((sum, s) => !s.primaryInvestigator ? sum + 1 : sum, 0) }}
-							</td>
-
-							<td v-for="{ roleType, roles } of report.leadershipRoles" :key="roleType">
-								<ul>
-									<li v-for="role of roles" :key="role">
-										{{ role }}
-									</li>
-								</ul>
-							</td>
-
-							<td>
-								<ul>
-									<li v-for="committee of getMemberCommittees(report.committees, 'INTERNAL')">
-										{{ committee.name }}
-									</li>
-								</ul>
-							</td>
-							<td>
-								<ul>
-									<li v-for="committee of getMemberCommittees(report.committees, 'REGIONAL')">
-										{{ committee.name }}
-									</li>
-								</ul>
-							</td>
-							<td>
-								<ul>
-									<li v-for="committee of getMemberCommittees(report.committees, 'NATIONAL')">
-										{{ committee.name }}
-									</li>
-								</ul>
-							</td>
-
-							<td>
-								<ul>
-									<li v-for="certification of report.certifications">
-										{{ certification.board }}
-										<span v-if="certification.specialty">
-											- {{ certification.specialty }}
-										</span>
-									</li>
-								</ul>
-							</td>
-							<td>
-								<ul>
-									<li v-for="organization of report.organizations">
-										{{ organization }}
-									</li>
-								</ul>
-							</td>
-						</tr>
+					<tbody v-if="groupDivisions">
+						<template v-for="[division, divisionRows] of divisionGroupedRows">
+							<tr :key="division">
+								<th :colspan="numReportCells + facultyColspan">{{ division || 'Unknown' }}</th>
+							</tr>
+							<report-row v-for="row of divisionRows" :key="row.user.full_name"
+								:report="row.report"
+								:user="row.user"
+								:numReportCells="numReportCells"
+								:publicationTypes="publicationTypes"
+								:leadershipRoleTypes="leadershipRoleTypes"
+								:exporting="exporting"
+							/>
+						</template>
+					</tbody>
+					<tbody v-else>
+						<report-row v-for="row of rows" :key="row.user.full_name"
+							:report="row.report"
+							:user="row.user"
+							:numReportCells="numReportCells"
+							:publicationTypes="publicationTypes"
+							:leadershipRoleTypes="leadershipRoleTypes"
+							:exporting="exporting"
+						/>
 					</tbody>
 				</table>
 			</div>
 
-			<export-table-button :table="$refs.table" :filename="exportFilename">
+			<button type="button" class="btn btn-default" @click="exportTable">
 				Export to Excel
-			</export-table-button>
+			</button>
 		</div>
 		<loading-placeholder v-else />
 	</section>
@@ -191,10 +161,10 @@
 <style scoped>
 .table-container {
 	overflow: auto;
+	max-height: 600px;
 }
 
 table {
-
 }
 </style>
 
@@ -202,15 +172,17 @@ table {
 /** @format */
 
 import gql from 'graphql-tag';
+import XLSX from 'xlsx';
 
 import FormSelect from '#/FormSelect.vue';
 import ExportTableButton from '#/ExportTableButton.vue';
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
+import ReportRow from './ReportRow.vue';
 
 import { SUMMARY_REPORT_FIELDS } from '@/graphql/merit.js';
 
-import { percent } from '@/modules/formatters.js';
 import { renderDateRange } from '@/modules/date-utils.js';
+import { sortIgnoreCase } from '@/modules/utils.js';
 
 // Yuck
 const overallAbilitiesMappings = [
@@ -239,7 +211,16 @@ const publicationTypes = [
 	'MedEd'
 ];
 
-const isDev = process.env.NODE_ENV === 'development';
+const divisions = [
+	'General OR',
+	'Cardiac',
+	'CVICU',
+	'OB',
+	'RAAPS',
+	'Pain',
+	'VA',
+	'Leadership'
+];
 
 export default {
 	props: {
@@ -250,32 +231,53 @@ export default {
 	},
 	data() {
 		return {
+			providerInfo: [],
 			meritReports: [],
 
 			// FIXME
-			facultyFormId: isDev ? 3 : 63,
-			overallAbilitiesQuestionId: isDev ? 'q1' : 'q23',
-			continueToTrainQuestionId: isDev ? 'q2' : 'q20',
+			facultyFormId: 63,
+			overallAbilitiesQuestionId: 'q23',
+			continueToTrainQuestionId: 'q20',
 			overallAbilitiesMappings,
 
-			publicationTypes
+			publicationTypes,
+
+			groupDivisions: false,
+			exporting: false
 		};
 	},
 	apollo: {
+		providerInfo: {
+			query: gql`
+				query FY18CompQuery {
+					providerInfo: fy18 {
+						lastName
+						firstName
+						division
+					}
+				}
+			`
+		},
 		meritReports: {
 			query: gql`
 				query MeritSummaryReportQuery(
 					$after: Date
 					$before: Date
-
 					$subjectResponseFormId: ID!
 					$continueToTrainQuestionId: ID!
 					$overallAbilitiesQuestionId: ID!
-
 					$overallAbilitiesMappings: [NumericValueMapping]!
 				) {
-					meritReports {
+					meritReports(
+						after: $after
+						before: $before
+						status: COMPLETE
+					) {
 						...SummaryReportFields
+						user {
+							first_name
+							last_name
+						}
 					}
 				}
 				${SUMMARY_REPORT_FIELDS}
@@ -296,6 +298,18 @@ export default {
 	},
 
 	computed: {
+		facultyColspan() {
+			return this.groupDivisions ? 1 : 2;
+		},
+		academicProductivityColspan() {
+			return 2 + this.publicationTypes.length + 3 + 2;
+		},
+		leadershipColspan() {
+			return this.leadershipRoleTypes.length + 3 + 2;
+		},
+		numReportCells() {
+			return 3 + 2 + 4 + this.academicProductivityColspan + this.leadershipColspan;
+		},
 		exportFilename() {
 			const dateStr = renderDateRange(
 				this.dates.startDate,
@@ -303,34 +317,83 @@ export default {
 			);
 			return `Faculty checklist summary - ${dateStr}`;
 		},
+		rows() {
+			if (!this.providerInfo || !this.meritReports) return;
+
+			const rows = this.meritReports.map(report => ({
+				report,
+				user: report.user
+			}));
+			for (const { lastName, firstName, division } of this.providerInfo) {
+				let row = rows.find(r => r.user.last_name === lastName && r.user.first_name === firstName);
+
+				if (!row) {
+					row = {
+						user: {
+							full_name: `${lastName}, ${firstName}`
+						}
+					};
+					rows.push(row);
+				}
+
+				if (!row.user.division) {
+					row.user.division = division;
+				}
+			}
+
+			rows.sort((a, b) =>
+				sortIgnoreCase(a.user.full_name, b.user.full_name)
+			);
+
+			return rows;
+		},
+		divisionGroupedRows() {
+			if (this.rows && this.groupDivisions) {
+				const map = new Map();
+				for (const division of divisions) {
+					map.set(division, []);
+				}
+				map.set('Unknown', []);
+
+				for (const row of this.rows) {
+					const division = row.user.division || 'Unknown';
+
+					if (!map.has(division)) {
+						map.set(division, []);
+					}
+
+					map.get(division).push(row);
+				}
+
+				return Array.from(map.entries());
+			}
+		},
 		leadershipRoleTypes() {
 			if (this.meritReports.length > 0) {
-				return this.meritReports[0].leadershipRoles.map(lr => lr.roleType);
+				return this.meritReports[0].leadershipRoles.map(
+					lr => lr.roleType
+				);
 			}
 
 			return [];
-		},
+		}
 	},
 	methods: {
-		percent,
-		getPublications(publications, pubType) {
-			const re = new RegExp(pubType, 'i');
-
-			return publications.reduce((sum, p) => {
-				return re.test(p.publicationType) ? sum + 1 : sum
-			}, 0);
-		},
-		countGrants(grants, agencyType) {
-			return grants.reduce((sum, g) => g.agencyType === agencyType ? sum + 1 : sum, 0);
-		},
-		getMemberCommittees(committees, orgType) {
-			return committees.filter(c => c.role === 'MEMBER' && c.organizationType === orgType);
+		exportTable() {
+			this.exporting = true;
+			this.$nextTick(() => {
+				const wb = XLSX.utils.table_to_book(this.$refs.table);
+				XLSX.writeFile(wb, `${this.exportFilename}.xlsx`, {
+					bookSST: true
+				});
+			});
 		}
 	},
 	components: {
 		FormSelect,
 		ExportTableButton,
-		LoadingPlaceholder
+		LoadingPlaceholder,
+		ReportRow
 	}
 };
 </script>

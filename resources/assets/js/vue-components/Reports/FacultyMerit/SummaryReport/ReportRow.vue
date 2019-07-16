@@ -1,0 +1,159 @@
+<template>
+	<tr>
+		<th>{{ user.full_name }}</th>
+		<td v-if="showDivision">{{ user.division || '' }}</td>
+
+		<template v-if="report">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+
+			<td>
+				{{ report.user.evaluatorEvaluations.length }}
+			</td>
+
+			<td v-if="report.user.continueToTrain.num > 0">
+				{{ percent(report.user.continueToTrain.withValue.percent) }}
+				({{ report.user.continueToTrain.withValue.num }}
+					/
+				{{ report.user.continueToTrain.num }})
+			</td>
+			<td v-else></td>
+
+			<td v-if="report.user.overallAbilities.num > 0">
+				{{ decimal(report.user.overallAbilities.withNumericValues.average) }}
+				(S.D.:
+				{{
+					decimal(
+						report.user.overallAbilities.withNumericValues.stdDev
+					)
+				}})
+			</td>
+			<td v-else></td>
+
+
+			<td>
+				{{ report.lectures.length }}
+			</td>
+
+			<td></td>
+			<td></td>
+			<td v-for="pubType of publicationTypes" :key="pubType">
+				{{ getPublications(report.publications, pubType) }}
+			</td>
+
+			<td>
+				{{ countGrants(report.grants, 'INDUSTRY') }}
+			</td>
+			<td>
+				{{ countGrants(report.grants, 'EXTRAMURAL RESEARCH') }}
+			</td>
+			<td>
+				{{ countGrants(report.grants, 'INTERNAL') }}
+			</td>
+
+			<td>
+				{{
+					report.studies.reduce(
+						(sum, s) => (s.primaryInvestigator ? sum + 1 : sum),
+						0
+					)
+				}}
+			</td>
+			<td>
+				{{
+					report.studies.reduce(
+						(sum, s) => (!s.primaryInvestigator ? sum + 1 : sum),
+						0
+					)
+				}}
+			</td>
+
+			<template v-for="{ roleType, roles } of report.leadershipRoles">
+				<cell-list :key="roleType" :items="roles" :exporting="exporting" v-slot="slotProps">
+					{{ slotProps.item }}
+				</cell-list>
+			</template>
+
+			<cell-list :items="getMemberCommittees(report.committees, 'INTERNAL')" :exporting="exporting" v-slot="slotProps">
+				{{ slotProps.item.name }}
+			</cell-list>
+			<cell-list :items="getMemberCommittees(report.committees, 'REGIONAL')" :exporting="exporting" v-slot="slotProps">
+				{{ slotProps.item.name }}
+			</cell-list>
+			<cell-list :items="getMemberCommittees(report.committees, 'NATIONAL')" :exporting="exporting" v-slot="slotProps">
+				{{ slotProps.item.name }}
+			</cell-list>
+
+			<cell-list :items="report.certifications" :exporting="exporting" v-slot="slotProps">
+				{{ slotProps.item.board }}
+				<span v-if="slotProps.item.specialty">
+					- {{ slotProps.item.specialty }}
+				</span>
+			</cell-list>
+			<cell-list :items="report.organizations" :exporting="exporting" v-slot="slotProps">
+				{{ slotProps.item }}
+			</cell-list>
+		</template>
+		<template v-else>
+			<td v-for="x of Array(numReportCells).fill(null)"></td>
+		</template>
+	</tr>
+</template>
+
+<style scoped>
+ul {
+	padding-left: 1em;
+}
+</style>
+
+<script>
+/** @format */
+import CellList from './CellList.vue';
+
+import { percent, decimal } from '@/modules/formatters.js';
+
+export default {
+	props: {
+		report: Object,
+		user: Object,
+		publicationTypes: Array,
+		numReportCells: Number,
+		exporting: {
+			type: Boolean,
+			default: false
+		},
+		showDivision: {
+			type: Boolean,
+			default: true
+		}
+	},
+	methods: {
+		percent,
+		decimal,
+		getPublications(publications, pubType) {
+			const re = new RegExp(pubType, 'i');
+
+			return publications.reduce((sum, p) => {
+				return re.test(p.publicationType) ? sum + 1 : sum;
+			}, 0);
+		},
+		countGrants(grants, agencyType) {
+			return grants.reduce(
+				(sum, g) => (g.agencyType === agencyType ? sum + 1 : sum),
+				0
+			);
+		},
+		getMemberCommittees(committees, orgType) {
+			return committees.filter(
+				c => c.role === 'MEMBER' && c.organizationType === orgType
+			);
+		}
+	},
+	components: {
+		CellList
+	}
+};
+</script>
