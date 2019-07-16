@@ -67,7 +67,7 @@ class ResponseSummary
 	}
 
 	public function resolveStdDev($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
-		if (count($rootValue['values']) == 0)
+		if (count($rootValue['values']) <= 1)
 			return 0;
 
 		return Math::sd($rootValue['values']);

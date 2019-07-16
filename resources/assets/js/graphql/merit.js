@@ -195,6 +195,7 @@ export const SUMMARY_REPORT_FIELDS = gql`
 			) {
 				num
 				withValue(value: "yes") {
+					num
 					percent
 				}
 			}

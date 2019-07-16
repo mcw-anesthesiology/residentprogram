@@ -24,3 +24,4 @@ scalar Mixed @scalar(class: "MLL\\GraphQLScalars\\Mixed")
 #import evaluation.graphql
 #import merit.graphql
 #import beyond-milestones/*.graphql
+#import provider-info.graphql

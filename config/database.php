@@ -79,6 +79,19 @@ return [
             'strict'    => false,
 		],
 
+		'provider_info' => [
+            'driver'    => 'mysql',
+            'host'      => env('PROVIDER_INFO_DB_HOST', 'localhost'),
+			'port'		=> env('PROVIDER_INFO_DB_PORT', 3306),
+            'database'  => env('PROVIDER_INFO_DB_DATABASE', 'forge'),
+            'username'  => env('PROVIDER_INFO_DB_USERNAME', 'forge'),
+            'password'  => env('PROVIDER_INFO_DB_PASSWORD', ''),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+		],
+
         'pgsql' => [
             'driver'   => 'pgsql',
             'host'     => env('DB_HOST', 'localhost'),

@@ -4,7 +4,6 @@ extend type Query @middleware(checks: ["auth", "type:admin"]) {
 	users(
 		type: UserType @eq
 		status: UserStatus @eq
-		type: UserType @eq
 	): [User!]! @all(model: "App\\User")
 	user(id: ID! @eq): User @find(model: "App\\User")
 	roles: [Role]! @all
@@ -120,6 +119,7 @@ type User {
 		before: Date @where(key: "period_start", operator: "<=")
 		status: MeritReportStatus @eq
 		exceptStatus: MeritReportStatus = DISABLED @neq(key: "status")
+		orderBy: [OrderByClause!] @orderBy
 	): [MeritReport]! @hasMany
 
 	meritAdministrators: [User] @belongsTo

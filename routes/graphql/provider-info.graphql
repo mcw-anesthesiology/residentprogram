@@ -1,0 +1,11 @@
+# @format
+
+extend type Query @middleware(checks: ["auth", "type:admin"]) {
+	fy18(orderBy: [OrderByClause!] @orderBy): [ProviderInfo]
+}
+
+type ProviderInfo {
+	lastName: String @rename(attribute: "Last Name")
+	firstName: String @rename(attribute: "First Name")
+	division: String @rename(attribute: "Division")
+}
