@@ -200,6 +200,14 @@ export default {
 								title
 							}
 
+							committeesByType {
+								organizationType
+								committees {
+									name
+									role
+								}
+							}
+
 							grants {
 								project
 							}

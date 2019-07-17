@@ -25,22 +25,41 @@
 			</section>
 
 			<section>
-
-			</section>
-
-			<section>
 				<h3>Committee participation</h3>
 				<div class="committees">
 					<committee-participation-item
-						v-for="[organization, committees] of Array.from(
+						v-for="[organizationType, committees] of Array.from(
 							committeeParticipation.entries()
 						)"
-						:key="organization"
-						:organization="organization"
+						:key="organizationType"
+						:organization="organizationType"
 						:committees="committees"
 						:showPeriods="multiplePeriods"
 					/>
 				</div>
+			</section>
+
+			<section>
+				<h3>Certifications</h3>
+
+				<ul>
+					<li v-for="certification of certifications" :key="certification">
+						{{ certification.board }}
+						<span v-if="certification.specialty">
+							- {{ certification.specialty }}
+						</span>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Organizations</h3>
+
+				<ul>
+					<li v-for="org of organizations" :key="org">
+						{{ org }}
+					</li>
+				</ul>
 			</section>
 		</section>
 	</section>
@@ -56,6 +75,11 @@
 	flex-wrap: nowrap;
 	justify-content: space-around;
 	padding: 0.5em 0;
+}
+
+.details {
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .summary {
@@ -76,9 +100,14 @@ th {
 	font-weight: normal;
 }
 
-h3 {
-	margin-top: 1em;
-	margin-bottom: 0.5em;
+.leadership-professional-citizenship h3 {
+	margin-top: 0.5em;
+	margin-bottom: 0.25em;
+}
+
+ul {
+	padding-left: 1em;
+	margin: 0;
 }
 
 .committees {
@@ -130,15 +159,15 @@ export default {
 			const map = new Map();
 
 			for (const report of this.user.meritReports) {
-				if (!report.committeeParticipation) continue;
+				if (!report.committeesByType) continue;
 
 				const period = renderYearRange(
 					report.period_start,
 					report.period_end
 				);
-				for (const cp of report.committeeParticipation) {
-					const arr = map.get(cp.organization) || [];
-					for (const committee of cp.committees.filter(c => c.role === 'MEMBER')) {
+				for (const { organizationType, committees } of report.committeesByType) {
+					const arr = map.get(organizationType) || [];
+					for (const committee of committees.filter(c => c.role === 'MEMBER')) {
 						arr.push({
 							period,
 							...committee
@@ -146,30 +175,8 @@ export default {
 					}
 
 					if (arr.length > 0) {
-						map.set(cp.organization, arr);
+						map.set(organizationType, arr);
 					}
-				}
-			}
-
-			return map;
-		},
-		editorialBoards() {
-			const map = new Map();
-
-			for (const report of this.user.meritReports) {
-				if (!report.editorialBoards) continue;
-
-				const period = renderYearRange(
-					report.period_start,
-					report.period_end
-				);
-				for (const eb of report.editorialBoards) {
-					if (!map.has(eb.journal)) map.set(eb.journal, []);
-
-					map.get(eb.journal).push({
-						...eb,
-						period
-					});
 				}
 			}
 
@@ -196,23 +203,19 @@ export default {
 				roleType, roles: Array.from(roles.values())
 			}));
 		},
-		numCommitteeParticipation() {
-			return Array.from(this.committeeParticipation.values()).reduce((total, org) => total + this.sumCollection(org), 0);
+		certifications() {
+			const map = new Map();
+
+			for (const mr of this.user.meritReports) {
+				for (const cert of mr.certifications) {
+					map.set(`${cert.board}:${cert.specialty}`, cert);
+				}
+			}
+
+			return Array.from(map.values());
 		},
-		numEditorialBoards() {
-			return this.sumCollection(this.editorialBoards);
-		},
-		directorOfClinicalService() {
-			return this.user.meritReports.some(report => report.directorships && report.directorships.clinicalService.length > 0);
-		},
-		directorOfSimulationCenter() {
-			return this.user.meritReports.some(report => report.directorships && report.directorships.simulationCenter.length > 0);
-		},
-		directorOfVisitingRotators() {
-			return this.user.meritReports.some(report => report.directorships && report.directorships.visitingRotators.length > 0);
-		},
-		participatedInInterviews() {
-			return this.user.meritReports.some(report => report.interviews && report.interviews.length > 0);
+		organizations() {
+			return Array.from(new Set(this.user.meritReports.flatMap(mr => mr.organizations)));
 		}
 	},
 	methods: {

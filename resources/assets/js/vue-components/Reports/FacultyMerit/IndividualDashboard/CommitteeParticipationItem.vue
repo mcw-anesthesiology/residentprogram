@@ -1,7 +1,7 @@
 <template>
 	<section class="committee-participation-item">
 		<h4>
-			{{ organization }}
+			{{ enumToWords(organization) }}
 			<small>
 				{{ totalParticipationCount }}
 			</small>
@@ -22,7 +22,7 @@
 <style scoped>
 h4 {
 	font-size: 1.25em;
-	margin-bottom: 0;
+	margin-bottom: 0.25em;
 	border-bottom: 1px solid #888;
 }
 
@@ -50,7 +50,6 @@ h5 {
 }
 
 ol {
-	font-size: 0.875em;
 	padding-left: 1.5em;
 	margin: 0;
 }
