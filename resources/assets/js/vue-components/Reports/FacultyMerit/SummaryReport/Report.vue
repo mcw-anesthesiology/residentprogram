@@ -379,17 +379,18 @@ export default {
 			this.groupDivisions = true;
 			const wb = XLSX.utils.book_new();
 			this.$nextTick(() => {
-				const divisionsSheet = getSheet(this.$refs.table);
-				XLSX.utils.book_append_sheet(wb, divisionSheet, 'By division');
+				const ws = getSheet(this.$refs.table);
+				XLSX.utils.book_append_sheet(wb, ws, 'By division');
 				this.groupDivisions = false;
 				this.$nextTick(() => {
-					const alphaSheet = getSheet(this.$refs.table);
-					XLSX.utils.book_append_sheet(wb, alphaSheet, 'Alphabetical');
+					const ws = getSheet(this.$refs.table);
+					XLSX.utils.book_append_sheet(wb, ws, 'Alphabetical');
 					XLSX.writeFile(wb, `${this.exportFilename}.xlsx`, {
 						bookSST: true
 					});
 					this.$nextTick(() => {
 						this.exporting = false;
+						this.groupDivisions = groupDivisions;
 					});
 				});
 			});
@@ -408,5 +409,7 @@ function getSheet(table) {
 	// Gross that we need to do this, but the table parser
 	// refuses to not strip these out as far as I can tell
 	Object.values(ws).forEach(cell => bulletizeCell(cell));
+
+	return ws;
 }
 </script>
