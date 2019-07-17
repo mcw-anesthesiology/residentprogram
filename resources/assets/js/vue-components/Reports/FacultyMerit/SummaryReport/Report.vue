@@ -386,6 +386,9 @@ export default {
 				XLSX.writeFile(wb, `${this.exportFilename}.xlsx`, {
 					bookSST: true
 				});
+				this.$nextTick(() => {
+					this.exporting = false;
+				});
 			});
 		}
 	},
