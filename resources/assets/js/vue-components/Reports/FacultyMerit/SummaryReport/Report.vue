@@ -182,7 +182,7 @@ import ReportRow from './ReportRow.vue';
 import { SUMMARY_REPORT_FIELDS, PUBLICATION_TYPES } from '@/graphql/merit.js';
 
 import { renderDateRange } from '@/modules/date-utils.js';
-import { sortIgnoreCase } from '@/modules/utils.js';
+import { sortIgnoreCase, bulletizeCell } from '@/modules/utils.js';
 
 // Yuck
 const overallAbilitiesMappings = [
@@ -214,6 +214,10 @@ export default {
 		dates: {
 			type: Object,
 			required: true
+		},
+		includeIncomplete: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
@@ -250,6 +254,7 @@ export default {
 				query MeritSummaryReportQuery(
 					$after: Date
 					$before: Date
+					$status: MeritReportStatus
 					$subjectResponseFormId: ID!
 					$continueToTrainQuestionId: ID!
 					$overallAbilitiesQuestionId: ID!
@@ -258,7 +263,7 @@ export default {
 					meritReports(
 						after: $after
 						before: $before
-						status: COMPLETE
+						status: $status
 					) {
 						...SummaryReportFields
 						user {
@@ -273,6 +278,7 @@ export default {
 				return {
 					after: this.dates.startDate,
 					before: this.dates.endDate,
+					status: this.includeIncomplete ? undefined : 'COMPLETE',
 
 					subjectResponseFormId: this.facultyFormId,
 					continueToTrainQuestionId: this.continueToTrainQuestionId,
@@ -367,22 +373,24 @@ export default {
 	},
 	methods: {
 		exportTable() {
+			const groupDivisions = this.groupDivisions;
+
 			this.exporting = true;
+			this.groupDivisions = true;
+			const wb = XLSX.utils.book_new();
 			this.$nextTick(() => {
-				const wb = XLSX.utils.table_to_book(this.$refs.table);
-				const ws = wb.Sheets.Sheet1;
-				// Gross that we need to do this, but the table parser
-				// refuses to not strip these out as far as I can tell
-				Object.values(ws).forEach(cell => {
-					if (cell.v && typeof cell.v === 'string' && cell.v.includes('•')) {
-						cell.v = cell.v.replace(/(?!^)•/g, '\n•');
-					}
-				});
-				XLSX.writeFile(wb, `${this.exportFilename}.xlsx`, {
-					bookSST: true
-				});
+				const divisionsSheet = getSheet(this.$refs.table);
+				XLSX.utils.book_append_sheet(wb, divisionSheet, 'By division');
+				this.groupDivisions = false;
 				this.$nextTick(() => {
-					this.exporting = false;
+					const alphaSheet = getSheet(this.$refs.table);
+					XLSX.utils.book_append_sheet(wb, alphaSheet, 'Alphabetical');
+					XLSX.writeFile(wb, `${this.exportFilename}.xlsx`, {
+						bookSST: true
+					});
+					this.$nextTick(() => {
+						this.exporting = false;
+					});
 				});
 			});
 		}
@@ -394,4 +402,11 @@ export default {
 		ReportRow
 	}
 };
+
+function getSheet(table) {
+	const ws = XLSX.utils.table_to_sheet(table);
+	// Gross that we need to do this, but the table parser
+	// refuses to not strip these out as far as I can tell
+	Object.values(ws).forEach(cell => bulletizeCell(cell));
+}
 </script>
