@@ -24,22 +24,11 @@
 				</table>
 			</section>
 
-			<section v-if="editorialBoards.size > 0">
-				<h3>Journal Editorial Board</h3>
-				<section class="journals">
-					<journal-editorial-board-item
-						v-for="[journal, roles] of Array.from(
-							editorialBoards.entries()
-						)"
-						:key="journal"
-						:journal="journal"
-						:roles="roles"
-						:showPeriods="multiplePeriods"
-					/>
-				</section>
+			<section>
+
 			</section>
 
-			<section v-if="committeeParticipation.size > 0">
+			<section>
 				<h3>Committee participation</h3>
 				<div class="committees">
 					<committee-participation-item

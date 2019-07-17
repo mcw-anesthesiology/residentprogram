@@ -179,7 +179,7 @@ import ExportTableButton from '#/ExportTableButton.vue';
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 import ReportRow from './ReportRow.vue';
 
-import { SUMMARY_REPORT_FIELDS } from '@/graphql/merit.js';
+import { SUMMARY_REPORT_FIELDS, PUBLICATION_TYPES } from '@/graphql/merit.js';
 
 import { renderDateRange } from '@/modules/date-utils.js';
 import { sortIgnoreCase } from '@/modules/utils.js';
@@ -196,19 +196,6 @@ const overallAbilitiesMappings = [
 	{ text: 'moderately-poor', value: 2 },
 	{ text: 'good', value: 3 },
 	{ text: 'excellent', value: 4 }
-];
-
-const publicationTypes = [
-	'Original Article',
-	'Review Article',
-	'Book / Text',
-	'Book Chapter',
-	'Editorial',
-	'Case Report',
-	'Letter to the Editor',
-	'Abstract / Poster',
-	'Anesthesia Toolbox',
-	'MedEd'
 ];
 
 const divisions = [
@@ -240,7 +227,7 @@ export default {
 			continueToTrainQuestionId: 'q20',
 			overallAbilitiesMappings,
 
-			publicationTypes,
+			publicationTypes: PUBLICATION_TYPES,
 
 			groupDivisions: false,
 			exporting: false

@@ -158,49 +158,49 @@ export const INDIVIDUAL_DASHBOARD_FIELDS = gql`
 	${YEARLY_OVERVIEW_FIELDS}
 `;
 
-export const SUMMARY_REPORT_FIELDS = gql`
-	fragment SummaryReportFields on MeritReport {
-		id
+export const SUMMARY_REPORT_USER_FIELDS = gql`
+	fragment SummaryReportUserFields on User {
+		full_name
 
-		user {
-			full_name
+		evaluatorEvaluations(
+			after: $after
+			before: $before
+			type: trainee
+			status: complete
+		) {
+			id
+		}
 
-			evaluatorEvaluations(
-				after: $after
-				before: $before
-				type: trainee
-				status: complete
-			) {
-				id
-			}
-
-			overallAbilities: subjectTextResponseSummary(
-				after: $after
-				before: $before
-				formId: $subjectResponseFormId
-				questionId: $overallAbilitiesQuestionId
-			) {
-				num
-				withNumericValues(mappings: $overallAbilitiesMappings) {
-					average
-					stdDev
-				}
-			}
-
-			continueToTrain: subjectTextResponseSummary(
-				after: $after
-				before: $before
-				formId: $subjectResponseFormId
-				questionId: $continueToTrainQuestionId
-			) {
-				num
-				withValue(value: "yes") {
-					num
-					percent
-				}
+		overallAbilities: subjectTextResponseSummary(
+			after: $after
+			before: $before
+			formId: $subjectResponseFormId
+			questionId: $overallAbilitiesQuestionId
+		) {
+			num
+			withNumericValues(mappings: $overallAbilitiesMappings) {
+				average
+				stdDev
 			}
 		}
 
+		continueToTrain: subjectTextResponseSummary(
+			after: $after
+			before: $before
+			formId: $subjectResponseFormId
+			questionId: $continueToTrainQuestionId
+		) {
+			num
+			withValue(value: "yes") {
+				num
+				percent
+			}
+		}
+	}
+`;
+
+export const SUMMARY_REPORT_CHECKLIST_FIELDS = gql`
+	fragment SummaryReportChecklistFields on MeritReport {
 		lectures {
 			title
 		}
@@ -238,3 +238,34 @@ export const SUMMARY_REPORT_FIELDS = gql`
 		organizations
 	}
 `;
+
+export const SUMMARY_REPORT_FIELDS = gql`
+	fragment SummaryReportFields on MeritReport {
+		id
+
+		user {
+			...SummaryReportUserFields
+		}
+
+		...SummaryReportChecklistFields
+	}
+	${SUMMARY_REPORT_USER_FIELDS}
+	${SUMMARY_REPORT_CHECKLIST_FIELDS}
+`;
+
+export const PUBLICATION_TYPES = [
+	'Original Article',
+	'Review Article',
+	'Book / Text',
+	'Book Chapter',
+	'Editorial',
+	'Case Report',
+	'Letter to the Editor',
+	'Abstract / Poster',
+	'Anesthesia Toolbox',
+	'MedEd'
+];
+
+export const GRANT_TYPES = ['INDUSTRY', 'EXTRAMURAL_RESEARCH', 'INTERNAL'];
+
+export const ORGANIZATION_TYPES = ['INTERNAL', 'REGIONAL', 'NATIONAL'];

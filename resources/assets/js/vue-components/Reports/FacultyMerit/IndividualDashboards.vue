@@ -1,28 +1,59 @@
 <template>
 	<div>
 		<div class="user-selector-container container body-block">
-			<label>
-				User
-				<select-two
-					:options="groupedUsers"
-					:value="userId"
-					@input="handleUserIdChange"
-				/>
-			</label>
+			<form>
+				<label>
+					User
+					<select-two
+						:options="groupedUsers"
+						:value="userId"
+						@input="handleUserIdChange"
+					/>
+				</label>
 
-			<label>
-				Title
-				<input type="text" class="form-control" v-model="reportTitle" />
-			</label>
+				<label>
+					Title
+					<input type="text" class="form-control" v-model="reportTitle" />
+				</label>
 
-			<label>
-				Leadership role
-				<input
-					type="text"
-					class="form-control"
-					v-model="leadershipRole"
-				/>
-			</label>
+				<label>
+					Leadership role
+					<input
+						type="text"
+						class="form-control"
+						v-model="leadershipRole"
+					/>
+				</label>
+
+
+				<label class="containing-label">
+					Form
+					<form-select v-model="facultyFormId" />
+				</label>
+
+				<label class="containing-label">
+					Overall abilities question ID
+					<input
+						type="text"
+						class="form-control"
+						v-model="overallAbilitiesQuestionId"
+					/>
+				</label>
+
+				<label class="containing-label">
+					Continue to train residents question ID
+					<input
+						type="text"
+						class="form-control"
+						v-model="continueToTrainQuestionId"
+					/>
+				</label>
+
+				<label>
+					<input type="checkbox" v-model="groupDivisions" />
+					Group by division
+				</label>
+			</form>
 		</div>
 
 		<individual-dashboard
@@ -54,7 +85,21 @@ import IndividualDashboard from './IndividualDashboard/Dashboard.vue';
 import { groupUsers } from '@/modules/utils.js';
 
 import { GROUP_USER_FIELDS } from '@/graphql/user.js';
-import { INDIVIDUAL_DASHBOARD_FIELDS } from '@/graphql/merit.js';
+import { SUMMARY_REPORT_USER_FIELDS, SUMMARY_REPORT_CHECKLIST_FIELDS } from '@/graphql/merit.js';
+
+// Yuck
+const overallAbilitiesMappings = [
+	{ text: 'unacceptable', value: 1 },
+	{ text: 'needs-improvement', value: 2 },
+	{ text: 'meets-expectations', value: 3 },
+	{ text: 'exceeds-expectations', value: 4 },
+	{ text: 'outstanding', value: 5 },
+
+	{ text: 'poor', value: 1 },
+	{ text: 'moderately-poor', value: 2 },
+	{ text: 'good', value: 3 },
+	{ text: 'excellent', value: 4 }
+];
 
 export default {
 	props: {
@@ -72,10 +117,27 @@ export default {
 			usersWithMerits: [],
 			user: null,
 			reportTitle: 'Faculty Activity Report',
-			leadershipRole: ''
+			leadershipRole: '',
+
+			// FIXME
+			facultyFormId: 63,
+			overallAbilitiesQuestionId: 'q23',
+			continueToTrainQuestionId: 'q20',
+			overallAbilitiesMappings,
 		};
 	},
 	apollo: {
+		providerInfo: {
+			query: gql`
+				query FY18CompQuery {
+					providerInfo: fy18 {
+						lastName
+						firstName
+						division
+					}
+				}
+			`
+		},
 		usersWithMerits: {
 			query: gql`
 				query IndividualDashboardsUsers(
@@ -104,38 +166,43 @@ export default {
 			query: gql`
 				query IndividualDashboardUser(
 					$userId: ID!
-					$startDate: Date
-					$endDate: Date
+					$after: Date
+					$before: Date
 					$status: MeritReportStatus
+					$subjectResponseFormId: ID!
+					$continueToTrainQuestionId: ID!
+					$overallAbilitiesQuestionId: ID!
+					$overallAbilitiesMappings: [NumericValueMapping]!
 				) {
 					user(id: $userId) {
 						id
 						full_name
 						email
-						evaluatorEvaluations(
-							after: $startDate
-							before: $endDate
-							status: complete
-							type: trainee
-						) {
-							id
-						}
+						...SummaryReportUserFields
 						meritReports(
 							after: $startDate
 							before: $endDate
 							status: $status
 						) {
-							...IndividualDashboardFields
+							...SummaryReportChecklistFields
 						}
 					}
 				}
-				${INDIVIDUAL_DASHBOARD_FIELDS}
+				${SUMMARY_REPORT_USER_FIELDS}
+				${SUMMARY_REPORT_CHECKLIST_FIELDS}
 			`,
 			variables() {
 				return {
 					userId: this.userId,
-					...this.dates,
-					status: this.includeIncomplete ? undefined : 'COMPLETE'
+					status: this.includeIncomplete ? undefined : 'COMPLETE',
+					after: this.dates.startDate,
+					before: this.dates.endDate,
+
+					subjectResponseFormId: this.facultyFormId,
+					continueToTrainQuestionId: this.continueToTrainQuestionId,
+					overallAbilitiesQuestionId: this.overallAbilitiesQuestionId,
+
+					overallAbilitiesMappings: this.overallAbilitiesMappings
 				};
 			}
 		},

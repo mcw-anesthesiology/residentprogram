@@ -44,14 +44,8 @@
 				{{ getPublications(report.publications, pubType) }}
 			</td>
 
-			<td>
-				{{ countGrants(report.grants, 'INDUSTRY') }}
-			</td>
-			<td>
-				{{ countGrants(report.grants, 'EXTRAMURAL RESEARCH') }}
-			</td>
-			<td>
-				{{ countGrants(report.grants, 'INTERNAL') }}
+			<td v-for="grantType of grantTypes" :key="grantType">
+				{{ countGrants(report.grants, grantType) }}
 			</td>
 
 			<td>
@@ -77,13 +71,7 @@
 				</cell-list>
 			</template>
 
-			<cell-list :items="getMemberCommittees(report.committees, 'INTERNAL')" :exporting="exporting" v-slot="slotProps">
-				{{ slotProps.item.name }}
-			</cell-list>
-			<cell-list :items="getMemberCommittees(report.committees, 'REGIONAL')" :exporting="exporting" v-slot="slotProps">
-				{{ slotProps.item.name }}
-			</cell-list>
-			<cell-list :items="getMemberCommittees(report.committees, 'NATIONAL')" :exporting="exporting" v-slot="slotProps">
+			<cell-list v-for="orgType of organizationTypes" :key="orgType" :items="getMemberCommittees(report.committees, orgType)" :exporting="exporting" v-slot="slotProps">
 				{{ slotProps.item.name }}
 			</cell-list>
 
@@ -113,7 +101,9 @@ ul {
 /** @format */
 import CellList from './CellList.vue';
 
+import { GRANT_TYPES, ORGANIZATION_TYPES } from '@/graphql/merit.js';
 import { percent, decimal } from '@/modules/formatters.js';
+import { getPublications, countGrants, getMemberCommittees } from '@/modules/merit-utils.js';
 
 export default {
 	props: {
@@ -130,27 +120,16 @@ export default {
 			default: true
 		}
 	},
+	data: {
+		grantTypes: GRANT_TYPES,
+		organizationTypes: ORGANIZATION_TYPES
+	},
 	methods: {
 		percent,
 		decimal,
-		getPublications(publications, pubType) {
-			const re = new RegExp(pubType, 'i');
-
-			return publications.reduce((sum, p) => {
-				return re.test(p.publicationType) ? sum + 1 : sum;
-			}, 0);
-		},
-		countGrants(grants, agencyType) {
-			return grants.reduce(
-				(sum, g) => (g.agencyType === agencyType ? sum + 1 : sum),
-				0
-			);
-		},
-		getMemberCommittees(committees, orgType) {
-			return committees.filter(
-				c => c.role === 'MEMBER' && c.organizationType === orgType
-			);
-		}
+		getPublications,
+		countGrants,
+		getMemberCommittees
 	},
 	components: {
 		CellList
