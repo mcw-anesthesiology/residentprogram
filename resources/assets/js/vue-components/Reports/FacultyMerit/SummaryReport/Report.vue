@@ -383,6 +383,14 @@ export default {
 			this.exporting = true;
 			this.$nextTick(() => {
 				const wb = XLSX.utils.table_to_book(this.$refs.table);
+				const ws = wb.Sheets.Sheet1;
+				// Gross that we need to do this, but the table parser
+				// refuses to not strip these out as far as I can tell
+				Object.values(ws).forEach(cell => {
+					if (cell.v && cell.v.includes('•')) {
+						cell.v = cell.v.replace(/(?!^)•/g, '\n•');
+					}
+				});
 				XLSX.writeFile(wb, `${this.exportFilename}.xlsx`, {
 					bookSST: true
 				});
