@@ -120,9 +120,11 @@ export default {
 			default: true
 		}
 	},
-	data: {
-		grantTypes: GRANT_TYPES,
-		organizationTypes: ORGANIZATION_TYPES
+	data() {
+		return {
+			grantTypes: GRANT_TYPES,
+			organizationTypes: ORGANIZATION_TYPES
+		};
 	},
 	methods: {
 		percent,
