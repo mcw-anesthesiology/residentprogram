@@ -9,7 +9,7 @@
 
 		<div class="main-row">
 			<div class="table-container">
-				<table ref="table">
+				<table class="publications-table">
 					<thead v-if="breakdownReports.size > 1">
 						<tr>
 							<th></th>
@@ -52,7 +52,24 @@
 								}}
 							</td>
 						</tr>
+					</tbody>
+				</table>
 
+				<table class="grants-table">
+					<thead v-if="breakdownReports.size > 1">
+						<tr>
+							<th></th>
+							<th
+								v-for="label of Array.from(
+									breakdownReports.keys()
+								)"
+								:key="label"
+							>
+								{{ label }}
+							</th>
+						</tr>
+					</thead>
+					<tbody>
 						<tr>
 							<th>Total grants</th>
 							<td
@@ -81,7 +98,24 @@
 								}}
 							</td>
 						</tr>
+					</tbody>
+				</table>
 
+				<table class="studies-table">
+					<thead v-if="breakdownReports.size > 1">
+						<tr>
+							<th></th>
+							<th
+								v-for="label of Array.from(
+									breakdownReports.keys()
+								)"
+								:key="label"
+							>
+								{{ label }}
+							</th>
+						</tr>
+					</thead>
+					<tbody>
 						<tr>
 							<th>Total studies</th>
 							<td
@@ -129,14 +163,6 @@
 						</tr>
 					</tbody>
 				</table>
-
-				<button
-					type="button"
-					class="btn btn-default"
-					@click="exportToXlsx"
-				>
-					Export to Excel
-				</button>
 			</div>
 		</div>
 		<div class="chart-container" v-if="showChart">
@@ -163,7 +189,6 @@ thead th {
 
 table {
 	font-size: 1em;
-	width: 100%;
 	margin-bottom: 1em;
 	border-collapse: collapse;
 }
@@ -222,6 +247,11 @@ ul {
 	flex-grow: 1;
 }
 
+.table-container table {
+	float: left;
+	margin: 0.5em;
+}
+
 .chart-container {
 	flex-shrink: 1;
 }
@@ -246,6 +276,29 @@ ul {
 		display: block;
 	}
 }
+
+@supports (display: grid) {
+	.table-container {
+		display: grid;
+		grid-gap: 1em;
+		grid-template-areas:
+			'publications grants'
+			'publications studies';
+		align-items: start;
+	}
+
+	table.publications-table {
+		grid-area: publications;
+	}
+
+	table.grants-table {
+		grid-area: grants;
+	}
+
+	table.studies-table {
+		grid-area: studies;
+	}
+}
 </style>
 
 <style>
@@ -267,7 +320,6 @@ ul {
 <script>
 /** @format */
 
-import XLSX from 'xlsx';
 import ApexChart from 'vue-apexcharts';
 import groupBy from 'lodash/groupBy';
 import sortBy from 'lodash/sortBy';
@@ -473,17 +525,6 @@ export default {
 		},
 		sortedGroup(arr, key) {
 			return sortBy(groupBy(arr, key), 0);
-		},
-		exportToXlsx() {
-			const wb = XLSX.utils.table_to_book(this.$refs.table);
-			let filename = 'Academic productivity summary';
-			if (this.dates && this.dates.startDate && this.dates.endDate) {
-				filename += ` ${renderYearRange(
-					this.dates.startDate,
-					this.dates.endDate
-				)}`;
-			}
-			XLSX.writeFile(wb, `${filename}.xlsx`);
 		}
 	},
 	components: {

@@ -658,7 +658,19 @@ class MeritReport extends Model
 	}
 
 	public function getCommitteesByTypeAttribute() {
-		return collect($this->committees)->groupBy('organizationType');
+		$result = [];
+		$grouped = collect($this->committees)->groupBy('organizationType');
+
+		foreach ($grouped as $organizationType => $committees) {
+			if (!empty($organizationType)) {
+				$result[] = [
+					'organizationType' => $organizationType,
+					'committees' => $committees
+				];
+			}
+		}
+
+		return $result;
 	}
 
 	public function getCommitteesAttribute() {

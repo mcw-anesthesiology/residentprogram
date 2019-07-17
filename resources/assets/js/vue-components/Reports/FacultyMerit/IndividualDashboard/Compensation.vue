@@ -1,97 +1,103 @@
 <template>
 	<section class="individual-merit-dashboard-section individual-merit-dashboard-compensation">
-		<section>
-			<h2>Compensation</h2>
-			<table>
-				<tbody>
-					<tr>
-						<th>Base salary</th>
-						<td>{{ currency(compensation.baseSalary) }}</td>
-					</tr>
-					<tr>
-						<th>Incentive / premium pay</th>
-						<td>{{ currency(compensation.incentive) }}</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<th>Total compensation</th>
-						<td>{{ currency(totalCompensation) }}</td>
-					</tr>
-				</tfoot>
-			</table>
-		</section>
-		<section>
-			<h2>Clinical productivity</h2>
-			<table>
-				<tbody>
-					<tr>
-						<th>Total Anesthesia Units</th>
-						<td>{{ clinicalProductivity.anesthesiaUnits }}</td>
-					</tr>
-					<tr>
-						<th>Total wRVUs</th>
-						<td>{{ clinicalProductivity.wrvus }}</td>
-					</tr>
-					<tr>
-						<th>Total Clinical FTE</th>
-						<td>{{ clinicalProductivity.fte }}</td>
-					</tr>
-				</tbody>
-			</table>
-		</section>
-		<section>
-			<h2>Evaluation metrics</h2>
-			<table>
-				<tbody>
-					<tr>
-						<th>Evaluations completed</th>
-						<td>{{ user.evaluatorEvaluations.length }}</td>
-					</tr>
-					<tr>
-						<th>Lectures given</th>
-						<td>{{ numLectures }}</td>
-					</tr>
-					<tr>
-						<th>"Recommend continue to train?"</th>
-						<td v-if="user.continueToTrain.num > 0">
-							{{ percent(user.continueToTrain.withValue.percent) }}
-							({{ user.continueToTrain.withValue.num }}
-								/
-							{{ user.continueToTrain.num }})
-						</td>
-						<td v-else></td>
-					</tr>
-					<tr>
-						<th>"Rate overall abilities"</th>
-						<td v-if="user.overallAbilities.num > 0">
-							{{ decimal(user.overallAbilities.withNumericValues.average) }}
-							(S.D.:
-							{{
-								decimal(
-									user.overallAbilities.withNumericValues.stdDev
-								)
-							}})
-						</td>
-						<td v-else></td>
-					</tr>
-				</tbody>
-			</table>
-		</section>
+		<h2 class="compensation">Compensation</h2>
+		<table class="compensation">
+			<tbody>
+				<tr>
+					<th>Base salary</th>
+					<td>{{ currency(compensation.baseSalary) }}</td>
+				</tr>
+				<tr>
+					<th>Incentive / premium pay</th>
+					<td>{{ currency(compensation.incentive) }}</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>Total compensation</th>
+					<td>{{ currency(totalCompensation) }}</td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<h2 class="productivity">Clinical productivity</h2>
+		<table class="productivity">
+			<tbody>
+				<tr>
+					<th>Total Units</th>
+					<td>{{ clinicalProductivity.anesthesiaUnits }}</td>
+				</tr>
+				<tr>
+					<th>Clinical FTE</th>
+					<td>{{ clinicalProductivity.fte }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<h2 class="eval-metrics">Evaluation metrics</h2>
+		<table class="eval-metrics">
+			<tbody>
+				<tr>
+					<th>Evaluations completed</th>
+					<td>{{ user.evaluatorEvaluations.length }}</td>
+				</tr>
+				<tr>
+					<th>Lectures given</th>
+					<td>{{ numLectures }}</td>
+				</tr>
+				<tr>
+					<th>Should continue to train</th>
+					<td v-if="user.continueToTrain.num > 0">
+						{{ percent(user.continueToTrain.withValue.percent) }}
+						({{ user.continueToTrain.withValue.num }}/{{ user.continueToTrain.num }})
+					</td>
+					<td v-else></td>
+				</tr>
+				<tr>
+					<th>Overall abilities</th>
+					<td v-if="user.overallAbilities.num > 0">
+						{{ decimal(user.overallAbilities.withNumericValues.average) }}
+
+						&plusmn;{{
+							decimal(
+								user.overallAbilities.withNumericValues.stdDev
+							)
+						}}
+					</td>
+					<td v-else></td>
+				</tr>
+			</tbody>
+		</table>
 	</section>
 </template>
 
 <style scoped>
 .individual-merit-dashboard-compensation {
-	display: flex;
-	justify-content: space-around;
+	display: grid;
+	grid-template-columns: 3;
+	grid-template-rows: 2;
+	align-items: start;
+	grid-column-gap: 1em;
 }
 
-.individual-merit-dashboard-compensation > section {
-	margin: 0 0.5em;
+.compensation {
+	grid-column: 1 / span 1;
+}
+
+.productivity {
+	grid-column: 2 / span 1;
+}
+
+.eval-metrics {
+	grid-column: 3 / span 1;
+}
+
+h2 {
+	grid-row: 1 / span 1;
 }
 
 table {
+	grid-row: 2 / span 1;
 	font-size: 1em;
 	margin-bottom: 1em;
 	border-collapse: collapse;
