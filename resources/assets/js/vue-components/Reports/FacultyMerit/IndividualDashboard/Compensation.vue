@@ -52,6 +52,29 @@
 						<th>Lectures given</th>
 						<td>{{ numLectures }}</td>
 					</tr>
+					<tr>
+						<th>"Recommend continue to train?"</th>
+						<td v-if="user.continueToTrain.num > 0">
+							{{ percent(user.continueToTrain.withValue.percent) }}
+							({{ user.continueToTrain.withValue.num }}
+								/
+							{{ user.continueToTrain.num }})
+						</td>
+						<td v-else></td>
+					</tr>
+					<tr>
+						<th>"Rate overall abilities"</th>
+						<td v-if="user.overallAbilities.num > 0">
+							{{ decimal(user.overallAbilities.withNumericValues.average) }}
+							(S.D.:
+							{{
+								decimal(
+									user.overallAbilities.withNumericValues.stdDev
+								)
+							}})
+						</td>
+						<td v-else></td>
+					</tr>
 				</tbody>
 			</table>
 		</section>
@@ -104,7 +127,7 @@ tfoot {
 
 import DashboardSection from './Section.vue';
 
-import { currency } from '@/modules/formatters.js';
+import { currency, percent, decimal } from '@/modules/formatters.js';
 
 export default {
 	extends: DashboardSection,
@@ -138,7 +161,9 @@ export default {
 		}
 	},
 	methods: {
-		currency
+		currency,
+		percent,
+		decimal
 	}
 };
 </script>

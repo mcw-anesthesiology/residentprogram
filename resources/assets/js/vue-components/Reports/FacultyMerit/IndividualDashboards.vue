@@ -50,8 +50,8 @@
 				</label>
 
 				<label>
-					<input type="checkbox" v-model="groupDivisions" />
-					Group by division
+					<input type="checkbox" v-model="includeSummary" />
+					Include summary
 				</label>
 			</form>
 		</div>
@@ -62,6 +62,7 @@
 			:dates="dates"
 			:title="reportTitle"
 			:user-props="userProps"
+			:include-summary="includeSummary"
 		/>
 	</div>
 </template>
@@ -79,6 +80,7 @@
 import gql from 'graphql-tag';
 
 import SelectTwo from '#/SelectTwo.vue';
+import FormSelect from '#/FormSelect.vue';
 
 import IndividualDashboard from './IndividualDashboard/Dashboard.vue';
 
@@ -118,6 +120,7 @@ export default {
 			user: null,
 			reportTitle: 'Faculty Activity Report',
 			leadershipRole: '',
+			includeSummary: true,
 
 			// FIXME
 			facultyFormId: 63,
@@ -173,6 +176,7 @@ export default {
 					$continueToTrainQuestionId: ID!
 					$overallAbilitiesQuestionId: ID!
 					$overallAbilitiesMappings: [NumericValueMapping]!
+					$includeSummary: Boolean!
 				) {
 					user(id: $userId) {
 						id
@@ -180,11 +184,35 @@ export default {
 						email
 						...SummaryReportUserFields
 						meritReports(
-							after: $startDate
-							before: $endDate
+							after: $after
+							before: $before
 							status: $status
 						) {
 							...SummaryReportChecklistFields
+
+							period_start @include(if: $includeSummary)
+							period_end @include(if: $includeSummary)
+							report @include(if: $includeSummary)
+							status @include(if: $includeSummary)
+
+							publications {
+								publicationType
+								title
+							}
+
+							grants {
+								project
+							}
+
+							studies {
+								title
+								role
+							}
+
+							lectures {
+								title
+								date
+							}
 						}
 					}
 				}
@@ -193,6 +221,7 @@ export default {
 			`,
 			variables() {
 				return {
+					includeSummary: this.includeSummary,
 					userId: this.userId,
 					status: this.includeIncomplete ? undefined : 'COMPLETE',
 					after: this.dates.startDate,
@@ -276,6 +305,7 @@ export default {
 	},
 	components: {
 		SelectTwo,
+		FormSelect,
 		IndividualDashboard
 	}
 };

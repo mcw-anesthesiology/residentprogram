@@ -40,6 +40,12 @@
 
 		<dashboard-appendix v-if="includeAppendix" :user="user" :periods="periods" />
 
+		<checklist-summary v-if="includeSummary && !$apollo.loading"
+			v-for="report of user.meritReports" :key="report.id"
+			v-bind="report"
+			:subjectName="user.full_name"
+		/>
+
 		<aside class="dashboard-controls body-block">
 			<print-element-button
 				target=".individual-dashboard"
@@ -71,6 +77,7 @@ import AcademicProductivity from './AcademicProductivity.vue';
 import LeadershipProfessionalCitizenship from './LeadershipProfessionalCitizenship.vue';
 import DashboardGoals from './Goals.vue';
 import DashboardAppendix from './Appendix.vue';
+import ChecklistSummary from '#/MeritCompensation/Summary.vue';
 
 import { renderYearRange, academicYearForDate } from '@/modules/date-utils.js';
 
@@ -96,6 +103,10 @@ export default {
 			default() {
 				return new Map();
 			}
+		},
+		includeSummary: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data() {
@@ -139,7 +150,8 @@ export default {
 		AcademicProductivity,
 		LeadershipProfessionalCitizenship,
 		DashboardGoals,
-		DashboardAppendix
+		DashboardAppendix,
+		ChecklistSummary
 	}
 };
 </script>

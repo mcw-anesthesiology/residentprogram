@@ -62,7 +62,7 @@ export default {
 	data() {
 		return {
 			show: {
-				chart: true,
+				chart: false,
 				breakdowns: true,
 				total: false
 			}
