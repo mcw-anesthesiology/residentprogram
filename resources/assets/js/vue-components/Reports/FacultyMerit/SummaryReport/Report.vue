@@ -387,7 +387,7 @@ export default {
 				// Gross that we need to do this, but the table parser
 				// refuses to not strip these out as far as I can tell
 				Object.values(ws).forEach(cell => {
-					if (cell.v && cell.v.includes('•')) {
+					if (cell.v && typeof cell.v === 'string' && cell.v.includes('•')) {
 						cell.v = cell.v.replace(/(?!^)•/g, '\n•');
 					}
 				});
