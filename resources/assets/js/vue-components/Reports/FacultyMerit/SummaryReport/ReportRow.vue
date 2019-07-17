@@ -16,20 +16,18 @@
 
 			<td v-if="report.user.continueToTrain.num > 0">
 				{{ percent(report.user.continueToTrain.withValue.percent) }}
-				({{ report.user.continueToTrain.withValue.num }}
-					/
-				{{ report.user.continueToTrain.num }})
+				({{ report.user.continueToTrain.withValue.num }}/{{ report.user.continueToTrain.num }})
 			</td>
 			<td v-else></td>
 
 			<td v-if="report.user.overallAbilities.num > 0">
 				{{ decimal(report.user.overallAbilities.withNumericValues.average) }}
-				(S.D.:
-				{{
+
+				&plusmn;{{
 					decimal(
 						report.user.overallAbilities.withNumericValues.stdDev
 					)
-				}})
+				}}
 			</td>
 			<td v-else></td>
 
