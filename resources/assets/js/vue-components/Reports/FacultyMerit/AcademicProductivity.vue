@@ -48,10 +48,7 @@
 								:key="`publications:${type}:${bd}`"
 							>
 								{{
-									rs
-										.flatMap(r => r.publications)
-										.filter(p => p.publicationType === type)
-										.length
+									getPublications(rs.flatMap(r => r.publications), type)
 								}}
 							</td>
 						</tr>
@@ -80,9 +77,7 @@
 								:key="`grants:${type}:${bd}`"
 							>
 								{{
-									rs
-										.flatMap(r => r.grants)
-										.filter(g => g.type === type).length
+									countGrants(rs.flatMap(r => r.grants), type)
 								}}
 							</td>
 						</tr>
@@ -96,6 +91,40 @@
 								:key="`studies:${bd}`"
 							>
 								{{ rs.flatMap(r => r.studies).length }}
+							</td>
+						</tr>
+						<tr class="sub-row">
+							<th>
+								PI
+							</th>
+							<td v-for="[bd, rs] of Array.from(
+									breakdownReports.entries()
+								)"
+								:key="`studies:pi:${bd}`"
+							>
+								{{
+									rs.flatMap(r => r.studies).reduce(
+										(sum, s) => (s.primaryInvestigator ? sum + 1 : sum),
+										0
+									)
+								}}
+							</td>
+						</tr>
+						<tr class="sub-row">
+							<th>
+								Co-investigator
+							</th>
+							<td v-for="[bd, rs] of Array.from(
+									breakdownReports.entries()
+								)"
+								:key="`studies:pi:${bd}`"
+							>
+								{{
+									rs.flatMap(r => r.studies).reduce(
+										(sum, s) => (!s.primaryInvestigator ? sum + 1 : sum),
+										0
+									)
+								}}
 							</td>
 						</tr>
 					</tbody>
@@ -246,8 +275,11 @@ import sortBy from 'lodash/sortBy';
 import InfoPopover from '#/InfoPopover.vue';
 import RichDateRange from '#/RichDateRange.vue';
 
+import { PUBLICATION_TYPES, GRANT_TYPES } from '@/graphql/merit.js';
+
 import { enumToWords, ucfirst } from '@/modules/text-utils.js';
 import { renderYearRange } from '@/modules/date-utils.js';
+import { getPublications, countGrants, getMemberCommittees } from '@/modules/merit-utils.js';
 
 export default {
 	props: {
@@ -281,7 +313,9 @@ export default {
 	},
 	data() {
 		return {
-			chartImage: null
+			chartImage: null,
+			publicationTypes: PUBLICATION_TYPES,
+			grantTypes: GRANT_TYPES
 		};
 	},
 	computed: {
@@ -323,39 +357,6 @@ export default {
 			}
 
 			return map;
-		},
-		publicationTypes() {
-			const getTypes = reports =>
-				reports
-					.flatMap(r => r.publications)
-					.map(p => p.publicationType);
-
-			const set = new Set(getTypes(this.reports));
-
-			if (this.additionalBreakdowns) {
-				for (const reports of this.additionalBreakdowns.values()) {
-					getTypes(reports).forEach(set.add.bind(set));
-				}
-			}
-
-			const types = Array.from(set.values());
-			types.sort();
-			return types;
-		},
-		grantTypes() {
-			const getTypes = reports =>
-				reports.flatMap(r => r.grants).map(g => g.type);
-			const set = new Set(getTypes(this.reports));
-
-			if (this.additionalBreakdowns) {
-				for (const reports of this.additionalBreakdowns.values()) {
-					getTypes(reports).forEach(set.add.bind(set));
-				}
-			}
-
-			const types = Array.from(set.values());
-			types.sort();
-			return types;
 		},
 		chartHeight() {
 			return 80 + 20 * this.breakdownReports.size;
@@ -461,6 +462,9 @@ export default {
 	},
 	methods: {
 		ucfirst,
+		getPublications,
+		countGrants,
+		getMemberCommittees,
 		updateChartImage() {
 			// wait for animations to complete
 			window.setTimeout(async () => {

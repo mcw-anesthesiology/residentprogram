@@ -1,3 +1,4 @@
+/** @format */
 /* @flow */
 
 import moment from 'moment';
@@ -30,7 +31,9 @@ export function getCheckedItemCount(report: MeritReportChecklist): number {
 	return count;
 }
 
-export function getSectionCheckedItemCount(section: MeritReportSection): number {
+export function getSectionCheckedItemCount(
+	section: MeritReportSection
+): number {
 	let count = 0;
 
 	if (section.items) {
@@ -54,11 +57,9 @@ export function getItemCheckedItemCount(item: MeritReportItem): number {
 }
 
 export function getUsersWithCompleteMerit(
-	usersWithMerits: Array<{merit_reports: Array<MeritReport>}>
-): Array<{report: MeritReport}> {
-
-	if (!usersWithMerits)
-		return [];
+	usersWithMerits: Array<{ merit_reports: Array<MeritReport> }>
+): Array<{ report: MeritReport }> {
+	if (!usersWithMerits) return [];
 
 	let usersWithMerit = [];
 
@@ -66,7 +67,7 @@ export function getUsersWithCompleteMerit(
 		let report = getMostRecentCompleteReport(user.merit_reports);
 
 		if (report) {
-			usersWithMerit.push(Object.assign({}, user, {report}));
+			usersWithMerit.push(Object.assign({}, user, { report }));
 		}
 	}
 
@@ -114,8 +115,7 @@ export function itemIsChecked(item: MeritReportSectionChild): boolean {
 		case 'section':
 			return item.items.some(item => itemIsChecked(item));
 		case 'item':
-			if (item.checked)
-				return true;
+			if (item.checked) return true;
 			break;
 	}
 
@@ -124,36 +124,33 @@ export function itemIsChecked(item: MeritReportSectionChild): boolean {
 
 export function getYearlyFacultyMeritForm(
 	meritForms: Array<MeritReportForm>,
-	meritReportTypes: {[string]: string},
-	meritReportTypeForms: {[string]: string}
+	meritReportTypes: { [string]: string },
+	meritReportTypeForms: { [string]: string }
 ): ?MeritReportForm {
 	if (
-		meritReportTypes.faculty_yearly
-		&& meritReportTypeForms.faculty_yearly
-		&& meritForms
+		meritReportTypes.faculty_yearly &&
+		meritReportTypeForms.faculty_yearly &&
+		meritForms
 	) {
 		let forms = meritForms.slice();
 		forms.sort((a, b) => Number(b.version) - Number(a.version));
 
-		return forms.find(form =>
-			form.name === meritReportTypeForms.faculty_yearly
+		return forms.find(
+			form => form.name === meritReportTypeForms.faculty_yearly
 		);
 	}
 }
 
 export function getMostRecentCompleteReport(meritReports: Array<MeritReport>) {
-	if (!meritReports || meritReports.length < 1)
-		return;
+	if (!meritReports || meritReports.length < 1) return;
 
 	let mostRecent = null;
 
 	for (let meritReport of meritReports) {
 		if (
-			meritReport.status === 'complete'
-			&& (
-				mostRecent == null
-				|| moment(meritReport.period_end) >= moment(mostRecent.period_end)
-			)
+			meritReport.status === 'complete' &&
+			(mostRecent == null ||
+				moment(meritReport.period_end) >= moment(mostRecent.period_end))
 		)
 			mostRecent = meritReport;
 	}
@@ -161,7 +158,7 @@ export function getMostRecentCompleteReport(meritReports: Array<MeritReport>) {
 	return mostRecent;
 }
 
-export function getCurrentYearlyMeritDateRange(): {[string]: string} {
+export function getCurrentYearlyMeritDateRange(): { [string]: string } {
 	// FIXME: This is naive and not good
 	return isoDateStringObject(academicYearForDate(new Date()));
 }
@@ -170,9 +167,7 @@ export function fetchAllMeritReports(): Promise<Array<MeritReport>> {
 	let query = $.param({
 		with: {
 			form: true,
-			user: [
-				'full_name'
-			]
+			user: ['full_name']
 		}
 	});
 
@@ -211,4 +206,23 @@ export function getStatusText(status: string): string {
 		default:
 			return ucfirst(status.toLowerCase());
 	}
+}
+
+export function getPublications(publications, pubType) {
+	const re = new RegExp(pubType, 'i');
+
+	return publications.reduce((sum, p) => {
+		return re.test(p.publicationType) ? sum + 1 : sum;
+	}, 0);
+}
+export function countGrants(grants, agencyType) {
+	return grants.reduce(
+		(sum, g) => (g.agencyType === agencyType ? sum + 1 : sum),
+		0
+	);
+}
+export function getMemberCommittees(committees, orgType) {
+	return committees.filter(
+		c => c.role === 'MEMBER' && c.organizationType === orgType
+	);
 }
