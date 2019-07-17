@@ -469,15 +469,7 @@ class MeritReport extends Model
 	}
 
 	static function getCommitteeRoleDisplay($committee) {
-		$result = $committee['name'];
-
-		if (!preg_match('/commitee/i', $committee['name'])) {
-			$result .= ' committee';
-		}
-
-		$result .= " {$committee['role']}";
-
-		return $result;
+		return "Committee {$committee['role']} - {$committee['name']}";
 	}
 
 	/*
@@ -940,12 +932,6 @@ class MeritReport extends Model
 				foreach ([$DIRECTOR_CLINICAL_SERVICE, $DIRECTOR_SIM_CENTER, $DIRECTOR_VISITING_ROTATORS] as $i) {
 					if (self::isChecked($clinicalAdminServiceItems[$i])) {
 						$roles[] = $clinicalAdminServiceItems[$i]['text'];
-					}
-				}
-
-				foreach ($this->internal_committees as $committee) {
-					if ($committee['role'] == 'chair') {
-						$roles[] = "Committee chair - {$committee['name']}";
 					}
 				}
 
