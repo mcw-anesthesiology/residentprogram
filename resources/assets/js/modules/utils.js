@@ -664,7 +664,7 @@ export function printElement(target, filename = 'download.pdf', options = {}) {
 }
 
 export function bulletizeCell(cell, bulletChar = '•') {
-	const re = new RegExp(`/(?!^)${bulletChar}/`, 'g');
+	const re = new RegExp(`(?!^)${bulletChar}`, 'g');
 	if (cell.v && typeof cell.v === 'string' && re.test(cell.v)) {
 		cell.v = cell.v.replace(re, `\n${bulletChar}`);
 	}
