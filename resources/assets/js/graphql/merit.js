@@ -208,7 +208,7 @@ export const SUMMARY_REPORT_CHECKLIST_FIELDS = gql`
 		publications {
 			publicationType
 			title
-			# TODO: peerReviewed
+			peerReviewed
 		}
 
 		grants {

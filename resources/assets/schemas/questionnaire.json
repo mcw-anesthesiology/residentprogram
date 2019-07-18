@@ -289,7 +289,8 @@
 								"title": {"type": "string"},
 								"author": {"type": "string"},
 								"link": {"type": "string"},
-								"role": {"type": "string"}
+								"role": {"type": "string"},
+								"peerReviewed": {"type": "boolean"}
 							},
 							"required": [
 								"type",

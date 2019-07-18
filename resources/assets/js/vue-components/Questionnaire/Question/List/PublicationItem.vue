@@ -55,6 +55,19 @@
 				</textarea>
 			</label>
 		</validated-form-group>
+		<validated-form-group prop="peerReviewed"
+				:errors="validation.errors"
+				:show-errors="showErrors"
+				:invalid-class="helpClass">
+			<label class="containing-label">
+				<input type="checkbox"
+					:checked="peerReviewed"
+					:readonly="isReadonly('peerReviewed')"
+					@input="$emit('input', {peerReviewed: $event.target.checked})"
+				/>
+				Peer reviewed
+			</label>
+		</validated-form-group>
 	</list-item>
 </template>
 
@@ -91,6 +104,9 @@ export default {
 		role: {
 			type: String,
 			default: ''
+		},
+		peerReviewed: {
+			type: Boolean
 		},
 		readonly: {
 			type: Boolean,

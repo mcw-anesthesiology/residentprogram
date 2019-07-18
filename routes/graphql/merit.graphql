@@ -146,6 +146,7 @@ type Publication {
 	author: String
 	link: String
 	role: String
+	peerReviewed: Boolean
 
 	pmid: ID
 		@field(
