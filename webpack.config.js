@@ -105,7 +105,13 @@ module.exports = (env, argv) => {
 				{
 					test: /\.css$/,
 					use: [
-						ExtractCssChunks.loader,
+						{
+							loader: ExtractCssChunks.loader,
+							options: {
+								hot: true,
+								reloadAll: true
+							}
+						},
 						{
 							loader: 'css-loader',
 							options: {
@@ -144,9 +150,7 @@ module.exports = (env, argv) => {
 				filename:
 					argv.mode === 'production'
 						? '[name].[contenthash].css'
-						: '[name].css',
-				hot: argv.mode !== 'production',
-				allChunks: true
+						: '[name].css'
 			}),
 			new ManifestPlugin({
 				fileName: '../mix-manifest.json',

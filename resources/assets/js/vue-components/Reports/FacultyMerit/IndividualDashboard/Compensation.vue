@@ -46,7 +46,7 @@
 					<td>{{ numLectures }}</td>
 				</tr>
 				<tr>
-					<th>Should continue to train</th>
+					<th>Continue to train</th>
 					<td v-if="user.continueToTrain.num > 0">
 						{{ percent(user.continueToTrain.withValue.percent) }}
 						({{ user.continueToTrain.withValue.num }}/{{ user.continueToTrain.num }})
@@ -110,7 +110,7 @@ tr:hover {
 th,
 td {
 	border: 1px solid #ddd;
-	padding: 0.5em 1em;
+	padding: 0.25em 0.5em;
 }
 
 th {
@@ -121,6 +121,7 @@ td {
 	text-align: right;
 	font-family: monospace;
 	color: '#111';
+	font-size: 0.825em;
 }
 
 tfoot {

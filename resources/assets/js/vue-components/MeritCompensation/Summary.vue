@@ -1,5 +1,5 @@
 <template>
-	<div class="container body-block root-checklist">
+	<div class="container body-block root-checklist checklist-summary">
 		<div class="controls-container">
 			<button
 				type="button"

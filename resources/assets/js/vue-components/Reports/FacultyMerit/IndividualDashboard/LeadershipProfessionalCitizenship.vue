@@ -10,9 +10,9 @@
 
 				<table class="leadership-roles-table">
 					<tbody>
-						<tr v-for="{roleType, roles} of leadershipRoles" :key="roleType">
+						<tr v-for="{roleType, roles} of leadershipRoles" :key="roleType" :class="{'no-items': roles.length === 0}">
 							<th>{{ roleType }}</th>
-							<td class="education-leadership-roles">
+							<td>
 								<ul v-if="roles.length > 0">
 									<li v-for="role of roles" :key="role">
 										{{ role }}
@@ -26,7 +26,7 @@
 
 			<section>
 				<h3>Committee participation</h3>
-				<div class="committees">
+				<div v-if="committees.length > 0" class="committees">
 					<committee-participation-item
 						v-for="[organizationType, committees] of Array.from(
 							committeeParticipation.entries()
@@ -37,29 +37,40 @@
 						:showPeriods="multiplePeriods"
 					/>
 				</div>
+				<p v-else class="no-items">
+					<i>None listed</i>
+				</p>
 			</section>
 
 			<section>
 				<h3>Certifications</h3>
 
-				<ul>
-					<li v-for="certification of certifications" :key="certification">
+				<ol v-if="certifications.length > 0">
+					<li v-for="certification of certifications"
+						:key="`${certification.board}:${certification.specialty}`"
+					>
 						{{ certification.board }}
 						<span v-if="certification.specialty">
 							- {{ certification.specialty }}
 						</span>
 					</li>
-				</ul>
+				</ol>
+				<p v-else class="no-items">
+					<i>None listed</i>
+				</p>
 			</section>
 
 			<section>
 				<h3>Organizations</h3>
 
-				<ul>
+				<ol v-if="organizations.length > 0">
 					<li v-for="org of organizations" :key="org">
 						{{ org }}
 					</li>
-				</ul>
+				</ol>
+				<p v-else class="no-items">
+					<i>None listed</i>
+				</p>
 			</section>
 		</section>
 	</section>
@@ -80,6 +91,12 @@
 .details {
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: -0.5em;
+}
+
+.details > section {
+	margin: 0.5em;
 }
 
 .summary {
@@ -92,12 +109,16 @@
 }
 
 .leadership-roles th, .leadership-roles td {
-	padding: 0.25em 0.5em;
+	padding: 0.5em;
 	border: 1px solid #ccc;
 }
 
-th {
-	font-weight: normal;
+.leadership-roles td {
+	min-width: 7em;
+}
+
+.no-items {
+	color: rgba(0, 0, 0, 0.5);
 }
 
 .leadership-professional-citizenship h3 {
@@ -107,6 +128,11 @@ th {
 
 ul {
 	padding-left: 1em;
+	margin: 0;
+}
+
+ol {
+	padding-left: 1.5em;
 	margin: 0;
 }
 
@@ -155,6 +181,9 @@ import { pluralize } from '@/modules/text-utils.js';
 export default {
 	extends: DashboardSection,
 	computed: {
+		committees() {
+			return this.user.meritReports.flatMap(mr => mr.committees);
+		},
 		committeeParticipation() {
 			const map = new Map();
 

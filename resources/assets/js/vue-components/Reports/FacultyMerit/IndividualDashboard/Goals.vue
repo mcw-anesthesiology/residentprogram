@@ -1,6 +1,11 @@
 <template>
 	<section class="individual-merit-dashboard-section individual-merit-dashboard-goals">
-		<h2>Goals</h2>
+		<h2>
+			Goals
+			<span v-if="subtitle" class="subtitle">
+				{{ subtitle }}
+			</span>
+		</h2>
 
 		<ol>
 			<goals-item heading="Faculty development" />
@@ -19,6 +24,10 @@ section {
 ol {
 	padding-left: 1em;
 }
+
+.subtitle::before {
+	content: '—';
+}
 </style>
 
 <script>
@@ -28,6 +37,11 @@ import GoalsItem from './GoalsItem.vue';
 
 export default {
 	extends: DashboardSection,
+	props: {
+		subtitle: {
+			type: String
+		}
+	},
 	components: {
 		GoalsItem
 	}
