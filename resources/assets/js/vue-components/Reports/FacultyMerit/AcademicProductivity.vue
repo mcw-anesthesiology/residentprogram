@@ -35,6 +35,44 @@
 								{{ rs.flatMap(r => r.publications).length }}
 							</td>
 						</tr>
+						<tr>
+							<th>Peer-reviewed</th>
+							<td
+								v-for="[bd, rs] of Array.from(
+									breakdownReports.entries()
+								)"
+								:key="`peer-reviewed:${bd}`"
+							>
+								{{
+									rs
+										.flatMap(r => r.publications)
+										.reduce(
+											(sum, p) =>
+												p.peerReviewed ? sum + 1 : sum,
+											0
+										)
+								}}
+							</td>
+						</tr>
+						<tr>
+							<th>Non peer-reviewed</th>
+							<td
+								v-for="[bd, rs] of Array.from(
+									breakdownReports.entries()
+								)"
+								:key="`non-peer-reviewed:${bd}`"
+							>
+								{{
+									rs
+										.flatMap(r => r.publications)
+										.reduce(
+											(sum, p) =>
+												!p.peerReviewed ? sum + 1 : sum,
+											0
+										)
+								}}
+							</td>
+						</tr>
 						<tr
 							v-for="type of publicationTypes"
 							class="sub-row"
