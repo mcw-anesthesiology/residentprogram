@@ -39,7 +39,9 @@ export default {
 <style scoped>
 	.print-view-checklist-section {
 		margin: 1em 0.5em;
-		padding: 0.5em 0 0.5em 1.5em;
+		margin-right: 0;
+		padding: 0.5em 1.5em;
+		padding-right: 0;
 	}
 </style>
 

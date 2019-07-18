@@ -34,7 +34,10 @@
 					:user="user"
 					:periods="periods"
 				/>
-				<dashboard-goals :user="user" :periods="periods" />
+				<dashboard-goals :subtitle="`FY${fiscalYear + 1}`"
+					:user="user"
+					:periods="periods"
+				/>
 			</div>
 		</div>
 
@@ -119,6 +122,10 @@ export default {
 		};
 	},
 	computed: {
+		fiscalYear() {
+			const year = new Date(this.dates.startDate).getFullYear();
+			return year % 100;
+		},
 		printFilename() {
 			const userPortion = this.user ? ` - ${this.user.full_name}` : '';
 
@@ -169,6 +176,18 @@ header h1 {
 
 .individual-dashboard {
 	-webkit-print-color-adjust: exact;
+}
+
+.individual-dashboard >>> h1,
+.individual-dashboard >>> h2,
+.individual-dashboard >>> h3,
+.individual-dashboard >>> h4,
+.individual-dashboard >>> h5 {
+	margin-top: 0;
+}
+
+.individual-dashboard >>> .checklist-summary {
+	page-break-before: always;
 }
 
 .dashboard-container::after {
@@ -224,14 +243,6 @@ td {
 </style>
 
 <style>
-.individual-dashboard h1,
-.individual-dashboard h2,
-.individual-dashboard h3,
-.individual-dashboard h4,
-.individual-dashboard h5 {
-	margin-top: 0;
-}
-
 .dashboard-container > * {
 	width: 50%;
 }

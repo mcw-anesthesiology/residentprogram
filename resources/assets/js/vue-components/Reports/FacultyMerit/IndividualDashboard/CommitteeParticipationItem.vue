@@ -22,8 +22,6 @@
 <style scoped>
 h4 {
 	font-size: 1.25em;
-	margin-bottom: 0.25em;
-	border-bottom: 1px solid #888;
 }
 
 h4 small {

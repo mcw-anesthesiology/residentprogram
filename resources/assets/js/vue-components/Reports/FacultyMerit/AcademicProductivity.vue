@@ -39,6 +39,7 @@
 							v-for="type of publicationTypes"
 							class="sub-row"
 							:key="type"
+							:class="publicationsNoItems(type)"
 						>
 							<th>{{ type }}</th>
 							<td
@@ -48,7 +49,10 @@
 								:key="`publications:${type}:${bd}`"
 							>
 								{{
-									getPublications(rs.flatMap(r => r.publications), type)
+									getPublications(
+										rs.flatMap(r => r.publications),
+										type
+									)
 								}}
 							</td>
 						</tr>
@@ -85,8 +89,9 @@
 							v-for="type of grantTypes"
 							class="sub-row"
 							:key="type"
+							:class="grantsNoItems(type)"
 						>
-							<th>{{ ucfirst(type.toLowerCase()) }}</th>
+							<th>{{ enumToWords(type) }}</th>
 							<td
 								v-for="[bd, rs] of Array.from(
 									breakdownReports.entries()
@@ -127,37 +132,49 @@
 								{{ rs.flatMap(r => r.studies).length }}
 							</td>
 						</tr>
-						<tr class="sub-row">
+						<tr class="sub-row" :class="studiesNoItems(true)">
 							<th>
 								PI
 							</th>
-							<td v-for="[bd, rs] of Array.from(
+							<td
+								v-for="[bd, rs] of Array.from(
 									breakdownReports.entries()
 								)"
 								:key="`studies:pi:${bd}`"
 							>
 								{{
-									rs.flatMap(r => r.studies).reduce(
-										(sum, s) => (s.primaryInvestigator ? sum + 1 : sum),
-										0
-									)
+									rs
+										.flatMap(r => r.studies)
+										.reduce(
+											(sum, s) =>
+												s.primaryInvestigator
+													? sum + 1
+													: sum,
+											0
+										)
 								}}
 							</td>
 						</tr>
-						<tr class="sub-row">
+						<tr class="sub-row" :class="studiesNoItems(false)">
 							<th>
 								Co-investigator
 							</th>
-							<td v-for="[bd, rs] of Array.from(
+							<td
+								v-for="[bd, rs] of Array.from(
 									breakdownReports.entries()
 								)"
 								:key="`studies:pi:${bd}`"
 							>
 								{{
-									rs.flatMap(r => r.studies).reduce(
-										(sum, s) => (!s.primaryInvestigator ? sum + 1 : sum),
-										0
-									)
+									rs
+										.flatMap(r => r.studies)
+										.reduce(
+											(sum, s) =>
+												!s.primaryInvestigator
+													? sum + 1
+													: sum,
+											0
+										)
 								}}
 							</td>
 						</tr>
@@ -173,7 +190,10 @@
 				:options="chartOptions"
 				:series="chartSeries"
 			/>
-			<img v-if="chartImage && chartImage !== 'data:,'" :src="chartImage" />
+			<img
+				v-if="chartImage && chartImage !== 'data:,'"
+				:src="chartImage"
+			/>
 		</div>
 	</section>
 </template>
@@ -200,7 +220,7 @@ tr:hover {
 th,
 td {
 	border: 1px solid #ddd;
-	padding: 0.5em 1em;
+	padding: 0.25em 0.5em;
 }
 
 th {
@@ -213,11 +233,16 @@ td {
 	color: '#111';
 }
 
+tbody tr::first-child th,
+tbody tr::first-child td {
+	border-bottom: #333;
+}
+
 tbody th {
 	font-weight: bold;
 }
 
-.sub-row {
+.no-items {
 	color: rgba(0, 0, 0, 0.5);
 }
 
@@ -329,9 +354,13 @@ import RichDateRange from '#/RichDateRange.vue';
 
 import { PUBLICATION_TYPES, GRANT_TYPES } from '@/graphql/merit.js';
 
-import { enumToWords, ucfirst } from '@/modules/text-utils.js';
+import { enumToWords } from '@/modules/text-utils.js';
 import { renderYearRange } from '@/modules/date-utils.js';
-import { getPublications, countGrants, getMemberCommittees } from '@/modules/merit-utils.js';
+import {
+	getPublications,
+	countGrants,
+	getMemberCommittees
+} from '@/modules/merit-utils.js';
 
 export default {
 	props: {
@@ -395,7 +424,10 @@ export default {
 				}
 			}
 
-			if (!this.showBreakdowns || (this.breakdownKeys.length > 1 && this.showTotal)) {
+			if (
+				!this.showBreakdowns ||
+				(this.breakdownKeys.length > 1 && this.showTotal)
+			) {
 				map.set('Total', this.reports.slice());
 			}
 
@@ -513,7 +545,7 @@ export default {
 		}
 	},
 	methods: {
-		ucfirst,
+		enumToWords,
 		getPublications,
 		countGrants,
 		getMemberCommittees,
@@ -525,6 +557,36 @@ export default {
 		},
 		sortedGroup(arr, key) {
 			return sortBy(groupBy(arr, key), 0);
+		},
+		publicationsNoItems(type) {
+			const publications = Array.from(this.breakdownReports.values())
+				.flat()
+				.flatMap(r => r.publications);
+
+			return this.noItems(getPublications(publications, type));
+		},
+		grantsNoItems(type) {
+			const grants = Array.from(this.breakdownReports.values())
+				.flat()
+				.flatMap(r => r.grants);
+
+			return this.noItems(countGrants(grants, type));
+		},
+		studiesNoItems(pi) {
+			const studies = Array.from(this.breakdownReports.values())
+				.flat()
+				.flatMap(r => r.studies)
+				.reduce(
+					(sum, s) => (s.primaryInvestigator === pi ? sum + 1 : sum),
+					0
+				);
+
+			return this.noItems(studies);
+		},
+		noItems(count) {
+			return {
+				'no-items': count === 0
+			};
 		}
 	},
 	components: {

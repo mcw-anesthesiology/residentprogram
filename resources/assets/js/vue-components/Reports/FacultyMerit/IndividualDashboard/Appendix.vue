@@ -6,30 +6,36 @@
 			<publications-list :publications="publications" />
 			<section>
 				<h3>Grants</h3>
-				<p v-if="grants.length === 0">No grants listed.</p>
-				<ol v-else>
+				<ol v-if="grants.length > 0">
 					<li v-for="grant of grants" :key="grant.project">
 						{{ grant.project }}
 					</li>
 				</ol>
+				<p v-else class="no-items">
+					<i>None listed</i>
+				</p>
 			</section>
 			<section>
 				<h3>Studies</h3>
-				<p v-if="studies.length === 0">No studies listed.</p>
-				<ol v-else>
+				<ol v-if="studies.length > 0">
 					<li v-for="study of studies" :key="study.title">
 						{{ study.title }} — {{ study.role }}
 					</li>
 				</ol>
+				<p v-else class="no-items">
+					<i>None listed</i>
+				</p>
 			</section>
 			<section>
 				<h3>Lectures</h3>
-				<p v-if="lectures.length === 0">No studies listed.</p>
-				<ol v-else>
+				<ol v-if="lectures.length > 0">
 					<li v-for="lecture of lectures" :key="lecture.title">
 						{{ lecture.title }} <rich-date :date="lecture.date" />
 					</li>
 				</ol>
+				<p v-else class="no-items">
+					<i>None listed</i>
+				</p>
 			</section>
 		</div>
 	</section>
@@ -90,6 +96,14 @@ export default {
 
 .lists-container >>> section {
 	flex-basis: 50%;
+}
+
+.no-items {
+	color: rgba(0, 0, 0, 0.5);
+}
+
+ol {
+	padding-left: 1em;
 }
 
 @supports (display: grid) {
