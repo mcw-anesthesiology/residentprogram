@@ -598,22 +598,19 @@ export default {
 		},
 		publicationsNoItems(type) {
 			const publications = Array.from(this.breakdownReports.values())
-				.flat()
-				.flatMap(r => r.publications);
+				.flatMap(rs => rs.flatMap(r => r.publications));
 
 			return this.noItems(getPublications(publications, type));
 		},
 		grantsNoItems(type) {
 			const grants = Array.from(this.breakdownReports.values())
-				.flat()
-				.flatMap(r => r.grants);
+				.flatMap(rs => rs.flatMap(r => r.grants));
 
 			return this.noItems(countGrants(grants, type));
 		},
 		studiesNoItems(pi) {
 			const studies = Array.from(this.breakdownReports.values())
-				.flat()
-				.flatMap(r => r.studies)
+				.flatMap(rs => rs.flatMap(r => r.studies))
 				.reduce(
 					(sum, s) => (s.primaryInvestigator === pi ? sum + 1 : sum),
 					0
