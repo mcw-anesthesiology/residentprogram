@@ -106,6 +106,7 @@
 
 .leadership-roles table {
 	border-collapse: collapse;
+	font-size: 1em;
 }
 
 .leadership-roles th, .leadership-roles td {

@@ -41,8 +41,6 @@
 				{{ report.lectures.length }}
 			</td>
 
-			<td>{{ peerReviewedPublications }}</td>
-			<td>{{ report.publications.length - peerReviewedPublications }}</td>
 			<td v-for="pubType of publicationTypes" :key="pubType">
 				{{ getPublications(report.publications, pubType) }}
 			</td>
@@ -139,12 +137,6 @@ export default {
 		};
 	},
 	computed: {
-		peerReviewedPublications() {
-			return this.report.publications.reduce(
-				(sum, p) => (p.peerReviewed ? sum + 1 : sum),
-				0
-			);
-		},
 		piStudies() {
 			return this.report.studies.reduce(
 				(sum, s) => (s.primaryInvestigator ? sum + 1 : sum),
