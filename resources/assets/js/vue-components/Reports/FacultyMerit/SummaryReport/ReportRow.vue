@@ -2,14 +2,13 @@
 	<tr>
 		<th>{{ user.full_name }}</th>
 		<td v-if="showDivision">{{ user.division || '' }}</td>
+		<td>{{ user.baseSalary && currency(user.baseSalary) }}</td>
+		<td>{{ user.premiumPay && currency(user.premiumPay) }}</td>
+		<td>{{ user.totalPay && currency(user.totalPay) }}</td>
+		<td>{{ user.totalUnits && decimal(user.totalUnits) }}</td>
+		<td>{{ user.clinicalFTE && decimal(user.clinicalFTE) }}</td>
 
 		<template v-if="report">
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-
 			<td>
 				{{ report.user.evaluatorEvaluations.length }}
 			</td>
@@ -41,11 +40,11 @@
 				{{ report.lectures.length }}
 			</td>
 
-			<td v-for="pubType of publicationTypes" :key="pubType">
+			<td v-for="pubType of publicationTypes" :key="`pubType:${pubType}`">
 				{{ getPublications(report.publications, pubType) }}
 			</td>
 
-			<td v-for="grantType of grantTypes" :key="grantType">
+			<td v-for="grantType of grantTypes" :key="`grantType:${grantType}`">
 				{{ countGrants(report.grants, grantType) }}
 			</td>
 
@@ -54,7 +53,7 @@
 
 			<template v-for="{ roleType, roles } of report.leadershipRoles">
 				<cell-list
-					:key="roleType"
+					:key="`roleType:${roleType}`"
 					:items="roles"
 					:exporting="exporting"
 					v-slot="slotProps"
@@ -65,7 +64,7 @@
 
 			<cell-list
 				v-for="orgType of organizationTypes"
-				:key="orgType"
+				:key="`orgType:${orgType}`"
 				:items="getMemberCommittees(report.committees, orgType)"
 				:exporting="exporting"
 				v-slot="slotProps"
@@ -92,7 +91,7 @@
 			</cell-list>
 		</template>
 		<template v-else>
-			<td v-for="x of Array(numReportCells).fill(null)"></td>
+			<td v-for="x of Array(numReportCells - 5).fill(null)"></td>
 		</template>
 	</tr>
 </template>
@@ -108,7 +107,7 @@ ul {
 import CellList from './CellList.vue';
 
 import { GRANT_TYPES, ORGANIZATION_TYPES } from '@/graphql/merit.js';
-import { percent, decimal } from '@/modules/formatters.js';
+import { percent, currency, decimal } from '@/modules/formatters.js';
 import {
 	getPublications,
 	countGrants,
@@ -145,6 +144,7 @@ export default {
 		}
 	},
 	methods: {
+		currency,
 		percent,
 		decimal,
 		getPublications,
