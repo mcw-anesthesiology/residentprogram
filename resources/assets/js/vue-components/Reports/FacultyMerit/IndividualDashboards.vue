@@ -296,8 +296,9 @@ export default {
 	computed: {
 		userProviderInfo() {
 			return this.user && this.providerInfo && this.providerInfo.find(pi =>
-				pi.lastName === this.user.last_name
-				&& pi.firstName === this.user.first_name
+				this.user.last_name === pi.lastName
+				&& this.user.first_name
+				&& this.user.first_name.startsWith(pi.firstName)
 			);
 		},
 		groupedUsers() {

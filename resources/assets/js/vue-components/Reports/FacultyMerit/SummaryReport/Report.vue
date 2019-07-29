@@ -322,7 +322,7 @@ export default {
 				user: report.user
 			}));
 			for (const { lastName, firstName, ...providerInfo } of this.providerInfo) {
-				let row = rows.find(r => r.user.last_name === lastName && r.user.first_name === firstName);
+				let row = rows.find(r => r.user.last_name === lastName && r.user.first_name && r.user.first_name.startsWith(firstName));
 
 				if (!row) {
 					row = {
