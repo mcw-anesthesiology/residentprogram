@@ -1,7 +1,14 @@
 <template>
 	<div id="admin-supervisor-merit-reports-container">
 		<div class="container body-block">
-			<h2>All merit reports</h2>
+			<h2>Merit reports</h2>
+
+			<form class="reports-filter-form">
+				<label>
+					Checklist period
+					<academic-year-selector v-model="dates" />
+				</label>
+			</form>
 
 			<div v-if="usersWithReports">
 				<component-list :fields="['full_name']"
@@ -67,7 +74,7 @@ import ComponentList from '#/ComponentList.vue';
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 
 import { handleError } from '@/modules/errors.js';
-import { isoDateStringObject } from '@/modules/date-utils.js';
+import { isoDateStringObject, currentYear } from '@/modules/date-utils.js';
 import { getCurrentYearlyMeritDateRange } from '@/modules/merit-utils.js';
 import {
 	isAdmin,
@@ -86,7 +93,11 @@ const USER_FIELDS = gql`
 		type
 		training_level
 		status
-		meritReports {
+		meritReports(
+			form_id: $formId
+			after: $startDate
+			before: $endDate
+		) {
 			...MeritReportListFields
 		}
 	}
@@ -94,7 +105,11 @@ const USER_FIELDS = gql`
 `;
 
 const USERS_QUERY = gql`
-	query AdminSupervisorMeritUsers {
+	query AdminSupervisorMeritUsers(
+		$formId: ID
+		$startDate: Date
+		$endDate: Date
+	) {
 		users(status: ACTIVE, type: FACULTY) {
 			...AdminSupervisorMeritUserFields
 		}
@@ -115,6 +130,7 @@ export default {
 	data() {
 		return {
 			users: [],
+			dates: isoDateStringObject(currentYear()),
 			facultyMeritChecklistForm: null,
 
 			userToCreateReport: null,
@@ -123,7 +139,13 @@ export default {
 	},
 	apollo: {
 		users: {
-			query: USERS_QUERY
+			query: USERS_QUERY,
+			variables() {
+				return {
+					...this.dates,
+					formId: this.facultyMeritChecklistForm ? this.facultyMeritChecklistForm.id : undefined
+				}
+			}
 		},
 		facultyMeritChecklistForm: {
 			query: gql`
@@ -142,14 +164,10 @@ export default {
 			return isAdmin(this.user) || usesFeature(this.user, 'FACULTY_MERIT');
 		},
 		usersWithReports() {
-			return this.facultyMeritChecklistForm
-				?  this.users.filter(u => userHasReport(u, this.facultyMeritChecklistForm.id))
-				: [];
+			return this.users.filter(u => u.meritReports.length > 0);
 		},
 		usersWithoutReports() {
-			return this.facultyMeritChecklistForm
-				?  this.users.filter(u => !userHasReport(u, this.facultyMeritChecklistForm.id))
-				: this.users;
+			return this.users.filter(u => u.meritReports.length === 0);
 		},
 		usersWithoutReportsOptions() {
 			return groupUsers(this.usersWithoutReports);
@@ -241,10 +259,11 @@ export default {
 		SelectTwo: () => import('#/SelectTwo.vue')
 	}
 };
-
-function userHasReport(user, formId) {
-	return user.meritReports.some(meritReport =>
-		meritReport.form.id === formId
-	);
-}
 </script>
+
+<style scoped>
+.reports-filter-form {
+	display: flex;
+	justify-content: flex-end;
+}
+</style>
