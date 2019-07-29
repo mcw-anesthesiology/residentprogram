@@ -8,4 +8,10 @@ type ProviderInfo {
 	lastName: String @rename(attribute: "Last Name")
 	firstName: String @rename(attribute: "First Name")
 	division: String @rename(attribute: "Division")
+	baseSalary: Float @rename(attribute: "Total Base (1)")
+	premiumPay: Float @rename(attribute: "Total Premium")
+	totalPay: Float @rename(attribute: "FY 18 Total Pay")
+	totalUnits: Float @rename(attribute: "FY18 Units")
+	clinicalFTE: Float
+		@field(resolver: "App\\Http\\GraphQL\\Queries\\Fy18@resolveClinicalFte")
 }

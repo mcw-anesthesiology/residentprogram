@@ -59,7 +59,7 @@
 							</th>
 						</tr>
 						<tr>
-							<th :colspan="2 + publicationTypes.length">Publications</th>
+							<th :colspan="publicationTypes.length">Publications</th>
 							<th colspan="3">Grants</th>
 							<th colspan="2">Study participation</th>
 							<th v-if="leadershipRoleTypes.length > 0"
@@ -94,8 +94,6 @@
 							</th>
 							<th>Lectures given</th>
 
-							<th>Peer-reviewed</th>
-							<th>Non peer-reviewed</th>
 							<th
 								v-for="pubType of publicationTypes"
 								:key="pubType"
@@ -245,6 +243,11 @@ export default {
 						lastName
 						firstName
 						division
+						baseSalary
+						premiumPay
+						totalPay
+						totalUnits
+						clinicalFTE
 					}
 				}
 			`
@@ -295,7 +298,7 @@ export default {
 			return this.groupDivisions ? 1 : 2;
 		},
 		academicProductivityColspan() {
-			return 2 + this.publicationTypes.length + 3 + 2;
+			return this.publicationTypes.length + 3 + 2;
 		},
 		leadershipColspan() {
 			return this.leadershipRoleTypes.length + 3 + 2;
@@ -317,7 +320,7 @@ export default {
 				report,
 				user: report.user
 			}));
-			for (const { lastName, firstName, division } of this.providerInfo) {
+			for (const { lastName, firstName, ...providerInfo } of this.providerInfo) {
 				let row = rows.find(r => r.user.last_name === lastName && r.user.first_name === firstName);
 
 				if (!row) {
@@ -329,8 +332,10 @@ export default {
 					rows.push(row);
 				}
 
-				if (!row.user.division) {
-					row.user.division = division;
+				for (const [key, val] of Object.entries(providerInfo)) {
+					if (!row.user[key]) {
+						row.user[key] = val;
+					}
 				}
 			}
 

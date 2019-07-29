@@ -28,7 +28,7 @@
 			</header>
 
 			<div class="dashboard-container">
-				<dashboard-compensation :user="user" :periods="periods" />
+				<dashboard-compensation :user="user" :provider-info="providerInfo" :periods="periods" />
 				<academic-productivity :user="user" :periods="periods" />
 				<leadership-professional-citizenship
 					:user="user"
@@ -89,6 +89,12 @@ export default {
 		user: {
 			type: Object,
 			required: true
+		},
+		providerInfo: {
+			type: Object,
+			default() {
+				return {};
+			}
 		},
 		dates: {
 			type: Object,

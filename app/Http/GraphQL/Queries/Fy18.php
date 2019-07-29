@@ -22,4 +22,13 @@ class Fy18
     {
 		return DB::connection('provider_info')->table('fy18_comp')->get();
     }
+
+    public function resolveClinicalFte($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+		$rootValue = (array)$rootValue;
+		$fhFte = empty($rootValue['FH FTE Used']) ? 0 : $rootValue['FH FTE Used'];
+		$vaFte = empty($rootValue['VA FTE']) ? 0 : $rootValue['VA FTE'];
+
+		return $fhFte + $vaFte;
+    }
 }

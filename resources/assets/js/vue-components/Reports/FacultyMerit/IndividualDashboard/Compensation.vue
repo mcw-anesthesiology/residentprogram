@@ -5,17 +5,17 @@
 			<tbody>
 				<tr>
 					<th>Base salary</th>
-					<td>{{ currency(compensation.baseSalary) }}</td>
+					<td>{{ providerInfo.baseSalary && currency(providerInfo.baseSalary) }}</td>
 				</tr>
 				<tr>
 					<th>Incentive / premium pay</th>
-					<td>{{ currency(compensation.incentive) }}</td>
+					<td>{{ providerInfo.premiumPay && currency(providerInfo.premiumPay) }}</td>
 				</tr>
 			</tbody>
 			<tfoot>
 				<tr>
 					<th>Total compensation</th>
-					<td>{{ currency(totalCompensation) }}</td>
+					<td>{{ providerInfo.totalPay && currency(providerInfo.totalPay) }}</td>
 				</tr>
 			</tfoot>
 		</table>
@@ -25,11 +25,11 @@
 			<tbody>
 				<tr>
 					<th>Total Units</th>
-					<td>{{ clinicalProductivity.anesthesiaUnits }}</td>
+					<td>{{ providerInfo.totalUnits && decimal(providerInfo.totalUnits) }}</td>
 				</tr>
 				<tr>
 					<th>Clinical FTE</th>
-					<td>{{ clinicalProductivity.fte }}</td>
+					<td>{{ providerInfo.clinicalFTE && decimal(providerInfo.clinicalFTE) }}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -139,30 +139,11 @@ import { currency, percent, decimal } from '@/modules/formatters.js';
 export default {
 	extends: DashboardSection,
 	props: {
-		compensation: {
-			type: Object,
-			default() {
-				return {
-					baseSalary: 0,
-					incentive: 0
-				};
-			}
-		},
-		clinicalProductivity: {
-			type: Object,
-			default() {
-				return {
-					anesthesiaUnits: 0,
-					wrvus: 0,
-					fte: 0
-				};
-			}
+		providerInfo: {
+			type: Object
 		}
 	},
 	computed: {
-		totalCompensation() {
-			return this.compensation.baseSalary + this.compensation.incentive;
-		},
 		numLectures() {
 			return this.user.meritReports.map(mr => mr.lectures.length).reduce((sum, val) => sum + val, 0);
 		}

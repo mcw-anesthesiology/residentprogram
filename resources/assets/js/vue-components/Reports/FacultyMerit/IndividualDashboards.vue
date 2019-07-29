@@ -59,6 +59,7 @@
 		<individual-dashboard
 			v-if="user"
 			:user="user"
+			:provider-info="userProviderInfo"
 			:dates="dates"
 			:title="reportTitle"
 			:user-props="userProps"
@@ -116,6 +117,7 @@ export default {
 	},
 	data() {
 		return {
+			providerInfo: null,
 			usersWithMerits: [],
 			user: null,
 			reportTitle: 'Faculty Activity Report',
@@ -137,6 +139,11 @@ export default {
 						lastName
 						firstName
 						division
+						baseSalary
+						premiumPay
+						totalPay
+						totalUnits
+						clinicalFTE
 					}
 				}
 			`
@@ -180,6 +187,8 @@ export default {
 				) {
 					user(id: $userId) {
 						id
+						first_name
+						last_name
 						full_name
 						email
 						...SummaryReportUserFields
@@ -285,6 +294,12 @@ export default {
 		}
 	},
 	computed: {
+		userProviderInfo() {
+			return this.user && this.providerInfo && this.providerInfo.find(pi =>
+				pi.lastName === this.user.last_name
+				&& pi.firstName === this.user.first_name
+			);
+		},
 		groupedUsers() {
 			if (!this.usersWithMerits || this.usersWithMerits.length === 0)
 				return [];
