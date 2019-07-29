@@ -126,6 +126,7 @@
 								<th :colspan="numReportCells + facultyColspan">{{ division || 'Unknown' }}</th>
 							</tr>
 							<report-row v-for="row of divisionRows" :key="row.user.full_name"
+								:showDivision="false"
 								:report="row.report"
 								:user="row.user"
 								:numReportCells="numReportCells"
