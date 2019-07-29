@@ -31,6 +31,7 @@
 				<template slot="header" slot-scope="pager">
 					<div class="header-container">
 						<save-status
+							v-if="!readonly"
 							:unsaved="unsaved"
 							:saving="saving"
 							:save-successful="saveSuccessful"
@@ -74,6 +75,7 @@
 				</template>
 				<template slot="footer">
 					<save-status
+						v-if="!readonly"
 						:unsaved="unsaved"
 						:saving="saving"
 						:save-successful="saveSuccessful"

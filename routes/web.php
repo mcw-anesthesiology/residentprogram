@@ -109,8 +109,11 @@ Route::post('user', 'UserController@saveUser');
 Route::patch('user/reminders', 'UserController@saveUserReminders');
 Route::patch('user/notifications', 'UserController@saveUserNotifications');
 
-Route::get('merit', 'FacultyMeritController@merit');
-Route::get('manage/merit', 'FacultyMeritController@manage');
+Route::get('merit', function() {
+	return redirect('/questionnaires');
+});
+Route::get('questionnaires', 'FacultyMeritController@merit');
+Route::get('manage/questionnaires', 'FacultyMeritController@manage');
 
 // TODO: Change url?
 Route::get('faculty360', 'FacultyPeerEvaluationController@request');

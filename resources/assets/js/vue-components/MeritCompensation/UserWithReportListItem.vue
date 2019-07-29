@@ -7,16 +7,13 @@
 						<h3>{{ full_name }}</h3>
 					</div>
 					<div class="col-sm-10">
-						<component-list :fields="meritReportFields" :items="meritReports"
-								:field-accessors="meritReportFieldAccessors"
-								:paginate="false"
-								default-sort-order="desc">
-							<template slot-scope="item">
-								<merit-report-list-item v-bind="item"
-									:user="user"
-									@change="$emit('change', item.id)" />
-							</template>
-						</component-list>
+
+						<merit-report-list-item
+							v-for="report of meritReports"
+							:key="report.id"
+							v-bind="report"
+							:user="user"
+							@change="$emit('change', item.id)" />
 					</div>
 				</div>
 
@@ -29,7 +26,6 @@
 <script>
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
-import ComponentList from '@/vue-components/ComponentList.vue';
 import MeritReportListItem from './ReportListItem.vue';
 
 export default {
@@ -51,22 +47,7 @@ export default {
 		}
 	},
 
-	computed: {
-		meritReportFields() {
-			return [
-				'id',
-				'form_name'
-			];
-		},
-		meritReportFieldAccessors() {
-			return {
-				'form_name': meritReport => meritReport.form.name
-			};
-		}
-	},
-
 	components: {
-		ComponentList,
 		MeritReportListItem
 	}
 };

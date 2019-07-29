@@ -109,7 +109,7 @@
 			<li><a href="/manage/case-logs">Case logs</a></li>
 		@endif
 		@if (config('features.faculty_merit'))
-            <li><a href="/manage/merit">Merit</a></li>
+            <li><a href="/manage/questionnaires">Questionnaires</a></li>
 		@endif
 		@if (config('features.faculty360'))
 			<li><a href="/manage/faculty360">Faculty 360</a></li>
@@ -145,7 +145,7 @@
 		)
 	)
 )
-		<li><a href="/merit">Faculty Activity Checklist</a></li>
+		<li><a href="/questionnaires">Faculty Activity Checklist</a></li>
 @endif
 
 @if (config('features.evaluations'))
