@@ -12,6 +12,6 @@ type ProviderInfo {
 	premiumPay: Float @rename(attribute: "Total Premium")
 	totalPay: Float @rename(attribute: "FY 18 Total Pay")
 	totalUnits: Float @rename(attribute: "FY18 Units")
-	clinicalFTE: Float
-		@field(resolver: "App\\Http\\GraphQL\\Queries\\Fy18@resolveClinicalFte")
+	fte: Float @rename(attribute: "FTE")
+	clinicalFTE: Float @rename(attribute: "Clinical FTE")
 }
