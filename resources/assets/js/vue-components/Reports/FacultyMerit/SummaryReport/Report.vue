@@ -242,8 +242,8 @@ export default {
 	apollo: {
 		providerInfo: {
 			query: gql`
-				query FY18CompQuery {
-					providerInfo: fy18 {
+				query FY19CompQuery {
+					providerInfo: fy19 {
 						lastName
 						firstName
 						division

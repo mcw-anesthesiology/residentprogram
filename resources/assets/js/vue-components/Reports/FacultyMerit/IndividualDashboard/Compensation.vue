@@ -1,103 +1,87 @@
 <template>
 	<section class="individual-merit-dashboard-section individual-merit-dashboard-compensation">
-		<h2 class="compensation">Compensation</h2>
-		<table class="compensation">
-			<tbody>
-				<tr>
-					<th>Base salary</th>
-					<td>{{ providerInfo.baseSalary && currency(providerInfo.baseSalary) }}</td>
-				</tr>
-				<tr>
-					<th>Incentive / premium pay</th>
-					<td>{{ providerInfo.premiumPay && currency(providerInfo.premiumPay) }}</td>
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<th>Total compensation</th>
-					<td>{{ providerInfo.totalPay && currency(providerInfo.totalPay) }}</td>
-				</tr>
-			</tfoot>
-		</table>
+		<section class="comp-productivity">
+			<h2>Compensation</h2>
+			<table class="productivity">
+				<tbody>
+					<tr>
+						<th>Total Units</th>
+						<td>{{ providerInfo.totalUnits && decimal(providerInfo.totalUnits) }}</td>
+					</tr>
+					<tr>
+						<th>Clinical FTE</th>
+						<td>{{ providerInfo.clinicalFTE && decimal(providerInfo.clinicalFTE) }}</td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="compensation">
+				<tbody>
+					<tr>
+						<th>Base salary</th>
+						<td>{{ providerInfo.baseSalary && currency(providerInfo.baseSalary) }}</td>
+					</tr>
+					<tr>
+						<th>Incentive / premium pay</th>
+						<td>{{ providerInfo.premiumPay && currency(providerInfo.premiumPay) }}</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th>Total compensation</th>
+						<td>{{ providerInfo.totalPay && currency(providerInfo.totalPay) }}</td>
+					</tr>
+				</tfoot>
+			</table>
+		</section>
 
-		<h2 class="productivity">Clinical productivity</h2>
-		<table class="productivity">
-			<tbody>
-				<tr>
-					<th>Total Units</th>
-					<td>{{ providerInfo.totalUnits && decimal(providerInfo.totalUnits) }}</td>
-				</tr>
-				<tr>
-					<th>Clinical FTE</th>
-					<td>{{ providerInfo.clinicalFTE && decimal(providerInfo.clinicalFTE) }}</td>
-				</tr>
-			</tbody>
-		</table>
+		<section>
+			<h2>Evaluation matrics</h2>
+			<table class="eval-metrics">
+				<tbody>
+					<tr>
+						<th>Evaluations completed</th>
+						<td>{{ user.evaluatorEvaluations.length }}</td>
+					</tr>
+					<tr>
+						<th>Lectures given</th>
+						<td>{{ numLectures }}</td>
+					</tr>
+					<tr>
+						<th>Continue to train</th>
+						<td v-if="user.continueToTrain.num > 0">
+							{{ percent(user.continueToTrain.withValue.percent) }}
+							({{ user.continueToTrain.withValue.num }}/{{ user.continueToTrain.num }})
+						</td>
+						<td v-else></td>
+					</tr>
+					<tr>
+						<th>Overall abilities</th>
+						<td v-if="user.overallAbilities.num > 0">
+							{{ decimal(user.overallAbilities.withNumericValues.average) }}
 
-		<h2 class="eval-metrics">Evaluation metrics</h2>
-		<table class="eval-metrics">
-			<tbody>
-				<tr>
-					<th>Evaluations completed</th>
-					<td>{{ user.evaluatorEvaluations.length }}</td>
-				</tr>
-				<tr>
-					<th>Lectures given</th>
-					<td>{{ numLectures }}</td>
-				</tr>
-				<tr>
-					<th>Continue to train</th>
-					<td v-if="user.continueToTrain.num > 0">
-						{{ percent(user.continueToTrain.withValue.percent) }}
-						({{ user.continueToTrain.withValue.num }}/{{ user.continueToTrain.num }})
-					</td>
-					<td v-else></td>
-				</tr>
-				<tr>
-					<th>Overall abilities</th>
-					<td v-if="user.overallAbilities.num > 0">
-						{{ decimal(user.overallAbilities.withNumericValues.average) }}
-
-						&plusmn;{{
-							decimal(
-								user.overallAbilities.withNumericValues.stdDev
-							)
-						}}
-					</td>
-					<td v-else></td>
-				</tr>
-			</tbody>
-		</table>
+							&plusmn;{{
+								decimal(
+									user.overallAbilities.withNumericValues.stdDev
+								)
+							}}
+						</td>
+						<td v-else></td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
 	</section>
 </template>
 
 <style scoped>
 .individual-merit-dashboard-compensation {
 	display: grid;
-	grid-template-columns: 3;
-	grid-template-rows: 2;
-	align-items: start;
-	grid-column-gap: 1em;
-}
-
-.compensation {
-	grid-column: 1 / span 1;
-}
-
-.productivity {
-	grid-column: 2 / span 1;
-}
-
-.eval-metrics {
-	grid-column: 3 / span 1;
-}
-
-h2 {
-	grid-row: 1 / span 1;
+	grid-gap: 1em;
+	grid-template-columns: 1fr 1fr;
 }
 
 table {
-	grid-row: 2 / span 1;
+	width: 100%;
 	font-size: 1em;
 	margin-bottom: 1em;
 	border-collapse: collapse;
@@ -114,10 +98,12 @@ td {
 }
 
 th {
+	width: 60%;
 	font-weight: bold;
 }
 
 td {
+	width: 40%;
 	text-align: right;
 	font-family: monospace;
 	color: '#111';

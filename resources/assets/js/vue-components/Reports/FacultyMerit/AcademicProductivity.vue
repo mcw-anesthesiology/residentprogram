@@ -235,7 +235,7 @@ td {
 
 tbody tr::first-child th,
 tbody tr::first-child td {
-	border-bottom: #333;
+	border-bottom-width: 2px;
 }
 
 tbody th {
@@ -310,6 +310,10 @@ ul {
 			'publications grants'
 			'publications studies';
 		align-items: start;
+	}
+
+	.table-container table {
+		margin: 0;
 	}
 
 	table.publications-table {
