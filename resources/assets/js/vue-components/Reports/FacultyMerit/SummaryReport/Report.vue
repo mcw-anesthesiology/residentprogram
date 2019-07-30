@@ -29,6 +29,11 @@
 					<input type="checkbox" v-model="groupDivisions" />
 					Group by division
 				</label>
+
+				<label>
+					<input type="checkbox" v-model="includeReportless" />
+					Include users without reports
+				</label>
 			</form>
 		</div>
 
@@ -162,9 +167,6 @@
 	overflow: auto;
 	max-height: 600px;
 }
-
-table {
-}
 </style>
 
 <script>
@@ -233,6 +235,7 @@ export default {
 			publicationTypes: PUBLICATION_TYPES,
 
 			groupDivisions: false,
+			includeReportless: true,
 			exporting: false
 		};
 	},
@@ -324,7 +327,7 @@ export default {
 			for (const { lastName, firstName, ...providerInfo } of this.providerInfo) {
 				let row = rows.find(r => r.user.last_name === lastName && r.user.first_name && r.user.first_name.startsWith(firstName));
 
-				if (!row) {
+				if (this.includeReportless && !row) {
 					row = {
 						user: {
 							full_name: `${lastName}, ${firstName}`
@@ -333,9 +336,11 @@ export default {
 					rows.push(row);
 				}
 
-				for (const [key, val] of Object.entries(providerInfo)) {
-					if (!row.user[key]) {
-						row.user[key] = val;
+				if (row) {
+					for (const [key, val] of Object.entries(providerInfo)) {
+						if (!row.user[key]) {
+							row.user[key] = val;
+						}
 					}
 				}
 			}
