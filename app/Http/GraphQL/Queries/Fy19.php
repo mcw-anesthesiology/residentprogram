@@ -7,7 +7,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 use DB;
 
-class Fy18
+class Fy19
 {
     /**
      * Return a value for the field.
@@ -20,6 +20,6 @@ class Fy18
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-		return DB::connection('provider_info')->table('fy18_comp')->get();
+		return DB::connection('provider_info')->table('fy19_comp')->get();
     }
 }
