@@ -89,6 +89,10 @@ export default {
 	page-break-before: always;
 }
 
+h3 {
+	color: var(--mcw-anesth-dark-green);
+}
+
 .lists-container {
 	display: flex;
 	flex-wrap: wrap;

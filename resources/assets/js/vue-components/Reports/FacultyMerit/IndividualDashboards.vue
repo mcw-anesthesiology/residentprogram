@@ -2,7 +2,7 @@
 	<div>
 		<div class="user-selector-container container body-block">
 			<form>
-				<label>
+				<label class="containing-label">
 					User
 					<select-two
 						:options="groupedUsers"
@@ -11,18 +11,27 @@
 					/>
 				</label>
 
-				<label>
+				<label class="containing-label">
 					Title
 					<input type="text" class="form-control" v-model="reportTitle" />
 				</label>
 
-				<label>
+				<label class="containing-label">
 					Leadership role
-					<input
-						type="text"
-						class="form-control"
-						v-model="leadershipRole"
-					/>
+					<div class="input-group">
+						<input
+							type="text"
+							class="form-control"
+							v-model="leadershipRole"
+						/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default"
+								@click="fetchLeadershipRole"
+							>
+								Fetch
+							</button>
+						</span>
+					</div>
 				</label>
 
 
@@ -134,8 +143,8 @@ export default {
 	apollo: {
 		providerInfo: {
 			query: gql`
-				query FY18CompQuery {
-					providerInfo: fy18 {
+				query FY19CompQuery {
+					providerInfo: fy19 {
 						lastName
 						firstName
 						division
@@ -289,8 +298,10 @@ export default {
 		}
 	},
 	watch: {
-		user() {
-			this.leadershipRole = '';
+		user(user, prevUser) {
+			if (!user || (prevUser && user.email !== prevUser.email)) {
+				this.leadershipRole = '';
+			}
 		}
 	},
 	computed: {
@@ -325,6 +336,9 @@ export default {
 					params: { userId }
 				});
 			}
+		},
+		fetchLeadershipRole() {
+			this.$apollo.queries.leadershipRole.refetch();
 		}
 	},
 	components: {

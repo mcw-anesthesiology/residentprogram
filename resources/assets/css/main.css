@@ -1,6 +1,13 @@
 /** @format */
 
 html {
+	--mcw-anesth-dark-green: #006f66;
+	--mcw-anesth-light-green: #58b947;
+	--mcw-green: #007066;
+	--mcw-blue: #065590;
+}
+
+html {
 	font-size: 16px;
 }
 

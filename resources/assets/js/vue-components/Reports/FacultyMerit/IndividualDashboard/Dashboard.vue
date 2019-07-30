@@ -4,16 +4,15 @@
 		<div class="container body-block" v-else-if="user">
 			<header>
 				<h1>
-					{{ title }}
-					<rich-date-range :dates="dates" />
+					<small>
+						<rich-date-range :dates="dates" />
+						{{ title }}
+					</small>
+					{{ user.full_name }}
 				</h1>
 
 				<table>
 					<tbody>
-						<tr>
-							<th>Name</th>
-							<td>{{ user.full_name }}</td>
-						</tr>
 						<tr
 							v-for="[name, val] of Array.from(
 								userProps.entries()
@@ -25,12 +24,18 @@
 						</tr>
 					</tbody>
 				</table>
+
+				<img alt="MCW Anesthesiology" src="/svg/MCW-Anesthesiology-white-on-green.svg" />
 			</header>
 
 			<div class="dashboard-container">
 				<dashboard-compensation :user="user" :provider-info="providerInfo" :periods="periods" />
 				<academic-productivity :user="user" :periods="periods" />
-				<leadership-professional-citizenship
+				<leadership-section
+					:user="user"
+					:periods="periods"
+				/>
+				<professional-citizenship
 					:user="user"
 					:periods="periods"
 				/>
@@ -77,7 +82,8 @@ import PrintElementButton from '#/PrintElementButton.vue';
 
 import DashboardCompensation from './Compensation.vue';
 import AcademicProductivity from './AcademicProductivity.vue';
-import LeadershipProfessionalCitizenship from './LeadershipProfessionalCitizenship.vue';
+import LeadershipSection from './Leadership.vue';
+import ProfessionalCitizenship from './ProfessionalCitizenship.vue';
 import DashboardGoals from './Goals.vue';
 import DashboardAppendix from './Appendix.vue';
 import ChecklistSummary from '#/MeritCompensation/Summary.vue';
@@ -122,7 +128,6 @@ export default {
 		return {
 			includeAppendix: true,
 			printOptions: {
-				landscape: true,
 				printBackground: true
 			}
 		};
@@ -161,7 +166,8 @@ export default {
 		PrintElementButton,
 		DashboardCompensation,
 		AcademicProductivity,
-		LeadershipProfessionalCitizenship,
+		LeadershipSection,
+		ProfessionalCitizenship,
 		DashboardGoals,
 		DashboardAppendix,
 		ChecklistSummary
@@ -173,11 +179,25 @@ export default {
 header {
 	display: flex;
 	justify-content: space-between;
+	align-items: flex-end;
+	border-bottom: 2px solid var(--mcw-blue);
+	padding-bottom: 1em;
+	margin-bottom: 1em;
+}
+
+header small {
+	display: block;
+	margin-bottom: 0.25em;
 }
 
 header h1 {
 	flex-grow: 10;
 	flex-shrink: 0;
+	margin-bottom: 0;
+}
+
+header img {
+	height: 10em;
 }
 
 .individual-dashboard {
@@ -192,6 +212,10 @@ header h1 {
 	margin-top: 0;
 }
 
+.individual-dashboard >>> h2 {
+	color: var(--mcw-green);
+}
+
 .individual-dashboard >>> .checklist-summary {
 	page-break-before: always;
 }
@@ -204,8 +228,7 @@ header h1 {
 
 header table {
 	font-size: 1.25em;
-	margin: 0;
-	margin-left: 1em;
+	margin: 0 1em;
 }
 
 tr:first-child > * {
@@ -246,20 +269,33 @@ td {
 		display: none;
 	}
 }
-</style>
 
-<style>
-.dashboard-container > * {
-	width: 50%;
+.dashboard-container {
+	display: grid;
+	grid-gap: 2em;
+	grid-template-areas:
+		'compensation academic-productivity'
+		'citizenship citizenship'
+		'leadership goals';
 }
 
-.dashboard-container > :nth-child(odd) {
-	clear: left;
-	float: left;
+.dashboard-container >>> .individual-merit-dashboard-compensation {
+	grid-area: compensation;
 }
 
-.dashboard-container > :nth-child(even) {
-	clear: right;
-	float: right;
+.dashboard-container >>> .individual-merit-dashboard-academic-productivity {
+	grid-area: academic-productivity;
+}
+
+.dashboard-container >>> .leadership {
+	grid-area: leadership;
+}
+
+.dashboard-container >>> .professional-citizenship {
+	grid-area: citizenship;
+}
+
+.dashboard-container >>> .individual-merit-dashboard-goals {
+	grid-area: goals;
 }
 </style>

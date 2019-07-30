@@ -2,7 +2,6 @@
 .individual-merit-dashboard-section {
 	page-break-inside: avoid;
 	background: #fefefe;
-	padding: 1em;
 }
 
 .individual-merit-dashboard-section h2 {
