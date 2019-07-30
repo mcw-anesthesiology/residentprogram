@@ -1,17 +1,17 @@
 # @format
 
 extend type Query @middleware(checks: ["auth", "type:admin"]) {
-	fy18(orderBy: [OrderByClause!] @orderBy): [ProviderInfo]
+	fy19(orderBy: [OrderByClause!] @orderBy): [ProviderInfo]
 }
 
 type ProviderInfo {
 	lastName: String @rename(attribute: "Last Name")
 	firstName: String @rename(attribute: "First Name")
 	division: String @rename(attribute: "Division")
-	baseSalary: Float @rename(attribute: "Total Base (1)")
-	premiumPay: Float @rename(attribute: "Total Premium")
-	totalPay: Float @rename(attribute: "FY 18 Total Pay")
-	totalUnits: Float @rename(attribute: "FY18 Units")
+	baseSalary: Float @rename(attribute: "FY 19 Total Base")
+	premiumPay: Float @rename(attribute: "FY 19 Premium")
+	totalPay: Float @rename(attribute: "FY19 Base + Premium")
+	totalUnits: Float @rename(attribute: "FY19 Units")
 	fte: Float @rename(attribute: "FTE")
 	clinicalFTE: Float @rename(attribute: "Clinical FTE")
 }
