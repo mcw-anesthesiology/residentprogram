@@ -1,9 +1,11 @@
 <template>
-	<div class="container body-block">
+	<div class="container body-block scholarly-activity">
 		<loading-placeholder v-if="$apollo.loading" />
 		<div v-else-if="usersWithMerits">
 			<data-table :thead="thead" :data="userScholarlyActivities"
+				:config="tableOptions"
 				:export-filename="exportFilename"
+				bordered
 				reloadable
 				exportable
 				@reload="$apollo.queries.usersWithMerits.refetch()" />
@@ -11,12 +13,17 @@
 	</div>
 </template>
 
+<style scoped>
+.scholarly-activity >>> td {
+	text-align: right;
+}
+</style>
+
 <script>
 import gql from 'graphql-tag';
 
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 import DataTable from '@/vue-components/DataTable.vue';
-import UserWithScholarlyActivityListItem from '@/vue-components/MeritCompensation/UserWithScholarlyActivityListItem.vue';
 
 import { isoDateString } from '@/modules/date-utils.js';
 import { storeError } from '@/modules/errors.js';
@@ -61,6 +68,16 @@ export default {
 							numGrants
 							leadershipRole
 							teachingFormalCourses
+							domains {
+								research
+								grants
+								quality
+								reviews
+								curricula
+								committees
+								innovations
+								none
+							}
 						}
 					}
 				}
@@ -91,8 +108,23 @@ export default {
 				'Chapters / Texbooks (#)',
 				'Grant Leadership (#)',
 				'Leadership or Peer-Review Role (Y/N)',
-				'Teaching Formal Courses (Y/N)'
+				'Teaching Formal Courses (Y/N)',
+				'Research',
+				'Grants',
+				'Quality',
+				'Reviews',
+				'Curricula',
+				'Committees',
+				'Innovations',
+				'None'
 			]];
+		},
+		tableOptions() {
+			return {
+				scrollX: true,
+				scrollY: 600,
+				paging: false
+			};
 		},
 		userScholarlyActivities() {
 			if (!this.usersWithMerits)
@@ -111,7 +143,15 @@ export default {
 						merit.chaptersTextbooks,
 						merit.numGrants,
 						merit.leadershipRole ? 'Y' : 'N',
-						booleanDisplay(merit.teachingFormalCourses)
+						booleanDisplay(merit.teachingFormalCourses),
+						checkDisplay(merit.domains.research),
+						checkDisplay(merit.domains.grants),
+						checkDisplay(merit.domains.quality),
+						checkDisplay(merit.domains.reviews),
+						checkDisplay(merit.domains.curricula),
+						checkDisplay(merit.domains.committees),
+						checkDisplay(merit.domains.innovations),
+						checkDisplay(merit.domains.none)
 					];
 				});
 			});
@@ -123,8 +163,7 @@ export default {
 
 	components: {
 		LoadingPlaceholder,
-		DataTable,
-		UserWithScholarlyActivityListItem
+		DataTable
 	}
 };
 
@@ -134,5 +173,9 @@ function booleanDisplay(val) {
 	}
 
 	return val ? 'Y' : 'N';
+}
+
+function checkDisplay(val) {
+	return val ? '✓' : '';
 }
 </script>
