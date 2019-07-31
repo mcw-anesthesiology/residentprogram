@@ -132,7 +132,8 @@ export default {
 	extends: DashboardSection,
 	props: {
 		providerInfo: {
-			type: Object
+			type: Object,
+			required: true
 		}
 	},
 	computed: {
