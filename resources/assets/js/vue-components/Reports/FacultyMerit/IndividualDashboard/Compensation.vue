@@ -110,8 +110,6 @@ td {
 	text-align: right;
 	font-family: monospace;
 	color: '#111';
-	font-size: 0.825em;
-	min-width: 8em;
 }
 
 tfoot {
