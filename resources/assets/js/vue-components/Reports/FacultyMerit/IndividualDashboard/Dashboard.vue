@@ -121,7 +121,7 @@ export default {
 		},
 		includeSummary: {
 			type: Boolean,
-			default: true
+			default: false
 		}
 	},
 	data() {
@@ -176,6 +176,15 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300&display=swap');
+
+.individual-dashboard {
+	--heading-font-family: 'Source Sans Pro', sans-serif;
+	--heading-font-weight: 300;
+	--heading-color: var(--mcw-green);
+	--secondary-heading-color: var(--mcw-anesth-dark-green);
+}
+
 header {
 	display: flex;
 	justify-content: space-between;
@@ -197,7 +206,7 @@ header h1 {
 }
 
 header img {
-	height: 10em;
+	height: 6em;
 }
 
 .individual-dashboard {
@@ -209,11 +218,14 @@ header img {
 .individual-dashboard >>> h3,
 .individual-dashboard >>> h4,
 .individual-dashboard >>> h5 {
+	font-family: var(--heading-font-family);
+	font-weight: var(--heading-font-weight);
 	margin-top: 0;
 }
 
 .individual-dashboard >>> h2 {
-	color: var(--mcw-green);
+	color: var(--heading-color);
+	margin-bottom: 0.5em;
 }
 
 .individual-dashboard >>> .checklist-summary {
@@ -229,6 +241,8 @@ header img {
 header table {
 	font-size: 1.25em;
 	margin: 0 1em;
+	font-family: var(--heading-font-family);
+	font-weight: var(--heading-font-weight);
 }
 
 tr:first-child > * {
@@ -253,6 +267,39 @@ td {
 	margin: 0.25em;
 }
 
+@supports (display: grid) {
+	.dashboard-container {
+		display: grid;
+		grid-gap: 3em;
+		grid-template-areas:
+			'compensation academic-productivity'
+			'citizenship citizenship'
+			'leadership goals';
+		grid-template-columns: 1fr 1fr;
+		align-content: space-between;
+	}
+
+	.dashboard-container >>> .individual-merit-dashboard-compensation {
+		grid-area: compensation;
+	}
+
+	.dashboard-container >>> .individual-merit-dashboard-academic-productivity {
+		grid-area: academic-productivity;
+	}
+
+	.dashboard-container >>> .leadership {
+		grid-area: leadership;
+	}
+
+	.dashboard-container >>> .professional-citizenship {
+		grid-area: citizenship;
+	}
+
+	.dashboard-container >>> .individual-merit-dashboard-goals {
+		grid-area: goals;
+	}
+}
+
 @media print {
 	.body-block {
 		padding: 0 !important;
@@ -268,34 +315,10 @@ td {
 	.dashboard-controls {
 		display: none;
 	}
+
+	.dashboard-container {
+		height: 100vh;
+	}
 }
 
-.dashboard-container {
-	display: grid;
-	grid-gap: 2em;
-	grid-template-areas:
-		'compensation academic-productivity'
-		'citizenship citizenship'
-		'leadership goals';
-}
-
-.dashboard-container >>> .individual-merit-dashboard-compensation {
-	grid-area: compensation;
-}
-
-.dashboard-container >>> .individual-merit-dashboard-academic-productivity {
-	grid-area: academic-productivity;
-}
-
-.dashboard-container >>> .leadership {
-	grid-area: leadership;
-}
-
-.dashboard-container >>> .professional-citizenship {
-	grid-area: citizenship;
-}
-
-.dashboard-container >>> .individual-merit-dashboard-goals {
-	grid-area: goals;
-}
 </style>

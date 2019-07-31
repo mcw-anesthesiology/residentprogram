@@ -3,54 +3,55 @@
 		<header>
 			<h2>Professional Citizenship</h2>
 		</header>
-		<section class="committees">
-			<h3>Committee participation</h3>
-			<div v-if="committees.length > 0" class="committees-container">
-				<committee-participation-item
-					v-for="[organizationType, committees] of Array.from(
-						committeeParticipation.entries()
-					)"
-					:key="organizationType"
-					:organization="organizationType"
-					:committees="committees"
-					:showPeriods="multiplePeriods"
-				/>
-			</div>
-			<p v-else class="no-items">
-				<i>None listed</i>
-			</p>
-		</section>
+		<div class="citizenship-container">
+			<section class="committees">
+				<h3>Committee participation</h3>
+				<div v-if="committees.length > 0" class="committees-container">
+					<committee-participation-item
+						v-for="[organizationType, committees] of Array.from(
+							committeeParticipation.entries()
+						)"
+						:key="organizationType"
+						:organization="organizationType"
+						:committees="committees"
+					/>
+				</div>
+				<p v-else class="no-items">
+					<i>None listed</i>
+				</p>
+			</section>
 
-		<section class="certifications">
-			<h3>Certifications</h3>
+			<section class="certifications">
+				<h3>Certifications</h3>
 
-			<ol v-if="certifications.length > 0">
-				<li v-for="certification of certifications"
-					:key="`${certification.board}:${certification.specialty}`"
-				>
-					{{ certification.board }}
-					<span v-if="certification.specialty">
-						- {{ certification.specialty }}
-					</span>
-				</li>
-			</ol>
-			<p v-else class="no-items">
-				<i>None listed</i>
-			</p>
-		</section>
+				<ol v-if="certifications.length > 0">
+					<li v-for="certification of certifications"
+						:key="`${certification.board}:${certification.specialty}`"
+					>
+						{{ certification.board }}
+						<span v-if="certification.specialty">
+							- {{ certification.specialty }}
+						</span>
+					</li>
+				</ol>
+				<p v-else class="no-items">
+					<i>None listed</i>
+				</p>
+			</section>
 
-		<section class="organizations">
-			<h3>Organizations</h3>
+			<section class="organizations">
+				<h3>Organizations</h3>
 
-			<ol v-if="organizations.length > 0">
-				<li v-for="org of organizations" :key="org">
-					{{ org }}
-				</li>
-			</ol>
-			<p v-else class="no-items">
-				<i>None listed</i>
-			</p>
-		</section>
+				<ol v-if="organizations.length > 0">
+					<li v-for="org of organizations" :key="org">
+						{{ org }}
+					</li>
+				</ol>
+				<p v-else class="no-items">
+					<i>None listed</i>
+				</p>
+			</section>
+		</div>
 	</section>
 </template>
 
@@ -89,9 +90,7 @@ export default {
 						});
 					}
 
-					if (arr.length > 0) {
-						map.set(organizationType, arr);
-					}
+					map.set(organizationType, arr);
 				}
 			}
 
@@ -128,17 +127,12 @@ export default {
 </script>
 
 <style scoped>
-.professional-citizenship {
+.citizenship-container {
 	display: grid;
 	grid-gap: 1.5em;
 	grid-template-areas:
-		'header header'
 		'committees committees'
 		'certifications organizations';
-}
-
-header {
-	grid-area: header;
 }
 
 .committees {
@@ -151,10 +145,6 @@ header {
 
 .organizations {
 	grid-area: organizations;
-}
-
-h2 {
-	margin-bottom: 0;
 }
 
 h3 {
@@ -179,11 +169,12 @@ li::marker {
 
 .committees-container {
 	display: flex;
-	margin: -0.5em;
+	justify-content: space-between;
+	margin: -1em;
 }
 
 .committees-container >>> .committee-participation-item {
-	margin: 0.5em;
+	margin: 1em;
 }
 
 .organizations ol {
@@ -196,5 +187,17 @@ li::marker {
 .organizations li {
 	list-style-position: inside;
 	padding: 0.25em 0.75em;
+}
+
+@supports (display: grid) {
+	.committees-container {
+		display: grid;
+		grid-template-columns: 2fr 1fr 1fr;
+		grid-gap: 1em;
+	}
+
+	.committtes-container >>> .committee-participation-item {
+		margin: 0;
+	}
 }
 </style>

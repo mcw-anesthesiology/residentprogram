@@ -131,7 +131,7 @@ export default {
 			user: null,
 			reportTitle: 'Faculty Activity Report',
 			leadershipRole: '',
-			includeSummary: true,
+			includeSummary: false,
 
 			// FIXME
 			facultyFormId: 63,

@@ -30,6 +30,8 @@
 table {
 	border-collapse: collapse;
 	font-size: 1em;
+	margin: 0;
+	width: 100%;
 }
 
 th, td {
@@ -43,6 +45,10 @@ td {
 
 .no-items {
 	color: rgba(0, 0, 0, 0.5);
+}
+
+ul {
+	padding-left: 1.5em;
 }
 
 @media print {
