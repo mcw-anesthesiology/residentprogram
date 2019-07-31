@@ -39,7 +39,7 @@
 					:user="user"
 					:periods="periods"
 				/>
-				<dashboard-goals :subtitle="`FY${fiscalYear + 1}`"
+				<dashboard-goals
 					:user="user"
 					:periods="periods"
 				/>
@@ -198,6 +198,7 @@ header {
 
 header small {
 	display: block;
+	color: #111;
 	margin-bottom: 0.25em;
 }
 
@@ -224,7 +225,6 @@ header >>> svg {
 .individual-dashboard >>> h4,
 .individual-dashboard >>> h5 {
 	font-family: var(--heading-font-family);
-	font-weight: var(--heading-font-weight);
 	margin-top: 0;
 }
 
@@ -241,7 +241,6 @@ header table {
 	font-size: 1.25em;
 	margin: 0 1em;
 	font-family: var(--heading-font-family);
-	font-weight: var(--heading-font-weight);
 }
 
 tr:first-child > * {
@@ -271,9 +270,9 @@ td {
 		display: grid;
 		grid-gap: 3em;
 		grid-template-areas:
-			'compensation academic-productivity'
+			'leadership academic-productivity'
 			'citizenship citizenship'
-			'leadership goals';
+			'compensation goals';
 		grid-template-columns: 1fr 1fr;
 		align-content: space-between;
 	}

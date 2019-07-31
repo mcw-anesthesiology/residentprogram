@@ -228,7 +228,6 @@ table caption {
 	padding: 0;
 	color: var(--secondary-heading-color, unset);
 	font-family: var(--heading-font-family);
-	font-weight: var(--heading-font-weight);
 }
 
 tr:hover {

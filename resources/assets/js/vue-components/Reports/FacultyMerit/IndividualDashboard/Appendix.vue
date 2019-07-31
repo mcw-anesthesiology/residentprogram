@@ -30,7 +30,7 @@
 				<h3>Lectures</h3>
 				<ol v-if="lectures.length > 0">
 					<li v-for="lecture of lectures" :key="lecture.title">
-						{{ lecture.title }} <rich-date :date="lecture.date" />
+						{{ lecture.title }} — <rich-date :date="lecture.date" />
 					</li>
 				</ol>
 				<p v-else class="no-items">
