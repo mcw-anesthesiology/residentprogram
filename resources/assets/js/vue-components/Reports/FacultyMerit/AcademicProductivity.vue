@@ -10,6 +10,7 @@
 		<div class="main-row">
 			<div class="table-container">
 				<table class="publications-table">
+					<caption>Publications</caption>
 					<thead v-if="breakdownReports.size > 1">
 						<tr>
 							<th></th>
@@ -24,17 +25,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th>Total publications</th>
-							<td
-								v-for="[bd, rs] of Array.from(
-									breakdownReports.entries()
-								)"
-								:key="`publications:${bd}`"
-							>
-								{{ rs.flatMap(r => r.publications).length }}
-							</td>
-						</tr>
 						<tr
 							v-for="type of publicationTypes"
 							class="sub-row"
@@ -57,9 +47,23 @@
 							</td>
 						</tr>
 					</tbody>
+					<tfoot>
+						<tr>
+							<th>Total publications</th>
+							<td
+								v-for="[bd, rs] of Array.from(
+									breakdownReports.entries()
+								)"
+								:key="`publications:${bd}`"
+							>
+								{{ rs.flatMap(r => r.publications).length }}
+							</td>
+						</tr>
+					</tfoot>
 				</table>
 
 				<table class="grants-table">
+					<caption>Grants</caption>
 					<thead v-if="breakdownReports.size > 1">
 						<tr>
 							<th></th>
@@ -74,17 +78,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th>Total grants</th>
-							<td
-								v-for="[bd, rs] of Array.from(
-									breakdownReports.entries()
-								)"
-								:key="`grants:${bd}`"
-							>
-								{{ rs.flatMap(r => r.grants).length }}
-							</td>
-						</tr>
 						<tr
 							v-for="type of grantTypes"
 							class="sub-row"
@@ -104,9 +97,23 @@
 							</td>
 						</tr>
 					</tbody>
+					<tfoot>
+						<tr>
+							<th>Total grants</th>
+							<td
+								v-for="[bd, rs] of Array.from(
+									breakdownReports.entries()
+								)"
+								:key="`grants:${bd}`"
+							>
+								{{ rs.flatMap(r => r.grants).length }}
+							</td>
+						</tr>
+					</tfoot>
 				</table>
 
 				<table class="studies-table">
+					<caption>Studies</caption>
 					<thead v-if="breakdownReports.size > 1">
 						<tr>
 							<th></th>
@@ -121,17 +128,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th>Total studies</th>
-							<td
-								v-for="[bd, rs] of Array.from(
-									breakdownReports.entries()
-								)"
-								:key="`studies:${bd}`"
-							>
-								{{ rs.flatMap(r => r.studies).length }}
-							</td>
-						</tr>
 						<tr class="sub-row" :class="studiesNoItems(true)">
 							<th>
 								PI
@@ -179,6 +175,19 @@
 							</td>
 						</tr>
 					</tbody>
+					<tfoot>
+						<tr>
+							<th>Total studies</th>
+							<td
+								v-for="[bd, rs] of Array.from(
+									breakdownReports.entries()
+								)"
+								:key="`studies:${bd}`"
+							>
+								{{ rs.flatMap(r => r.studies).length }}
+							</td>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 		</div>
@@ -213,6 +222,15 @@ table {
 	border-collapse: collapse;
 }
 
+table caption {
+	font-size: 1.25em;
+	margin: 0;
+	padding: 0;
+	color: var(--secondary-heading-color, unset);
+	font-family: var(--heading-font-family);
+	font-weight: var(--heading-font-weight);
+}
+
 tr:hover {
 	background: #f3f3f3;
 }
@@ -233,21 +251,14 @@ td {
 	color: '#111';
 }
 
-tbody tr::first-child th,
-tbody tr::first-child td {
-	border-bottom-width: 2px;
-}
-
-tbody th {
+tfoot th,
+tfoot td {
+	border-top-width: 2px;
 	font-weight: bold;
 }
 
 .no-items {
 	color: rgba(0, 0, 0, 0.5);
-}
-
-.sub-row th {
-	font-weight: normal;
 }
 
 ul {

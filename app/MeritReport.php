@@ -31,6 +31,12 @@ class MeritReport extends Model
 		'VA Merit' => 'VA Merit Grant'
 	];
 
+	const ORGANIZATION_TYPES = [
+		'INTERNAL',
+		'REGIONAL',
+		'NATIONAL'
+	];
+
 	protected static function boot() {
 		parent::boot();
 
@@ -659,7 +665,11 @@ class MeritReport extends Model
 
 	public function getCommitteesByTypeAttribute() {
 		$result = [];
-		$grouped = collect($this->committees)->groupBy('organizationType');
+		$grouped = [];
+		foreach (self::ORGANIZATION_TYPES as $orgType) {
+			$grouped[$orgType] = [];
+		}
+		$grouped = array_merge_recursive($grouped, collect($this->committees)->groupBy('organizationType')->toArray());
 
 		foreach ($grouped as $organizationType => $committees) {
 			if (!empty($organizationType)) {

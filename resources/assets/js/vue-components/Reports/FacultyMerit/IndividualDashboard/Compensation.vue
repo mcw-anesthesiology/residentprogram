@@ -21,7 +21,10 @@
 						<td>{{ providerInfo.baseSalary && currency(providerInfo.baseSalary) }}</td>
 					</tr>
 					<tr>
-						<th>Incentive / premium pay</th>
+						<th>
+							<span class="avoid-break">Incentive /</span>
+							<span class="avoid-break">Premium pay</span>
+						</th>
 						<td>{{ providerInfo.premiumPay && currency(providerInfo.premiumPay) }}</td>
 					</tr>
 				</tbody>
@@ -83,7 +86,7 @@
 table {
 	width: 100%;
 	font-size: 1em;
-	margin-bottom: 1em;
+	margin: 2.75em 0;
 	border-collapse: collapse;
 }
 
@@ -108,10 +111,15 @@ td {
 	font-family: monospace;
 	color: '#111';
 	font-size: 0.825em;
+	min-width: 8em;
 }
 
 tfoot {
 	border-top: 2px solid #ddd;
+}
+
+.avoid-break {
+	break-inside: avoid;
 }
 </style>
 

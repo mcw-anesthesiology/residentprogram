@@ -89,7 +89,7 @@ export default {
 	page-break-before: always;
 }
 
-h3 {
+.dashboard-appendix >>> h3 {
 	color: var(--mcw-anesth-dark-green);
 }
 
