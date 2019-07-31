@@ -25,7 +25,7 @@
 					</tbody>
 				</table>
 
-				<img alt="MCW Anesthesiology" src="/svg/MCW-Anesthesiology-white-on-green.svg" />
+				<svg-icon src="/svg/MCW-Anesthesiology-white-on-green.svg" />
 			</header>
 
 			<div class="dashboard-container">
@@ -79,6 +79,7 @@ import moment from 'moment';
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 import RichDateRange from '#/RichDateRange.vue';
 import PrintElementButton from '#/PrintElementButton.vue';
+import SvgIcon from '#/SvgIcon.vue';
 
 import DashboardCompensation from './Compensation.vue';
 import AcademicProductivity from './AcademicProductivity.vue';
@@ -89,6 +90,8 @@ import DashboardAppendix from './Appendix.vue';
 import ChecklistSummary from '#/MeritCompensation/Summary.vue';
 
 import { renderYearRange, academicYearForDate } from '@/modules/date-utils.js';
+
+import 'typeface-source-sans-pro';
 
 export default {
 	props: {
@@ -161,6 +164,7 @@ export default {
 		}
 	},
 	components: {
+		SvgIcon,
 		LoadingPlaceholder,
 		RichDateRange,
 		PrintElementButton,
@@ -176,8 +180,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300&display=swap');
-
 .individual-dashboard {
 	--heading-font-family: 'Source Sans Pro', sans-serif;
 	--heading-font-weight: 300;
@@ -205,8 +207,11 @@ header h1 {
 	margin-bottom: 0;
 }
 
-header img {
+header img,
+header >>> .svg-icon,
+header >>> svg {
 	height: 6em;
+	width: 6em;
 }
 
 .individual-dashboard {
@@ -230,12 +235,6 @@ header img {
 
 .individual-dashboard >>> .checklist-summary {
 	page-break-before: always;
-}
-
-.dashboard-container::after {
-	content: '';
-	display: table;
-	clear: both;
 }
 
 header table {
@@ -314,10 +313,6 @@ td {
 
 	.dashboard-controls {
 		display: none;
-	}
-
-	.dashboard-container {
-		height: 100vh;
 	}
 }
 
