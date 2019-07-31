@@ -478,6 +478,22 @@ class MeritReport extends Model
 		return "Committee {$committee['role']} - {$committee['name']}";
 	}
 
+	public function getCreatedNewCourseAttribute() {
+
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				break;
+
+				return self::isChecked($this->report['pages'][1]['items'][0]['items'][2]['items'][3]);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getCreatedNewCourseAttribute: ' . $e);
+		}
+
+		return null;
+	}
+
 	/*
 	 *  In the previous academic year, held responsibility for seminars,
 	 *  conference series, or course coordination (such as arrangement of
@@ -489,6 +505,10 @@ class MeritReport extends Model
 	 *  or conferences.
 	 */
 	public function getTeachingFormalCoursesAttribute() {
+		if ($this->createdNewCourse) {
+			return true;
+		}
+
 		return null;
 	}
 
@@ -939,6 +959,25 @@ class MeritReport extends Model
 		return [];
 	}
 
+	public function getQiProjectTeamLeaderAttribute() {
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				$qiItems = $this->report['pages'][4]['items'][2]['items'];
+				$LEAD_HOSPITAL_TEAM = 2;
+				$LEAD_DEPARTMENT_TEAM = 3;
+
+				if (self::isChecked($qiItems[$LEAD_HOSPITAL_TEAM]) || self::isChecked($qiItems[$LEAD_DEPARTMENT_TEAM])) {
+					return true;
+				}
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getQiProjectTeamLeaderAttribute: ' . $e);
+		}
+
+		return false;
+	}
+
 	public function getInternalLeadershipRolesAttribute() {
 		$roles = [];
 		try {
@@ -957,11 +996,7 @@ class MeritReport extends Model
 					}
 				}
 
-				$qiItems = $this->report['pages'][4]['items'][2]['items'];
-				$LEAD_HOSPITAL_TEAM = 2;
-				$LEAD_DEPARTMENT_TEAM = 3;
-
-				if (self::isChecked($qiItems[$LEAD_HOSPITAL_TEAM]) || self::isChecked($qiItems[$LEAD_DEPARTMENT_TEAM])) {
+				if ($this->qiProjectTeamLeader) {
 					$roles[] = 'QI project team leader';
 				}
 				break;
@@ -1169,5 +1204,78 @@ class MeritReport extends Model
 		}
 
 		return $obj;
+	}
+
+	public function getDomainsAttribute() {
+		$domains = [
+			'research' => null,
+			'grants' => null,
+			'quality' => null,
+			'reviews' => null,
+			'curricula' => null,
+			'committees' => null,
+			'innovations' => null
+		];
+
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+
+				$domains['quality'] = $this->qiProjectTeamLeader;
+				$domains['committees'] = !empty($this->committees) || !empty($this->editorialBoards);
+
+				foreach ($this->publications as $publication) {
+					switch ($publication['publicationType']) {
+					case 'Original Article':
+						$domains['research'] = true;
+						break;
+					case 'Review article':
+					case 'Book / Text, First Ed.':
+					case 'Book / Text, Revised Ed.':
+					case 'Book Chapter (new or revised)':
+					case 'Case Report':
+						$domains['reviews'] = true;
+						break;
+					case 'Anesthesia Toolbox':
+					case 'MedEd':
+						$domains['curricula'] = true;
+						break;
+					}
+				}
+
+				foreach ($this->lectures as $lecture) {
+					switch ($lecture['lectureType']) {
+					case '**New** lecture for residents (Wednesday morning conference, mock oral, Journal Club, etc.)':
+					case '**New** lecture for Medical Students':
+						$domains['curricula'] = true;
+						break;
+					}
+				}
+
+				foreach ($this->grants as $grant) {
+					if ($grant['agencyType'] == 'EXTRAMURAL_RESEARCH') {
+						$domains['grants'] = true;
+					}
+				}
+
+				if ($this->createdNewCourse) {
+					$domains['curricula'] = true;
+				}
+
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getDomainsAttribute: ' . $e);
+		}
+
+		$none = true;
+		foreach ($domains as $d) {
+			if (!empty($d)) {
+				$none = false;
+			}
+		}
+
+		$domains['none'] = $none;
+
+		return $domains;
 	}
 }
