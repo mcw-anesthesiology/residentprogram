@@ -38,7 +38,7 @@
 		</section>
 
 		<section>
-			<h2>Evaluation matrics</h2>
+			<h2>Evaluation metrics</h2>
 			<table class="eval-metrics">
 				<tbody>
 					<tr>
