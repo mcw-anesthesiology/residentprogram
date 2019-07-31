@@ -74,7 +74,23 @@ export default {
 			}
 		`,
 	},
-
+	mounted() {
+		const { startDate, endDate } = this.$route.query;
+		if (startDate && endDate) {
+			this.dates = {
+				startDate,
+				endDate
+			};
+		}
+	},
+	watch: {
+		dates(dates) {
+			const location = Object.assign({}, this.$route, {
+				query: { ...dates }
+			});
+			this.$router.push(location);
+		}
+	},
 	computed: {
 		meritsReleaseDate() {
 			return FEATURE_RELEASE_DATES.FACULTY_MERIT;
