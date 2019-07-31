@@ -1,7 +1,7 @@
 <template>
 	<section class="individual-merit-dashboard-section individual-merit-dashboard-goals">
 		<h2>
-			Goals
+			Future Goals
 			<span v-if="subtitle" class="subtitle">
 				{{ subtitle }}
 			</span>

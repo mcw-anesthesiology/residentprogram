@@ -86,7 +86,7 @@
 table {
 	width: 100%;
 	font-size: 1em;
-	margin: 2.75em 0;
+	margin-bottom: 2em;
 	border-collapse: collapse;
 }
 
