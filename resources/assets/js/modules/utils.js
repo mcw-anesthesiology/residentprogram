@@ -163,7 +163,7 @@ export function appendAlert(
 }
 
 export function escapeCsv(text: string): string {
-	return `"${striptags(text)}"`;
+	return `"${striptags(text.replace('✓', 'X'))}"`;
 }
 
 export function getFetchHeaders(
