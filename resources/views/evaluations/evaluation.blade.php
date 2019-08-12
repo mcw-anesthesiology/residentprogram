@@ -58,7 +58,15 @@
 		}
 
 		.bottom-comment-container {
-			margin: 2em;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.bottom-comment-container small {
+			display: block;
+			margin: 2em 0 0;
 		}
 	</style>
 @stop
@@ -74,18 +82,6 @@
 
 		<div id="evaluation-controls" class="noprint">
 	@if($evaluation->evaluator_id == $user->id)
-			<button type="button"
-					class="btn btn-primary"
-					data-toggle="modal"
-					data-target="#evaluation-comment-modal"
-		@if(!in_array($evaluation->status, ['pending', 'complete']))
-					disabled
-					title="Cannot add a comment to a disabled evaluation"
-		@endif
-					id="comment-evaluation">
-				<span class="glyphicon glyphicon-pencil"></span>
-				Confidential evaluation comments
-			</button>
 			<button type="button"
 					class="btn btn-info"
 					data-toggle="modal"
@@ -288,20 +284,56 @@
 				<beyond-milestones ref="beyondMilestones" :user="user" :evaluation="evaluation"></beyond-milestones>
 
 	@if($evaluation->evaluator_id == $user->id)
-		<div class="bottom-comment-container text-center">
-			<button type="button"
+		@verbatim
+			<div class="well bottom-comment-container" v-cloak>
+				<div v-if="comment.value || show.confidentialComment">
+					<div class="form-group">
+						<label class="containing-label">
+							Confidential evaluation comment
+							<textarea class="form-control" name="comment"
+								rows="5" cols="80" v-model="comment.value"
+							></textarea>
+						</label>
+					</div>
+					<div class="text-center">
+						<button type="button"
+							class="btn btn-primary"
+							@click="handleCommentSubmit"
+						>
+							Save
+						</button>
+						<button type="button"
+							class="btn btn-default"
+							v-if="show.confidentialComment && !comment.value"
+							@click="show.confidentialComment = false"
+						>
+							Cancel
+						</button>
+						<confirmation-button v-else
+							class="btn btn-warning"
+							@click="clearComment"
+						>
+							Remove comment
+						</confirmation-button>
+					</div>
+				</div>
+				<button v-else type="button"
 					class="btn btn-primary"
-					data-toggle="modal"
-					data-target="#evaluation-comment-modal"
-		@if(!in_array($evaluation->status, ['pending', 'complete']))
-					disabled
-					title="Cannot add a comment to a disabled evaluation"
-		@endif
-					id="comment-evaluation">
-				<span class="glyphicon glyphicon-pencil"></span>
-				Add confidential evaluation comments
-			</button>
-		</div>
+					id="comment-evaluation"
+					@click="show.confidentialComment = true"
+				>
+					<span class="glyphicon glyphicon-pencil"></span>
+					Add confidential evaluation comment
+				</button>
+
+				<small>
+					Add a comment only to be seen by administrators and program directors,
+					not by the trainee.
+				</small>
+
+				<alert-list v-model="comment.alerts"></alert-list>
+			</div>
+		@endverbatim
 	@endif
 
 	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
