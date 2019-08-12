@@ -31,7 +31,8 @@ class Kernel extends ConsoleKernel
 		\App\Console\Commands\RunAdvancements::class,
 		\App\Console\Commands\ReleaseFacultyEvals::class,
 		\App\Console\Commands\SendPairingReports::class,
-		\App\Console\Commands\CancelInactiveUserRequests::class
+		\App\Console\Commands\CancelInactiveUserRequests::class,
+		\App\Console\Commands\CancelFellowResidentRequests::class,
     ];
 
     /**
