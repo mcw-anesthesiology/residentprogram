@@ -54,10 +54,12 @@ extend type Mutation @middleware(checks: ["auth"]) {
 		responses: [ResponseInput!]
 		complete: Boolean
 	): Evaluation
+
+	updateEvaluationComment(id: ID!, comment: String): Evaluation
 }
 
 extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
-	updateEvaluationVisibility(id: ID!, visibility: Visibility): Evaluation
+	updateEvaluation(id: ID!, visibility: Visibility): Evaluation
 
 	updateEvaluationVisibilities(
 		startDate: Date!

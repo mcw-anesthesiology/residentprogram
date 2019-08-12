@@ -47,7 +47,8 @@ class Evaluation extends Model
 		'request_ip',
 		'complete_ip',
 		'hash_expires',
-		'request_note'
+		'request_note',
+		'visibility'
 	];
 
 	protected $dates = [

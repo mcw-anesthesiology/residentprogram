@@ -7,7 +7,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 use App\Evaluation;
 
-class UpdateEvaluationVisibility
+class UpdateEvaluation
 {
     /**
      * Return a value for the field.
@@ -22,7 +22,7 @@ class UpdateEvaluationVisibility
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
 		$evaluation = Evaluation::findOrFail($args['id']);
-		$evaluation->visibility = $args['visibility'];
+		$evaluation->fill($args);
 		$evaluation->save();
 
 		return $evaluation;

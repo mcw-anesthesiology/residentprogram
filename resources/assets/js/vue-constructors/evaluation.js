@@ -1,7 +1,9 @@
 import Vue, { apolloProvider } from '@/vue-constructors/vue.js';
+import gql from 'graphql-tag';
 
 import BootstrapModal from '@/vue-components/BootstrapModal.vue';
 import AlertList from '@/vue-components/AlertList.vue';
+import ConfirmationButton from '#/ConfirmationButton.vue';
 
 import { handleError } from '@/modules/errors.js';
 import { fetchConfig, okOrThrow } from '@/modules/utils.js';
@@ -28,10 +30,15 @@ export function createEvaluationPage(el, propsData) {
 					reason: null,
 					alerts: []
 				},
+				comment: {
+					value: this.evaluation ? this.evaluation.comment : '',
+					alerts: []
+				},
 				show: {
 					modals: {
 						decline: false
-					}
+					},
+					confidentialComment: false
 				}
 			};
 		},
@@ -115,11 +122,58 @@ export function createEvaluationPage(el, propsData) {
 						'There was a problem declining the request'
 					);
 				});
+			},
+			async handleCommentSubmit() {
+				try {
+					const { data } = await this.$apollo.mutate({
+						mutation: gql`
+							mutation UpdateEvaluationComment(
+								$id: ID!
+								$comment: String
+							) {
+								updateEvaluationComment(
+									id: $id
+									comment: $comment
+								) {
+									id
+									comment
+								}
+							}
+						`,
+						variables: {
+							id: this.evaluation.id,
+							comment: this.comment.value,
+						}
+					});
+
+					if (data.updateEvaluationComment.comment === this.comment.value) {
+						this.comment.alerts.push({
+							type: 'success',
+							text: 'Comment updated successfully'
+						});
+					} else {
+						throw new Error('Unsuccessful for some reason');
+					}
+
+					this.comment.value = data.updateEvaluationComment.comment;
+				} catch (err) {
+					handleError(
+						err,
+						this.comment,
+						'There was a problem saving the comment'
+					);
+				}
+			},
+			async clearComment() {
+				this.comment.value = null;
+				await this.handleCommentSubmit();
+				this.show.confidentialComment = false;
 			}
 		},
 		components: {
 			BootstrapModal,
 			AlertList,
+			ConfirmationButton,
 			BeyondMilestones: () => import('#/BeyondMilestones/BeyondMilestones.vue')
 		}
 	});
