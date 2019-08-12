@@ -20,18 +20,9 @@
 		<div class="form-summary panel panel-default">
 			<div class="panel-body">
 				<div class="row">
-					<div v-if="readonly" class="col-sm-6">
+					<div class="col-sm-6">
 						<small>Report period</small>
 						<rich-date-range :dates="dates" />
-					</div>
-					<div v-else class="col-sm-6 form-group">
-						<label class="containing-label">
-							Report period
-							<academic-year-selector
-								v-model="dates"
-								:min-date="lastMonth"
-							/>
-						</label>
 					</div>
 
 					<div class="col-sm-3">
@@ -125,7 +116,6 @@ import * as localforage from 'localforage';
 import MeritCompensationChecklist from './Checklist/Checklist.vue';
 import SaveStatus from './Checklist/SaveStatus.vue';
 
-import AcademicYearSelector from '@/vue-components/AcademicYearSelector.vue';
 import LoadingButton from '@/vue-components/LoadingButton.vue';
 import RichDate from '@/vue-components/RichDate.vue';
 import RichDateRange from '@/vue-components/RichDateRange.vue';
@@ -407,7 +397,6 @@ export default {
 	components: {
 		MeritCompensationChecklist,
 		SaveStatus,
-		AcademicYearSelector,
 		LoadingButton,
 		RichDate,
 		RichDateRange
