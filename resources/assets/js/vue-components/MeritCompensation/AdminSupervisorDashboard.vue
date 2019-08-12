@@ -132,6 +132,8 @@ export default {
 	},
 	data() {
 		return {
+			FEATURE_RELEASE_DATES,
+
 			users: [],
 			dates: isoDateStringObject(currentYear()),
 			facultyMeritChecklistForm: null,
