@@ -221,8 +221,14 @@ class QuestionnaireReportColumn extends ReportColumn {
 		return implode("\n", array_map(function ($display) {
 			return "\t" . $display;
 		}, array_map(function ($key, $val) {
-			if ($key == 'type')
-				$val = ucfirst(camelCaseToWords($val));
+
+			if (is_array($val)) {
+				$val = implode(', ', $val);
+			} else {
+				if ($key == 'type') {
+					$val = ucfirst(camelCaseToWords($val));
+				}
+			}
 
 			return ucfirst(camelCaseToWords($key)) . ': ' . $val;
 		}, array_keys($item), $item)));
