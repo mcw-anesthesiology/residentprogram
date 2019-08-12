@@ -6,7 +6,10 @@
 			<form class="reports-filter-form">
 				<label>
 					Checklist period
-					<academic-year-selector v-model="dates" />
+					<academic-year-selector
+						:min-date="FEATURE_RELEASE_DATES.FACULTY_MERIT"
+						v-model="dates"
+					/>
 				</label>
 			</form>
 
@@ -81,7 +84,7 @@ import {
 	usesFeature,
 	groupUsers
 } from '@/modules/utils.js';
-
+import { FEATURE_RELEASE_DATES } from '@/modules/constants.js';
 import { MERIT_REPORT_LIST_FIELDS } from '@/graphql/merit.js';
 
 const USER_FIELDS = gql`
