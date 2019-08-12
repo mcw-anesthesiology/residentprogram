@@ -53,7 +53,7 @@ class ProgramController extends RestController
 		$program = Program::findOrFail($id);
 		$userFields = 'id,first_name,last_name,type,training_level,secondary_training_level,status';
 		$query = $program->evaluations()
-			->with("subject:{$userFields}", "evaluator:${userFields}");
+			->with("subject:{$userFields}", "evaluator:{$userFields}");
 
 		if ($request->has('start')) {
 			$query->where('evaluation_date_end', '>=', $request->input('start'));
@@ -63,6 +63,10 @@ class ProgramController extends RestController
 			$query->where('evaluation_date_start', '<=', $request->input('end'));
 		}
 
-		return $query->get();
+		return $query->get()->map(function ($evaluation) {
+			$evaluation->hideFields();
+
+			return $evaluation;
+		});
 	}
 }

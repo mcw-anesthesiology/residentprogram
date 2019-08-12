@@ -310,9 +310,10 @@
 							Cancel
 						</button>
 						<confirmation-button v-else
-							class="btn btn-warning"
+							class="btn btn-danger"
 							@click="clearComment"
 						>
+							<span class="glyphicon glyphicon-trash"></span>
 							Remove comment
 						</confirmation-button>
 					</div>
