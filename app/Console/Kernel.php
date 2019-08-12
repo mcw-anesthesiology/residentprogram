@@ -7,13 +7,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 use Carbon\Carbon;
 
-use App\User;
-
-use Mail;
-use App\Console\Commands\ExportActiveUsersToCsv;
-use App\Console\Commands\ProcessScheduledRequests;
-use App\Console\Commands\ChangeFacultyEvalDatesToAcademicYear;
-
 class Kernel extends ConsoleKernel
 {
     /**

@@ -55,6 +55,7 @@ class MentorshipController extends RestController
 
 	public function menteeEvaluations(Request $request) {
 		$user = Auth::user();
+		$userFields = 'id,first_name,last_name,type,training_level,secondary_training_level,status';
 
 		$menteeQuery = $user->mentees();
 
@@ -66,8 +67,8 @@ class MentorshipController extends RestController
 			'subjectEvaluations' => function ($query) use ($request) {
 				$query->between($request->input('startDate'), $request->input('endDate'));
 			},
-			'subjectEvaluations.subject:id,first_name,last_name',
-			'subjectEvaluations.evaluator:id,first_name,last_name',
+			"subjectEvaluations.subject:{$userFields}",
+			"subjectEvaluations.evaluator:{$userFields}",
 			'subjectEvaluations.form:id,title'
 		])->get()->mapWithKeys(function ($mentee) {
 			return [$mentee->id => $mentee->subjectEvaluations->map(function ($e) {

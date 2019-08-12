@@ -70,7 +70,6 @@ class Evaluation extends Model
 		'archive_date',
 		'request_ip',
 		'complete_ip',
-		'comment',
 		'completion_hash',
 		'hash_expires',
 		'flag'
@@ -475,7 +474,14 @@ class Evaluation extends Model
 
 	public function hideFields() {
 		$user = Auth::user();
+		if ($user->isType('admin'))
+			return $this;
+
 		$this->addHidden($this->userHidden);
+
+		if (!$this->userFullDisclosure(Auth::user())) {
+			$this->addHidden('comment');
+		}
 
 		if(Auth::user()->usesFeature('RESIDENT_EVALS')
 				&& in_array($this->training_level, [
