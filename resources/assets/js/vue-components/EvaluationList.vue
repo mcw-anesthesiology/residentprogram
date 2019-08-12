@@ -36,6 +36,10 @@
 					Status
 					<v-select :options="statusOptions" v-model="statusFilter" />
 				</label>
+				<label v-if="anyComments">
+					<input type="checkbox" v-model="withCommentsOnlyFilter" />
+					With comments only
+				</label>
 			</div>
 		</fieldset>
 
@@ -70,6 +74,7 @@
 		grid-template-columns: repeat(auto-fit, 200px);
 		grid-gap: 1em;
 		justify-content: end;
+		align-items: end;
 	}
 }
 </style>
@@ -144,10 +149,20 @@ export default {
 			evaluatorFilter: [],
 			formFilter: [],
 			subjectTypeFilter: [],
-			evaluatorTypeFilter: []
+			evaluatorTypeFilter: [],
+			withCommentsOnlyFilter: false
 		};
 	},
 	computed: {
+		anyComments() {
+			try {
+				if (this.evaluations.length > 0) {
+					return this.evaluations.some(e => e.comment);
+				}
+			} catch (e) {
+				logError(e);
+			}
+		},
 		types() {
 			try {
 				if (this.evaluations.length > 0 && this.evaluations[0].type) {
@@ -265,6 +280,10 @@ export default {
 		},
 		evaluationsToShow() {
 			let evaluations = this.evaluations;
+
+			if (this.anyComments && this.withCommentsOnlyFilter) {
+				evaluations = evaluations.filter(evaluation => evaluation.comment);
+			}
 
 			if (this.statusFilter) {
 				evaluations = evaluations.filter(evaluation =>
