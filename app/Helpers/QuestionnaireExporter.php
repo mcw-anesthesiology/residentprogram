@@ -6,12 +6,21 @@ use App\MeritReport;
 
 class QuestionnaireExporter {
 	static function exportReportsByForm($formProps, $startDate = null, $endDate = null) {
-		$meritReports = MeritReport::with('user')
+		$query = MeritReport::with('user')
 			->where('status', 'complete')
 			->whereHas('form', function ($query) use ($formProps) {
 				return $query->where($formProps);
-			})
-			->get()
+			});
+
+		if (!empty($startDate)) {
+			$query = $query->where('period_start', '>=', $startDate);
+		}
+
+		if (!empty($endDate)) {
+			$query = $query->where('period_end', '<=', $endDate);
+		}
+
+		$meritReports = $query->get()
 			->sortBy('user.full_name')
 			->values()
 			->all();
@@ -213,21 +222,29 @@ class QuestionnaireReportColumn extends ReportColumn {
 	}
 
 	private static function displayListItemObject($item, $keysToInclude = null) {
-		if (!empty($keysToInclude))
-			$item = array_filter($item, function ($key) use ($keysToInclude) {
-				return in_array($key, $keysToInclude);
-			}, ARRAY_FILTER_USE_KEY);
+		$keysToExclude = ['labels'];
+
+		$item = array_filter($item, function ($key) use ($keysToInclude, $keysToExclude) {
+			if (!empty($keysToInclude) && !in_array($key, $keysToInclude))
+				return false;
+
+			if (in_array($key, $keysToExclude))
+				return false;
+
+			return true;
+		}, ARRAY_FILTER_USE_KEY);
 
 		return implode("\n", array_map(function ($display) {
 			return "\t" . $display;
 		}, array_map(function ($key, $val) {
-
-			if (is_array($val)) {
-				$val = implode(', ', $val);
-			} else {
-				if ($key == 'type') {
-					$val = ucfirst(camelCaseToWords($val));
-				}
+			switch ($key) {
+			case 'type':
+				$val = ucfirst(camelCaseToWords($val));
+				break;
+			case 'labels':
+				break;
+			}
+			if ($key == 'type') {
 			}
 
 			return ucfirst(camelCaseToWords($key)) . ': ' . $val;
