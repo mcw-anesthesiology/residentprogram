@@ -54,7 +54,7 @@ export default {
 	props: {
 		dates: Object,
 		formId: [String, Number],
-		completeOnly: Boolean
+		includeIncomplete: Boolean
 	},
 	data() {
 		return {
@@ -102,6 +102,9 @@ export default {
 		},
 		formId() {
 			this.fetchExport();
+		},
+		includeIncomplete() {
+			this.fetchExport();
 		}
 	},
 	mounted() {
@@ -122,7 +125,8 @@ export default {
 					formProps: {
 						id: this.formId
 					},
-					...this.dates
+					...this.dates,
+					includeIncomplete: this.includeIncomplete
 				})
 			}).then(jsonOrThrow).then(results => {
 				this.exportResults = results;

@@ -181,10 +181,13 @@ class MeritReportController extends RestController {
     }
 
 	public function export(Request $request) {
+		$status = $request->input('includeIncomplete', false) ? null : 'complete';
+
 		return QuestionnaireExporter::exportReportsByForm(
 			$request->input('formProps'),
 			$request->input('startDate'),
-			$request->input('endDate')
+			$request->input('endDate'),
+			$status
 		);
 	}
 
