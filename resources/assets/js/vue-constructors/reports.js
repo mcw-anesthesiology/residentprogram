@@ -10,6 +10,7 @@ import StoredAlertList from '@/vue-components/StoredAlertList.vue';
 
 const TraineeReport = () => import('@/vue-components/Reports/TraineeReport.vue');
 const FacultyReport = () => import('@/vue-components/Reports/FacultyReport.vue');
+const FacultyEvaluationsReport = () => import('@/vue-components/Reports/FacultyEvaluationsReport.vue');
 const FormReport = () => import('@/vue-components/Reports/FormReport.vue');
 const CustomReport = () => import('@/vue-components/Reports/CustomReport/CustomReport.vue');
 const NeedsReport = () => import('@/vue-components/Reports/Needs/Report.vue');
@@ -37,6 +38,10 @@ const routes = [
 	{
 		path: '/form',
 		component: FormReport
+	},
+	{
+		path: '/faculty-evaluations',
+		component: FacultyEvaluationsReport
 	},
 	{
 		path: '/custom',

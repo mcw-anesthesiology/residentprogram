@@ -3,6 +3,8 @@
 extend type Query @middleware(checks: ["auth", "type:admin"]) {
 	users(
 		type: UserType @eq
+		training_level: TrainingLevel @eq
+		secondary_training_level: String @eq
 		status: UserStatus @eq
 	): [User!]! @all(model: "App\\User")
 	user(id: ID! @eq): User @find(model: "App\\User")
