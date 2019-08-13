@@ -5,12 +5,15 @@ namespace App\Helpers;
 use App\MeritReport;
 
 class QuestionnaireExporter {
-	static function exportReportsByForm($formProps, $startDate = null, $endDate = null) {
+	static function exportReportsByForm($formProps = [], $startDate = null, $endDate = null, $status = 'complete') {
 		$query = MeritReport::with('user')
-			->where('status', 'complete')
 			->whereHas('form', function ($query) use ($formProps) {
 				return $query->where($formProps);
 			});
+
+		if (!empty($status)) {
+			$query = $query->where('status', $status);
+		}
 
 		if (!empty($startDate)) {
 			$query = $query->where('period_start', '>=', $startDate);
