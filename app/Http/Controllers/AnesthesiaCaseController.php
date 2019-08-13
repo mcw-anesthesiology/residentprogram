@@ -33,6 +33,9 @@ class AnesthesiaCaseController extends Controller {
 		$egressFiles = !empty($request->egressFiles)
 			? array_map($getFilePath, $request->egressFiles)
 			: [];
+		$anStaffFiles = !empty($request->anStaffFiles)
+			? array_map($getFilePath, $request->anStaffFiles)
+			: [];
 		$chwTraineeFiles = !empty($request->chwTraineeFiles)
 			? array_map($getFilePath, $request->chwTraineeFiles)
 			: [];
@@ -45,6 +48,12 @@ class AnesthesiaCaseController extends Controller {
 
 		foreach ($egressFiles as $file) {
 			$results = CaseParser::parseFilename($file, CaseParser::EGRESS_FILE_TYPE);
+			$successful += $results['successful'];
+			$unsuccessful += $results['unsuccessful'];
+		}
+
+		foreach ($anStaffFiles as $file) {
+			$results = CaseParser::parseFilename($file, CaseParser::AN_STAFF_FILE_TYPE);
 			$successful += $results['successful'];
 			$unsuccessful += $results['unsuccessful'];
 		}

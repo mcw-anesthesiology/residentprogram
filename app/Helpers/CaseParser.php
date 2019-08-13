@@ -21,6 +21,7 @@ class CaseParser {
 
 	// Report types
 	const EGRESS_FILE_TYPE = 'FROEDTERT_EGRESS';
+	const AN_STAFF_FILE_TYPE = 'AN_STAFF_CLARITY_DUMP';
 	const CHW_TRAINEE_FILE_TYPE = 'CHW_TRAINEE_REPORT';
 	const VA_TRAINEE_SUPERVISOR_FILE_TYPE = 'VA_TRAINEE_SUPERVISOR';
 
@@ -32,6 +33,18 @@ class CaseParser {
 		'ANES_START' => 4,
 		'ANES_STOP' => 5,
 		'ANESTHESIA_STAFF' => 6
+	];
+	const AN_STAFF_COLS = [
+		'PROCEDURE_ID' => 0,
+		'PROVIDER_ID' => 1,
+		'DATE' => 2,
+		'PROC_START' => 3,
+		'PROC_END' => 4,
+		'PROCEDURE' => 5,
+		'ROLE' => 6,
+		'PROV_NAME' => 7,
+		'PROV_START' => 8,
+		'PROV_END' => 9
 	];
 	const CHW_TRAINEE_REPORT_COLS = [
 		'ID' => 0,
@@ -69,11 +82,19 @@ class CaseParser {
 	const VA_TRAINEE_RESIDENT_ROLE = 'RESIDENT';
 	const VA_TRAINEE_FELLOW_ROLE = 'FELLOW';
 
+	const AN_STAFF_FACULTY_ROLE = 'ANESTHESIOLOGIST';
+	const AN_STAFF_RESIDENT_ROLE = 'ANESTHESIA RESIDENT';
+	const AN_STAFF_FELLOW_ROLE = 'ANESTHESIA FELLOW';
+	const AN_STAFF_CRNA_ROLE = 'CRNA';
+
 	function __construct($type) {
 		$this->type = $type;
 		switch ($type) {
 			case self::EGRESS_FILE_TYPE:
 				$this->rowParser = 'parseFroedtertEgressCase';
+				break;
+			case self::AN_STAFF_FILE_TYPE:
+				$this->rowParser = 'parseAnStaffCase';
 				break;
 			case self::CHW_TRAINEE_FILE_TYPE:
 				$this->rowParser = 'parseCHWTraineeProcedureCase';
@@ -90,6 +111,12 @@ class CaseParser {
 			self::EGRESS_FACULTY_ROLE => self::FACULTY_ROLE,
 			self::EGRESS_RESIDENT_ROLE => self::RESIDENT_ROLE,
 			self::EGRESS_FELLOW_ROLE => self::FELLOW_ROLE
+		];
+
+		$this->AN_STAFF_ROLE_MAP = [
+			self::AN_STAFF_FACULTY_ROLE => self::FACULTY_ROLE,
+			self::AN_STAFF_RESIDENT_ROLE => self::RESIDENT_ROLE,
+			self::AN_STAFF_FELLOW_ROLE => self::FELLOW_ROLE
 		];
 
 		$this->CHW_STAFF_COLS = array_merge(
@@ -242,6 +269,55 @@ class CaseParser {
 				]);
 			}
 		}
+	}
+
+	function parseAnStaffCase($row) {
+		$caseId = $row[self::AN_STAFF_COLS['PROCEDURE_ID']];
+		$name = $row[self::AN_STAFF_COLS['PROV_NAME']];
+		$role = $row[self::AN_STAFF_COLS['ROLE']];
+
+		try {
+			$userId = $this->getUserId($name, $role);
+		} catch (ModelNotFoundException $e) {
+			Log::debug("User not found (Name: $name, role: $role)");
+		}
+
+		if (!empty($userId)) {
+			$procDate = Carbon::parse($row[self::AN_STAFF_COLS['DATE']]);
+			$procedure = $row[self::AN_STAFF_COLS['PROCEDURE']];
+			$startTime = Carbon::parse(
+				$row[self::AN_STAFF_COLS['PROC_START']]
+			);
+			$endTime = Carbon::parse(
+				$row[self::AN_STAFF_COLS['PROC_END']]
+			);
+
+			$anesthesiaCase = AnesthesiaCase::updateOrCreate(
+				[
+					'report_type' => self::AN_STAFF_FILE_TYPE,
+					'report_case_id' => $caseId
+				],
+				[
+					'procedure_date' => $procDate,
+					'start_time' => $startTime,
+					'end_time' => $endTime,
+					'procedure_desc' => $procedure
+				]
+			);
+
+			$userStart = Carbon::parse(
+				$row[self::AN_STAFF_COLS['PROV_START']]
+			);
+			$userEnd = Carbon::parse(
+				$row[self::AN_STAFF_COLS['PROV_END']]
+			);
+
+			$anesthesiaCase->users()->attach($userId, [
+				'start_time' => $userStart,
+				'stop_time' => $userEnd
+			]);
+		}
+
 	}
 
 	function parseCHWTraineeProcedureCase($row) {
@@ -399,9 +475,9 @@ class CaseParser {
 		}
 
 		[$last, $rest] = array_map('trim', explode(',', $name));
-		[$first] = array_map('trim', explode(' ', $rest));
+		$last = self::firstWord($last);
+		$first = self::firstWord($rest);
 
-		$user = null;
 		$query = User::where('status', 'active')
 			->whereRaw('last_name LIKE ?', ["%{$last}%"]);
 
@@ -422,6 +498,14 @@ class CaseParser {
 
 
 		throw new ModelNotFoundException();
+	}
+
+	static function firstWord($str) {
+		$spacePos = strpos($str, ' ');
+		if ($spacePos)
+			return substr($str, 0, $spacePos);
+
+		return $str;
 	}
 
 	static function fixVaTraineeSupervisorCsv($filename) {
