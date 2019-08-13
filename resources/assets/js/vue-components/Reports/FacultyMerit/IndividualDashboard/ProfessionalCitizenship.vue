@@ -192,7 +192,7 @@ li::marker {
 @supports (display: grid) {
 	.committees-container {
 		display: grid;
-		grid-template-columns: 2fr 1fr 1fr;
+		grid-template-columns: 2fr 1fr 2fr;
 		grid-gap: 1em;
 	}
 

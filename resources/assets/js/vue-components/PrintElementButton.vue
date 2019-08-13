@@ -45,7 +45,7 @@ export default {
 					? document.querySelector(this.target)
 					: this.target;
 
-			printElement(target, this.filename, this.pdfOptions);
+			return printElement(target, this.filename, this.pdfOptions);
 		}
 	}
 };

@@ -63,10 +63,30 @@
 					Include summary
 				</label>
 			</form>
+
+			<div class="text-center">
+				<button v-if="printingAll" type="button" class="btn btn-warning"
+					@click="printingAll = false"
+				>
+					Cancel
+				</button>
+				<template v-else>
+					<button type="button" class="btn btn-default" @click="printUserDashboard">
+						Print
+					</button>
+
+					<button type="button" class="btn btn-primary"
+						@click="printAll"
+					>
+						Print all
+					</button>
+				</template>
+			</div>
 		</div>
 
 		<individual-dashboard
-			v-if="user"
+			ref="dashboard"
+			v-show="user"
 			:user="user"
 			:provider-info="userProviderInfo"
 			:dates="dates"
@@ -133,6 +153,8 @@ export default {
 			leadershipRole: '',
 			includeSummary: false,
 
+			printingAll: false,
+
 			// FIXME
 			facultyFormId: 63,
 			overallAbilitiesQuestionId: 'q23',
@@ -168,6 +190,10 @@ export default {
 						after: $startDate
 						before: $endDate
 						status: $status
+						orderBy: [
+							{ field: "last_name", order: ASC },
+							{ field: "first_name", order: ASC }
+						]
 					) {
 						...SelectTwoGroupFields
 					}
@@ -259,6 +285,9 @@ export default {
 
 					overallAbilitiesMappings: this.overallAbilitiesMappings
 				};
+			},
+			skip() {
+				return !this.userId;
 			}
 		},
 		leadershipRole: {
@@ -329,9 +358,9 @@ export default {
 		}
 	},
 	methods: {
-		handleUserIdChange(userId) {
+		async handleUserIdChange(userId) {
 			if (userId) {
-				this.$router.push({
+				return this.$router.push({
 					name: 'merit-individual-dashboard',
 					params: { userId }
 				});
@@ -339,6 +368,36 @@ export default {
 		},
 		fetchLeadershipRole() {
 			this.$apollo.queries.leadershipRole.refetch();
+		},
+		async printAll() {
+			this.printingAll = true;
+
+			for (const user of this.usersWithMerits) {
+				try {
+					if (!this.printingAll)
+						break;
+
+					await this.handleUserIdChange(user.id);
+					await this.printUserDashboard();
+				} catch (err) {
+					logError(err);
+				}
+			}
+
+			this.printingAll = false;
+		},
+		async printUserDashboard() {
+			const vm = this;
+			return new Promise((resolve) => {
+				this.$nextTick(() => {
+					this.fetchLeadershipRole();
+					this.$nextTick(() => {
+						this.$refs.dashboard.$refs.printButton.handleClick().then(() => {
+							resolve();
+						});
+					});
+				});
+			});
 		}
 	},
 	components: {

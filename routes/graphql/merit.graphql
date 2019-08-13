@@ -9,6 +9,7 @@ extend type Query
 		after: Date
 		before: Date
 		status: MeritReportStatus
+		orderBy: [OrderByClause!] @orderBy
 	): [User!]!
 	meritReports(
 		form_id: ID @eq

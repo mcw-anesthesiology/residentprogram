@@ -618,7 +618,11 @@ if (!Math.ceil10) {
 	};
 }
 
-export function printElement(target, filename = 'download.pdf', options = {}) {
+export async function printElement(
+	target,
+	filename = 'download.pdf',
+	options = {}
+) {
 	const body = `<html><body><main>${target.outerHTML}</main></body></html>`;
 
 	const styles = Array.from(document.styleSheets)
@@ -640,7 +644,7 @@ export function printElement(target, filename = 'download.pdf', options = {}) {
 		})
 		.filter(Boolean);
 
-	fetch(PRINTER_ENDPOINT, {
+	return fetch(PRINTER_ENDPOINT, {
 		method: 'POST',
 		body: JSON.stringify({
 			body,
