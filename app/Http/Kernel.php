@@ -36,7 +36,7 @@ class Kernel extends HttpKernel
 		],
 
 		'gql' => [
-			'throttle:60,1',
+			'throttle:200,1',
 			\App\Http\Middleware\EncryptCookies::class,
 			\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
 			\App\Http\Middleware\StartSession::class

@@ -56,6 +56,7 @@
 
 		<aside class="dashboard-controls body-block">
 			<print-element-button
+				ref="printButton"
 				target=".individual-dashboard"
 				:filename="printFilename"
 				:options="printOptions"

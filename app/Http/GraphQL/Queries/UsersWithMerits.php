@@ -24,6 +24,12 @@ class UsersWithMerits
 		if (empty($args)) {
 			return User::with('meritReports')->whereHas('meritReports')->get();
 		} else {
+			$orderBy = null;
+			if (!empty($args['orderBy'])) {
+				$orderBy = $args['orderBy'];
+				unset($args['orderBy']);
+			}
+
 			$meritFilter = function($query) use ($args) {
 				if (!empty($args['before'])) {
 					$query->where('period_start', '<=', $args['before']);
@@ -38,7 +44,15 @@ class UsersWithMerits
 				$query->where($args);
 			};
 
-			return User::with(['meritReports' => $meritFilter])->whereHas('meritReports', $meritFilter)->get();
+			$query = User::with(['meritReports' => $meritFilter])->whereHas('meritReports', $meritFilter);
+
+			if (!empty($orderBy)) {
+				foreach ($orderBy as $orderObj) {
+					$query->orderBy($orderObj['field'], $orderObj['order']);
+				}
+			}
+
+			return $query->get();
 		}
     }
 }
