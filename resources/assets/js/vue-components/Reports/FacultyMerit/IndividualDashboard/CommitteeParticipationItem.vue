@@ -69,6 +69,7 @@ li + li {
 import { enumToWords } from '@/modules/text-utils.js';
 
 const MAX_COL_HEIGHT = 10;
+const CHAR_COUNT_BREAKPOINT = 400;
 
 export default {
 	props: {
@@ -83,10 +84,22 @@ export default {
 		totalParticipationCount() {
 			return this.committees.length;
 		},
+		totalCharCount() {
+			return this.committees.reduce(
+				(total, committee) => total + committee.name.length + (this.showPeriods ? committee.period.length : 0),
+				0
+			);
+		},
 		listStyle() {
-			return {
+			const style = {
 				columnCount: Math.ceil(this.totalParticipationCount / MAX_COL_HEIGHT)
 			};
+
+			if (this.totalCharCount > CHAR_COUNT_BREAKPOINT) {
+				style.fontSize = '0.9em';
+			}
+
+			return style;
 		}
 	},
 	methods: {
