@@ -366,8 +366,8 @@ export default {
 				});
 			}
 		},
-		fetchLeadershipRole() {
-			this.$apollo.queries.leadershipRole.refetch();
+		async fetchLeadershipRole() {
+			return this.$apollo.queries.leadershipRole.refetch();
 		},
 		async printAll() {
 			this.printingAll = true;
@@ -378,7 +378,6 @@ export default {
 						break;
 
 					await this.handleUserIdChange(user.id);
-					await sleep(1000);
 					await this.printUserDashboard();
 				} catch (err) {
 					logError(err);
@@ -390,10 +389,11 @@ export default {
 		async printUserDashboard() {
 			return new Promise((resolve) => {
 				this.$nextTick(() => {
-					this.fetchLeadershipRole();
-					this.$nextTick(() => {
-						this.$refs.dashboard.$refs.printButton.handleClick().then(() => {
-							resolve();
+					this.fetchLeadershipRole().then(() => {
+						this.$nextTick(() => {
+							this.$refs.dashboard.$refs.printButton.handleClick().then(() => {
+								resolve();
+							});
 						});
 					});
 				});
