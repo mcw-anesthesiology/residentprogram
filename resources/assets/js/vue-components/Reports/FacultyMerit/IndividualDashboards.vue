@@ -378,6 +378,7 @@ export default {
 						break;
 
 					await this.handleUserIdChange(user.id);
+					await sleep(1000);
 					await this.printUserDashboard();
 				} catch (err) {
 					logError(err);
@@ -387,7 +388,6 @@ export default {
 			this.printingAll = false;
 		},
 		async printUserDashboard() {
-			const vm = this;
 			return new Promise((resolve) => {
 				this.$nextTick(() => {
 					this.fetchLeadershipRole();
@@ -406,4 +406,12 @@ export default {
 		IndividualDashboard
 	}
 };
+
+async function sleep(timeout) {
+	return new Promise((resolve) => {
+		window.setTimeout(() => {
+			resolve();
+		}, timeout);
+	});
+}
 </script>
