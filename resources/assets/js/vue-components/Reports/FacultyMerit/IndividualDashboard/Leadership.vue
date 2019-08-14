@@ -41,6 +41,7 @@ th, td {
 
 td {
 	min-width: 7em;
+	font-size: 0.9em;
 }
 
 .no-items {
@@ -49,6 +50,7 @@ td {
 
 ul {
 	padding-left: 1.5em;
+	margin: 0;
 }
 
 @media print {
