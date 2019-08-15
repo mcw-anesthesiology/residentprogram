@@ -12,6 +12,11 @@
 				</label>
 
 				<label class="containing-label">
+					<input type="checkbox" v-model="showAllUsers" />
+					Show all users
+				</label>
+
+				<label class="containing-label">
 					Title
 					<input type="text" class="form-control" v-model="reportTitle" />
 				</label>
@@ -147,6 +152,7 @@ export default {
 	data() {
 		return {
 			providerInfo: null,
+			allUsers: [],
 			usersWithMerits: [],
 			user: null,
 			reportTitle: 'Faculty Activity Report',
@@ -154,6 +160,7 @@ export default {
 			includeSummary: false,
 
 			printingAll: false,
+			showAllUsers: false,
 
 			// FIXME
 			facultyFormId: 63,
@@ -178,6 +185,25 @@ export default {
 					}
 				}
 			`
+		},
+		allUsers: {
+			query: gql`
+				query IndividualDashboardsAllUsers {
+					allUsers: users(
+						type: FACULTY
+						orderBy: [
+							{ field: "last_name", order: ASC },
+							{ field: "first_name", order: ASC }
+						]
+					) {
+						...SelectTwoGroupFields
+					}
+				}
+				${GROUP_USER_FIELDS}
+			`,
+			skip() {
+				return !this.showAllUsers;
+			}
 		},
 		usersWithMerits: {
 			query: gql`
@@ -205,6 +231,9 @@ export default {
 					...this.dates,
 					status: this.includeIncomplete ? undefined : 'COMPLETE'
 				};
+			},
+			skip() {
+				return this.showAllUsers;
 			}
 		},
 		user: {
@@ -341,11 +370,14 @@ export default {
 				&& this.user.first_name.startsWith(pi.firstName)
 			);
 		},
+		userOptions() {
+			return this.showAllUsers ? this.allUsers : this.usersWithMerits;
+		},
 		groupedUsers() {
-			if (!this.usersWithMerits || this.usersWithMerits.length === 0)
+			if (!this.userOptions || this.userOptions.length === 0)
 				return [];
 
-			return groupUsers(this.usersWithMerits);
+			return groupUsers(this.userOptions);
 		},
 		userProps() {
 			const map = new Map();

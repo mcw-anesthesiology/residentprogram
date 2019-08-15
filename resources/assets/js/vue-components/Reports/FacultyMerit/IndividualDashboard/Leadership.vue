@@ -65,11 +65,19 @@ ul {
 
 import DashboardSection from './Section.vue';
 
+const ROLE_TYPES = [
+	'Anesthesia education program',
+	'Internal',
+	'Regional',
+	'National & International'
+];
+
 export default {
 	extends: DashboardSection,
 	computed: {
 		leadershipRoles() {
-			const map = new Map();
+			const map = new Map(ROLE_TYPES.map(type => ([type, new Set()])));
+
 			for (const report of this.user.meritReports) {
 				for (const { roleType, roles } of report.leadershipRoles) {
 					let set;

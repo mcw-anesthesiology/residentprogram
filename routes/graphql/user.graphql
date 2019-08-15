@@ -6,6 +6,7 @@ extend type Query @middleware(checks: ["auth", "type:admin"]) {
 		training_level: TrainingLevel @eq
 		secondary_training_level: String @eq
 		status: UserStatus @eq
+		orderBy: [OrderByClause!] @orderBy
 	): [User!]! @all(model: "App\\User")
 	user(id: ID! @eq): User @find(model: "App\\User")
 	roles: [Role]! @all
@@ -80,6 +81,7 @@ enum UserStatus {
 	ACTIVE @enum(value: "active")
 	INACTIVE @enum(value: "inactive")
 	EXTERNAL @enum(value: "external")
+	PENDING @enum(value: "pending")
 }
 
 type UserRole {
