@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import matplotlib.pyplot as plt
+from numpy import average, arange
 from numpy.polynomial.polynomial import polyfit
 
 from argparse import ArgumentParser
@@ -87,111 +88,173 @@ def main():
     plt.tight_layout()
     plt.figure()
 
-    plt.subplot(2, 1, 1)
-    plt.title("Scenarios vs percentile rank")
+    # plt.subplot(2, 1, 1)
+    # plt.title("Scenarios vs percentile rank")
+    # plt.xlabel("Scenario response average")
+    # plt.ylabel("ITE scaled score percentile rank")
+    # plot_tuples(
+    #     [(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in records]
+    # )
+    #
+    # plt.subplot(2, 1, 2)
+    # plt.title("Competencies vs percentile rank")
+    # plt.xlabel("Competency overall average")
+    # plt.ylabel("ITE scaled score percentile rank")
+    # plot_tuples(
+    #     [
+    #         (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
+    #         for r in records
+    #     ]
+    # )
+
+    # plt.tight_layout()
+    # plt.figure()
+
+    interns = [r for r in records if r["training_level"] == "intern"]
+    # plt.subplot(2, 1, 1)
+    # plt.title("Scenarios vs percentile rank (PGY-1)")
+    # plt.xlabel("Scenario response average")
+    # plt.ylabel("ITE scaled score percentile rank")
+    # plot_tuples(
+    #     [(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in interns]
+    # )
+    #
+    # plt.subplot(2, 1, 2)
+    # plt.title("Competencies vs percentile rank (PGY-1)")
+    # plt.xlabel("Competency overall average")
+    # plt.ylabel("ITE scaled score percentile rank")
+    # plot_tuples(
+    #     [
+    #         (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
+    #         for r in interns
+    #     ]
+    # )
+    #
+    # plt.tight_layout()
+    # plt.figure()
+
+    ca1s = [r for r in records if r["training_level"] == "ca-1"]
+    # plt.subplot(2, 1, 1)
+    # plt.title("Scenarios vs percentile rank (CA-1)")
+    # plt.xlabel("Scenario response average")
+    # plt.ylabel("ITE scaled score percentile rank")
+    # plot_tuples(
+    #     [(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in ca1s]
+    # )
+    #
+    # plt.subplot(2, 1, 2)
+    # plt.title("Competencies vs percentile rank (CA-1)")
+    # plt.xlabel("Competency overall average")
+    # plt.ylabel("ITE scaled score percentile rank")
+    # plot_tuples(
+    #     [
+    #         (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
+    #         for r in ca1s
+    #     ]
+    # )
+    #
+    # plt.tight_layout()
+    # plt.figure()
+
+    ca2s = [r for r in records if r["training_level"] == "ca-2"]
+    # plt.subplot(2, 1, 1)
+    # plt.title("Scenarios vs percentile rank (CA-2)")
+    # plt.xlabel("Scenario response average")
+    # plt.ylabel("ITE scaled score percentile rank")
+    # plot_tuples(
+    #     [(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in ca2s]
+    # )
+    #
+    # plt.subplot(2, 1, 2)
+    # plt.title("Competencies vs percentile rank (CA-2)")
+    # plt.xlabel("Competency overall average")
+    # plt.ylabel("ITE scaled score percentile rank")
+    # plot_tuples(
+    #     [
+    #         (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
+    #         for r in ca2s
+    #     ]
+    # )
+    #
+    # plt.tight_layout()
+    # plt.figure()
+
+    ca3s = [r for r in records if r["training_level"] == "ca-3"]
+    # plt.subplot(2, 1, 1)
+    # plt.title("Scenarios vs percentile rank (CA-3)")
+    # plt.xlabel("Scenario response average")
+    # plt.ylabel("ITE scaled score percentile rank")
+    # plot_tuples(
+    #     [(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in ca3s]
+    # )
+    #
+    # plt.subplot(2, 1, 2)
+    # plt.title("Competencies vs percentile rank (CA-3)")
+    # plt.xlabel("Competency overall average")
+    # plt.ylabel("ITE scaled score percentile rank")
+    # plot_tuples(
+    #     [
+    #         (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
+    #         for r in ca3s
+    #     ]
+    # )
+    #
+    # plt.tight_layout()
+    # plt.figure()
+
+    fellows = [r for r in records if r["training_level"] == "fellow"]
+
+    x = arange(5)
+    classes = [interns, ca1s, ca2s, ca3s, fellows]
+
+    plt.subplot(1, 2, 1)
+    plt.title("Basic scenarios")
     plt.xlabel("Scenario response average")
-    plt.ylabel("ITE scaled score percentile rank")
-    plot_tuples(
-        [(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in records]
+    plt.ylabel("Training level")
+    autolabel(
+        plt,
+        plt.bar(
+            x,
+            [
+                average([float(r["basic_scenario_response_avg"]) for r in rs])
+                for rs in classes
+            ],
+        ),
     )
+    plt.xticks(x, ["Intern", "CA-1", "CA-2", "CA-3", "Fellow"])
 
-    plt.subplot(2, 1, 2)
-    plt.title("Competencies vs percentile rank")
-    plt.xlabel("Competency overall average")
-    plt.ylabel("ITE scaled score percentile rank")
-    plot_tuples(
-        [
-            (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
-            for r in records
-        ]
-    )
-
-    plt.tight_layout()
-    plt.figure()
-
-    rs = [r for r in records if r["training_level"] == "intern"]
-    plt.subplot(2, 1, 1)
-    plt.title("Scenarios vs percentile rank (PGY-1)")
+    plt.subplot(1, 2, 2)
+    plt.title("Advanced scenarios")
     plt.xlabel("Scenario response average")
-    plt.ylabel("ITE scaled score percentile rank")
-    plot_tuples([(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in rs])
-
-    plt.subplot(2, 1, 2)
-    plt.title("Competencies vs percentile rank (PGY-1)")
-    plt.xlabel("Competency overall average")
-    plt.ylabel("ITE scaled score percentile rank")
-    plot_tuples(
-        [
-            (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
-            for r in rs
-        ]
+    plt.ylabel("Training level")
+    autolabel(
+        plt,
+        plt.bar(
+            x,
+            [
+                average([float(r["advanced_scenario_response_avg"]) for r in rs])
+                for rs in classes
+            ],
+        ),
     )
-
-    plt.tight_layout()
-    plt.figure()
-
-    rs = [r for r in records if r["training_level"] == "ca-1"]
-    plt.subplot(2, 1, 1)
-    plt.title("Scenarios vs percentile rank (CA-1)")
-    plt.xlabel("Scenario response average")
-    plt.ylabel("ITE scaled score percentile rank")
-    plot_tuples([(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in rs])
-
-    plt.subplot(2, 1, 2)
-    plt.title("Competencies vs percentile rank (CA-1)")
-    plt.xlabel("Competency overall average")
-    plt.ylabel("ITE scaled score percentile rank")
-    plot_tuples(
-        [
-            (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
-            for r in rs
-        ]
-    )
-
-    plt.tight_layout()
-    plt.figure()
-
-    rs = [r for r in records if r["training_level"] == "ca-2"]
-    plt.subplot(2, 1, 1)
-    plt.title("Scenarios vs percentile rank (CA-2)")
-    plt.xlabel("Scenario response average")
-    plt.ylabel("ITE scaled score percentile rank")
-    plot_tuples([(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in rs])
-
-    plt.subplot(2, 1, 2)
-    plt.title("Competencies vs percentile rank (CA-2)")
-    plt.xlabel("Competency overall average")
-    plt.ylabel("ITE scaled score percentile rank")
-    plot_tuples(
-        [
-            (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
-            for r in rs
-        ]
-    )
-
-    plt.tight_layout()
-    plt.figure()
-
-    rs = [r for r in records if r["training_level"] == "ca-3"]
-    plt.subplot(2, 1, 1)
-    plt.title("Scenarios vs percentile rank (CA-3)")
-    plt.xlabel("Scenario response average")
-    plt.ylabel("ITE scaled score percentile rank")
-    plot_tuples([(float(r["scenario_avg"]), float(get_percentile_rank(r))) for r in rs])
-
-    plt.subplot(2, 1, 2)
-    plt.title("Competencies vs percentile rank (CA-3)")
-    plt.xlabel("Competency overall average")
-    plt.ylabel("ITE scaled score percentile rank")
-    plot_tuples(
-        [
-            (float(r["overall_competency_avg"]), float(get_percentile_rank(r)))
-            for r in rs
-        ]
-    )
+    plt.xticks(x, ["Intern", "CA-1", "CA-2", "CA-3", "Fellow"])
 
     plt.tight_layout()
     plt.show()
+
+
+def autolabel(plt, rects):
+    """Attach a text label above each bar in *rects*, displaying its height."""
+    for rect in rects:
+        height = rect.get_height()
+        plt.annotate(
+            "{}".format(round(height, 3)),
+            xy=(rect.get_x() + rect.get_width() / 2, height),
+            xytext=(0, 1),  # 3 points vertical offset
+            textcoords="offset points",
+            ha="center",
+            va="bottom",
+        )
 
 
 def plot(records, k1, k2):
@@ -214,7 +277,7 @@ def plot_tuples(l):
 
 
 def get_percentile_rank(record):
-    indices = {"intern": 1, "ca-1": 2, "ca-2": 3, "ca-3": 4}
+    indices = {"intern": 0, "ca-1": 1, "ca-2": 2, "ca-3": 3, "fellow": 4}
 
     percentile_rank = SCALED_SCORE_PERCENTILE_RANKS[record["Scaled"]][
         indices[record["training_level"]]
