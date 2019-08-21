@@ -736,7 +736,7 @@ class MeritReport extends Model
 			}
 		} catch (\Exception $e) {
 			Log::error('Error in getNationalBoardsAttribute ' . $e);
-			return null;
+			return [];
 		}
 
 		return $nationalBoards;
