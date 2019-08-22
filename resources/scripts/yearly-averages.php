@@ -4,9 +4,13 @@
 use App\MeritReport;
 use App\TextResponse;
 
-getYearlyAverages();
+$startDate =  '2018-07-01';
+$endDate = '2019-06-30';
 
-function getYearlyAverages() {
+
+getYearlyAverages($startDate, $endDate);
+
+function getYearlyAverages($startDate, $endDate) {
 	$OVERALL_ABILITIES_QUESTION = 'q23';
 	$PUBLICATION_TYPES = [
 		'Original Article',
@@ -34,9 +38,6 @@ function getYearlyAverages() {
 		'excellent' => 4
 	];
 
-	$startDate =  '2018-07-01';
-	$endDate = '2019-06-30';
-
 	$mrs = MeritReport::where('status', 'complete')
 		->where('period_start', $startDate)
 		->where('period_end', $endDate)
@@ -47,6 +48,10 @@ function getYearlyAverages() {
 	$newLectures = [];
 	$repeatLectures = [];
 	$otherDeptLectures = [];
+	$externalLectures = [];
+	$newCourses = [];
+	$simVolunteers = [];
+	$msaCourses = [];
 	$studies = [];
 	$grants = [];
 	$editorialBoards = [];
@@ -76,8 +81,12 @@ function getYearlyAverages() {
 
 		$subjectAbilities = [];
 		foreach ($textResponses as $tr) {
-			$v = $overallAbilitiesMappings[$tr->response];
-			$subjectAbilities[] = $v;
+			try {
+				$v = $overallAbilitiesMappings[$tr->response];
+				$subjectAbilities[] = $v;
+			} catch (\Exception $e) {
+				Log::debug($e);
+			}
 		}
 
 		$overallAbilitiesVal = collect($subjectAbilities)->avg();
@@ -93,10 +102,10 @@ function getYearlyAverages() {
 					strpos($type, 'New') !== FALSE
 					&& (
 						strpos($type, 'resident') !== FALSE
-						|| strpos($type, 'student') !== FALSE
+						|| strpos($type, 'Medical Student') !== FALSE
 					)
 				) {
-					return $carry + 1;
+					return $carry + countLectures($item);
 				}
 
 				return $carry;
@@ -107,10 +116,10 @@ function getYearlyAverages() {
 					strpos($type, 'Repeat') !== FALSE
 					&& (
 						strpos($type, 'resident') !== FALSE
-						|| strpos($type, 'student') !== FALSE
+						|| strpos($type, 'Medical Student') !== FALSE
 					)
 				) {
-					return $carry + 1;
+					return $carry + countLectures($item);
 				}
 
 				return $carry;
@@ -118,19 +127,49 @@ function getYearlyAverages() {
 			$otherDepts = array_reduce($lectures, function ($carry, $item) {
 				$type = $item['lectureType'];
 				if (strpos($type, 'another department') !== FALSE) {
-					return $carry + 1;
+					return $carry + countLectures($item);
 				}
 
 				return $carry;
 			}, 0);
+			$external = array_reduce($lectures, function ($carry, $item) {
+				$type = $item['lectureType'];
+				if (
+					strpos($type, 'Visiting Professor') !== FALSE
+					|| strpos($type, 'WSA Invited Lecture') !== FALSE
+					|| strpos($type, 'Other National / International') !== FALSE
+				) {
+					return $carry + countLectures($item);
+				}
+
+				return $carry;
+			}, 0);
+
+			$educationSection = $mr->report['pages'][1]['items'][0];
+			$residentFellowSection = $educationSection['items'][2];
+
+			$createdNewCourse = !empty($residentFellowSection['items'][3]['checked']);
+			$simSessionVolunteer = !empty($residentFellowSection['items'][12]['checked']);
+
+			$msaItem = $educationSection['items'][3]['items'][3];
+			$msa = !empty($msaItem['checked'])
+				? count($msaItem['questions'][0]['items'])
+				: 0;
+
+
 			$newLectures[] = $new;
 			$repeatLectures[] = $repeat;
 			$otherDeptLectures[] = $otherDepts;
+			$externalLectures[] = $external;
 
 			$studies[] = count($mr->studies);
 			$grants[] = count($mr->grants);
 			$editorialBoards[] = count($mr->editorialBoards);
 			$nationalOrgs[] = count($mr->nationalBoards);
+
+			$newCourses[] = $createdNewCourse;
+			$simVolunteers[] = $simSessionVolunteer;
+			$msaCourses[] = $msa;
 
 			$publications = collect($mr->publications);
 			$grouped = $publications->groupBy('publicationType');
@@ -147,56 +186,46 @@ function getYearlyAverages() {
 		}
 	}
 
-	$percents = collect($percents);
-	echo "Percentage of evaluations completed: (N: {$percents->count()})\n";
-	echo "\tAverage: {$percents->avg()}%; (range: {$percents->min()} - {$percents->max()})\n";
+	echo "{$startDate} -- {$endDate}:\n";
+	echoStats($percents, 'Percentage of trainee evaluations completed', false);
+	echoStats($overallAbilities, 'Resident assessment of teaching', false);
+	echoStats($newLectures, 'New lectures (for those who gave any lectures)');
+	echoStats($repeatLectures, 'Repeat lectures (for those who gave any lectures)');
 
-	$overallAbilities = collect($overallAbilities);
-	echo "Resident assessment of teaching: (N: {$overallAbilities->count()})\n";
-	echo "\tAverage: {$overallAbilities->avg()}; (range: {$overallAbilities->min()} - {$overallAbilities->max()})\n";
+	echoStats($newCourses, 'Created new course for residents / fellows');
+	echoStats($simVolunteers, 'Volunteered for a simulation session');
 
-	$newLectures = collect($newLectures);
-	echo "New lectures (for those who gave any lectures): (N: {$newLectures->filter('notEmpty')->count()})\n";
-	echo "\tAverage: {$newLectures->avg()}; (range: {$newLectures->min()} - {$newLectures->max()})\n";
+	echoStats($msaCourses, 'MSA courses taught');
 
-	$repeatLectures = collect($repeatLectures);
-	echo "Repeat lectures (for those who gave any lectures): (N: {$repeatLectures->filter('notEmpty')->count()})\n";
-	echo "\tAverage: {$repeatLectures->avg()}; (range: {$repeatLectures->min()} - {$repeatLectures->max()})\n";
-
-	$otherDeptLectures = collect($otherDeptLectures);
-	echo "Lectures to other departments (for those who gave any lectures): (N: {$otherDeptLectures->filter('notEmpty')->count()})\n";
-	echo "\tAverage: {$otherDeptLectures->avg()}; (range: {$otherDeptLectures->min()} - {$otherDeptLectures->max()})\n";
+	echoStats($otherDeptLectures, 'Lectures to other departments (for those who gave any lectures)');
+	echoStats($externalLectures, 'External (visiting professor / (inter)national socieity) (for those who gave any lectures)');
 
 
-	$studies = collect($studies);
-	echo "Studies: (N: {$studies->filter('notEmpty')->count()})\n";
-	echo "\tAverage: {$studies->avg()}; (range: {$studies->min()} - {$studies->max()})\n";
-
-	$grants = collect($grants);
-	echo "Grants: (N: {$grants->filter('notEmpty')->count()})\n";
-	echo "\tAverage: {$grants->avg()}; (range: {$grants->min()} - {$grants->max()})\n";
+	echoStats($studies, "Studies");
+	echoStats($grants, "Grants");
 
 
 	foreach ($groupedPublications as $publicationType => $publications) {
-		$publications = collect($publications);
-		echo "{$publicationType} publications (N: {$publications->filter('notEmpty')->count()})\n";
-		echo "\tAverage: {$publications->avg()}; (range: {$publications->min()} - {$publications->max()})\n";
+		echoStats($publications, $publicationType);
 	}
 
+	echoStats($nationalOrgs, "National organizations");
+	echoStats($articleReviews, "Article reviewers");
+	echoStats($editorialBoards, "Editorial boards");
+}
 
-	$nationalOrgs = collect($nationalOrgs);
-	echo "National organizations: (N: {$nationalOrgs->filter('notEmpty')->count()})\n";
-	echo "\tAverage: {$nationalOrgs->avg()}; (range: {$nationalOrgs->min()} - {$nationalOrgs->max()})\n";
+function echoStats($arr, $title, $filterEmpty = true) {
+	$arr = collect($arr);
+	$count = $filterEmpty ? $arr->filter('notEmpty')->count() : $arr->count();
 
-	$articleReviews = collect($articleReviews);
-	echo "Article reviewers: (N: {$articleReviews->filter('notEmpty')->count()})\n";
-	echo "\tAverage: {$articleReviews->avg()}; (range: {$articleReviews->min()} - {$articleReviews->max()})\n";
-
-	$editorialBoards = collect($editorialBoards);
-	echo "Editorial boards: (N: {$editorialBoards->filter('notEmpty')->count()})\n";
-	echo "\tAverage: {$editorialBoards->avg()}; (range: {$editorialBoards->min()} - {$editorialBoards->max()})\n";
+	echo "\t{$title}: (N: {$count})\n";
+	echo "\t\tAverage: {$arr->avg()}; (range: {$arr->min()} - {$arr->max()})\n";
 }
 
 function notEmpty($value, $key) {
 	return !empty($value);
+}
+
+function countLectures($item) {
+	return count(explode(';', $item['date']));
 }
