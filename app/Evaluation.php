@@ -90,13 +90,12 @@ class Evaluation extends Model
 		if ($values['request_type'] == 'faculty')
 			$eval->visibility = 'under faculty threshold';
 
+		$eval->save();
+
 		if ($values['send_hash']) {
-			$eval->completion_hash = str_random(40);
-			$hashExpiresIn = $values['hash_expires_in'];
-			$eval->hash_expires = $hashExpiresIn == 'never' ? '9999-12-31' : Carbon::now()->addDays($hashExpiresIn);
+			$eval->createHashLink($values['hash_expires_in']);
 		}
 
-		$eval->save();
 
 		if (Auth::id() != $values['evaluator_id']) {
 			$evaluatorUser = User::withoutGlobalScopes()->find($values['evaluator_id']);
@@ -114,6 +113,12 @@ class Evaluation extends Model
 		}
 
 		return $eval;
+	}
+
+	public function createHashLink($hashExpiresIn = 30) {
+		$this->completion_hash = str_random(40);
+		$this->hash_expires = $hashExpiresIn == 'never' ? '9999-12-31' : Carbon::now()->addDays($hashExpiresIn);
+		$this->save();
 	}
 
 	public function getIdAttribute($id) {
