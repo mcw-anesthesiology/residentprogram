@@ -67,6 +67,11 @@
 					<input type="checkbox" v-model="includeSummary" />
 					Include summary
 				</label>
+
+				<label>
+					<input type="checkbox" v-model="includeCompensation" />
+					Include compensation
+				</label>
 			</form>
 
 			<div class="text-center">
@@ -98,6 +103,7 @@
 			:title="reportTitle"
 			:user-props="userProps"
 			:include-summary="includeSummary"
+			:include-compensation="includeCompensation"
 		/>
 	</div>
 </template>
@@ -158,6 +164,7 @@ export default {
 			reportTitle: 'Faculty Activity Report',
 			leadershipRole: '',
 			includeSummary: false,
+			includeCompensation: false,
 
 			printingAll: false,
 			showAllUsers: false,
@@ -184,7 +191,10 @@ export default {
 						clinicalFTE
 					}
 				}
-			`
+			`,
+			skip() {
+				return !this.includeCompensation;
+			}
 		},
 		allUsers: {
 			query: gql`

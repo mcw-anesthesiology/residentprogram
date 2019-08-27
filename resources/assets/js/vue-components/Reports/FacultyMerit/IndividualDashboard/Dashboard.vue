@@ -29,7 +29,7 @@
 			</header>
 
 			<div class="dashboard-container">
-				<dashboard-compensation :user="user" :provider-info="providerInfo" :periods="periods" />
+				<dashboard-compensation :user="user" :include-compensation="includeCompensation" :provider-info="providerInfo" :periods="periods" />
 				<academic-productivity :user="user" :periods="periods" />
 				<leadership-section
 					:user="user"
@@ -102,9 +102,7 @@ export default {
 		},
 		providerInfo: {
 			type: Object,
-			default() {
-				return {};
-			}
+			required: false
 		},
 		dates: {
 			type: Object,
@@ -124,6 +122,10 @@ export default {
 			}
 		},
 		includeSummary: {
+			type: Boolean,
+			default: false
+		},
+		includeCompensation: {
 			type: Boolean,
 			default: false
 		}
