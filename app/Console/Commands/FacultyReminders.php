@@ -54,6 +54,16 @@ class FacultyReminders extends Command
         foreach($users as $emailUser){
             try {
 				$pendingEvals = $emailUser->evaluatorEvaluations->where('status', 'pending');
+
+				$preferHashLinks = $emailUser->getSetting('preferHashLinks');
+				if (!empty($preferHashLinks) && $preferHashLinks == 'yes') {
+					foreach ($pendingEvals as &$eval) {
+						if (!$eval->has_valid_hash_link) {
+							$eval->createHashLink();
+						}
+					}
+				}
+
 				$pendingEvals = [
 					'resident' => $pendingEvals->filter(function($eval){
 						return $eval->form->type == 'resident';
