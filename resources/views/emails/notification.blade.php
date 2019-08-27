@@ -22,11 +22,18 @@
 	please complete it at your earliest convenience:
 </p>
 <p class="eval-link-container">
-	<a href="{{ url("/evaluation/".$evaluation->id) }}">
+	<a href="{{ url($evaluation->completion_url) }}">
 		Dr. {{ $evaluation->subject->full_name }}
 		— {{ $evaluation->form->title }}
 	</a>
 </p>
+
+@if($evaluation->has_valid_hash_link && !empty($evaluation->hash_expires))
+	<p>
+		This link will expire
+		<b>{{ $evaluation->hash_expires }}</b>.
+	</p>
+@endif
 
 @if(!empty($evaluation->request_note))
 <div class="request-note-container">

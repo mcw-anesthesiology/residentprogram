@@ -53,6 +53,10 @@ return [
 			'currentSemester',
 			'currentYear',
 			'allTime'
+		],
+		'preferHashLinks' => [
+			'yes',
+			'no'
 		]
 	],
 
