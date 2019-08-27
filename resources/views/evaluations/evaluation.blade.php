@@ -474,36 +474,48 @@
 	<div class="modal fade" id="evaluation-hash-modal" tabindex="-1" role="dialog" aria-labelledby="evaluation-hash-label">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
-					<h3 id="evaluation-hash-label">Evaluation completion link</h3>
-				</div>
-				<div class="modal-body">
-					<p id="evaluation-hash-body-text">
-			@if(is_null($evaluation->completion_hash))
-						There was no completion link sent. Would you like to create a new one?
-			@elseif($evaluation->hash_expires < Carbon\Carbon::now())
-						The link has expired. Would you like to resend it?
-			@else
-						A link has been sent, it expires <b>{{ $evaluation->hash_expires }}</b>. Are you sure you want to resend the completion link?
-			@endif
-					</p>
-					<div class="form-group">
-						<label for="evaluation-hash-expires-in">New link expires</label>
-						<select class="form-control" id="evaluation-hash-expires-in">
-							<option value="30">30 days</option>
-							<option value="60">60 days</option>
-							<option value="90">90 days</option>
-							<option value="never">Never expires</option>
-						</select>
+				<form method="post" action="/evaluations/{{ $evaluation->id }}/hash">
+					{!! csrf_field() !!}
+					<input type="hidden" name="_method" value="PATCH" />
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+						<h3 id="evaluation-hash-label">Evaluation completion link</h3>
 					</div>
-					<button type="button" class="btn btn-warning evaluation-hash-edit" data-action="new">Create and send new link</button>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-danger evaluation-hash-edit" data-action="void">Void link</button>
-					<button type="button" class="btn btn-primary evaluation-hash-edit" data-action="resend">Resend link</button>
-				</div>
+					<div class="modal-body">
+						<p id="evaluation-hash-body-text">
+				@if(is_null($evaluation->completion_hash))
+							There was no completion link sent. Would you like to create a new one?
+				@elseif($evaluation->hash_expires < Carbon\Carbon::now())
+							The link has expired. Would you like to resend it?
+				@else
+							A link has been sent, it expires <b>{{ $evaluation->hash_expires }}</b>. Are you sure you want to resend the completion link?
+				@endif
+						</p>
+						<div class="form-group">
+							<label for="evaluation-hash-expires-in">New link expires</label>
+							<select class="form-control" name="hash_expires_in">
+								<option value="30">30 days</option>
+								<option value="60">60 days</option>
+								<option value="90">90 days</option>
+								<option value="never">Never expires</option>
+							</select>
+						</div>
+						<button type="submit" name="action" value="new" class="btn btn-warning evaluation-hash-edit">
+							Create and send new link
+						</button>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							Cancel
+						</button>
+						<button type="submit" class="btn btn-danger evaluation-hash-edit" name="action" value="void">
+							Void link
+						</button>
+						<button type="submit" class="btn btn-primary evaluation-hash-edit" name="action" value="resend">
+							Resend link
+						</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>

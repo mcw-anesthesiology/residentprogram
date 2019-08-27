@@ -12,6 +12,10 @@ export const USER_SETTINGS = {
 		'currentSemester',
 		'currentYear',
 		'allTime'
+	],
+	preferHashLinks: [
+		'yes',
+		'no'
 	]
 };
 

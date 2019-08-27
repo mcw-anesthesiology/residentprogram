@@ -98,14 +98,15 @@ class Evaluation extends Model
 
 		$eval->save();
 
-		if ($values['send_hash'])
-			$eval->sendHashLink();
-
 		if (Auth::id() != $values['evaluator_id']) {
 			$evaluatorUser = User::withoutGlobalScopes()->find($values['evaluator_id']);
 			if (
 				!empty($evaluatorUser)
-				&& ($values['force_notification'] || $evaluatorUser->notifications == 'yes')
+				&& (
+					$values['force_notification']
+					|| $values['send_hash']
+					|| $evaluatorUser->notifications == 'yes'
+				)
 				&& filter_var($evaluatorUser->email, FILTER_VALIDATE_EMAIL)
 			) {
 				$eval->sendNotification();
@@ -241,6 +242,24 @@ class Evaluation extends Model
 
 	public function getUrlAttribute() {
 		return "<a href='/evaluation/{$this->id}'>{$this->id}</a>";
+	}
+
+	public function getCompletionUrlAttribute() {
+		if ($this->has_valid_hash_link) {
+			return "/evaluate/{$this->completion_hash}";
+		}
+
+		return "/evaluation/{$this->id}";
+	}
+
+	public function getHasValidHashLinkAttribute() {
+		return (
+			!empty($this->completion_hash)
+			&& (
+				empty($this->hash_expires)
+				|| $this->hash_expires > Carbon::now()
+			)
+		);
 	}
 
 	public function getUnseenBySubjectAttribute() {
@@ -444,20 +463,8 @@ class Evaluation extends Model
 				throw new \Exception('Evaluation already complete');
 			if(empty($this->completion_hash))
 				throw new \Exception('No hash');
-			$email = $this->evaluator->email;
-			$data = [
-				'evaluationHash' => $this->completion_hash,
-				'hashExpires' => $this->hash_expires,
-				'evaluatorName' => $this->evaluator->full_name,
-				'subjectLast' => $this->subject->last_name,
-				'formTitle' => $this->form->title
-			];
-			Mail::send('emails.hash-link', $data, function($message) use($email) {
-				$message->to($email);
-				$message->from('notifications@residentprogram.com', 'Resident Program Notifications');
-				$message->replyTo(config('app.admin_email'));
-				$message->subject('Evaluation Completion Link');
-			});
+
+			return $this->sendNotification();
 		} catch (\Exception $e) {
 			Log::error('Problem sending hash link: ' . $e);
 			throw $e;

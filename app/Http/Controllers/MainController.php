@@ -540,12 +540,25 @@ class MainController extends Controller
 				if ($requestType == "self")
                     $evaluators = [$subject];
 
-				foreach ($evaluators as $evaluator) {
+				foreach ($evaluators as $evaluatorId) {
                     foreach ($evaluationDates as $evaluationDate) {
+
+						$sendHash = (
+							$user->isType('admin')
+							&& $request->has('send_hash')
+						);
+
+						$evaluator = User::find($evaluatorId);
+						if (!empty($evaluator)) {
+							$preferHashLinks = $evaluator->getSetting('preferHashLinks');
+							if (!empty($preferHashLinks) && $preferHashLinks == 'yes') {
+								$sendHash = true;
+							}
+						}
 
 						$values = [
 							'form_id' => $request->input('form_id'),
-							'evaluator_id' => $evaluator,
+							'evaluator_id' => $evaluatorId,
 							'subject_id' => $subject,
 							'requested_by_id' => $user->id,
 							'request_date' => Carbon::now(),
@@ -554,7 +567,7 @@ class MainController extends Controller
 							'request_ip' => $request->ip(),
 							'request_type' => $requestType,
                             'request_note' => $request->input('request_note'),
-							'send_hash' => ($user->isType('admin') && $request->has('send_hash')),
+							'send_hash' => $sendHash,
 							'hash_expires_in' => $request->input('hash_expires_in', 30),
 							'force_notification' => ($user->isType('admin') && $request->has('force_notification'))
 						];

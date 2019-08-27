@@ -23,10 +23,14 @@
 		<ul>
 			@foreach($pendingEvals[$evalType] as $eval)
 			<li>
-				<a href="{{ url("/evaluation/{$eval->id}") }}">
+				<a href="{{ url($eval->completion_url) }}">
 					Dr. {{ $eval->subject->full_name }} —
 					{{ $eval->form->title }}
 				</a>
+
+				@if($eval->has_valid_hash_link && !empty($eval->hash_expires))
+					(this link will expire <i>{{ $eval->hash_expires }}</i>)
+				@endif
 			</li>
 			@endforeach
 		</ul>

@@ -10,10 +10,15 @@
 	Please complete the following evaluation as soon as possible:
 </p>
 <p class="eval-link-container">
-	<a href="{{ url("/evaluation/".$evaluation->id) }}">
+	<a href="{{ url($evaluation->completion_url) }}">
 		Dr. {{ $evaluation->subject->full_name }}
 		— {{ $evaluation->form->title }}
 	</a>
+
+	@if($evaluation->has_valid_hash_link && !empty($evaluation->hash_expires))
+		. This link will expire
+		{{ $evaluation->hash_expires }}
+	@endif
 </p>
 <p>
 	This reminder was sent by an administrator.

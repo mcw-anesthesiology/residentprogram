@@ -174,6 +174,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $this->hasMany('App\UserSetting');
 	}
 
+	public function getSetting($name) {
+		$setting = $this->userSettings()
+				->where('name', $name)
+				->first();
+
+		if (!empty($setting)) {
+			return $setting->value;
+		}
+	}
+
 	public function administratedPrograms() {
 		return $this->belongsToMany('App\Program', 'program_administrators', 'user_id', 'program_id');
 	}
