@@ -1,6 +1,6 @@
 <template>
 	<section class="individual-merit-dashboard-section individual-merit-dashboard-compensation">
-		<section class="comp-productivity">
+		<section v-if="includeCompensation && providerInfo" class="comp-productivity">
 			<h2>Compensation</h2>
 			<table class="productivity">
 				<tbody>
@@ -38,7 +38,7 @@
 		</section>
 
 		<section>
-			<h2>Evaluation metrics</h2>
+			<h2>Education metrics</h2>
 			<table class="eval-metrics">
 				<tbody>
 					<tr>
@@ -58,7 +58,7 @@
 						<td v-else></td>
 					</tr>
 					<tr>
-						<th>Overall abilities</th>
+						<th>Overall teaching score</th>
 						<td v-if="user.overallAbilities.num > 0">
 							{{ decimal(user.overallAbilities.withNumericValues.average) }}
 
@@ -78,9 +78,14 @@
 
 <style scoped>
 .individual-merit-dashboard-compensation {
-	display: grid;
-	grid-gap: 1em;
-	grid-template-columns: 1fr 1fr;
+	display: flex;
+	margin: 0 -0.5em;
+}
+
+.individual-merit-dashboard-compensation > section {
+	margin: 0 0.5em;
+	flex-basis: 75%;
+	flex-shrink: 1;
 }
 
 table {
@@ -131,9 +136,13 @@ import { currency, percent, decimal } from '@/modules/formatters.js';
 export default {
 	extends: DashboardSection,
 	props: {
+		includeCompensation: {
+			type: Boolean,
+			default: false
+		},
 		providerInfo: {
 			type: Object,
-			required: true
+			required: false
 		}
 	},
 	computed: {
