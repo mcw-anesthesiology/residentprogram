@@ -57,6 +57,7 @@ function getYearlyAverages($startDate, $endDate) {
 	$editorialBoards = [];
 	$nationalOrgs = [];
 	$articleReviews = [];
+	$grantReviews = [];
 
 	$groupedPublications = [];
 	foreach ($PUBLICATION_TYPES as $pubType) {
@@ -157,6 +158,7 @@ function getYearlyAverages($startDate, $endDate) {
 				: 0;
 
 
+
 			$newLectures[] = $new;
 			$repeatLectures[] = $repeat;
 			$otherDeptLectures[] = $otherDepts;
@@ -181,8 +183,12 @@ function getYearlyAverages($startDate, $endDate) {
 				}
 			}
 
-			$reviewer = $mr->report['pages'][3]['items'][1]['items'][1];
+			$scholarlyServiceSection = $mr->report['pages'][3]['items'][1];
+			$reviewer = $scholarlyServiceSection['items'][1];
 			$articleReviews[] = empty($reviewer['checked']) ? 0 : count($reviewer['questions'][0]['items']);
+
+			$adHocGrantItem = $scholarlyServiceSection['items'][2];
+			$grantReviews[] = empty($adHocGrantItem['checked']) ? 0 : count($adHocGrantItem['questions'][0]['items']);
 		}
 	}
 
@@ -212,13 +218,16 @@ function getYearlyAverages($startDate, $endDate) {
 	echoStats($nationalOrgs, "National organizations");
 	echoStats($articleReviews, "Article reviewers");
 	echoStats($editorialBoards, "Editorial boards");
+
+	echoStats($articleReviews, 'Article reviews, peer reviewed journal');
+	echoStats($grantReviews, 'Grant reviews (non NIH)');
 }
 
 function echoStats($arr, $title, $filterEmpty = true) {
 	$arr = collect($arr);
 	$count = $filterEmpty ? $arr->filter('notEmpty')->count() : $arr->count();
 
-	echo "\t{$title}: (N: {$count})\n";
+	echo "\t{$title}: (Number of people: {$count})\n";
 	echo "\t\tAverage: {$arr->avg()}; (range: {$arr->min()} - {$arr->max()})\n";
 }
 
