@@ -67,7 +67,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 	public function getPhotoPathAttribute($photoPath) {
 		if (empty($photoPath)) {
-			$photoPath = '/img/avatar.png';
+			if (!empty(config('constants.STAFF_PHOTO_ROUTE'))) {
+				return config('constants.STAFF_PHOTO_ROUTE')
+					. "/{$this->full_name}.jpg";
+			} else {
+				return '/img/avatar.png';
+			}
 		}
 
 		if ($photoPath[0] != '/') {
