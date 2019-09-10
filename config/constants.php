@@ -2,6 +2,8 @@
 
 return [
 
+	'STAFF_PHOTO_ROUTE' => env('STAFF_PHOTO_ROUTE', null),
+
 	'COMPLETE_EVAL_TEXT' => 'Submit completed evaluation',
 	'SAVE_EVAL_TEXT' => 'Save progress, return later',
 
