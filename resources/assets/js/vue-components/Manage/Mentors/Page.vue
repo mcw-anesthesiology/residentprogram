@@ -135,7 +135,7 @@ export default {
 		trainees: {
 			query: gql`
 				{
-					trainees: users(type: TRAINEE, status: ACTIVE) {
+					trainees: users(type: TRAINEE) {
 						...SelectTwoGroupFields
 					}
 				}
