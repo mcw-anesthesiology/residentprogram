@@ -163,6 +163,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			->where("mentorships.status", "active");
 	}
 
+	public function mentorships() {
+		return $this->hasMany('App\Mentorship', 'mentor_id');
+	}
+
+	public function menteeships() {
+		return $this->hasMany('App\Mentorship', 'mentee_id');
+	}
+
 	public function watchedForms() {
 		return $this->hasMany("App\WatchedForm");
 	}

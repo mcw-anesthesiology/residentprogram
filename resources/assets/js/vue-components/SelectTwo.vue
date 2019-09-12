@@ -38,7 +38,7 @@ export default {
 			required: false
 		},
 		value: {
-			required: true
+			required: false
 		},
 		multiple: {
 			type: Boolean,
