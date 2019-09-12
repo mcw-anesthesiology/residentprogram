@@ -296,15 +296,15 @@ export function groupUsers(users: Array<User>): Array<Select2OptGroup> {
 			text: 'Intern',
 			children: []
 		},
-		'ca-1': {
+		ca1: {
 			text: 'CA-1',
 			children: []
 		},
-		'ca-2': {
+		ca2: {
 			text: 'CA-2',
 			children: []
 		},
-		'ca-3': {
+		ca3: {
 			text: 'CA-3',
 			children: []
 		},
@@ -347,12 +347,19 @@ export function groupUsers(users: Array<User>): Array<Select2OptGroup> {
 		if (!user.status || user.status.toLowerCase() === 'active') {
 			if (user.type) {
 				const type = user.type.toLowerCase();
+				let trainingLevel;
+				if (user.training_level) {
+					trainingLevel = user.training_level
+						.toLowerCase()
+						.replace('-', '');
+				}
+
 				if (
-					type === 'resident' &&
-					user.training_level &&
-					groups[user.training_level]
+					['resident', 'trainee'].includes(type) &&
+					trainingLevel &&
+					groups[trainingLevel]
 				) {
-					groups[user.training_level].children.push(select2Obj);
+					groups[trainingLevel].children.push(select2Obj);
 				} else if (groups[type]) {
 					groups[type].children.push(select2Obj);
 				}

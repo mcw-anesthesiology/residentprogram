@@ -30,6 +30,13 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 		role: Role!
 		additional_permissions: Mixed
 	): User
+
+	createMentorship(
+		mentor_id: ID!
+		mentee_id: ID!
+		status: ActiveStatus = active
+	): Mentorship @create
+	deleteMentorship(id: ID!): Mentorship @delete
 }
 
 type UserGroup {
@@ -151,6 +158,11 @@ type User {
 		orderBy: [OrderByClause!] @orderBy
 	): [Evaluation]! @hasMany
 
+	mentees: [User]! @belongsToMany
+	mentors: [User]! @belongsToMany
+	mentorships: [Mentorship]! @hasMany
+	menteeships: [Mentorship]! @hasMany
+
 	created_at: DateTime!
 	updated_at: DateTime!
 }
@@ -163,4 +175,18 @@ input UserInput {
 	training_level: TrainingLevel
 	secondary_training_level: String
 	status: UserStatus!
+}
+
+type Mentorship {
+	id: ID!
+	mentor_id: ID!
+	mentor: User! @belongsTo
+	mentee_id: ID!
+	mentee: User! @belongsTo
+	status: ActiveStatus
+}
+
+enum ActiveStatus {
+	active
+	inactive
 }
