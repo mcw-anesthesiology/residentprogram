@@ -283,7 +283,7 @@
 
 				<beyond-milestones ref="beyondMilestones" :user="user" :evaluation="evaluation"></beyond-milestones>
 
-	@if($evaluation->evaluator_id == $user->id)
+	@if($evaluation->evaluator_id == $user->id && $evaluation->subject_id != $user->id)
 		@verbatim
 			<div class="well bottom-comment-container" v-cloak>
 				<div v-if="comment.value || show.confidentialComment">
