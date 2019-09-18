@@ -70,3 +70,7 @@ input AdditionalResponseInput {
 	evaluation_id: ID!
 	value: Int!
 }
+
+extend type Evaluation {
+	additionalResponses: [AdditionalResponse]! @hasMany
+}

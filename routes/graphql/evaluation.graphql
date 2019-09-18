@@ -112,10 +112,6 @@ type Evaluation {
 	responses: [Response]! @hasMany
 	textResponses: [TextResponse]! @hasMany
 
-	scenarioResponses: [ScenarioResponse]! @hasMany
-	professionalismResponses: [ProfessionalismResponse]! @hasMany
-	additionalResponses: [AdditionalResponse]! @hasMany
-
 	contents: Mixed
 }
 
@@ -153,6 +149,11 @@ type Response {
 input ResponseInput {
 	questionId: ID
 	value: ID
+}
+
+type ValuesSummary {
+	average: Float
+	num: Int!
 }
 
 type ResponseSummary {
@@ -205,4 +206,8 @@ type TextResponsesWithValue {
 input NumericValueMapping {
 	text: String!
 	value: Float!
+}
+
+extend type Form {
+	evaluations(subject_id: ID @eq): [Evaluation]! @hasMany
 }

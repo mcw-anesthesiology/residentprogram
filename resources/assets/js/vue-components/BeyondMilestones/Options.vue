@@ -84,7 +84,10 @@ export default {
 		},
 		options: {
 			type: Array,
-			required: true
+			required: true,
+			default() {
+				return [];
+			}
 		},
 		name: {
 			type: String,

@@ -6,25 +6,27 @@ import store from './store.js';
 
 import { kebabCaseToWords, } from '@/modules/utils.js';
 
-import StoredAlertList from '@/vue-components/StoredAlertList.vue';
+import StoredAlertList from '#/StoredAlertList.vue';
 
-const TraineeReport = () => import('@/vue-components/Reports/TraineeReport.vue');
-const FacultyReport = () => import('@/vue-components/Reports/FacultyReport.vue');
-const FacultyEvaluationsReport = () => import('@/vue-components/Reports/FacultyEvaluationsReport.vue');
-const FormReport = () => import('@/vue-components/Reports/FormReport.vue');
-const CustomReport = () => import('@/vue-components/Reports/CustomReport/CustomReport.vue');
-const NeedsReport = () => import('@/vue-components/Reports/Needs/Report.vue');
-const PendingEvalsReport = () => import('@/vue-components/Reports/PendingEvalsReport.vue');
-const FacultyMeritReport = () => import('@/vue-components/Reports/FacultyMeritReport.vue');
-const CaseOverlaps = () => import('@/vue-components/Reports/CaseOverlaps/CaseOverlaps.vue');
+const TraineeReport = () => import('#/Reports/TraineeReport.vue');
+const FacultyReport = () => import('#/Reports/FacultyReport.vue');
+const FacultyEvaluationsReport = () => import('#/Reports/FacultyEvaluationsReport.vue');
+const FormReport = () => import('#/Reports/FormReport.vue');
+const CustomReport = () => import('#/Reports/CustomReport/CustomReport.vue');
+const NeedsReport = () => import('#/Reports/Needs/Report.vue');
+const PendingEvalsReport = () => import('#/Reports/PendingEvalsReport.vue');
+const FacultyMeritReport = () => import('#/Reports/FacultyMeritReport.vue');
+const CaseOverlaps = () => import('#/Reports/CaseOverlaps/CaseOverlaps.vue');
 
-const ExportMeritReport = () => import('@/vue-components/Reports/FacultyMerit/Export.vue');
-const FacultyScholarlyActivityReport = () => import('@/vue-components/Reports/FacultyMerit/ScholarlyActivity.vue');
-const FacultySimulationsReport = () => import('@/vue-components/Reports/FacultyMerit/Simulations.vue');
-const FacultyNationalBoardsReport = () => import('@/vue-components/Reports/FacultyMerit/NationalBoards.vue');
-const MeritHistoricalOverview = () => import('@/vue-components/Reports/FacultyMerit/HistoricalOverview.vue');
-const MeritIndividualDashboards = () => import('@/vue-components/Reports/FacultyMerit/IndividualDashboards.vue');
-const SummaryReport = () => import('@/vue-components/Reports/FacultyMerit/SummaryReport/Report.vue');
+const ExportMeritReport = () => import('#/Reports/FacultyMerit/Export.vue');
+const FacultyScholarlyActivityReport = () => import('#/Reports/FacultyMerit/ScholarlyActivity.vue');
+const FacultySimulationsReport = () => import('#/Reports/FacultyMerit/Simulations.vue');
+const FacultyNationalBoardsReport = () => import('#/Reports/FacultyMerit/NationalBoards.vue');
+const MeritHistoricalOverview = () => import('#/Reports/FacultyMerit/HistoricalOverview.vue');
+const MeritIndividualDashboards = () => import('#/Reports/FacultyMerit/IndividualDashboards.vue');
+const SummaryReport = () => import('#/Reports/FacultyMerit/SummaryReport/Report.vue');
+
+const BeyondMilestones = () => import('#/Reports/BeyondMilestones/BeyondMilestones.vue');
 
 const routes = [
 	{
@@ -105,6 +107,10 @@ const routes = [
 	{
 		path: '/case-overlaps',
 		component: CaseOverlaps
+	},
+	{
+		path: '/beyond-milestones',
+		component: BeyondMilestones
 	}
 ];
 

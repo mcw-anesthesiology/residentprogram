@@ -30,6 +30,6 @@ class ProfessionalismQuestion extends Model
 	];
 
 	public function responses() {
-		return $this->hasMany('App\BeyondMilestones\ProfessionalismResponse');
+		return $this->hasMany('App\BeyondMilestones\ProfessionalismResponse', 'question_id');
 	}
 }

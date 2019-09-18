@@ -1,14 +1,30 @@
-extend type Query @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
+# @format
+
+extend type Query
+	@middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
 	scenarios: [Scenario!]! @all(model: "App\\BeyondMilestones\\Scenario")
-	scenario(id: ID! @eq): Scenario @find(model: "App\\BeyondMilestones\\Scenario")
+	scenario(id: ID! @eq): Scenario
+		@find(model: "App\\BeyondMilestones\\Scenario")
 }
 
-extend type Query @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
-	scenarioResponses(evaluation_id: ID @eq): [ScenarioResponse!]! @all(model: "App\\BeyondMilestones\\ScenarioResponse")
-	scenarioResponse(scenario_id: ID @eq, evaluation_id: ID @eq): ScenarioResponse @find(model: "App\\BeyondMilestones\\ScenarioResponse")
+extend type Query
+	@middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
+	scenarioResponses(evaluation_id: ID @eq): [ScenarioResponse!]!
+		@all(model: "App\\BeyondMilestones\\ScenarioResponse")
+	scenarioResponse(
+		scenario_id: ID @eq
+		evaluation_id: ID @eq
+	): ScenarioResponse @find(model: "App\\BeyondMilestones\\ScenarioResponse")
 }
 
-extend type Mutation @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILESTONES", "site-feature:beyond-milestones"]) {
+extend type Mutation
+	@middleware(
+		checks: [
+			"auth"
+			"has-role:MANAGE_BEYOND_MILESTONES"
+			"site-feature:beyond-milestones"
+		]
+	) {
 	createScenario(
 		scenario_type: ScenarioType
 		scenario_difficulty: ScenarioDifficulty
@@ -26,32 +42,24 @@ extend type Mutation @middleware(checks: ["auth", "has-role:MANAGE_BEYOND_MILEST
 		text: String
 		options: [ScenarioOptionInput!]
 	): Scenario @update(model: "App\\BeyondMilestones\\Scenario")
-	deleteScenario(
-		id: ID!
-	): Scenario @delete(model: "App\\BeyondMilestones\\Scenario")
+	deleteScenario(id: ID!): Scenario
+		@delete(model: "App\\BeyondMilestones\\Scenario")
 
-	deleteScenarioResponse(
-		id: ID!
-	): ScenarioResponse @delete(model: "App\\BeyondMilestones\\ScenarioResponse")
+	deleteScenarioResponse(id: ID!): ScenarioResponse
+		@delete(model: "App\\BeyondMilestones\\ScenarioResponse")
 
-	attachFormScenario(
-		form_id: ID!
-		scenario_id: ID!
-	): FormScenario @create(model: "App\\BeyondMilestones\\FormScenario")
-	deleteFormScenario(
-		form_id: ID!
-		scenario_id: ID!
-	): FormScenario @delete(model: "App\\BeyondMilestones\\FormScenario")
-	setScenarioForms(
-		scenario_id: ID!
-		form_ids: [ID!]!
-	): Scenario
+	attachFormScenario(form_id: ID!, scenario_id: ID!): FormScenario
+		@create(model: "App\\BeyondMilestones\\FormScenario")
+	deleteFormScenario(form_id: ID!, scenario_id: ID!): FormScenario
+		@delete(model: "App\\BeyondMilestones\\FormScenario")
+	setScenarioForms(scenario_id: ID!, form_ids: [ID!]!): Scenario
 }
 
-extend type Mutation @middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
+extend type Mutation
+	@middleware(checks: ["auth", "site-feature:beyond-milestones"]) {
 	setScenarioResponse(
-		scenario_id: ID!,
-		evaluation_id: ID!,
+		scenario_id: ID!
+		evaluation_id: ID!
 		value: Float!
 	): ScenarioResponse
 }
@@ -93,6 +101,20 @@ type Scenario {
 
 	forms: [Form]! @belongsToMany
 	responses: [ScenarioResponse]! @hasMany
+
+	trainingLevelResponseSummaries: [TrainingLevelResponseValuesSummary]!
+		@field(
+			resolver: "App\\Http\\GraphQL\\Queries\\BeyondMilestonesResponseSummaries@resolveTrainingLevelResponseSummaries"
+		)
+	myResponseSummary: ValuesSummary
+		@field(
+			resolver: "App\\Http\\GraphQL\\Queries\\BeyondMilestonesResponseSummaries@resolveMyResponseSummary"
+		)
+}
+
+type TrainingLevelResponseValuesSummary {
+	trainingLevel: TrainingLevel!
+	summary: ValuesSummary
 }
 
 input ScenarioInput {
@@ -134,3 +156,10 @@ type FormScenario {
 	form: Form! @belongsTo
 }
 
+extend type Form {
+	scenarios: [Scenario]! @belongsToMany
+}
+
+extend type Evaluation {
+	scenarioResponses: [ScenarioResponse]! @hasMany
+}
