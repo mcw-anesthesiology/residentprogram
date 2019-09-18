@@ -81,9 +81,15 @@ export default {
 		text: String,
 		options: Array,
 
-		evaluationId: Number,
+		evaluationId: {
+			type: Number,
+			required: false
+		},
 		evaluation: Object,
-		readonly: Boolean
+		readonly: {
+			type: Boolean,
+			default: false
+		}
 	},
 	data() {
 		return {
@@ -99,12 +105,15 @@ export default {
 					scenario_id: this.id,
 					evaluation_id: this.evaluationId
 				};
+			},
+			skip() {
+				return !this.evaluationId
 			}
 		}
 	},
 	computed: {
 		shouldShow() {
-			if (this.readonly && this.evaluation.status === 'complete' && !this.scenarioResponse) {
+			if (this.readonly && this.evaluation && this.evaluation.status === 'complete' && !this.scenarioResponse) {
 				return false;
 			}
 

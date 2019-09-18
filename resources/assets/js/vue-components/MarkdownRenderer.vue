@@ -11,7 +11,8 @@ export default {
 	props: {
 		md: {
 			type: String,
-			required: true
+			required: true,
+			default: ''
 		},
 		replacements: {
 			type: Map,

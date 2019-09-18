@@ -1,6 +1,8 @@
+# @format
+
 extend type Query @middleware(checks: ["auth"]) {
-    forms: [Form!]! @all(model: "App\\Form")
-    form(id: ID! @eq): Form @find(model: "App\\Form")
+	forms: [Form!]! @all(model: "App\\Form")
+	form(id: ID! @eq): Form @find(model: "App\\Form")
 
 	formGroups(sortByTitle: Boolean): [FormGroup!]!
 }
@@ -48,8 +50,6 @@ type Form {
 	evaluator_type: EvaluatorType!
 	visibility: Visibility!
 	evaluation_period_type: EvaluationPeriodType
-
-	scenarios: [Scenario!]! @belongsToMany
 }
 
 type FormGroup {
