@@ -6,12 +6,8 @@ use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-use App\User;
-use App\Evaluation;
-
 use Auth;
 use DB;
-use Log;
 
 class AdditionalResponseScope implements Scope {
 	public function apply(Builder $builder, Model $model) {
