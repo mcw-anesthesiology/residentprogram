@@ -94,6 +94,7 @@ Route::get('report/form', 'ReportController@formReportPage');
 Route::post('report/form', 'ReportController@formReport');
 Route::post('report/export', 'ReportController@getTSV');
 Route::post('report/pdf', 'ReportController@getPDF');
+Route::get('report/beyond-milestones', 'ReportController@beyondMilestones');
 
 Route::post('report/needs/evaluations', 'ReportController@needsEvaluations');
 Route::post('report/pending-requests', 'ReportController@pendingRequests');

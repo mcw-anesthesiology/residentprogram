@@ -899,4 +899,8 @@ class ReportController extends Controller
             ]
         )->get()->all();
 	}
+
+	public function beyondMilestones() {
+		return view('report.beyond-milestones');
+	}
 }

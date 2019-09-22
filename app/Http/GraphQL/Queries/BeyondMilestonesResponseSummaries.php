@@ -9,6 +9,7 @@ use App\BeyondMilestones\Scenario;
 use App\BeyondMilestones\ScenarioResponse;
 
 use App\Helpers\Math;
+use App\Evaluation;
 
 use Auth;
 
@@ -68,9 +69,32 @@ class BeyondMilestonesResponseSummaries {
 		$num = count($responseValues);
 
 		return [
+			'responses' => $responses,
 			'average' => $num > 0 ? Math::mean($responseValues) : null,
 			'num' => $num,
 			'stdDev' => $num > 1 ? Math::sd($responseValues) : null
 		];
+	}
+
+
+	public function resolveEvaluationIds(
+		$responseSummary,
+		array $args,
+		GraphQLContext $context,
+	   	ResolveInfo $resolveInfo
+	) {
+		return $responseSummary['responses']->pluck('evaluation_id')->toArray();
+	}
+
+	public function resolveEvaluations(
+		$responseSummary,
+		array $args,
+		GraphQLContext $context,
+	   	ResolveInfo $resolveInfo
+	) {
+		$evaluationIds = $responseSummary['responses']->pluck('evaluation_id')->toArray();
+		return Evaluation::whereIn('id', $evaluationIds)
+			->where('subject_id', Auth::id())
+			->get();
 	}
 }
