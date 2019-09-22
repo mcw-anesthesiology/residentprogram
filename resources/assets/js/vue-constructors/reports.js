@@ -179,3 +179,14 @@ export function createFormReport(el) {
 		}
 	});
 }
+
+export function createBeyondMilestonesReport(el) {
+	return new Vue({
+		el,
+		store,
+		apolloProvider,
+		components: {
+			BeyondMilestones
+		}
+	});
+}

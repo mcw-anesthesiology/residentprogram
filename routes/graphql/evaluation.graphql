@@ -154,6 +154,16 @@ input ResponseInput {
 type ValuesSummary {
 	average: Float
 	num: Int!
+	stdDev: Float
+
+	evaluationIds: [ID]!
+		@field(
+			resolver: "App\\Http\\GraphQL\\Queries\\BeyondMilestonesResponseSummaries@resolveEvaluationIds"
+		)
+	evaluations: [Evaluation]!
+		@field(
+			resolver: "App\\Http\\GraphQL\\Queries\\BeyondMilestonesResponseSummaries@resolveEvaluations"
+		)
 }
 
 type ResponseSummary {

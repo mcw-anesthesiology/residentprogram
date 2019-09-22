@@ -1,7 +1,7 @@
 @extends("app")
 
 @section('blockless-body')
-	<trainee-report :users="users" :grouped-users="groupedUsers"></form-report>
+	<trainee-report :users="users" :grouped-users="groupedUsers"></trainee-report>
 @endsection
 
 @push('scripts')
