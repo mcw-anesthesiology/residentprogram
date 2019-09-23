@@ -1,6 +1,7 @@
 <template>
 	<div class="print-view-question-list">
 		<p class="list-text">{{ text }}</p>
+		<span class="list-count">{{ items.length }}</span>
 		<component :is="listElement">
 			<li v-for="(item, index) of items" :key="index"
 					class="print-view-list-item">
@@ -50,17 +51,20 @@ export default {
 <style scoped>
 	.print-view-question-list {
 		padding-left: 1em;
-	}
-
-	@media (min-width: 768px) {
-		.print-view-question-list {
-			padding-left: 5em;
-		}
+		position: relative;
 	}
 
 	.list-text {
 		font-weight: bold;
 		margin: 0;
+	}
+
+	.list-count {
+		font-size: 1.5em;
+		position: absolute;
+		left: -1em;
+		top: 0;
+		opacity: 0.85;
 	}
 
 	.print-view-list-item {
@@ -100,6 +104,7 @@ export default {
 	.print-view-question-list >>> ol,
 	dl {
 		margin: 0;
+		padding: 0;
 	}
 </style>
 
