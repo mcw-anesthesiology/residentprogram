@@ -14,7 +14,7 @@
 			</div>
 			<div class="hr-question"></div>
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-2">
 					<label class="containing-label">
 						Question Type
 						<select :value="questionType" @change="changeQuestionType" class="form-control form-question-type" name="questionType">
@@ -26,7 +26,7 @@
 						</select>
 					</label>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-5">
 					<label>Question Options</label>
 					<div class="btn-group btn-group-justified">
 						<div class="btn-group">
@@ -48,7 +48,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-1 labelless-button">
+				<div class="col-md-4 labelless-button">
 					<confirmation-button class="form-block-delete btn"
 							unpressed-class="btn-danger"
 							pressed-class="btn-warning"
@@ -58,6 +58,12 @@
 							Confirm
 						</template>
 					</confirmation-button>
+					<button type="button" class="btn btn-info" @click="$emit('duplicate')">
+						Duplicate
+					</button>
+					<button type="button" class="btn btn-info" @click="$emit('saveCustom')">
+						Copy options
+					</button>
 				</div>
 				<div class="col-md-1">
 					<label class="containing-label">
