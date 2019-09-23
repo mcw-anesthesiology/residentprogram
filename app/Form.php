@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Scopes\FormScope;
-
 use Storage;
 use Log;
 
@@ -131,7 +129,8 @@ class Form extends Model
 	}
 
 	public function scenarios() {
-		return $this->belongsToMany('App\BeyondMilestones\Scenario', 'beyond_milestones.form_scenarios');
+		$db = config('database.connections.beyond_milestones.database');
+		return $this->belongsToMany('App\BeyondMilestones\Scenario', "{$db}.form_scenarios");
 	}
 
 	public function hideFields(){

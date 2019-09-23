@@ -11,12 +11,13 @@
 						<thead>
 							<tr>
 								<th rowspan="2">Scenario</th>
-								<th colspan="4" class="text-center">
+								<th colspan="5" class="text-center">
 									Average
 								</th>
 							</tr>
 							<tr>
 								<th>Me</th>
+								<th>Intern</th>
 								<th>CA-1</th>
 								<th>CA-2</th>
 								<th>CA-3</th>
@@ -29,7 +30,8 @@
 										{{ scenario.title }}
 									</a>
 								</th>
-								<td>{{ scenario.myResponseSummary.average }}</td>
+								<td>{{ scenario.myResponseSummary.average ? decimal(scenario.myResponseSummary.average) : '' }}</td>
+								<td>{{ getTrainingLevelAverage(scenario, 'INTERN', decimal) }}</td>
 								<td>{{ getTrainingLevelAverage(scenario, 'CA1', decimal) }}</td>
 								<td>{{ getTrainingLevelAverage(scenario, 'CA2', decimal) }}</td>
 								<td>{{ getTrainingLevelAverage(scenario, 'CA3', decimal) }}</td>
@@ -45,12 +47,13 @@
 						<thead>
 							<tr>
 								<th rowspan="2">Question</th>
-								<th colspan="4" class="text-center">
+								<th colspan="5" class="text-center">
 									Average
 								</th>
 							</tr>
 							<tr>
 								<th>Me</th>
+								<th>Intern</th>
 								<th>CA-1</th>
 								<th>CA-2</th>
 								<th>CA-3</th>
@@ -58,10 +61,11 @@
 						</thead>
 						<tbody>
 							<tr v-for="pq in professionalismQuestions" :key="pq.id">
-								<td>
+								<th>
 									{{ pq.text }}
-								</td>
-								<td>{{ pq.myResponseSummary.average }}</td>
+								</th>
+								<td>{{ pq.myResponseSummary.average ? percent(pq.myResponseSummary.average) : '' }}</td>
+								<td>{{ getTrainingLevelAverage(pq, 'INTERN', percent) }}</td>
 								<td>{{ getTrainingLevelAverage(pq, 'CA1', percent) }}</td>
 								<td>{{ getTrainingLevelAverage(pq, 'CA2', percent) }}</td>
 								<td>{{ getTrainingLevelAverage(pq, 'CA3', percent) }}</td>

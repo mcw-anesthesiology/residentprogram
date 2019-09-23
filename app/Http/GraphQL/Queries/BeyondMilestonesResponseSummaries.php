@@ -5,9 +5,6 @@ namespace App\Http\GraphQL\Queries;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-use App\BeyondMilestones\Scenario;
-use App\BeyondMilestones\ScenarioResponse;
-
 use App\Helpers\Math;
 use App\Evaluation;
 
@@ -22,7 +19,9 @@ class BeyondMilestonesResponseSummaries {
 	   	ResolveInfo $resolveInfo
 	) {
 		$responses = $scenario->responses()->withoutGlobalScopes()
-			->with('evaluation')->get();
+			->with(['evaluation' => function ($query) {
+				$query->withoutGlobalScopes();
+			}])->withoutGlobalScopes()->get();
 		$responses = $responses->filter(function ($sr) {
 			return $sr->evaluation->status == 'complete';
 		});

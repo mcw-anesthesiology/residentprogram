@@ -34,7 +34,8 @@ class ReportController extends Controller
 			'formReportPage',
 			'formReport',
 			'trainee',
-			"getPDF"
+			'beyondMilestones',
+			'getPDF'
 		]]);
 
 		$this->middleware(function ($request, $next) {
