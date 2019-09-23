@@ -61,7 +61,10 @@
 					<button type="button" class="btn btn-info" @click="$emit('duplicate')">
 						Duplicate
 					</button>
-					<button type="button" class="btn btn-info" @click="$emit('saveCustom')">
+					<button type="button" class="btn btn-info"
+						   :disabled="!options || !Array.isArray(options)"
+						   @click="$emit('saveCustom')"
+					>
 						Copy options
 					</button>
 				</div>
