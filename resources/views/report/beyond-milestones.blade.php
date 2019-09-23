@@ -4,11 +4,17 @@
 	<div class="container body-block">
 		<h1>Beyond milestones</h1>
 
+		<h2 class="sub-heading">Improving feedback</h2>
+
 		<p class="lead">
-			In an effort to compare the efficacy of ACGME's competency-based
-			evaluation scheme to a more intuitive scenario-based scheme, we
-			have been augmenting trainee evaluations with a few additional
-			questions.
+			In addition to your ACGME-mandated milestone assessments, over the
+			past 6 months, we have been exploring the value of a more intuitive
+			scenario-based feedback process.
+			This research augments trainee evaluations with a few additional
+			questions as described below.  It requires faculty to make a
+			holistic judgment (gut sense) of how you might handle an
+			anesthetic/patient care scenario based upon faculty experiences
+			with you in the clinical setting.
 		</p>
 
 		<p>
@@ -16,8 +22,9 @@
 			<b>scenarios</b> appended to it, one of a standard estimated difficulty
 			and one of a more advanced difficulty. When evaluating you,
 			faculty rated their confidence in you handling such a scenario
-			on a 5-point scale ranging from an unwillingness to leave
-			the room at any point, to full confidence in you handling
+			on a 5-point scale ranging from (level 1) their sense for a need
+			to discuss the case with you, develop the plan, and stay in the OR with you
+			one-to-one, to (level 5) full confidence in you handling
 			the case on your own. Press on a scenario title or select
 			one in the dropdown below to view it in detail.
 		</p>
@@ -39,6 +46,14 @@
 			scenario or question using the
 			<span class="label label-info">Show individual evaluations</span>
 			button; each link will open the evaluation in a new window.
+		</p>
+
+		<p>
+			At this point in time, the additional questions are not being used
+			to determine your progress in training by the Clinical Competency Committee.
+			This is education research only.
+			In a few months, we will be requesting your satisfaction rating on milestone
+			evaluations and case-based evaluations.
 		</p>
 	</div>
 

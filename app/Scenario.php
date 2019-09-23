@@ -48,6 +48,7 @@ class Scenario extends Model
 	}
 
 	public function forms() {
-		return $this->belongsToMany('App\Form', 'beyond_milestones.form_scenarios');
+		$db = config('database.connections.beyond_milestones.database');
+		return $this->belongsToMany('App\Form', "{$db}.form_scenarios");
 	}
 }
