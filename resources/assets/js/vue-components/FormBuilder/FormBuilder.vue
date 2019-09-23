@@ -49,6 +49,8 @@
 							:all-competencies="competencies"
 							:custom-options="customOptions"
 							:show-milestones-competencies="showMilestonesCompetencies"
+							@saveCustom="setCustomOptionsItem(index)"
+							@duplicate="duplicateItem(index)"
 							@change="changeItem(index, $event)"
 							@remove="removeItem(index)">
 						</form-builder-question>
@@ -98,8 +100,15 @@
 			</div>
 
 			<div class="btn-lg-submit-container">
+				<confirmation-button v-if="previousItems"
+					class="btn btn-lg btn-info undo-button"
+					@click="handleUndo"
+				>
+					Undo
+				</confirmation-button>
 				<confirmation-button class="btn btn-lg btn-primary"
-						@click="submitForm">
+					@click="submitForm"
+				>
 					Submit form
 				</confirmation-button>
 			</div>
@@ -157,6 +166,7 @@ export default {
 			groupedMilestones: [],
 			competencies: [],
 			items: this.oldFormContents ? this.oldFormContents.items : [],
+			previousItems: null,
 			customOptions: [],
 
 			show: {
@@ -247,21 +257,41 @@ export default {
 			this.items.splice(index, 1, Object.assign({}, this.items[index], item));
 		},
 		moveItem(index, newIndex) {
-			this.items.splice(newIndex, 0, this.items.splice(index, 1)[0]);
-			this.adjustQuestionIdNums();
+			const items = this.items.slice();
+			items.splice(newIndex, 0, items.splice(index, 1)[0]);
+			this.persistItems(items);
 		},
 		removeItem(index) {
-			this.items.splice(index, 1);
-			this.adjustQuestionIdNums();
+			const items = this.items.slice();
+			items.splice(index, 1);
+			this.persistItems(items);
 		},
-		adjustQuestionIdNums() {
+		duplicateItem(index) {
+			const item = JSON.parse(JSON.stringify(this.items[index]));
+			const items = this.items.slice();
+			items.splice(index, 0, item);
+			this.persistItems(items);
+		},
+		persistItems(items) {
 			let num = 1;
-			this.items = this.items.map(item =>
+			this.items = items.map(item =>
 				item.type === 'question'
 					? Object.assign({}, item, {questionIdNum: num++})
 					: Object.assign({}, item)
 			);
 			this.nextQuestionIdNum = num;
+		},
+		setCustomOptionsItem(index) {
+			try {
+				const item = this.items[index];
+				if (item.options && Array.isArray(item.options)) {
+					this.customOptions = item.options;
+				} else {
+					throw new Error('Nonexistent options');
+				}
+			} catch (err) {
+				handleError(err, this, 'Unable to set custom options');
+			}
 		},
 		changeCustomOptions(event) {
 			try {
@@ -354,9 +384,22 @@ export default {
 			}
 
 			return true;
+		},
+		handleUndo() {
+			this.items = JSON.parse(this.previousItems);
 		}
 	},
 	watch: {
+		items(items, previousItems) {
+			console.log({
+				items, previousItems
+			});
+			if (JSON.stringify(items) === this.previousItems) {
+				this.previousItems = null;
+			} else {
+				this.previousItems = JSON.stringify(previousItems);
+			}
+		},
 		oldFormContents(formContents) {
 			this.title = formContents.title;
 			this.formType = formContents.formType;
@@ -393,5 +436,12 @@ export default {
 		margin: 1em auto;
 		font-family: monospace;
 		white-space: pre;
+	}
+
+	.undo-button {
+		position: fixed;
+		right: 1em;
+		bottom: 1em;
+		z-index: 10;
 	}
 </style>
