@@ -108,7 +108,7 @@
 		</div>
 
 		<selected-overlaps v-if="selectedOverlaps && selectedOverlaps.length > 0"
-			:overlaps="selectedOverlaps"
+			:overlaps="selectedOverlaps.map(id => overlaps.find(o => o.id === id))"
 			:report-dates="reportReportDates"
 			:user-type="reportUserType"
 			:subject-type="reportSubjectType"
@@ -140,7 +140,7 @@
 							<label title="Select report" class="select-report-label">
 								<span class="glyphicon glyphicon-send"></span>
 								<input type="checkbox"
-									:value="item"
+									:value="item.id"
 									v-model="selectedOverlaps" />
 							</label>
 						</div>
@@ -305,7 +305,7 @@ export default {
 			}
 		},
 		selectAllOverlaps() {
-			this.selectedOverlaps = this.overlaps.slice();
+			this.selectedOverlaps = this.overlaps.map(o => o.id);
 		},
 		deselectAllOverlaps() {
 			this.selectedOverlaps = [];
