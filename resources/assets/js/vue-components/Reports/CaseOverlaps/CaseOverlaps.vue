@@ -304,7 +304,7 @@ export default {
 			}
 		},
 		handleReportCheck(event, id) {
-			const s = new Set(this.selectedOverlaps);
+			const s = new Set(this.selectedOverlaps.values());
 			if (event.target.checked) {
 				s.add(id);
 			} else {
@@ -320,7 +320,7 @@ export default {
 			this.selectedOverlaps = new Set();
 		},
 		handleRemoveSelectedOverlap(id) {
-			const s = new Set(this.selectedOverlaps);
+			const s = new Set(this.selectedOverlaps.values());
 			s.delete(id);
 			this.selectedOverlaps = s;
 		},
