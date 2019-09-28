@@ -108,7 +108,7 @@
 		</div>
 
 		<selected-overlaps v-if="selectedOverlaps && selectedOverlaps.length > 0"
-			:overlaps="overlaps.filter(o => selectedOverlaps.includes(o.id))"
+			:overlaps="overlaps.filter(o => selectedOverlaps.includes(String(o.id)))"
 			:report-dates="reportReportDates"
 			:user-type="reportUserType"
 			:subject-type="reportSubjectType"
@@ -121,13 +121,13 @@
 			</h2>
 
 			<button type="button" class="btn btn-info"
-					@click="selectedOverlaps = overlaps.slice()">
+					@click="selectAllOverlaps">
 				<span class="glyphicon glyphicon-th-list"></span>
 				Select all
 			</button>
 			<button v-if="selectedOverlaps && selectedOverlaps.length > 0"
 					type="button" class="btn btn-default"
-					@click="selectedOverlaps = []">
+					@click="deselectAllOverlaps">
 				Clear selection
 			</button>
 
@@ -140,7 +140,7 @@
 							<label title="Select report" class="select-report-label">
 								<span class="glyphicon glyphicon-send"></span>
 								<input type="checkbox"
-									:value="item.id"
+									:value="String(item.id)"
 									v-model="selectedOverlaps" />
 							</label>
 						</div>
