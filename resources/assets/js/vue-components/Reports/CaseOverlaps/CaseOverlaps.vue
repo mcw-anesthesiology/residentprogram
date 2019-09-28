@@ -139,7 +139,7 @@
 						<input type="checkbox"
 							:value="overlap.id"
 							:checked="selectedOverlaps.has(overlap.id)"
-							@change="handleReportCheck($event, overlap.id)"
+							@change="handleReportCheck($event, overlap.user.id)"
 						/>
 					</label>
 				</div>
@@ -314,7 +314,7 @@ export default {
 			this.selectedOverlaps = s;
 		},
 		selectAllOverlaps() {
-			this.selectedOverlaps = new Set(this.overlaps.map(o => o.id));
+			this.selectedOverlaps = new Set(this.overlaps.map(o => o.user.id));
 		},
 		deselectAllOverlaps() {
 			this.selectedOverlaps = new Set();
