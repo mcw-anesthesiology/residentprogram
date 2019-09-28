@@ -107,12 +107,12 @@
 			</form>
 		</div>
 
-		<selected-overlaps v-if="selectedOverlaps && selectedOverlaps.length > 0"
+		<selected-overlaps v-if="selectedOverlaps && selectedOverlaps.size > 0"
 			:overlaps="selectedOverlapObjects"
 			:report-dates="reportReportDates"
 			:user-type="reportUserType"
 			:subject-type="reportSubjectType"
-			@clear="selectedOverlaps = []" />
+			@clear="deselectAllOverlaps" />
 
 		<div v-if="overlaps" class="container body-block">
 			<h2>
@@ -125,7 +125,7 @@
 				<span class="glyphicon glyphicon-th-list"></span>
 				Select all
 			</button>
-			<button v-if="selectedOverlaps && selectedOverlaps.length > 0"
+			<button v-if="selectedOverlaps && selectedOverlaps.size > 0"
 					type="button" class="btn btn-default"
 					@click="deselectAllOverlaps">
 				Clear selection
@@ -140,8 +140,10 @@
 							<label title="Select report" class="select-report-label">
 								<span class="glyphicon glyphicon-send"></span>
 								<input type="checkbox"
-									:value="String(item.id)"
-									v-model="selectedOverlaps" />
+									:value="item.id"
+									:checked="selectedOverlaps.has(item.id)"
+									@change="handleReportCheck($event, item.id)"
+								/>
 							</label>
 						</div>
 						<div class="col-xs-11">
@@ -215,7 +217,7 @@ export default {
 			reportReportDates: null,
 			overlaps: null,
 
-			selectedOverlaps: [],
+			selectedOverlaps: new Set(),
 
 			userTypes: [
 				'faculty',
@@ -295,9 +297,7 @@ export default {
 			return this.errors.size === 0;
 		},
 		selectedOverlapObjects() {
-			const s = this.overlaps.filter(o => this.selectedOverlaps.includes(String(o.id)));
-			console.log(s);
-			return s;
+			return this.overlaps.filter(o => this.selectedOverlaps.has(o.id));
 		}
 	},
 	methods: {
@@ -309,11 +309,21 @@ export default {
 				this.maxPairs = 3;
 			}
 		},
+		handleReportCheck(event, id) {
+			const s = new Set(this.selectedOverlaps);
+			if (event.target.checked) {
+				s.add(id);
+			} else {
+				s.delete(id);
+			}
+
+			this.selectedOverlaps = s;
+		},
 		selectAllOverlaps() {
-			this.selectedOverlaps = this.overlaps.map(o => String(o.id));
+			this.selectedOverlaps = new Set(this.overlaps.map(o => o.id));
 		},
 		deselectAllOverlaps() {
-			this.selectedOverlaps = [];
+			this.selectedOverlaps = new Set();
 		},
 		handleSubmit(event) {
 			event.preventDefault();
@@ -329,7 +339,7 @@ export default {
 			this.processing = true;
 
 			this.overlaps = null;
-			this.selectedOverlaps = [];
+			this.selectedOverlaps = new Set();
 			this.reportUserType = this.userType;
 			this.reportSubjectType = this.subjectType;
 			this.reportReportType = this.reportType;
@@ -355,7 +365,7 @@ export default {
 				})
 			}).then(jsonOrThrow).then(overlaps => {
 				this.overlaps = overlaps;
-				this.selectedOverlaps = [];
+				this.selectedOverlaps = new Set();
 			}).catch(err => {
 				handleError(err, this, 'There was a problem fetching the report');
 			}).finally(() => {
