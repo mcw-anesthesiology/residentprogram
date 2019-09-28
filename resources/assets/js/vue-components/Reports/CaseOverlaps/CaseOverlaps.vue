@@ -148,7 +148,7 @@
 						</div>
 						<div class="col-xs-11">
 							<overlap-list-item
-								:overlap="item"
+								:overlap="overlap"
 								:user-type="reportUserType"
 								:subject-type="reportSubjectType"
 								:report-dates="reportReportDates" />
