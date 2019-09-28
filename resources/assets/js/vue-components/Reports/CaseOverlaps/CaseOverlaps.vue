@@ -131,31 +131,25 @@
 				Clear selection
 			</button>
 
-			<component-list :items="overlaps"
-					:fields="overlapsFields"
-					:fieldAccessors="overlapsFieldAccessors">
-				<template v-slot="overlap">
-					<div class="row overlap-item-row" :key="overlap.id">
-						<div class="col-xs-1">
-							<label title="Select report" class="select-report-label">
-								<span class="glyphicon glyphicon-send"></span>
-								<input type="checkbox"
-									:value="overlap.id"
-									:checked="selectedOverlaps.has(overlap.id)"
-									@change="handleReportCheck($event, overlap.id)"
-								/>
-							</label>
-						</div>
-						<div class="col-xs-11">
-							<overlap-list-item
-								:overlap="overlap"
-								:user-type="reportUserType"
-								:subject-type="reportSubjectType"
-								:report-dates="reportReportDates" />
-						</div>
-					</div>
-				</template>
-			</component-list>
+			<div v-for="overlap of overlaps" class="row overlap-item-row" :key="overlap.id">
+				<div class="col-xs-1">
+					<label title="Select report" class="select-report-label">
+						<span class="glyphicon glyphicon-send"></span>
+						<input type="checkbox"
+							:value="overlap.id"
+							:checked="selectedOverlaps.has(overlap.id)"
+							@change="handleReportCheck($event, overlap.id)"
+						/>
+					</label>
+				</div>
+				<div class="col-xs-11">
+					<overlap-list-item
+						:overlap="overlap"
+						:user-type="reportUserType"
+						:subject-type="reportSubjectType"
+						:report-dates="reportReportDates" />
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -183,7 +177,6 @@ import OverlapListItem from './OverlapListItem.vue';
 import SelectedOverlaps from './SelectedOverlaps.vue';
 
 import ClearableDate from '@/vue-components/ClearableDate.vue';
-import ComponentList from '@/vue-components/ComponentList.vue';
 import ProcessingButton from '@/vue-components/ProcessingButton.vue';
 import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
@@ -310,15 +303,12 @@ export default {
 			}
 		},
 		handleReportCheck(event, id) {
-			console.log('handleReportCheck', event, id);
 			const s = new Set(this.selectedOverlaps);
 			if (event.target.checked) {
 				s.add(id);
 			} else {
 				s.delete(id);
 			}
-
-			console.log(s);
 
 			this.selectedOverlaps = s;
 		},
@@ -381,7 +371,6 @@ export default {
 		OverlapListItem,
 		SelectedOverlaps,
 		ClearableDate,
-		ComponentList,
 		ProcessingButton,
 		ValidatedFormGroup
 	}
