@@ -291,7 +291,7 @@ export default {
 			return this.errors.size === 0;
 		},
 		selectedOverlapObjects() {
-			return this.overlaps.filter(o => this.selectedOverlaps.has(o.id));
+			return this.overlaps.filter(o => this.selectedOverlaps.has(o.user.id));
 		}
 	},
 	methods: {
