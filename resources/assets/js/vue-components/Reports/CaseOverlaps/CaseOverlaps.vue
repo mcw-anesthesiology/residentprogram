@@ -134,15 +134,15 @@
 			<component-list :items="overlaps"
 					:fields="overlapsFields"
 					:fieldAccessors="overlapsFieldAccessors">
-				<template slot-scope="item">
-					<div class="row overlap-item-row" :key="item.id">
+				<template v-slot="overlap">
+					<div class="row overlap-item-row" :key="overlap.id">
 						<div class="col-xs-1">
 							<label title="Select report" class="select-report-label">
 								<span class="glyphicon glyphicon-send"></span>
 								<input type="checkbox"
-									:value="item.id"
-									:checked="selectedOverlaps.has(item.id)"
-									@change="handleReportCheck($event, item.id)"
+									:value="overlap.id"
+									:checked="selectedOverlaps.has(overlap.id)"
+									@change="handleReportCheck($event, overlap.id)"
 								/>
 							</label>
 						</div>
@@ -310,12 +310,15 @@ export default {
 			}
 		},
 		handleReportCheck(event, id) {
+			console.log('handleReportCheck', event, id);
 			const s = new Set(this.selectedOverlaps);
 			if (event.target.checked) {
 				s.add(id);
 			} else {
 				s.delete(id);
 			}
+
+			console.log(s);
 
 			this.selectedOverlaps = s;
 		},
