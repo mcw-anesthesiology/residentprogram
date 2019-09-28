@@ -112,6 +112,7 @@
 			:report-dates="reportReportDates"
 			:user-type="reportUserType"
 			:subject-type="reportSubjectType"
+			@remove="handleRemoveSelectedOverlap"
 			@clear="deselectAllOverlaps" />
 
 		<div v-if="overlaps" class="container body-block">
@@ -317,6 +318,11 @@ export default {
 		},
 		deselectAllOverlaps() {
 			this.selectedOverlaps = new Set();
+		},
+		handleRemoveSelectedOverlap(id) {
+			const s = new Set(this.selectedOverlaps);
+			s.delete(id);
+			this.selectedOverlaps = s;
 		},
 		handleSubmit(event) {
 			event.preventDefault();
