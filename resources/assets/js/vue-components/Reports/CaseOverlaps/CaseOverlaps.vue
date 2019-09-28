@@ -294,6 +294,11 @@ export default {
 		valid() {
 			return this.errors.size === 0;
 		},
+		selectedOverlapObjects() {
+			const s = this.overlaps.filter(o => this.selectedOverlaps.includes(String(o.id)));
+			console.log(s);
+			return s;
+		}
 	},
 	methods: {
 		ucfirst,
@@ -305,7 +310,7 @@ export default {
 			}
 		},
 		selectAllOverlaps() {
-			this.selectedOverlaps = this.overlaps.map(o => o.id);
+			this.selectedOverlaps = this.overlaps.map(o => String(o.id));
 		},
 		deselectAllOverlaps() {
 			this.selectedOverlaps = [];
