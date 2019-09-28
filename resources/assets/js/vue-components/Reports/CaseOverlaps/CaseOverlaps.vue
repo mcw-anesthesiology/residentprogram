@@ -108,7 +108,7 @@
 		</div>
 
 		<selected-overlaps v-if="selectedOverlaps && selectedOverlaps.length > 0"
-			:overlaps="selectedOverlaps.map(id => overlaps.find(o => o.id === id))"
+			:overlaps="overlaps.filter(o => selectedOverlaps.includes(o.id))"
 			:report-dates="reportReportDates"
 			:user-type="reportUserType"
 			:subject-type="reportSubjectType"
