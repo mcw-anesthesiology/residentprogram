@@ -107,12 +107,13 @@
 			</form>
 		</div>
 
-		<selected-overlaps v-if="selectedOverlaps && selectedOverlaps.length > 0"
-			:overlaps="selectedOverlaps"
+		<selected-overlaps v-if="selectedOverlaps && selectedOverlaps.size > 0"
+			:overlaps="selectedOverlapObjects"
 			:report-dates="reportReportDates"
 			:user-type="reportUserType"
 			:subject-type="reportSubjectType"
-			@clear="selectedOverlaps = []" />
+			@remove="handleRemoveSelectedOverlap"
+			@clear="deselectAllOverlaps" />
 
 		<div v-if="overlaps" class="container body-block">
 			<h2>
@@ -121,39 +122,35 @@
 			</h2>
 
 			<button type="button" class="btn btn-info"
-					@click="selectedOverlaps = overlaps.slice()">
+					@click="selectAllOverlaps">
 				<span class="glyphicon glyphicon-th-list"></span>
 				Select all
 			</button>
-			<button v-if="selectedOverlaps && selectedOverlaps.length > 0"
+			<button v-if="selectedOverlaps && selectedOverlaps.size > 0"
 					type="button" class="btn btn-default"
-					@click="selectedOverlaps = []">
+					@click="deselectAllOverlaps">
 				Clear selection
 			</button>
 
-			<component-list :items="overlaps"
-					:fields="overlapsFields"
-					:fieldAccessors="overlapsFieldAccessors">
-				<template slot-scope="item">
-					<div class="row overlap-item-row" :key="item.id">
-						<div class="col-xs-1">
-							<label title="Select report" class="select-report-label">
-								<span class="glyphicon glyphicon-send"></span>
-								<input type="checkbox"
-									:value="item"
-									v-model="selectedOverlaps" />
-							</label>
-						</div>
-						<div class="col-xs-11">
-							<overlap-list-item
-								:overlap="item"
-								:user-type="reportUserType"
-								:subject-type="reportSubjectType"
-								:report-dates="reportReportDates" />
-						</div>
-					</div>
-				</template>
-			</component-list>
+			<div v-for="overlap of overlaps" class="row overlap-item-row" :key="overlap.id">
+				<div class="col-xs-1">
+					<label title="Select report" class="select-report-label">
+						<span class="glyphicon glyphicon-send"></span>
+						<input type="checkbox"
+							:value="overlap.id"
+							:checked="selectedOverlaps.has(overlap.id)"
+							@change="handleReportCheck($event, overlap.user.id)"
+						/>
+					</label>
+				</div>
+				<div class="col-xs-11">
+					<overlap-list-item
+						:overlap="overlap"
+						:user-type="reportUserType"
+						:subject-type="reportSubjectType"
+						:report-dates="reportReportDates" />
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -181,7 +178,6 @@ import OverlapListItem from './OverlapListItem.vue';
 import SelectedOverlaps from './SelectedOverlaps.vue';
 
 import ClearableDate from '@/vue-components/ClearableDate.vue';
-import ComponentList from '@/vue-components/ComponentList.vue';
 import ProcessingButton from '@/vue-components/ProcessingButton.vue';
 import ValidatedFormGroup from '@/vue-components/ValidatedFormGroup.vue';
 
@@ -215,7 +211,7 @@ export default {
 			reportReportDates: null,
 			overlaps: null,
 
-			selectedOverlaps: [],
+			selectedOverlaps: new Set(),
 
 			userTypes: [
 				'faculty',
@@ -294,6 +290,9 @@ export default {
 		valid() {
 			return this.errors.size === 0;
 		},
+		selectedOverlapObjects() {
+			return this.overlaps.filter(o => this.selectedOverlaps.has(o.user.id));
+		}
 	},
 	methods: {
 		ucfirst,
@@ -304,11 +303,26 @@ export default {
 				this.maxPairs = 3;
 			}
 		},
+		handleReportCheck(event, id) {
+			const s = new Set(this.selectedOverlaps.values());
+			if (event.target.checked) {
+				s.add(id);
+			} else {
+				s.delete(id);
+			}
+
+			this.selectedOverlaps = s;
+		},
 		selectAllOverlaps() {
-			this.selectedOverlaps = this.overlaps.slice();
+			this.selectedOverlaps = new Set(this.overlaps.map(o => o.user.id));
 		},
 		deselectAllOverlaps() {
-			this.selectedOverlaps = [];
+			this.selectedOverlaps = new Set();
+		},
+		handleRemoveSelectedOverlap(id) {
+			const s = new Set(this.selectedOverlaps.values());
+			s.delete(id);
+			this.selectedOverlaps = s;
 		},
 		handleSubmit(event) {
 			event.preventDefault();
@@ -324,7 +338,7 @@ export default {
 			this.processing = true;
 
 			this.overlaps = null;
-			this.selectedOverlaps = [];
+			this.selectedOverlaps = new Set();
 			this.reportUserType = this.userType;
 			this.reportSubjectType = this.subjectType;
 			this.reportReportType = this.reportType;
@@ -350,7 +364,7 @@ export default {
 				})
 			}).then(jsonOrThrow).then(overlaps => {
 				this.overlaps = overlaps;
-				this.selectedOverlaps = [];
+				this.selectedOverlaps = new Set();
 			}).catch(err => {
 				handleError(err, this, 'There was a problem fetching the report');
 			}).finally(() => {
@@ -363,7 +377,6 @@ export default {
 		OverlapListItem,
 		SelectedOverlaps,
 		ClearableDate,
-		ComponentList,
 		ProcessingButton,
 		ValidatedFormGroup
 	}

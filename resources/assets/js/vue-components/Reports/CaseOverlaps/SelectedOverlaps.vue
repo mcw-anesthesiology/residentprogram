@@ -11,6 +11,9 @@
 			<div class="panel-body">
 				<ul>
 					<li v-for="overlap of overlaps">
+						<button type="button" class="btn btn-xs btn-danger" @click="$emit('remove', overlap.user.id)">
+							<span class="glyphicon glyphicon-remove" />
+						</button>
 						{{ overlap.user.full_name }}
 					</li>
 				</ul>
