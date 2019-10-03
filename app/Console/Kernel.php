@@ -60,6 +60,6 @@ class Kernel extends ConsoleKernel
 		$schedule->command('advancements:run')->hourly();
 		$schedule->command('process:scheduled-requests')->hourly();
 
-		$schedule->command('release:faculty-evals')->daily();
+		$schedule->command('release:faculty-evals')->monthly();
     }
 }
