@@ -167,8 +167,8 @@
 								year and the evaluation itself.
 							</p>
 							<p>
-								Evaluations are released to the faculty in
-								groups of 3, or at the end of the academic year.
+								When completed, evaluations are banked and released
+								to be viewed by the faculty at the end of each quarter.
 							</p>
 						</div>
 					</div>

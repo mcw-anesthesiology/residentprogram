@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use App\Evaluation;
+use App\Helpers\DateHelpers;
 
 use Carbon\Carbon;
 
@@ -44,30 +45,21 @@ class ReleaseFacultyEvals extends Command
     public function handle()
     {
 		$numEvalsUnhidden = 0;
-		$threshold = Setting::get("facultyEvalThreshold");
+
+		$currentQuarter = DateHelpers::getDateRangeFromPeriodType('quarter');
+		$endOfPrevQuarter = $currentQuarter['startDate']->subDay()->endOfDay();
+
+
 		$hiddenEvals = Evaluation::where("status", "complete")
 			->where("visibility", "under faculty threshold")
-			->orderBy("id", "desc")->orderBy("complete_date", "desc")
-			->get()->groupBy("form_id");
+			->where('complete_date', '<=', $endOfPrevQuarter)
+			->get();
 
-		foreach($hiddenEvals as $formId => $hiddenFormEvals){
-			if($hiddenFormEvals->count() >= $threshold){
-				$evalsToUnhide = $hiddenFormEvals->splice($hiddenFormEvals->count()%$threshold);
-				$evalsToUnhide->each(function($evalToUnhide) use (&$numEvalsUnhidden){
-					$evalToUnhide->visibility = null;
-					$evalToUnhide->save();
-					$numEvalsUnhidden++;
-				});
-			}
-		}
-
-		// Manually release at end of academic year
-		// $timeThreshold = Carbon::parse(Setting::get("facultyEvalTimeThreshold"));
-		// $numEvalsUnhidden += Evaluation::where("status", "complete")
-		// 	->where("visibility", "under faculty threshold")
-		// 	->where("complete_date", "<", $timeThreshold)->update([
-		// 		"visibility" => null
-		// 	]);
+		$hiddenEvals->each(function($evalToUnhide) use (&$numEvalsUnhidden){
+			$evalToUnhide->visibility = null;
+			$evalToUnhide->save();
+			$numEvalsUnhidden++;
+		});
 
 		$this->info($numEvalsUnhidden . " evaluations released");
     }
