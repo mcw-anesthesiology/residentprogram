@@ -109,6 +109,9 @@ class ReportController extends Controller
     }
 
     public function getStats(Request $request, $evaluationType, $userType) {
+		$startDate = null;
+		$endDate = null;
+
 		if ($request->has("startDate")) {
 			$startDate = Carbon::parse($request->input("startDate"));
 			$startDate->timezone = "America/Chicago";
@@ -185,6 +188,9 @@ class ReportController extends Controller
 
 				$userRequests = $requestsQuery->get();
 				$userCompleted = $completeQuery->get();
+				$noneRequested = [];
+				$noneCompleted = [];
+				$lastCompleted = [];
 
 				if ($userRequests->count() == 0)
 					$noneRequested[] = $user->full_name;
@@ -233,9 +239,18 @@ class ReportController extends Controller
                 Log::error("Problem with user in stats: ".$e);
             }
         }
-        $data = compact('evaluationType', 'userType', 'statsType',
-			"noneRequested", "noneCompleted", "lastCompleted",
-			"userStats", "startDate", "endDate");
+		$data = compact(
+			'evaluationType',
+			'userType',
+		   	'statsType',
+			"noneRequested",
+			"noneCompleted",
+		   	"lastCompleted",
+			"userStats",
+			"startDate",
+			"endDate"
+		);
+
         if ($statsType == 'evaluator')
             $data["averageCompletionTimes"] = $times;
 

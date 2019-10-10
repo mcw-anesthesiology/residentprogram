@@ -139,7 +139,7 @@ class MainController extends Controller
                         return $query->where("evaluator_type", "self");
                     })
                     ->count();
-				$data = compact($numStaffEvals, $numSelfEvals);
+				$data = compact('numStaffEvals', 'numSelfEvals');
                 break;
             case "faculty":
                 $mentees = $user->mentees->where("status", "active")->unique();
@@ -675,8 +675,14 @@ class MainController extends Controller
 				? DisplayHelpers::renderTrainingLevel($evaluation->training_level)
 				: DisplayHelpers::renderTrainingLevel($evaluation->subject->training_level);
 
-	        $data = compact('evaluation', 'subjectString', 'evaluatorString',
-				'statusLabel', 'evaluationTrainingLevel');
+			$data = compact(
+				'evaluation',
+				'subjectString',
+			   	'evaluatorString',
+				'statusLabel',
+				'evaluationTrainingLevel'
+			);
+
 			if (
 				(
 					($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject))
@@ -869,8 +875,15 @@ class MainController extends Controller
             "status"
         ])->toArray();
 
-        $data = compact("profileUser", "yearStart", "lastCompleted", "requests",
-            "totalRequests", "totalComplete", "evalData");
+		$data = compact(
+			"profileUser",
+			"yearStart",
+			"lastCompleted",
+		   	"requests",
+			"totalRequests",
+			"totalComplete",
+			"evalData"
+		);
         return view("dashboard.profile", $data);
     }
 
