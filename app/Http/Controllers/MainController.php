@@ -432,18 +432,8 @@ class MainController extends Controller
 					break;
 			}
 
-			if (!empty($subjects))
-				$subjects = collect($subjects)->toJson();
-			if (!empty($evaluators))
-				$evaluators = collect($evaluators)->toJson();
-			if (!empty($forms))
-				$forms = collect($forms)->toJson();
-
 			$data = compact(
-				"forms",
 				"requestType",
-				"subjects",
-				"evaluators",
 			   	"subjectTypeText",
 				"subjectTypeTextPlural",
 				"evaluatorTypeText",
@@ -451,6 +441,14 @@ class MainController extends Controller
 				"subjectTypes",
 				"requestTypeText"
 			);
+
+			if (!empty($subjects))
+				$data['subjects'] = collect($subjects)->toJson();
+			if (!empty($evaluators))
+				$data['evaluators'] = collect($evaluators)->toJson();
+			if (!empty($forms))
+				$data['forms'] = collect($forms)->toJson();
+
 			return view("evaluations.request", $data);
 		} catch(\Exception $e) {
 			return back()->with("error", $e->getMessage());
