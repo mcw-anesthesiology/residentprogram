@@ -122,6 +122,7 @@ class MainController extends Controller
 
     public function evalsDashboard() {
         $user = Auth::user();
+		$data = [];
         switch ($user->type) {
             case "resident":
                 $numStaffEvals = $user->subjectEvaluations()
@@ -138,17 +139,18 @@ class MainController extends Controller
                         return $query->where("evaluator_type", "self");
                     })
                     ->count();
+				$data = compact($numStaffEvals, $numSelfEvals);
                 break;
             case "faculty":
                 $mentees = $user->mentees->where("status", "active")->unique();
+				$data = compact('mentees');
                 break;
             case "admin":
                 $numFlagged = Evaluation::has("flag")->count();
                 $flaggedActions = config('constants.FLAGGED_ACTIONS');
+				$data = compact('numFlagged', 'flaggedActions');
                 break;
         }
-        $data = compact("mentees", "numFlagged", "numStaffEvals", "numSelfEvals",
-			'flaggedActions');
         return view("dashboard.dashboard", $data);
     }
 

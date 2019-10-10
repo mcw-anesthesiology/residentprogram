@@ -329,9 +329,11 @@ class ReportController extends Controller
 		$competencyStd = [];
 
 		$subjectMilestone = [];
-		$subjectMilestoneDenom = [];
+		$subjectMilestoneDeviations = [];
 		$subjectMilestoneEvals = [];
+		$subjectMilestoneDenom = [];
 		$subjectCompetency = [];
+		$subjectCompetencyDeviations = [];
 		$subjectCompetencyDenom = [];
 		$subjectCompetencyEvals = [];
 
