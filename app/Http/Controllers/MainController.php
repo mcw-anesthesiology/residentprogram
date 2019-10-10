@@ -224,33 +224,6 @@ class MainController extends Controller
 			if (!$user->isType(array_merge($requestorTypes, ["admin"])))
 				throw new \Exception("Your account type is not allowed to create that kind of evaluation.");
 
-	        if ($user->isType(["resident", "faculty"])) {
-	            $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->orderBy("year", "desc")->orderBy("block_number", "desc")->limit(3)->get();
-	            foreach ($blocks as $block) {
-	                $userLocations = $block->assignments->where("user_id", $user->id)->map(function ($item, $key) {
-	                    return $item->location;
-	                });
-	                foreach ($userLocations as $location) {
-						$people = $block->assignments->where("location", $location)->sortBy("user.last_name")->pluck('user');
-						if ($user->type == "resident") {
-							foreach ($people as $person) {
-								$person->hideFields();
-								if ($person->id != $user->id && $person->type == "faculty") {
-									$faculty[$block->id][] = $person;
-								}
-							}
-						} elseif ($user->type == "faculty") {
-							foreach ($people as $person) {
-								$person->hideFields();
-								if ($person->id != $user->id && $person->type == "resident") {
-									$residents[$block->id][] = $person;
-								}
-							}
-						}
-	                }
-	            }
-	        }
-
 	        if (!$user->isType("resident") && in_array("resident", $evaluationTypes)) {
 	            $residents[0] = User::where("type", "resident")
 					->where("status", "active")
@@ -400,10 +373,6 @@ class MainController extends Controller
 	                    $evaluators = $residents;
 	                }
 
-					$pendingEvalCount = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query) {
-		                $query->where("type", "faculty");
-		            })->count();
-
 					$subjectTypeText = "faculty";
 					$subjectTypeTextPlural = "faculty";
 					$evaluatorTypeText = "resident";
@@ -470,10 +439,18 @@ class MainController extends Controller
 			if (!empty($forms))
 				$forms = collect($forms)->toJson();
 
-	        $data = compact("forms", "requestType", "pendingEvalCount",
-				"subjects", "evaluators", "subjectTypeText",
-				"subjectTypeTextPlural", "evaluatorTypeText", "blocks",
-				"evaluatorTypes", "subjectTypes", "requestTypeText");
+			$data = compact(
+				"forms",
+				"requestType",
+				"subjects",
+				"evaluators",
+			   	"subjectTypeText",
+				"subjectTypeTextPlural",
+				"evaluatorTypeText",
+				"evaluatorTypes",
+				"subjectTypes",
+				"requestTypeText"
+			);
 			return view("evaluations.request", $data);
 		} catch(\Exception $e) {
 			return back()->with("error", $e->getMessage());
