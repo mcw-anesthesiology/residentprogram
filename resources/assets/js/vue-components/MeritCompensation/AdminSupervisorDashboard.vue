@@ -193,16 +193,16 @@ export default {
 			this.$apollo.mutate({
 				mutation: gql`
 					mutation CreateUserMeritChecklist(
-						$user_id: ID!
-						$form_id: ID!
-						$period_start: Date!
-						$period_end: Date!
+						$userId: ID!
+						$formId: ID!
+						$periodStart: Date!
+						$periodEnd: Date!
 					) {
 						createUserMerit(
-							user_id: $user_id
-							form_id: $form_id
-							period_start: $period_start
-							period_end: $period_end
+							user_id: $userId
+							form_id: $formId
+							period_start: $periodStart
+							period_end: $periodEnd
 							status: PENDING
 						) {
 							id
