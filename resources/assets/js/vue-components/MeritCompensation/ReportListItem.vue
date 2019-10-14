@@ -111,7 +111,7 @@ export default {
 			required: false
 		},
 		updated_at: {
-			type: Date,
+			type: [Date, String],
 			required: true
 		}
 	},
