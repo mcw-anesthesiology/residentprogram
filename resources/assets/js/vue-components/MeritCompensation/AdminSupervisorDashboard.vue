@@ -5,6 +5,14 @@
 
 			<form class="reports-filter-form">
 				<label>
+					Form
+					<select class="form-control" v-model="formId">
+						<option v-for="form of meritReportForms" :key="form.id" :value="form.id">
+							{{ form.name }} - version {{ form.version }}
+						</option>
+					</select>
+				</label>
+				<label>
 					Checklist period
 					<academic-year-selector
 						:min-date="FEATURE_RELEASE_DATES.FACULTY_MERIT"
@@ -34,19 +42,21 @@
 			<alert-list v-model="alerts"></alert-list>
 		</div>
 
-		<div class="container body-block" v-if="facultyMeritChecklistForm">
+		<div class="container body-block" v-if="selectedForm">
 			<h2>Create checklist</h2>
 			<form @submit="createUserReport">
 				<div class="form-group">
 					<label class="containing-label">
 						Form
-						<input type="text" class="form-control" :value="facultyMeritChecklistForm.name" readonly />
+						<input type="text" class="form-control" :value="selectedForm.name" readonly />
 					</label>
 				</div>
 				<div class="form-group">
 					<label class="containing-label">
 						Checklist period
-						<academic-year-selector v-model="createDates"></academic-year-selector>
+						<div class="form-control readonly">
+							<rich-date-range :dates="dates" />
+						</div>
 					</label>
 				</div>
 				<div class="form-group">
@@ -75,6 +85,7 @@ import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
 import ComponentList from '#/ComponentList.vue';
 import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
+import RichDateRange from '#/RichDateRange.vue';
 
 import { handleError } from '@/modules/errors.js';
 import { isoDateStringObject, currentYear } from '@/modules/date-utils.js';
@@ -136,10 +147,11 @@ export default {
 
 			users: [],
 			dates: isoDateStringObject(currentYear()),
+			formId: null,
+			meritReportForms: [],
 			facultyMeritChecklistForm: null,
 
-			userToCreateReport: null,
-			createDates: isoDateStringObject(getCurrentYearlyMeritDateRange())
+			userToCreateReport: null
 		};
 	},
 	apollo: {
@@ -148,19 +160,29 @@ export default {
 			variables() {
 				return {
 					...this.dates,
-					formId: this.facultyMeritChecklistForm ? this.facultyMeritChecklistForm.id : undefined
+					formId: this.formId
 				}
 			}
 		},
-		facultyMeritChecklistForm: {
+		forms: {
 			query: gql`
 				query {
+					meritReportForms {
+						id
+						name
+						version
+					}
 					facultyMeritChecklistForm {
 						id
 						name
 					}
 				}
-			`
+			`,
+			update({ meritReportForms, facultyMeritChecklistForm }) {
+				this.meritReportForms = meritReportForms;
+				this.facultyMeritChecklistForm = facultyMeritChecklistForm;
+				this.formId = facultyMeritChecklistForm.id;
+			}
 		}
 	},
 
@@ -176,6 +198,9 @@ export default {
 		},
 		usersWithoutReportsOptions() {
 			return groupUsers(this.usersWithoutReports);
+		},
+		selectedForm() {
+			return this.meritReportForms.find(f => f.id == this.formId);
 		}
 	},
 
@@ -185,7 +210,7 @@ export default {
 
 			if (
 				!this.userToCreateReport
-				|| !this.facultyMeritChecklistForm
+				|| !this.formId
 			) {
 				return;
 			}
@@ -195,14 +220,14 @@ export default {
 					mutation CreateUserMeritChecklist(
 						$userId: ID!
 						$formId: ID!
-						$periodStart: Date!
-						$periodEnd: Date!
+						$startDate: Date!
+						$endDate: Date!
 					) {
 						createUserMerit(
 							user_id: $userId
 							form_id: $formId
-							period_start: $periodStart
-							period_end: $periodEnd
+							period_start: $startDate
+							period_end: $endDate
 							status: PENDING
 						) {
 							id
@@ -215,10 +240,9 @@ export default {
 					${USER_FIELDS}
 				`,
 				variables: {
-					user_id: this.userToCreateReport,
-					form_id: this.facultyMeritChecklistForm.id,
-					period_start: this.createDates.startDate,
-					period_end: this.createDates.endDate
+					userId: this.userToCreateReport,
+					formId: this.formId,
+					...this.dates
 				},
 				update(store, { data: { createUserMerit: { user } } }) {
 					const query = USERS_QUERY;
@@ -259,6 +283,7 @@ export default {
 	components: {
 		ComponentList,
 		LoadingPlaceholder,
+		RichDateRange,
 		UserWithMeritReportListItem: () => import('#/MeritCompensation/UserWithReportListItem.vue'),
 		AcademicYearSelector: () => import('#/AcademicYearSelector.vue'),
 		SelectTwo: () => import('#/SelectTwo.vue')
