@@ -862,6 +862,15 @@ class ReportController extends Controller
 				if ($item['questionType'] == 'radio') {
 					if (!empty($averageResponses[$item['id']])) {
 						$item['averageResponses'] = $averageResponses[$item['id']];
+						$itemOverallAverageNum = 0;
+						$itemOverallAverageSum = 0;
+						foreach ($averageResponses[$item['id']] as $response => $count) {
+							$itemOverallAverageNum += $count;
+							$itemOverallAverageSum += ($count * $response);
+						}
+						if ($itemOverallAverageNum > 0) {
+							$item['overallAverage'] = $itemOverallAverageSum / $itemOverallAverageNum;
+						}
 					}
 				}
 
