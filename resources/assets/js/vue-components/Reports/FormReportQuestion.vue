@@ -74,21 +74,21 @@
 				</div>
 			</div>
 
-			<div v-if="canScoreQuestion && scoreQuestion && valuesForAllOptions && (overallAverage || subjectAverageScore)"
+			<div v-if="canScoreQuestion && scoreQuestion && valuesForAllOptions && (totalAverageScore || subjectAverageScore)"
 					class="scores-container">
-				<div v-if="overallAverage" class="score-container">
+				<div v-if="totalAverageScore != null" class="score-container">
 					<small>Total average</small>
 					<span class="score">
-						{{ round(overallAverage, 2) }}
+						{{ round(totalAverageScore, 2) }}
 					</span>
 				</div>
-				<div v-if="subjectAverageScore" class="score-container">
+				<div v-if="subjectAverageScore != null" class="score-container">
 					<small>Subject average</small>
 					<span class="score">
 						{{ round(subjectAverageScore, 2) }}
 					</span>
 				</div>
-				<div v-if="subjectStandardDev" class="score-container">
+				<div v-if="subjectStandardDev != null" class="score-container">
 					<small>Subject standard deviation</small>
 					<span class="score">
 						{{ round(subjectStandardDev, 2) }}
@@ -266,6 +266,22 @@ export default {
 		},
 		valuesForAllOptions() {
 			return valuesForAllOptions(this, this.customOptionValues, this.disregardOption);
+		},
+		totalScores() {
+			if (!this.valuesForAllOptions || !this.averageResponses)
+				return;
+
+			return getResponseValues(
+				this.averageResponses,
+				this.customOptionValues,
+				this.disregardOption
+			);
+		},
+		totalAverageScore() {
+			if (!this.valuesForAllOptions || !this.totalScores)
+				return;
+
+			return average(this.totalScores);
 		},
 		subjectScores() {
 			if (!this.valuesForAllOptions || !this.subjectResponses)
