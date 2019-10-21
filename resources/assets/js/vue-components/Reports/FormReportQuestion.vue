@@ -76,19 +76,19 @@
 
 			<div v-if="canScoreQuestion && scoreQuestion && valuesForAllOptions && (totalAverageScore || subjectAverageScore)"
 					class="scores-container">
-				<div v-if="totalAverageScore" class="score-container">
+				<div v-if="totalAverageScore != null" class="score-container">
 					<small>Total average</small>
 					<span class="score">
 						{{ round(totalAverageScore, 2) }}
 					</span>
 				</div>
-				<div v-if="subjectAverageScore" class="score-container">
+				<div v-if="subjectAverageScore != null" class="score-container">
 					<small>Subject average</small>
 					<span class="score">
 						{{ round(subjectAverageScore, 2) }}
 					</span>
 				</div>
-				<div v-if="subjectStandardDev" class="score-container">
+				<div v-if="subjectStandardDev != null" class="score-container">
 					<small>Subject standard deviation</small>
 					<span class="score">
 						{{ round(subjectStandardDev, 2) }}
@@ -246,7 +246,7 @@ export default {
 			type: Object,
 			default: {}
 		},
-
+		overallAverage: Number,
 		subjectResponses: Object,
 		averageResponses: Object,
 		subjectResponseValues: Object
