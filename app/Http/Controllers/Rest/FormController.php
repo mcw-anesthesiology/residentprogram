@@ -87,6 +87,11 @@ class FormController extends RestController
 				$form->evaluator_type = 'faculty';
 				$form->visibility = 'visible';
 				break;
+			case 'trainee360':
+				$form->type = '360';
+				$form->evaluator_type = '360';
+				$form->visibility = 'hidden';
+				break;
 			case 'intern360':
 				$form->type = 'intern';
 				// It's technically 1, 2, and 3, but this works for now

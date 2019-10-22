@@ -62,11 +62,12 @@ class MainController extends Controller
 					'app',
 					'staff',
 					'self',
+					'360',
 					'intern360'
 				]))
 					throw new \DomainException("Sorry, {$requestType} is not currently a valid request type");
 
-				if ($requestType == 'resident') {
+				if (in_array($requestType, ['resident', 'staff', '360'])) {
 					if (!config('features.trainee_evaluations'))
 						throw new \DomainException('That evalutaion type is not currently enabled');
 				}
@@ -194,6 +195,11 @@ class MainController extends Controller
 					$subjectTypes = ['intern'];
 					$evaluatorTypes = ['ca-1', 'ca-2', 'ca-3', 'fellow', 'faculty'];
 					$requestorTypes = array_merge($subjectTypes, $evaluatorTypes, ['admin']);
+					break;
+				case '360':
+					$subjectTypes = ['resident', 'fellow', '360'];
+					$evaluatorTypes = ['resident', 'fellow', '360'];
+					$requestorTypes = ['admin'];
 					break;
 				default:
 					$subjectTypes = ["resident", "fellow"];
@@ -408,6 +414,19 @@ class MainController extends Controller
                     $evaluatorTypeText = 'faculty';
                     $requestTypeText = 'APP';
                     break;
+				case '360':
+					if (!$user->isType($subjectTypes)) {
+						$subjects = $residents;
+					}
+					if (!$user->isType($evaluatorTypes)) {
+						$evaluators = $residents;
+					}
+
+					$subjectTypeText = 'subject trainee';
+					$subjectTypeTextPlural = 'subject trainees';
+					$evaluatorTypeText = 'evaluator trainee';
+					$requestTypeText = '360';
+					break;
 				case 'intern360':
 					if (!$user->isType('intern'))
 						$subjects = $interns;
