@@ -6,8 +6,14 @@ export default {
 		forms: []
 	},
 	getters: {
+		activeForms({ forms }) {
+			return forms.filter(f => f.status === 'active');
+		},
 		groupedForms({ forms }) {
 			return groupForms(forms);
+		},
+		activeGroupedForms({ forms }) {
+			return groupForms(forms.filter(f => f.status === 'active'));
 		}
 	},
 	mutations: {
