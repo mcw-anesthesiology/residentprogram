@@ -3,14 +3,24 @@
 		<div class="container body-block">
 			<h1>Form report</h1>
 			<start-end-date v-model="dates" />
-			<div class="form-group">
-				<label class="containing-label">
-					Form
-					<select-two class="form-control" :options="groupedForms"
-						v-model="formId" required>
-					</select-two>
-				</label>
-			</div>
+				<div class="row">
+					<div class="col-sm-10">
+						<div class="form-group">
+							<label class="containing-label">
+								Form
+								<select-two class="form-control" :options="formOptions"
+									v-model="formId" required>
+								</select-two>
+							</label>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<label class="containing-label labelless-element">
+							<input type="checkbox" v-model="show.inactiveForms" />
+							Show inactive
+						</label>
+					</div>
+				</div>
 
 			<alert-list v-model="alerts" />
 
@@ -252,6 +262,7 @@ export default {
 			disregardOption: [],
 
 			show: {
+				inactiveForms: false,
 				allEvals: false,
 				subjectEvals: false
 			},
@@ -270,7 +281,10 @@ export default {
 	},
 
 	computed: {
-		...mapGetters('forms', ['groupedForms']),
+		...mapGetters('forms', ['groupedForms', 'activeGroupedForms']),
+		formOptions() {
+			return this.show.inactiveForms ? this.groupedForms : this.activeGroupedForms;
+		},
 		allSubjects() {
 			if (!this.report)
 				return [];
