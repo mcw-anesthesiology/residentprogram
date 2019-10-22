@@ -62,6 +62,7 @@
                 <li><a href="/request">Trainee Evaluation</a></li>
 				<li><a href="/request/self">Self Evaluation</a></li>
 				<li><a href="/request/staff">Staff Evaluation</a></li>
+				<li><a href="/request/360">360 Evaluations</a></li>
 		@endif
 		@if (config('features.app_evaluations'))
 				<li><a href="/request/app">APP Evaluation</a></li>
