@@ -1,15 +1,28 @@
 #!/usr/bin/env python3
 
+"""Plot subspecialties
+
+Takes output of `subject-form-based-responses.sql` query as input via stdin
+"""
+
 import matplotlib.pyplot as plt
 from numpy import average
 
-import csv, sys
+import csv, os.path, sys
 
 from plot_scenario_ite_correlation import plot
 
 
 def main():
     data = list(csv.DictReader(sys.stdin))
+
+    outdir = None
+    try:
+        outdir = sys.argv[1]
+    except KeyError:
+        print("No outdir specified, will display figures", file=sys.stderr)
+
+    print(outdir)
 
     subspecialty_names = set([row["title"] for row in data])
     subspecialties = {
@@ -49,7 +62,13 @@ def main():
         )
         plt.tight_layout()
 
-    plt.show()
+        if outdir is not None:
+            plt.savefig(
+                os.path.join(outdir, "{}.png".format(subspecialty.replace("/", "")))
+            )
+
+    if outdir is None:
+        plt.show()
 
 
 if __name__ == "__main__":
