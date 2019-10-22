@@ -57,59 +57,59 @@ class FormController extends RestController
 		$form->evaluation_period_type = $request->input('evaluation_period_type', 'month');
 
 		switch($request->input('formType')){
-            case "self-resident":
-                $form->type = "resident";
-                $form->evaluator_type = "self";
-                $form->visibility = "visible";
-                break;
-            case "self-fellow":
-                $form->type = "fellow";
-                $form->evaluator_type = "self";
-                $form->visibility = "visible";
-                break;
-            case "faculty":
-                $form->type = "faculty";
-                $form->evaluator_type = "resident";
-                $form->visibility = "anonymous";
-                break;
-            case "staff":
-                $form->type = "resident";
-                $form->evaluator_type = "staff";
-                $form->visibility = "hidden";
-                break;
-            case "fellow":
-                $form->type = "fellow";
-                $form->evaluator_type = "faculty";
-                $form->visibility = "visible";
-                break;
-			case 'app':
-				$form->type = 'app';
-				$form->evaluator_type = 'faculty';
-				$form->visibility = 'visible';
-				break;
-			case 'trainee360':
-				$form->type = '360';
-				$form->evaluator_type = '360';
-				$form->visibility = 'hidden';
-				break;
-			case 'intern360':
-				$form->type = 'intern';
-				// It's technically 1, 2, and 3, but this works for now
-				$form->evaluator_type = 'ca-1';
-				$form->visibility = 'anonymous';
-				break;
-			case 'external':
-				$form->type = 'resident';
-				$form->evaluator_type = 'external';
-				$form->visibility = 'visible';
-				break;
-            case "resident":
-            default:
-                $form->type = "resident";
-                $form->evaluator_type = "faculty";
-                $form->visibility = "visible";
-                break;
-        }
+		case "self-resident":
+			$form->type = "resident";
+			$form->evaluator_type = "self";
+			$form->visibility = "visible";
+			break;
+		case "self-fellow":
+			$form->type = "fellow";
+			$form->evaluator_type = "self";
+			$form->visibility = "visible";
+			break;
+		case "faculty":
+			$form->type = "faculty";
+			$form->evaluator_type = "resident";
+			$form->visibility = "anonymous";
+			break;
+		case "staff":
+			$form->type = "resident";
+			$form->evaluator_type = "staff";
+			$form->visibility = "hidden";
+			break;
+		case "fellow":
+			$form->type = "fellow";
+			$form->evaluator_type = "faculty";
+			$form->visibility = "visible";
+			break;
+		case 'app':
+			$form->type = 'app';
+			$form->evaluator_type = 'faculty';
+			$form->visibility = 'visible';
+			break;
+		case 'trainee360':
+			$form->type = '360';
+			$form->evaluator_type = '360';
+			$form->visibility = 'anonymous';
+			break;
+		case 'intern360':
+			$form->type = 'intern';
+			// It's technically 1, 2, and 3, but this works for now
+			$form->evaluator_type = 'ca-1';
+			$form->visibility = 'anonymous';
+			break;
+		case 'external':
+			$form->type = 'resident';
+			$form->evaluator_type = 'external';
+			$form->visibility = 'visible';
+			break;
+		case "resident":
+		default:
+			$form->type = "resident";
+			$form->evaluator_type = "faculty";
+			$form->visibility = "visible";
+			break;
+		}
 
 		$formXml = new SimpleXMLElement("<form></form>");
 		$formXml->addChild('title', $request->input('title'));

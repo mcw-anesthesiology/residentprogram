@@ -87,8 +87,13 @@ class Evaluation extends Model
 		$eval->status = 'pending';
 
 		// Hide faculty evals from their subjects by default
-		if ($values['request_type'] == 'faculty')
+		if ($values['request_type'] == 'faculty') {
 			$eval->visibility = 'under faculty threshold';
+		}
+
+		if ($values['request_type'] == '360') {
+			$eval->visibility = 'under 360 threshold';
+		}
 
 		$eval->save();
 
