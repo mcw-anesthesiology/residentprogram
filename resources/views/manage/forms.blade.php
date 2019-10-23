@@ -143,6 +143,35 @@
 </div>
 @endif
 
+<div class="container body-block" v-pre>
+	<div class="row">
+		<h2 class="sub-header">
+			360 evaluation forms
+			<button class="addModal btn btn-success btn-xs" data-toggle="modal"
+					data-target=".bs-add-modal" data-id="Form"
+					id="addBtn">
+				<span class="glyphicon glyphicon-plus"></span>
+				Add new
+			</button>
+		</h2>
+		<div class="table-responsive">
+			<table class="table table-striped forms-table" data-type="360"
+					id="360-forms-table">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Evaluator type</th>
+						<th>Created</th>
+						<th>Status</th>
+						<th>Subject visibility</th>
+						<th>View</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
 	<!-- Add Modal -->
 	<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal" v-pre>
 	  <div class="modal-dialog">
@@ -231,7 +260,8 @@
 				'fellow': 1,
 				'faculty': 2,
 				'app': 3,
-				'intern': 4
+				'intern': 4,
+				'360': 5
 			};
 
 			var optGroups = [
@@ -253,6 +283,10 @@
 				},
 				{
 					text: 'Intern',
+					children: []
+				},
+				{
+					text: '360',
 					children: []
 				}
 			];

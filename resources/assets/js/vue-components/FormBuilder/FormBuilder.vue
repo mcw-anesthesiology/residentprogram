@@ -209,12 +209,14 @@ export default {
 				faculty: 'Faculty',
 				staff: 'Staff',
 				app: 'APP',
+				trainee360: 'Trainee 360',
 				intern360: 'Intern 360',
-				external: 'External'
+				external: 'External',
 			};
 		},
 		periodTypes() {
 			return [
+				'block',
 				'month',
 				'quarter',
 				'semester',

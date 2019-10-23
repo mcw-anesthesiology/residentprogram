@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
 		\App\Console\Commands\ResidentReminders::class,
 		\App\Console\Commands\RunAdvancements::class,
 		\App\Console\Commands\ReleaseFacultyEvals::class,
+		\App\Console\Commands\Release360Evals::class,
 		\App\Console\Commands\SendPairingReports::class,
 		\App\Console\Commands\CancelInactiveUserRequests::class,
 		\App\Console\Commands\CancelFellowResidentRequests::class,
@@ -61,5 +62,6 @@ class Kernel extends ConsoleKernel
 		$schedule->command('process:scheduled-requests')->hourly();
 
 		$schedule->command('release:faculty-evals')->monthly();
+		$schedule->command('release:360-evals')->monthly();
     }
 }

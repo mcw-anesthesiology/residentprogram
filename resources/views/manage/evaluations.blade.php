@@ -139,8 +139,13 @@
 					"<button type='button' class='visibility-edit btn' data-eval='" + evalId + "' data-visibility='anonymous'>Anonymous <span class='glyphicon glyphicon-eye-close'></span></button> " +
 					"<button type='button' class='visibility-edit btn btn-default' data-eval='" + evalId + "' data-visibility='hidden'>Hidden <span class='glyphicon glyphicon-eye-close'></span></button> ";
 
-				if(evalType === 'faculty')
-					buttons += "<button type='button' class='visibility-edit btn' data-eval='" + evalId + "' data-visibility='under faculty threshold'>Under faculty threshold <span class='glyphicon glyphicon-eye-close'></span></button> ";
+				if(evalType === 'faculty') {
+					buttons += "<button type='button' class='visibility-edit btn' data-eval='" + evalId + "' data-visibility='under faculty hold'>Under faculty hold <span class='glyphicon glyphicon-eye-close'></span></button> ";
+				}
+
+				if (evalType === '360') {
+					buttons += "<button type='button' class='visibility-edit btn' data-eval='" + evalId + "' data-visibility='under 360 hold'>Under 360 hold <span class='glyphicon glyphicon-eye-close'></span></button> ";
+				}
 
 				buttons += "<button ype='button' class='visibility-edit btn btn-primary' data-eval='" + evalId + "' data-visibility='reset'>Reset <span class='glyphicon glyphicon-repeat'></span></button> ";
 
@@ -233,10 +238,15 @@
 					button.addClass("visibility-hidden btn-default");
 					button.html("Hidden <span class='glyphicon glyphicon-eye-close'></span>");
 					break;
-				case "under faculty threshold":
+				case "under faculty hold":
 					button.removeClass("visibility-visible visibility-hidden btn-info btn-default");
 					button.addClass("visibility-anonymous");
-					button.html("Under faculty threshold <span class='glyphicon glyphicon-eye-close'></span>");
+					button.html("Under faculty hold <span class='glyphicon glyphicon-eye-close'></span>");
+					break;
+				case "under 360 hold":
+					button.removeClass("visibility-visible visibility-hidden btn-info btn-default");
+					button.addClass("visibility-anonymous");
+					button.html("Under 360 hold <span class='glyphicon glyphicon-eye-close'></span>");
 					break;
 			}
 		}
