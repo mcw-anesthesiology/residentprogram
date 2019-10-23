@@ -97,7 +97,8 @@ export default function createManageEvaluations(el, propsData){
 									visBtnType = 'btn-info';
 									break;
 								case 'anonymous':
-								case 'under faculty threshold':
+								case 'under faculty hold':
+								case 'under 360 hold':
 									eyeType = 'close';
 									visBtnType = '';
 									break;

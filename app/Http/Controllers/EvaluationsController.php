@@ -76,15 +76,21 @@ class EvaluationsController extends Controller
 				'visible',
 				'anonymous',
 				'hidden',
-				'under faculty threshold'
+				'under faculty hold',
+				'under 360 hold'
 			])
 		) {
 			switch ($request->input('visibility')) {
 			case 'default':
 				$evaluation->visibility = null;
 				break;
-			case 'under faculty threshold':
+			case 'under faculty hold':
 				if ($evaluation->type == 'faculty') {
+					$evaluation->visibility = $request->input('visibility');
+				}
+				break;
+			case 'under 360 hold':
+				if ($evaluation->type == '360') {
 					$evaluation->visibility = $request->input('visibility');
 				}
 				break;

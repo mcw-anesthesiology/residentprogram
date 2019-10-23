@@ -47,7 +47,7 @@ class Release360Evals extends Command
 
 
 		$hiddenEvals = Evaluation::where("status", "complete")
-			->where("visibility", "under 360 threshold")
+			->where("visibility", "under 360 hold")
 			->where('complete_date', '<=', $endOfPrevSemester)
 			->get();
 

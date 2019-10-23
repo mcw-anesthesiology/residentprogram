@@ -51,7 +51,7 @@ class ReleaseFacultyEvals extends Command
 
 
 		$hiddenEvals = Evaluation::where("status", "complete")
-			->where("visibility", "under faculty threshold")
+			->where("visibility", "under faculty hold")
 			->where('complete_date', '<=', $endOfPrevQuarter)
 			->get();
 
