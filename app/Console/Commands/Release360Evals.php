@@ -7,25 +7,21 @@ use Illuminate\Console\Command;
 use App\Evaluation;
 use App\Helpers\DateHelpers;
 
-use Carbon\Carbon;
-
-use Setting;
-
-class ReleaseFacultyEvals extends Command
+class Release360Evals extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'release:faculty-evals';
+    protected $signature = 'release:360-evals';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Releases faculty evaluations to their subjects';
+    protected $description = 'Releases 360 evaluations to their subjects';
 
     /**
      * Create a new command instance.
@@ -46,13 +42,13 @@ class ReleaseFacultyEvals extends Command
     {
 		$numEvalsUnhidden = 0;
 
-		$currentQuarter = DateHelpers::getDateRangeFromPeriodType('quarter');
-		$endOfPrevQuarter = $currentQuarter['startDate']->subDay()->endOfDay();
+		$currentSemester = DateHelpers::getDateRangeFromPeriodType('semester');
+		$endOfPrevSemester = $currentSemester['startDate']->subDay()->endOfDay();
 
 
 		$hiddenEvals = Evaluation::where("status", "complete")
-			->where("visibility", "under faculty hold")
-			->where('complete_date', '<=', $endOfPrevQuarter)
+			->where("visibility", "under 360 hold")
+			->where('complete_date', '<=', $endOfPrevSemester)
 			->get();
 
 		$hiddenEvals->each(function($evalToUnhide) use (&$numEvalsUnhidden){

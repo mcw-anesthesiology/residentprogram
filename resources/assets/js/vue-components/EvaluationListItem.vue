@@ -390,7 +390,7 @@ export default {
 		grid-template-areas:
 			'id main user-controls'
 			'foot foot foot';
-		grid-template-columns: 2em 8fr minmax(6em, 1fr);
+		grid-template-columns: 3em 8fr minmax(6em, 1fr);
 		overflow: auto;
 	}
 
@@ -454,8 +454,10 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	text-align: center;
 	color: rgba(0, 0, 0, 0.55);
 	font-size: 1.15em;
+	word-break: break-word;
 }
 
 .subject {

@@ -40,6 +40,7 @@ const REQUEST_TYPES = [
 	'app',
 	'staff',
 	'intern360',
+	'360',
 	'self'
 ];
 
@@ -208,7 +209,7 @@ export function createRequest(el, propsData) {
 			},
 			subjectForms() {
 				let forms = this.filteredForms;
-				if (this.subjectId && this.subject && this.subject.type === 'resident') {
+				if (this.requestType === 'resident' && this.subjectId && this.subject && this.subject.type === 'resident') {
 					if (this.subject.training_level === 'fellow') {
 						forms = forms.filter(form => form.type === 'fellow');
 					} else if (this.subject.training_level === 'intern') {
