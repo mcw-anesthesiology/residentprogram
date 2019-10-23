@@ -95,7 +95,8 @@ export default {
 				'visible',
 				'anonymous',
 				'hidden',
-				this.evaluation.type === 'faculty' && 'under faculty threshold'
+				this.evaluation.type === 'faculty' && 'under faculty hold',
+				this.evaluation.type === '360' && 'under 360 hold'
 			].filter(Boolean);
 		},
 		body() {

@@ -88,11 +88,11 @@ class Evaluation extends Model
 
 		// Hide faculty evals from their subjects by default
 		if ($values['request_type'] == 'faculty') {
-			$eval->visibility = 'under faculty threshold';
+			$eval->visibility = 'under faculty hold';
 		}
 
 		if ($values['request_type'] == '360') {
-			$eval->visibility = 'under 360 threshold';
+			$eval->visibility = 'under 360 hold';
 		}
 
 		$eval->save();
@@ -242,6 +242,8 @@ class Evaluation extends Model
 				return 'intern';
 			case 'app':
 				return 'app';
+			case '360':
+				return '360';
 			}
 		} catch (\Exception $e) {
 			Log::error('Failed getting type attribute', ['exception' => $e]);

@@ -156,14 +156,7 @@ class MainController extends Controller
     }
 
     public function dashboardFaculty() {
-		$user = Auth::user();
-		$threshold = Setting::get("facultyEvalThreshold");
-		$noEvaluations = (Evaluation::where("subject_id", $user->id)->where("status", "complete")->count() < $threshold);
-        $no360Evaluations = ( FacultyPeerEvaluation::where('subject_id', $user->id)
-                ->where('status', 'complete')
-                ->count() === 0);
-		$data = compact("noEvaluations", 'no360Evaluations');
-        return view("dashboard.faculty.dashboard", $data);
+        return view("dashboard.faculty.dashboard");
     }
 
     public function request(Request $request, $requestType = "resident") {
