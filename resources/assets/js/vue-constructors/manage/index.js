@@ -12,3 +12,4 @@ export { default as createManagePrograms } from './programs.js';
 export { default as createManageBeyondMilestones } from './beyond-milestones.js';
 export { default as createManageUserFeatures } from './user-features.js';
 export { default as createManageUsers } from './users.js';
+export { default as createManageUserGroups } from './user-groups.js';

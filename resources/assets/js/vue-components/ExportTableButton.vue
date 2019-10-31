@@ -12,7 +12,7 @@ import XLSX from 'xlsx';
 export default {
 	props: {
 		table: {
-			type: Object,
+			type: HTMLTableElement,
 			required: true
 		},
 		filename: {

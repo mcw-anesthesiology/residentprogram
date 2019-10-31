@@ -50,8 +50,6 @@ extend type Mutation
 
 	attachFormScenario(form_id: ID!, scenario_id: ID!): FormScenario
 		@create(model: "App\\BeyondMilestones\\FormScenario")
-	deleteFormScenario(form_id: ID!, scenario_id: ID!): FormScenario
-		@delete(model: "App\\BeyondMilestones\\FormScenario")
 	setScenarioForms(scenario_id: ID!, form_ids: [ID!]!): Scenario
 }
 

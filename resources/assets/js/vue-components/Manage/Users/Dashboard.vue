@@ -6,17 +6,21 @@
 			<user-list :users="selectedUserGroup.users" />
 		</div>
 		<template v-else>
-			<div v-for="{ type, users } of userGroups" class="container body-block">
+			<div v-for="{ type, users } of userTypeGroups" class="container body-block">
 				<h2>{{ renderUserType(type) }}</h2>
 
 				<user-list :users="users" />
 			</div>
 		</template>
+
+		<user-groups />
 	</div>
 </template>
 
 <script>
 import gql from 'graphql-tag';
+
+import UserGroups from '../UserGroups/UserGroups.vue';
 
 import { renderUserType } from '@/modules/user-utils.js';
 
@@ -25,14 +29,14 @@ import { MANAGE_USER_LIST_FIELDS } from '@/graphql/user.js';
 export default {
 	data() {
 		return {
-			userGroups: []
+			userTypeGroups: []
 		};
 	},
 	apollo: {
-		userGroups: {
+		userTypeGroups: {
 			query: gql`
 				query ManageUsers {
-					userGroups {
+					userTypeGroups {
 						type
 						users {
 							...ManageUserListFields
@@ -50,14 +54,15 @@ export default {
 
 			const type = this.$route.hash.substring(1).toUpperCase();
 
-			return this.userGroups.find(ug => ug.type === type);
+			return this.userTypeGroups.find(ug => ug.type === type);
 		}
 	},
 	methods: {
 		renderUserType
 	},
 	components: {
-		UserList: () => import('./UserList.vue')
+		UserList: () => import('./UserList.vue'),
+		UserGroups
 	}
 };
 </script>

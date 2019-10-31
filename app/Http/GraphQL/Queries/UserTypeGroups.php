@@ -7,7 +7,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 use App\User;
 
-class UserGroups
+class UserTypeGroups
 {
 	const ORDER = [
 		'resident',

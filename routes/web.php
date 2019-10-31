@@ -77,6 +77,7 @@ Route::get('manage/highlighted-questions', 'ManageController@highlightedQuestion
 Route::get('manage/scheduled-requests', 'ManageController@scheduledRequests');
 Route::get('manage/beyond-milestones', 'ManageController@beyondMilestones');
 Route::get('manage/users', 'ManageController@users');
+Route::get('manage/user-groups', 'ManageController@userGroups');
 
 Route::get('reports', 'ReportController@reports');
 Route::post('reports/egress-pairings/overlaps', 'EgressPairingReportController@getOverlaps');

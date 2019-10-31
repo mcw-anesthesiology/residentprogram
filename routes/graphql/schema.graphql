@@ -19,6 +19,11 @@ type Mutation @middleware(checks: ["auth"]) {
 
 scalar Mixed @scalar(class: "MLL\\GraphQLScalars\\Mixed")
 
+input DateRange {
+	startDate: Date!
+	endDate: Date!
+}
+
 #import user.graphql
 #import form.graphql
 #import evaluation.graphql
