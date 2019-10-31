@@ -69,7 +69,9 @@ type UserTypeGroup {
 type UserGroup {
 	id: ID!
 	name: String!
-	users: [User!] @belongsToMany
+	users(
+		orderBy: [OrderByClause!] @orderBy
+	): [User!] @belongsToMany
 }
 
 enum UserType {

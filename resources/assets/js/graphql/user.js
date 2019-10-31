@@ -49,7 +49,12 @@ export const USER_GROUP_FIELDS = gql`
 	fragment UserGroupFields on UserGroup {
 		id
 		name
-		users {
+		users(
+			orderBy: [
+				{ field: "last_name", order: ASC },
+				{ field: "first_name", order: ASC }
+			]
+		) {
 			id
 			full_name
 		}

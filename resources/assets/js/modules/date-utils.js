@@ -293,12 +293,33 @@ export function monthForDate(date: DateLike) {
 	};
 }
 
+export function academicYearsInPeriod({ startDate, endDate }) {
+	startDate = moment(startDate);
+	endDate = moment(endDate);
+	let date = moment(startDate);
+
+	let years = [];
+	while (date <= endDate) {
+		years.push(academicYearForDate(date));
+		date.add(1, 'year');
+	}
+
+	return years;
+}
+
+
 export function semestersInAcademicYear() {
 	let academicYear = academicYearForDate(new Date());
-	let date = moment(academicYear.startDate);
+	return semestersInPeriod(academicYear);
+}
+
+export function semestersInPeriod({ startDate, endDate }) {
+	startDate = moment(startDate);
+	endDate = moment(endDate);
+	let date = moment(startDate);
 
 	let semesters = [];
-	while (date <= academicYear.endDate) {
+	while (date <= endDate) {
 		semesters.push(semesterForDate(date));
 		date.add(6, 'months');
 	}
@@ -308,10 +329,17 @@ export function semestersInAcademicYear() {
 
 export function quartersInAcademicYear() {
 	let academicYear = academicYearForDate(new Date());
-	let date = moment(academicYear.startDate);
+	return quartersInPeriod(academicYear);
+}
+
+export function quartersInPeriod({ startDate, endDate }) {
+	startDate = moment(startDate);
+	endDate = moment(endDate);
+
+	let date = moment(startDate);
 
 	let quarters = [];
-	while (date <= academicYear.endDate) {
+	while (date <= endDate) {
 		quarters.push(quarterForDate(date));
 		date.add(3, 'months');
 	}
@@ -321,10 +349,16 @@ export function quartersInAcademicYear() {
 
 export function monthsInAcademicYear() {
 	let academicYear = academicYearForDate(new Date());
-	let date = moment(academicYear.startDate);
+	return monthsInPeriod(academicYear);
+}
+
+export function monthsInPeriod({ startDate, endDate }) {
+	startDate = moment(startDate);
+	endDate = moment(endDate);
+	let date = moment(startDate);
 
 	let months = [];
-	while (date <= academicYear.endDate) {
+	while (date <= endDate) {
 		months.push(monthForDate(date));
 		date.add(1, 'month');
 	}
