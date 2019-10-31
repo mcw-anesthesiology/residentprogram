@@ -9,7 +9,7 @@ import { kebabCaseToWords, } from '@/modules/utils.js';
 import StoredAlertList from '#/StoredAlertList.vue';
 
 const TraineeReport = () => import('#/Reports/TraineeReport.vue');
-const FacultyReport = () => import('#/Reports/FacultyReport.vue');
+const EvaluatorReport = () => import('#/Reports/EvaluatorReport.vue');
 const FacultyEvaluationsReport = () => import('#/Reports/FacultyEvaluationsReport.vue');
 const FormReport = () => import('#/Reports/FormReport.vue');
 const CustomReport = () => import('#/Reports/CustomReport/CustomReport.vue');
@@ -17,6 +17,7 @@ const NeedsReport = () => import('#/Reports/Needs/Report.vue');
 const PendingEvalsReport = () => import('#/Reports/PendingEvalsReport.vue');
 const FacultyMeritReport = () => import('#/Reports/FacultyMeritReport.vue');
 const CaseOverlaps = () => import('#/Reports/CaseOverlaps/CaseOverlaps.vue');
+
 
 const ExportMeritReport = () => import('#/Reports/FacultyMerit/Export.vue');
 const FacultyScholarlyActivityReport = () => import('#/Reports/FacultyMerit/ScholarlyActivity.vue');
@@ -34,8 +35,8 @@ const routes = [
 		component: TraineeReport
 	},
 	{
-		path: '/faculty',
-		component: FacultyReport
+		path: '/evaluator',
+		component: EvaluatorReport
 	},
 	{
 		path: '/form',

@@ -1,12 +1,19 @@
 # @format
 
 extend type Query @middleware(checks: ["auth"]) {
-	evaluations(orderBy: [OrderByClause!] @orderBy): [Evaluation!]!
-		@all(model: "App\\Evaluation")
+	evaluations(
+		completedBetween: DateRange @whereBetween(key: "complete_date")
+		requestedBetween: DateRange @whereBetween(key: "request_date")
+		after: Date @where(key: "evaluation_date_end", operator: ">=")
+		before: Date @where(key: "evaluation_date_start", operator: "<=")
+		subjectFilter: UserFilter
+			@builder(
+				method: "App\\Http\\GraphQL\\Builders\\Evaluation@subjectFilter"
+			)
+		orderBy: [OrderByClause!] @orderBy
+	): [Evaluation!]! @all(model: "App\\Evaluation")
 	evaluation(id: ID! @eq): Evaluation @find(model: "App\\Evaluation")
 
-	responses(orderBy: [OrderByClause!] @orderBy): [Response!]!
-		@all(model: "App\\Response")
 	response(id: ID! @eq): [Response!]! @find(model: "App\\Response")
 
 	responseSummary(
@@ -216,6 +223,12 @@ type TextResponsesWithValue {
 input NumericValueMapping {
 	text: String!
 	value: Float!
+}
+
+input UserFilter {
+	type: UserType
+	training_level: TrainingLevel
+	secondary_training_level: String
 }
 
 extend type Form {

@@ -21,16 +21,26 @@ export default {
 		'value',
 		'name',
 		'multiple',
-		'readonly'
+		'readonly',
+		'filter'
 	],
 	mounted() {
 		this.$store.dispatch('users/fetch').catch(err => {
 			logError(err, 'There was a problem fetching users');
 		});
 	},
-	computed: mapGetters('users', [
-		'groupedUsers'
-	]),
+	computed: {
+		...mapGetters('users', [
+			'groupedUsers'
+		]),
+		options() {
+			if (this.filter) {
+				return this.filter(this.groupedUsers);
+			}
+
+			return this.groupedUsers;
+		}
+	},
 	methods: {
 		handleInput(...args) {
 			this.$emit('input', ...args);

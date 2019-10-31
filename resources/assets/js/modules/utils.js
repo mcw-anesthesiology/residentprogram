@@ -565,6 +565,18 @@ export function filterKeys(obj: Object, keys: Array<string>): Object {
 	return newObj;
 }
 
+export function filterNonemptyValues(obj: Object): Object {
+	const o = {};
+
+	for (const [key, val] of Object.entries(obj)) {
+		if (val) {
+			o[key] = val;
+		}
+	}
+
+	return o;
+}
+
 export function getRandom(arr: Array<any>): any {
 	return arr[Math.floor(Math.random() * arr.length)];
 }

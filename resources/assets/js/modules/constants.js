@@ -114,6 +114,33 @@ export const FELLOWSHIP_VALUE_MAPS = new Map([
 	])],
 ]);
 
+export const USER_TYPES = [
+	'TRAINEE',
+	'FACULTY',
+	'ADMIN',
+	'APP',
+	'STAFF',
+	'EXTERNAL'
+];
+
+export const TRAINING_LEVELS = [
+	'INTERN',
+	'CA1',
+	'CA2',
+	'CA3',
+	'FELLOW'
+];
+
+export const SECONDARY_TRAINING_LEVELS = [
+	'Pediatric',
+	'RAAPS',
+	'OB',
+	'Pain',
+	'Neuro',
+	'Critical Care',
+	'Cardiac'
+];
+
 
 export const CHART_TYPES = [
 	'line',

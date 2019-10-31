@@ -137,6 +137,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		}
 	}
 
+	public function groups() {
+		return $this->belongsToMany('App\UserGroup', 'user_user_groups');
+	}
+
 	public function evaluatorEvaluations() {
 		return $this->hasMany("App\Evaluation", "evaluator_id");
 	}

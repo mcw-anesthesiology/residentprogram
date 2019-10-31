@@ -44,3 +44,24 @@ export const GROUP_USER_FIELDS = gql`
 		status
 	}
 `;
+
+export const USER_GROUP_FIELDS = gql`
+	fragment UserGroupFields on UserGroup {
+		id
+		name
+		users {
+			id
+			full_name
+		}
+	}
+`;
+
+export const USER_GROUPS_QUERY = gql`
+	query UserGroupsQuery {
+		userGroups {
+			...UserGroupFields
+		}
+	}
+	${USER_GROUP_FIELDS}
+`;
+

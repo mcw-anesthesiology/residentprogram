@@ -395,4 +395,8 @@ class ManageController extends Controller
 	public function users() {
 		return view('manage.users');
 	}
+
+	public function userGroups() {
+		return view('manage.user-groups');
+	}
 }
