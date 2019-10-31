@@ -40,23 +40,50 @@
 			<table ref="resultsTable" class="table table-striped table-bordered">
 				<thead>
 					<tr>
-						<th>Name</th>
-						<th>Evaluations completed during period</th>
-						<th>Total requested evaluations during period</th>
+						<th rowspan="2">Name</th>
+						<th v-for="period of periods" :key="period" colspan="2">
+							<rich-date-range :dates="period" />
+						</th>
+					</tr>
+					<tr>
+						<template v-for="(period, i) of periods">
+							<th :key="`${i}-complete`">
+								Evaluations completed
+							</th>
+							<th :key="`${i}-requested`">
+								Total requested evaluations
+							</th>
+						</template>
 					</tr>
 				</thead>
 				<tbody>
 					<tr v-for="evaluator of evaluators" :key="evaluator.id">
 						<th>{{ evaluator.full_name }}</th>
-						<td>{{ evaluator.evaluationsCompletedDuringPeriod.length }}</td>
-						<td>{{ evaluator.requestsCreatedDuringPeriod.length }}</td>
+						<template v-for="(period, i) of periods">
+
+							<td :key="`${i}-complete`">
+								{{ evaluator.evaluationsCompletedDuringPeriod.filter(inPeriod(period, 'complete_date')).length }}
+							</td>
+							<td :key="`${i}-requested`">
+								{{ evaluator.requestsCreatedDuringPeriod.filter(inPeriod(period, 'request_date')).length }}
+							</td>
+						</template>
 					</tr>
 				</tbody>
 				<tfoot>
 					<tr>
 						<th>Average</th>
-						<td>{{ decimal(average(evaluators.map(e => e.evaluationsCompletedDuringPeriod.length))) }}</td>
-						<td>{{ decimal(average(evaluators.map(e => e.requestsCreatedDuringPeriod.length))) }}</td>
+						<template v-for="(period, i) of periods">
+
+							<td :key="`${i}-complete`">
+								{{
+									decimal(average(evaluators.map(e => e.evaluationsCompletedDuringPeriod.filter(inPeriod(period, 'complete_date')).length)))
+								}}
+							</td>
+							<td :key="`${i}-requested`">
+								{{ decimal(average(evaluators.map(e => e.requestsCreatedDuringPeriod.filter(inPeriod(period, 'request_date')).length))) }}
+							</td>
+						</template>
 					</tr>
 				</tfoot>
 			</table>
@@ -70,14 +97,16 @@
 
 <script>
 import gql from 'graphql-tag';
+import moment from 'moment';
 
 import VueSelect from 'vue-select';
 
 import StartEndDate from '#/StartEndDate.vue';
+import RichDateRange from '#/RichDateRange.vue';
 import ExportTableButton from '#/ExportTableButton.vue';
 import UserFilterInput from './UserFilterInput.vue';
 
-import { isoDateStringObject, currentYear } from '@/modules/date-utils.js';
+import { isoDateStringObject, currentYear, quartersInPeriod } from '@/modules/date-utils.js';
 import { filterNonemptyValues } from '@/modules/utils.js';
 import { average } from '@/modules/math-utils.js';
 import { decimal } from '@/modules/formatters.js';
@@ -106,12 +135,14 @@ const EVALUATORS_QUERY = gql`
 				status: complete
 			) {
 				...EvaluationFields
+				complete_date
 			}
 			requestsCreatedDuringPeriod: evaluatorEvaluations(
 				requestedBetween: { startDate: $startDate, endDate: $endDate }
 				subjectFilter: $subjectFilter
 			) {
 				...EvaluationFields
+				request_date
 			}
 		}
 	}
@@ -171,6 +202,12 @@ export default {
 		}
 	},
 	computed: {
+		periods() {
+			return [
+				...quartersInPeriod(this.dates),
+				this.dates
+			];
+		}
 	},
 	watch: {
 		evaluators() {
@@ -180,6 +217,14 @@ export default {
 	methods: {
 		average,
 		decimal,
+		inPeriod(period, prop) {
+			const start = moment(period.startDate);
+			const end = moment(period.endDate);
+			return e => {
+				const date = moment(e[prop]);
+				return date >= start && date <= end;
+			}
+		},
 		queryEvaluators() {
 			this.shouldFetchEvaluators = true;
 		},
@@ -191,6 +236,7 @@ export default {
 	},
 	components: {
 		VueSelect,
+		RichDateRange,
 		ExportTableButton,
 		StartEndDate,
 		UserFilterInput
@@ -216,5 +262,10 @@ fieldset > label {
 tfoot tr th,
 tfoot tr td {
 	border-top-width: 2px;
+}
+
+td {
+	font-family: monospace;
+	text-align: right;
 }
 </style>

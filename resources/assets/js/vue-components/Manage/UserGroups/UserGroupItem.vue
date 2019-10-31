@@ -3,19 +3,23 @@
 		<h2>{{ group.name }}</h2>
 
 		<div class="item-body">
-			<ul class="list-group">
-				<li v-for="user of group.users" :key="user.id" class="list-group-item">
-					{{ user.full_name }}
+			<div>
+				<ul class="list-group">
+					<li v-for="user of group.users" :key="user.id" class="list-group-item">
+						<span>
+							{{ user.full_name }}
+						</span>
 
-					<confirmation-button
-						class="btn btn-xs btn-danger"
-						pressed-class="btn btn-xs btn-warning"
-						@click="removeUser(user.id)"
-					>
-						<span class="glyphicon glyphicon-remove"></span>
-					</confirmation-button>
-				</li>
-			</ul>
+						<confirmation-button
+							class="btn btn-xs btn-danger"
+							pressed-class="btn btn-xs btn-warning"
+							@click="removeUser(user.id)"
+						>
+							<span class="glyphicon glyphicon-remove"></span>
+						</confirmation-button>
+					</li>
+				</ul>
+			</div>
 
 			<form v-if="show.addUser" @submit="handleAddUser">
 				<label class="containing-label">
@@ -43,6 +47,16 @@
 	padding: 2em;
 	margin: 2em;
 	border: 1px solid #ccc;
+}
+
+.list-group-item {
+	display: flex;
+	justify-content: space-between;
+}
+
+.list-group-item > span {
+	display: inline-block;
+	margin-right: 2em;
 }
 
 h2 {
