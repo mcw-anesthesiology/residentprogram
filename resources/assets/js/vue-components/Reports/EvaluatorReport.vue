@@ -244,7 +244,7 @@ export default {
 			const startDate = moment(this.dates.startDate);
 			const endDate = moment(this.dates.endDate);
 
-			this.periods = [
+			const periods = [
 				...quartersInPeriod(this.dates).map(period => {
 					if (period.startDate < startDate) {
 						period.startDate = startDate;
@@ -254,9 +254,14 @@ export default {
 					}
 
 					return period;
-				}),
-				this.dates
+				})
 			];
+
+			if (periods.length !== 1) {
+				periods.push(this.dates);
+			}
+
+			this.periods = periods;
 		},
 		'show.advancedSubjectFilter'(show) {
 			if (!show) {
