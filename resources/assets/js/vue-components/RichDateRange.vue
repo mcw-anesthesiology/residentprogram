@@ -31,6 +31,10 @@ export default {
 		time: {
 			type: Boolean,
 			default: false
+		},
+		explicit: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
@@ -55,6 +59,10 @@ export default {
 			return this.dates[this.end];
 		},
 		dateString() {
+			if (this.explicit) {
+				return `${renderDate(this.startDate, true)} – ${renderDate(this.endDate, true)}`;
+			}
+
 			return renderDateRange(this.startDate, this.endDate, this.hovered);
 		}
 	},

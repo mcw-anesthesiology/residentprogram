@@ -64,5 +64,12 @@ return [
 
 	'ROLES' => [
 		'MANAGE_BEYOND_MILESTONES'
+	],
+
+	'RESIDENT_TRAINING_LEVELS' => [
+		'intern',
+		'ca-1',
+		'ca-2',
+		'ca-3'
 	]
 ];

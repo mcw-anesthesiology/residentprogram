@@ -4,29 +4,46 @@
 			<h1>Evaluator report</h1>
 
 			<form @submit="queryEvaluators">
-				<start-end-date v-model="dates" />
+				<start-end-date v-model="dates"></start-end-date>
 
-				<fieldset>
-					<legend>Evaluator</legend>
-					<user-filter-input v-model="evaluatorFilter" />
+				<div>
+					<fieldset>
+						<legend>Evaluator</legend>
+						<user-filter-input v-model="evaluatorFilter" />
 
-					<label class="containing-label groups-label">
-						Groups
-						<vue-select
-							:options="userGroups.map(g => ({
-								label: g.name,
-								value: String(g.id)
-							}))"
-							v-model="selectedUserGroups"
-							multiple
-						/>
-					</label>
-				</fieldset>
+						<label class="groups-label">
+							Groups
+							<vue-select
+								:options="userGroups.map(g => ({
+									label: g.name,
+									value: String(g.id)
+								}))"
+								v-model="selectedUserGroups"
+								multiple
+							/>
+						</label>
+					</fieldset>
 
-				<fieldset>
-					<legend>Subject</legend>
-					<user-filter-input v-model="subjectFilter" />
-				</fieldset>
+
+					<fieldset>
+						<legend>Subject</legend>
+
+						<user-filter-input v-if="show.advancedSubjectFilter" v-model="subjectFilter" />
+
+						<label v-else>
+							Filter type
+							<vue-select :options="subjectFilterOptions" v-model="subjectFilterOption" />
+						</label>
+
+						<div class="show-container">
+							<label class="checkbox-label">
+								<input type="checkbox" v-model="show.advancedSubjectFilter" />
+								Show advanced options
+							</label>
+						</div>
+					</fieldset>
+				</div>
+
 
 				<div class="btn-lg-submit-container">
 					<button type="submit" class="btn btn-primary btn-lg">
@@ -36,12 +53,14 @@
 			</form>
 		</div>
 
-		<div class="container body-block" v-show="evaluators.length > 0">
+		<loading-placeholder v-if="$apollo.loading" />
+
+		<div class="container body-block" v-show="!$apollo.loading && evaluators && evaluators.length > 0">
 			<table ref="resultsTable" class="table table-striped table-bordered">
 				<thead>
 					<tr>
 						<th rowspan="2">Name</th>
-						<th v-for="period of periods" :key="period" colspan="2">
+						<th v-for="(period, j) of periods" :key="j" colspan="2">
 							<rich-date-range :dates="period" />
 						</th>
 					</tr>
@@ -104,6 +123,7 @@ import VueSelect from 'vue-select';
 import StartEndDate from '#/StartEndDate.vue';
 import RichDateRange from '#/RichDateRange.vue';
 import ExportTableButton from '#/ExportTableButton.vue';
+import LoadingPlaceholder from '#/LoadingPlaceholder.vue';
 import UserFilterInput from './UserFilterInput.vue';
 
 import { isoDateStringObject, currentYear, quartersInPeriod } from '@/modules/date-utils.js';
@@ -153,13 +173,20 @@ const EVALUATORS_QUERY = gql`
 	}
 `;
 
+const SUBJECT_FILTER_OPTIONS = {
+	RESIDENCY: 'Residency',
+	PEDS_FELLOWSHIP: 'Pediatric anesthesia fellowship'
+};
+
 export default {
 	data() {
 		return {
 			dates: isoDateStringObject(currentYear()),
 			evaluatorFilter: {
-				type: ''
+				type: 'FACULTY'
 			},
+			selectedUserGroups: [],
+			subjectFilterOption: null,
 			subjectFilter: {
 				type: '',
 				training_level: '',
@@ -168,9 +195,13 @@ export default {
 			shouldFetchEvaluators: false,
 			userGroups: [],
 
-			selectedUserGroups: [],
+			evaluators: [],
 
-			evaluators: []
+			periods: [],
+
+			show: {
+				advancedSubjectFilter: false
+			}
 		};
 	},
 	apollo: {
@@ -202,16 +233,60 @@ export default {
 		}
 	},
 	computed: {
-		periods() {
-			return [
-				...quartersInPeriod(this.dates),
-				this.dates
-			];
+		subjectFilterOptions() {
+			return Object.values(SUBJECT_FILTER_OPTIONS);
 		}
 	},
 	watch: {
 		evaluators() {
 			this.shouldFetchEvaluators = false;
+
+			const startDate = moment(this.dates.startDate);
+			const endDate = moment(this.dates.endDate);
+
+			this.periods = [
+				...quartersInPeriod(this.dates).map(period => {
+					if (period.startDate < startDate) {
+						period.startDate = startDate;
+					}
+					if (period.endDate > endDate) {
+						period.endDate = endDate;
+					}
+
+					return period;
+				}),
+				this.dates
+			];
+		},
+		'show.advancedSubjectFilter'(show) {
+			if (!show) {
+				this.subjectFilterOption = '';
+			}
+		},
+		subjectFilterOption(option) {
+			switch (option) {
+			case SUBJECT_FILTER_OPTIONS.RESIDENCY:
+				this.subjectFilter = {
+					type: 'TRAINEE',
+					training_level: 'RESIDENT',
+					secondary_training_level: ''
+				};
+				break;
+			case SUBJECT_FILTER_OPTIONS.PEDS_FELLOWSHIP:
+				this.subjectFilter = {
+					type: 'TRAINEE',
+					training_level: 'FELLOW',
+					secondary_training_level: 'Pediatric'
+				};
+				break;
+			default:
+				this.subjectFilter = {
+					type: '',
+					training_level: '',
+					secondary_training_level: ''
+				};
+				break;
+			}
 		}
 	},
 	methods: {
@@ -236,6 +311,7 @@ export default {
 	},
 	components: {
 		VueSelect,
+		LoadingPlaceholder,
 		RichDateRange,
 		ExportTableButton,
 		StartEndDate,
@@ -246,8 +322,12 @@ export default {
 
 <style scoped>
 fieldset {
+	display: flex;
+	flex-wrap: wrap;
 	padding: 1em;
 	margin-bottom: 1em;
+	justify-content: space-between;
+	align-items: flex-end;
 }
 
 fieldset > legend {
@@ -255,8 +335,16 @@ fieldset > legend {
 }
 
 fieldset > label {
-	display: inline-block;
-	margin: 1em;
+	margin: 0.5em 1em;
+}
+
+fieldset > * {
+	flex-grow: 1;
+}
+
+.show-container {
+	flex-basis: 100%;
+	text-align: right;
 }
 
 tfoot tr th,

@@ -225,12 +225,6 @@ input NumericValueMapping {
 	value: Float!
 }
 
-input UserFilter {
-	type: UserType
-	training_level: TrainingLevel
-	secondary_training_level: String
-}
-
 extend type Form {
 	evaluations(subject_id: ID @eq): [Evaluation]! @hasMany
 }

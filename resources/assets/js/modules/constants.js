@@ -124,6 +124,7 @@ export const USER_TYPES = [
 ];
 
 export const TRAINING_LEVELS = [
+	'RESIDENT',
 	'INTERN',
 	'CA1',
 	'CA2',
