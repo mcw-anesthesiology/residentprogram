@@ -43,22 +43,16 @@ extend type Mutation @middleware(checks: ["auth", "type:admin"]) {
 	): Mentorship @create
 	deleteMentorship(id: ID!): Mentorship @delete
 
-	createUserGroup(
-		name: String!
-	): UserGroup @create
-	updateUserGroup(
-		id: ID!
-		name: String
-	): UserGroup @update
-	addUserToGroup(
-		group_id: ID!
-		user_id: ID!
-	): UserGroup @field(resolver: "App\\Http\\GraphQL\\Mutations\\UserGroup@addUserToGroup")
-	removeUserFromGroup(
-		group_id: ID!
-		user_id: ID!
-	): UserGroup @field(resolver: "App\\Http\\GraphQL\\Mutations\\UserGroup@removeUserFromGroup")
-
+	createUserGroup(name: String!): UserGroup @create
+	updateUserGroup(id: ID!, name: String): UserGroup @update
+	addUserToGroup(group_id: ID!, user_id: ID!): UserGroup
+		@field(
+			resolver: "App\\Http\\GraphQL\\Mutations\\UserGroup@addUserToGroup"
+		)
+	removeUserFromGroup(group_id: ID!, user_id: ID!): UserGroup
+		@field(
+			resolver: "App\\Http\\GraphQL\\Mutations\\UserGroup@removeUserFromGroup"
+		)
 }
 
 type UserTypeGroup {
@@ -69,9 +63,7 @@ type UserTypeGroup {
 type UserGroup {
 	id: ID!
 	name: String!
-	users(
-		orderBy: [OrderByClause!] @orderBy
-	): [User!] @belongsToMany
+	users(orderBy: [OrderByClause!] @orderBy): [User!] @belongsToMany
 }
 
 enum UserType {
@@ -94,12 +86,12 @@ enum SpecificType {
 }
 
 enum TrainingLevel {
+	RESIDENT # Doesn't actually exist in DB, used in subjectFilter
 	INTERN @enum(value: "intern")
 	CA1 @enum(value: "ca-1")
 	CA2 @enum(value: "ca-2")
 	CA3 @enum(value: "ca-3")
 	FELLOW @enum(value: "fellow")
-	RESIDENCY_DIRECTOR @enum(value: "residency-director")
 }
 
 enum ReminderFrequency {
@@ -235,4 +227,10 @@ type Mentorship {
 enum ActiveStatus {
 	active
 	inactive
+}
+
+input UserFilter {
+	type: UserType
+	training_level: TrainingLevel
+	secondary_training_level: String
 }
