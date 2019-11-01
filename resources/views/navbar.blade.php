@@ -105,7 +105,10 @@
 		@if (config('features.alumni'))
             <li><a href="/manage/alumni">Alumni</a></li>
 		@endif
+
 			<li><a href="/manage/user-features">User features</a></li>
+			<li><a href="/manage/user-groups">User groups</a></li>
+
 		@if (config('features.case_log'))
 			<li><a href="/manage/case-logs">Case logs</a></li>
 		@endif
