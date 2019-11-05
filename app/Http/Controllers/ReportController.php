@@ -622,7 +622,6 @@ class ReportController extends Controller
 			"subjectEvaluators",
 			"averageMilestone",
 			"averageCompetency",
-			"graphOption",
 			"trainingLevel",
 			"startDate",
 			"endDate",
