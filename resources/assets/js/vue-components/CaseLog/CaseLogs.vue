@@ -12,7 +12,7 @@
 
 			<div v-if="show.summary" class="panel-body">
 				<case-log-summary-container v-if="v2CaseLogs && v2CaseLogs.length > 0"
-						:case-logs="v2CaseLogs">
+						:case-logs="v2CaseLogs" :user="user" :dates="dates">
 				</case-log-summary-container>
 
 				<case-log-summary-v1 v-if="v1CaseLogs && v1CaseLogs.length > 0"
@@ -44,8 +44,16 @@ import { renderDateCell, createDateCell } from '@/modules/datatable-utils.js';
 
 export default {
 	props: {
+		user: {
+			type: Object,
+			required: true
+		},
 		caseLogs: {
 			type: Array,
+			required: true
+		},
+		dates: {
+			type: Object,
 			required: true
 		},
 		locations: {

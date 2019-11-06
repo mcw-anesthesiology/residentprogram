@@ -16,26 +16,35 @@
 						</option>
 					</select>
 				</label>
+				<print-element-button target="#case-log-summary-container-body" :filename="exportFilename"></print-element-button>
 			</div>
 		</div>
-		<div id="case-log-summary-container-body" class="panel-body" v-if="responseCounts && selectedSummaries">
+		<article id="case-log-summary-container-body" class="panel-body" v-if="responseCounts && selectedSummaries">
+			<h2>
+				{{ user.full_name }}
+				<small>
+					<rich-date-range :dates="dates" />
+				</small>
+			</h2>
 			<case-log-summary v-for="summary of selectedSummaries" :key="summary.id"
 				:title="summary.text"
 				:current-summary-counts="responseCounts.get(summary.id)"
 				:num-total-case-logs="caseLogs.length"
 			/>
-		</div>
+		</article>
 		<div class="panel-footer">
-			<print-element-button target="#case-log-summary-container-body" filename="Case logs export.pdf"></print-element-button>
+			<print-element-button target="#case-log-summary-container-body" :filename="exportFilename"></print-element-button>
 		</div>
 	</div>
 </template>
 
 <script>
 import PrintElementButton from '#/PrintElementButton.vue';
+import RichDateRange from '#/RichDateRange.vue';
 
 import CaseLogSummary from './Summary.vue';
 
+import { renderDateRange } from '@/modules/date-utils.js';
 import { logError } from '@/modules/errors.js';
 import { ADDITIONAL_SUMMARY_NAMES, getAdditionalSummaryMaps } from '@/modules/case-logs/raaps.js';
 
@@ -47,6 +56,14 @@ import {
 
 export default {
 	props: {
+		user: {
+			type: Object,
+			required: true
+		},
+		dates: {
+			type: Object,
+			required: true
+		},
 		caseLogs: {
 			type: Array,
 			required: true
@@ -60,6 +77,9 @@ export default {
 	},
 
 	computed: {
+		exportFilename() {
+			return `Case logs export - ${this.user.full_name} - ${renderDateRange(this.dates.startDate, this.dates.endDate)}`;
+		},
 		idMaps() {
 			return this.caseLogs
 				.map(caseLog => getQuestionnaireIdMap(caseLog.details));
@@ -157,6 +177,7 @@ export default {
 
 	components: {
 		CaseLogSummary,
+		RichDateRange,
 		PrintElementButton
 	}
 };
@@ -166,6 +187,11 @@ export default {
 	.controls {
 		display: flex;
 		justify-content: flex-end;
+		align-items: flex-end;
+	}
+
+	.controls > * {
+		margin: 0.5em;
 	}
 
 	.controls .containing-label {
