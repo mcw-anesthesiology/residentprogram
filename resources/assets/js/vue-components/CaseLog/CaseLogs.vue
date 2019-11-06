@@ -10,10 +10,10 @@
 				</div>
 			</div>
 
-			<div v-show="show.summary" class="panel-body">
-				<case-log-summary v-if="v2CaseLogs && v2CaseLogs.length > 0"
+			<div v-if="show.summary" class="panel-body">
+				<case-log-summary-container v-if="v2CaseLogs && v2CaseLogs.length > 0"
 						:case-logs="v2CaseLogs">
-				</case-log-summary>
+				</case-log-summary-container>
 
 				<case-log-summary-v1 v-if="v1CaseLogs && v1CaseLogs.length > 0"
 						:case-logs="v1CaseLogs">
@@ -36,7 +36,7 @@ import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import DataTable from '@/vue-components/DataTable.vue';
 import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
-import CaseLogSummary from './Summary.vue';
+import CaseLogSummaryContainer from './SummaryContainer.vue';
 
 import CaseLogSummaryV1 from './V1/DetailsReport.vue';
 
@@ -184,7 +184,7 @@ export default {
 	components: {
 		DataTable,
 		ShowHideButton,
-		CaseLogSummary,
+		CaseLogSummaryContainer,
 
 		CaseLogSummaryV1
 	}

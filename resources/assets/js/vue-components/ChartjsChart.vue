@@ -1,16 +1,13 @@
 <template>
-	<canvas ref="canvas" :id="id" :width="width" :height="height"></canvas>
+	<div class="chartjs-chart">
+		<canvas ref="canvas" :id="id" :width="width" :height="height"></canvas>
+	</div>
 </template>
 
 <script>
 import Chart from 'chart.js';
-import ElementResizeDetector from 'element-resize-detector';
 
 import { CHART_TYPES } from '@/modules/constants.js';
-
-const erd = ElementResizeDetector({
-	strategy: 'scroll'
-});
 
 export default {
 	props: {
@@ -66,11 +63,6 @@ export default {
 	},
 	mounted(){
 		this.createChart();
-		let parent = this.$refs.canvas.parentElement;
-		erd.listenTo(parent, () => {
-			if(this.chart)
-				this.chart.resize();
-		});
 	},
 	watch: {
 		data(data){
