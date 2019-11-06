@@ -1,221 +1,119 @@
 <template>
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<span class="panel-title">
-				Case logs summary
-			</span>
-			<div class="controls">
-				<label class="containing-label">
-					Summary type
-					<select class="form-control" v-model="currentSummary">
-						<option :value="null">Select a summary type</option>
-						<option v-for="summary of summaries" :key="summary.text"
-								:value="summary">
-							{{ summary.text }}
-						</option>
-					</select>
-				</label>
-			</div>
-		</div>
-		<div class="panel-body">
-			<div v-if="chartData" class="chart-container">
-				<chartjs-chart type="doughnut"
-					:data="chartData" :options="chartOptions" />
+	<div v-if="chartData" class="case-log-summary">
+		<h3>{{ title }}</h3>
 
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Response</th>
-							<th>Times selected</th>
-							<th>Percentage</th>
-						</tr>
-					</thead>
-					<tbody v-if="currentSummaryCountsValues">
-						<tr v-for="{response, color, count} of summaryDataEntries"
-								:key="response">
-							<td>
-								<span class="color-square"
-									:style="{backgroundColor: color}">
-								</span>
-								{{ response }}
-							</td>
-							<td>{{ count }}</td>
-							<td>{{ (100 * (count / caseLogs.length)).toFixed() }}%</td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr>
-							<th>Total responses</th>
-							<td>{{ currentTotalCount }}</td>
-							<td></td>
-						</tr>
-						<tr>
-							<th>Total cases</th>
-							<td>{{ caseLogs.length }}</td>
-							<td></td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
+		<div class="chart-container">
+			<chartjs-chart type="doughnut"
+				:data="chartData" :options="chartOptions" />
+			<img v-if="chartImg" :src="chartImg" alt="" />
 		</div>
-		<div class="panel-footer">
-			<show-hide-button class="btn-info" v-model="show.list">
-				cases included in summary
-			</show-hide-button>
 
-			<div v-show="show.list" class="table-container">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Location</th>
-							<th>Date</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="caseLog of caseLogs" :key="caseLog.id">
-							<td>{{ caseLog.id }}</td>
-							<td>{{ caseLog.location.name }}</td>
-							<td>{{ renderDate(caseLog.case_date, true) }}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Response</th>
+					<th>Times selected</th>
+					<th>Percentage</th>
+				</tr>
+			</thead>
+			<tbody v-if="currentSummaryCountsValues">
+				<tr v-for="{response, color, count} of summaryDataEntries"
+						:key="response">
+					<td>
+						<span class="color-square"
+							:style="{backgroundColor: color}">
+						</span>
+						{{ response }}
+					</td>
+					<td>{{ count }}</td>
+					<td>{{ (100 * (count / numTotalCaseLogs)).toFixed() }}%</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>Total responses</th>
+					<td>{{ currentTotalCount }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>Total cases</th>
+					<td>{{ numTotalCaseLogs.length }}</td>
+					<td></td>
+				</tr>
+			</tfoot>
+		</table>
 	</div>
 </template>
+
+<style scoped>
+	.case-log-summary {
+		page-break-inside: avoid;
+	}
+
+	.color-square {
+		display: inline-block;
+		width: 1.5em;
+		height: 1.5em;
+		vertical-align: middle;
+	}
+
+	.table-striped > tfoot {
+		border-top: 2px solid #ddd;
+	}
+
+	img {
+		max-width: 100%;
+		width: 100%;
+		display: none;
+	}
+
+	@media print {
+		.chart-container >>> .chartjs-chart {
+			display: none;
+		}
+
+		img {
+			display: block;
+		}
+	}
+</style>
 
 <script>
 import Color from 'color';
 
-import ChartjsChart from '@/vue-components/ChartjsChart.vue';
-import ShowHideButton from '@/vue-components/ShowHideButton.vue';
+import ChartjsChart from '#/ChartjsChart.vue';
 
-import { logError } from '@/modules/errors.js';
 import { getColors } from '@/modules/chart-utils.js';
-import { renderDate } from '@/modules/date-utils.js';
-import { ADDITIONAL_SUMMARY_NAMES, getAdditionalSummaryMaps } from '@/modules/case-logs/raaps.js';
-
-import {
-	getResponses,
-	getQuestionnaireIdMap,
-	walkQuestionnaireQuestions
-} from '@/modules/questionnaire/index.js';
 
 export default {
 	props: {
-		caseLogs: {
-			type: Array,
+		title: {
+			type: String,
+			required: true
+		},
+		currentSummaryCounts: {
+			type: Map,
+			required: true
+		},
+		numTotalCaseLogs: {
+			type: Number,
 			required: true
 		}
 	},
-
 	data() {
 		return {
-			currentSummary: null,
-			show: {
-				list: false
-			}
+			chartImg: null
 		};
 	},
-
 	computed: {
 		chartOptions() {
-			return {};
-		},
-		idMaps() {
-			return this.caseLogs
-				.map(caseLog => getQuestionnaireIdMap(caseLog.details));
-		},
-		additionalSummaries() {
-			return getAdditionalSummaryMaps(this.idMaps);
-		},
-		summaries() {
-			const map = new Map();
-
-			for (const [id, text] of ADDITIONAL_SUMMARY_NAMES.entries()) {
-				if (this.additionalSummaries.has(id) && !map.has(id))
-					map.set(id, text);
-			}
-
-			for (const questionnaire of this.caseLogs.map(log => log.details)) {
-				walkQuestionnaireQuestions(questionnaire, (question, section) => {
-					if (question.id && this.responses.has(question.id)) {
-						let text = question.text;
-						if (section.title)
-							text = `${section.title} - ${text}`;
-
-						if (!map.has(question.id)) {
-							map.set(question.id, text);
-						}
-					}
-				});
-			}
-
-			return Array.from(map.entries()).map(([id, text]) => ({id, text}));
-		},
-		responses() {
-			const responses = new Map();
-
-			for (const idMap of this.idMaps) {
-				for (const [id, question] of idMap.entries()) {
-					try {
-						const values = getResponses(question);
-						const prevValues = responses.has(id)
-							? responses.get(id)
-							: [];
-
-						if (id && values.length > 0) {
-							responses.set(id, prevValues.concat(values));
-						}
-					} catch (e) {
-						logError('Failed adding responses', e);
+			return {
+				animation: {
+					onComplete: ({ chart }) => {
+						this.chartImg = chart.toBase64Image();
 					}
 				}
-			}
-
-			return responses;
-		},
-		responseCounts() {
-			// FIXME: Should probably use values and map back to responses
-			// instead of the responses themselves, in case response text
-			// changes but underlying values don't
-
-			const counts = new Map();
-
-			for (const [questionId, responses] of this.responses.entries()) {
-				if (responses.length > 0) {
-					const questionEntry = counts.has(questionId)
-						? counts.get(questionId)
-						: new Map();
-
-					for (const response of responses) {
-						const count = questionEntry.has(response)
-							? questionEntry.get(response)
-							: 0;
-
-						questionEntry.set(response, count + 1);
-					}
-
-					counts.set(questionId, questionEntry);
-				}
-			}
-
-			for (const [key, val] of this.additionalSummaries.entries()) {
-				counts.set(key, val);
-			}
-
-			return counts;
-		},
-		currentSummaryCounts() {
-			if (
-				!this.responseCounts
-				|| !this.currentSummary
-				|| !this.responseCounts.has(this.currentSummary.id)
-			)
-				return;
-
-			return this.responseCounts.get(this.currentSummary.id);
+			};
 		},
 		currentTotalCount() {
 			if (!this.currentSummaryCounts)
@@ -269,7 +167,7 @@ export default {
 
 			return {
 				datasets: [{
-					label: this.currentSummary.text,
+					label: this.title,
 					backgroundColor: colors,
 					borderColor: colors.map(color => Color(color).darken(0.1)),
 					data: counts
@@ -278,56 +176,8 @@ export default {
 			};
 		}
 	},
-
-	methods: {
-		renderDate
-	},
-
 	components: {
 		ChartjsChart,
-		ShowHideButton
 	}
 };
 </script>
-
-<style scoped>
-	.controls {
-		display: flex;
-		justify-content: flex-end;
-	}
-
-	.controls .containing-label {
-		width: auto;
-	}
-
-	.chart-container {
-		display: flex;
-		flex-wrap: wrap;
-	}
-
-	.color-square {
-		display: inline-block;
-		width: 1.5em;
-		height: 1.5em;
-		vertical-align: middle;
-	}
-
-	.table-striped > tfoot {
-		border-top: 2px solid #ddd;
-	}
-
-	.panel-footer {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		align-items: flex-start;
-	}
-
-	.panel-footer .btn {
-		margin: 0.5em;
-	}
-
-	.panel-footer .table-container {
-		flex-grow: 1;
-	}
-</style>
