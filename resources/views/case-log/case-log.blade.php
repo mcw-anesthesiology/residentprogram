@@ -27,7 +27,10 @@
 						</span>
 					</div>
 					<div class="panel-body">
-						<case-logs :case-logs="user.caseLogs"
+						<case-logs
+							:user="user"
+							:case-logs="user.caseLogs"
+							:dates="dates"
 							:locations="locations"
 							removable
 							@delete="deleteCaseLog">
