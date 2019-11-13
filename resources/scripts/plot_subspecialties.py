@@ -22,8 +22,6 @@ def main():
     except KeyError:
         print("No outdir specified, will display figures", file=sys.stderr)
 
-    print(outdir)
-
     subspecialty_names = set([row["title"] for row in data])
     subspecialties = {
         name: [r for r in data if r["title"] == name] for name in subspecialty_names
