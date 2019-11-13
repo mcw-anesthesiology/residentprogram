@@ -1,20 +1,20 @@
 select
-	subject_id as trainee_id,
-	last_name,
-	first_name,
-	users.training_level,
-	avg(scenario_responses.value) as scenario_avg,
-	avg(case when scenario_difficulty='BEGINNER' then scenario_responses.value else null end) as basic_scenario_response_avg,
-	avg(case when scenario_difficulty='ADVANCED' then scenario_responses.value else null end) as advanced_scenario_response_avg,
-	avg(beyond_milestones.professionalism_responses.value) as professionalism_response_avg,
-	avg(case when competencies.id is not null then responses.response else null end) as overall_competency_avg,
-	avg(case when competencies.id=1 then responses.response else null end) as systems_based_practice_avg,
-	avg(case when competencies.id=2 then responses.response else null end) as practice_based_learning_avg,
-	avg(case when competencies.id=3 then responses.response else null end) as professionalism_avg,
-	avg(case when competencies.id=4 then responses.response else null end) as medical_knowledge_avg,
-	avg(case when competencies.id=5 then responses.response else null end) as patient_care_avg,
-	avg(case when competencies.id=6 then responses.response else null end) as communication_avg,
-	count(distinct evaluations.id) as num_evaluations
+	subject_id as "Trainee ID",
+	last_name as "Last name",
+	first_name as "First name",
+	users.training_level as "Training level",
+	avg(scenario_responses.value) as "Scenario average",
+	avg(case when scenario_difficulty='BEGINNER' then scenario_responses.value else null end) as "Basic scenario average",
+	avg(case when scenario_difficulty='ADVANCED' then scenario_responses.value else null end) as "Advanced scenario average",
+	avg(beyond_milestones.professionalism_responses.value) as "Professionalism response average",
+	avg(case when competencies.id is not null then responses.response else null end) as "Overall milestone average",
+	avg(case when competencies.id=1 then responses.response else null end) as "Systems Based Practice average",
+	avg(case when competencies.id=2 then responses.response else null end) as "Practice Based Learning average",
+	avg(case when competencies.id=3 then responses.response else null end) as "Professionalism average",
+	avg(case when competencies.id=4 then responses.response else null end) as "Medical Knowledge average",
+	avg(case when competencies.id=5 then responses.response else null end) as "Patient Care average",
+	avg(case when competencies.id=6 then responses.response else null end) as "Communication average",
+	count(distinct evaluations.id) as "# evaluations"
 from
 	evaluations
 join users

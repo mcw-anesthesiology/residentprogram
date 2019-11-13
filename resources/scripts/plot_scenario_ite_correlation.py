@@ -257,22 +257,26 @@ def autolabel(plt, rects):
         )
 
 
-def plot(records, k1, k2):
-    return plot_tuples(get_tuples(records, k1, k2))
+def plot(records, k1, k2, draw_points=True, label=None):
+    return plot_tuples(
+        get_tuples(records, k1, k2), draw_points=draw_points, label=label
+    )
 
 
 def get_tuples(records, k1, k2):
-    return [(float(r[k1]), float(r[k2])) for r in records]
+    return [(float(r[k1]), float(r[k2])) for r in records if r[k1] and r[k2]]
 
 
-def plot_tuples(l):
+def plot_tuples(l, draw_points=True, label=None):
     l.sort(key=lambda l: l[0])
     x = [t[0] for t in l]
     y = [t[1] for t in l]
 
-    plt.plot(x, y, ".")
+    if draw_points:
+        plt.plot(x, y, ".")
+
     [b, m], things = polyfit(x, y, 1, full=True)
-    plt.plot(x, [b + m * val for val in x], "-")
+    plt.plot(x, [b + m * val for val in x], "-", label=label)
     return things
 
 
