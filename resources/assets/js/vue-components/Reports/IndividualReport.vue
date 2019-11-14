@@ -59,6 +59,28 @@
 			</section>
 
 			<section v-if="show.charts">
+				<div class="charts">
+					<div v-if="evaluations && competencies">
+						<div>
+							<label class="containing-label">
+								Competency to average
+								<select class="form-control" v-model="timeChartCompetencyId">
+									<option value="">All competencies</option>
+									<option v-for="c of competencies" :key="c.id" :value="c.id">
+										{{ c.title }}
+									</option>
+								</select>
+							</label>
+						</div>
+						<chartjs-chart v-if="timeChartData"
+							ref="timeChart"
+							type="line"
+							:options="timeChartOptions"
+							:data="timeChartData"
+							:shouldEmit="true"
+						/>
+					</div>
+				</div>
 				<div class="row charts">
 					<div v-if="show.competencies" :class="chartWidth">
 						<chartjs-chart v-if="competencyChartData"
@@ -143,6 +165,7 @@
 <script>
 import Color from 'color';
 import download from 'downloadjs';
+import gql from 'graphql-tag';
 
 import HasAlerts from '@/vue-mixins/HasAlerts.js';
 
@@ -159,7 +182,8 @@ import {
 	FELLOWSHIP_VALUE_MAPS
 } from '@/modules/constants.js';
 import { handleError } from '@/modules/errors.js';
-import { isoDateString, parseCarbonDate } from '@/modules/date-utils.js';
+import { isoDateString, renderDate } from '@/modules/date-utils.js';
+import { average } from '@/modules/math-utils.js';
 import {
 	camelCaseToWords,
 	ucfirst,
@@ -179,6 +203,30 @@ import {
 	borderedStripedTable,
 	createResponseLegend
 } from '@/modules/report-utils.js';
+
+const averageColor = Color(CHART_COLORS.AVERAGE);
+const averageBackgroundColor = averageColor.alpha(0.2);
+
+const subjectColor = Color(CHART_COLORS.SUBJECT);
+const subjectBackgroundColor = subjectColor.alpha(0.2);
+
+const averageDatasetColors = {
+	backgroundColor: averageBackgroundColor.rgb().string(),
+	borderColor: averageColor.rgb().string(),
+	pointBackgroundColor: averageColor.rgb().string(),
+	pointBorderColor: '#fff',
+	pointHoverBackgroundColor: '#fff',
+	pointHoverBorderColor: averageColor.rgb().string()
+};
+
+const subjectDatasetColors = {
+	backgroundColor: subjectBackgroundColor.rgb().string(),
+	borderColor: subjectColor.rgb().string(),
+	pointBackgroundColor: subjectColor.rgb().string(),
+	pointBorderColor: '#fff',
+	pointHoverBackgroundColor: '#fff',
+	pointHoverBorderColor: subjectColor.rgb().string()
+};
 
 export default {
 	mixins: [HasAlerts],
@@ -206,8 +254,95 @@ export default {
 				charts: true
 			},
 			chartType: 'radar',
-			chartOrientation: 'vertical'
+			chartOrientation: 'vertical',
+
+			timeChartCompetencyId: '',
+
+			user: {},
+			competencies: [],
+			evaluations: []
 		};
+	},
+	apollo: {
+		user: {
+			query: gql`
+				query($id: ID!) {
+					user(id: $id) {
+						id
+						type
+						training_level
+						secondary_training_level
+					}
+				}
+			`,
+			variables() {
+				return {
+					id: this.subject.id
+				};
+			}
+		},
+		competencies: {
+			query: gql`
+				query {
+					competencies {
+						id
+						title
+					}
+				}
+			`
+		},
+		evaluations: {
+			query: gql`
+				query IndividualReportSubjectEvalsQuery(
+					$startDate: Date
+					$endDate: Date
+					$subjectType: UserType
+					$subjectTrainingLevel: TrainingLevel
+					$subjectSecondaryTrainingLevel: String
+				) {
+					evaluations(
+						after: $startDate
+						before: $endDate
+						status: complete
+						subjectFilter: {
+							type: $subjectType
+							training_level: $subjectTrainingLevel
+							secondary_training_level: $subjectSecondaryTrainingLevel
+						}
+						orderBy: [
+							{
+								field: "complete_date",
+								order: ASC
+							}
+						]
+					) {
+						id
+						complete_date
+						subject_id
+
+						responses {
+							id
+							response
+							weight
+
+							competencyQuestions {
+								id
+								competency_id
+							}
+						}
+					}
+				}
+			`,
+			variables() {
+				return {
+					startDate: this.report.startDate,
+					endDate: this.report.endDate,
+					subjectType: this.user.type,
+					subjectTrainingLevel: this.user.training_level,
+					subjectSecondaryTrainingLevel: this.user.secondary_training_level || undefined
+				};
+			}
+		}
 	},
 	computed: {
 		trainingLevelDisplay(){
@@ -398,35 +533,92 @@ export default {
 				}
 			};
 		},
-		competencyChartData(){
-			let averageColor = Color(CHART_COLORS.AVERAGE);
-			let averageBackgroundColor = averageColor.alpha(0.2);
+		timeChartOptions() {
+			return {
+				animation: false,
+				legend: {
+					labels: {
+						fontSize: 18,
+						fontColor: '#333'
+					}
+				},
+				scales: {
+					yAxes: [
+						{
+							ticks: {
+								min: 0,
+								max: 10,
+								stepSize: 1,
+								callback: createRadarScaleCallback(this.valueMap)
+							}
+						}
+					]
+				}
+			};
+		},
+		timeChartChunks() {
+			const chunks = new Map();
 
-			let subjectColor = Color(CHART_COLORS.SUBJECT);
-			let subjectBackgroundColor = subjectColor.alpha(0.2);
+			if (this.evaluations) {
+				for (const e of this.evaluations) {
+					const label = renderDate(e.complete_date);
+					const responses = this.timeChartCompetencyId
+						? e.responses.filter(r => r.competencyQuestions.find(cq => cq.competency_id == this.timeChartCompetencyId)) // eslint-disable-line eqeqeq
+						: e.responses.filter(r => r.competencyQuestions.length > 0);
+					chunks.set(label, (chunks.get(label) || []).concat(responses.map(r => ({
+						...r,
+						subject_id: e.subject_id
+					}))));
+				}
+			}
+
+			return chunks;
+		},
+		timeChartData() {
+			const labels = [];
+			const subjectData = [];
+			const averageData = [];
+
+			for (const [label, responses] of this.timeChartChunks.entries()) {
+				labels.push(label);
+				subjectData.push(average(
+					// eslint-disable-next-line eqeqeq
+					responses.filter(r => r.subject_id == this.subject.id)
+						.map(getWeightedResponseValue)
+				))
+				averageData.push(average(responses.map(getWeightedResponseValue)));
+			}
+
+			return {
+				labels,
+				datasets: [
+					{
+						label: 'Individual',
+						...subjectDatasetColors,
+						data: subjectData
+					},
+					{
+						label: 'Average',
+						...averageDatasetColors,
+						data: averageData
+					}
+				]
+			}
+		},
+		competencyChartData(){
 			try {
 				return {
 					labels: Object.values(this.report.competencies),
 					datasets: [
 						{
-							label: 'Average Competency',
-							backgroundColor: averageBackgroundColor.rgb().string(),
-							borderColor: averageColor.rgb().string(),
-							pointBackgroundColor: averageColor.rgb().string(),
-							pointBorderColor: '#fff',
-							pointHoverBackgroundColor: '#fff',
-							pointHoverBorderColor: averageColor.rgb().string(),
-							data: Object.values(this.report.averageCompetency)
+							label: 'Individual Competency',
+							...subjectDatasetColors,
+							data: Object.values(this.report.subjectCompetency[this.subjectId])
 						},
 						{
-							label: 'Subject Competency',
-							backgroundColor: subjectBackgroundColor.rgb().string(),
-							borderColor: subjectColor.rgb().string(),
-							pointBackgroundColor: subjectColor.rgb().string(),
-							pointBorderColor: '#fff',
-							pointHoverBackgroundColor: '#fff',
-							pointHoverBorderColor: subjectColor.rgb().string(),
-							data: Object.values(this.report.subjectCompetency[this.subjectId])
+							label: 'Average Competency',
+							...averageDatasetColors,
+							data: Object.values(this.report.averageCompetency)
 						}
 					]
 				};
@@ -435,34 +627,19 @@ export default {
 			}
 		},
 		milestoneChartData(){
-			let averageColor = Color(CHART_COLORS.AVERAGE);
-			let averageBackgroundColor = averageColor.alpha(0.2);
-
-			let subjectColor = Color(CHART_COLORS.SUBJECT);
-			let subjectBackgroundColor = subjectColor.alpha(0.2);
 			try {
 				return {
 					labels: Object.values(this.report.milestones),
 					datasets: [
 						{
-							label: 'Average Milestone',
-							backgroundColor: averageBackgroundColor.rgb().string(),
-							borderColor: averageColor.rgb().string(),
-							pointBackgroundColor: averageColor.rgb().string(),
-							pointBorderColor: '#fff',
-							pointHoverBackgroundColor: '#fff',
-							pointHoverBorderColor: averageColor.rgb().string(),
-							data: Object.values(this.report.averageMilestone)
+							label: 'Individual Milestone',
+							...subjectDatasetColors,
+							data: Object.values(this.report.subjectMilestone[this.subjectId])
 						},
 						{
-							label: 'Subject Milestone',
-							backgroundColor: subjectBackgroundColor.rgb().string(),
-							borderColor: subjectColor.rgb().string(),
-							pointBackgroundColor: subjectColor.rgb().string(),
-							pointBorderColor: '#fff',
-							pointHoverBackgroundColor: '#fff',
-							pointHoverBorderColor: subjectColor.rgb().string(),
-							data: Object.values(this.report.subjectMilestone[this.subjectId])
+							label: 'Average Milestone',
+							...averageDatasetColors,
+							data: Object.values(this.report.averageMilestone)
 						}
 					]
 				};
@@ -484,8 +661,8 @@ export default {
 			if (!this.report || !this.report.startDate || !this.report.endDate)
 				return;
 
-			const startDate = isoDateString(parseCarbonDate(this.report.startDate));
-			const endDate = isoDateString(parseCarbonDate(this.report.endDate));
+			const startDate = isoDateString(this.report.startDate);
+			const endDate = isoDateString(this.report.endDate);
 
 			fetch(`/highlighted-questions/user/${this.subjectId}`, {
 				...fetchConfig(),
@@ -651,19 +828,29 @@ export default {
 					}
 					else {
 						charts = [];
-						if(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)
+						if (this.$refs.timeChart && this.$refs.timeChart.chart) {
+							charts.push({
+								pageBreak: 'before',
+								image: this.$refs.timeChart.chart.toBase64Image(),
+								width: 1000
+							});
+						}
+
+						if (this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart) {
 							charts.push({
 								pageBreak: 'before',
 								image: this.$refs.competencyChart.chart.toBase64Image(),
 								width: 500
 							});
+						}
 
-						if(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)
+						if (this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart) {
 							charts.push({
 								image: this.$refs.milestoneChart.chart.toBase64Image(),
 								width: 500,
 								pageBreak: 'after'
 							});
+						}
 					}
 					content.push(...charts);
 				}
@@ -715,6 +902,10 @@ export default {
 		SvgIcon
 	}
 };
+
+function getWeightedResponseValue(response) {
+	return (response.response * response.weight) / 100;
+}
 </script>
 
 <style scoped>

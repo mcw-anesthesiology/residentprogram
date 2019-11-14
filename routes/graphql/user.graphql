@@ -1,5 +1,9 @@
 # @format
 
+extend type Query @middleware(checks: ["auth"]) {
+	user(id: ID! @eq): User @find(model: "App\\User")
+}
+
 extend type Query @middleware(checks: ["auth", "type:admin"]) {
 	users(
 		id: [ID!] @in
@@ -11,7 +15,6 @@ extend type Query @middleware(checks: ["auth", "type:admin"]) {
 			@builder(method: "App\\Http\\GraphQL\\Builders\\User@inGroups")
 		orderBy: [OrderByClause!] @orderBy
 	): [User!]! @all(model: "App\\User")
-	user(id: ID! @eq): User @find(model: "App\\User")
 	roles: [Role]! @all
 
 	userTypeGroups: [UserTypeGroup]!
@@ -230,6 +233,7 @@ enum ActiveStatus {
 }
 
 input UserFilter {
+	id: ID
 	type: UserType
 	training_level: TrainingLevel
 	secondary_training_level: String

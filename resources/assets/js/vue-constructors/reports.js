@@ -151,6 +151,7 @@ export function createReports(el){
 export function createTraineeReport(el) {
 	return new Vue({
 		el,
+		apolloProvider,
 		store,
 		mounted() {
 			this.$store.dispatch('users/fetch');
