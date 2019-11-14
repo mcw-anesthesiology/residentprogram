@@ -832,7 +832,7 @@ export default {
 							charts.push({
 								pageBreak: 'before',
 								image: this.$refs.timeChart.chart.toBase64Image(),
-								width: 1000
+								width: 550
 							});
 						}
 
@@ -840,14 +840,14 @@ export default {
 							charts.push({
 								pageBreak: 'before',
 								image: this.$refs.competencyChart.chart.toBase64Image(),
-								width: 500
+								width: 550
 							});
 						}
 
 						if (this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart) {
 							charts.push({
 								image: this.$refs.milestoneChart.chart.toBase64Image(),
-								width: 500,
+								width: 550,
 								pageBreak: 'after'
 							});
 						}
