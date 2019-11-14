@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use Hashids;
+use Log;
 
 class Response extends Model
 {
@@ -22,7 +23,7 @@ class Response extends Model
 	private $hashids = false;
 
 	public function getEvaluationIdAttribute($evalId){
-		if($this->hashids)
+		if ($this->hashids)
 			return Hashids::encode($evalId);
 
 		return $evalId;
@@ -32,12 +33,24 @@ class Response extends Model
 		return $this->belongsTo("App\Evaluation");
 	}
 
+	public function getFormIdAttribute() {
+		if ($this->hashids) {
+			$this->hashids = false;
+			$evaluation = Evaluation::find($this->evaluation_id);
+			$this->hashids = true;
+
+			return $evaluation->form_id;
+		} else {
+			return $this->evaluation->form_id;
+		}
+	}
+
 	public function milestoneQuestions(){
-		return $this->hasMany("App\MilestoneQuestion", "question_id", "question_id")->where("form_id", $this->evaluation->form_id);
+		return $this->hasMany("App\MilestoneQuestion", "question_id", "question_id")->where("form_id", $this->form_id);
 	}
 
 	public function competencyQuestions(){
-		return $this->hasMany("App\CompetencyQuestion", "question_id", "question_id")->where("form_id", $this->evaluation->form_id);
+		return $this->hasMany("App\CompetencyQuestion", "question_id", "question_id")->where("form_id", $this->form_id);
 	}
 
 	public function hashEvaluationId(){

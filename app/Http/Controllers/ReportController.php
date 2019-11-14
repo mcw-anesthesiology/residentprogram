@@ -359,6 +359,7 @@ class ReportController extends Controller
 		$subjectEvaluators = [];
 		$subjectEvaluations = [];
 		$competencyQuestions = [];
+		$competencyEvals = [];
 
 		$subjects = [];
 
@@ -418,6 +419,7 @@ class ReportController extends Controller
             "responses.question_id as question_id");
         $query->chunk(20000, function($responses) use (&$subjects,
 				&$milestones, &$competencies, &$subjectEvals,
+				&$competencyEvals,
 				&$subjectRequests, &$averageMilestone, &$averageMilestoneDenom,
 				&$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone,
 				&$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency,
@@ -627,6 +629,9 @@ class ReportController extends Controller
 			"endDate",
 			"subjectEvaluations"
 		);
+
+		$data['startDate'] = $startDate->toDateString();
+		$data['endDate'] = $endDate->toDateString();
 
 		$textQuery = DB::table("text_responses")
 			->join("evaluations", "evaluations.id", "=", "evaluation_id")

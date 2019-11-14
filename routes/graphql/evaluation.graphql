@@ -10,6 +10,7 @@ extend type Query @middleware(checks: ["auth"]) {
 			@builder(
 				method: "App\\Http\\GraphQL\\Builders\\Evaluation@subjectFilter"
 			)
+		status: EvaluationStatus @eq
 		orderBy: [OrderByClause!] @orderBy
 	): [Evaluation!]! @all(model: "App\\Evaluation")
 	evaluation(id: ID! @eq): Evaluation @find(model: "App\\Evaluation")
@@ -151,6 +152,9 @@ type Response {
 	question_id: ID
 	response: Int
 	weight: Int
+
+	milestoneQuestions: [MilestoneQuestion]
+	competencyQuestions: [CompetencyQuestion]
 }
 
 input ResponseInput {

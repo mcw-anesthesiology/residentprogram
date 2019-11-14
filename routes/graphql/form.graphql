@@ -5,6 +5,9 @@ extend type Query @middleware(checks: ["auth"]) {
 	form(id: ID! @eq): Form @find(model: "App\\Form")
 
 	formGroups(sortByTitle: Boolean): [FormGroup!]!
+
+	competencies: [Competency!] @all(model: "App\\Competency")
+	milestones: [Milestone!] @all(model: "App\\Milestone")
 }
 
 enum FormStatus {
@@ -50,6 +53,60 @@ type Form {
 	evaluator_type: EvaluatorType!
 	visibility: Visibility!
 	evaluation_period_type: EvaluationPeriodType
+
+	milestones: [Milestone] @belongsToMany
+	milestoneQuestions: [MilestoneQuestion] @hasMany
+	competencies: [Competency] @belongsToMany
+	competencyQuestions: [CompetencyQuestion] @hasMany
+}
+
+type Competency {
+	id: ID!
+	title: String
+	description: String
+
+	forms: [Form] @belongsToMany
+}
+
+type CompetencyQuestion {
+	id: ID!
+	form_id: ID!
+	competency_id: ID!
+	question_id: ID!
+
+	form: Form @belongsTo
+	competency: Competency @belongsTo
+}
+
+type Milestone {
+	id: ID!
+	title: String
+	type: String
+	training_level: String
+	description: String
+
+	forms: [Form] @belongsToMany
+	milestonesQuestions: [MilestoneQuestion] @hasMany
+	levels: [MilestoneLevel] @hasMany
+}
+
+type MilestoneLevel {
+	id: ID!
+	milestone_id: ID!
+	level_number: Int
+	description: String
+
+	milestone: Milestone @belongsTo
+}
+
+type MilestoneQuestion {
+	id: ID!
+	form_id: ID!
+	milestone_id: ID!
+	question_id: ID!
+
+	form: Form! @belongsTo
+	milestone: Milestone! @belongsTo
 }
 
 type FormGroup {
