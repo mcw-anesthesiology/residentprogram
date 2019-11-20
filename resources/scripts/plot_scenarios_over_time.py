@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 
-"""Plot subspecialties
-
-Takes output of `subject-form-based-responses.sql` query as input via stdin
-"""
-
 import matplotlib.pyplot as plt
 
 import csv, os, os.path, sys
@@ -26,10 +21,14 @@ def main():
         plt.figure()
         x = "Evaluation completion timestamp"
         y = "Scenario response"
-        plt.title("{} aggregated".format(training_level))
         plt.xlabel(x)
         plt.ylabel(y)
-        plot(rows, x, y)
+        r_value, p_value, std_err, points = plot(rows, x, y)
+        plt.title(
+            "{} aggregated (R²={}, StdErr={}, #={})".format(
+                training_level, round(r_value ** 2, 5), round(std_err, 5), len(points)
+            )
+        )
         set_xticks(plt)
         plt.tight_layout()
 
@@ -49,11 +48,17 @@ def main():
             plt.figure()
             x = "Evaluation completion timestamp"
             y = "Scenario response"
-            plt.title(title)
             plt.xlabel(x)
             plt.ylabel(y)
-            plot(trainee_rows, x, y, label="Trainee")
+            r_value, _p_value, std_err, points = plot(
+                trainee_rows, x, y, label="Trainee"
+            )
             plot(rows, x, y, draw_points=False, label="Training level aggregate")
+            plt.title(
+                "{} (R²={}, StdErr={}, #={})".format(
+                    title, round(r_value ** 2, 5), round(std_err, 5), len(points)
+                )
+            )
             set_xticks(plt)
             plt.legend()
             plt.tight_layout()

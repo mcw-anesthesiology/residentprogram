@@ -2,7 +2,7 @@
 
 import matplotlib.pyplot as plt
 from numpy import average, arange
-from numpy.polynomial.polynomial import polyfit
+from scipy.stats import linregress
 
 from argparse import ArgumentParser
 import csv, sys
@@ -38,7 +38,7 @@ def main():
     plt.title("All scenarios and scaled scores")
     plt.xlabel("Scenario response average")
     plt.ylabel("ITE scaled score")
-    residuals, *_ = plot(records, "scenario_avg", "Scaled")
+    plot(records, "scenario_avg", "Scaled")
 
     plt.tight_layout()
     plt.figure()
@@ -62,20 +62,17 @@ def main():
     plt.subplot(2, 1, 1)
     plt.xlabel("Competency overall average")
     plt.ylabel("ITE scaled score")
-    residuals, *_ = plot(records, "overall_competency_avg", "Scaled")
-    plt.title("Residuals: {}".format(round(residuals[0])))
+    plot(records, "overall_competency_avg", "Scaled")
 
     plt.subplot(2, 2, 3)
     plt.xlabel("Medical knowledge competency average")
     plt.ylabel("ITE scaled score")
-    residuals, *_ = plot(records, "medical_knowledge_avg", "Scaled")
-    plt.title("Residuals: {}".format(round(residuals[0])))
+    plot(records, "medical_knowledge_avg", "Scaled")
 
     plt.subplot(2, 2, 4)
     plt.xlabel("Patient care competency average")
     plt.ylabel("ITE scaled score")
-    residuals, *_ = plot(records, "patient_care_avg", "Scaled")
-    plt.title("Residuals: {}".format(round(residuals[0])))
+    plot(records, "patient_care_avg", "Scaled")
 
     plt.tight_layout()
     plt.figure()
@@ -249,7 +246,7 @@ def autolabel(plt, rects):
         height = rect.get_height()
         plt.annotate(
             "{}".format(round(height, 3)),
-            xy=(rect.get_x() + rect.get_width() / 2, height),
+            xy=(rect.get_x() + rect.get_wiggdth() / 2, height),
             xytext=(0, 1),  # 3 points vertical offset
             textcoords="offset points",
             ha="center",
@@ -275,9 +272,9 @@ def plot_tuples(l, draw_points=True, label=None):
     if draw_points:
         plt.plot(x, y, ".")
 
-    [b, m], things = polyfit(x, y, 1, full=True)
+    m, b, *things = linregress(x, y)
     plt.plot(x, [b + m * val for val in x], "-", label=label)
-    return things
+    return *things, l
 
 
 def get_percentile_rank(record):

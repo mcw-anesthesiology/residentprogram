@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-"""Plot subspecialties
-
-Takes output of `subject-form-based-responses.sql` query as input via stdin
-"""
 
 import matplotlib.pyplot as plt
 
@@ -37,7 +33,12 @@ def main():
         y = "{} average".format(competency)
         plt.xlabel(x)
         plt.ylabel(y)
-        plot(data, x, y)
+        r_value, _p_value, std_err, points = plot(data, x, y)
+        plt.title(
+            "(R²={}, StdErr={}, #={})".format(
+                round(r_value ** 2, 5), round(std_err, 5), len(points)
+            )
+        )
         plt.tight_layout()
 
         if outdir is not None:
