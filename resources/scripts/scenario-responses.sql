@@ -3,7 +3,7 @@ select
 	last_name as "Last name",
 	first_name as "First name",
 	users.training_level as "Training level",
-	scenario_responses.value as "Scenario response",
+	scenario_responses.value as "IPA score response",
 	UNIX_TIMESTAMP(evaluations.complete_date) as "Evaluation completion timestamp"
 from
 	evaluations

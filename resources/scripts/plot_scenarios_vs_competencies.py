@@ -8,7 +8,7 @@ import csv, os.path, sys
 from plot_scenario_ite_correlation import plot
 
 COMPETENCIES = [
-    "Overall milestone",
+    "Overall Milestone",
     "Systems Based Practice",
     "Practice Based Learning",
     "Professionalism",
@@ -29,20 +29,65 @@ def main():
 
     for competency in COMPETENCIES:
         plt.figure()
-        x = "Scenario average"
-        y = "{} average".format(competency)
-        plt.xlabel(x)
+        plt.suptitle("Competency: {}".format(competency))
+        x = "{} average".format(competency)
+        y = "IPA score average"
+        plt.xlabel("Milestone response average")
         plt.ylabel(y)
         r_value, _p_value, std_err, points = plot(data, x, y)
         plt.title(
-            "(R²={}, StdErr={}, #={})".format(
-                round(r_value ** 2, 5), round(std_err, 5), len(points)
+            "(R={}, R²={}, StdErr={}, #={})".format(
+                round(r_value, 5),
+                round(r_value ** 2, 5),
+                round(std_err, 5),
+                len(points),
             )
         )
-        plt.tight_layout()
+        plt.tight_layout(pad=2)
 
         if outdir is not None:
             plt.savefig(os.path.join(outdir, "{}.png".format(competency)))
+
+        plt.figure()
+        plt.suptitle("Competency: {}".format(competency))
+        x = "{} average".format(competency)
+
+        plt.subplot(2, 1, 1)
+        y = "Basic IPA score average"
+        plt.xlabel("Milestone response average")
+        plt.ylabel(y)
+        r_value, _p_value, std_err, points = plot(data, x, y)
+        plt.title(
+            "(R={}, R²={}, StdErr={}, #={})".format(
+                round(r_value, 5),
+                round(r_value ** 2, 5),
+                round(std_err, 5),
+                len(points),
+            )
+        )
+
+        plt.subplot(2, 1, 2)
+        y = "Advanced IPA score average"
+        plt.xlabel("Milestone response average")
+        plt.ylabel(y)
+        r_value, _p_value, std_err, points = plot(data, x, y)
+        plt.title(
+            "(R={}, R²={}, StdErr={}, #={})".format(
+                round(r_value, 5),
+                round(r_value ** 2, 5),
+                round(std_err, 5),
+                len(points),
+            )
+        )
+
+        plt.tight_layout(pad=2)
+
+        if outdir is not None:
+            plt.savefig(
+                os.path.join(
+                    outdir, "{} - Separate scenario types.png".format(competency)
+                )
+            )
 
     if outdir is None:
         plt.show()

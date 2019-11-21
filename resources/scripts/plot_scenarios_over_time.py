@@ -20,13 +20,17 @@ def main():
     for training_level, rows in training_level_data.items():
         plt.figure()
         x = "Evaluation completion timestamp"
-        y = "Scenario response"
+        y = "IPA score response"
         plt.xlabel(x)
         plt.ylabel(y)
         r_value, p_value, std_err, points = plot(rows, x, y)
+        plt.suptitle("{} aggregated".format(training_level))
         plt.title(
-            "{} aggregated (R²={}, StdErr={}, #={})".format(
-                training_level, round(r_value ** 2, 5), round(std_err, 5), len(points)
+            "(R={}, R²={}, StdErr={}, #={})".format(
+                round(r_value, 5),
+                round(r_value ** 2, 5),
+                round(std_err, 5),
+                len(points),
             )
         )
         set_xticks(plt)
@@ -47,16 +51,20 @@ def main():
 
             plt.figure()
             x = "Evaluation completion timestamp"
-            y = "Scenario response"
+            y = "IPA score response"
             plt.xlabel(x)
             plt.ylabel(y)
             r_value, _p_value, std_err, points = plot(
                 trainee_rows, x, y, label="Trainee"
             )
             plot(rows, x, y, draw_points=False, label="Training level aggregate")
+            plt.suptitle(title)
             plt.title(
-                "{} (R²={}, StdErr={}, #={})".format(
-                    title, round(r_value ** 2, 5), round(std_err, 5), len(points)
+                "(R={}, R²={}, StdErr={}, #={})".format(
+                    round(r_value, 5),
+                    round(r_value ** 2, 5),
+                    round(std_err, 5),
+                    len(points),
                 )
             )
             set_xticks(plt)
