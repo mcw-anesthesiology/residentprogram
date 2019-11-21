@@ -6,9 +6,9 @@ select
 	milestones.title as "Milestone",
 	count(DISTINCT responses.id) as "Number of responses",
 	avg(responses.response) as "Milestone average",
-	avg(beyond_milestones.scenario_responses.value) as "Overall scenario average",
-	avg(case when scenario_difficulty='BEGINNER' then scenario_responses.value else null end) as "Basic scenario average",
-	avg(case when scenario_difficulty='ADVANCED' then scenario_responses.value else null end) as "Advanced scenario average"
+	avg(beyond_milestones.scenario_responses.value) as "Overall IPA score average",
+	avg(case when scenario_difficulty='BEGINNER' then scenario_responses.value else null end) as "Basic IPA score average",
+	avg(case when scenario_difficulty='ADVANCED' then scenario_responses.value else null end) as "Advanced IPA score average"
 from
 	evaluations
 join forms on evaluations.form_id = forms.id

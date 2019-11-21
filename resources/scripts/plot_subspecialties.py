@@ -29,8 +29,8 @@ def main():
 
     for subspecialty, rows in subspecialties.items():
         plt.figure()
-        plt.xlabel("Tradiational response average")
-        plt.ylabel("Scenario response average")
+        plt.xlabel("Milestone response average")
+        plt.ylabel("IPA score response average")
         r_value, _p_value, std_err, points = plot(rows, "response_avg", "scenario_avg")
         plt.suptitle(
             "{} (Avg # evals per person={})".format(
@@ -38,8 +38,11 @@ def main():
             )
         )
         plt.title(
-            "(R²={}, StdErr={}, #={})".format(
-                round(r_value ** 2, 5), round(std_err, 5), len(points),
+            "(R={}, R²={}, StdErr={}, #={})".format(
+                round(r_value, 5),
+                round(r_value ** 2, 5),
+                round(std_err, 5),
+                len(points),
             )
         )
         plt.tight_layout(pad=2)
@@ -55,19 +58,22 @@ def main():
             )
         )
         plt.subplot(2, 1, 1)
-        plt.xlabel("Tradiational response average")
-        plt.ylabel("Basic scenario average")
+        plt.xlabel("Milestone response average")
+        plt.ylabel("Basic IPA score average")
         r_value, _p_value, std_err, points = plot(
             rows, "response_avg", "basic_scenario_response_avg"
         )
         plt.title(
-            "(R²={}, StdErr={}, #={})".format(
-                round(r_value ** 2, 5), round(std_err, 5), len(points)
+            "(R={}, R²={}, StdErr={}, #={})".format(
+                round(r_value, 5),
+                round(r_value ** 2, 5),
+                round(std_err, 5),
+                len(points),
             )
         )
         plt.subplot(2, 1, 2)
-        plt.xlabel("Tradiational response average")
-        plt.ylabel("Advanced scenario average")
+        plt.xlabel("Milestone response average")
+        plt.ylabel("Advanced IPA score average")
         r_value, _p_value, std_err, points = plot(
             rows, "response_avg", "advanced_scenario_response_avg"
         )
