@@ -26,7 +26,7 @@
 					<form v-if="showAdd[user.id]" @submit="handleAddMentee($event, user.id)">
 						<label class="containing-label">
 							Mentee
-							<select-two :options="groupedTrainees" name="trainee" />
+							<select-two :options="groupedTrainees" name="trainee" required />
 						</label>
 
 						<button type="submit" class="btn btn-success">
@@ -154,6 +154,8 @@ export default {
 		handleAddMentee(event, mentorId) {
 			event.preventDefault();
 			const menteeId = event.target.elements.trainee.value;
+
+			if (!menteeId || !mentorId) return;
 
 			this.$apollo.mutate({
 				mutation: gql`
