@@ -42,7 +42,9 @@
 	</component-list>
 	<div v-else v-cloak>
 		<case-logs
+			:user="user"
 			:case-logs="caseLogs"
+			:dates="dates"
 			:locations="locations"
 			editable
 			removable
