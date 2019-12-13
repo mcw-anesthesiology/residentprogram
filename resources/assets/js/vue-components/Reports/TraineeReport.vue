@@ -120,6 +120,7 @@
 					<div class="btn-lg-submit-container">
 						<button v-if="report && subjectIds && subjectIds.length > 0"
 								type="button" class="btn btn-lg btn-primary"
+								:disabled="$apollo.loading"
 								@click="printAll">
 							Export all
 							<svg-icon src="/img/icons/pdf.svg" />
