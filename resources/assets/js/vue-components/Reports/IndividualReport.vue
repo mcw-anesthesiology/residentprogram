@@ -260,7 +260,8 @@ export default {
 
 			user: {},
 			competencies: [],
-			evaluations: []
+			evaluations: [],
+			loading: false
 		};
 	},
 	apollo: {
@@ -664,6 +665,8 @@ export default {
 			const startDate = isoDateString(this.report.startDate);
 			const endDate = isoDateString(this.report.endDate);
 
+			this.loading = true;
+
 			fetch(`/highlighted-questions/user/${this.subjectId}`, {
 				...fetchConfig(),
 				method: 'POST',
@@ -673,12 +676,14 @@ export default {
 				})
 			}).then(jsonOrThrow).then(highlightedQuestions => {
 				this.highlightedQuestions = highlightedQuestions;
+				this.loading = false;
 			}).catch(err => {
 				handleError(
 					err,
 					this,
 					'There was a problem fetching highlighted questions'
 				);
+				this.loading = false;
 			});
 		},
 		saveCharts() {
@@ -689,13 +694,25 @@ export default {
 				download(this.$refs.milestoneChart.chart.toBase64Image(),
 					`Milestones chart - ${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}.png`);
 		},
+		waitForLoading() {
+			return new Promise((resolve) => {
+				let interval;
+				interval = setInterval(() => {
+					if (!this.loading && !this.$apollo.loading) {
+						resolve();
+						clearInterval(interval);
+					}
+				}, 500);
+			});
+		},
 		exportPdf() {
 			if(!this.report.subjectEvaluations[this.subjectId])
 				return;
 
 			Promise.all([
 				import('pdfmake/build/pdfmake.js'),
-				import('pdfmake/build/vfs_fonts.js')
+				import('pdfmake/build/vfs_fonts.js'),
+				waitForLoading()
 			]).then(([{default: pdfmake}, {default: pdfFonts}]) => {
 				pdfmake.vfs = pdfFonts.pdfMake.vfs;
 

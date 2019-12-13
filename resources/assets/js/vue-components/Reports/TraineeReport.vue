@@ -120,7 +120,7 @@
 					<div class="btn-lg-submit-container">
 						<button v-if="report && subjectIds && subjectIds.length > 0"
 								type="button" class="btn btn-lg btn-primary"
-								:disabled="$apollo.loading"
+								:disabled="loading.individuals"
 								@click="printAll">
 							Export all
 							<svg-icon src="/img/icons/pdf.svg" />
@@ -210,7 +210,8 @@ export default {
 			loading: {
 				report: false,
 				subjectStats: false,
-				evaluatorStats: false
+				evaluatorStats: false,
+				individuals: false
 			},
 
 			report: null,
@@ -293,6 +294,14 @@ export default {
 		reportSubjects(reportSubjects) {
 			if (reportSubjects && reportSubjects.length === 1)
 				this.traineeId = reportSubjects[0].id;
+		},
+		subjectIds() {
+			this.loading.individuals = true;
+			this.$nextTick(() => {
+				Promise.all(this.$refs.individualReports.map(i => i.waitForLoading())).then(() => {
+					this.loading.individuals = false;
+				})
+			});
 		}
 	},
 	methods: {
