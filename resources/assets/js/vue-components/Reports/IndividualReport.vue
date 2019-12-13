@@ -712,7 +712,7 @@ export default {
 			Promise.all([
 				import('pdfmake/build/pdfmake.js'),
 				import('pdfmake/build/vfs_fonts.js'),
-				waitForLoading()
+				this.waitForLoading()
 			]).then(([{default: pdfmake}, {default: pdfFonts}]) => {
 				pdfmake.vfs = pdfFonts.pdfMake.vfs;
 
