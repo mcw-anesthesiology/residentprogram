@@ -98,6 +98,10 @@ export default {
 			type: [Number, String],
 			required: true
 		},
+		full_name: {
+			type: String,
+			required: true,
+		},
 		period_start: {
 			type: String,
 			required: true
@@ -151,19 +155,7 @@ export default {
 			return getStatusText(this.status);
 		},
 		downloadFilename() {
-			const pieces = ['Merit checklist'];
-
-			if (this.user) {
-				pieces.push(this.user.full_name);
-			}
-
-			pieces.push(
-				this.period_start,
-				'-',
-				this.period_end,
-			);
-
-			return `${pieces.join(' ')}.json`;
+			return `Merit checklist - ${full_name} ${this.period_start} - ${this.period_end}.json`;
 		}
 	},
 
