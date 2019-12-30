@@ -68,6 +68,12 @@
 							Cancel
 						</template>
 					</confirmation-yes-no>
+
+					<a :href="`/merits/${id}`" class="btn btn-xs btn-default"
+							:download="downloadFilename">
+						<span class="glyphicon glyphicon-save"></span>
+						Download
+					</a>
 				</template>
 			</div>
 		</div>
@@ -75,6 +81,8 @@
 </template>
 
 <script>
+import download from 'downloadjs';
+
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import ConfirmationYesNo from '@/vue-components/ConfirmationYesNo.vue';
 import RichDate from '@/vue-components/RichDate.vue';
@@ -141,6 +149,21 @@ export default {
 		},
 		statusText() {
 			return getStatusText(this.status);
+		},
+		downloadFilename() {
+			const pieces = ['Merit checklist'];
+
+			if (this.user) {
+				pieces.push(this.user.full_name);
+			}
+
+			pieces.push(
+				this.period_start,
+				'-',
+				this.period_end,
+			);
+
+			return `${pieces.join(' ')}.json`;
 		}
 	},
 
