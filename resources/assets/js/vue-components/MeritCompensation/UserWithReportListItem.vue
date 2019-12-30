@@ -12,6 +12,7 @@
 							v-for="report of meritReports"
 							:key="report.id"
 							v-bind="report"
+							:full_name="full_name"
 							:user="user"
 							@change="$emit('change', item.id)" />
 					</div>
