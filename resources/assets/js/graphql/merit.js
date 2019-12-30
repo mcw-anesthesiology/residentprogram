@@ -158,6 +158,76 @@ export const INDIVIDUAL_DASHBOARD_FIELDS = gql`
 	${YEARLY_OVERVIEW_FIELDS}
 `;
 
+export const FCD_EXPORT_FIELDS = gql`
+	fragment FcdExportFields on MeritReport {
+		id
+		status
+		period_start
+		period_end
+
+		user {
+			full_name
+			email
+		}
+
+		publications {
+			publicationType
+			title
+			author
+			link
+			role
+			peerReviewed
+			pmid
+		}
+
+		studies {
+			title
+			role
+			primaryInvestigator
+			yearInitiated
+			approvalNumber
+			progress
+		}
+
+		grants {
+			type
+			agency
+			project
+			amount
+		}
+
+		leadershipRoles {
+			roleType
+			roles
+		}
+
+		nationalBoards {
+			name
+			role
+		}
+
+		committees {
+			name
+			role
+			organizationType
+		}
+
+		certifications {
+			board
+			specialty
+			current
+			recertified
+		}
+
+		lectures {
+			lectureType
+			title
+			date
+			audience
+		}
+	}
+`;
+
 export const SUMMARY_REPORT_USER_FIELDS = gql`
 	fragment SummaryReportUserFields on User {
 		full_name

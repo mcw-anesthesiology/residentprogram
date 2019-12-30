@@ -74,6 +74,11 @@
 						<span class="glyphicon glyphicon-save"></span>
 						Download
 					</a>
+					<button type="button" class="btn btn-xs btn-default"
+							@click="downloadFcdExport">
+						<span class="glyphicon glyphicon-save"></span>
+						Export to FCD
+					</button>
 				</template>
 			</div>
 		</div>
@@ -82,6 +87,7 @@
 
 <script>
 import download from 'downloadjs';
+import gql from 'graphql-tag';
 
 import ConfirmationButton from '@/vue-components/ConfirmationButton.vue';
 import ConfirmationYesNo from '@/vue-components/ConfirmationYesNo.vue';
@@ -91,6 +97,16 @@ import RichDateRange from '@/vue-components/RichDateRange.vue';
 import { emitError } from '@/modules/errors.js';
 import { getStatusLabel, getStatusText } from '@/modules/merit-utils.js';
 import { getFetchHeaders, okOrThrow, ucfirst } from '@/modules/utils.js';
+import { FCD_EXPORT_FIELDS } from '@/graphql/merit.js';
+
+const EXPORT_FCD_QUERY = gql`
+	query ExportFcdQuery($id: ID!) {
+		meritReport(id: $id) {
+			...FcdExportFields
+		}
+	}
+	${FCD_EXPORT_FIELDS}
+`
 
 export default {
 	props: {
@@ -155,7 +171,7 @@ export default {
 			return getStatusText(this.status);
 		},
 		downloadFilename() {
-			return `Merit checklist - ${full_name} ${this.period_start} - ${this.period_end}.json`;
+			return `Merit checklist - ${this.full_name} ${this.period_start} - ${this.period_end}.json`;
 		}
 	},
 
@@ -206,6 +222,16 @@ export default {
 			}).catch(err => {
 				emitError(err, this, 'There was a problem updating the merit report');
 			});
+		},
+		async downloadFcdExport() {
+			const { data: { meritReport } } = await this.$apollo.query({
+				query: EXPORT_FCD_QUERY,
+				variables: {
+					id: this.id
+				}
+			});
+
+			return download(JSON.stringify(meritReport), this.downloadFilename, 'text/json');
 		}
 	},
 
