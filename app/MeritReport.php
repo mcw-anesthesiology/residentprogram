@@ -483,8 +483,6 @@ class MeritReport extends Model
 		try {
 			switch ($this->form->report_slug) {
 			case 'mcw-anesth-faculty-merit-2017-2018':
-				break;
-
 				return self::isChecked($this->report['pages'][1]['items'][0]['items'][2]['items'][3]);
 			}
 		} catch (\Exception $e) {
@@ -549,6 +547,7 @@ class MeritReport extends Model
 		}
 
 		return array_map(function ($committee) {
+			$committee['organization'] = 'Department';
 			$committee['organizationType'] = 'INTERNAL';
 			return $committee;
 		}, $committees);
@@ -565,15 +564,26 @@ class MeritReport extends Model
 				$HOSPIAL_SOM = 0;
 				$INSTITUTIONAL = 4;
 
-				foreach ([$HOSPIAL_SOM, $INSTITUTIONAL] as $i) {
-					$item = $scholarlyServiceItems[$i];
-					if (self::isChecked($item)) {
-						$committees = array_merge(
-							$committees,
-							self::getListItems($item)
-						);
-					}
+				if (self::isChecked($scholarlyServiceItems[$HOSPIAL_SOM])) {
+					$committees = array_merge(
+						$committees,
+						array_map(function($committee) {
+							$commitee['organization'] = 'Hospital';
+							return $committee;
+						}, self::getListItems($scholarlyServiceItems[$HOSPIAL_SOM]))
+					);
 				}
+
+				if (self::isChecked($scholarlyServiceItems[$INSTITUTIONAL])) {
+					$committees = array_merge(
+						$committees,
+						array_map(function($committee) {
+							$commitee['organization'] = 'MCW';
+							return $committee;
+						}, self::getListItems($scholarlyServiceItems[$INSTITUTIONAL]))
+					);
+				}
+
 				break;
 			default:
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);

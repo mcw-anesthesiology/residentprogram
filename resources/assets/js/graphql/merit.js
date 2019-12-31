@@ -210,6 +210,7 @@ export const FCD_EXPORT_FIELDS = gql`
 			name
 			role
 			organizationType
+			organization
 		}
 
 		certifications {
@@ -218,6 +219,8 @@ export const FCD_EXPORT_FIELDS = gql`
 			current
 			recertified
 		}
+
+		organizations
 
 		lectures {
 			lectureType

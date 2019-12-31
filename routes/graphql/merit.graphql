@@ -216,6 +216,7 @@ type CommitteeItem {
 	name: String
 	role: CommitteeRole
 	organizationType: OrganizationType
+	organization: String
 	meetingsPerYear: Int
 }
 
