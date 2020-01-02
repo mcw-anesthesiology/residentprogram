@@ -98,6 +98,7 @@ type MeritReport {
 	committees: [CommitteeItem]
 	directorships: Directorships
 	interviews: [DatedEvent]
+	mentorships: [ReportedMentorship]
 
 	certifications: [Certification]
 	organizations: [String]
@@ -247,6 +248,12 @@ type Lecture {
 	title: String
 	date: String
 	audience: String
+}
+
+type ReportedMentorship {
+	mentee: String
+	mentorshipType: String,
+	subject: String
 }
 
 # type MeritReportContents {

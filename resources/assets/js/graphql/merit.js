@@ -228,6 +228,12 @@ export const FCD_EXPORT_FIELDS = gql`
 			date
 			audience
 		}
+
+		mentorships {
+			mentee
+			mentorshipType
+			subject
+		}
 	}
 `;
 

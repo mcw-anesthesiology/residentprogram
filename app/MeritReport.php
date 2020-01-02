@@ -863,6 +863,66 @@ class MeritReport extends Model
 		}
 	}
 
+	public function getMentorshipsAttribute() {
+		$mentorships = [];
+
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+			case 'mcw-anesth-faculty-merit-2016-2017':
+				$edDeptItems = $this->report['pages'][1]['items'][0]['items'];
+				$medStudentsItems = $edDeptItems[1]['items'];
+				$clinicalApprenticeships = $medStudentsItems[3];
+
+				if (self::isChecked($clinicalApprenticeships)) {
+					$names = self::getTextListItems($clinicalApprenticeships);
+					$mentorships = array_merge(
+						$mentorships,
+						array_map(function($name) {
+							return [
+								'mentee' => $name,
+								'mentorshipType' => 'Medical Student - Clinical apprenticeship',
+								'subject' => null
+							];
+						}, $names)
+					);
+				}
+
+				$resFellowsItems = $edDeptItems[2]['items'];
+				$otherEdItems = $edDeptItems[3]['items'];
+
+				$mentorshipItems = [
+					$medStudentsItems[4],
+					$medStudentsItems[8],
+					$resFellowsItems[8],
+					$resFellowsItems[9],
+					$resFellowsItems[10],
+					$resFellowsItems[11],
+					$otherEdItems[0],
+					$otherEdItems[1],
+				];
+
+				foreach ($mentorshipItems as $item) {
+					if (self::isChecked($item)) {
+						$mentorships = array_merge(
+							$mentorships,
+							array_map(function($mentorship) use ($item) {
+								$mentorship['mentorshipType'] = $item['text'];
+								return $mentorship;
+							}, self::getListItems($item))
+						);
+					}
+				}
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getMentorshipsAttribute ' . $e);
+		}
+
+		return $mentorships;
+	}
+
 	public function getLecturesAttribute() {
 		try {
 			switch ($this->form->report_slug) {
