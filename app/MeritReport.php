@@ -1245,12 +1245,7 @@ class MeritReport extends Model
 						if ($item['text'] == 'Other') {
 							$organizations = array_merge(
 								$organizations,
-								array_map(
-									function ($listItem) {
-										return $listItem['text'];
-									},
-									self::getListItems($item)
-								)
+								self::getTextListItems($item)
 							);
 						} else {
 							$organizations[] = $item['text'];
