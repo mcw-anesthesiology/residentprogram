@@ -913,6 +913,7 @@ class MeritReport extends Model
 						);
 					}
 				}
+				break;
 			default:
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
