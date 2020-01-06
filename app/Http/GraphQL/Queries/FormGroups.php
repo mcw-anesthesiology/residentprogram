@@ -32,6 +32,6 @@ class FormGroups
 				'type' => $type,
 				'forms' => $forms
 			];
-		})->all();
+		});
     }
 }
