@@ -312,7 +312,8 @@ class ManageController extends Controller
 			"fellow" => "Fellow",
 			"faculty" => "Faculty",
 			"staff" => "Staff",
-			"admin" => "Administrator"
+			"admin" => "Administrator",
+			'external' => 'External'
 		];
 
 		$userGroups = User::where("status", "active")->orderBy("last_name")
