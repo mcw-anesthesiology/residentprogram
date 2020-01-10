@@ -675,9 +675,9 @@ export default {
 										'Completed'
 									].map(tableHeader),
 									...this.subjectEvals.map(subjectEval => [
-										subjectEval.id,
-										subjectEval.evaluator ? subjectEval.evaluator.full_name : '',
-										subjectEval.requestor ? subjectEval.requestor.full_name : '',
+										this.isVisible(subjectEval) ? subjectEval.id : '',
+										(this.isVisible(subjectEval) && subjectEval.evaluator) ? subjectEval.evaluator.full_name : '',
+										(this.isVisible(subjectEval) && subjectEval.requestor) ? subjectEval.requestor.full_name : '',
 										subjectEval.form.title,
 										renderDateRange(
 											subjectEval.evaluation_date_start,
@@ -914,6 +914,9 @@ export default {
 			}).catch(err => {
 				handleError(err, this, `There was a problem exporting the report for ${this.reportContents.title}`);
 			});
+		},
+		isVisible(evaluation) {
+			return evaluation.visibility === 'visible';
 		}
 	},
 
