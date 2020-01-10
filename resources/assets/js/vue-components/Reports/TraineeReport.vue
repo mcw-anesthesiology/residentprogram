@@ -117,6 +117,13 @@
 						</div>
 					</div>
 
+					<div>
+						<label>
+							Show anonymous evaluation names
+							<input type="checkbox" v-model="show.anonymous" />
+						</label>
+					</div>
+
 					<div class="btn-lg-submit-container">
 						<button v-if="report && subjectIds && subjectIds.length > 0"
 								type="button" class="btn btn-lg btn-primary"
@@ -134,6 +141,7 @@
 					:report="report"
 					:subjectId="subjectId"
 					:subject="users.find(u => u.id === subjectId)"
+					:showAnonymous="show.anonymous"
 					ref="individualReports" />
 			</template>
 			<template v-else>
@@ -205,7 +213,8 @@ export default {
 			multipleTrainees: false,
 
 			show: {
-				inactiveUsers: false
+				inactiveUsers: false,
+				anonymous: false
 			},
 			loading: {
 				report: false,

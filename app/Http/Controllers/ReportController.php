@@ -572,15 +572,20 @@ class ReportController extends Controller
 			$reqQuery->where($this->filterNonAdminQuery);
 		}
 
-        $reqQuery->select("subject_id", "evaluator_id", "requested_by_id",
+		$reqQuery->select("subject_id", "evaluator_id", "requested_by_id",
+			'evaluations.visibility as evaluation_visibility',
 			"subjects.last_name as subject_last", "subjects.first_name as subject_first",
-            "evaluators.last_name as evaluator_last", "evaluators.first_name as evaluator_first",
-			"evaluations.id as evaluation_id", "evaluations.status as evaluation_status",
-			"evaluations.evaluation_date_start", "evaluations.evaluation_date_end",
-			"forms.title as form_title");
+			"evaluators.last_name as evaluator_last",
+			"evaluators.first_name as evaluator_first", "evaluations.id as evaluation_id",
+			"evaluations.status as evaluation_status",
+			"evaluations.evaluation_date_start",
+			"evaluations.evaluation_date_end", "forms.title as form_title",
+			'forms.visibility as form_visibility');
         $reqQuery->chunk(20000, function($evaluations) use (&$subjects, &$subjectRequests,
 				&$subjectEvals, &$subjectEvaluators, &$subjectEvaluations) {
             foreach ($evaluations as $evaluation) {
+				$evaluation->visibility = $evaluation->evaluation_visibility ?: $evaluation->form_visibility;
+
                 if (!isset($subjects[$evaluation->subject_id]))
                     $subjects[$evaluation->subject_id] = $evaluation->subject_last . ", " . $evaluation->subject_first;
                 if (!isset($subjectEvals[$evaluation->subject_id]))
@@ -657,9 +662,15 @@ class ReportController extends Controller
 
 		$textQuery->select("subject_id", "evaluators.first_name", "evaluators.last_name",
 			"forms.title as form_title", "evaluation_date_start", "evaluation_date_end",
-			"response", "evaluation_id");
+			"response", "evaluation_id", 'evaluations.visibility as evaluation_visibility',
+			'forms.visibility as form_visibility'
+		);
 
-		$subjectTextResponses = $textQuery->get()->groupBy('subject_id');
+		$subjectTextResponses = $textQuery->get()->map(function($textResponse) {
+			$textResponse->visibility = $textResponse->evaluation_visibility ?: $textResponse->form_visibility;
+
+			return $textResponse;
+		})->groupBy('subject_id');
 
 		$data["subjectTextResponses"] = $subjectTextResponses;
 

@@ -242,6 +242,10 @@ export default {
 		report: {
 			type: Object,
 			required: true
+		},
+		showAnonymous: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data(){
@@ -388,7 +392,7 @@ export default {
 				return this.report.subjectEvaluations[this.subjectId].map(request => [
 					String(request.evaluation_id),
 					renderDateRangeCell('evaluation_date_start', 'evaluation_date_end')(request),
-					`${request.evaluator_last}, ${request.evaluator_first}`,
+					this.getEvaluatorName(request, 'evaluator_last', 'evaluator_first'),
 					request.form_title
 				]);
 			} catch(err) {
@@ -486,7 +490,7 @@ export default {
 				return this.report.subjectTextResponses[this.subjectId].map(response => [
 					String(response.evaluation_id),
 					renderDateRangeCell('evaluation_date_start', 'evaluation_date_end')(response),
-					`${response.last_name}, ${response.first_name}`,
+					this.getEvaluatorName(response),
 					response.form_title,
 					response.response
 				]);
@@ -907,6 +911,13 @@ export default {
 				handleError(err, this, `There was a problem exporting the report for ${this.report.subjects[this.subjectId]}`);
 			});
 
+		},
+		getEvaluatorName(evaluation, lastProp = 'last_name', firstProp = 'first_name') {
+			if (evaluation.visibility === 'visible' || this.showAnonymous) {
+				return `${evaluation[lastProp]}, ${evaluation[firstProp]}`;
+			} else {
+				return 'Anonymous';
+			}
 		}
 	},
 
