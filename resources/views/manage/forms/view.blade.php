@@ -10,10 +10,27 @@
 		hr {
 			page-break-before: always;
 		}
+
+		.button-container {
+			display: flex;
+			justify-content: space-around;
+		}
 	</style>
 @stop
 
 @section("body")
+	<div class="button-container">
+		<button type="button" id="toggle-all-description-button" class="btn btn-info">
+			<span class="glyphicon glyphicon-list"></span>
+			Toggle all descriptions
+		</button>
+
+		<button type="button" id="toggle-all-mc-button" class="btn btn-info">
+			<span class="glyphicon glyphicon-list"></span>
+			Toggle all milestones and competencies
+		</button>
+	</div>
+
 	<div id="form">
 		{!! App\Helpers\FormReader::read($form->xml_path) !!}
 	</div>
@@ -32,6 +49,14 @@
 			$("#form textarea").addClass("noprint");
 
 			renderMilestoneCompetencyLists(milestoneQuestions, competencyQuestions);
+
+			$('#toggle-all-description-button').click(function() {
+				$('#form').find('.question-description-toggle').click();
+			});
+
+			$('#toggle-all-mc-button').click(function() {
+				$('#form').find('.toggle-milestone-competencies-button').click();
+			});
 		});
 	</script>
 @stop
