@@ -16,7 +16,7 @@
 			justify-content: space-around;
 		}
 
-		@media (print) {
+		@media print {
 			.toggle-all-button-container {
 				display: none;
 			}
