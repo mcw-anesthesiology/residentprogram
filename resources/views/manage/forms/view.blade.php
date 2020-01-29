@@ -21,7 +21,7 @@
 @section("body")
 	<div class="button-container">
 		<button type="button" id="toggle-all-description-button" class="btn btn-info">
-			<span class="glyphicon glyphicon-list"></span>
+			<span class="glyphicon glyphicon-zoom-in"></span>
 			Toggle all descriptions
 		</button>
 
@@ -51,7 +51,7 @@
 			renderMilestoneCompetencyLists(milestoneQuestions, competencyQuestions);
 
 			$('#toggle-all-description-button').click(function() {
-				$('#form').find('.question-description-toggle').click();
+				$('#form').find('.toggle-descriptions').click();
 			});
 
 			$('#toggle-all-mc-button').click(function() {
