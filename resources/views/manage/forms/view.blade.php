@@ -11,15 +11,21 @@
 			page-break-before: always;
 		}
 
-		.button-container {
+		.toggle-all-button-container {
 			display: flex;
 			justify-content: space-around;
+		}
+
+		@media (print) {
+			.toggle-all-button-container {
+				display: none;
+			}
 		}
 	</style>
 @stop
 
 @section("body")
-	<div class="button-container">
+	<div class="toggle-all-button-container">
 		<button type="button" id="toggle-all-description-button" class="btn btn-info">
 			<span class="glyphicon glyphicon-zoom-in"></span>
 			Toggle all descriptions
