@@ -98,14 +98,29 @@ type MeritReport {
 	committees: [CommitteeItem]
 	directorships: Directorships
 	interviews: [DatedEvent]
+	simulationSessions: [DatedEvent]
 	mentorships: [ReportedMentorship]
+	aclsBclsCourses: [String]
 
 	certifications: [Certification]
 	organizations: [String]
 
+	createdNewCourse: Boolean
+	reviewerships: [ReviewershipItem]
 	nihStudySectionMember: Boolean
 	editorialBoards: [EditorialBoardItem]
 	lectures: [Lecture]!
+}
+
+enum ReviewType {
+	ARTICLE
+	GRANT
+}
+
+type ReviewershipItem {
+	reviewType: ReviewType!
+	work: String
+	reviews: Int
 }
 
 type DomainsItem {
