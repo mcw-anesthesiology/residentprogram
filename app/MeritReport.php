@@ -526,6 +526,95 @@ class MeritReport extends Model
 		}
 	}
 
+	public function getSimulationSessionsAttribute() {
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				return self::getListItems($this->report['pages'][1]['items'][0]['items'][2]['items'][12]);
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in simulationSessions' . $e);
+			return null;
+		}
+	}
+
+	public function getAclsBclsCoursesAttribute() {
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				return self::getTextListItems($this->report['pages'][1]['items'][0]['items'][3]['items'][2]);
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in aclsBclsCourses' . $e);
+			return null;
+		}
+	}
+
+	public function getReviewershipsAttribute() {
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				$items = $this->report['pages'][1]['items'][0]['items'][3]['items'];
+				$article = $items[3];
+				$grant = $items[4];
+
+				$reviewerships = [];
+
+				if (self::isChecked($article)) {
+					$reviewerships = array_merge(
+						$reviewerships,
+						array_map(function($item) {
+							return [
+								'reviewType' => 'ARTICLE',
+								'work' => $item['work'],
+								'reviews' => $item['reviews']
+							]
+						}, $article['items'])
+					);
+				}
+
+				if (self::isChecked($grant)) {
+					$reviewerships = array_merge(
+						$reviewerships,
+						array_map(function($item) {
+							return [
+								'reviewType' => 'GRANT',
+								'work' => $item['work'],
+								'reviews' => $item['reviews']
+							]
+						}, $grant['items'])
+					);
+				}
+
+				return $reviewerships;
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getReviewershipsAttribute' . $e);
+			return null;
+		}
+	}
+
+	public function getNihStudySectionMemberAttribute() {
+		try {
+			switch ($this->form->report_slug) {
+			case 'mcw-anesth-faculty-merit-2017-2018':
+				return self::isChecked($this->report['pages'][1]['items'][0]['items'][3]['items'][5]);
+			default:
+				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
+			}
+		} catch (\Exception $e) {
+			Log::error('Error in getNihStudySectionMember' . $e);
+			return null;
+		}
+
+	}
+
 	public function getDepartmentalCommitteesAttribute() {
 		$committees = [];
 		try {
@@ -843,7 +932,7 @@ class MeritReport extends Model
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
 		} catch (\Exception $e) {
-			Log::error('Error in getEditorialBoardsAttribute ' . $e);
+			Log::error('Error in getDirectorshipsAttribute ' . $e);
 			return null;
 		}
 	}
@@ -858,7 +947,7 @@ class MeritReport extends Model
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
 		} catch (\Exception $e) {
-			Log::error('Error in getEditorialBoardsAttribute ' . $e);
+			Log::error('Error in getInterviewsAttribute ' . $e);
 			return null;
 		}
 	}
