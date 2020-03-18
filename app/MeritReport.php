@@ -478,12 +478,12 @@ class MeritReport extends Model
 		return "Committee {$committee['role']} - {$committee['name']}";
 	}
 
-	public function getCreatedNewCourseAttribute() {
+	public function getCreatedCoursesAttribute() {
 
 		try {
 			switch ($this->form->report_slug) {
 			case 'mcw-anesth-faculty-merit-2017-2018':
-				return self::isChecked($this->report['pages'][1]['items'][0]['items'][2]['items'][3]);
+				return self::getTextListItems($this->report['pages'][1]['items'][0]['items'][2]['items'][3]);
 			}
 		} catch (\Exception $e) {
 			Log::error('Error in getCreatedNewCourseAttribute: ' . $e);
@@ -503,7 +503,7 @@ class MeritReport extends Model
 	 *  or conferences.
 	 */
 	public function getTeachingFormalCoursesAttribute() {
-		if ($this->createdNewCourse) {
+		if (!empty($this->createdCourses)) {
 			return true;
 		}
 
@@ -558,9 +558,9 @@ class MeritReport extends Model
 		try {
 			switch ($this->form->report_slug) {
 			case 'mcw-anesth-faculty-merit-2017-2018':
-				$items = $this->report['pages'][1]['items'][0]['items'][3]['items'];
-				$article = $items[3];
-				$grant = $items[4];
+				$items = $this->report['pages'][3]['items'][1]['items'];
+				$article = $items[1];
+				$grant = $items[2];
 
 				$reviewerships = [];
 
@@ -572,8 +572,8 @@ class MeritReport extends Model
 								'reviewType' => 'ARTICLE',
 								'work' => $item['work'],
 								'reviews' => $item['reviews']
-							]
-						}, $article['items'])
+							];
+						}, self::getListItems($article))
 					);
 				}
 
@@ -585,8 +585,8 @@ class MeritReport extends Model
 								'reviewType' => 'GRANT',
 								'work' => $item['work'],
 								'reviews' => $item['reviews']
-							]
-						}, $grant['items'])
+							];
+						}, self::getListItems($grant))
 					);
 				}
 
@@ -604,7 +604,7 @@ class MeritReport extends Model
 		try {
 			switch ($this->form->report_slug) {
 			case 'mcw-anesth-faculty-merit-2017-2018':
-				return self::isChecked($this->report['pages'][1]['items'][0]['items'][3]['items'][5]);
+				return self::isChecked($this->report['pages'][3]['items'][1]['items'][3]);
 			default:
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
