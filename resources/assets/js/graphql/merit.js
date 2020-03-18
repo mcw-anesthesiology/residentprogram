@@ -234,6 +234,29 @@ export const FCD_EXPORT_FIELDS = gql`
 			mentorshipType
 			subject
 		}
+
+		createdCourses
+		aclsBclsCourses
+		reviewerships {
+			reviewType
+			work
+			reviews
+		}
+		nihStudySectionMember
+
+		editorialBoards {
+			journal
+			role
+		}
+
+		interviews {
+			description
+			date
+		}
+		simulationSessions {
+			description
+			date
+		}
 	}
 `;
 
