@@ -239,6 +239,7 @@ export const FCD_EXPORT_FIELDS = gql`
 		aclsBclsCourses
 		reviewerships {
 			reviewType
+			adHoc
 			work
 			reviews
 		}
