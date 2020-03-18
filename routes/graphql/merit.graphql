@@ -105,7 +105,7 @@ type MeritReport {
 	certifications: [Certification]
 	organizations: [String]
 
-	createdNewCourse: Boolean
+	createdCourses: [String]
 	reviewerships: [ReviewershipItem]
 	nihStudySectionMember: Boolean
 	editorialBoards: [EditorialBoardItem]
