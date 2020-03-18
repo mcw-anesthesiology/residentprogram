@@ -100,7 +100,7 @@ type MeritReport {
 	interviews: [DatedEvent]
 	simulationSessions: [DatedEvent]
 	mentorships: [ReportedMentorship]
-	aclsBclsCourses: [String]
+	aclsBlsCourses: [String]
 
 	certifications: [Certification]
 	organizations: [String]
@@ -119,6 +119,7 @@ enum ReviewType {
 
 type ReviewershipItem {
 	reviewType: ReviewType!
+	adHoc: Boolean
 	work: String
 	reviews: Int
 }

@@ -540,7 +540,7 @@ class MeritReport extends Model
 		}
 	}
 
-	public function getAclsBclsCoursesAttribute() {
+	public function getAclsBlsCoursesAttribute() {
 		try {
 			switch ($this->form->report_slug) {
 			case 'mcw-anesth-faculty-merit-2017-2018':
@@ -549,7 +549,7 @@ class MeritReport extends Model
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
 		} catch (\Exception $e) {
-			Log::error('Error in aclsBclsCourses' . $e);
+			Log::error('Error in aclsBlsCourses' . $e);
 			return null;
 		}
 	}
@@ -570,6 +570,7 @@ class MeritReport extends Model
 						array_map(function($item) {
 							return [
 								'reviewType' => 'ARTICLE',
+								'adHoc' => true,
 								'work' => $item['work'],
 								'reviews' => $item['reviews']
 							];
@@ -583,6 +584,7 @@ class MeritReport extends Model
 						array_map(function($item) {
 							return [
 								'reviewType' => 'GRANT',
+								'adHoc' => true,
 								'work' => $item['work'],
 								'reviews' => $item['reviews']
 							];
