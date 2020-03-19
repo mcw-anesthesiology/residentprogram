@@ -196,11 +196,6 @@ export const FCD_EXPORT_FIELDS = gql`
 			amount
 		}
 
-		leadershipRoles {
-			roleType
-			roles
-		}
-
 		nationalBoards {
 			name
 			role
@@ -235,8 +230,17 @@ export const FCD_EXPORT_FIELDS = gql`
 			subject
 		}
 
+		directorships {
+			clinicalService
+			simulationCenter
+			visitingRotators
+		}
+
 		createdCourses
-		aclsBclsCourses
+		instructedCourses {
+			courseType
+			course
+		}
 		reviewerships {
 			reviewType
 			adHoc

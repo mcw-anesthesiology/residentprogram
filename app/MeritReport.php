@@ -540,16 +540,47 @@ class MeritReport extends Model
 		}
 	}
 
-	public function getAclsBlsCoursesAttribute() {
+	public function getInstructedCoursesAttribute() {
 		try {
 			switch ($this->form->report_slug) {
 			case 'mcw-anesth-faculty-merit-2017-2018':
-				return self::getTextListItems($this->report['pages'][1]['items'][0]['items'][3]['items'][2]);
+				$section = $this->report['pages'][1]['items'][0]['items'][3]['items'];
+
+				$aclsBls = $section[2];
+				$msa = $section[3];
+
+				$courses = [];
+
+				if (self::isChecked($aclsBls)) {
+					$courses = array_merge(
+						$courses,
+						array_map(function($item) {
+							return [
+								'courseType' => 'ACLS / BLS',
+								'course' => $item
+							];
+						}, self::getTextListItems($aclsBls))
+					);
+				}
+
+				if (self::isChecked($msa)) {
+					$courses = array_merge(
+						$courses,
+						array_map(function($item) {
+							return [
+								'courseType' => 'MSA Program',
+								'course' => $item
+							];
+						}, self::getTextListItems($msa))
+					);
+				}
+
+				return $courses;
 			default:
 				throw new \UnexpectedValueException('Unrecognized report slug ' . $this->form->report_slug);
 			}
 		} catch (\Exception $e) {
-			Log::error('Error in aclsBlsCourses' . $e);
+			Log::error('Error in instructedCourses' . $e);
 			return null;
 		}
 	}
