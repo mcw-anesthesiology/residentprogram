@@ -100,16 +100,21 @@ type MeritReport {
 	interviews: [DatedEvent]
 	simulationSessions: [DatedEvent]
 	mentorships: [ReportedMentorship]
-	aclsBlsCourses: [String]
+	createdCourses: [String]
+	instructedCourses: [CourseInstruction]
 
 	certifications: [Certification]
 	organizations: [String]
 
-	createdCourses: [String]
 	reviewerships: [ReviewershipItem]
 	nihStudySectionMember: Boolean
 	editorialBoards: [EditorialBoardItem]
 	lectures: [Lecture]!
+}
+
+type CourseInstruction {
+	courseType: String
+	course: String
 }
 
 enum ReviewType {
