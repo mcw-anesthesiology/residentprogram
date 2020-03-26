@@ -269,7 +269,13 @@ class MeritReport extends Model
 	static function getListItems($item, $index = 0) {
 		try {
 			if (self::isChecked($item)) {
-				return $item['questions'][$index]['items'];
+				$question = $item['questions'][$index];
+
+				if (empty($question['required']) && empty($question['items'])) {
+					return [];
+				}
+
+				return $question['items'];
 			}
 		} catch (\Exception $e) {
 			Log::error('Error in getListItems ' . $e);
