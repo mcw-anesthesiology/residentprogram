@@ -1,7 +1,7 @@
 # @format
 
 extend type Query @middleware(checks: ["auth"]) {
-	user(id: ID! @eq): User @find(model: "App\\User")
+	user(id: ID @eq, email: String @eq): User @find(model: "App\\User")
 }
 
 extend type Query @middleware(checks: ["auth", "type:admin"]) {
