@@ -37,27 +37,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Daily faculty reminder emails
-        $schedule->command('send:faculty-reminders daily')
-			->daily()->at('08:00');
-
-        // Weekly faculty reminder emails
-        $schedule->command('send:faculty-reminders weekly')
-			->weekly()->mondays()->at('08:00');
-
-        // Biweekly faculty reminder emails
-        $schedule->command('send:faculty-reminders biweekly')
-			->weekly()->mondays()->at('08:00')->when(function(){
-	            return (Carbon::now()->weekOfYear % 2);
-	        });
-
-		// Resident reminder emails a week before end of month
-		$schedule->command('send:resident-reminders')
-			->daily()->at('08:30')->when(function(){
-				$now = Carbon::now();
-				return (($now->daysInMonth - $now->day) == 7);
-			});
-
 		$schedule->command('advancements:run')->hourly();
 		$schedule->command('process:scheduled-requests')->hourly();
 
