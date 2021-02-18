@@ -14,9 +14,19 @@ return [
     */
 
 	'external_auth' => env('USE_EXTERNAL_AUTH', false),
-	'external_auth_endpoint' => env('EXTERNAL_AUTH_ENDPOINT', 'https://auth.mcw-anesthesiology.tech/auth'),
-	'external_auth_change_url' => env('EXTERNAL_AUTH_CHANGE_URL', 'https://auth.mcw-anesthesiology.tech/login'),
-	'external_auth_reset_url' => env('EXTERNAL_AUTH_RESET_URL', 'https://auth.mcw-anesthesiology.tech/reset-password'),
+	// External SSO endpoint, is sent a POST with the `email` and `password`
+	// parameters from the login form.
+	// Itshould return a JSON object with an `email` string corresponding to an
+	// existing user account, and a `sites` array containing the string
+	// `"RESIDENT_PROGRAM"` to validate that they have access to log into this
+	// site using the service.
+	//
+	// This is pretty terrible security, I wouldn't recommend using this.
+	'external_auth_endpoint' => env('EXTERNAL_AUTH_ENDPOINT'),
+	// URL where users should be redirected to change their password
+	'external_auth_change_url' => env('EXTERNAL_AUTH_CHANGE_URL'),
+	// URL where users should be redirected for forgotten passwords
+	'external_auth_reset_url' => env('EXTERNAL_AUTH_RESET_URL'),
 
     'defaults' => [
         'guard' => 'web',
