@@ -1,4 +1,4 @@
-SELECT 
+SELECT
 	evaluations.id as EvaluationID,
 	subject_id as StudentID,
 	evaluator_id as FacultyID,
@@ -50,7 +50,7 @@ SELECT
 	pc9b.response_avg as PatientCare9b,
 	pc10a.response_avg as PatientCare10a
 from evaluations
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -60,7 +60,7 @@ from evaluations
 			and milestone_id = 21
 		group by evaluation_id
 	) c1 on evaluations.id = c1.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -70,7 +70,7 @@ from evaluations
 			and milestone_id = 22
 		group by evaluation_id
 	) c2 on evaluations.id = c2.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -82,7 +82,7 @@ from evaluations
 	) c3 on evaluations.id = c3.evaluation_id
 
 
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -92,7 +92,7 @@ from evaluations
 			and milestone_id = 28
 		group by evaluation_id
 	) sbp1 on evaluations.id = sbp1.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -102,7 +102,7 @@ from evaluations
 			and milestone_id = 29
 		group by evaluation_id
 	) sbp2 on evaluations.id = sbp2.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -112,7 +112,7 @@ from evaluations
 			and milestone_id = 15
 		group by evaluation_id
 	) mk1 on evaluations.id = mk1.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -122,7 +122,7 @@ from evaluations
 			and milestone_id = 16
 		group by evaluation_id
 	) pro1 on evaluations.id = pro1.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -132,7 +132,7 @@ from evaluations
 			and milestone_id = 17
 		group by evaluation_id
 	) pro2 on evaluations.id = pro2.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -142,7 +142,7 @@ from evaluations
 			and milestone_id = 18
 		group by evaluation_id
 	) pro3 on evaluations.id = pro3.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -152,7 +152,7 @@ from evaluations
 			and milestone_id = 19
 		group by evaluation_id
 	) pro4 on evaluations.id = pro4.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -162,7 +162,7 @@ from evaluations
 			and milestone_id = 20
 		group by evaluation_id
 	) pro5 on evaluations.id = pro5.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -172,7 +172,7 @@ from evaluations
 			and milestone_id = 36
 		group by evaluation_id
 	) handoffs on evaluations.id = handoffs.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -182,7 +182,7 @@ from evaluations
 			and milestone_id = 26
 		group by evaluation_id
 	) pbl3 on evaluations.id = pbl3.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -192,7 +192,7 @@ from evaluations
 			and milestone_id = 27
 		group by evaluation_id
 	) pbl4 on evaluations.id = pbl4.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -202,7 +202,7 @@ from evaluations
 			and milestone_id = 3
 		group by evaluation_id
 	) pc1a on evaluations.id = pc1a.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -212,7 +212,7 @@ from evaluations
 			and milestone_id = 6
 		group by evaluation_id
 	) pc2 on evaluations.id = pc2.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -222,7 +222,7 @@ from evaluations
 			and milestone_id = 4
 		group by evaluation_id
 	) pc3 on evaluations.id = pc3.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -232,7 +232,7 @@ from evaluations
 			and milestone_id = 5
 		group by evaluation_id
 	) pc4 on evaluations.id = pc4.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -242,7 +242,7 @@ from evaluations
 			and milestone_id = 2
 		group by evaluation_id
 	) pc5 on evaluations.id = pc5.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -252,7 +252,7 @@ from evaluations
 			and milestone_id = 10
 		group by evaluation_id
 	) pc6 on evaluations.id = pc6.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -262,7 +262,7 @@ from evaluations
 			and milestone_id = 7
 		group by evaluation_id
 	) pc7 on evaluations.id = pc7.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -272,7 +272,7 @@ from evaluations
 			and milestone_id = 9
 		group by evaluation_id
 	) pc1b on evaluations.id = pc1b.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -282,7 +282,7 @@ from evaluations
 			and milestone_id = 8
 		group by evaluation_id
 	) pc8a on evaluations.id = pc8a.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -292,7 +292,7 @@ from evaluations
 			and milestone_id = 1
 		group by evaluation_id
 	) pc8b on evaluations.id = pc8b.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -302,7 +302,7 @@ from evaluations
 			and milestone_id = 11
 		group by evaluation_id
 	) pc9a on evaluations.id = pc9a.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -312,7 +312,7 @@ from evaluations
 			and milestone_id = 12
 		group by evaluation_id
 	) pc9b on evaluations.id = pc9b.evaluation_id
-	left join (	
+	left join (
 		select evaluation_id, avg(response) as response_avg
 		from responses
 			join evaluations on responses.evaluation_id = evaluations.id
@@ -374,13 +374,13 @@ from evaluations
 	left join (
 		select evaluation_id, avg(value) as response_avg
 		from beyond_milestones.scenario_responses sr
-		where scenario_id = 10
+		where scenario_id = 11
 		group by evaluation_id
 	) general_b on evaluations.id = general_b.evaluation_id
 	left join (
 		select evaluation_id, avg(value) as response_avg
 		from beyond_milestones.scenario_responses sr
-		where scenario_id = 11
+		where scenario_id = 12
 		group by evaluation_id
 	) general_a on evaluations.id = general_a.evaluation_id
 	left join (
