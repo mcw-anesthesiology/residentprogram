@@ -13,14 +13,11 @@ try {
 return [
 
 
-    'admin_email' => env('ADMIN_EMAIL', 'jmischka@mcw.edu'),
+    'admin_email' => env('ADMIN_EMAIL', 'admin@example.com'),
 
 	'git_rev' => $gitRev,
 
-	'external_links' => [
-		'Directory' => 'https://www.mcwanet.com/directory/',
-		'Day Off' => 'https://www.dayoff.site'
-	],
+	'external_links' => [],
 
 	'name' => env('APP_NAME', 'Trainee Evaluation System'),
 
