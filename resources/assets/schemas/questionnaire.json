@@ -22,6 +22,8 @@
 			"properties": {
 				"category": {"type": "string"},
 				"value": {"type": "number"},
+				"valuePerMeeting": {"type": "number"},
+				"min": {"type": "number"},
 				"max": {"type": "number"},
 				"weight": {"type": "number"}
 			},

@@ -1,15 +1,24 @@
-
 <template>
-	<div class="checklist-item" :class="{checked, readonly, editable: !readonlyToUser}">
+	<div
+		class="checklist-item"
+		:class="{ checked, readonly, editable: !readonlyToUser }"
+	>
 		<label class="containing-label">
-			<input type="checkbox" :checked="checked" :disabled="readonlyToUser"
-				@change="handleCheck" />
+			<input
+				type="checkbox"
+				:checked="checked"
+				:disabled="readonlyToUser"
+				@change="handleCheck"
+			/>
 
 			<span class="item-text" v-html="markedUpText"></span>
 		</label>
 		<div v-if="previewing" class="previewing-info-container">
 			<div v-if="hasQuestions && !expandAll" class="text-right">
-				<show-hide-button v-model="expanded" class="btn btn-xs btn-default">
+				<show-hide-button
+					v-model="expanded"
+					class="btn btn-xs btn-default"
+				>
 					followup questions
 				</show-hide-button>
 			</div>
@@ -22,21 +31,26 @@
 				<table class="table">
 					<tbody>
 						<tr v-for="(val, key) of scoring">
-							<th>{{ ucfirst(key) }}</th>
+							<th>{{ camelCaseToWords(key) }}</th>
 							<td>{{ val }}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
-		<div v-if="(checked || expanded || expandAll) && hasQuestions" class="item-questions">
-			<questionnaire-question v-for="(question, index) of questions"
+		<div
+			v-if="(checked || expanded || expandAll) && hasQuestions"
+			class="item-questions"
+		>
+			<questionnaire-question
+				v-for="(question, index) of questions"
 				:key="index"
 				:question="question"
 				:readonly="readonlyToUser"
 				:previewing="previewing"
 				:showErrors="showErrors"
-				@input="handleQuestionInput(index, arguments[0])" />
+				@input="handleQuestionInput(index, arguments[0])"
+			/>
 		</div>
 	</div>
 </template>
@@ -59,7 +73,7 @@ import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import snarkdown from 'snarkdown';
 
-import { ucfirst } from '@/modules/utils.js';
+import { camelCaseToWords } from '@/modules/text-utils.js';
 
 export default {
 	props: {
@@ -67,57 +81,55 @@ export default {
 			type: String,
 			validator(type) {
 				return type === 'item';
-			}
+			},
 		},
 		text: {
 			type: String,
-			required: true
+			required: true,
 		},
 		checked: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		questions: {
 			type: Array,
-			required: false
+			required: false,
 		},
 		readonly: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		subjectReadonly: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		user: {
 			type: Object,
-			required: false
+			required: false,
 		},
 		showErrors: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		previewing: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		scoring: {
 			type: Object,
-			required: false
-		}
+			required: false,
+		},
 	},
 	data() {
 		return {
-			expanded: false
+			expanded: false,
 		};
 	},
 
 	computed: {
 		expandAll() {
 			return (
-				this.$route
-				&& this.$route.query
-				&& this.$route.query.expandAll
+				this.$route && this.$route.query && this.$route.query.expandAll
 			);
 		},
 		hasQuestions() {
@@ -127,22 +139,21 @@ export default {
 			return snarkdown(this.text);
 		},
 		readonlyToUser() {
-			return this.readonly || (
-				this.subjectReadonly && (
-					!this.user || this.user.type !== 'admin'
-				)
+			return (
+				this.readonly ||
+				(this.subjectReadonly &&
+					(!this.user || this.user.type !== 'admin'))
 			);
-		}
+		},
 	},
 
 	methods: {
-		ucfirst,
+		camelCaseToWords,
 		handleCheck() {
-			if (this.readonlyToUser)
-				return;
+			if (this.readonlyToUser) return;
 
 			let checked = !this.checked;
-			let item = {checked};
+			let item = { checked };
 
 			if (!checked && this.questions) {
 				let questions = this.questions.map(this.clearQuestion);
@@ -152,17 +163,15 @@ export default {
 			this.$emit('input', item);
 		},
 		handleQuestionInput(index, question) {
-			if (this.readonlyToUser)
-				return;
+			if (this.readonlyToUser) return;
 
 			let questions = this.questions.slice();
 			questions[index] = Object.assign({}, questions[index], question);
 
-			this.$emit('input', {questions});
+			this.$emit('input', { questions });
 		},
 		clearQuestion(question) {
-			if (this.readonlyToUser)
-				return;
+			if (this.readonlyToUser) return;
 
 			question = Object.assign({}, question);
 			switch (question.type) {
@@ -172,8 +181,8 @@ export default {
 					break;
 				case 'checkbox':
 				case 'radio':
-					question.options = question.options.map(option =>
-						Object.assign({}, option, {checked: false})
+					question.options = question.options.map((option) =>
+						Object.assign({}, option, { checked: false })
 					);
 					break;
 				case 'list':
@@ -182,90 +191,90 @@ export default {
 			}
 
 			return question;
-		}
+		},
 	},
 
 	components: {
 		QuestionnaireQuestion,
-		ShowHideButton
-	}
+		ShowHideButton,
+	},
 };
 </script>
 
 <style scoped>
-	.checklist-item {
-		padding-bottom: 0.25em;
-		margin-bottom: 0.75em;
-		border-bottom: 1px solid transparent;
-		color: rgba(0, 0, 0, 0.5);
-		page-break-inside: avoid;
-	}
+.checklist-item {
+	padding-bottom: 0.25em;
+	margin-bottom: 0.75em;
+	border-bottom: 1px solid transparent;
+	color: rgba(0, 0, 0, 0.5);
+	page-break-inside: avoid;
+}
 
-	.checklist-item:hover {
-		border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-	}
+.checklist-item:hover {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
 
-	.checklist-item.editable:hover {
-		color: rgba(0, 0, 0, 0.95);
-	}
+.checklist-item.editable:hover {
+	color: rgba(0, 0, 0, 0.95);
+}
 
-	.checklist-item.checked {
-		color: rgba(0, 0, 0, 0.85);
-	}
+.checklist-item.checked {
+	color: rgba(0, 0, 0, 0.85);
+}
 
+label {
+	display: flex;
+	font-size: 1.25em;
+}
+
+input[type='checkbox'] {
+	width: 1em;
+	height: 1em;
+	margin-right: 1em;
+	flex-shrink: 0;
+}
+
+.item-text {
+	font-weight: normal;
+}
+
+.item-questions {
+	margin-left: 1em;
+	padding: 1em;
+}
+
+.previewing-info-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+@media (min-width: 768px) {
 	label {
-		display: flex;
-		font-size: 1.25em;
+		font-size: 1.35em;
 	}
 
-	input[type="checkbox"] {
-		width: 1em;
-		height: 1em;
-		margin-right: 1em;
-		flex-shrink: 0;
-	}
-
-	.item-text {
-		font-weight: normal;
+	input[type='checkbox'] {
+		margin-right: 1.5em;
 	}
 
 	.item-questions {
-		margin-left: 1em;
-		padding: 1em;
+		margin-left: 4em;
+	}
+}
+
+@media (min-width: 1200px) {
+	label {
+		font-size: 1.5em;
 	}
 
-	.previewing-info-container {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		justify-content: space-around;
+	input[type='checkbox'] {
+		margin-right: 2em;
 	}
 
-	@media (min-width: 768px) {
-		label {
-			font-size: 1.35em;
-		}
-
-		input[type="checkbox"] {
-			margin-right: 1.5em;
-		}
-
-		.item-questions {
-			margin-left: 4em;
-		}
+	.item-questions {
+		margin-left: 5em;
 	}
-
-	@media (min-width: 1200px) {
-		label {
-			font-size: 1.5em;
-		}
-
-		input[type="checkbox"] {
-			margin-right: 2em;
-		}
-
-		.item-questions {
-			margin-left: 5em;
-		}
-	}
+}
 </style>
