@@ -10,10 +10,12 @@
 				</span>
 			</legend>
 
-			<bootstrap-alert v-if="!readonly && required && items.length === 0"
+			<bootstrap-alert
+				v-if="!readonly && required && items.length === 0"
 				class="invalid-container"
 				type="error"
-				text="Please add at least one item">
+				text="Please add at least one item"
+			>
 			</bootstrap-alert>
 
 			<div v-if="previewing" class="previewing-info-container">
@@ -26,7 +28,7 @@
 					<table class="table">
 						<tbody>
 							<tr v-for="(val, key) of scoring" :key="key">
-								<th>{{ ucfirst(key) }}</th>
+								<th>{{ camelCaseToWords(key) }}</th>
 								<td>{{ val }}</td>
 							</tr>
 						</tbody>
@@ -34,7 +36,8 @@
 				</div>
 			</div>
 
-			<list-items :ordered="ordered"
+			<list-items
+				:ordered="ordered"
 				:items="items"
 				:suggestions="suggestions"
 				:readonly="readonly"
@@ -44,10 +47,15 @@
 				:show-errors="showErrors"
 				:help-class="helpClass"
 				:items-removable="canEditItems"
-				@change="onChange" />
+				@change="onChange"
+			/>
 
-			<button v-if="canEditItems" type="button" class="btn btn-sm btn-info"
-					@click="addItem">
+			<button
+				v-if="canEditItems"
+				type="button"
+				class="btn btn-sm btn-info"
+				@click="addItem"
+			>
 				<span class="glyphicon glyphicon-plus"></span>
 				Add item
 			</button>
@@ -55,9 +63,11 @@
 		<show-hide-button v-if="description" v-model="show.description">
 			description
 		</show-hide-button>
-		<div v-if="description" v-show="show.description"
-			v-html="markedUpDescription">
-		</div>
+		<div
+			v-if="description"
+			v-show="show.description"
+			v-html="markedUpDescription"
+		></div>
 	</div>
 </template>
 
@@ -68,11 +78,11 @@ import ShowHideButton from '@/vue-components/ShowHideButton.vue';
 
 import snarkdown from 'snarkdown';
 
-import { ucfirst } from '@/modules/utils.js';
+import { camelCaseToWords } from '@/modules/text-utils.js';
 
 export default {
 	model: {
-		prop: 'items'
+		prop: 'items',
 	},
 	props: {
 		type: {
@@ -80,7 +90,7 @@ export default {
 			required: true,
 			validator(type) {
 				return type === 'list';
-			}
+			},
 		},
 		listType: {
 			type: String,
@@ -100,78 +110,78 @@ export default {
 					'audienceLecture',
 					'mentorship',
 					'subjectMentorship',
-					'datedEvent'
+					'datedEvent',
 				].includes(type);
-			}
+			},
 		},
 		text: {
 			type: String,
-			required: false
+			required: false,
 		},
 		description: {
 			type: String,
-			required: false
+			required: false,
 		},
 		itemProps: {
 			type: Object,
-			required: false
+			required: false,
 		},
 		itemLabels: {
 			type: Object,
-			required: false
+			required: false,
 		},
 		itemRequired: {
 			type: Object,
-			required: false
+			required: false,
 		},
 		suggestions: {
 			type: Object,
-			required: false
+			required: false,
 		},
 		items: {
 			type: Array,
 			default() {
 				return [];
-			}
+			},
 		},
 		ordered: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		fixedLength: {
 			type: Number,
-			required: false
+			required: false,
 		},
 		required: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		readonly: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		showErrors: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		helpClass: {
 			type: String,
-			required: false
+			required: false,
 		},
 		previewing: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		scoring: {
 			type: Object,
-			required: false
-		}
+			required: false,
+		},
 	},
 	data() {
 		return {
 			show: {
-				description: false
-			}
+				description: false,
+			},
 		};
 	},
 
@@ -184,8 +194,7 @@ export default {
 			return this.items.length;
 		},
 		markedUpDescription() {
-			if (this.description)
-				return snarkdown(this.description);
+			if (this.description) return snarkdown(this.description);
 		},
 		propsReadonly() {
 			const propsReadonly = {};
@@ -200,47 +209,44 @@ export default {
 		},
 		canEditItems() {
 			return !this.readonly && this.fixedLength == null;
-		}
+		},
 	},
 
 	methods: {
-		ucfirst,
+		camelCaseToWords,
 		ensureFixedLength() {
-			if (this.fixedLength == null)
-				return;
+			if (this.fixedLength == null) return;
 
 			if (this.itemCount > this.fixedLength) {
 				let items = this.items.slice();
 				while (this.itemCount > this.fixedLength) {
 					items.pop();
 				}
-				this.$emit('input', {items});
+				this.$emit('input', { items });
 			} else if (this.itemCount < this.fixedLength) {
 				let newItems = [];
-				for (let i = 0; i < (this.fixedLength - this.itemCount); i++) {
+				for (let i = 0; i < this.fixedLength - this.itemCount; i++) {
 					newItems.push(this.getNewItem());
 				}
 				this.addItems(newItems);
 			}
 		},
 		addItem() {
-			if (!this.canEditItems)
-				return;
+			if (!this.canEditItems) return;
 
 			this.addItems([this.getNewItem()]);
 		},
 		addItems(newItems) {
-			if (this.readonly)
-				return;
+			if (this.readonly) return;
 
 			let items = this.items.slice();
 			items.push(...newItems);
 
-			this.$emit('input', {items});
+			this.$emit('input', { items });
 		},
 		getNewItem() {
 			const newItem = {
-				type: this.listType
+				type: this.listType,
 			};
 
 			if (this.itemProps) {
@@ -250,27 +256,26 @@ export default {
 			return newItem;
 		},
 		onChange(items) {
-			if (this.readonly)
-				return;
+			if (this.readonly) return;
 
-			this.$emit('input', {items});
+			this.$emit('input', { items });
 		},
-		snarkdown
+		snarkdown,
 	},
 
 	components: {
 		ListItems,
 		BootstrapAlert,
-		ShowHideButton
-	}
+		ShowHideButton,
+	},
 };
 </script>
 
 <style>
-	.previewing-info-container {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		justify-content: space-around;
-	}
+.previewing-info-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
 </style>

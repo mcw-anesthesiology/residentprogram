@@ -1,8 +1,7 @@
 /* @flow */
 
-import {
-	getSelectValue
-} from './index.js';
+import { getSelectValue } from './index.js';
+import { logError } from '../errors.js';
 
 import type {
 	QuestionnaireQuestion,
@@ -11,36 +10,38 @@ import type {
 	QuestionnaireSelectQuestion,
 	QuestionnaireCheckboxQuestion,
 	QuestionnaireRadioQuestion,
-	QuestionnaireListQuestion
+	QuestionnaireListQuestion,
 } from './index.js';
 
 export type ScoringDefinition = {
 	category: string,
 	min?: number,
 	max?: number,
-	weight?: number
+	weight?: number,
 };
 
 // Used per-item for list questions and for text questions and checklist items
 export type ValueScoringDefinition = ScoringDefinition & {
-	value: number
+	value: number,
+};
+
+export type CommitteeScoringDefinition = ScoringDefinition & {
+	valuePerMeeting: number,
 };
 
 export type Score = Map<string, number>;
 
 export function isValidScoringDefinition(scoring: Object): boolean {
 	return (
-		scoring
-		&& 'category' in scoring
-		&& typeof scoring.category === 'string'
+		scoring && 'category' in scoring && typeof scoring.category === 'string'
 	);
 }
 
 export function isValidValueScoringDefinition(scoring: Object): boolean {
 	return (
-		isValidScoringDefinition(scoring)
-		&& 'value' in scoring
-		&& typeof scoring.value === 'number'
+		isValidScoringDefinition(scoring) &&
+		'value' in scoring &&
+		typeof scoring.value === 'number'
 	);
 }
 
@@ -60,7 +61,10 @@ export function mergeScores(...scores: Array<Score>): Score {
 	return mergedScore;
 }
 
-export function computeScore(scoring: ScoringDefinition, value: number): number {
+export function computeScore(
+	scoring: ScoringDefinition,
+	value: number
+): number {
 	if (scoring.weight) {
 		value = value * scoring.weight;
 	}
@@ -100,8 +104,10 @@ export function textQuestion(question: QuestionnaireTextQuestion): Score {
 	const score: Score = new Map();
 
 	if (question.scoring) {
-		score.set(question.scoring.category,
-			computeScore(question.scoring, question.scoring.value));
+		score.set(
+			question.scoring.category,
+			computeScore(question.scoring, question.scoring.value)
+		);
 	}
 
 	return score;
@@ -111,8 +117,10 @@ export function numberQuestion(question: QuestionnaireNumberQuestion): Score {
 	const score: Score = new Map();
 
 	if (question.scoring && question.value) {
-		score.set(question.scoring.category,
-			computeScore(question.scoring, question.value));
+		score.set(
+			question.scoring.category,
+			computeScore(question.scoring, question.value)
+		);
 	}
 
 	return score;
@@ -125,14 +133,15 @@ export function selectQuestion(question: QuestionnaireSelectQuestion): Score {
 		const scoring: ScoringDefinition = question.scoring;
 		const value = getSelectValue(question);
 		if (typeof value === 'number')
-			score.set(scoring.category,
-				computeScore(scoring, value));
+			score.set(scoring.category, computeScore(scoring, value));
 	}
 
 	return score;
 }
 
-export function checkboxQuestion(question: QuestionnaireCheckboxQuestion): Score {
+export function checkboxQuestion(
+	question: QuestionnaireCheckboxQuestion
+): Score {
 	return radioCheckboxQuestion(question);
 }
 
@@ -151,8 +160,7 @@ export function radioCheckboxQuestion(
 			let optionValue: number = option.value;
 
 			let scoring = option.scoring;
-			if (!scoring)
-				scoring = question.scoring;
+			if (!scoring) scoring = question.scoring;
 
 			if (scoring) {
 				let scoreValue = score.has(scoring.category)
@@ -161,10 +169,7 @@ export function radioCheckboxQuestion(
 
 				score.set(
 					scoring.category,
-					computeScore(
-						scoring,
-						scoreValue + optionValue
-					)
+					computeScore(scoring, scoreValue + optionValue)
 				);
 			}
 		}
@@ -178,18 +183,34 @@ export function listQuestion(question: QuestionnaireListQuestion): Score {
 
 	if (question.scoring && question.items) {
 		const scoring = question.scoring;
-		question.items.forEach(() => {
+		question.items.forEach((item) => {
 			const scoreValue = score.has(scoring.category)
 				? score.get(scoring.category)
 				: 0;
 
-			score.set(
-				scoring.category,
-				computeScore(
-					scoring,
-					scoreValue + scoring.value
-				)
-			);
+			let itemScore;
+
+			try {
+				if (
+					question.listType === 'committee' &&
+					scoring.valuePerMeeting
+				) {
+					itemScore =
+						Number(item.meetingsPerYear) *
+						Number(scoring.valuePerMeeting);
+				} else {
+					itemScore = scoring.value;
+				}
+
+				if (itemScore) {
+					score.set(
+						scoring.category,
+						computeScore(scoring, scoreValue + itemScore)
+					);
+				}
+			} catch (err) {
+				logError(err);
+			}
 		});
 	}
 
