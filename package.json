@@ -43,7 +43,7 @@
     "bootstrap": "^3.3.6",
     "bootstrap-sass": "^3.0.0",
     "bootstrap-switch": "^3.3.4",
-    "chart.js": "^2.2.0-rc.2",
+    "chart.js": "^2.9.4",
     "classlist-polyfill": "^1.2.0",
     "color": "^3.0.0",
     "commonmark": "^0.28.1",
